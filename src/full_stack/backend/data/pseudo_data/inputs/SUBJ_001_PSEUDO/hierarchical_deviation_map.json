@@ -1,0 +1,128 @@
+{
+    "BIOLOGICAL_ASSAY": {
+        "lipidomics": {
+            "sphingolipids": {
+                "score": 1.7
+            },
+            "phospholipids": {
+                "score": -0.7
+            },
+            "fatty_acids": {
+                "score": 1.0
+            }
+        },
+        "proteomics": {
+            "inflammation_markers": {
+                "score": 1.2
+            },
+            "neurotrophic_factors": {
+                "score": -1.7
+            },
+            "hpa_axis": {
+                "score": 1.2
+            },
+            "oxidative_stress": {
+                "score": 0.9
+            }
+        },
+        "metabolomics": {
+            "amino_acids": {
+                "score": -0.8
+            },
+            "energy_metabolism": {
+                "score": 0.3
+            },
+            "one_carbon": {
+                "score": 0.6
+            }
+        },
+        "endocrinology": {
+            "thyroid": {
+                "score": 0.1
+            },
+            "sex_hormones": {
+                "score": -0.2
+            },
+            "vitamin_status": {
+                "score": -0.9
+            }
+        },
+        "genomics": {
+            "polygenic_risk_scores": {
+                "score": 1.4
+            }
+        }
+    },
+    "BRAIN_MRI": {
+        "structural": {
+            "subcortical_volumes": {
+                "score": -1.4
+            },
+            "cortical_thickness": {
+                "score": -1.0
+            },
+            "white_matter": {
+                "score": 0.4
+            }
+        },
+        "functional_connectivity": {
+            "resting_state": {
+                "score": 1.3
+            },
+            "task_activation": {
+                "score": 1.6
+            }
+        },
+        "spectroscopy": {
+            "score": -0.9
+        }
+    },
+    "COGNITION": {
+        "attention": {
+            "score": 0.5
+        },
+        "memory": {
+            "score": -0.8
+        },
+        "processing_speed": {
+            "score": -1.0
+        },
+        "executive_function": {
+            "score": -1.1
+        },
+        "affective_bias": {
+            "score": 1.1
+        }
+    },
+    "DEMOGRAPHICS": {
+        "age_related": {
+            "score": 0.2
+        },
+        "anthropometrics": {
+            "score": 0.6
+        },
+        "education": {
+            "score": 0.0
+        }
+    },
+    "LIFESTYLE_ENVIRONMENT": {
+        "sleep": {
+            "score": 1.2
+        },
+        "physical_activity": {
+            "score": -0.5
+        },
+        "diet": {
+            "score": 0.6
+        },
+        "substance_use": {
+            "score": 0.4
+        },
+        "stress": {
+            "score": 1.4
+        },
+        "social": {
+            "score": 1.0
+        }
+    }
+}

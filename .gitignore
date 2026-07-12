@@ -1,0 +1,42 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local project metadata
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Runtime artifacts
+logs/
+results/
+outputs/
+*.sqlite3
+*.db
+src/full_stack/backend/data/pseudo_data/outputs/
+
+# Local manuscript and generated report material
+report/
+
+# Packaging
+build/
+dist/
+*.egg-info/

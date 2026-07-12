@@ -1,0 +1,780 @@
+{
+    "BIOLOGICAL_ASSAY": {
+        "lipidomics": {
+            "sphingolipids": {
+                "ceramides": {
+                    "_leaves": [
+                        {
+                            "feature": "Cer(d18:1/16:0)",
+                            "z_score": 2.4,
+                            "value": "High",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "Cer(d18:1/18:0)",
+                            "z_score": 1.9,
+                            "value": "Elevated",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "Cer(d18:1/24:1)",
+                            "z_score": 1.6,
+                            "value": "Elevated",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "HexCer(d18:1/24:1)",
+                            "z_score": 1.1,
+                            "value": "Borderline",
+                            "ref_range": "Normal"
+                        }
+                    ]
+                },
+                "sphingomyelins": {
+                    "_leaves": [
+                        {
+                            "feature": "SM(d18:1/18:0)",
+                            "z_score": -1.1,
+                            "value": "Low",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "SM(d18:1/24:1)",
+                            "z_score": -0.8,
+                            "value": "Low-Normal",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "SM(d18:1/22:0)",
+                            "z_score": -0.6,
+                            "value": "Normal",
+                            "ref_range": "Normal"
+                        }
+                    ]
+                },
+                "glycosphingolipids": {
+                    "_leaves": [
+                        {
+                            "feature": "GM3(d18:1/24:1)",
+                            "z_score": 0.9,
+                            "value": "High-Normal",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "GD3(d18:1/16:0)",
+                            "z_score": 1.2,
+                            "value": "Borderline",
+                            "ref_range": "Normal"
+                        }
+                    ]
+                }
+            },
+            "phospholipids": {
+                "phosphatidylcholines": {
+                    "_leaves": [
+                        {
+                            "feature": "PC(34:1)",
+                            "z_score": -0.7,
+                            "value": "Normal",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "PC(36:4)",
+                            "z_score": -1.0,
+                            "value": "Low",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "PC(38:6)",
+                            "z_score": -0.5,
+                            "value": "Normal",
+                            "ref_range": "Normal"
+                        }
+                    ]
+                },
+                "phosphatidylethanolamines": {
+                    "_leaves": [
+                        {
+                            "feature": "PE(36:2)",
+                            "z_score": -0.4,
+                            "value": "Normal",
+                            "ref_range": "Normal"
+                        },
+                        {
+                            "feature": "PE(38:4)",
+                            "z_score": -0.9,
+                            "value": "Low-Normal",
+                            "ref_range": "Normal"
+                        }
+                    ]
+                }
+            },
+            "fatty_acids": {
+                "_leaves": [
+                    {
+                        "feature": "omega3_index",
+                        "z_score": -0.8,
+                        "value": "Low-Normal",
+                        "ref_range": "Normal"
+                    },
+                    {
+                        "feature": "omega6_to_omega3_ratio",
+                        "z_score": 1.2,
+                        "value": "Elevated",
+                        "ref_range": "Normal"
+                    }
+                ]
+            }
+        },
+        "proteomics": {
+            "inflammation_markers": {
+                "_leaves": [
+                    {
+                        "feature": "CRP",
+                        "z_score": 1.7,
+                        "value": "4.1 mg/L",
+                        "ref_range": "<3.0 mg/L"
+                    },
+                    {
+                        "feature": "IL-6",
+                        "z_score": 1.1,
+                        "value": "Elevated",
+                        "ref_range": "Normal"
+                    },
+                    {
+                        "feature": "TNF-alpha",
+                        "z_score": 0.8,
+                        "value": "High-Normal",
+                        "ref_range": "Normal"
+                    },
+                    {
+                        "feature": "MCP-1",
+                        "z_score": 1.3,
+                        "value": "Elevated",
+                        "ref_range": "Normal"
+                    }
+                ]
+            },
+            "neurotrophic_factors": {
+                "_leaves": [
+                    {
+                        "feature": "BDNF",
+                        "z_score": -2.0,
+                        "value": "Low",
+                        "ref_range": "Normal"
+                    },
+                    {
+                        "feature": "NGF",
+                        "z_score": -1.1,
+                        "value": "Low-Normal",
+                        "ref_range": "Normal"
+                    }
+                ]
+            },
+            "hpa_axis": {
+                "_leaves": [
+                    {
+                        "feature": "cortisol_am",
+                        "z_score": 1.4,
+                        "value": "18.9 ug/dL",
+                        "ref_range": "6-18"
+                    },
+                    {
+                        "feature": "cortisol_pm",
+                        "z_score": 1.0,
+                        "value": "7.1 ug/dL",
+                        "ref_range": "2-6"
+                    }
+                ]
+            },
+            "oxidative_stress": {
+                "_leaves": [
+                    {
+                        "feature": "8-OHdG",
+                        "z_score": 1.2,
+                        "value": "High-Normal",
+                        "ref_range": "Normal"
+                    },
+                    {
+                        "feature": "MDA",
+                        "z_score": 0.9,
+                        "value": "Borderline",
+                        "ref_range": "Normal"
+                    }
+                ]
+            }
+        },
+        "metabolomics": {
+            "amino_acids": {
+                "_leaves": [
+                    {
+                        "feature": "tryptophan",
+                        "z_score": -1.2,
+                        "value": "Low",
+                        "ref_range": "Normal"
+                    },
+                    {
+                        "feature": "kynurenine",
+                        "z_score": 1.0,
+                        "value": "High-Normal",
+                        "ref_range": "Normal"
+                    },
+                    {
+                        "feature": "tyrosine",
+                        "z_score": -0.4,
+                        "value": "Normal",
+                        "ref_range": "Normal"
+                    }
+                ]
+            },
+            "energy_metabolism": {
+                "_leaves": [
+                    {
+                        "feature": "lactate",
+                        "z_score": 0.7,
+                        "value": "Normal-High",
+                        "ref_range": "Normal"
+                    },
+                    {
+                        "feature": "pyruvate",
+                        "z_score": -0.3,
+                        "value": "Normal",
+                        "ref_range": "Normal"
+                    }
+                ]
+            },
+            "one_carbon": {
+                "_leaves": [
+                    {
+                        "feature": "homocysteine",
+                        "z_score": 0.8,
+                        "value": "High-Normal",
+                        "ref_range": "<15 umol/L"
+                    },
+                    {
+                        "feature": "folate",
+                        "z_score": -0.5,
+                        "value": "Normal",
+                        "ref_range": "Normal"
+                    }
+                ]
+            }
+        },
+        "endocrinology": {
+            "thyroid": {
+                "_leaves": [
+                    {
+                        "feature": "TSH",
+                        "z_score": 0.2,
+                        "value": "2.1 mIU/L",
+                        "ref_range": "0.4-4.0"
+                    },
+                    {
+                        "feature": "free_T4",
+                        "z_score": -0.1,
+                        "value": "1.1 ng/dL",
+                        "ref_range": "0.8-1.8"
+                    }
+                ]
+            },
+            "sex_hormones": {
+                "_leaves": [
+                    {
+                        "feature": "estradiol",
+                        "z_score": -0.6,
+                        "value": "Low-Normal",
+                        "ref_range": "Phase-dependent"
+                    },
+                    {
+                        "feature": "progesterone",
+                        "z_score": 0.1,
+                        "value": "Normal",
+                        "ref_range": "Phase-dependent"
+                    }
+                ]
+            },
+            "vitamin_status": {
+                "_leaves": [
+                    {
+                        "feature": "vitamin_D",
+                        "z_score": -0.9,
+                        "value": "24 ng/mL",
+                        "ref_range": ">30"
+                    }
+                ]
+            }
+        },
+        "genomics": {
+            "polygenic_risk_scores": {
+                "_leaves": [
+                    {
+                        "feature": "Mood_Variability_PRS",
+                        "z_score": 1.8,
+                        "percentile": "96th"
+                    },
+                    {
+                        "feature": "Stress_Reactivity_PRS",
+                        "z_score": 1.5,
+                        "percentile": "93rd"
+                    },
+                    {
+                        "feature": "Sleep_Regulation_PRS",
+                        "z_score": 1.2,
+                        "percentile": "88th"
+                    },
+                    {
+                        "feature": "Cognitive_Control_PRS",
+                        "z_score": -0.4,
+                        "percentile": "40th"
+                    }
+                ]
+            }
+        }
+    },
+    "BRAIN_MRI": {
+        "structural": {
+            "subcortical_volumes": {
+                "hippocampus": {
+                    "_leaves": [
+                        {
+                            "feature": "left_hippocampus_volume",
+                            "z_score": -2.0,
+                            "value": "Reduced",
+                            "significance": "Abnormal"
+                        },
+                        {
+                            "feature": "right_hippocampus_volume",
+                            "z_score": -1.7,
+                            "value": "Low",
+                            "significance": "Borderline"
+                        }
+                    ]
+                },
+                "amygdala": {
+                    "_leaves": [
+                        {
+                            "feature": "left_amygdala_volume",
+                            "z_score": -1.0,
+                            "value": "Low-Normal",
+                            "significance": "Borderline"
+                        },
+                        {
+                            "feature": "right_amygdala_volume",
+                            "z_score": -1.3,
+                            "value": "Reduced",
+                            "significance": "Borderline"
+                        }
+                    ]
+                },
+                "nucleus_accumbens": {
+                    "_leaves": [
+                        {
+                            "feature": "nacc_volume_bilateral",
+                            "z_score": -1.1,
+                            "value": "Low",
+                            "significance": "Borderline"
+                        }
+                    ]
+                },
+                "thalamus": {
+                    "_leaves": [
+                        {
+                            "feature": "thalamic_volume_bilateral",
+                            "z_score": -0.2,
+                            "value": "Normal",
+                            "significance": "Normal"
+                        }
+                    ]
+                }
+            },
+            "cortical_thickness": {
+                "frontal_lobe": {
+                    "_leaves": [
+                        {
+                            "feature": "dlPFC_thickness_left",
+                            "z_score": -1.3,
+                            "value": "Thinning",
+                            "significance": "Borderline"
+                        },
+                        {
+                            "feature": "vmPFC_thickness_right",
+                            "z_score": -1.1,
+                            "value": "Thinning",
+                            "significance": "Borderline"
+                        }
+                    ]
+                },
+                "cingulate": {
+                    "_leaves": [
+                        {
+                            "feature": "anterior_cingulate_thickness",
+                            "z_score": -1.0,
+                            "value": "Low",
+                            "significance": "Borderline"
+                        }
+                    ]
+                },
+                "insula": {
+                    "_leaves": [
+                        {
+                            "feature": "insula_thickness_left",
+                            "z_score": -0.8,
+                            "value": "Low-Normal",
+                            "significance": "Normal"
+                        }
+                    ]
+                }
+            },
+            "white_matter": {
+                "_leaves": [
+                    {
+                        "feature": "frontal_wmh_volume",
+                        "z_score": 0.6,
+                        "value": "Mild",
+                        "significance": "Normal"
+                    },
+                    {
+                        "feature": "periventricular_wmh",
+                        "z_score": 0.3,
+                        "value": "Minimal",
+                        "significance": "Normal"
+                    }
+                ]
+            }
+        },
+        "functional_connectivity": {
+            "resting_state": {
+                "default_mode_network": {
+                    "_leaves": [
+                        {
+                            "feature": "mPFC-PCC_connectivity",
+                            "z_score": 2.5,
+                            "value": "Hyperconnectivity",
+                            "significance": "Abnormal"
+                        }
+                    ]
+                },
+                "salience_network": {
+                    "_leaves": [
+                        {
+                            "feature": "AI-dACC_connectivity",
+                            "z_score": -0.6,
+                            "value": "Low-Normal",
+                            "significance": "Normal"
+                        }
+                    ]
+                },
+                "frontoparietal_network": {
+                    "_leaves": [
+                        {
+                            "feature": "dlPFC-PPC_connectivity",
+                            "z_score": -1.0,
+                            "value": "Reduced",
+                            "significance": "Borderline"
+                        }
+                    ]
+                },
+                "limbic_network": {
+                    "_leaves": [
+                        {
+                            "feature": "amygdala-hippocampus_connectivity",
+                            "z_score": 1.6,
+                            "value": "Elevated",
+                            "significance": "Abnormal"
+                        }
+                    ]
+                }
+            },
+            "task_activation": {
+                "affective_face_task": {
+                    "_leaves": [
+                        {
+                            "feature": "amygdala_reactivity",
+                            "z_score": 1.8,
+                            "value": "High",
+                            "significance": "Abnormal"
+                        }
+                    ]
+                }
+            }
+        },
+        "spectroscopy": {
+            "_leaves": [
+                {
+                    "feature": "hippocampal_glutamate",
+                    "z_score": -1.2,
+                    "value": "Low",
+                    "significance": "Borderline"
+                },
+                {
+                    "feature": "prefrontal_GABA",
+                    "z_score": -0.9,
+                    "value": "Low-Normal",
+                    "significance": "Normal"
+                }
+            ]
+        }
+    },
+    "COGNITION": {
+        "attention": {
+            "_leaves": [
+                {
+                    "feature": "CPT_dprime",
+                    "z_score": -0.6,
+                    "value": "Low-Normal"
+                },
+                {
+                    "feature": "CPT_omissions",
+                    "z_score": 0.8,
+                    "value": "Elevated"
+                },
+                {
+                    "feature": "reaction_time_variability",
+                    "z_score": 1.1,
+                    "value": "High"
+                }
+            ]
+        },
+        "memory": {
+            "_leaves": [
+                {
+                    "feature": "verbal_learning_total",
+                    "z_score": -0.7,
+                    "value": "Low-Normal"
+                },
+                {
+                    "feature": "delayed_recall",
+                    "z_score": -1.0,
+                    "value": "Reduced"
+                },
+                {
+                    "feature": "visual_memory_score",
+                    "z_score": -0.4,
+                    "value": "Normal"
+                }
+            ]
+        },
+        "processing_speed": {
+            "_leaves": [
+                {
+                    "feature": "TMT_A_time",
+                    "z_score": -1.1,
+                    "value": "Slow"
+                },
+                {
+                    "feature": "symbol_digit_modalities",
+                    "z_score": -0.6,
+                    "value": "Low-Normal"
+                },
+                {
+                    "feature": "simple_reaction_time",
+                    "z_score": -0.5,
+                    "value": "Low-Normal"
+                }
+            ]
+        },
+        "executive_function": {
+            "_leaves": [
+                {
+                    "feature": "TMT_B_time",
+                    "z_score": -1.3,
+                    "value": "Slow"
+                },
+                {
+                    "feature": "stroop_interference",
+                    "z_score": -0.9,
+                    "value": "Low"
+                },
+                {
+                    "feature": "verbal_fluency",
+                    "z_score": -0.7,
+                    "value": "Low-Normal"
+                }
+            ]
+        },
+        "affective_bias": {
+            "_leaves": [
+                {
+                    "feature": "emotional_stroop_bias",
+                    "z_score": 1.2,
+                    "value": "Negative Bias"
+                },
+                {
+                    "feature": "reward_learning_rate",
+                    "z_score": -1.1,
+                    "value": "Low"
+                }
+            ]
+        }
+    },
+    "DEMOGRAPHICS": {
+        "_leaves": [
+            {
+                "feature": "age_at_recruitment",
+                "z_score": 45.0,
+                "value": "45"
+            },
+            {
+                "feature": "sex",
+                "z_score": 0.0,
+                "value": "Female"
+            },
+            {
+                "feature": "education_years",
+                "z_score": 16.0,
+                "value": "16"
+            },
+            {
+                "feature": "bmi",
+                "z_score": 1.2,
+                "value": "27.1"
+            },
+            {
+                "feature": "handedness",
+                "z_score": 0.0,
+                "value": "Right"
+            },
+            {
+                "feature": "employment_status",
+                "z_score": 0.0,
+                "value": "Full-time"
+            },
+            {
+                "feature": "marital_status",
+                "z_score": 0.0,
+                "value": "Married"
+            }
+        ]
+    },
+    "LIFESTYLE_ENVIRONMENT": {
+        "sleep": {
+            "_leaves": [
+                {
+                    "feature": "avg_sleep_hours",
+                    "z_score": -1.2,
+                    "value": "5.5 h"
+                },
+                {
+                    "feature": "insomnia_severity_index",
+                    "z_score": 1.6,
+                    "value": "Moderate"
+                },
+                {
+                    "feature": "sleep_efficiency",
+                    "z_score": -1.0,
+                    "value": "Low"
+                },
+                {
+                    "feature": "chronotype",
+                    "z_score": 0.2,
+                    "value": "Intermediate"
+                }
+            ]
+        },
+        "physical_activity": {
+            "_leaves": [
+                {
+                    "feature": "weekly_aerobic_minutes",
+                    "z_score": -0.6,
+                    "value": "90"
+                },
+                {
+                    "feature": "steps_per_day",
+                    "z_score": -0.8,
+                    "value": "5200"
+                },
+                {
+                    "feature": "sedentary_hours_per_day",
+                    "z_score": 0.9,
+                    "value": "9"
+                }
+            ]
+        },
+        "diet": {
+            "_leaves": [
+                {
+                    "feature": "fruit_veg_servings",
+                    "z_score": -0.4,
+                    "value": "3/day"
+                },
+                {
+                    "feature": "ultra_processed_percent",
+                    "z_score": 1.1,
+                    "value": "38%"
+                },
+                {
+                    "feature": "omega3_intake",
+                    "z_score": -0.7,
+                    "value": "Low"
+                },
+                {
+                    "feature": "added_sugar_g_day",
+                    "z_score": 0.8,
+                    "value": "42 g"
+                }
+            ]
+        },
+        "substance_use": {
+            "_leaves": [
+                {
+                    "feature": "caffeine_mg_day",
+                    "z_score": 1.0,
+                    "value": "280 mg"
+                },
+                {
+                    "feature": "alcohol_units_week",
+                    "z_score": -0.1,
+                    "value": "2"
+                },
+                {
+                    "feature": "tobacco_pack_years",
+                    "z_score": 0.0,
+                    "value": "0"
+                }
+            ]
+        },
+        "stress": {
+            "_leaves": [
+                {
+                    "feature": "perceived_stress_scale",
+                    "z_score": 1.4,
+                    "value": "High"
+                },
+                {
+                    "feature": "life_events_score",
+                    "z_score": 1.2,
+                    "value": "Elevated"
+                },
+                {
+                    "feature": "work_hours_week",
+                    "z_score": 0.9,
+                    "value": "50"
+                },
+                {
+                    "feature": "caregiving_burden",
+                    "z_score": 1.1,
+                    "value": "High"
+                }
+            ]
+        },
+        "social": {
+            "_leaves": [
+                {
+                    "feature": "social_support_score",
+                    "z_score": -0.9,
+                    "value": "Low"
+                },
+                {
+                    "feature": "loneliness_scale",
+                    "z_score": 1.3,
+                    "value": "Elevated"
+                },
+                {
+                    "feature": "social_activity_frequency",
+                    "z_score": -0.7,
+                    "value": "Low"
+                }
+            ]
+        }
+    }
+}
