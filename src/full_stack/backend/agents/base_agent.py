@@ -252,6 +252,20 @@ class BaseAgent(ABC):
                                     repair_resp.content,
                                     expected_keys=self.JSON_EXPECTED_KEYS,
                                 )
+                                if not isinstance(parsed, dict):
+                                    raise TypeError(
+                                        f"{self.AGENT_NAME} returned {type(parsed).__name__}; "
+                                        "expected a top-level JSON object"
+                                    )
+                                missing_keys = [
+                                    key for key in (self.JSON_EXPECTED_KEYS or [])
+                                    if key not in parsed
+                                ]
+                                if missing_keys:
+                                    raise ValueError(
+                                        f"{self.AGENT_NAME} response is missing required keys: "
+                                        f"{', '.join(missing_keys)}"
+                                    )
                                 print(f"[{self.AGENT_NAME}] ✓ JSON repair call succeeded")
                                 return parsed
                             except Exception as repair_exc:
@@ -260,10 +274,21 @@ class BaseAgent(ABC):
                                 )
                         preview = str(response.content or "").replace("\n", " ")[:220]
                         raise ValueError(f"JSON parse failed: {parse_exc}; preview={preview}") from parse_exc
-                    if isinstance(parsed, dict):
-                        print(f"[{self.AGENT_NAME}] ✓ Parsed JSON keys: {list(parsed.keys())[:8]}")
-                    else:
-                        print(f"[{self.AGENT_NAME}] ✓ Parsed JSON type: {type(parsed).__name__}")
+                    if not isinstance(parsed, dict):
+                        raise TypeError(
+                            f"{self.AGENT_NAME} returned {type(parsed).__name__}; "
+                            "expected a top-level JSON object"
+                        )
+                    missing_keys = [
+                        key for key in (self.JSON_EXPECTED_KEYS or [])
+                        if key not in parsed
+                    ]
+                    if missing_keys:
+                        raise ValueError(
+                            f"{self.AGENT_NAME} response is missing required keys: "
+                            f"{', '.join(missing_keys)}"
+                        )
+                    print(f"[{self.AGENT_NAME}] ✓ Parsed JSON keys: {list(parsed.keys())[:8]}")
                     return parsed
                 
                 return {"content": response.content, "tokens": response.total_tokens}

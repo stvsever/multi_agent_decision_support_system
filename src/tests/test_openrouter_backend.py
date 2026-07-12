@@ -2,6 +2,8 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.full_stack.backend.config.settings import LLMBackend, reload_settings
@@ -53,79 +55,17 @@ def test_openrouter_model_prefix_resolution():
     assert client._resolve_model_name("anthropic/claude-3.5-sonnet") == "anthropic/claude-3.5-sonnet"
 
 
-def test_openrouter_runtime_fallback_switches_backend(monkeypatch):
-    settings = reload_settings()
-    settings.models.backend = LLMBackend.OPENROUTER
-    settings.openai_api_key = "test-openai-key"
-    settings.models.public_model_name = "openai/gpt-5-nano"
-    settings.models.orchestrator_model = "openai/gpt-5-nano"
-    settings.models.tool_model = "openai/gpt-5-nano"
-
-    import src.full_stack.backend.utils.llm_client as llm_client_mod
-    monkeypatch.setattr(llm_client_mod, "OpenAI", lambda api_key=None, **kwargs: object())
-
-    client = LLMClient.__new__(LLMClient)
-    client.settings = settings
-    client.backend = LLMBackend.OPENROUTER
-    client.client = None
-    client.embedding_client = None
-
-    client._switch_to_openai_fallback("ssl failure")
-
-    assert client.backend == LLMBackend.OPENAI
-    assert settings.models.backend == LLMBackend.OPENAI
-    assert settings.models.public_model_name == "gpt-5-nano"
-    assert settings.models.orchestrator_model == "gpt-5-nano"
-
-
-def test_openrouter_transient_error_detection_includes_clerk_502():
-    err = RuntimeError("Error code: 502 - {'error': {'message': 'Failed to authenticate request with Clerk'}}")
-    assert LLMClient._is_transient_public_api_error(err) is True
-
-
-def test_openrouter_model_fallback_candidate_for_provider_model():
-    settings = reload_settings()
-    settings.models.backend = LLMBackend.OPENROUTER
-
-    client = LLMClient.__new__(LLMClient)
-    client.settings = settings
-    client.backend = LLMBackend.OPENROUTER
-
-    err = RuntimeError("Error code: 502 - {'error': {'message': 'Failed to authenticate request with Clerk'}}")
-    assert client._openrouter_model_fallback_candidate("x-ai/grok-4.1-fast", err) == "openai/gpt-5-nano"
-    assert client._openrouter_model_fallback_candidate("openai/gpt-5-nano", err) == ""
-
-
-def test_openrouter_call_retries_with_openrouter_fallback_model():
+def test_openrouter_call_retries_only_the_requested_model_then_raises():
     settings = reload_settings()
     settings.models.backend = LLMBackend.OPENROUTER
     settings.openrouter_api_key = "or-key"
     settings.openai_api_key = ""
 
     call_models = []
-    call_kwargs = []
-
-    class _Usage:
-        prompt_tokens = 10
-        completion_tokens = 5
-
-    class _Message:
-        content = '{"ok": true}'
-
-    class _Choice:
-        message = _Message()
-        finish_reason = "stop"
-
-    class _Response:
-        choices = [_Choice()]
-        usage = _Usage()
 
     def _fake_create(**kwargs):
         call_models.append(kwargs.get("model"))
-        call_kwargs.append(kwargs)
-        if len(call_models) == 1:
-            raise RuntimeError("Error code: 502 - {'error': {'message': 'Failed to authenticate request with Clerk'}}")
-        return _Response()
+        raise RuntimeError("Error code: 502 - provider unavailable")
 
     client = LLMClient.__new__(LLMClient)
     client.settings = settings
@@ -139,17 +79,17 @@ def test_openrouter_call_retries_with_openrouter_fallback_model():
         )
     )
 
-    result = client.call(
-        messages=[{"role": "user", "content": "ping"}],
-        model="x-ai/grok-4.1-fast",
-        max_tokens=128,
-        temperature=0.3,
-    )
+    with pytest.raises(RuntimeError, match="provider unavailable"):
+        client.call(
+            messages=[{"role": "user", "content": "ping"}],
+            model="x-ai/grok-4.1-fast",
+            max_tokens=128,
+            temperature=0.3,
+        )
 
-    assert call_models == ["x-ai/grok-4.1-fast", "openai/gpt-5-nano"]
-    assert "temperature" in call_kwargs[0]
-    assert "temperature" not in call_kwargs[1]
-    assert result.model == "openai/gpt-5-nano"
+    assert call_models == ["x-ai/grok-4.1-fast"] * 3
+    assert client.backend == LLMBackend.OPENROUTER
+    assert settings.models.backend == LLMBackend.OPENROUTER
 
 
 def test_explainability_hybrid_client_kwargs_resolution():

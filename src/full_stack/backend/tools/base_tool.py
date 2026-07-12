@@ -180,7 +180,19 @@ class BaseTool(ABC):
                         expected_keys=self.TOOL_EXPECTED_KEYS,
                     )
                     if not isinstance(output_data, dict):
-                        output_data = self._coerce_non_object_output(output_data)
+                        raise TypeError(
+                            f"{self.TOOL_NAME} returned {type(output_data).__name__}; "
+                            "expected a top-level JSON object"
+                        )
+                    missing_keys = [
+                        key for key in (self.TOOL_EXPECTED_KEYS or [])
+                        if key not in output_data
+                    ]
+                    if missing_keys:
+                        raise ValueError(
+                            f"{self.TOOL_NAME} response is missing required keys: "
+                            f"{', '.join(missing_keys)}"
+                        )
                     break
                 except Exception as parse_exc:
                     last_error = parse_exc
@@ -248,37 +260,6 @@ class BaseTool(ABC):
         Override in subclasses for tool-specific processing.
         """
         return output_data
-
-    def _coerce_non_object_output(self, parsed: Any) -> Dict[str, Any]:
-        """
-        Coerce non-object JSON outputs to a dict to avoid downstream `.get` crashes.
-        """
-        if isinstance(parsed, list):
-            for item in parsed:
-                if isinstance(item, dict):
-                    logger.warning(
-                        "%s returned top-level JSON array; using first object element.",
-                        self.TOOL_NAME,
-                    )
-                    return item
-            logger.warning(
-                "%s returned top-level JSON array without object elements; coercing to fallback object.",
-                self.TOOL_NAME,
-            )
-            return {
-                "summary": "Model returned JSON array instead of expected object.",
-                "raw_items": parsed,
-            }
-
-        logger.warning(
-            "%s returned non-object JSON type (%s); coercing to fallback object.",
-            self.TOOL_NAME,
-            type(parsed).__name__,
-        )
-        return {
-            "summary": "Model returned non-object JSON payload.",
-            "raw_value": parsed,
-        }
 
     def _is_local_backend(self) -> bool:
         backend = getattr(self.settings.models.backend, "value", self.settings.models.backend)
