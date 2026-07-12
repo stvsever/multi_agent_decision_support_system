@@ -3,6 +3,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from datetime import datetime
 
+import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.full_stack.backend.agents.critic import Critic
@@ -38,7 +39,7 @@ def test_anomaly_preanalysis_supports_nested_score_schema():
     assert "BRAIN_MRI" in analysis["domains_summary"]
 
 
-def test_anomaly_process_output_replaces_false_no_data_claim():
+def test_anomaly_process_output_rejects_false_no_data_claim():
     tool = AnomalyNarrativeBuilder(llm_client=SimpleNamespace())
     deviation = {
         "BRAIN_MRI": {
@@ -50,10 +51,8 @@ def test_anomaly_process_output_replaces_false_no_data_claim():
     output_data = {
         "integrated_narrative": "No multimodal data available across all domains (total features: 0)."
     }
-    repaired = tool._process_output(output_data, {"hierarchical_deviation": deviation})
-    assert "No multimodal data available" not in repaired["integrated_narrative"]
-    assert repaired.get("integrated_narrative_source") == "deterministic_fallback"
-    assert repaired["overall_profile"]["severity"] in {"SEVERE", "MODERATE", "MILD", "NORMAL"}
+    with pytest.raises(ValueError, match="data-inconsistent"):
+        tool._process_output(output_data, {"hierarchical_deviation": deviation})
 
 
 def test_critic_summary_fallback_uses_reasoning_when_missing():
@@ -109,13 +108,13 @@ def test_critic_binary_checklist_maps_to_active_generalized_checks():
     assert evaluation.checklist.pass_count == 8
 
 
-def test_critic_execute_is_fail_safe_when_llm_json_is_invalid(monkeypatch):
+def test_critic_execute_raises_when_llm_json_is_invalid(monkeypatch):
     critic = Critic(llm_client=SimpleNamespace())
 
     def _raise(*args, **kwargs):
         raise ValueError("No JSON found in LLM response")
 
-    monkeypatch.setattr(critic, "_call_llm", _raise)
+    monkeypatch.setattr(critic, "_call_llm_raw", _raise)
 
     prediction = PredictionResult(
         prediction_id="pred_failsafe",
@@ -144,15 +143,12 @@ def test_critic_execute_is_fail_safe_when_llm_json_is_invalid(monkeypatch):
         iteration=1,
     )
 
-    evaluation = critic.execute(
-        prediction=prediction,
-        executor_output={},
-        data_overview={},
-        hierarchical_deviation={},
-        non_numerical_data="",
-        control_condition=prediction.control_condition,
-    )
-
-    assert evaluation.verdict == Verdict.UNSATISFACTORY
-    assert evaluation.checklist.has_binary_outcome is True
-    assert "invalid JSON" in evaluation.concise_summary
+    with pytest.raises(ValueError, match="No JSON found"):
+        critic.execute(
+            prediction=prediction,
+            executor_output={},
+            data_overview={},
+            hierarchical_deviation={},
+            non_numerical_data="",
+            control_condition=prediction.control_condition,
+        )

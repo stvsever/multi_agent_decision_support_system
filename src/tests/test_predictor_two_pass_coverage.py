@@ -2,12 +2,12 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import tiktoken
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.full_stack.backend.agents.predictor import Predictor
-from src.full_stack.backend.data.models.prediction_result import BinaryClassification
 
 
 class _DummyEncoder:
@@ -120,34 +120,27 @@ def test_call_predictor_json_retries_with_truncated_prompt_on_length_error():
     assert "TRUNCATED FOR RETRY" in second_user
 
 
-def test_predictor_execute_falls_back_on_persistent_llm_failure():
+def test_predictor_execute_raises_on_persistent_llm_failure():
     predictor = Predictor(llm_client=SimpleNamespace())
     predictor._call_predictor_json = lambda **_kwargs: (_ for _ in ()).throw(
         ValueError("Model openai/gpt-5-nano returned empty response (finish_reason=length)")
     )
 
-    result = predictor.execute(
-        executor_output={
-            "participant_id": "ID3172634",
-            "domains_processed": ["BRAIN_MRI"],
-            "chunking_skipped": True,
-            "predictor_input": {"coverage_ledger": {"all_features": [], "processed_features": []}},
-            "non_core_context_text": "compact context",
-            "step_outputs": {},
-            "data_overview": {},
-            "hierarchical_deviation": {},
-            "non_numerical_data": "",
-            "total_tokens_used": 0,
-        },
-        target_condition="DEPRESSION",
-        control_condition="brain-implicated pathology, but NOT psychiatric",
-        iteration=1,
-    )
-
-    assert result.binary_classification == BinaryClassification.CONTROL
-    assert result.confidence_level.value == "LOW"
-    assert result.root_prediction is not None
-    assert result.root_prediction.mode.value == "binary_classification"
-    assert result.root_prediction.classification is not None
-    assert result.flat_predictions and len(result.flat_predictions) == 1
-    assert any("fallback" in u.lower() for u in result.uncertainty_factors)
+    with pytest.raises(ValueError, match="returned empty response"):
+        predictor.execute(
+            executor_output={
+                "participant_id": "ID3172634",
+                "domains_processed": ["BRAIN_MRI"],
+                "chunking_skipped": True,
+                "predictor_input": {"coverage_ledger": {"all_features": [], "processed_features": []}},
+                "non_core_context_text": "compact context",
+                "step_outputs": {},
+                "data_overview": {},
+                "hierarchical_deviation": {},
+                "non_numerical_data": "",
+                "total_tokens_used": 0,
+            },
+            target_condition="DEPRESSION",
+            control_condition="brain-implicated pathology, but NOT psychiatric",
+            iteration=1,
+        )

@@ -35,6 +35,15 @@ src/full_stack/backend/data/pseudo_data/outputs/
 
 # Local manuscript and generated report material
 report/
+!report/
+report/*
+!report/objects/
+report/objects/*
+!report/objects/figures/
+report/objects/figures/*
+!report/objects/figures/main/
+report/objects/figures/main/*
+!report/objects/figures/main/MAIN_01_flowchart.png
 
 # Packaging
 build/

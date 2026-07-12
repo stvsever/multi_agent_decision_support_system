@@ -120,62 +120,21 @@ class Critic(BaseAgent):
             control_condition=control_condition,
         )
         
-        try:
-            # Call LLM and parse with repair fallback (fast-model safe)
-            raw = self._call_llm_raw(
-                user_prompt,
-                max_tokens=self._critic_max_output_tokens(),
-                temperature=self.LLM_TEMPERATURE,
-            )
-            evaluation_data = self._parse_json_with_repair(
-                raw,
-                prediction=prediction,
-                executor_output=executor_output,
-                data_overview=data_overview,
-                hierarchical_deviation=hierarchical_deviation,
-                non_numerical_data=non_numerical_data,
-                control_condition=control_condition,
-            )
-            evaluation = self._parse_evaluation(evaluation_data, prediction.prediction_id)
-            if active_task_spec is not None:
-                spec_nodes = active_task_spec.node_index()
-                required_node_ids = [
-                    nid for nid, node in spec_nodes.items() if bool(getattr(node, "required", True))
-                ]
-                flat_nodes = prediction.flat_predictions or (
-                    prediction.root_prediction.walk() if prediction.root_prediction is not None else []
-                )
-                pred_node_ids = {str(node.node_id) for node in flat_nodes}
-                missing_required_nodes = [nid for nid in required_node_ids if nid not in pred_node_ids]
-                concise_summary = self._build_generalized_concise_summary(
-                    prediction_task_spec=active_task_spec,
-                    verdict=evaluation.verdict,
-                    composite_score=float(evaluation.composite_score),
-                    checklist=evaluation.checklist,
-                    primary_output_summary=self._summarize_primary_output(prediction),
-                    required_node_count=len(required_node_ids),
-                    missing_required_nodes=missing_required_nodes,
-                    fallback_used=bool(getattr(evaluation, "fallback_used", False)),
-                )
-                if not active_task_spec.is_pure_binary_root():
-                    concise_summary = self._polish_generalized_concise_summary(
-                        base_summary=concise_summary,
-                        prediction_task_spec=active_task_spec,
-                        verdict=evaluation.verdict,
-                        composite_score=float(evaluation.composite_score),
-                        checklist=evaluation.checklist,
-                        primary_output_summary=self._summarize_primary_output(prediction),
-                        missing_required_nodes=missing_required_nodes,
-                        fallback_used=bool(getattr(evaluation, "fallback_used", False)),
-                    )
-                evaluation.concise_summary = concise_summary
-        except Exception as e:
-            logger.exception("Critic evaluation failed; returning deterministic UNSAT fallback.")
-            self._log_error(f"LLM/JSON failure, using fallback evaluation: {e}")
-            evaluation = self._build_fallback_evaluation(
-                prediction_id=prediction.prediction_id,
-                error=str(e),
-            )
+        raw = self._call_llm_raw(
+            user_prompt,
+            max_tokens=self._critic_max_output_tokens(),
+            temperature=self.LLM_TEMPERATURE,
+        )
+        evaluation_data = self._parse_json_with_repair(
+            raw,
+            prediction=prediction,
+            executor_output=executor_output,
+            data_overview=data_overview,
+            hierarchical_deviation=hierarchical_deviation,
+            non_numerical_data=non_numerical_data,
+            control_condition=control_condition,
+        )
+        evaluation = self._parse_evaluation(evaluation_data, prediction.prediction_id)
 
         
         self._log_complete(f"{evaluation.verdict.value} (confidence: {evaluation.confidence_in_verdict:.2f})")
@@ -630,55 +589,53 @@ class Critic(BaseAgent):
         missing_required_nodes: List[str],
         fallback_used: bool,
     ) -> str:
-        """Use Critic LLM style generation for clearer run-summary text, with safe deterministic fallback."""
+        """Use the Critic LLM to generate clearer run-summary text."""
         if not hasattr(self.llm_client, "call"):
+            # Unit-level evaluators may intentionally inject no LLM transport.
             return base_summary
-        try:
-            payload = {
-                "mode": prediction_task_spec.root.mode.value,
-                "hierarchical": len(prediction_task_spec.node_index()) > 1,
-                "verdict": verdict.value,
-                "composite_score": round(float(composite_score), 3),
-                "checks_passed": int(checklist.pass_count),
-                "checks_total": int(checklist.total_count),
-                "primary_output": primary_output_summary,
-                "missing_required_nodes": list(missing_required_nodes),
-                "fallback_used": bool(fallback_used),
-            }
-            prompt = "\n".join(
-                [
-                    "Rewrite this evaluator snapshot into a clear user-facing run summary.",
-                    "Requirements:",
-                    "- English only.",
-                    "- 1 to 2 sentences.",
-                    "- Mention task mode, primary output, and why verdict was reached.",
-                    "- If fallback_used=true, explicitly recommend rerun.",
-                    "- Avoid jargon and avoid placeholder wording.",
-                    "",
-                    "Snapshot JSON:",
-                    json.dumps(payload, ensure_ascii=False),
-                    "",
-                    'Return strict JSON: {"concise_summary":"..."}',
-                ]
-            )
-            raw = self._call_llm_raw(
-                prompt,
-                model=self.LLM_MODEL or self.settings.models.critic_model,
-                max_tokens=220,
-                temperature=0.1,
-                expect_json=True,
-                system_prompt="You are a precise evaluator summary writer. Return only JSON.",
-            )
-            parsed = parse_json_response(raw, expected_keys=["concise_summary"])
-            text = str(parsed.get("concise_summary") or "").strip()
-            if not text:
-                return base_summary
-            text = " ".join(text.split())
-            if len(text) > 320:
-                text = text[:317].rstrip() + "..."
-            return text
-        except Exception:
-            return base_summary
+        payload = {
+            "mode": prediction_task_spec.root.mode.value,
+            "hierarchical": len(prediction_task_spec.node_index()) > 1,
+            "verdict": verdict.value,
+            "composite_score": round(float(composite_score), 3),
+            "checks_passed": int(checklist.pass_count),
+            "checks_total": int(checklist.total_count),
+            "primary_output": primary_output_summary,
+            "missing_required_nodes": list(missing_required_nodes),
+            "fallback_used": bool(fallback_used),
+        }
+        prompt = "\n".join(
+            [
+                "Rewrite this evaluator snapshot into a clear user-facing run summary.",
+                "Requirements:",
+                "- English only.",
+                "- 1 to 2 sentences.",
+                "- Mention task mode, primary output, and why verdict was reached.",
+                "- If fallback_used=true, explicitly recommend rerun.",
+                "- Avoid jargon and avoid placeholder wording.",
+                "",
+                "Snapshot JSON:",
+                json.dumps(payload, ensure_ascii=False),
+                "",
+                'Return strict JSON: {"concise_summary":"..."}',
+            ]
+        )
+        raw = self._call_llm_raw(
+            prompt,
+            model=self.LLM_MODEL or self.settings.models.critic_model,
+            max_tokens=220,
+            temperature=0.1,
+            expect_json=True,
+            system_prompt="You are a precise evaluator summary writer. Return only JSON.",
+        )
+        parsed = parse_json_response(raw, expected_keys=["concise_summary"])
+        text = str(parsed.get("concise_summary") or "").strip()
+        if not text:
+            raise ValueError("Critic LLM returned an empty concise_summary.")
+        text = " ".join(text.split())
+        if len(text) > 320:
+            text = text[:317].rstrip() + "..."
+        return text
     
     def _build_prompt(
         self,
@@ -905,7 +862,7 @@ class Critic(BaseAgent):
         non_numerical_data: str,
         control_condition: Optional[str],
     ) -> Dict[str, Any]:
-        """Parse JSON with LLM repair + compact fallback to avoid UNSAT on fast models."""
+        """Parse JSON, using only LLM-based repair attempts when needed."""
         expected_keys = [
             "verdict",
             "confidence_in_verdict",
@@ -916,16 +873,6 @@ class Critic(BaseAgent):
             "improvement_suggestions",
             "reasoning",
         ]
-
-        def _attach_fallback(data: Dict[str, Any], reason: str) -> Dict[str, Any]:
-            data = dict(data or {})
-            data["fallback_used"] = True
-            data["fallback_reason"] = reason
-            data["fallback_recommendation"] = (
-                "Critic used fallback parsing due to invalid JSON output. "
-                "Strongly recommend a higher-quality critic model for reliable evaluations."
-            )
-            return data
 
         try:
             parsed = parse_json_response(raw_text, expected_keys=expected_keys)
@@ -971,7 +918,7 @@ class Critic(BaseAgent):
                 non_numerical_data=non_numerical_data,
                 control_condition=control_condition,
             )
-            return _attach_fallback(normalized, "json_repair")
+            return normalized
         except Exception as repair_err:
             logger.warning("Critic JSON repair failed; attempting compact re-eval: %s", repair_err)
 
@@ -1002,17 +949,11 @@ class Critic(BaseAgent):
                 non_numerical_data=non_numerical_data,
                 control_condition=control_condition,
             )
-            return _attach_fallback(normalized, "compact_reval")
+            return normalized
         except Exception as compact_err:
-            logger.warning("Critic compact JSON parse failed; falling back to heuristic evaluation: %s", compact_err)
-            return _attach_fallback(self._heuristic_evaluation_data(
-                prediction=prediction,
-                executor_output=executor_output,
-                data_overview=data_overview,
-                hierarchical_deviation=hierarchical_deviation,
-                non_numerical_data=non_numerical_data,
-                control_condition=control_condition,
-            ), "heuristic")
+            raise RuntimeError(
+                "Critic returned invalid JSON after LLM repair and compact LLM re-evaluation."
+            ) from compact_err
 
     def _normalize_evaluation_payload(
         self,
@@ -1566,77 +1507,6 @@ class Critic(BaseAgent):
             fallback_used=bool(evaluation_data.get("fallback_used", False) or evaluation_data.get("_fallback_used", False)),
             fallback_reason=str(evaluation_data.get("fallback_reason", "") or ""),
             fallback_recommendation=str(evaluation_data.get("fallback_recommendation", "") or ""),
-        )
-
-    def _build_fallback_evaluation(self, prediction_id: str, error: str) -> CriticEvaluation:
-        """Create deterministic fail-safe evaluation when critic LLM output is invalid."""
-        active_checks = [
-            "has_required_outputs",
-            "output_schema_valid",
-            "classification_probabilities_valid",
-            "sufficient_coverage",
-            "evidence_based_reasoning",
-            "clinically_relevant",
-            "logically_coherent",
-            "critical_domains_processed",
-        ]
-        checklist = EvaluationChecklist(
-            has_required_outputs=True,
-            output_schema_valid=True,
-            classification_probabilities_valid=True,
-            has_binary_outcome=True,
-            valid_probability=True,
-            sufficient_coverage=False,
-            evidence_based_reasoning=False,
-            clinically_relevant=False,
-            logically_coherent=False,
-            critical_domains_processed=False,
-            active_checks=active_checks,
-        )
-        suggestion = ImprovementSuggestion(
-            issue="Critic output was not machine-parseable JSON",
-            suggestion=(
-                "Retry with a stricter JSON-capable model/provider or reduce critic prompt complexity. "
-                "Prediction is preserved, but this attempt is marked UNSATISFACTORY."
-            ),
-            priority=ImprovementPriority.HIGH,
-        )
-        reasoning = (
-            "Critic LLM response could not be parsed as valid JSON after retries. "
-            f"Raw error: {error}"
-        )
-        return CriticEvaluation(
-            evaluation_id=str(uuid.uuid4())[:8],
-            prediction_id=prediction_id,
-            created_at=datetime.now(),
-            verdict=Verdict.UNSATISFACTORY,
-            confidence_in_verdict=0.0,
-            composite_score=0.0,
-            score_breakdown={
-                "logic": 0.0,
-                "evidence": 0.0,
-                "completeness": 0.0,
-                "relevance": 0.0,
-            },
-            checklist=checklist,
-            strengths=[],
-            weaknesses=[
-                "Critic output parsing failed",
-                "Evaluation reliability unavailable for this iteration",
-            ],
-            improvement_suggestions=[suggestion],
-            domains_missed=[],
-            reasoning=reasoning,
-            concise_summary=(
-                "Critic response was invalid JSON; applied deterministic UNSAT fallback. "
-                "Pipeline continues without crashing."
-            ),
-            fallback_used=True,
-            fallback_reason="deterministic_fallback",
-            fallback_recommendation=(
-                "Critic used deterministic fallback due to invalid JSON output. "
-                "Strongly recommend a higher-quality critic model for reliable evaluations."
-            ),
         )
 
     

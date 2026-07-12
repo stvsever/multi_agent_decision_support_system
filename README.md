@@ -39,19 +39,7 @@
 
 ## <a id="system-architecture"></a>🧠 System Architecture
 
-COMPASS uses a schema-constrained pipeline with iterative critic feedback:
-
-```text
-Participant files
-    -> DataLoader
-    -> Orchestrator execution plan
-    -> dependency-aware Executor and clinical tools
-    -> Integrator, fusion, coverage ledger, and chunk extraction
-    -> Predictor
-    -> Critic
-         -> satisfactory: select result and report
-         -> unsatisfactory: re-orchestrate with feedback
-```
+![COMPASS multi-agent workflow](report/objects/figures/main/MAIN_01_flowchart.png)
 
 The Executor can run independent tool steps concurrently for public API backends. Local inference uses sequential execution to reduce GPU memory pressure. After the final iteration, COMPASS selects the strongest satisfactory attempt. If no attempt is satisfactory, it selects the highest-scoring attempt and records that status in the report.
 
@@ -85,10 +73,13 @@ python3 -m venv .venv
 source .venv/bin/activate
 python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
-export OPENROUTER_API_KEY="<your_openrouter_api_key>"
+cp .env.example .env
+# Add your OPENROUTER_API_KEY to .env
 ```
 
 OpenRouter is the default public backend. The testing profile uses `google/gemini-3.1-flash-lite` for all agent and tool roles. Models remain configurable through CLI flags and the dashboard.
+
+The local `.env` file is loaded automatically and is excluded from Git. Model, schema, or connectivity failures stop the run explicitly. COMPASS does not replace failed LLM outputs with deterministic predictions, plans, evaluations, or narratives.
 
 ### Docker (CPU/UI)
 

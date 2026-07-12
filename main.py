@@ -120,46 +120,6 @@ def _clamp_role_token_limits(settings) -> None:
             setattr(settings.models, max_attr, min(configured, safe_cap))
 
 
-def _is_openai_model_name(model_name: str) -> bool:
-    value = str(model_name or "").strip().lower()
-    if not value:
-        return False
-    return value.startswith(("gpt-", "o1", "o3", "o4", "text-embedding-"))
-
-
-def _to_openai_model_name(model_name: str) -> str:
-    value = str(model_name or "").strip()
-    if not value:
-        return ""
-    if "/" in value:
-        provider, name = value.split("/", 1)
-        if provider.strip().lower() != "openai":
-            return ""
-        candidate = name.strip()
-        return candidate if _is_openai_model_name(candidate) else ""
-    return value if _is_openai_model_name(value) else ""
-
-
-def _activate_openai_fallback(settings, reason: str, ui=None) -> None:
-    settings.models.backend = LLMBackend.OPENAI
-    role_names = ("orchestrator", "critic", "integrator", "predictor", "communicator", "tool")
-    public_default = _to_openai_model_name(settings.models.public_model_name) or "gpt-5-nano"
-    settings.models.public_model_name = public_default
-    for role in role_names:
-        role_attr = f"{role}_model"
-        current = getattr(settings.models, role_attr, "")
-        setattr(settings.models, role_attr, _to_openai_model_name(current) or public_default)
-    reset_llm_client()
-    msg = f"OpenRouter unavailable. Falling back to OpenAI backend ({reason})."
-    logger.warning(msg)
-    print(f"[Init] {msg}")
-    if ui is not None:
-        try:
-            ui.set_status("OpenRouter unavailable. Fallback to OpenAI backend.", stage=0)
-        except Exception:
-            pass
-
-
 def _apply_role_model_overrides(settings, role_models: Dict[str, Any]) -> None:
     if not isinstance(role_models, dict):
         return
@@ -866,33 +826,10 @@ def run_compass_pipeline(
         try:
             llm_client.ping()
         except Exception as e:
-            can_openai_fallback = False
-            if settings.models.backend == LLMBackend.OPENROUTER:
-                try:
-                    can_openai_fallback = bool(
-                        llm_client._can_fallback_to_openai(
-                            e,
-                            requested_model=settings.models.public_model_name,
-                        )
-                    )
-                except Exception:
-                    can_openai_fallback = False
-            if settings.models.backend == LLMBackend.OPENROUTER and can_openai_fallback:
-                _activate_openai_fallback(settings, str(e), ui=ui if interactive_ui else None)
-                if interactive_ui:
-                    ui.set_status("Checking OpenAI fallback connectivity...", stage=0)
-                try:
-                    get_llm_client().ping()
-                except Exception as fallback_error:
-                    raise RuntimeError(
-                        "OpenRouter connectivity failed and OpenAI fallback also failed. "
-                        "Verify network access and API keys."
-                    ) from fallback_error
-            else:
-                key_name = "OPENROUTER_API_KEY" if settings.models.backend == LLMBackend.OPENROUTER else "OPENAI_API_KEY"
-                raise RuntimeError(
-                    f"{provider_label} connectivity check failed. Verify network access and {key_name}."
-                ) from e
+            key_name = "OPENROUTER_API_KEY" if settings.models.backend == LLMBackend.OPENROUTER else "OPENAI_API_KEY"
+            raise RuntimeError(
+                f"{provider_label} connectivity check failed. Verify network access and {key_name}."
+            ) from e
     elif settings.models.backend == LLMBackend.LOCAL:
         if interactive_ui:
             ui.set_status("Initializing local model...", stage=0)

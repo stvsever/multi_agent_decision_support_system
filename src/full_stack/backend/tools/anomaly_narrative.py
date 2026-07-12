@@ -207,7 +207,7 @@ class AnomalyNarrativeBuilder(BaseTool):
         output_data: Dict[str, Any],
         input_data: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """Validate/repair model output against deterministic pre-analysis."""
+        """Validate model output against deterministic pre-analysis."""
         analysis = self._analyze_deviation(input_data.get("hierarchical_deviation", {}) or {})
         total_features = int(analysis.get("total_features", 0) or 0)
         abnormal_features = int(analysis.get("abnormal_features", 0) or 0)
@@ -221,24 +221,6 @@ class AnomalyNarrativeBuilder(BaseTool):
         unaffected_domains = [name for name, row in domain_rows if int((row or {}).get("total", 0)) > 0 and int((row or {}).get("abnormal", 0)) == 0]
         top_features = analysis.get("most_extreme_features", [])[:5]
 
-        fallback_lines = []
-        if total_features <= 0:
-            fallback_lines.append("No scored features were detected in the hierarchical deviation map.")
-        else:
-            fallback_lines.append(
-                f"Deviation map contains {total_features} scored nodes with {abnormal_features} abnormal nodes (|z| > 1.5)."
-            )
-            if affected_domains:
-                fallback_lines.append(f"Most affected domains: {', '.join(affected_domains[:5])}.")
-            if top_features:
-                top_txt = ", ".join(
-                    f"{f.get('name') or 'feature'} (z={float(f.get('z_score', 0.0)):.2f})"
-                    for f in top_features
-                )
-                fallback_lines.append(f"Top extreme findings: {top_txt}.")
-
-        fallback_narrative = " ".join(fallback_lines).strip() or "Narrative unavailable."
-
         integrated = str(output_data.get("integrated_narrative", "") or "").strip()
         lower = integrated.lower()
         no_data_claim = any(
@@ -251,8 +233,10 @@ class AnomalyNarrativeBuilder(BaseTool):
             )
         )
         if not integrated or (total_features > 0 and no_data_claim):
-            output_data["integrated_narrative"] = fallback_narrative
-            output_data["integrated_narrative_source"] = "deterministic_fallback"
+            raise ValueError(
+                "AnomalyNarrativeBuilder returned a missing or data-inconsistent "
+                "integrated_narrative"
+            )
 
         overall = output_data.get("overall_profile")
         if not isinstance(overall, dict):

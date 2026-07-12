@@ -99,15 +99,10 @@ class Orchestrator(BaseAgent):
             target_condition=target_condition,
         )
         
-        # Ensure required fields exist for validation/compatibility
-        if isinstance(plan_data, dict) and "target_condition" not in plan_data:
-            plan_data["target_condition"] = target_condition
-
         # Validate plan
         is_valid, errors = validate_execution_plan(plan_data)
         if not is_valid:
-            logger.warning(f"Plan validation issues: {errors}")
-            print(f"[Orchestrator] Plan validation warnings: {errors}")
+            raise ValueError(f"Orchestrator plan validation failed: {errors}")
         
         # Convert to ExecutionPlan
         plan = self._parse_plan(
@@ -120,15 +115,9 @@ class Orchestrator(BaseAgent):
             previous_feedback=previous_feedback
         )
         if plan.total_steps == 0:
-            logger.warning("Orchestrator produced zero valid steps; switching to deterministic fallback plan.")
-            print("[Orchestrator] ⚠ No valid steps parsed; using deterministic fallback plan.")
-            plan = self._build_fallback_plan(
-                participant_data=participant_data,
-                target_condition=target_condition,
-                control_condition=control_condition,
-                prediction_task_spec=prediction_task_spec,
-                iteration=iteration,
-                previous_feedback=previous_feedback,
+            raise RuntimeError(
+                "Orchestrator returned no valid execution steps. "
+                "The LLM response cannot be used to execute the pipeline."
             )
         
         # UI Update: Send full plan
@@ -405,71 +394,6 @@ Return a JSON object with:
             steps=steps,
             iteration=iteration,
             previous_feedback=previous_feedback
-        )
-
-    def _build_fallback_plan(
-        self,
-        participant_data: ParticipantData,
-        target_condition: str,
-        control_condition: str,
-        prediction_task_spec: Optional[PredictionTaskSpec],
-        iteration: int,
-        previous_feedback: Optional[str],
-    ) -> ExecutionPlan:
-        """Deterministic fallback plan when LLM output is unusable."""
-        present_domains = []
-        try:
-            present_domains = [
-                str(name)
-                for name, cov in (participant_data.data_overview.domain_coverage or {}).items()
-                if getattr(cov, "is_available", False)
-            ]
-        except Exception:
-            present_domains = []
-
-        estimate = 4000
-        try:
-            total = int(getattr(participant_data.data_overview, "total_tokens", 0) or 0)
-            if total > 0:
-                estimate = max(2000, min(12000, int(total * 0.2)))
-        except Exception:
-            pass
-
-        step = PlanStep(
-            step_id=1,
-            tool_name=ToolName.PHENOTYPE_REPRESENTATION,
-            description="Build unified phenotype representation from all available domains.",
-            reasoning=(
-                "Fallback path to maintain pipeline continuity when orchestrator JSON "
-                "schema is invalid."
-            ),
-            input_domains=present_domains,
-            parameters={},
-            expected_output="Comprehensive phenotype summary for downstream predictor context.",
-            estimated_tokens=estimate,
-            depends_on=[],
-        )
-
-        return ExecutionPlan(
-            plan_id=f"fallback_{str(uuid.uuid4())[:8]}",
-            participant_id=participant_data.participant_id,
-            target_condition=target_condition,
-            control_condition=control_condition,
-            prediction_task_spec=prediction_task_spec,
-            created_at=datetime.now(),
-            total_estimated_tokens=estimate,
-            priority_domains=present_domains[:5],
-            fusion_strategy=(
-                "Fallback strategy: prioritize phenotype representation and preserve "
-                "raw context for predictor."
-            ),
-            user_facing_explanation=(
-                "Used a safe fallback plan because the orchestrator output format was invalid."
-            ),
-            reasoning="Deterministic fallback activated after invalid orchestrator output.",
-            steps=[step],
-            iteration=iteration,
-            previous_feedback=previous_feedback,
         )
 
     def _normalize_plan_data(self, raw_plan_data: Any, target_condition: str) -> Dict[str, Any]:
