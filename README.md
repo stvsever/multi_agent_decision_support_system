@@ -22,8 +22,6 @@
 - [🛠️ Installation](#installation)
 - [⚡ Usage](#usage)
 - [📁 Project Structure](#project-structure)
-- [🎓 Project Context](#project-context)
-- [📚 Project Credits](#project-credits)
 - [📈 Development Status](#development-status)
 
 <br>
@@ -233,23 +231,6 @@ multi_agent_decision_support_system/
 ├── requirements.txt
 └── README.md
 ```
-
-## <a id="project-context"></a>🎓 Project Context
-
-COMPASS originated during Stijn Van Severen's Master's internship in Theoretical and Experimental Psychology, with a specialization in Neuroscience, at Ghent University and the Computational Neuroimaging Lab of IIS Biobizkaia.
-
-The system is now independently extended as an active research software project during the 2026 NeuroHackademy summer school at Washington University. The current repository focuses on the reusable multi-agent engine, its full-stack interface, and transparent evidence-grounded decision support workflows.
-
-## <a id="project-credits"></a>📚 Project Credits
-
-**Author and maintainer**: Stijn Van Severen, [stvsever](https://github.com/stvsever)
-
-**Original internship supervisors**:
-
-- Ibai P. Díez
-- Jesús M. Cortés
-
-**Original research setting**: [Computational Neuroimaging Lab](https://compneurobilbao.eus), IIS Biobizkaia
 
 ## <a id="development-status"></a>📈 Development Status
 

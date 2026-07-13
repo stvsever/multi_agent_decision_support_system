@@ -6,7 +6,7 @@
 # PURPOSE: Validates the HPC setup before submitting compute jobs.
 # Run this FIRST when you login to the cluster.
 #
-# NOTE: On this cluster (Izaro / Biobizkaia), Apptainer is ONLY available
+# NOTE: On the originally configured cluster, Apptainer is only available
 # on compute nodes (c01-c03, f01-f02, g01), NOT on login01.
 # This script checks file existence (works from login node) and warns
 # about compute-node-only tools.
@@ -74,7 +74,7 @@ else
     HOSTNAME_CHECK=$(hostname)
     if [[ "$HOSTNAME_CHECK" == login* ]]; then
         check "Apptainer not on login node (OK — it's on compute nodes)" "warn"
-        echo "       This is normal for the Izaro cluster."
+        echo "       This is normal when Apptainer is restricted to compute nodes."
     else
         check "No apptainer/singularity found on $(hostname)" "fail"
     fi

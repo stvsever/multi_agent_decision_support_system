@@ -2,7 +2,7 @@
 # =============================================================================
 # COMPASS — HPC Deployment Helper
 # =============================================================================
-# This script automates transferring your code to the Biobizkaia HPC
+# This script automates transferring your code to a configured HPC cluster
 # and initiating the setup process.
 #
 # USAGE:
@@ -24,7 +24,7 @@ REPO_ROOT="$(cd "${SCRIPT_DIR}/../../../.." && pwd)"
 : "${LOCAL_DATA_DIR:=${REPO_ROOT}/../data/__FEATURES__/HPC_data}"
 
 echo "========================================================"
-echo " 🚀 COMPASS Deployment to Biobizkaia HPC"
+echo " 🚀 COMPASS Deployment to HPC"
 echo "========================================================"
 echo "Target: ${HPC_USER}@${HPC_HOST}"
 echo ""

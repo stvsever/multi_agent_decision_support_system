@@ -8,7 +8,7 @@
 #   - Create Python venv
 #   - Install pinned dependencies (numpy 1.x etc.) + project requirements
 #
-# NOTE (Izaro / Biobizkaia):
+# NOTE (configured cluster):
 #   Apptainer is only available on compute nodes.
 #   If run on login node, this script auto-submits itself as a Slurm job.
 #
