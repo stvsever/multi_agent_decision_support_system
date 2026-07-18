@@ -1,0 +1,129 @@
+{
+  "age": {
+    "Description": "Age of participant in years",
+    "Units": "Years, with one quantile precision"
+  },
+  "sex": {
+    "Description": "(Self-reported) biological sex of participant",
+    "Levels": {
+      "M": "male",
+      "F": "female"
+    }
+  },
+  "gender_identity_M": {
+    "Description": "To what degree the subject felt male"
+  },
+  "gender_identity_F": {
+    "Description": "To what degree the subject felt female"
+  }, 
+  "sexual_attraction_M": {
+    "Description": "To what degree the subject was attracted to males"
+  },
+  "sexual_attraction_F": {
+    "Description": "To what degree the subject was attracted to females"
+  },
+  "BMI": {
+    "LongName": "Body mass index (rounded to nearest integer",
+    "Units": "kilograms per squared meters",
+    "TermURL": "http://purl.bioontology.org/ontology/SNOMEDCT/60621009"
+  },
+  "handedness": {
+    "Description": "Whether someone is left-handed, right-handed, or ambidextrous",
+    "Levels": {
+      "left": "Left-handed",
+      "right": "Right-handed"
+    }
+  },
+  "background_SES": {
+    "Description": "Background socio-economic status (based on parents' income and educational level (range 2-6)"
+  },
+  "education_level": {
+    "Description": "Level of education (as defined by the Central Bureau van de Statistiek, CBS)",
+    "Levels": {
+      "low": "low",
+      "medium": "medium",
+      "high": "high"
+    },
+    "TermUrl": "https://www.cbs.nl/nl-nl/onze-diensten/methoden/begrippen?tab=o#id=onderwijsniveau-soi-2006"
+  },
+  "religious_upbringing": {
+    "Description": "Whether the subject was religious or not",
+    "Levels": {
+      "no": "Not religious",
+      "yes": "Religious" 
+    }
+  },
+  "religious_now": {
+    "Description": "Whether the subject is religious now",
+    "Levels": {
+      "no": "Not religious at the moment of testing",
+      "yes": "Religious at the moment of testing"
+    }
+  },
+  "religious_importance": {
+    "Description": "How much religion plays a role in the subject's life"
+  },
+  "IST_intelligence_total": {
+    "Description": "IST total intelligence"
+  },
+  "IST_memory": {
+    "Description": "IST memory subscale"
+  },
+  "IST_fluid": {
+    "Description": "IST fluid intelligence subscale"
+  },
+  "IST_crystallised": {
+    "Description": "IST crystallized intelligence scale"
+  },
+  "BAS_drive": {
+    "Description": "BAS drive scale"
+  },
+  "BAS_fun": {
+    "Description": "BAS fun scale"
+  },
+  "BAS_reward": {
+    "Description": "BAS reward scale"
+  },
+  "BIS": {
+    "Description": "BIS scale"
+  },
+  "STAI-T": {
+    "Description": "Trait anxiety (from the STAI)"
+  },
+  "NEO_A": {
+    "Description": "Score on the Agreeableness scale of the NEO-FFI",
+    "Units": "Sum of individual items"
+  },
+  "NEO_A": {
+    "Description": "Score on the Agreeableness scale of the NEO-FFI",
+    "Units": "Sum of individual items"
+  },
+  "NEO_C": {
+    "Description": "Score on the Conscientiousness scale of the NEO-FFI",
+    "Units": "Sum of individual items"
+  },
+  "NEO_E": {
+    "Description": "Score on the Extraversion scale of the NEO-FFI",
+    "Units": "Sum of individual items"
+  },
+  "NEO_N": {
+    "Description": "Score on the Neuroticism scale of the NEO-FFI",
+    "Units": "Sum of individual items"
+  },
+  "NEO_O": {
+    "Description": "Score on the Openness scale of the NEO-FFI",
+    "Units": "Sum of individual items"
+  },
+  "STAI_T": {
+    "Description": "Trait anxiety (from the state-trait anxiety inventory)"
+  },
+  "DWI_TR_run1": {
+    "Description": "Repetition Time (TR) for the first DWI scan (if this scan doesn't exist for a subject, it is coded 'n/a')"
+  },
+  "DWI_TR_run2": {
+    "Description": "Repetition Time (TR) for the second DWI scan (if this scan doesn't exist for a subject, it is coded 'n/a')"
+  },
+  "DWI_TR_run3": {
+    "Description": "Repetition Time (TR) for the third DWI scan (if this scan doesn't exist for a subject, it is coded 'n/a')"
+  }
+}

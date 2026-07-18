@@ -1,0 +1,15 @@
+Participant ID: sub-0498
+Source: AOMIC_ID1000 tabular phenotype (self-report questionnaires + demographics).
+Reference strategy: cohort (deviation from the population cohort).
+
+TARGET MEASUREMENT REFERENCE:
+Prediction target: IST_intelligence_total, the total score of the Intelligence Structure Test 2000-R. In this healthy young-adult cohort the score is approximately Normal with mean ~200 and sd ~40 (observed range 68-296). Predict the participant's total intelligence as a single number on this scale. No IST subscale scores are provided; infer from personality, demographic, motivational, affective, identity and lifestyle features only.
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Demographics and Physical Characteristics: Age = 21 years (Low); Biological sex = female (Low-Normal); Handedness = left (Very Low); Body mass index = 20 kg/m^2 (Low-Normal); Education level = medium (Low-Normal); Background socio-economic status = 3.5 (Normal)
+- Psychometric Profiles: Neuroticism (NEO-FFI) = 41 (High); Extraversion (NEO-FFI) = 40 (Normal); Openness (NEO-FFI) = 39 (Normal); Agreeableness (NEO-FFI) = 42 (Normal); Conscientiousness (NEO-FFI) = 36 (Normal); BAS drive = 9 (Low-Normal); BAS fun-seeking = 9 (Low); BAS reward responsiveness = 14 (Low); Behavioural inhibition (BIS) = 22 (High-Normal); Trait anxiety (STAI-T) = 46 (High-Normal)
+- Identity and Belief Systems: Sexual attraction to males = 7 (High); Sexual attraction to females = 1 (Low); Gender identity (male) = 1 (Low); Gender identity (female) = 7 (High); Religious upbringing = yes (High); Currently religious = yes (High); Importance of religion = 2 (Low-Normal)
+
+NOTABLE DEVIATIONS: Age is low (z=-1.08); Handedness is very low (z=-2.85); Neuroticism (NEO-FFI) is high (z=+1.42); BAS fun-seeking is low (z=-1.25); BAS reward responsiveness is low (z=-1.07); Sexual attraction to males is high (z=+1.11); Sexual attraction to females is low (z=-1.16); Gender identity (male) is low (z=-1.02); Gender identity (female) is high (z=+1.12); Religious upbringing is high (z=+1.39); Currently religious is high (z=+1.93).
+
+NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction target must be inferred from demographic, personality, motivational, affective, identity, and lifestyle features only.

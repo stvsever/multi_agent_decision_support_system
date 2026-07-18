@@ -1,0 +1,174 @@
+{
+  "DEMOGRAPHICS_AND_PHYSICAL": {
+    "personal_attributes": {
+      "_leaves": [
+        {
+          "feature": "Age",
+          "z_score": 1.553,
+          "value": "25.5 years (High)",
+          "ref_range": "cohort mean 22.8, sd 1.7 (population-referenced)"
+        },
+        {
+          "feature": "Biological sex",
+          "z_score": 1.042,
+          "value": "male (High)",
+          "ref_range": "cohort distribution female:52%, male:48%"
+        },
+        {
+          "feature": "Handedness",
+          "z_score": 0.351,
+          "value": "right (Normal)",
+          "ref_range": "cohort distribution right:89%, left:11%"
+        },
+        {
+          "feature": "Body mass index",
+          "z_score": 0.194,
+          "value": "25 kg/m^2 (Normal)",
+          "ref_range": "cohort mean 24.1, sd 4.5 (population-referenced)"
+        }
+      ]
+    },
+    "socioeconomic_status": {
+      "_leaves": [
+        {
+          "feature": "Education level",
+          "z_score": 0.953,
+          "value": "high (High-Normal)",
+          "ref_range": "cohort distribution high:47%, medium:43%, low:10%"
+        },
+        {
+          "feature": "Background socio-economic status",
+          "z_score": 0.837,
+          "value": "5 (High-Normal)",
+          "ref_range": "cohort mean 4.0, sd 1.2 (population-referenced)"
+        }
+      ]
+    }
+  },
+  "PSYCHOMETRIC_PROFILES": {
+    "big_five_personality": {
+      "_leaves": [
+        {
+          "feature": "Neuroticism (NEO-FFI)",
+          "z_score": 0.423,
+          "value": "35 (Normal)",
+          "ref_range": "cohort mean 32.5, sd 6.0 (population-referenced)"
+        },
+        {
+          "feature": "Extraversion (NEO-FFI)",
+          "z_score": 0.06,
+          "value": "42 (Normal)",
+          "ref_range": "cohort mean 41.7, sd 5.7 (population-referenced)"
+        },
+        {
+          "feature": "Openness (NEO-FFI)",
+          "z_score": -0.141,
+          "value": "40 (Normal)",
+          "ref_range": "cohort mean 40.9, sd 6.3 (population-referenced)"
+        },
+        {
+          "feature": "Agreeableness (NEO-FFI)",
+          "z_score": 0.309,
+          "value": "42 (Normal)",
+          "ref_range": "cohort mean 40.2, sd 5.7 (population-referenced)"
+        },
+        {
+          "feature": "Conscientiousness (NEO-FFI)",
+          "z_score": -0.648,
+          "value": "34 (Low-Normal)",
+          "ref_range": "cohort mean 37.8, sd 5.9 (population-referenced)"
+        }
+      ]
+    },
+    "reinforcement_sensitivity": {
+      "_leaves": [
+        {
+          "feature": "BAS drive",
+          "z_score": 0.06,
+          "value": "11 (Normal)",
+          "ref_range": "cohort mean 10.9, sd 2.1 (population-referenced)"
+        },
+        {
+          "feature": "BAS fun-seeking",
+          "z_score": -0.191,
+          "value": "11 (Normal)",
+          "ref_range": "cohort mean 11.4, sd 1.9 (population-referenced)"
+        },
+        {
+          "feature": "BAS reward responsiveness",
+          "z_score": -1.066,
+          "value": "14 (Low)",
+          "ref_range": "cohort mean 16.1, sd 2.0 (population-referenced)"
+        },
+        {
+          "feature": "Behavioural inhibition (BIS)",
+          "z_score": 0.173,
+          "value": "20 (Normal)",
+          "ref_range": "cohort mean 19.4, sd 3.7 (population-referenced)"
+        }
+      ]
+    },
+    "anxiety_traits": {
+      "_leaves": [
+        {
+          "feature": "Trait anxiety (STAI-T)",
+          "z_score": -0.92,
+          "value": "29 (Low-Normal)",
+          "ref_range": "cohort mean 38.4, sd 10.2 (population-referenced)"
+        }
+      ]
+    }
+  },
+  "IDENTITY_AND_BELIEF": {
+    "sexual_and_gender_identity": {
+      "_leaves": [
+        {
+          "feature": "Sexual attraction to males",
+          "z_score": null,
+          "value": "Not measured",
+          "ref_range": "cohort mean 3.9, sd 2.8 (population-referenced)"
+        },
+        {
+          "feature": "Sexual attraction to females",
+          "z_score": null,
+          "value": "Not measured",
+          "ref_range": "cohort mean 4.2, sd 2.8 (population-referenced)"
+        },
+        {
+          "feature": "Gender identity (male)",
+          "z_score": null,
+          "value": "Not measured",
+          "ref_range": "cohort mean 3.8, sd 2.8 (population-referenced)"
+        },
+        {
+          "feature": "Gender identity (female)",
+          "z_score": null,
+          "value": "Not measured",
+          "ref_range": "cohort mean 3.9, sd 2.8 (population-referenced)"
+        }
+      ]
+    },
+    "religiosity": {
+      "_leaves": [
+        {
+          "feature": "Religious upbringing",
+          "z_score": 1.392,
+          "value": "yes (High)",
+          "ref_range": "cohort distribution no:66%, yes:34%"
+        },
+        {
+          "feature": "Currently religious",
+          "z_score": 1.926,
+          "value": "yes (High)",
+          "ref_range": "cohort distribution no:79%, yes:21%"
+        },
+        {
+          "feature": "Importance of religion",
+          "z_score": -0.516,
+          "value": "2 (Low-Normal)",
+          "ref_range": "cohort mean 2.7, sd 1.4 (population-referenced)"
+        }
+      ]
+    }
+  }
+}

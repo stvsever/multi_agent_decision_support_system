@@ -25,13 +25,14 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
-# Runtime artifacts
-logs/
-results/
-outputs/
+# Runtime artifacts (engine root only; validation/ keeps its own results in git)
+/logs/
+/results/
+/outputs/
 *.sqlite3
 *.db
 src/full_stack/backend/data/pseudo_data/outputs/
+validation/**/__pycache__/
 
 # Local manuscript and generated report material
 report/

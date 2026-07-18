@@ -1169,6 +1169,105 @@
             font-size: 0.75rem;
             color: #9ca3af;
         }
+
+        /* ---- Execution plan: sequential/parallel dependency waves ---- */
+        .plan-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+        .plan-legend .lg-item { display: flex; align-items: center; gap: 7px; }
+        .plan-legend .lg-swatch {
+            width: 22px; height: 12px; border-radius: 3px;
+            background: rgba(99, 102, 241, 0.12); border: 1px solid var(--primary);
+        }
+        .plan-legend .lg-arrow { color: var(--primary); font-weight: 700; }
+
+        .wave {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: rgba(99, 102, 241, 0.04);
+            padding: 12px 14px 14px;
+        }
+        .wave-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .wave-title {
+            display: flex; align-items: center; gap: 9px;
+            font-size: 0.78rem; font-weight: 700; letter-spacing: 0.4px;
+            color: var(--text-main);
+        }
+        .wave-index {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--primary); color: #fff;
+            font-size: 0.72rem; font-weight: 700;
+        }
+        .wave-badge {
+            font-size: 0.64rem; letter-spacing: 0.6px; text-transform: uppercase;
+            padding: 3px 9px; border-radius: 999px; font-weight: 700;
+        }
+        .wave-badge.parallel { background: rgba(16, 185, 129, 0.14); color: var(--success); border: 1px solid rgba(16,185,129,0.4); }
+        .wave-badge.sequential { background: rgba(99, 102, 241, 0.14); color: var(--primary); border: 1px solid rgba(99,102,241,0.4); }
+
+        .wave-lane {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 12px;
+        }
+        .wave-connector {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 2px; color: var(--primary); padding: 4px 0;
+        }
+        .wave-connector .line { width: 2px; height: 12px; background: linear-gradient(var(--primary), transparent); }
+        .wave-connector .lbl { font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.4px; }
+
+        .pnode {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--primary);
+            border-radius: 8px;
+            padding: 11px 12px;
+            display: flex; flex-direction: column; gap: 7px;
+        }
+        .pnode.status-complete { border-left-color: var(--success); }
+        .pnode.status-running  { border-left-color: var(--warning); box-shadow: 0 0 0 1px rgba(245,158,11,0.25); }
+        .pnode.status-failed   { border-left-color: var(--danger); }
+        .pnode-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .pnode-tool { font-weight: 700; color: var(--text-main); font-size: 0.86rem; display: flex; align-items: center; gap: 7px; }
+        .pnode-id {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-width: 20px; height: 20px; padding: 0 5px; border-radius: 5px;
+            background: rgba(99,102,241,0.15); color: var(--primary);
+            font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700;
+        }
+        .pnode-tokens { font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-mono); white-space: nowrap; }
+        .pnode-desc { color: var(--text-muted); font-size: 0.78rem; line-height: 1.45; }
+        .pnode-meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+        .dep-chip {
+            font-size: 0.62rem; font-family: var(--font-mono);
+            background: rgba(99,102,241,0.10); color: var(--primary);
+            border: 1px solid rgba(99,102,241,0.3);
+            padding: 1px 6px; border-radius: 4px;
+        }
+        .dom-chip {
+            font-size: 0.62rem; background: #1b1b20; color: var(--text-muted);
+            border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px;
+        }
+        .dep-chip.root { background: rgba(16,185,129,0.10); color: var(--success); border-color: rgba(16,185,129,0.3); }
+        .pnode-reason { font-size: 0.72rem; color: #8b8b93; font-style: italic; border-top: 1px solid var(--border); padding-top: 6px; }
+        .plan-summary-chips { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.78rem; color: var(--text-muted); }
+        .plan-summary-chips b { color: var(--text-main); }
     </style>
 </head>
 
@@ -3474,54 +3573,114 @@
             const plan = plans[iterToShow];
             if (plan) {
                 const steps = plan.steps || [];
-
-                // PLAN SUMMARY HEADER
                 const userExpl = plan.user_facing_explanation || plan.fusion_strategy || "No summary provided.";
 
-                const stepsHtml = steps.map(s => {
-                    // Visual dependency indicator
-                    const depNodes = (s.depends_on || []).map(d =>
-                        `<span style="background:#333; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-right:4px;">step_${d}</span>`
-                    ).join('');
+                // Group steps into dependency waves (topological levels). This mirrors
+                // the engine's executor, which runs every step whose dependencies are
+                // satisfied together (ThreadPoolExecutor), then advances to the next wave.
+                const waves = computeExecutionWaves(steps);
+                const maxParallel = waves.reduce((m, w) => Math.max(m, w.length), 0);
 
+                const esc = (t) => String(t == null ? '' : t)
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                const statusClass = (s) => {
+                    const st = String(s.status || '').toUpperCase();
+                    if (st === 'COMPLETED') return 'status-complete';
+                    if (st === 'IN_PROGRESS' || st === 'RETRYING') return 'status-running';
+                    if (st === 'FAILED') return 'status-failed';
+                    return '';
+                };
+
+                const nodeHtml = (s) => {
+                    const deps = (s.depends_on || []);
+                    const depChips = deps.length
+                        ? deps.map(d => `<span class="dep-chip">&#8592; step ${d}</span>`).join('')
+                        : `<span class="dep-chip root">root input</span>`;
+                    const domChips = (s.input_domains || []).slice(0, 4)
+                        .map(d => `<span class="dom-chip">${esc(d)}</span>`).join('');
                     return `
-                    <div class="plan-node" style="background:#0e0e0e; border:1px solid #333; padding:12px; border-radius:6px; margin-bottom:10px; border-left: 3px solid var(--primary);">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:4px; align-items:center;">
-                             <span style="font-weight:700; color:#fff; font-size:0.95rem;">${s.step_id}. ${s.tool_name}</span>
-                             <span style="font-size:0.75rem; color:#666; background:#111; padding:2px 6px; border-radius:4px;">${s.estimated_tokens} tokens</span>
-                        </div>
-                        <div style="color:#ccc; font-size:0.85rem; line-height:1.4; margin-bottom:8px;">${s.description}</div>
-                        
-                        <!-- Dependencies -->
-                        <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px;">
-                            ${depNodes ? depNodes : ''}
-                        </div>
-                        
-                        <!-- Reasoning on new line to avoid overlap -->
-                        ${s.reasoning ? `
-                            <div style="margin-top:6px; padding-top:6px; border-top:1px solid #222; font-size:0.75rem; color:#666; font-style:italic;">
-                                <i class="fas fa-lightbulb" style="margin-right:4px;"></i> ${s.reasoning}
+                        <div class="pnode ${statusClass(s)}">
+                            <div class="pnode-top">
+                                <span class="pnode-tool"><span class="pnode-id">${s.step_id}</span>${esc(s.tool_name)}</span>
+                                <span class="pnode-tokens">~${(s.estimated_tokens || 0).toLocaleString()} tok</span>
                             </div>
-                        ` : ''}
-                    </div>
-                 `}).join('');
+                            <div class="pnode-desc">${esc(s.description)}</div>
+                            <div class="pnode-meta">${depChips}${domChips}</div>
+                            ${s.reasoning ? `<div class="pnode-reason"><i class="fas fa-lightbulb"></i> ${esc(s.reasoning)}</div>` : ''}
+                        </div>`;
+                };
+
+                const wavesHtml = waves.map((wave, i) => {
+                    const isParallel = wave.length > 1;
+                    const connector = i === 0 ? '' : `
+                        <div class="wave-connector">
+                            <div class="line"></div>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="lbl">waits for wave ${i}</div>
+                        </div>`;
+                    return `
+                        ${connector}
+                        <div class="wave">
+                            <div class="wave-head">
+                                <div class="wave-title"><span class="wave-index">${i + 1}</span> Wave ${i + 1}</div>
+                                <span class="wave-badge ${isParallel ? 'parallel' : 'sequential'}">
+                                    ${isParallel ? `<i class="fas fa-bolt"></i> ${wave.length} in parallel` : `<i class="fas fa-arrow-right"></i> sequential`}
+                                </span>
+                            </div>
+                            <div class="wave-lane">${wave.map(nodeHtml).join('')}</div>
+                        </div>`;
+                }).join('');
 
                 detailContainer.innerHTML = `
-                    <div style="margin-bottom:1.5rem; background:#1f1f23; padding:1.5rem; border-radius:8px; border:1px solid #333;">
+                    <div style="margin-bottom:1.25rem; background:var(--bg-card); padding:1.25rem; border-radius:8px; border:1px solid var(--border);">
                         <div style="color:var(--primary); font-size:0.8rem; letter-spacing:1px; font-weight:700; margin-bottom:0.5rem;">EXECUTION STRATEGY</div>
-                        <div style="font-size:1rem; color:#eee; line-height:1.6;">${userExpl}</div>
-                        <div style="margin-top:1rem; display:flex; gap:15px; font-size:0.8rem; color:#888;">
-                             <span><i class="fas fa-fingerprint"></i> Plan ID: ${plan.plan_id || 'N/A'}</span>
-                             <span><i class="fas fa-layer-group"></i> ${steps.length} Steps</span>
+                        <div style="font-size:0.98rem; color:var(--text-main); line-height:1.6;">${esc(userExpl)}</div>
+                        <div class="plan-summary-chips" style="margin-top:1rem;">
+                            <span><i class="fas fa-layer-group"></i> <b>${steps.length}</b> steps</span>
+                            <span><i class="fas fa-stream"></i> <b>${waves.length}</b> dependency waves</span>
+                            <span><i class="fas fa-bolt"></i> up to <b>${maxParallel}</b> in parallel</span>
+                            <span><i class="fas fa-fingerprint"></i> ${esc(plan.plan_id || 'N/A')}</span>
                         </div>
                     </div>
-                    <div class="plan-timeline">
-                        ${stepsHtml}
+                    <div class="plan-legend">
+                        <div class="lg-item"><span class="lg-swatch"></span> a wave = tools that run concurrently</div>
+                        <div class="lg-item"><span class="lg-arrow">&#8595;</span> next wave waits for the previous</div>
+                        <div class="lg-item"><span class="dep-chip">&#8592; step N</span> data dependency</div>
                     </div>
+                    <div style="display:flex; flex-direction:column;">${wavesHtml}</div>
                  `;
             } else {
                 detailContainer.innerHTML = '<div style="text-align:center; color:#555; margin-top:3rem;">Plan data not available for this iteration.</div>';
             }
+        }
+
+        // Assign each step to a dependency wave (topological level): steps with no
+        // unmet dependency form wave 0; a step's level is 1 + the max level of its
+        // dependencies. Steps in the same wave are independent and run in parallel.
+        function computeExecutionWaves(steps) {
+            const byId = {};
+            steps.forEach(s => { byId[s.step_id] = s; });
+            const levelCache = {};
+            const resolving = {};
+            function levelOf(s) {
+                if (levelCache[s.step_id] !== undefined) return levelCache[s.step_id];
+                const deps = (s.depends_on || []).filter(d => byId[d] !== undefined);
+                if (!deps.length || resolving[s.step_id]) { levelCache[s.step_id] = 0; return 0; }
+                resolving[s.step_id] = true;
+                let lvl = 0;
+                deps.forEach(d => { lvl = Math.max(lvl, levelOf(byId[d]) + 1); });
+                resolving[s.step_id] = false;
+                levelCache[s.step_id] = lvl;
+                return lvl;
+            }
+            const byLevel = {};
+            steps.forEach(s => {
+                const lvl = levelOf(s);
+                (byLevel[lvl] = byLevel[lvl] || []).push(s);
+            });
+            return Object.keys(byLevel).sort((a, b) => a - b).map(k =>
+                byLevel[k].sort((a, b) => a.step_id - b.step_id)
+            );
         }
 
         // POLLING LOOP
