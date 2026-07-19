@@ -1,0 +1,247 @@
+{
+  "report_id": "RPT_sub-0120_20260718_171911",
+  "participant_id": "sub-0120",
+  "generated_at": "2026-07-18T17:19:11.896347",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 218.440",
+    "probability": 0.75,
+    "binary_probability": null,
+    "root_confidence": 0.75,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 218.44
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.75,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Aggregate structural and demographic profile suggests above-average cognitive capacity."
+      ],
+      "supporting_evidence_against": [
+        "Specific cortical thinning in posterior regions and low conscientiousness may dampen performance."
+      ],
+      "uncertainty_factors": [
+        "Inference based on proxy markers rather than direct cognitive testing."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "Bilateral thinning in posterior association cortices (occipital/parietal mean z=-1.39, 8th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "PERSONALITY",
+      "finding": "Low conscientiousness (z=-0.648, 26th percentile, SMALL effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "MOTIVATION_AND_AFFECT",
+      "finding": "Low reward responsiveness (z=-1.07, 14th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_LOW"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed structural morphometry, identifying significant thinning in posterior cortical regions (parietal/occipital) which are critical for fluid reasoning.",
+    "Step 2: Integrated personality and motivational data, noting low conscientiousness and low reward responsiveness as behavioral constraints on test performance.",
+    "Step 3: Balanced these negative indicators against high-normal global brain volumes and subcortical hypertrophy (accumbens/ventral diencephalon).",
+    "Step 4: Synthesized findings using a linear regression model approximation, adjusting the cohort mean (200) based on the aggregate z-score profile (0.435) and structural constraints.",
+    "Step 5: Finalized prediction at 218.44, reflecting a net positive influence of global structural integrity despite specific cortical thinning."
+  ],
+  "clinical_summary": "The participant exhibits a complex neuro-behavioral profile. While global brain and white matter volumes are high-normal, significant thinning in the parietal and occipital lobes suggests a structural constraint on fluid intelligence. This is compounded by low conscientiousness and low reward responsiveness, which may limit test-taking persistence. However, the overall structural integrity, particularly in subcortical reward and memory structures, supports a cognitive performance level slightly above the cohort mean.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 58,
+      "processed_feature_count": 45,
+      "unprocessed_raw_feature_count": 18,
+      "processed_raw_low_priority_feature_count": 40,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 58,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 58,
+          "processed_feature_count": 45,
+          "unprocessed_raw_feature_count": 18,
+          "processed_raw_low_priority_feature_count": 40,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 58,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": true,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 15252,
+          "final_tokens": 18221,
+          "processed_raw_tokens": 18160,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [
+            "MOTIVATION_AND_AFFECT",
+            "PERSONALITY"
+          ],
+          "processed_prefixes_by_domain": {
+            "BRAIN_MORPHOMETRY": [
+              [
+                "cortical_thickness"
+              ],
+              [
+                "subcortical_volumes"
+              ]
+            ],
+            "MOTIVATION_AND_AFFECT": [
+              [
+                "anxiety_traits"
+              ]
+            ]
+          },
+          "excluded_leaf_counts": {
+            "PERSONALITY": 5,
+            "MOTIVATION_AND_AFFECT": 5,
+            "BRAIN_MORPHOMETRY": 30
+          },
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_PHYSICAL": 6,
+            "IDENTITY_AND_BELIEF": 7,
+            "BRAIN_MORPHOMETRY": 5
+          },
+          "all_feature_count": 58,
+          "unprocessed_feature_count": 18,
+          "processed_feature_count": 40,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 55081,
+    "domains_processed": [
+      "BRAIN_MORPHOMETRY",
+      "PERSONALITY",
+      "MOTIVATION_AND_AFFECT"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: BRAIN_MORPHOMETRY, PERSONALITY, MOTIVATION_AND_AFFECT",
+      "output_summary": "Generated 6-step plan",
+      "reasoning": "The plan prioritizes early synthesis of personality and affective data alongside structural brain morphometry. Since the data volume is low (FIT_FOR_RAW), we use UnimodalCompressor to focus on extracting cognitive-relevant patterns from the brain morphometry and behavioral domains, followed by a multimodal fusion to generate a final regression estimate.",
+      "timestamp": "2026-07-18T17:18:58.527294",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: Bilateral thinning in posterior association cortices (occipital/parietal mean z=-1.39, 8th percentile, MODERATE effect), Low conscientiousness (z=-0.648, 26th percentile, SMALL effect), Low reward responsiveness (z=-1.07, 14th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 218.440 (confidence=0.750)",
+      "reasoning": "The participant exhibits a complex neuro-behavioral profile. While global brain and white matter volumes are high-normal, significant thinning in the parietal and occipital lobes suggests a structural constraint on fluid intelligence. This is compounded by low conscientiousness and low reward responsiveness, which may limit test-taking persistence. However, the overall structural integrity, particularly in subcortical reward and memory structures, supports a cognitive performance level slightly ",
+      "timestamp": "2026-07-18T17:19:11.315171",
+      "metadata": {
+        "probability": 0.75,
+        "classification": "IST_intelligence_total: 218.440"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
+      "timestamp": "2026-07-18T17:19:11.895407",
+      "metadata": {}
+    }
+  ]
+}

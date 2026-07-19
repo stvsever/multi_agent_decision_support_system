@@ -70,6 +70,135 @@ def _slug(text: str) -> str:
     return re.sub(r"[^A-Za-z0-9_]+", "_", str(text).strip()).strip("_")
 
 
+_LABELING_SYSTEM = """You are an ontology engineer writing clean, interpretable labels for a
+feature ontology. You are given a fixed DOMAIN -> SUBDOMAIN -> FEATURE hierarchy (the
+structure is decided; do not change it). For every domain and subdomain, write a concise
+human-readable label and a one-sentence definition, so a clinician or researcher browsing
+the ontology immediately understands the grouping. Return ONLY JSON."""
+
+
+def build_labeled_ontology(
+    features: List[Dict[str, Any]],
+    dataset_name: str,
+    context: str,
+    llm,
+) -> Dict[str, Any]:
+    """Build a hint-structured, LLM-labeled ontology.
+
+    Each feature dict must carry: id, label, definition, stat_type, units, and the
+    structural hints ``domain`` and ``subdomain``. The hierarchy is built
+    deterministically from those hints (guaranteeing clean, non-redundant, fully
+    covered domains, including keeping brain modalities separate). A single LLM call
+    then generates the interpretable parent labels and definitions. This is the
+    optimised path for large multi-modal feature sets where free-form grouping by a
+    small model is brittle.
+    """
+    # Deterministic structure from hints (preserves first-seen order).
+    domains_order: List[str] = []
+    subs_order: Dict[str, List[str]] = {}
+    buckets: Dict[str, Dict[str, List[Dict[str, Any]]]] = {}
+    for feat in features:
+        dom = _slug(feat.get("domain") or "DOMAIN").upper()
+        sub = _slug(feat.get("subdomain") or "general").lower()
+        if dom not in buckets:
+            buckets[dom] = {}
+            subs_order[dom] = []
+            domains_order.append(dom)
+        if sub not in buckets[dom]:
+            buckets[dom][sub] = []
+            subs_order[dom].append(sub)
+        buckets[dom][sub].append(feat)
+
+    labels = _request_node_labels(llm, dataset_name, context, domains_order, subs_order, buckets)
+
+    domains: List[Dict[str, Any]] = []
+    for dom in domains_order:
+        dom_lbl = labels.get(dom, {})
+        subdomains = []
+        for sub in subs_order[dom]:
+            sub_lbl = dom_lbl.get("subdomains", {}).get(sub, {})
+            subdomains.append({
+                "id": sub,
+                "label": sub_lbl.get("label") or sub.replace("_", " ").title(),
+                "definition": sub_lbl.get("definition") or "",
+                "features": [
+                    {"id": f["id"], "label": f.get("label", f["id"]),
+                     "definition": _clean_definition(f.get("label", f["id"]), f.get("definition", "")),
+                     "stat_type": f.get("stat_type"), "units": f.get("units")}
+                    for f in buckets[dom][sub]
+                ],
+            })
+        domains.append({
+            "id": dom,
+            "label": dom_lbl.get("label") or dom.replace("_", " ").title(),
+            "definition": dom_lbl.get("definition") or "",
+            "subdomains": subdomains,
+        })
+
+    n_feats = sum(len(s["features"]) for d in domains for s in d["subdomains"])
+    ontology = {
+        "domains": domains,
+        "repair_stats": {"duplicates_removed": 0, "unknown_removed": 0, "unassigned_added": 0},
+        "column_index": _build_column_index(domains),
+        "dataset": dataset_name,
+        "context": context,
+        "n_features": n_feats,
+        "construction": "hint_structured_llm_labeled",
+    }
+    return ontology
+
+
+def _clean_definition(label: str, definition: str) -> str:
+    """Drop a leaf definition that merely echoes the label (avoids redundant text)."""
+    d = str(definition or "").strip()
+    if not d:
+        return ""
+    lab = str(label or "").strip().lower()
+    core = d.lower().rstrip(".")
+    # Strip common auto-prefixes then compare to the label.
+    for pref in ("freesurfer global measure:", "freesurfer volume of the", "mean functional connectivity"):
+        if core.startswith(pref):
+            return ""
+    if lab and lab in core and (len(core) - len(lab)) < 20:
+        return ""
+    return d
+
+
+def _request_node_labels(llm, dataset_name, context, domains_order, subs_order, buckets) -> Dict[str, Any]:
+    """One compact LLM call to label every domain/subdomain node.
+
+    The node structure is serialised as TOON (token-oriented object notation) rather
+    than JSON to cut prompt tokens, and only representative feature labels are sent
+    (not every feature), so the call stays small even for large multi-modal datasets.
+    """
+    nodes: Dict[str, Any] = {}
+    for dom in domains_order:
+        nodes[dom] = {sub: [f["label"] for f in buckets[dom][sub][:4]] for sub in subs_order[dom]}
+    try:
+        from src.full_stack.backend.utils.toon import json_to_toon  # engine's TOON serialiser
+        payload = json_to_toon(nodes)
+    except Exception:
+        payload = "\n".join(
+            f"{dom}:\n" + "\n".join(
+                f"  {sub}: " + ", ".join(f["label"] for f in buckets[dom][sub][:4])
+                for sub in subs_order[dom])
+            for dom in domains_order)
+    user = (
+        f"Dataset: {dataset_name}\nContext: {context}\n\n"
+        "The hierarchy below (TOON: DOMAIN -> subdomain -> example feature labels) is fixed. "
+        "Write a concise label and one-sentence definition for each domain and each subdomain.\n\n"
+        f"{payload}\n\n"
+        "Return exactly:\n"
+        '{"domains": {"DOMAIN_ID": {"label": "...", "definition": "...", '
+        '"subdomains": {"subdomain_id": {"label": "...", "definition": "..."}}}}}'
+    )
+    try:
+        obj = llm.chat_json(_LABELING_SYSTEM, user, max_tokens=4000)
+        return obj.get("domains", {}) if isinstance(obj, dict) else {}
+    except Exception:
+        return {}  # fall back to prettified ids
+
+
 def build_ontology(
     manifest: Dict[str, Any],
     dataset_name: str,

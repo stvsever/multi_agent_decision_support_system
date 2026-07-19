@@ -1,0 +1,225 @@
+{
+  "report_id": "RPT_sub-0673_20260718_171656",
+  "participant_id": "sub-0673",
+  "generated_at": "2026-07-18T17:16:56.231568",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 216.480",
+    "probability": 0.65,
+    "binary_probability": null,
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 216.48
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Aggregate positive z-score shift across socioeconomic and motivational domains."
+      ],
+      "supporting_evidence_against": [
+        "Significant negative deviation in conscientiousness and agreeableness."
+      ],
+      "uncertainty_factors": [
+        "Indirect feature mapping (personality/demographics to cognitive score)."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "finding": "High education level (z=0.953, 83rd percentile, MODERATE effect) and background SES (z=0.837, 80th percentile, MODERATE effect).",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "PERSONALITY",
+      "finding": "High extraversion (z=1.291, 90th percentile, MODERATE effect) and very low conscientiousness (z=-2.012, 2nd percentile, LARGE effect).",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "MOTIVATION_AND_AFFECT",
+      "finding": "High BAS drive (z=1.495, 93rd percentile, MODERATE effect).",
+      "direction": "ABNORMAL_HIGH"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed demographic markers showing above-average educational and socioeconomic status, which are robust proxies for cognitive reserve.",
+    "Step 2: Evaluated personality traits; while extraversion and BAS drive suggest high engagement, the significant deficit in conscientiousness (z=-2.01) represents a potential bottleneck for standardized test performance.",
+    "Step 3: Integrated aggregate branch signals; the positive shift in socioeconomic and motivational domains outweighs the negative personality facets.",
+    "Step 4: Applied linear mapping to the IST 2000-R population parameters (mean 200, SD 40) using the calculated mean z-score of 0.412 to derive the final estimate."
+  ],
+  "clinical_summary": "The participant exhibits a cognitive profile consistent with above-average intelligence, supported by favorable socioeconomic and educational indicators. While personality traits are heterogeneous\u2014specifically showing high extraversion and drive but low conscientiousness\u2014the overall aggregate signal points to a score above the cohort mean. The predicted IST 2000-R total score is 216.48, placing the individual approximately 0.4 standard deviations above the population mean.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 16,
+      "processed_feature_count": 16,
+      "unprocessed_raw_feature_count": 16,
+      "processed_raw_low_priority_feature_count": 0,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 16,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 16,
+          "processed_feature_count": 16,
+          "unprocessed_raw_feature_count": 16,
+          "processed_raw_low_priority_feature_count": 0,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 16,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": false,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 7737,
+          "final_tokens": 7820,
+          "processed_raw_tokens": null,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {},
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_PHYSICAL": 6,
+            "PERSONALITY": 5,
+            "MOTIVATION_AND_AFFECT": 5
+          },
+          "all_feature_count": 16,
+          "unprocessed_feature_count": 16,
+          "processed_feature_count": 0,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 31125,
+    "domains_processed": [
+      "DEMOGRAPHICS_AND_PHYSICAL",
+      "PERSONALITY",
+      "MOTIVATION_AND_AFFECT"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT",
+      "output_summary": "Generated 4-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify key predictors for intelligence. We will use the FeatureSynthesizer to rank the influence of personality and motivation, then integrate these into a final regression analysis.",
+      "timestamp": "2026-07-18T17:16:44.014061",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: High education level (z=0.953, 83rd percentile, MODERATE effect) and background SES (z=0.837, 80th percentile, MODERATE effect)., High extraversion (z=1.291, 90th percentile, MODERATE effect) and very low conscientiousness (z=-2.012, 2nd percentile, LARGE effect)., High BAS drive (z=1.495, 93rd percentile, MODERATE effect)....",
+      "output_summary": "IST_intelligence_total: 216.480 (confidence=0.650)",
+      "reasoning": "The participant exhibits a cognitive profile consistent with above-average intelligence, supported by favorable socioeconomic and educational indicators. While personality traits are heterogeneous\u2014specifically showing high extraversion and drive but low conscientiousness\u2014the overall aggregate signal points to a score above the cohort mean. The predicted IST 2000-R total score is 216.48, placing the individual approximately 0.4 standard deviations above the population mean.",
+      "timestamp": "2026-07-18T17:16:55.377476",
+      "metadata": {
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 216.480"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:16:56.230309",
+      "metadata": {}
+    }
+  ]
+}

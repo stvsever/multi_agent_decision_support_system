@@ -1,0 +1,221 @@
+{
+  "report_id": "RPT_sub-0153_20260718_171232",
+  "participant_id": "sub-0153",
+  "generated_at": "2026-07-18T17:12:32.889873",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 226.510",
+    "probability": 0.65,
+    "binary_probability": null,
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 226.51
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "High socioeconomic status and education level are robust predictors of cognitive performance."
+      ],
+      "supporting_evidence_against": [
+        "Demographic proxies are indirect and do not account for individual neurobiological variation."
+      ],
+      "uncertainty_factors": [
+        "Lack of direct cognitive testing data."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "finding": "Background socio-economic status is notably elevated (z=1.67, 95th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "finding": "Education level is elevated (z=0.95, 83rd percentile, SMALL effect)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "finding": "Biological sex (z=1.04, 85th percentile, SMALL effect)",
+      "direction": "ABNORMAL_HIGH"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed demographic and socioeconomic features as proxies for cognitive ability in the absence of direct IST subscale data.",
+    "Step 2: Identified background socio-economic status (z=1.67) and education level (z=0.95) as the primary drivers of the intelligence estimate.",
+    "Step 3: Applied a linear regression mapping using the population mean of 200 and SD of 40, weighted by the observed z-score deviations.",
+    "Step 4: Calculated the predicted IST total score as 226.51, reflecting the positive influence of the participant's socioeconomic and educational background."
+  ],
+  "clinical_summary": "The participant exhibits a favorable demographic and socioeconomic profile, characterized by high background socio-economic status and educational attainment. Given the absence of direct cognitive testing, the predicted IST 2000-R total score is estimated at 226.51, which is approximately 0.66 standard deviations above the cohort mean. This estimate assumes that socioeconomic advantages correlate positively with general cognitive ability (g-factor) in this healthy young-adult population.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 6,
+      "processed_feature_count": 6,
+      "unprocessed_raw_feature_count": 6,
+      "processed_raw_low_priority_feature_count": 0,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 6,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 6,
+          "processed_feature_count": 6,
+          "unprocessed_raw_feature_count": 6,
+          "processed_raw_low_priority_feature_count": 0,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 6,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": false,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 3754,
+          "final_tokens": 3837,
+          "processed_raw_tokens": null,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {},
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_PHYSICAL": 6
+          },
+          "all_feature_count": 6,
+          "unprocessed_feature_count": 6,
+          "processed_feature_count": 0,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 19735,
+    "domains_processed": [
+      "DEMOGRAPHICS_AND_PHYSICAL"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL",
+      "output_summary": "Generated 3-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize synthesizing the available non-numerical context with demographic data. We use FeatureSynthesizer to identify key predictors for intelligence, followed by a direct regression analysis via CodeExecutor to estimate the IST 2000-R score.",
+      "timestamp": "2026-07-18T17:12:23.993877",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: Background socio-economic status is notably elevated (z=1.67, 95th percentile, MODERATE effect), Education level is elevated (z=0.95, 83rd percentile, SMALL effect), Biological sex (z=1.04, 85th percentile, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 226.510 (confidence=0.650)",
+      "reasoning": "The participant exhibits a favorable demographic and socioeconomic profile, characterized by high background socio-economic status and educational attainment. Given the absence of direct cognitive testing, the predicted IST 2000-R total score is estimated at 226.51, which is approximately 0.66 standard deviations above the cohort mean. This estimate assumes that socioeconomic advantages correlate positively with general cognitive ability (g-factor) in this healthy young-adult population.",
+      "timestamp": "2026-07-18T17:12:32.298720",
+      "metadata": {
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 226.510"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:12:32.888044",
+      "metadata": {}
+    }
+  ]
+}

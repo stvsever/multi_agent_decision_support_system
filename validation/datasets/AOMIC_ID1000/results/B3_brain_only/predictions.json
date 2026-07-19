@@ -1,0 +1,62 @@
+{
+  "dataset": "AOMIC-ID1000 (OpenNeuro ds003097)",
+  "tier": "B3_brain_only",
+  "model": "google/gemini-3.1-flash-lite",
+  "max_iterations": 1,
+  "target": {
+    "column": "IST_intelligence_total",
+    "label": "Total Intelligence (IST 2000-R composite)",
+    "description": "Total intelligence score from the Intelligence Structure Test 2000-R.",
+    "units": "points"
+  },
+  "predictions": [
+    {
+      "participant_id": "sub-0120",
+      "ground_truth": 296.0,
+      "predicted": 220.0,
+      "abs_error": 76.0,
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 18.3
+    },
+    {
+      "participant_id": "sub-0128",
+      "ground_truth": 235.0,
+      "predicted": 238.0,
+      "abs_error": 3.0,
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 18.1
+    },
+    {
+      "participant_id": "sub-0153",
+      "ground_truth": 193.0,
+      "predicted": 228.0,
+      "abs_error": 35.0,
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 25.3
+    },
+    {
+      "participant_id": "sub-0282",
+      "ground_truth": 68.0,
+      "predicted": 178.0,
+      "abs_error": 110.0,
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 23.8
+    },
+    {
+      "participant_id": "sub-0498",
+      "ground_truth": 166.0,
+      "predicted": 222.0,
+      "abs_error": 56.0,
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 24.1
+    },
+    {
+      "participant_id": "sub-0673",
+      "ground_truth": 216.0,
+      "predicted": 219.78,
+      "abs_error": 3.78,
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 18.7
+    }
+  ]
+}

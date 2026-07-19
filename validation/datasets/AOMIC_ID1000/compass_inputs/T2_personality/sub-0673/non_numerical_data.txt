@@ -1,0 +1,14 @@
+Participant ID: sub-0673
+Source: AOMIC_ID1000 tabular phenotype (self-report questionnaires + demographics).
+Reference strategy: cohort (deviation from the population cohort).
+
+TARGET MEASUREMENT REFERENCE:
+Prediction target: IST_intelligence_total, the total score of the Intelligence Structure Test 2000-R. In this healthy young-adult cohort the score is approximately Normal with mean ~200 and sd ~40 (observed range 68-296). Predict the participant's total intelligence as a single number on this scale. No IST subscale scores are provided; infer from personality, demographic, motivational, affective, identity and lifestyle features only.
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Demographics and Physical Characteristics: Age = 20.75 years (Low); Biological sex = male (High); Handedness = right (Normal); Body mass index = 26 kg/m^2 (Normal); Education level = high (High-Normal); Background socio-economic status = 5 (High-Normal)
+- Personality Traits: Neuroticism (NEO-FFI) = 30 (Normal); Extraversion (NEO-FFI) = 49 (High); Openness (NEO-FFI) = 37 (Low-Normal); Agreeableness (NEO-FFI) = 28 (Very Low); Conscientiousness (NEO-FFI) = 26 (Very Low)
+
+NOTABLE DEVIATIONS: Age is low (z=-1.23); Biological sex is high (z=+1.04); Extraversion (NEO-FFI) is high (z=+1.29); Agreeableness (NEO-FFI) is very low (z=-2.14); Conscientiousness (NEO-FFI) is very low (z=-2.01).
+
+NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction target must be inferred from demographic, personality, motivational, affective, identity, and lifestyle features only.

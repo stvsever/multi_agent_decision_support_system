@@ -1,0 +1,122 @@
+[
+  {
+    "type": "PIPELINE_START",
+    "timestamp": "2026-07-18T17:12:09.152436",
+    "data": {
+      "participant_id": "sub-0128",
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_mode": "univariate_regression",
+      "timestamp": "2026-07-18T17:12:09.152430"
+    }
+  },
+  {
+    "type": "ORCHESTRATOR",
+    "timestamp": "2026-07-18T17:12:11.929923",
+    "data": {
+      "plan_id": "IST_2000R_PRED_0128",
+      "total_steps": 3,
+      "priority_domains": [
+        "DEMOGRAPHICS_AND_PHYSICAL"
+      ]
+    }
+  },
+  {
+    "type": "DATAFLOW_SUMMARY",
+    "timestamp": "2026-07-18T17:12:20.099984",
+    "data": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 6,
+          "processed_feature_count": 6,
+          "unprocessed_raw_feature_count": 6,
+          "processed_raw_low_priority_feature_count": 0,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 6,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": false,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 3694,
+          "final_tokens": 3777,
+          "processed_raw_tokens": null,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {},
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_PHYSICAL": 6
+          },
+          "all_feature_count": 6,
+          "unprocessed_feature_count": 6,
+          "processed_feature_count": 0,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    }
+  },
+  {
+    "type": "PREDICTOR",
+    "timestamp": "2026-07-18T17:12:20.100005",
+    "data": {
+      "classification": "IST_intelligence_total: 213.240",
+      "probability": 0.45,
+      "prediction_task_mode": "univariate_regression"
+    }
+  },
+  {
+    "type": "CRITIC",
+    "timestamp": "2026-07-18T17:12:20.929689",
+    "data": {
+      "verdict": "SATISFACTORY",
+      "confidence": 0.95
+    }
+  }
+]

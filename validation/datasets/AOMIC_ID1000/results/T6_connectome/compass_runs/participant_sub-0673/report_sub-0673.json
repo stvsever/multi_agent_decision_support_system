@@ -1,0 +1,238 @@
+{
+  "report_id": "RPT_sub-0673_20260718_172256",
+  "participant_id": "sub-0673",
+  "generated_at": "2026-07-18T17:22:56.805639",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 221.440",
+    "probability": 0.65,
+    "binary_probability": null,
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 221.44
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "High structural brain volume across global and subcortical measures.",
+        "High BAS drive (z=1.50) suggesting high motivational engagement."
+      ],
+      "supporting_evidence_against": [
+        "Significant functional decoupling of executive networks.",
+        "Low conscientiousness likely reducing test-taking efficiency."
+      ],
+      "uncertainty_factors": [
+        "Inference based on non-cognitive proxies.",
+        "Complex interaction between high structural volume and low functional integration."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "Global volumetric expansion (z=1.16, 88th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "BRAIN_CONNECTOME",
+      "finding": "Limbic-Frontoparietal disconnection (z=-2.40, 1st percentile, LARGE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "PERSONALITY",
+      "finding": "Very low Conscientiousness (z=-2.01, 2nd percentile, LARGE effect)",
+      "direction": "ABNORMAL_LOW"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Identified high structural brain volume (z > 1.0) as a primary positive anchor for cognitive potential.",
+    "Step 2: Evaluated functional connectome, noting a significant decoupling between limbic and frontoparietal networks (z=-2.40), which likely impairs executive efficiency.",
+    "Step 3: Integrated personality data, specifically the very low Conscientiousness (z=-2.01) and Agreeableness (z=-2.14), which act as negative regularizers for test performance.",
+    "Step 4: Balanced the high structural potential against the functional and behavioral constraints to derive a predicted IST total score slightly above the population mean.",
+    "Step 5: Final estimate calculated at 221.44, reflecting the net effect of high structural capacity offset by regulatory and functional bottlenecks."
+  ],
+  "clinical_summary": "The subject exhibits a robust neuroanatomical profile with uniformly high brain volumes, suggesting a high baseline for cognitive potential. However, this is tempered by significant functional disconnectivity between emotional and executive networks and a personality profile characterized by low conscientiousness, which likely limits the subject's ability to maximize performance on standardized intelligence testing. The predicted IST 2000-R score of 221.44 reflects this balance between high structural capacity and suboptimal regulatory engagement.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 86,
+      "processed_feature_count": 80,
+      "unprocessed_raw_feature_count": 23,
+      "processed_raw_low_priority_feature_count": 63,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 86,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 86,
+          "processed_feature_count": 80,
+          "unprocessed_raw_feature_count": 23,
+          "processed_raw_low_priority_feature_count": 63,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 86,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": true,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 16477,
+          "final_tokens": 21095,
+          "processed_raw_tokens": 21034,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [
+            "BRAIN_CONNECTOME",
+            "BRAIN_MORPHOMETRY"
+          ],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {
+            "BRAIN_MORPHOMETRY": 35,
+            "BRAIN_CONNECTOME": 28
+          },
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_PHYSICAL": 6,
+            "PERSONALITY": 5,
+            "MOTIVATION_AND_AFFECT": 5,
+            "IDENTITY_AND_BELIEF": 7
+          },
+          "all_feature_count": 86,
+          "unprocessed_feature_count": 23,
+          "processed_feature_count": 63,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 61742,
+    "domains_processed": [
+      "PERSONALITY",
+      "MOTIVATION_AND_AFFECT",
+      "IDENTITY_AND_BELIEF",
+      "BRAIN_MORPHOMETRY",
+      "BRAIN_CONNECTOME"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF, BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
+      "output_summary": "Generated 6-step plan",
+      "reasoning": "The plan prioritizes early synthesis of behavioral and neuroimaging data. Since the total data volume is low, we use UnimodalCompressor to extract high-level patterns from the brain domains while keeping behavioral data as context. The final prediction relies on the integrated narrative and ranked features to ensure the regression model is informed by the most relevant clinical and biological markers.",
+      "timestamp": "2026-07-18T17:22:43.086250",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: Global volumetric expansion (z=1.16, 88th percentile, MODERATE effect), Limbic-Frontoparietal disconnection (z=-2.40, 1st percentile, LARGE effect), Very low Conscientiousness (z=-2.01, 2nd percentile, LARGE effect)...",
+      "output_summary": "IST_intelligence_total: 221.440 (confidence=0.650)",
+      "reasoning": "The subject exhibits a robust neuroanatomical profile with uniformly high brain volumes, suggesting a high baseline for cognitive potential. However, this is tempered by significant functional disconnectivity between emotional and executive networks and a personality profile characterized by low conscientiousness, which likely limits the subject's ability to maximize performance on standardized intelligence testing. The predicted IST 2000-R score of 221.44 reflects this balance between high stru",
+      "timestamp": "2026-07-18T17:22:56.284760",
+      "metadata": {
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 221.440"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.83; fallback_used=False.",
+      "timestamp": "2026-07-18T17:22:56.804164",
+      "metadata": {}
+    }
+  ]
+}

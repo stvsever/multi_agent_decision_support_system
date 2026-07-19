@@ -1,0 +1,232 @@
+{
+  "report_id": "RPT_sub-0128_20260718_172703",
+  "participant_id": "sub-0128",
+  "generated_at": "2026-07-18T17:27:03.048980",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 238.000",
+    "probability": 0.85,
+    "binary_probability": null,
+    "root_confidence": 0.85,
+    "confidence": "HIGH",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 238.0
+        }
+      },
+      "confidence_level": "HIGH",
+      "confidence_score": 0.85,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Structural metrics consistently in the upper quartile of the population."
+      ],
+      "supporting_evidence_against": [
+        "Functional network disconnects likely limit peak performance on speeded components."
+      ],
+      "uncertainty_factors": [
+        "Inferred score based on structural proxies rather than direct cognitive testing."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "High total cortical gray matter volume (z=1.53, 94th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "Left hippocampus volume elevation (z=1.68, 95th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "BRAIN_CONNECTOME",
+      "finding": "Dorsal attention - Salience/ventral attention connectivity deficit (z=-1.54, 6th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "BRAIN_CONNECTOME",
+      "finding": "Limbic - Frontoparietal control hyper-connectivity (z=1.39, 92nd percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed morphometric data showing consistent high-normal to elevated volumes across cortical and subcortical structures.",
+    "Step 2: Identified that high cortical gray matter (z=1.53) and hippocampal volumes (z=1.68) provide a strong structural foundation for intelligence.",
+    "Step 3: Evaluated connectome data revealing functional inefficiencies, specifically a disconnect between dorsal attention and executive networks (z=-1.54).",
+    "Step 4: Integrated structural robustness with functional bottlenecks, concluding that the subject has high potential (structural) but likely faces efficiency constraints (functional) on speeded tasks.",
+    "Step 5: Estimated the IST 2000-R score based on the cohort mean (200) and the observed structural advantages, adjusting for functional inefficiencies."
+  ],
+  "clinical_summary": "Subject sub-0128 exhibits a neural architecture characterized by significant structural advantages, including high cortical gray matter and hippocampal volumes, which are strongly predictive of superior cognitive potential. However, functional network analysis indicates a bottleneck in the integration of the dorsal attention and executive control networks. This suggests that while the subject possesses the raw structural capacity for high intelligence, real-time processing efficiency on speed-dependent tasks may be attenuated. The predicted IST 2000-R score reflects this high-average cognitive phenotype.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 63,
+      "processed_feature_count": 63,
+      "unprocessed_raw_feature_count": 0,
+      "processed_raw_low_priority_feature_count": 63,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 63,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 63,
+          "processed_feature_count": 63,
+          "unprocessed_raw_feature_count": 0,
+          "processed_raw_low_priority_feature_count": 63,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 63,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": true,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 13334,
+          "final_tokens": 17952,
+          "processed_raw_tokens": 17891,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [
+            "BRAIN_CONNECTOME",
+            "BRAIN_MORPHOMETRY"
+          ],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {
+            "BRAIN_MORPHOMETRY": 35,
+            "BRAIN_CONNECTOME": 28
+          },
+          "unprocessed_leaf_counts": {},
+          "all_feature_count": 63,
+          "unprocessed_feature_count": 0,
+          "processed_feature_count": 63,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 63688,
+    "domains_processed": [
+      "BRAIN_MORPHOMETRY",
+      "BRAIN_CONNECTOME"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
+      "output_summary": "Generated 7-step plan",
+      "reasoning": "Given the 'FIT_FOR_RAW' status, we prioritize high-fidelity feature extraction. We use early-stage tools to define the phenotype and identify significant deviations, followed by targeted compression of brain imaging sub-domains to isolate patterns relevant to cognitive performance. Finally, we synthesize these findings into a regression-based prediction.",
+      "timestamp": "2026-07-18T17:26:48.887232",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: High total cortical gray matter volume (z=1.53, 94th percentile, MODERATE effect), Left hippocampus volume elevation (z=1.68, 95th percentile, MODERATE effect), Dorsal attention - Salience/ventral attention connectivity deficit (z=-1.54, 6th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 238.000 (confidence=0.850)",
+      "reasoning": "Subject sub-0128 exhibits a neural architecture characterized by significant structural advantages, including high cortical gray matter and hippocampal volumes, which are strongly predictive of superior cognitive potential. However, functional network analysis indicates a bottleneck in the integration of the dorsal attention and executive control networks. This suggests that while the subject possesses the raw structural capacity for high intelligence, real-time processing efficiency on speed-de",
+      "timestamp": "2026-07-18T17:27:02.255162",
+      "metadata": {
+        "probability": 0.85,
+        "classification": "IST_intelligence_total: 238.000"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:27:03.047911",
+      "metadata": {}
+    }
+  ]
+}

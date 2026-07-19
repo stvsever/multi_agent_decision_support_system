@@ -1,0 +1,1180 @@
+{
+  "domains": [
+    {
+      "id": "DEMOGRAPHICS_AND_PHYSICAL",
+      "label": "Demographics and Physical Characteristics",
+      "definition": "Basic biographical, physical, and socioeconomic data describing the individual participant.",
+      "subdomains": [
+        {
+          "id": "personal_attributes",
+          "label": "Personal Attributes",
+          "definition": "Core biological and developmental identifiers including age, sex, and handedness.",
+          "features": [
+            {
+              "id": "age",
+              "label": "Age",
+              "definition": "Age of participant in years.",
+              "stat_type": "numeric",
+              "units": "years"
+            },
+            {
+              "id": "sex",
+              "label": "Biological sex",
+              "definition": "Self-reported biological sex (male/female).",
+              "stat_type": "binary",
+              "units": null
+            },
+            {
+              "id": "handedness",
+              "label": "Handedness",
+              "definition": "Left- or right-handed.",
+              "stat_type": "binary",
+              "units": null
+            }
+          ]
+        },
+        {
+          "id": "anthropometrics",
+          "label": "Anthropometrics",
+          "definition": "Quantitative measurements of physical body dimensions and composition.",
+          "features": [
+            {
+              "id": "BMI",
+              "label": "Body mass index",
+              "definition": "Body mass index (kg/m^2). Zero values are data errors and treated as missing.",
+              "stat_type": "numeric",
+              "units": "kg/m^2"
+            }
+          ]
+        },
+        {
+          "id": "socioeconomic_status",
+          "label": "Socioeconomic Status",
+          "definition": "Indicators of an individual's educational attainment and social or economic background.",
+          "features": [
+            {
+              "id": "education_level",
+              "label": "Education level",
+              "definition": "Highest completed education level (CBS classification): low/medium/high.",
+              "stat_type": "ordinal",
+              "units": null
+            },
+            {
+              "id": "background_SES",
+              "label": "Background socio-economic status",
+              "definition": "Background SES from parental income and education (range 2-6).",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PERSONALITY",
+      "label": "Personality Traits",
+      "definition": "Stable patterns of behavior, thought, and emotion as measured by standardized personality assessments.",
+      "subdomains": [
+        {
+          "id": "big_five_personality",
+          "label": "Big Five Personality",
+          "definition": "Measures of the five broad dimensions of personality: Neuroticism, Extraversion, Openness, Agreeableness, and Conscientiousness.",
+          "features": [
+            {
+              "id": "NEO_N",
+              "label": "Neuroticism (NEO-FFI)",
+              "definition": "NEO-FFI Neuroticism scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "NEO_E",
+              "label": "Extraversion (NEO-FFI)",
+              "definition": "NEO-FFI Extraversion scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "NEO_O",
+              "label": "Openness (NEO-FFI)",
+              "definition": "NEO-FFI Openness to experience scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "NEO_A",
+              "label": "Agreeableness (NEO-FFI)",
+              "definition": "NEO-FFI Agreeableness scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "NEO_C",
+              "label": "Conscientiousness (NEO-FFI)",
+              "definition": "NEO-FFI Conscientiousness scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MOTIVATION_AND_AFFECT",
+      "label": "Motivation and Affect",
+      "definition": "Psychological constructs related to reinforcement sensitivity and emotional regulation.",
+      "subdomains": [
+        {
+          "id": "reinforcement_sensitivity",
+          "label": "Reinforcement Sensitivity",
+          "definition": "Measures of behavioral approach and inhibition systems in response to reward and punishment stimuli.",
+          "features": [
+            {
+              "id": "BAS_drive",
+              "label": "BAS drive",
+              "definition": "Behavioural Activation System drive subscale.",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "BAS_fun",
+              "label": "BAS fun-seeking",
+              "definition": "Behavioural Activation System fun-seeking subscale.",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "BAS_reward",
+              "label": "BAS reward responsiveness",
+              "definition": "Behavioural Activation System reward responsiveness subscale.",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "BIS",
+              "label": "Behavioural inhibition (BIS)",
+              "definition": "Behavioural Inhibition System scale.",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        },
+        {
+          "id": "anxiety_traits",
+          "label": "Anxiety Traits",
+          "definition": "Assessment of stable, long-term tendencies toward experiencing anxiety.",
+          "features": [
+            {
+              "id": "STAI_T",
+              "label": "Trait anxiety (STAI-T)",
+              "definition": "State-Trait Anxiety Inventory, trait subscale.",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IDENTITY_AND_BELIEF",
+      "label": "Identity and Belief",
+      "definition": "Self-reported measures concerning sexual orientation, gender identity, and religious affiliation.",
+      "subdomains": [
+        {
+          "id": "sexual_and_gender_identity",
+          "label": "Sexual and Gender Identity",
+          "definition": "Ratings reflecting an individual's sexual attraction patterns and gender self-identification.",
+          "features": [
+            {
+              "id": "sexual_attraction_M",
+              "label": "Sexual attraction to males",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "sexual_attraction_F",
+              "label": "Sexual attraction to females",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "gender_identity_M",
+              "label": "Gender identity (male)",
+              "definition": "Degree to which the subject felt male (1-7).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "gender_identity_F",
+              "label": "Gender identity (female)",
+              "definition": "Degree to which the subject felt female (1-7).",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        },
+        {
+          "id": "religiosity",
+          "label": "Religiosity",
+          "definition": "Measures of an individual's religious upbringing, current practice, and the perceived importance of faith.",
+          "features": [
+            {
+              "id": "religious_upbringing",
+              "label": "Religious upbringing",
+              "definition": "Whether the subject had a religious upbringing (yes/no).",
+              "stat_type": "binary",
+              "units": null
+            },
+            {
+              "id": "religious_now",
+              "label": "Currently religious",
+              "definition": "Whether the subject is religious now (yes/no).",
+              "stat_type": "binary",
+              "units": null
+            },
+            {
+              "id": "religious_importance",
+              "label": "Importance of religion",
+              "definition": "How much religion plays a role in the subject's life (1-5).",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "BRAIN_MORPHOMETRY",
+      "label": "Brain Morphometry",
+      "definition": "Structural measurements of brain anatomy derived from high-resolution structural MRI.",
+      "subdomains": [
+        {
+          "id": "global_brain_measures",
+          "label": "Global Brain Measures",
+          "definition": "Aggregate volumetric metrics representing total brain tissue and fluid compartments.",
+          "features": [
+            {
+              "id": "fs_brainseg_vol",
+              "label": "Total brain segmentation volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_total_gray_vol",
+              "label": "Total gray matter volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_cortex_vol",
+              "label": "Total cortical gray matter volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_cerebral_wm_vol",
+              "label": "Total cerebral white matter volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_subcort_gray_vol",
+              "label": "Total subcortical gray matter volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            }
+          ]
+        },
+        {
+          "id": "subcortical_volumes",
+          "label": "Subcortical Volumes",
+          "definition": "Volumetric measurements of specific deep-brain structures involved in memory and emotion.",
+          "features": [
+            {
+              "id": "fs_vol_lh_hippocampus",
+              "label": "Left hippocampus volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_rh_hippocampus",
+              "label": "Right hippocampus volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_lh_amygdala",
+              "label": "Left amygdala volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_rh_amygdala",
+              "label": "Right amygdala volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_lh_thalamus",
+              "label": "Left thalamus volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_rh_thalamus",
+              "label": "Right thalamus volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_lh_caudate",
+              "label": "Left caudate volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_rh_caudate",
+              "label": "Right caudate volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_lh_putamen",
+              "label": "Left putamen volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_rh_putamen",
+              "label": "Right putamen volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_lh_pallidum",
+              "label": "Left pallidum volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_rh_pallidum",
+              "label": "Right pallidum volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_lh_accumbens",
+              "label": "Left accumbens volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_rh_accumbens",
+              "label": "Right accumbens volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_lh_ventraldc",
+              "label": "Left ventraldc volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            },
+            {
+              "id": "fs_vol_rh_ventraldc",
+              "label": "Right ventraldc volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            }
+          ]
+        },
+        {
+          "id": "cortical_thickness",
+          "label": "Cortical Thickness",
+          "definition": "Measurements of the thickness of the cerebral cortex across different anatomical regions.",
+          "features": [
+            {
+              "id": "fs_mean_thickness_lh",
+              "label": "Left hemisphere mean cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_lh_frontal",
+              "label": "Left frontal lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_lh_parietal",
+              "label": "Left parietal lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_lh_temporal",
+              "label": "Left temporal lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_lh_occipital",
+              "label": "Left occipital lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_lh_cingulate",
+              "label": "Left cingulate lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_lh_insula",
+              "label": "Left insula lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_mean_thickness_rh",
+              "label": "Right hemisphere mean cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_rh_frontal",
+              "label": "Right frontal lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_rh_parietal",
+              "label": "Right parietal lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_rh_temporal",
+              "label": "Right temporal lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_rh_occipital",
+              "label": "Right occipital lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_rh_cingulate",
+              "label": "Right cingulate lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            },
+            {
+              "id": "fs_thk_rh_insula",
+              "label": "Right insula lobe cortical thickness",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "BRAIN_CONNECTOME",
+      "label": "Brain Connectome",
+      "definition": "Functional connectivity patterns between brain networks derived from movie-watching fMRI data.",
+      "subdomains": [
+        {
+          "id": "within_network_connectivity",
+          "label": "Within-Network Connectivity",
+          "definition": "Functional synchronization strength between regions belonging to the same canonical brain network.",
+          "features": [
+            {
+              "id": "fc_vis_within",
+              "label": "Visual within-network FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_sommot_within",
+              "label": "Somatomotor within-network FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_dorsattn_within",
+              "label": "Dorsal attention within-network FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_salventattn_within",
+              "label": "Salience / ventral attention within-network FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_limbic_within",
+              "label": "Limbic within-network FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_cont_within",
+              "label": "Frontoparietal control within-network FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_default_within",
+              "label": "Default mode within-network FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            }
+          ]
+        },
+        {
+          "id": "between_network_connectivity",
+          "label": "Between-Network Connectivity",
+          "definition": "Functional synchronization strength between distinct, non-overlapping brain networks.",
+          "features": [
+            {
+              "id": "fc_vis_sommot",
+              "label": "Visual - Somatomotor FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_vis_dorsattn",
+              "label": "Visual - Dorsal attention FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_vis_salventattn",
+              "label": "Visual - Salience / ventral attention FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_vis_limbic",
+              "label": "Visual - Limbic FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_vis_cont",
+              "label": "Visual - Frontoparietal control FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_vis_default",
+              "label": "Visual - Default mode FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_sommot_dorsattn",
+              "label": "Somatomotor - Dorsal attention FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_sommot_salventattn",
+              "label": "Somatomotor - Salience / ventral attention FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_sommot_limbic",
+              "label": "Somatomotor - Limbic FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_sommot_cont",
+              "label": "Somatomotor - Frontoparietal control FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_sommot_default",
+              "label": "Somatomotor - Default mode FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_dorsattn_salventattn",
+              "label": "Dorsal attention - Salience / ventral attention FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_dorsattn_limbic",
+              "label": "Dorsal attention - Limbic FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_dorsattn_cont",
+              "label": "Dorsal attention - Frontoparietal control FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_dorsattn_default",
+              "label": "Dorsal attention - Default mode FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_salventattn_limbic",
+              "label": "Salience / ventral attention - Limbic FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_salventattn_cont",
+              "label": "Salience / ventral attention - Frontoparietal control FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_salventattn_default",
+              "label": "Salience / ventral attention - Default mode FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_limbic_cont",
+              "label": "Limbic - Frontoparietal control FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_limbic_default",
+              "label": "Limbic - Default mode FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            },
+            {
+              "id": "fc_cont_default",
+              "label": "Frontoparietal control - Default mode FC",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "Pearson r"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "repair_stats": {
+    "duplicates_removed": 0,
+    "unknown_removed": 0,
+    "unassigned_added": 0
+  },
+  "column_index": {
+    "age": {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "subdomain": "personal_attributes",
+      "feature_label": "Age"
+    },
+    "sex": {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "subdomain": "personal_attributes",
+      "feature_label": "Biological sex"
+    },
+    "handedness": {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "subdomain": "personal_attributes",
+      "feature_label": "Handedness"
+    },
+    "BMI": {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "subdomain": "anthropometrics",
+      "feature_label": "Body mass index"
+    },
+    "education_level": {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "subdomain": "socioeconomic_status",
+      "feature_label": "Education level"
+    },
+    "background_SES": {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "subdomain": "socioeconomic_status",
+      "feature_label": "Background socio-economic status"
+    },
+    "NEO_N": {
+      "domain": "PERSONALITY",
+      "subdomain": "big_five_personality",
+      "feature_label": "Neuroticism (NEO-FFI)"
+    },
+    "NEO_E": {
+      "domain": "PERSONALITY",
+      "subdomain": "big_five_personality",
+      "feature_label": "Extraversion (NEO-FFI)"
+    },
+    "NEO_O": {
+      "domain": "PERSONALITY",
+      "subdomain": "big_five_personality",
+      "feature_label": "Openness (NEO-FFI)"
+    },
+    "NEO_A": {
+      "domain": "PERSONALITY",
+      "subdomain": "big_five_personality",
+      "feature_label": "Agreeableness (NEO-FFI)"
+    },
+    "NEO_C": {
+      "domain": "PERSONALITY",
+      "subdomain": "big_five_personality",
+      "feature_label": "Conscientiousness (NEO-FFI)"
+    },
+    "BAS_drive": {
+      "domain": "MOTIVATION_AND_AFFECT",
+      "subdomain": "reinforcement_sensitivity",
+      "feature_label": "BAS drive"
+    },
+    "BAS_fun": {
+      "domain": "MOTIVATION_AND_AFFECT",
+      "subdomain": "reinforcement_sensitivity",
+      "feature_label": "BAS fun-seeking"
+    },
+    "BAS_reward": {
+      "domain": "MOTIVATION_AND_AFFECT",
+      "subdomain": "reinforcement_sensitivity",
+      "feature_label": "BAS reward responsiveness"
+    },
+    "BIS": {
+      "domain": "MOTIVATION_AND_AFFECT",
+      "subdomain": "reinforcement_sensitivity",
+      "feature_label": "Behavioural inhibition (BIS)"
+    },
+    "STAI_T": {
+      "domain": "MOTIVATION_AND_AFFECT",
+      "subdomain": "anxiety_traits",
+      "feature_label": "Trait anxiety (STAI-T)"
+    },
+    "sexual_attraction_M": {
+      "domain": "IDENTITY_AND_BELIEF",
+      "subdomain": "sexual_and_gender_identity",
+      "feature_label": "Sexual attraction to males"
+    },
+    "sexual_attraction_F": {
+      "domain": "IDENTITY_AND_BELIEF",
+      "subdomain": "sexual_and_gender_identity",
+      "feature_label": "Sexual attraction to females"
+    },
+    "gender_identity_M": {
+      "domain": "IDENTITY_AND_BELIEF",
+      "subdomain": "sexual_and_gender_identity",
+      "feature_label": "Gender identity (male)"
+    },
+    "gender_identity_F": {
+      "domain": "IDENTITY_AND_BELIEF",
+      "subdomain": "sexual_and_gender_identity",
+      "feature_label": "Gender identity (female)"
+    },
+    "religious_upbringing": {
+      "domain": "IDENTITY_AND_BELIEF",
+      "subdomain": "religiosity",
+      "feature_label": "Religious upbringing"
+    },
+    "religious_now": {
+      "domain": "IDENTITY_AND_BELIEF",
+      "subdomain": "religiosity",
+      "feature_label": "Currently religious"
+    },
+    "religious_importance": {
+      "domain": "IDENTITY_AND_BELIEF",
+      "subdomain": "religiosity",
+      "feature_label": "Importance of religion"
+    },
+    "fs_brainseg_vol": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "global_brain_measures",
+      "feature_label": "Total brain segmentation volume"
+    },
+    "fs_total_gray_vol": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "global_brain_measures",
+      "feature_label": "Total gray matter volume"
+    },
+    "fs_cortex_vol": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "global_brain_measures",
+      "feature_label": "Total cortical gray matter volume"
+    },
+    "fs_cerebral_wm_vol": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "global_brain_measures",
+      "feature_label": "Total cerebral white matter volume"
+    },
+    "fs_subcort_gray_vol": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "global_brain_measures",
+      "feature_label": "Total subcortical gray matter volume"
+    },
+    "fs_vol_lh_hippocampus": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Left hippocampus volume"
+    },
+    "fs_vol_rh_hippocampus": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Right hippocampus volume"
+    },
+    "fs_vol_lh_amygdala": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Left amygdala volume"
+    },
+    "fs_vol_rh_amygdala": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Right amygdala volume"
+    },
+    "fs_vol_lh_thalamus": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Left thalamus volume"
+    },
+    "fs_vol_rh_thalamus": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Right thalamus volume"
+    },
+    "fs_vol_lh_caudate": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Left caudate volume"
+    },
+    "fs_vol_rh_caudate": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Right caudate volume"
+    },
+    "fs_vol_lh_putamen": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Left putamen volume"
+    },
+    "fs_vol_rh_putamen": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Right putamen volume"
+    },
+    "fs_vol_lh_pallidum": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Left pallidum volume"
+    },
+    "fs_vol_rh_pallidum": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Right pallidum volume"
+    },
+    "fs_vol_lh_accumbens": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Left accumbens volume"
+    },
+    "fs_vol_rh_accumbens": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Right accumbens volume"
+    },
+    "fs_vol_lh_ventraldc": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Left ventraldc volume"
+    },
+    "fs_vol_rh_ventraldc": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "subcortical_volumes",
+      "feature_label": "Right ventraldc volume"
+    },
+    "fs_mean_thickness_lh": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Left hemisphere mean cortical thickness"
+    },
+    "fs_thk_lh_frontal": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Left frontal lobe cortical thickness"
+    },
+    "fs_thk_lh_parietal": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Left parietal lobe cortical thickness"
+    },
+    "fs_thk_lh_temporal": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Left temporal lobe cortical thickness"
+    },
+    "fs_thk_lh_occipital": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Left occipital lobe cortical thickness"
+    },
+    "fs_thk_lh_cingulate": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Left cingulate lobe cortical thickness"
+    },
+    "fs_thk_lh_insula": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Left insula lobe cortical thickness"
+    },
+    "fs_mean_thickness_rh": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Right hemisphere mean cortical thickness"
+    },
+    "fs_thk_rh_frontal": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Right frontal lobe cortical thickness"
+    },
+    "fs_thk_rh_parietal": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Right parietal lobe cortical thickness"
+    },
+    "fs_thk_rh_temporal": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Right temporal lobe cortical thickness"
+    },
+    "fs_thk_rh_occipital": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Right occipital lobe cortical thickness"
+    },
+    "fs_thk_rh_cingulate": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Right cingulate lobe cortical thickness"
+    },
+    "fs_thk_rh_insula": {
+      "domain": "BRAIN_MORPHOMETRY",
+      "subdomain": "cortical_thickness",
+      "feature_label": "Right insula lobe cortical thickness"
+    },
+    "fc_vis_within": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "within_network_connectivity",
+      "feature_label": "Visual within-network FC"
+    },
+    "fc_sommot_within": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "within_network_connectivity",
+      "feature_label": "Somatomotor within-network FC"
+    },
+    "fc_dorsattn_within": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "within_network_connectivity",
+      "feature_label": "Dorsal attention within-network FC"
+    },
+    "fc_salventattn_within": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "within_network_connectivity",
+      "feature_label": "Salience / ventral attention within-network FC"
+    },
+    "fc_limbic_within": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "within_network_connectivity",
+      "feature_label": "Limbic within-network FC"
+    },
+    "fc_cont_within": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "within_network_connectivity",
+      "feature_label": "Frontoparietal control within-network FC"
+    },
+    "fc_default_within": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "within_network_connectivity",
+      "feature_label": "Default mode within-network FC"
+    },
+    "fc_vis_sommot": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Visual - Somatomotor FC"
+    },
+    "fc_vis_dorsattn": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Visual - Dorsal attention FC"
+    },
+    "fc_vis_salventattn": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Visual - Salience / ventral attention FC"
+    },
+    "fc_vis_limbic": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Visual - Limbic FC"
+    },
+    "fc_vis_cont": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Visual - Frontoparietal control FC"
+    },
+    "fc_vis_default": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Visual - Default mode FC"
+    },
+    "fc_sommot_dorsattn": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Somatomotor - Dorsal attention FC"
+    },
+    "fc_sommot_salventattn": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Somatomotor - Salience / ventral attention FC"
+    },
+    "fc_sommot_limbic": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Somatomotor - Limbic FC"
+    },
+    "fc_sommot_cont": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Somatomotor - Frontoparietal control FC"
+    },
+    "fc_sommot_default": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Somatomotor - Default mode FC"
+    },
+    "fc_dorsattn_salventattn": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Dorsal attention - Salience / ventral attention FC"
+    },
+    "fc_dorsattn_limbic": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Dorsal attention - Limbic FC"
+    },
+    "fc_dorsattn_cont": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Dorsal attention - Frontoparietal control FC"
+    },
+    "fc_dorsattn_default": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Dorsal attention - Default mode FC"
+    },
+    "fc_salventattn_limbic": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Salience / ventral attention - Limbic FC"
+    },
+    "fc_salventattn_cont": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Salience / ventral attention - Frontoparietal control FC"
+    },
+    "fc_salventattn_default": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Salience / ventral attention - Default mode FC"
+    },
+    "fc_limbic_cont": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Limbic - Frontoparietal control FC"
+    },
+    "fc_limbic_default": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Limbic - Default mode FC"
+    },
+    "fc_cont_default": {
+      "domain": "BRAIN_CONNECTOME",
+      "subdomain": "between_network_connectivity",
+      "feature_label": "Frontoparietal control - Default mode FC"
+    }
+  },
+  "dataset": "AOMIC_ID1000",
+  "context": "AOMIC ID1000: 928 healthy Dutch young adults. Features span self-report questionnaires (NEO-FFI Big Five personality, BIS/BAS reinforcement sensitivity, STAI trait anxiety), demographics, anthropometrics, socio-economic status, sexual/gender identity ratings, religiosity, plus structural brain morphometry (FreeSurfer subcortical volumes and cortical thickness) and functional connectome (Yeo network connectivity from movie-watching fMRI). Group measures from the same instrument or brain system together; keep brain morphometry and connectome as separate domains.",
+  "n_features": 86,
+  "construction": "hint_structured_llm_labeled"
+}

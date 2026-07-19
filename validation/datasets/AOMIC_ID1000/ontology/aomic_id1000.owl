@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns="https://compass.local/ontology/aomic_id1000#"
+>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_cerebral_wm_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_global_brain_measures"/>
+    <rdfs:label>Total cerebral white matter volume</rdfs:label>
+    <sourceColumn>fs_cerebral_wm_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_BIS">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_MOTIVATION_AND_AFFECT_reinforcement_sensitivity"/>
+    <rdfs:label>Behavioural inhibition (BIS)</rdfs:label>
+    <rdfs:comment>Behavioural Inhibition System scale.</rdfs:comment>
+    <sourceColumn>BIS</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_STAI_T">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_MOTIVATION_AND_AFFECT_anxiety_traits"/>
+    <rdfs:label>Trait anxiety (STAI-T)</rdfs:label>
+    <rdfs:comment>State-Trait Anxiety Inventory, trait subscale.</rdfs:comment>
+    <sourceColumn>STAI_T</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_subcort_gray_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_global_brain_measures"/>
+    <rdfs:label>Total subcortical gray matter volume</rdfs:label>
+    <sourceColumn>fs_subcort_gray_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_education_level">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_socioeconomic_status"/>
+    <rdfs:label>Education level</rdfs:label>
+    <rdfs:comment>Highest completed education level (CBS classification): low/medium/high.</rdfs:comment>
+    <sourceColumn>education_level</sourceColumn>
+    <statType>ordinal</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_default_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_within_network_connectivity"/>
+    <rdfs:label>Default mode within-network FC</rdfs:label>
+    <sourceColumn>fc_default_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_salventattn_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_within_network_connectivity"/>
+    <rdfs:label>Salience / ventral attention within-network FC</rdfs:label>
+    <sourceColumn>fc_salventattn_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_lh_occipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Left occipital lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_occipital</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_dorsattn_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_within_network_connectivity"/>
+    <rdfs:label>Dorsal attention within-network FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_brainseg_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_global_brain_measures"/>
+    <rdfs:label>Total brain segmentation volume</rdfs:label>
+    <sourceColumn>fs_brainseg_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_lh_amygdala">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Left amygdala volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_amygdala</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_NEO_C">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_PERSONALITY_big_five_personality"/>
+    <rdfs:label>Conscientiousness (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Conscientiousness scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_C</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_rh_thalamus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Right thalamus volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_thalamus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_sex">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_personal_attributes"/>
+    <rdfs:label>Biological sex</rdfs:label>
+    <rdfs:comment>Self-reported biological sex (male/female).</rdfs:comment>
+    <sourceColumn>sex</sourceColumn>
+    <statType>binary</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_sommot_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_within_network_connectivity"/>
+    <rdfs:label>Somatomotor within-network FC</rdfs:label>
+    <sourceColumn>fc_sommot_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_sexual_attraction_M">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_sexual_and_gender_identity"/>
+    <rdfs:label>Sexual attraction to males</rdfs:label>
+    <sourceColumn>sexual_attraction_M</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_lh_cingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Left cingulate lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_cingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_sommot_salventattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Somatomotor - Salience / ventral attention FC</rdfs:label>
+    <sourceColumn>fc_sommot_salventattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_limbic_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Limbic - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_limbic_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_sommot_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Somatomotor - Default mode FC</rdfs:label>
+    <sourceColumn>fc_sommot_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_dorsattn_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Dorsal attention - Limbic FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_NEO_O">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_PERSONALITY_big_five_personality"/>
+    <rdfs:label>Openness (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Openness to experience scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_O</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_religious_now">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_religiosity"/>
+    <rdfs:label>Currently religious</rdfs:label>
+    <rdfs:comment>Whether the subject is religious now (yes/no).</rdfs:comment>
+    <sourceColumn>religious_now</sourceColumn>
+    <statType>binary</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_background_SES">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_socioeconomic_status"/>
+    <rdfs:label>Background socio-economic status</rdfs:label>
+    <rdfs:comment>Background SES from parental income and education (range 2-6).</rdfs:comment>
+    <sourceColumn>background_SES</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_cont_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Frontoparietal control - Default mode FC</rdfs:label>
+    <sourceColumn>fc_cont_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_vis_sommot">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Visual - Somatomotor FC</rdfs:label>
+    <sourceColumn>fc_vis_sommot</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_lh_ventraldc">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Left ventraldc volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_ventraldc</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_lh_accumbens">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Left accumbens volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_accumbens</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_NEO_N">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_PERSONALITY_big_five_personality"/>
+    <rdfs:label>Neuroticism (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Neuroticism scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_N</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_gender_identity_M">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_sexual_and_gender_identity"/>
+    <rdfs:label>Gender identity (male)</rdfs:label>
+    <rdfs:comment>Degree to which the subject felt male (1-7).</rdfs:comment>
+    <sourceColumn>gender_identity_M</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_gender_identity_F">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_sexual_and_gender_identity"/>
+    <rdfs:label>Gender identity (female)</rdfs:label>
+    <rdfs:comment>Degree to which the subject felt female (1-7).</rdfs:comment>
+    <sourceColumn>gender_identity_F</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_rh_temporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Right temporal lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_temporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_dorsattn_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Dorsal attention - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_handedness">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_personal_attributes"/>
+    <rdfs:label>Handedness</rdfs:label>
+    <rdfs:comment>Left- or right-handed.</rdfs:comment>
+    <sourceColumn>handedness</sourceColumn>
+    <statType>binary</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_rh_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Right insula lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_insula</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_BAS_fun">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_MOTIVATION_AND_AFFECT_reinforcement_sensitivity"/>
+    <rdfs:label>BAS fun-seeking</rdfs:label>
+    <rdfs:comment>Behavioural Activation System fun-seeking subscale.</rdfs:comment>
+    <sourceColumn>BAS_fun</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_mean_thickness_rh">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Right hemisphere mean cortical thickness</rdfs:label>
+    <sourceColumn>fs_mean_thickness_rh</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_limbic_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_within_network_connectivity"/>
+    <rdfs:label>Limbic within-network FC</rdfs:label>
+    <sourceColumn>fc_limbic_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_lh_temporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Left temporal lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_temporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_lh_pallidum">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Left pallidum volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_pallidum</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_BMI">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_anthropometrics"/>
+    <rdfs:label>Body mass index</rdfs:label>
+    <rdfs:comment>Body mass index (kg/m^2). Zero values are data errors and treated as missing.</rdfs:comment>
+    <sourceColumn>BMI</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_lh_putamen">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Left putamen volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_putamen</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_vis_salventattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Visual - Salience / ventral attention FC</rdfs:label>
+    <sourceColumn>fc_vis_salventattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_vis_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_within_network_connectivity"/>
+    <rdfs:label>Visual within-network FC</rdfs:label>
+    <sourceColumn>fc_vis_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_NEO_A">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_PERSONALITY_big_five_personality"/>
+    <rdfs:label>Agreeableness (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Agreeableness scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_A</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Ontology rdf:about="https://compass.local/ontology/aomic_id1000#">
+    <rdfs:label>COMPASS feature ontology: AOMIC_ID1000</rdfs:label>
+    <rdfs:comment>AOMIC ID1000: 928 healthy Dutch young adults. Features span self-report questionnaires (NEO-FFI Big Five personality, BIS/BAS reinforcement sensitivity, STAI trait anxiety), demographics, anthropometrics, socio-economic status, sexual/gender identity ratings, religiosity, plus structural brain morphometry (FreeSurfer subcortical volumes and cortical thickness) and functional connectome (Yeo network connectivity from movie-watching fMRI). Group measures from the same instrument or brain system together; keep brain morphometry and connectome as separate domains.</rdfs:comment>
+  </owl:Ontology>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_rh_caudate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Right caudate volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_caudate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_lh_hippocampus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Left hippocampus volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_hippocampus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_vis_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Visual - Default mode FC</rdfs:label>
+    <sourceColumn>fc_vis_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_total_gray_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_global_brain_measures"/>
+    <rdfs:label>Total gray matter volume</rdfs:label>
+    <sourceColumn>fs_total_gray_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_BAS_drive">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_MOTIVATION_AND_AFFECT_reinforcement_sensitivity"/>
+    <rdfs:label>BAS drive</rdfs:label>
+    <rdfs:comment>Behavioural Activation System drive subscale.</rdfs:comment>
+    <sourceColumn>BAS_drive</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_rh_parietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Right parietal lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_parietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_NEO_E">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_PERSONALITY_big_five_personality"/>
+    <rdfs:label>Extraversion (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Extraversion scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_E</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_rh_putamen">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Right putamen volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_putamen</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_rh_hippocampus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Right hippocampus volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_hippocampus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_dorsattn_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Dorsal attention - Default mode FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_vis_dorsattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Visual - Dorsal attention FC</rdfs:label>
+    <sourceColumn>fc_vis_dorsattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_sommot_dorsattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Somatomotor - Dorsal attention FC</rdfs:label>
+    <sourceColumn>fc_sommot_dorsattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_cortex_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_global_brain_measures"/>
+    <rdfs:label>Total cortical gray matter volume</rdfs:label>
+    <sourceColumn>fs_cortex_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_limbic_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Limbic - Default mode FC</rdfs:label>
+    <sourceColumn>fc_limbic_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_rh_frontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Right frontal lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_frontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_sexual_attraction_F">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_sexual_and_gender_identity"/>
+    <rdfs:label>Sexual attraction to females</rdfs:label>
+    <sourceColumn>sexual_attraction_F</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_sommot_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Somatomotor - Limbic FC</rdfs:label>
+    <sourceColumn>fc_sommot_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_lh_caudate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Left caudate volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_caudate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_dorsattn_salventattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Dorsal attention - Salience / ventral attention FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_salventattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_salventattn_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Salience / ventral attention - Limbic FC</rdfs:label>
+    <sourceColumn>fc_salventattn_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_vis_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Visual - Limbic FC</rdfs:label>
+    <sourceColumn>fc_vis_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_age">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_personal_attributes"/>
+    <rdfs:label>Age</rdfs:label>
+    <rdfs:comment>Age of participant in years.</rdfs:comment>
+    <sourceColumn>age</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_BAS_reward">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_MOTIVATION_AND_AFFECT_reinforcement_sensitivity"/>
+    <rdfs:label>BAS reward responsiveness</rdfs:label>
+    <rdfs:comment>Behavioural Activation System reward responsiveness subscale.</rdfs:comment>
+    <sourceColumn>BAS_reward</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_rh_cingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Right cingulate lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_cingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_lh_frontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Left frontal lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_frontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_rh_accumbens">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Right accumbens volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_accumbens</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_vis_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Visual - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_vis_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_cont_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_within_network_connectivity"/>
+    <rdfs:label>Frontoparietal control within-network FC</rdfs:label>
+    <sourceColumn>fc_cont_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_rh_occipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Right occipital lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_occipital</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_lh_thalamus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Left thalamus volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_thalamus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_salventattn_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Salience / ventral attention - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_salventattn_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_lh_parietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Left parietal lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_parietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_rh_amygdala">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Right amygdala volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_amygdala</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_rh_pallidum">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Right pallidum volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_pallidum</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_vol_rh_ventraldc">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes"/>
+    <rdfs:label>Right ventraldc volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_ventraldc</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_salventattn_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Salience / ventral attention - Default mode FC</rdfs:label>
+    <sourceColumn>fc_salventattn_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_thk_lh_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Left insula lobe cortical thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_insula</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:AnnotationProperty rdf:about="https://compass.local/ontology/aomic_id1000#statType">
+    <rdfs:label>statistical type</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_religious_importance">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_religiosity"/>
+    <rdfs:label>Importance of religion</rdfs:label>
+    <rdfs:comment>How much religion plays a role in the subject's life (1-5).</rdfs:comment>
+    <sourceColumn>religious_importance</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fc_sommot_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity"/>
+    <rdfs:label>Somatomotor - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_sommot_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:AnnotationProperty rdf:about="https://compass.local/ontology/aomic_id1000#sourceColumn">
+    <rdfs:label>source column</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_religious_upbringing">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_religiosity"/>
+    <rdfs:label>Religious upbringing</rdfs:label>
+    <rdfs:comment>Whether the subject had a religious upbringing (yes/no).</rdfs:comment>
+    <sourceColumn>religious_upbringing</sourceColumn>
+    <statType>binary</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#FEATURE_fs_mean_thickness_lh">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness"/>
+    <rdfs:label>Left hemisphere mean cortical thickness</rdfs:label>
+    <sourceColumn>fs_mean_thickness_lh</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_personal_attributes">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_DEMOGRAPHICS_AND_PHYSICAL"/>
+    <rdfs:label>Personal Attributes</rdfs:label>
+    <rdfs:comment>Core biological and developmental identifiers including age, sex, and handedness.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#DOMAIN_PERSONALITY">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#PhenotypeFeature"/>
+    <rdfs:label>Personality Traits</rdfs:label>
+    <rdfs:comment>Stable patterns of behavior, thought, and emotion as measured by standardized personality assessments.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#DOMAIN_DEMOGRAPHICS_AND_PHYSICAL">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#PhenotypeFeature"/>
+    <rdfs:label>Demographics and Physical Characteristics</rdfs:label>
+    <rdfs:comment>Basic biographical, physical, and socioeconomic data describing the individual participant.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_MOTIVATION_AND_AFFECT_reinforcement_sensitivity">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_MOTIVATION_AND_AFFECT"/>
+    <rdfs:label>Reinforcement Sensitivity</rdfs:label>
+    <rdfs:comment>Measures of behavioral approach and inhibition systems in response to reward and punishment stimuli.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_within_network_connectivity">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_BRAIN_CONNECTOME"/>
+    <rdfs:label>Within-Network Connectivity</rdfs:label>
+    <rdfs:comment>Functional synchronization strength between regions belonging to the same canonical brain network.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_subcortical_volumes">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_BRAIN_MORPHOMETRY"/>
+    <rdfs:label>Subcortical Volumes</rdfs:label>
+    <rdfs:comment>Volumetric measurements of specific deep-brain structures involved in memory and emotion.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_sexual_and_gender_identity">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_IDENTITY_AND_BELIEF"/>
+    <rdfs:label>Sexual and Gender Identity</rdfs:label>
+    <rdfs:comment>Ratings reflecting an individual's sexual attraction patterns and gender self-identification.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_socioeconomic_status">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_DEMOGRAPHICS_AND_PHYSICAL"/>
+    <rdfs:label>Socioeconomic Status</rdfs:label>
+    <rdfs:comment>Indicators of an individual's educational attainment and social or economic background.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#DOMAIN_BRAIN_MORPHOMETRY">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#PhenotypeFeature"/>
+    <rdfs:label>Brain Morphometry</rdfs:label>
+    <rdfs:comment>Structural measurements of brain anatomy derived from high-resolution structural MRI.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_PERSONALITY_big_five_personality">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_PERSONALITY"/>
+    <rdfs:label>Big Five Personality</rdfs:label>
+    <rdfs:comment>Measures of the five broad dimensions of personality: Neuroticism, Extraversion, Openness, Agreeableness, and Conscientiousness.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#DOMAIN_IDENTITY_AND_BELIEF">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#PhenotypeFeature"/>
+    <rdfs:label>Identity and Belief</rdfs:label>
+    <rdfs:comment>Self-reported measures concerning sexual orientation, gender identity, and religious affiliation.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#DOMAIN_MOTIVATION_AND_AFFECT">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#PhenotypeFeature"/>
+    <rdfs:label>Motivation and Affect</rdfs:label>
+    <rdfs:comment>Psychological constructs related to reinforcement sensitivity and emotional regulation.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_DEMOGRAPHICS_AND_PHYSICAL_anthropometrics">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_DEMOGRAPHICS_AND_PHYSICAL"/>
+    <rdfs:label>Anthropometrics</rdfs:label>
+    <rdfs:comment>Quantitative measurements of physical body dimensions and composition.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_CONNECTOME_between_network_connectivity">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_BRAIN_CONNECTOME"/>
+    <rdfs:label>Between-Network Connectivity</rdfs:label>
+    <rdfs:comment>Functional synchronization strength between distinct, non-overlapping brain networks.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_MOTIVATION_AND_AFFECT_anxiety_traits">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_MOTIVATION_AND_AFFECT"/>
+    <rdfs:label>Anxiety Traits</rdfs:label>
+    <rdfs:comment>Assessment of stable, long-term tendencies toward experiencing anxiety.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_global_brain_measures">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_BRAIN_MORPHOMETRY"/>
+    <rdfs:label>Global Brain Measures</rdfs:label>
+    <rdfs:comment>Aggregate volumetric metrics representing total brain tissue and fluid compartments.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#DOMAIN_BRAIN_CONNECTOME">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#PhenotypeFeature"/>
+    <rdfs:label>Brain Connectome</rdfs:label>
+    <rdfs:comment>Functional connectivity patterns between brain networks derived from movie-watching fMRI data.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_IDENTITY_AND_BELIEF_religiosity">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_IDENTITY_AND_BELIEF"/>
+    <rdfs:label>Religiosity</rdfs:label>
+    <rdfs:comment>Measures of an individual's religious upbringing, current practice, and the perceived importance of faith.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#PhenotypeFeature">
+    <rdfs:label>Phenotype Feature</rdfs:label>
+    <rdfs:comment>Root class for all measured participant features.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/aomic_id1000#SUB_BRAIN_MORPHOMETRY_cortical_thickness">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/aomic_id1000#DOMAIN_BRAIN_MORPHOMETRY"/>
+    <rdfs:label>Cortical Thickness</rdfs:label>
+    <rdfs:comment>Measurements of the thickness of the cerebral cortex across different anatomical regions.</rdfs:comment>
+  </owl:Class>
+</rdf:RDF>

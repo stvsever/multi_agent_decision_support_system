@@ -1,0 +1,181 @@
+{
+  "dataset": "AOMIC-ID1000 (OpenNeuro ds003097)",
+  "target": {
+    "column": "IST_intelligence_total",
+    "label": "Total Intelligence (IST 2000-R composite)",
+    "description": "Total intelligence score from the Intelligence Structure Test 2000-R.",
+    "units": "points"
+  },
+  "note": "Subset validation across data-complexity tiers. Small N, so rank metrics (Spearman, stability) are the informative signal.",
+  "tiers": [
+    {
+      "n": 6,
+      "mae": 43.17,
+      "rmse": 57.47,
+      "normalised_mae": 1.068,
+      "r2": 0.322,
+      "pearson_r": 0.782,
+      "spearman_rho": 0.714,
+      "rank_stability_mean": 0.653,
+      "rank_stability_sd": 0.298,
+      "tier": "T1_demographics",
+      "label": "Tier 1: Demographics",
+      "n_features": 6,
+      "groups": [
+        "demographics"
+      ]
+    },
+    {
+      "n": 6,
+      "mae": 44.3,
+      "rmse": 60.65,
+      "normalised_mae": 1.096,
+      "r2": 0.244,
+      "pearson_r": 0.852,
+      "spearman_rho": 1.0,
+      "rank_stability_mean": 1.0,
+      "rank_stability_sd": 0.0,
+      "tier": "T2_personality",
+      "label": "Tier 2: + Personality (Big Five)",
+      "n_features": 11,
+      "groups": [
+        "demographics",
+        "personality"
+      ]
+    },
+    {
+      "n": 6,
+      "mae": 41.44,
+      "rmse": 53.14,
+      "normalised_mae": 1.026,
+      "r2": 0.42,
+      "pearson_r": 0.865,
+      "spearman_rho": 0.714,
+      "rank_stability_mean": 0.695,
+      "rank_stability_sd": 0.315,
+      "tier": "T3_psychometric",
+      "label": "Tier 3: + Motivation & Affect",
+      "n_features": 16,
+      "groups": [
+        "demographics",
+        "personality",
+        "motivation_affect"
+      ]
+    },
+    {
+      "n": 6,
+      "mae": 44.91,
+      "rmse": 55.56,
+      "normalised_mae": 1.111,
+      "r2": 0.366,
+      "pearson_r": 0.853,
+      "spearman_rho": 0.543,
+      "rank_stability_mean": 0.551,
+      "rank_stability_sd": 0.395,
+      "tier": "T4_identity",
+      "label": "Tier 4: + Identity & Belief (all self-report)",
+      "n_features": 23,
+      "groups": [
+        "demographics",
+        "personality",
+        "motivation_affect",
+        "identity_belief"
+      ]
+    },
+    {
+      "n": 6,
+      "mae": 45.5,
+      "rmse": 58.76,
+      "normalised_mae": 1.126,
+      "r2": 0.291,
+      "pearson_r": 0.905,
+      "spearman_rho": 0.829,
+      "rank_stability_mean": 0.805,
+      "rank_stability_sd": 0.259,
+      "tier": "T5_morphometry",
+      "label": "Tier 5: + Brain morphometry",
+      "n_features": 58,
+      "groups": [
+        "demographics",
+        "personality",
+        "motivation_affect",
+        "identity_belief",
+        "brain_morphometry"
+      ]
+    },
+    {
+      "n": 6,
+      "mae": 40.57,
+      "rmse": 53.72,
+      "normalised_mae": 1.004,
+      "r2": 0.407,
+      "pearson_r": 0.776,
+      "spearman_rho": 0.6,
+      "rank_stability_mean": 0.589,
+      "rank_stability_sd": 0.394,
+      "tier": "T6_connectome",
+      "label": "Tier 6: + Brain connectome (full multimodal)",
+      "n_features": 86,
+      "groups": [
+        "demographics",
+        "personality",
+        "motivation_affect",
+        "identity_belief",
+        "brain_morphometry",
+        "brain_connectome"
+      ]
+    },
+    {
+      "n": 6,
+      "mae": 52.41,
+      "rmse": 67.1,
+      "normalised_mae": 1.297,
+      "r2": 0.075,
+      "pearson_r": 0.552,
+      "spearman_rho": 0.771,
+      "rank_stability_mean": 0.726,
+      "rank_stability_sd": 0.32,
+      "tier": "B1_morphometry_only",
+      "label": "Brain-only: morphometry",
+      "n_features": 35,
+      "groups": [
+        "brain_morphometry"
+      ]
+    },
+    {
+      "n": 6,
+      "mae": 42.26,
+      "rmse": 47.06,
+      "normalised_mae": 1.046,
+      "r2": 0.545,
+      "pearson_r": 0.87,
+      "spearman_rho": 0.657,
+      "rank_stability_mean": 0.665,
+      "rank_stability_sd": 0.368,
+      "tier": "B2_connectome_only",
+      "label": "Brain-only: connectome",
+      "n_features": 28,
+      "groups": [
+        "brain_connectome"
+      ]
+    },
+    {
+      "n": 6,
+      "mae": 47.3,
+      "rmse": 60.91,
+      "normalised_mae": 1.17,
+      "r2": 0.238,
+      "pearson_r": 0.76,
+      "spearman_rho": 0.371,
+      "rank_stability_mean": 0.426,
+      "rank_stability_sd": 0.425,
+      "tier": "B3_brain_only",
+      "label": "Brain-only: morphometry + connectome",
+      "n_features": 63,
+      "groups": [
+        "brain_morphometry",
+        "brain_connectome"
+      ]
+    }
+  ]
+}

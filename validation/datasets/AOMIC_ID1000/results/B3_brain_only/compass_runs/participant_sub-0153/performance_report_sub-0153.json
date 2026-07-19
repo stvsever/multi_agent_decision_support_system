@@ -1,0 +1,287 @@
+{
+  "participant_id": "sub-0153",
+  "target_condition": "Total Intelligence (IST 2000-R composite)",
+  "control_condition": "",
+  "prediction_task_spec": {
+    "schema_version": "1.0",
+    "task_id": null,
+    "root": {
+      "node_id": "root",
+      "display_name": "Total Intelligence (IST 2000-R composite)",
+      "mode": "univariate_regression",
+      "class_labels": [],
+      "regression_outputs": [
+        "IST_intelligence_total"
+      ],
+      "unit_by_output": {},
+      "required": true,
+      "children": []
+    }
+  },
+  "agent_instructions": {
+    "global": "Prediction target: IST_intelligence_total, the total score of the Intelligence Structure Test 2000-R. In this healthy young-adult cohort the score is approximately Normal with mean ~200 and sd ~40 (observed range 68-296). Predict the participant's total intelligence as a single number on this scale. No IST subscale scores are provided; infer from personality, demographic, motivational, affective, identity and lifestyle features only.",
+    "orchestrator": "",
+    "executor": "",
+    "tools": "",
+    "integrator": "",
+    "predictor": "",
+    "critic": "",
+    "communicator": ""
+  },
+  "execution_timestamp": "2026-07-18T17:27:03.056283",
+  "total_duration_seconds": 25.33,
+  "iterations": 1,
+  "selected_iteration": 1,
+  "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+  "coverage_summary": {
+    "all_feature_count": 63,
+    "processed_feature_count": 63,
+    "unprocessed_raw_feature_count": 0,
+    "processed_raw_low_priority_feature_count": 63,
+    "chunk_cited_feature_count": 0,
+    "represented_feature_count": 63,
+    "missing_feature_count": 0,
+    "missing_features": [],
+    "invariant_ok": true
+  },
+  "dataflow_summary": {
+    "iteration": 1,
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_root_mode": "univariate_regression",
+    "agent_instruction_flags": {
+      "global": true,
+      "orchestrator": false,
+      "executor": false,
+      "tools": false,
+      "integrator": false,
+      "predictor": false,
+      "critic": false,
+      "communicator": false
+    },
+    "predictor_input_mode": "RAW_PASS_THROUGH",
+    "coverage": {
+      "summary": {
+        "all_feature_count": 63,
+        "processed_feature_count": 63,
+        "unprocessed_raw_feature_count": 0,
+        "processed_raw_low_priority_feature_count": 63,
+        "chunk_cited_feature_count": 0,
+        "represented_feature_count": 63,
+        "missing_feature_count": 0,
+        "missing_features": [],
+        "invariant_ok": true
+      },
+      "forced_raw_count": 0
+    },
+    "chunking": {
+      "predictor_chunk_count": 0,
+      "chunk_evidence_count": 0,
+      "chunked_two_pass_required": false,
+      "single_chunk_limit": 30000,
+      "chunking_skipped": true,
+      "chunking_reason": "payload_fit_excluding_processed_raw"
+    },
+    "context_fill": {
+      "processed_raw_full_included": true,
+      "rag_added_count": null,
+      "predictor_payload_estimate": {
+        "baseline_tokens": 13178,
+        "final_tokens": 17796,
+        "processed_raw_tokens": 17735,
+        "single_chunk_limit": 30000,
+        "threshold": 943718,
+        "chunked_two_pass_required": false,
+        "strategy": "threshold_driven_no_loss_pass_through",
+        "runtime_instruction_applied": true
+      },
+      "coverage_snapshot": {
+        "processed_whole_domains": [
+          "BRAIN_CONNECTOME",
+          "BRAIN_MORPHOMETRY"
+        ],
+        "processed_prefixes_by_domain": {},
+        "excluded_leaf_counts": {
+          "BRAIN_MORPHOMETRY": 35,
+          "BRAIN_CONNECTOME": 28
+        },
+        "unprocessed_leaf_counts": {},
+        "all_feature_count": 63,
+        "unprocessed_feature_count": 0,
+        "processed_feature_count": 63,
+        "missing_feature_count": 0
+      },
+      "embedding_store": {
+        "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+        "fallback_active": false,
+        "fallback_reason": null,
+        "in_memory": false
+      }
+    },
+    "assertions": {
+      "invariant_ok": true,
+      "missing_feature_count_zero": true,
+      "chunk_evidence_matches_count": true,
+      "processed_raw_flag_consistent": true
+    }
+  },
+  "prediction_result": {
+    "classification": "IST_intelligence_total: 228.000",
+    "probability": null,
+    "root_confidence": 0.85,
+    "confidence": "HIGH",
+    "primary_output_kind": "regression",
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 228.0
+        }
+      },
+      "confidence_level": "HIGH",
+      "confidence_score": 0.85,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Cortical thickness in associative regions (mean z > 1.3)",
+        "Efficient Frontoparietal-DMN network coupling (z=1.38)"
+      ],
+      "supporting_evidence_against": [
+        "Subcortical volume deficits (right accumbens z=-1.38)"
+      ],
+      "uncertainty_factors": [
+        "Absence of cognitive task performance data",
+        "Potential for individual anatomical variation"
+      ],
+      "children": []
+    }
+  },
+  "critic_verdict": "SATISFACTORY",
+  "token_usage": {
+    "total_tokens": 69482,
+    "prompt_tokens": 61215,
+    "completion_tokens": 8267,
+    "calls": [
+      {
+        "component": "orchestrator",
+        "prompt_tokens": 4671,
+        "completion_tokens": 1122,
+        "total": 5793,
+        "step_tool": null,
+        "step_reasoning": null
+      },
+      {
+        "component": "orchestrator",
+        "prompt_tokens": 4711,
+        "completion_tokens": 1146,
+        "total": 5857,
+        "step_tool": null,
+        "step_reasoning": null
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1270,
+        "completion_tokens": 663,
+        "total": 1933,
+        "step_tool": "PhenotypeRepresentation",
+        "step_reasoning": "Establishes the clinical criteria and cognitive domains associated with the IST 2000-R score."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 3516,
+        "completion_tokens": 673,
+        "total": 4189,
+        "step_tool": "AnomalyNarrativeBuilder",
+        "step_reasoning": "Identifies significant structural or connectivity deviations that may correlate with cognitive performance."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1599,
+        "completion_tokens": 526,
+        "total": 2125,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Prioritizes brain regions and connectivity pathways most relevant to intelligence metrics."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 4105,
+        "completion_tokens": 666,
+        "total": 4771,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Extracts key connectivity patterns relevant to cognitive capacity."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 4583,
+        "completion_tokens": 717,
+        "total": 5300,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Extracts key morphological patterns relevant to cognitive capacity."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 8305,
+        "completion_tokens": 721,
+        "total": 9026,
+        "step_tool": "MultimodalNarrativeCreator",
+        "step_reasoning": "Integrates structural and functional connectivity findings into a unified cognitive profile."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 2622,
+        "completion_tokens": 1084,
+        "total": 3706,
+        "step_tool": "DifferentialDiagnosis",
+        "step_reasoning": "Synthesizes all findings to output the predicted IST 2000-R score."
+      },
+      {
+        "component": "predictor",
+        "prompt_tokens": 25649,
+        "completion_tokens": 915,
+        "total": 26564,
+        "step_tool": null,
+        "step_reasoning": null
+      },
+      {
+        "component": "critic",
+        "prompt_tokens": 184,
+        "completion_tokens": 34,
+        "total": 218,
+        "step_tool": null,
+        "step_reasoning": null
+      }
+    ]
+  },
+  "plan_summary": {
+    "plan_id": "IST_2000R_PREDICTION_0153",
+    "total_steps": 7,
+    "priority_domains": [
+      "BRAIN_MORPHOMETRY",
+      "BRAIN_CONNECTOME"
+    ]
+  },
+  "explainability": {
+    "enabled": false,
+    "status": "skipped",
+    "reason": "Explainability disabled.",
+    "methods_requested": [],
+    "methods": {}
+  },
+  "xai_report": {
+    "generated": false,
+    "path": null,
+    "trigger_source": null,
+    "skipped": false,
+    "reason": null,
+    "metadata": {}
+  },
+  "deep_phenotype": {
+    "generated": false,
+    "path": null,
+    "trigger_source": null,
+    "metadata": {}
+  }
+}

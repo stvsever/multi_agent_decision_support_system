@@ -1,0 +1,224 @@
+{
+  "report_id": "RPT_sub-0498_20260718_171448",
+  "participant_id": "sub-0498",
+  "generated_at": "2026-07-18T17:14:48.984379",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 191.910",
+    "probability": 0.65,
+    "binary_probability": null,
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 191.91
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Consistent negative trends in socioeconomic and physical attributes."
+      ],
+      "supporting_evidence_against": [
+        "Weak positive signals from personality domain."
+      ],
+      "uncertainty_factors": [
+        "Indirect nature of features used for cognitive estimation."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "finding": "Handedness deviation (z=-2.85, LARGE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "finding": "Age (z=-1.08, MODERATE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "PERSONALITY",
+      "finding": "Neuroticism (z=+1.42, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed demographic and personality features as proxies for cognitive performance.",
+    "Step 2: Identified consistent negative deviations across physical and socioeconomic leaf nodes (age, handedness, BMI, education).",
+    "Step 3: Evaluated the conflict between positive root-level aggregates and negative leaf-level data; prioritized granular leaf data as per clinical guidance.",
+    "Step 4: Applied a regression model mapping the mean z-score of -0.202 to the IST-2000R scale (mean 200, SD 40).",
+    "Step 5: Calculated the final estimate of 191.9, reflecting a mild downward adjustment from the population mean."
+  ],
+  "clinical_summary": "The participant exhibits a cognitive profile estimated to be slightly below the cohort mean of 200. The prediction is driven by consistent negative deviations in demographic and socioeconomic markers, specifically age and handedness, which outweigh the minor positive signals from personality traits. The estimate of 191.9 reflects a conservative adjustment given the absence of direct cognitive testing data.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 11,
+      "processed_feature_count": 11,
+      "unprocessed_raw_feature_count": 11,
+      "processed_raw_low_priority_feature_count": 0,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 11,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 11,
+          "processed_feature_count": 11,
+          "unprocessed_raw_feature_count": 11,
+          "processed_raw_low_priority_feature_count": 0,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 11,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": false,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 6194,
+          "final_tokens": 6277,
+          "processed_raw_tokens": null,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {},
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_PHYSICAL": 6,
+            "PERSONALITY": 5
+          },
+          "all_feature_count": 11,
+          "unprocessed_feature_count": 11,
+          "processed_feature_count": 0,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 24522,
+    "domains_processed": [
+      "DEMOGRAPHICS_AND_PHYSICAL",
+      "PERSONALITY"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY",
+      "output_summary": "Generated 4-step plan",
+      "reasoning": "The data volume is small (FIT_FOR_RAW), so complex compression is unnecessary. The plan focuses on identifying the most relevant demographic and personality features using the FeatureSynthesizer and RelevanceRanker, then applying a regression model via CodeExecutor to estimate the IST 2000-R score.",
+      "timestamp": "2026-07-18T17:14:36.878604",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: Handedness deviation (z=-2.85, LARGE effect), Age (z=-1.08, MODERATE effect), Neuroticism (z=+1.42, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 191.910 (confidence=0.650)",
+      "reasoning": "The participant exhibits a cognitive profile estimated to be slightly below the cohort mean of 200. The prediction is driven by consistent negative deviations in demographic and socioeconomic markers, specifically age and handedness, which outweigh the minor positive signals from personality traits. The estimate of 191.9 reflects a conservative adjustment given the absence of direct cognitive testing data.",
+      "timestamp": "2026-07-18T17:14:48.358451",
+      "metadata": {
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 191.910"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:14:48.982957",
+      "metadata": {}
+    }
+  ]
+}

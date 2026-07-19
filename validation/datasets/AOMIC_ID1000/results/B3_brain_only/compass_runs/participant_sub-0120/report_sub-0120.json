@@ -1,0 +1,226 @@
+{
+  "report_id": "RPT_sub-0120_20260718_172644",
+  "participant_id": "sub-0120",
+  "generated_at": "2026-07-18T17:26:44.923836",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 220.000",
+    "probability": 0.65,
+    "binary_probability": null,
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 220.0
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Robust white matter and subcortical volumes correlate with higher-than-average cognitive potential."
+      ],
+      "supporting_evidence_against": [
+        "Posterior cortical thinning and visual network decoupling suggest specific cognitive trade-offs."
+      ],
+      "uncertainty_factors": [
+        "Lack of behavioral performance data (e.g., reaction time, educational history)."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "High white matter volume (z=1.04, 85th percentile, SMALL effect) and subcortical expansion (accumbens z=1.88, 97th percentile, MODERATE effect).",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "Posterior cortical thinning (occipital z=-1.62, 5th percentile, MODERATE effect).",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "BRAIN_CONNECTOME",
+      "finding": "Hyper-connectivity between limbic and frontoparietal networks (z=2.04, 98th percentile, MODERATE effect).",
+      "direction": "ABNORMAL_HIGH"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed neuroanatomical profile showing robust subcortical and white matter volumes, which are positive predictors for general intelligence.",
+    "Step 2: Identified localized posterior cortical thinning and visual network decoupling, which act as constraints on visual-spatial reasoning performance.",
+    "Step 3: Integrated connectomic data showing compensatory hyper-connectivity in executive control networks, suggesting the participant utilizes high-level executive resources to offset specific structural limitations.",
+    "Step 4: Synthesized these findings to estimate a total IST 2000-R score slightly above the population mean of 200, accounting for the balance between structural expansion and localized thinning."
+  ],
+  "clinical_summary": "Participant sub-0120 exhibits a neurobiological profile consistent with high-average general cognitive ability. While structural expansion in white matter and subcortical regions supports high executive function, localized posterior cortical thinning and visual network decoupling suggest specific limitations in visual-spatial integration. Compensatory hyper-connectivity in frontoparietal control networks likely mitigates these deficits, resulting in an estimated IST 2000-R total score of 220.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 63,
+      "processed_feature_count": 63,
+      "unprocessed_raw_feature_count": 0,
+      "processed_raw_low_priority_feature_count": 63,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 63,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 63,
+          "processed_feature_count": 63,
+          "unprocessed_raw_feature_count": 0,
+          "processed_raw_low_priority_feature_count": 63,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 63,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": true,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 10028,
+          "final_tokens": 14646,
+          "processed_raw_tokens": 14585,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [
+            "BRAIN_CONNECTOME",
+            "BRAIN_MORPHOMETRY"
+          ],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {
+            "BRAIN_MORPHOMETRY": 35,
+            "BRAIN_CONNECTOME": 28
+          },
+          "unprocessed_leaf_counts": {},
+          "all_feature_count": 63,
+          "unprocessed_feature_count": 0,
+          "processed_feature_count": 63,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 50767,
+    "domains_processed": [
+      "BRAIN_MORPHOMETRY",
+      "BRAIN_CONNECTOME"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
+      "output_summary": "Generated 6-step plan",
+      "reasoning": "The data volume is low enough to be processed efficiently. We use early-stage tools to define the phenotype and synthesize features, followed by mid-stage compression of brain data to extract relevant cognitive markers. Finally, we fuse these findings with non-numerical clinical context to perform the regression task.",
+      "timestamp": "2026-07-18T17:26:29.861172",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: High white matter volume (z=1.04, 85th percentile, SMALL effect) and subcortical expansion (accumbens z=1.88, 97th percentile, MODERATE effect)., Posterior cortical thinning (occipital z=-1.62, 5th percentile, MODERATE effect)., Hyper-connectivity between limbic and frontoparietal networks (z=2.04, 98th percentile, MODERATE effect)....",
+      "output_summary": "IST_intelligence_total: 220.000 (confidence=0.650)",
+      "reasoning": "Participant sub-0120 exhibits a neurobiological profile consistent with high-average general cognitive ability. While structural expansion in white matter and subcortical regions supports high executive function, localized posterior cortical thinning and visual network decoupling suggest specific limitations in visual-spatial integration. Compensatory hyper-connectivity in frontoparietal control networks likely mitigates these deficits, resulting in an estimated IST 2000-R total score of 220.",
+      "timestamp": "2026-07-18T17:26:44.052054",
+      "metadata": {
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 220.000"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:26:44.922297",
+      "metadata": {}
+    }
+  ]
+}

@@ -9,6 +9,7 @@
 .DS_Store
 .idea/
 .vscode/
+.claude/
 
 # Python
 __pycache__/
@@ -33,6 +34,8 @@ venv/
 *.db
 src/full_stack/backend/data/pseudo_data/outputs/
 validation/**/__pycache__/
+validation/**/_cache/
+.ipynb_checkpoints/
 
 # Local manuscript and generated report material
 report/

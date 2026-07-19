@@ -1,0 +1,404 @@
+{
+  "DEMOGRAPHICS_AND_PHYSICAL": {
+    "personal_attributes": {
+      "_leaves": [
+        {
+          "feature": "Age",
+          "z_score": -1.23,
+          "value": "20.75 years (Low)",
+          "ref_range": "cohort mean 22.8, sd 1.7 (population-referenced)"
+        },
+        {
+          "feature": "Biological sex",
+          "z_score": 1.042,
+          "value": "male (High)",
+          "ref_range": "cohort distribution female:52%, male:48%"
+        },
+        {
+          "feature": "Handedness",
+          "z_score": 0.351,
+          "value": "right (Normal)",
+          "ref_range": "cohort distribution right:89%, left:11%"
+        }
+      ]
+    },
+    "anthropometrics": {
+      "_leaves": [
+        {
+          "feature": "Body mass index",
+          "z_score": 0.415,
+          "value": "26 kg/m^2 (Normal)",
+          "ref_range": "cohort mean 24.1, sd 4.5 (population-referenced)"
+        }
+      ]
+    },
+    "socioeconomic_status": {
+      "_leaves": [
+        {
+          "feature": "Education level",
+          "z_score": 0.953,
+          "value": "high (High-Normal)",
+          "ref_range": "cohort distribution high:47%, medium:43%, low:10%"
+        },
+        {
+          "feature": "Background socio-economic status",
+          "z_score": 0.837,
+          "value": "5 (High-Normal)",
+          "ref_range": "cohort mean 4.0, sd 1.2 (population-referenced)"
+        }
+      ]
+    }
+  },
+  "PERSONALITY": {
+    "big_five_personality": {
+      "_leaves": [
+        {
+          "feature": "Neuroticism (NEO-FFI)",
+          "z_score": -0.408,
+          "value": "30 (Normal)",
+          "ref_range": "cohort mean 32.5, sd 6.0 (population-referenced)"
+        },
+        {
+          "feature": "Extraversion (NEO-FFI)",
+          "z_score": 1.291,
+          "value": "49 (High)",
+          "ref_range": "cohort mean 41.7, sd 5.7 (population-referenced)"
+        },
+        {
+          "feature": "Openness (NEO-FFI)",
+          "z_score": -0.618,
+          "value": "37 (Low-Normal)",
+          "ref_range": "cohort mean 40.9, sd 6.3 (population-referenced)"
+        },
+        {
+          "feature": "Agreeableness (NEO-FFI)",
+          "z_score": -2.144,
+          "value": "28 (Very Low)",
+          "ref_range": "cohort mean 40.2, sd 5.7 (population-referenced)"
+        },
+        {
+          "feature": "Conscientiousness (NEO-FFI)",
+          "z_score": -2.012,
+          "value": "26 (Very Low)",
+          "ref_range": "cohort mean 37.8, sd 5.9 (population-referenced)"
+        }
+      ]
+    }
+  },
+  "MOTIVATION_AND_AFFECT": {
+    "reinforcement_sensitivity": {
+      "_leaves": [
+        {
+          "feature": "BAS drive",
+          "z_score": 1.495,
+          "value": "14 (High)",
+          "ref_range": "cohort mean 10.9, sd 2.1 (population-referenced)"
+        },
+        {
+          "feature": "BAS fun-seeking",
+          "z_score": 0.864,
+          "value": "13 (High-Normal)",
+          "ref_range": "cohort mean 11.4, sd 1.9 (population-referenced)"
+        },
+        {
+          "feature": "BAS reward responsiveness",
+          "z_score": -0.042,
+          "value": "16 (Normal)",
+          "ref_range": "cohort mean 16.1, sd 2.0 (population-referenced)"
+        },
+        {
+          "feature": "Behavioural inhibition (BIS)",
+          "z_score": -0.101,
+          "value": "19 (Normal)",
+          "ref_range": "cohort mean 19.4, sd 3.7 (population-referenced)"
+        }
+      ]
+    },
+    "anxiety_traits": {
+      "_leaves": [
+        {
+          "feature": "Trait anxiety (STAI-T)",
+          "z_score": -0.039,
+          "value": "38 (Normal)",
+          "ref_range": "cohort mean 38.4, sd 10.2 (population-referenced)"
+        }
+      ]
+    }
+  },
+  "IDENTITY_AND_BELIEF": {
+    "sexual_and_gender_identity": {
+      "_leaves": [
+        {
+          "feature": "Sexual attraction to males",
+          "z_score": -1.045,
+          "value": "1 (Low)",
+          "ref_range": "cohort mean 3.9, sd 2.8 (population-referenced)"
+        },
+        {
+          "feature": "Sexual attraction to females",
+          "z_score": 1.02,
+          "value": "7 (High)",
+          "ref_range": "cohort mean 4.2, sd 2.8 (population-referenced)"
+        },
+        {
+          "feature": "Gender identity (male)",
+          "z_score": 1.134,
+          "value": "7 (High)",
+          "ref_range": "cohort mean 3.8, sd 2.8 (population-referenced)"
+        },
+        {
+          "feature": "Gender identity (female)",
+          "z_score": -1.037,
+          "value": "1 (Low)",
+          "ref_range": "cohort mean 3.9, sd 2.8 (population-referenced)"
+        }
+      ]
+    },
+    "religiosity": {
+      "_leaves": [
+        {
+          "feature": "Religious upbringing",
+          "z_score": 1.392,
+          "value": "yes (High)",
+          "ref_range": "cohort distribution no:66%, yes:34%"
+        },
+        {
+          "feature": "Currently religious",
+          "z_score": 1.926,
+          "value": "yes (High)",
+          "ref_range": "cohort distribution no:79%, yes:21%"
+        },
+        {
+          "feature": "Importance of religion",
+          "z_score": -0.516,
+          "value": "2 (Low-Normal)",
+          "ref_range": "cohort mean 2.7, sd 1.4 (population-referenced)"
+        }
+      ]
+    }
+  },
+  "BRAIN_MORPHOMETRY": {
+    "global_brain_measures": {
+      "_leaves": [
+        {
+          "feature": "Total brain segmentation volume",
+          "z_score": 1.162,
+          "value": "1.36396e+06 mm^3 (High)",
+          "ref_range": "cohort mean 1238177.9, sd 108234.3 (population-referenced)"
+        },
+        {
+          "feature": "Total gray matter volume",
+          "z_score": 1.094,
+          "value": "761546 mm^3 (High)",
+          "ref_range": "cohort mean 696893.5, sd 59082.9 (population-referenced)"
+        },
+        {
+          "feature": "Total cortical gray matter volume",
+          "z_score": 1.152,
+          "value": "567283 mm^3 (High)",
+          "ref_range": "cohort mean 513947.2, sd 46309.3 (population-referenced)"
+        },
+        {
+          "feature": "Total cerebral white matter volume",
+          "z_score": 1.03,
+          "value": "541029 mm^3 (High)",
+          "ref_range": "cohort mean 487988.8, sd 51477.0 (population-referenced)"
+        },
+        {
+          "feature": "Total subcortical gray matter volume",
+          "z_score": 1.439,
+          "value": "69171 mm^3 (High)",
+          "ref_range": "cohort mean 62279.6, sd 4790.5 (population-referenced)"
+        }
+      ]
+    },
+    "subcortical_volumes": {
+      "_leaves": [
+        {
+          "feature": "Left hippocampus volume",
+          "z_score": 0.512,
+          "value": "4505.7 mm^3 (High-Normal)",
+          "ref_range": "cohort mean 4303.7, sd 394.3 (population-referenced)"
+        },
+        {
+          "feature": "Right hippocampus volume",
+          "z_score": 1.083,
+          "value": "4848.6 mm^3 (High)",
+          "ref_range": "cohort mean 4380.9, sd 431.7 (population-referenced)"
+        },
+        {
+          "feature": "Left amygdala volume",
+          "z_score": 1.116,
+          "value": "1891.5 mm^3 (High)",
+          "ref_range": "cohort mean 1660.1, sd 207.4 (population-referenced)"
+        },
+        {
+          "feature": "Right amygdala volume",
+          "z_score": 1.126,
+          "value": "2102.8 mm^3 (High)",
+          "ref_range": "cohort mean 1863.8, sd 212.3 (population-referenced)"
+        },
+        {
+          "feature": "Left thalamus volume",
+          "z_score": 1.087,
+          "value": "9305.3 mm^3 (High)",
+          "ref_range": "cohort mean 8479.0, sd 760.2 (population-referenced)"
+        },
+        {
+          "feature": "Right thalamus volume",
+          "z_score": 0.65,
+          "value": "8145.3 mm^3 (High-Normal)",
+          "ref_range": "cohort mean 7711.9, sd 667.0 (population-referenced)"
+        },
+        {
+          "feature": "Left caudate volume",
+          "z_score": 1.743,
+          "value": "4691.7 mm^3 (High)",
+          "ref_range": "cohort mean 3866.1, sd 473.6 (population-referenced)"
+        },
+        {
+          "feature": "Right caudate volume",
+          "z_score": 0.716,
+          "value": "4317.2 mm^3 (High-Normal)",
+          "ref_range": "cohort mean 3978.4, sd 472.9 (population-referenced)"
+        },
+        {
+          "feature": "Left putamen volume",
+          "z_score": 0.969,
+          "value": "5686 mm^3 (High-Normal)",
+          "ref_range": "cohort mean 5167.9, sd 534.5 (population-referenced)"
+        },
+        {
+          "feature": "Right putamen volume",
+          "z_score": 1.0,
+          "value": "5818 mm^3 (High)",
+          "ref_range": "cohort mean 5308.6, sd 509.3 (population-referenced)"
+        },
+        {
+          "feature": "Left pallidum volume",
+          "z_score": 1.497,
+          "value": "2587.7 mm^3 (High)",
+          "ref_range": "cohort mean 2228.1, sd 240.1 (population-referenced)"
+        },
+        {
+          "feature": "Right pallidum volume",
+          "z_score": 1.817,
+          "value": "2592.6 mm^3 (High)",
+          "ref_range": "cohort mean 2189.8, sd 221.7 (population-referenced)"
+        },
+        {
+          "feature": "Left accumbens volume",
+          "z_score": 1.018,
+          "value": "508.2 mm^3 (High)",
+          "ref_range": "cohort mean 417.6, sd 89.0 (population-referenced)"
+        },
+        {
+          "feature": "Right accumbens volume",
+          "z_score": 0.675,
+          "value": "605.4 mm^3 (High-Normal)",
+          "ref_range": "cohort mean 552.8, sd 78.0 (population-referenced)"
+        },
+        {
+          "feature": "Left ventraldc volume",
+          "z_score": 1.363,
+          "value": "4980.2 mm^3 (High)",
+          "ref_range": "cohort mean 4442.5, sd 394.6 (population-referenced)"
+        },
+        {
+          "feature": "Right ventraldc volume",
+          "z_score": 1.434,
+          "value": "4894.3 mm^3 (High)",
+          "ref_range": "cohort mean 4341.2, sd 385.6 (population-referenced)"
+        }
+      ]
+    },
+    "cortical_thickness": {
+      "_leaves": [
+        {
+          "feature": "Left hemisphere mean cortical thickness",
+          "z_score": 0.347,
+          "value": "2.62113 mm (Normal)",
+          "ref_range": "cohort mean 2.6, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Left frontal lobe cortical thickness",
+          "z_score": 0.209,
+          "value": "2.7357 mm (Normal)",
+          "ref_range": "cohort mean 2.7, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Left parietal lobe cortical thickness",
+          "z_score": 0.243,
+          "value": "2.444 mm (Normal)",
+          "ref_range": "cohort mean 2.4, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Left temporal lobe cortical thickness",
+          "z_score": -0.174,
+          "value": "2.8981 mm (Normal)",
+          "ref_range": "cohort mean 2.9, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Left occipital lobe cortical thickness",
+          "z_score": 1.86,
+          "value": "2.1381 mm (High)",
+          "ref_range": "cohort mean 2.0, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Left cingulate lobe cortical thickness",
+          "z_score": -0.227,
+          "value": "2.6967 mm (Normal)",
+          "ref_range": "cohort mean 2.7, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Left insula lobe cortical thickness",
+          "z_score": -0.078,
+          "value": "3.183 mm (Normal)",
+          "ref_range": "cohort mean 3.2, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Right hemisphere mean cortical thickness",
+          "z_score": 0.336,
+          "value": "2.62242 mm (Normal)",
+          "ref_range": "cohort mean 2.6, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Right frontal lobe cortical thickness",
+          "z_score": 0.208,
+          "value": "2.7412 mm (Normal)",
+          "ref_range": "cohort mean 2.7, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Right parietal lobe cortical thickness",
+          "z_score": 0.307,
+          "value": "2.4349 mm (Normal)",
+          "ref_range": "cohort mean 2.4, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Right temporal lobe cortical thickness",
+          "z_score": 0.176,
+          "value": "2.9622 mm (Normal)",
+          "ref_range": "cohort mean 2.9, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Right occipital lobe cortical thickness",
+          "z_score": 1.081,
+          "value": "2.0959 mm (High)",
+          "ref_range": "cohort mean 2.0, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Right cingulate lobe cortical thickness",
+          "z_score": -0.722,
+          "value": "2.6174 mm (Low-Normal)",
+          "ref_range": "cohort mean 2.7, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Right insula lobe cortical thickness",
+          "z_score": -0.367,
+          "value": "3.163 mm (Normal)",
+          "ref_range": "cohort mean 3.2, sd 0.2 (population-referenced)"
+        }
+      ]
+    }
+  }
+}

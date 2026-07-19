@@ -1,0 +1,239 @@
+{
+  "report_id": "RPT_sub-0120_20260718_171713",
+  "participant_id": "sub-0120",
+  "generated_at": "2026-07-18T17:17:13.418906",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 217.520",
+    "probability": 0.65,
+    "binary_probability": null,
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 217.52
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Strong demographic and educational markers (z~0.9).",
+        "Low anxiety traits (z=-0.92) reducing performance inhibition."
+      ],
+      "supporting_evidence_against": [
+        "Moderate reduction in conscientiousness (z=-0.648) potentially impacting sustained effort."
+      ],
+      "uncertainty_factors": [
+        "Inference based entirely on proxy variables.",
+        "Limited granularity in cognitive-specific domains."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "finding": "High educational attainment (z=0.953, 83rd percentile, MODERATE effect) and socioeconomic status (z=0.837, 80th percentile, MODERATE effect).",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "PERSONALITY",
+      "finding": "Reduced conscientiousness (z=-0.648, 26th percentile, SMALL effect).",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "MOTIVATION_AND_AFFECT",
+      "finding": "Low trait anxiety (z=-0.92, 18th percentile, MODERATE effect).",
+      "direction": "ABNORMAL_LOW"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed demographic and socioeconomic markers, which are robust positive predictors of IST-2000R performance.",
+    "Step 2: Evaluated personality traits, noting a moderate dip in conscientiousness that may slightly offset the positive demographic signal.",
+    "Step 3: Integrated affective markers, specifically low trait anxiety, which acts as a stabilizing factor for cognitive assessment.",
+    "Step 4: Synthesized all features into a weighted aggregate z-score of 0.438, mapping to an estimated IST-2000R score of 217.52."
+  ],
+  "clinical_summary": "Participant sub-0120 exhibits a profile of high educational and socioeconomic standing, which are strong indicators of cognitive reserve. While a moderate reduction in conscientiousness suggests potential challenges with sustained task focus, this is balanced by low trait anxiety, which likely facilitates optimal performance under testing conditions. The estimated IST-2000R total score is 217.52, placing the participant approximately 0.44 standard deviations above the cohort mean.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 23,
+      "processed_feature_count": 23,
+      "unprocessed_raw_feature_count": 13,
+      "processed_raw_low_priority_feature_count": 10,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 23,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 23,
+          "processed_feature_count": 23,
+          "unprocessed_raw_feature_count": 13,
+          "processed_raw_low_priority_feature_count": 10,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 23,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": true,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 8934,
+          "final_tokens": 9737,
+          "processed_raw_tokens": 9676,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [
+            "MOTIVATION_AND_AFFECT",
+            "PERSONALITY"
+          ],
+          "processed_prefixes_by_domain": {
+            "MOTIVATION_AND_AFFECT": [
+              [
+                "anxiety_traits"
+              ]
+            ]
+          },
+          "excluded_leaf_counts": {
+            "PERSONALITY": 5,
+            "MOTIVATION_AND_AFFECT": 5
+          },
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_PHYSICAL": 6,
+            "IDENTITY_AND_BELIEF": 7
+          },
+          "all_feature_count": 23,
+          "unprocessed_feature_count": 13,
+          "processed_feature_count": 10,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 32955,
+    "domains_processed": [
+      "DEMOGRAPHICS_AND_PHYSICAL",
+      "PERSONALITY",
+      "MOTIVATION_AND_AFFECT",
+      "IDENTITY_AND_BELIEF"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify key predictors of intelligence. We use UnimodalCompressor to extract clinical patterns from the personality and motivational domains, then fuse these with demographic and identity data to generate a final regression estimate.",
+      "timestamp": "2026-07-18T17:16:59.423231",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: High educational attainment (z=0.953, 83rd percentile, MODERATE effect) and socioeconomic status (z=0.837, 80th percentile, MODERATE effect)., Reduced conscientiousness (z=-0.648, 26th percentile, SMALL effect)., Low trait anxiety (z=-0.92, 18th percentile, MODERATE effect)....",
+      "output_summary": "IST_intelligence_total: 217.520 (confidence=0.650)",
+      "reasoning": "Participant sub-0120 exhibits a profile of high educational and socioeconomic standing, which are strong indicators of cognitive reserve. While a moderate reduction in conscientiousness suggests potential challenges with sustained task focus, this is balanced by low trait anxiety, which likely facilitates optimal performance under testing conditions. The estimated IST-2000R total score is 217.52, placing the participant approximately 0.44 standard deviations above the cohort mean.",
+      "timestamp": "2026-07-18T17:17:12.614207",
+      "metadata": {
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 217.520"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:17:13.417791",
+      "metadata": {}
+    }
+  ]
+}

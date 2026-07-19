@@ -1,0 +1,224 @@
+{
+  "report_id": "RPT_sub-0673_20260718_172834",
+  "participant_id": "sub-0673",
+  "generated_at": "2026-07-18T17:28:34.960435",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 219.780",
+    "probability": 0.75,
+    "binary_probability": null,
+    "root_confidence": 0.75,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 219.78
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.75,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Consistent positive z-scores across structural domains",
+        "Executive network hyper-connectivity"
+      ],
+      "supporting_evidence_against": [
+        "Large-effect functional disconnects in limbic-executive pathways"
+      ],
+      "uncertainty_factors": [
+        "Inferred intelligence from neuroimaging proxies",
+        "Potential for functional-structural mismatch"
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "Generalized structural hypertrophy (mean z=1.16) including subcortical nuclei (caudate z=1.74, pallidum z=1.82).",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "BRAIN_CONNECTOME",
+      "finding": "Hyper-connectivity in executive and salience networks (z=1.35) with significant limbic-executive decoupling (z=-2.40).",
+      "direction": "ABNORMAL_HIGH"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed global brain morphometry, identifying a consistent pattern of structural hypertrophy across cortical and subcortical regions.",
+    "Step 2: Evaluated connectome data, noting hyper-connectivity in executive control networks which is typically associated with higher cognitive performance.",
+    "Step 3: Identified a significant functional bottleneck (limbic-frontoparietal decoupling, z=-2.40) that may temper the potential for peak performance.",
+    "Step 4: Synthesized structural and functional signals using a linear transformation model based on population norms (Mean=200, SD=40).",
+    "Step 5: Calculated the final predicted score of 219.78, reflecting the observed neurobiological robustness."
+  ],
+  "clinical_summary": "Subject sub-0673 exhibits a neuroanatomical profile characterized by generalized structural hypertrophy and hyper-connectivity within executive networks, which are strong indicators of superior cognitive capacity. While the structural foundation is robust, the presence of a large-effect functional decoupling between the limbic system and frontoparietal control suggests potential limitations in emotional-cognitive integration. The predicted IST 2000-R score of 219.78 places the subject above the population mean.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 63,
+      "processed_feature_count": 63,
+      "unprocessed_raw_feature_count": 0,
+      "processed_raw_low_priority_feature_count": 63,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 63,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 63,
+          "processed_feature_count": 63,
+          "unprocessed_raw_feature_count": 0,
+          "processed_raw_low_priority_feature_count": 63,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 63,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": true,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 10861,
+          "final_tokens": 15479,
+          "processed_raw_tokens": 15418,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [
+            "BRAIN_CONNECTOME",
+            "BRAIN_MORPHOMETRY"
+          ],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {
+            "BRAIN_MORPHOMETRY": 35,
+            "BRAIN_CONNECTOME": 28
+          },
+          "unprocessed_leaf_counts": {},
+          "all_feature_count": 63,
+          "unprocessed_feature_count": 0,
+          "processed_feature_count": 63,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 60239,
+    "domains_processed": [
+      "BRAIN_MORPHOMETRY",
+      "BRAIN_CONNECTOME"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
+      "output_summary": "Generated 6-step plan",
+      "reasoning": "The plan prioritizes early phenotype definition and feature synthesis. Given the data is 'FIT_FOR_RAW', we use UnimodalCompressor to extract high-level clinical patterns from the neuroimaging data to focus the predictor on relevant biomarkers, followed by a multimodal fusion and final regression analysis.",
+      "timestamp": "2026-07-18T17:28:23.589501",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: Generalized structural hypertrophy (mean z=1.16) including subcortical nuclei (caudate z=1.74, pallidum z=1.82)., Hyper-connectivity in executive and salience networks (z=1.35) with significant limbic-executive decoupling (z=-2.40)....",
+      "output_summary": "IST_intelligence_total: 219.780 (confidence=0.750)",
+      "reasoning": "Subject sub-0673 exhibits a neuroanatomical profile characterized by generalized structural hypertrophy and hyper-connectivity within executive networks, which are strong indicators of superior cognitive capacity. While the structural foundation is robust, the presence of a large-effect functional decoupling between the limbic system and frontoparietal control suggests potential limitations in emotional-cognitive integration. The predicted IST 2000-R score of 219.78 places the subject above the ",
+      "timestamp": "2026-07-18T17:28:34.454634",
+      "metadata": {
+        "probability": 0.75,
+        "classification": "IST_intelligence_total: 219.780"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:28:34.959433",
+      "metadata": {}
+    }
+  ]
+}

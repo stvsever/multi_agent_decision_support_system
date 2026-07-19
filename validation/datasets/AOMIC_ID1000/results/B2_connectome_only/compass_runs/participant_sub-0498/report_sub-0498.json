@@ -1,0 +1,223 @@
+{
+  "report_id": "RPT_sub-0498_20260718_172605",
+  "participant_id": "sub-0498",
+  "generated_at": "2026-07-18T17:26:05.900847",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 204.050",
+    "probability": 0.65,
+    "binary_probability": null,
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 204.05
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "Strong executive-DMN integration (z=1.71) suggests a high baseline for intelligence."
+      ],
+      "supporting_evidence_against": [
+        "The severe decoupling of dorsal-ventral attention (z=-2.58) acts as a negative constraint on cognitive efficiency."
+      ],
+      "uncertainty_factors": [
+        "Data limited to connectomic features; no behavioral or psychometric data available."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "BRAIN_CONNECTOME",
+      "finding": "Strong executive-DMN integration (z=1.71, 96th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "BRAIN_CONNECTOME",
+      "finding": "Severe decoupling of dorsal-ventral attention systems (z=-2.58, <1st percentile, LARGE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "BRAIN_CONNECTOME",
+      "finding": "Elevated Default Mode Network internal connectivity (z=1.73, 96th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed connectomic profile showing high-efficiency coupling between DMN and FPCN (z=1.71), which is a known neurobiological marker for higher intelligence.",
+    "Step 2: Identified significant attentional bottleneck via severe dorsal-ventral attention system decoupling (z=-2.58).",
+    "Step 3: Balanced the positive executive-DMN integration against the negative attentional constraint.",
+    "Step 4: Synthesized these features to estimate a score slightly above the population mean (200), resulting in a predicted value of 204.05."
+  ],
+  "clinical_summary": "The participant exhibits a neurobiological profile characterized by robust executive-default mode network integration, suggesting high cognitive potential. However, this is partially offset by significant dysconnectivity between attentional systems, which may introduce variability in complex task performance. The overall estimate of 204.05 reflects an above-average cognitive baseline within the healthy young-adult cohort.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 28,
+      "processed_feature_count": 28,
+      "unprocessed_raw_feature_count": 0,
+      "processed_raw_low_priority_feature_count": 28,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 28,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 28,
+          "processed_feature_count": 28,
+          "unprocessed_raw_feature_count": 0,
+          "processed_raw_low_priority_feature_count": 28,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 28,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": true,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 7578,
+          "final_tokens": 9665,
+          "processed_raw_tokens": 9604,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [
+            "BRAIN_CONNECTOME"
+          ],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {
+            "BRAIN_CONNECTOME": 28
+          },
+          "unprocessed_leaf_counts": {},
+          "all_feature_count": 28,
+          "unprocessed_feature_count": 0,
+          "processed_feature_count": 28,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 37769,
+    "domains_processed": [
+      "BRAIN_CONNECTOME"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: BRAIN_CONNECTOME",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity analysis. We start by defining the cognitive phenotype, then extract connectomic patterns, and finally synthesize these with non-numerical clinical context to perform the regression task.",
+      "timestamp": "2026-07-18T17:25:54.944012",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: Strong executive-DMN integration (z=1.71, 96th percentile, MODERATE effect), Severe decoupling of dorsal-ventral attention systems (z=-2.58, <1st percentile, LARGE effect), Elevated Default Mode Network internal connectivity (z=1.73, 96th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 204.050 (confidence=0.650)",
+      "reasoning": "The participant exhibits a neurobiological profile characterized by robust executive-default mode network integration, suggesting high cognitive potential. However, this is partially offset by significant dysconnectivity between attentional systems, which may introduce variability in complex task performance. The overall estimate of 204.05 reflects an above-average cognitive baseline within the healthy young-adult cohort.",
+      "timestamp": "2026-07-18T17:26:04.976077",
+      "metadata": {
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 204.050"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:26:05.899213",
+      "metadata": {}
+    }
+  ]
+}

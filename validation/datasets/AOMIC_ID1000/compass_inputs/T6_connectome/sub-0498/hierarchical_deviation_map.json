@@ -1,0 +1,77 @@
+{
+  "DEMOGRAPHICS_AND_PHYSICAL": {
+    "personal_attributes": {
+      "score": -1.63
+    },
+    "anthropometrics": {
+      "score": -0.911
+    },
+    "socioeconomic_status": {
+      "score": -0.498
+    },
+    "_stats": {
+      "mean_abs_score": 1.133,
+      "n_leaves": 6
+    }
+  },
+  "PERSONALITY": {
+    "big_five_personality": {
+      "score": 0.166
+    },
+    "_stats": {
+      "mean_abs_score": 0.526,
+      "n_leaves": 5
+    }
+  },
+  "MOTIVATION_AND_AFFECT": {
+    "reinforcement_sensitivity": {
+      "score": -0.622
+    },
+    "anxiety_traits": {
+      "score": 0.745
+    },
+    "_stats": {
+      "mean_abs_score": 0.934,
+      "n_leaves": 5
+    }
+  },
+  "IDENTITY_AND_BELIEF": {
+    "sexual_and_gender_identity": {
+      "score": 0.014
+    },
+    "religiosity": {
+      "score": 0.934
+    },
+    "_stats": {
+      "mean_abs_score": 1.178,
+      "n_leaves": 7
+    }
+  },
+  "BRAIN_MORPHOMETRY": {
+    "global_brain_measures": {
+      "score": -1.177
+    },
+    "subcortical_volumes": {
+      "score": -0.868
+    },
+    "cortical_thickness": {
+      "score": 1.532
+    },
+    "_stats": {
+      "mean_abs_score": 1.314,
+      "n_leaves": 35
+    }
+  },
+  "BRAIN_CONNECTOME": {
+    "within_network_connectivity": {
+      "score": 0.329
+    },
+    "between_network_connectivity": {
+      "score": -0.245
+    },
+    "_stats": {
+      "mean_abs_score": 0.91,
+      "n_leaves": 28
+    }
+  }
+}

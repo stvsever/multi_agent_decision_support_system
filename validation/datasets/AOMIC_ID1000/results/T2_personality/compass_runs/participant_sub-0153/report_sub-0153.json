@@ -1,0 +1,220 @@
+{
+  "report_id": "RPT_sub-0153_20260718_171418",
+  "participant_id": "sub-0153",
+  "generated_at": "2026-07-18T17:14:18.973722",
+  "prediction": {
+    "prediction_type": "univariate_regression",
+    "root_mode": "univariate_regression",
+    "classification": null,
+    "primary_output": "IST_intelligence_total: 198.000",
+    "probability": 0.65,
+    "binary_probability": null,
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
+    "target_condition": "Total Intelligence (IST 2000-R composite)",
+    "control_condition": "",
+    "prediction_task_spec": {
+      "schema_version": "1.0",
+      "task_id": null,
+      "root": {
+        "node_id": "root",
+        "display_name": "Total Intelligence (IST 2000-R composite)",
+        "mode": "univariate_regression",
+        "class_labels": [],
+        "regression_outputs": [
+          "IST_intelligence_total"
+        ],
+        "unit_by_output": {},
+        "required": true,
+        "children": []
+      }
+    },
+    "root_prediction": {
+      "node_id": "root",
+      "path": "root",
+      "mode": "univariate_regression",
+      "classification": null,
+      "regression": {
+        "values": {
+          "IST_intelligence_total": 198.0
+        }
+      },
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
+      "key_findings": [],
+      "reasoning_chain": [],
+      "supporting_evidence_for": [
+        "High socioeconomic status (z=+1.67) and education level (z=+0.95) provide strong environmental scaffolding for cognitive development."
+      ],
+      "supporting_evidence_against": [
+        "Low Openness (z=-1.25) and low Conscientiousness (z=-0.82) are typically associated with lower engagement in complex cognitive tasks."
+      ],
+      "uncertainty_factors": [
+        "The personality profile conflicts with the demographic profile.",
+        "Lack of direct cognitive subscale data."
+      ],
+      "children": []
+    }
+  },
+  "evaluation": {
+    "verdict": "SATISFACTORY",
+    "confidence_in_verdict": 0.95,
+    "checklist_passed": 8,
+    "checklist_total": 8
+  },
+  "key_findings": [
+    {
+      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "finding": "High socioeconomic status (z=+1.67, 95th percentile, LARGE effect) and education level (z=+0.95, 83rd percentile, MODERATE effect).",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "PERSONALITY",
+      "finding": "Low Openness (z=-1.25, 11th percentile, MODERATE effect) and low Conscientiousness (z=-0.82, 21st percentile, SMALL effect).",
+      "direction": "ABNORMAL_LOW"
+    }
+  ],
+  "reasoning": [
+    "Step 1: Analyzed demographic profile showing high socioeconomic status (z=+1.67) and education (z=+0.95), which are strong positive predictors for standardized intelligence scores.",
+    "Step 2: Evaluated personality profile showing significant negative deviations in Openness (z=-1.25) and Conscientiousness (z=-0.82), which are known to correlate with lower engagement in complex cognitive tasks.",
+    "Step 3: Synthesized the conflicting signals: high environmental potential vs. lower personality-based test engagement.",
+    "Step 4: Concluded that the environmental advantages likely offset the personality-based limitations, positioning the participant near the population mean (200).",
+    "Step 5: Adjusted the estimate slightly downward from the mean due to the consistent negative personality signals, resulting in a predicted score of 198."
+  ],
+  "clinical_summary": "The participant exhibits a profile of high environmental advantage (SES, education) which typically supports strong cognitive performance. However, this is tempered by a personality profile characterized by low Openness and low Conscientiousness, which may limit the participant's engagement with the rigorous demands of the IST 2000-R. The most likely outcome is a score near the population mean (198), as the environmental enrichment likely offsets the personality-based limitations.",
+  "execution": {
+    "iterations": 1,
+    "selected_iteration": 1,
+    "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
+    "coverage_summary": {
+      "all_feature_count": 11,
+      "processed_feature_count": 11,
+      "unprocessed_raw_feature_count": 11,
+      "processed_raw_low_priority_feature_count": 0,
+      "chunk_cited_feature_count": 0,
+      "represented_feature_count": 11,
+      "missing_feature_count": 0,
+      "missing_features": [],
+      "invariant_ok": true
+    },
+    "dataflow_summary": {
+      "iteration": 1,
+      "target_condition": "Total Intelligence (IST 2000-R composite)",
+      "control_condition": "",
+      "prediction_task_root_mode": "univariate_regression",
+      "agent_instruction_flags": {
+        "global": true,
+        "orchestrator": false,
+        "executor": false,
+        "tools": false,
+        "integrator": false,
+        "predictor": false,
+        "critic": false,
+        "communicator": false
+      },
+      "predictor_input_mode": "RAW_PASS_THROUGH",
+      "coverage": {
+        "summary": {
+          "all_feature_count": 11,
+          "processed_feature_count": 11,
+          "unprocessed_raw_feature_count": 11,
+          "processed_raw_low_priority_feature_count": 0,
+          "chunk_cited_feature_count": 0,
+          "represented_feature_count": 11,
+          "missing_feature_count": 0,
+          "missing_features": [],
+          "invariant_ok": true
+        },
+        "forced_raw_count": 0
+      },
+      "chunking": {
+        "predictor_chunk_count": 0,
+        "chunk_evidence_count": 0,
+        "chunked_two_pass_required": false,
+        "single_chunk_limit": 30000,
+        "chunking_skipped": true,
+        "chunking_reason": "payload_fit_excluding_processed_raw"
+      },
+      "context_fill": {
+        "processed_raw_full_included": false,
+        "rag_added_count": null,
+        "predictor_payload_estimate": {
+          "baseline_tokens": 8210,
+          "final_tokens": 8293,
+          "processed_raw_tokens": null,
+          "single_chunk_limit": 30000,
+          "threshold": 943718,
+          "chunked_two_pass_required": false,
+          "strategy": "threshold_driven_no_loss_pass_through",
+          "runtime_instruction_applied": true
+        },
+        "coverage_snapshot": {
+          "processed_whole_domains": [],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {},
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_PHYSICAL": 6,
+            "PERSONALITY": 5
+          },
+          "all_feature_count": 11,
+          "unprocessed_feature_count": 11,
+          "processed_feature_count": 0,
+          "missing_feature_count": 0
+        },
+        "embedding_store": {
+          "path": "/Users/stijnvanseveren/Library/Caches/compass/embeddings.sqlite3",
+          "fallback_active": false,
+          "fallback_reason": null,
+          "in_memory": false
+        }
+      },
+      "assertions": {
+        "invariant_ok": true,
+        "missing_feature_count_zero": true,
+        "chunk_evidence_matches_count": true,
+        "processed_raw_flag_consistent": true
+      }
+    },
+    "tokens_used": 37585,
+    "domains_processed": [
+      "DEMOGRAPHICS_AND_PHYSICAL",
+      "PERSONALITY"
+    ],
+    "detailed_logs": []
+  },
+  "decision_trace": [
+    {
+      "decision_id": "D001",
+      "component": "Orchestrator",
+      "decision_type": "PLAN_GENERATION",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Given the small data volume (210 tokens), raw data is sufficient for analysis. We will use early-stage tools to define the phenotype and synthesize features, followed by a narrative fusion to support the final regression-based prediction.",
+      "timestamp": "2026-07-18T17:14:01.154915",
+      "metadata": {}
+    },
+    {
+      "decision_id": "D002",
+      "component": "Predictor",
+      "decision_type": "PREDICTION_OUTPUT",
+      "input_summary": "Key findings: High socioeconomic status (z=+1.67, 95th percentile, LARGE effect) and education level (z=+0.95, 83rd percentile, MODERATE effect)., Low Openness (z=-1.25, 11th percentile, MODERATE effect) and low Conscientiousness (z=-0.82, 21st percentile, SMALL effect)....",
+      "output_summary": "IST_intelligence_total: 198.000 (confidence=0.650)",
+      "reasoning": "The participant exhibits a profile of high environmental advantage (SES, education) which typically supports strong cognitive performance. However, this is tempered by a personality profile characterized by low Openness and low Conscientiousness, which may limit the participant's engagement with the rigorous demands of the IST 2000-R. The most likely outcome is a score near the population mean (198), as the environmental enrichment likely offsets the personality-based limitations.",
+      "timestamp": "2026-07-18T17:14:18.173713",
+      "metadata": {
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 198.000"
+      }
+    },
+    {
+      "decision_id": "D003",
+      "component": "Critic",
+      "decision_type": "EVALUATION",
+      "input_summary": "Checklist: 8/8 passed",
+      "output_summary": "SATISFACTORY",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-18T17:14:18.971973",
+      "metadata": {}
+    }
+  ]
+}
