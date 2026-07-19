@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:11:53.819359",
-  "total_duration_seconds": 15.33,
+  "execution_timestamp": "2026-07-19T11:06:09.276337",
+  "total_duration_seconds": 16.12,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,8 +86,8 @@
       "processed_raw_full_included": false,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 4654,
-        "final_tokens": 4737,
+        "baseline_tokens": 4520,
+        "final_tokens": 4603,
         "processed_raw_tokens": null,
         "single_chunk_limit": 30000,
         "threshold": 943718,
@@ -100,7 +100,7 @@
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {},
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
         },
         "all_feature_count": 6,
         "unprocessed_feature_count": 6,
@@ -122,10 +122,10 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 228.920",
+    "classification": "IST_intelligence_total: 212.500",
     "probability": null,
-    "root_confidence": 0.65,
-    "confidence": "MEDIUM",
+    "root_confidence": 0.35,
+    "confidence": "LOW",
     "primary_output_kind": "regression",
     "root_prediction": {
       "node_id": "root",
@@ -134,85 +134,85 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 228.92
+          "IST_intelligence_total": 212.5
         }
       },
-      "confidence_level": "MEDIUM",
-      "confidence_score": 0.65,
+      "confidence_level": "LOW",
+      "confidence_score": 0.35,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Positive demographic and socioeconomic indicators consistently above cohort mean"
+        "Consistent positive deviation across all demographic and socioeconomic leaf nodes."
       ],
       "supporting_evidence_against": [
-        "No direct cognitive performance data available"
+        "No direct cognitive metrics provided; prediction is purely inferential."
       ],
       "uncertainty_factors": [
-        "Inference based on proxy variables",
-        "Absence of direct cognitive assessment"
+        "High reliance on distal demographic proxies.",
+        "Regression-to-the-mean applied to mitigate over-estimation."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 23514,
-    "prompt_tokens": 19399,
-    "completion_tokens": 4115,
+    "total_tokens": 22367,
+    "prompt_tokens": 18747,
+    "completion_tokens": 3620,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4641,
-        "completion_tokens": 807,
-        "total": 5448,
+        "prompt_tokens": 4643,
+        "completion_tokens": 905,
+        "total": 5548,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1329,
-        "completion_tokens": 471,
-        "total": 1800,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which demographic and lifestyle features are most predictive of cognitive performance."
-      },
-      {
-        "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 754,
-        "total": 2022,
+        "completion_tokens": 739,
+        "total": 2007,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the target phenotype criteria for the prediction model."
+        "step_reasoning": "Establishes the clinical and cognitive criteria for the target variable to guide feature interpretation."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1047,
-        "completion_tokens": 202,
-        "total": 1249,
+        "prompt_tokens": 1254,
+        "completion_tokens": 484,
+        "total": 1738,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Identifies which demographic and lifestyle features are most statistically significant for the target prediction."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1309,
+        "completion_tokens": 465,
+        "total": 1774,
+        "step_tool": "ClinicalRelevanceRanker",
+        "step_reasoning": "Filters the available features to focus on those with the highest predictive power for intelligence scores."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1061,
+        "completion_tokens": 223,
+        "total": 1284,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Calculates the final score based on the synthesized features and the established phenotype construct."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 1760,
-        "completion_tokens": 1014,
-        "total": 2774,
-        "step_tool": "DifferentialDiagnosis",
-        "step_reasoning": "Provides the final output with rule-out logic and context for the predicted score."
+        "step_reasoning": "Since the data is small and fits in memory, a direct regression analysis is the most efficient way to estimate the quantitative score."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 9170,
-        "completion_tokens": 834,
-        "total": 10004,
+        "prompt_tokens": 9030,
+        "completion_tokens": 772,
+        "total": 9802,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 184,
-        "completion_tokens": 33,
-        "total": 217,
+        "prompt_tokens": 182,
+        "completion_tokens": 32,
+        "total": 214,
         "step_tool": null,
         "step_reasoning": null
       }
@@ -222,7 +222,7 @@
     "plan_id": "sub-0120-ist-prediction-001",
     "total_steps": 4,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ]
   },
   "explainability": {

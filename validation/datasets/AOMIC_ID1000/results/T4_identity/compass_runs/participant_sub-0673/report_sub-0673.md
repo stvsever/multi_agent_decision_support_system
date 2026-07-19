@@ -1,10 +1,10 @@
 # Patient Report: sub-0673
 
-**Generated**: 2026-07-18T17:18:51.294494
+**Generated**: 2026-07-19T11:13:14.936920
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 218.450
+- **Primary Output**: IST_intelligence_total: 210.000
 - **Probability / Root Confidence**: 65.0%
 - **Confidence**: MEDIUM
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
@@ -14,22 +14,23 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[DEMOGRAPHICS_AND_PHYSICAL]** High education level (z=0.95) and background SES (z=0.84) are strong positive predictors for cognitive performance.
-2. **[PERSONALITY]** Extremely low conscientiousness (z=-2.01) and agreeableness (z=-2.14) suggest potential for inconsistent test-taking performance.
-3. **[MOTIVATION_AND_AFFECT]** High BAS drive (z=1.50) indicates high approach-oriented behavior.
+1. **[PSYCHOLOGICAL_PROFILES]** Severe deficit in conscientiousness (z=-2.01, 2.2nd percentile, LARGE effect)
+2. **[PSYCHOLOGICAL_PROFILES]** High BAS drive (z=1.49, 93rd percentile, MODERATE effect)
+3. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** High educational attainment (z=0.95, 83rd percentile, MODERATE effect)
 
 ## Clinical Summary
-Participant sub-0673 exhibits a cognitive profile characterized by high socioeconomic and educational advantages, which are offset by non-traditional personality traits, specifically very low conscientiousness and agreeableness. While the participant's background suggests a high cognitive potential, the personality profile indicates a risk for inconsistent performance on standardized assessments. The estimated IST-2000-R total score is 218.45, placing the participant slightly above the cohort mean.
+The participant (sub-0673) exhibits a profile of high environmental and motivational support (high SES, high BAS drive) but significant personality-based constraints on executive regulation (very low conscientiousness). While the demographic indicators suggest a baseline of high-average intelligence, the extreme deficit in conscientiousness serves as a performance ceiling. The estimated IST 2000-R total score is 210, representing a moderate deviation from the cohort mean.
 
 ## Reasoning Chain
-1. Step 1: Identified socioeconomic status and education as the most reliable proxies for cognitive potential in this dataset.
-2. Step 2: Evaluated personality traits; while extraversion and BAS drive are high, the significant deficits in conscientiousness and agreeableness suggest a non-traditional, potentially inconsistent cognitive profile.
-3. Step 3: Integrated the positive socioeconomic signal with the negative personality-based performance moderators.
-4. Step 4: Applied a linear regression mapping of the aggregate z-score mean (0.485) to the IST-2000-R normative scale (Mean=200, SD=40), resulting in an estimated score of 218.45.
+1. Step 1: Establish baseline intelligence expectation based on high socioeconomic and educational status (z=0.95).
+2. Step 2: Evaluate personality constraints; severe low conscientiousness (z=-2.01) and low agreeableness (z=-2.14) suggest significant difficulty with structured, long-form cognitive tasks.
+3. Step 3: Integrate motivational factors; high BAS drive (z=1.49) and extraversion (z=1.29) suggest an active, high-energy approach that may mitigate some performance deficits.
+4. Step 4: Synthesize findings; the combination of high environmental resources and high motivation is tempered by poor executive regulation, leading to a predicted score slightly above the population mean.
+5. Step 5: Final calculation; mean (200) + adjustment for SES/Education (+15) - adjustment for conscientiousness (-5) = 210.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 31,469
-- **Domains Processed**: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF
+- **Tokens Used**: 44,343
+- **Domains Processed**: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS

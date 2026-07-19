@@ -385,6 +385,7 @@ def launch():
     # Extract new config args
     config = {
         "id": data.get('id'),
+        "output_dir": data.get('output_dir'),
         "target": data.get('target') or data.get('target_label') or "",
         "control": data.get('control'),
         "target_label": data.get('target_label'),

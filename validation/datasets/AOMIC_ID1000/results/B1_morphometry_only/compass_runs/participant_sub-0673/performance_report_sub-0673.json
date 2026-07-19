@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:24:26.595487",
-  "total_duration_seconds": 19.99,
+  "execution_timestamp": "2026-07-19T11:18:48.241756",
+  "total_duration_seconds": 14.67,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 7481,
-        "final_tokens": 10072,
-        "processed_raw_tokens": 10011,
+        "baseline_tokens": 6746,
+        "final_tokens": 9343,
+        "processed_raw_tokens": 9282,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -124,7 +124,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 250.000",
+    "classification": "IST_intelligence_total: 233.750",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +136,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 250.0
+          "IST_intelligence_total": 233.75
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,84 +144,84 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent global and subcortical volumetric hypertrophy (z ~ 1.25 average deviation)."
+        "Consistent positive volumetric deviations across global and subcortical structures."
       ],
       "supporting_evidence_against": [
-        "Lack of behavioral/cognitive performance data."
+        "Lack of direct cognitive test scores requires reliance on structural proxies."
       ],
       "uncertainty_factors": [
-        "Inference based on structural proxies only."
+        "Structural-cognitive correlations are probabilistic, not deterministic."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 42464,
-    "prompt_tokens": 36834,
-    "completion_tokens": 5630,
+    "total_tokens": 36470,
+    "prompt_tokens": 31851,
+    "completion_tokens": 4619,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4639,
-        "completion_tokens": 936,
-        "total": 5575,
-        "step_tool": null,
-        "step_reasoning": null
-      },
-      {
-        "component": "orchestrator",
-        "prompt_tokens": 4683,
-        "completion_tokens": 751,
-        "total": 5434,
+        "prompt_tokens": 4641,
+        "completion_tokens": 938,
+        "total": 5579,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 3037,
-        "completion_tokens": 523,
-        "total": 3560,
+        "prompt_tokens": 1325,
+        "completion_tokens": 504,
+        "total": 1829,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Prioritizes structural features for the regression model."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 3039,
+        "completion_tokens": 648,
+        "total": 3687,
         "step_tool": "AnomalyNarrativeBuilder",
         "step_reasoning": "Identifies significant structural deviations that may correlate with cognitive performance."
       },
       {
         "component": "executor",
         "prompt_tokens": 1270,
-        "completion_tokens": 667,
-        "total": 1937,
+        "completion_tokens": 718,
+        "total": 1988,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical and cognitive criteria for the target prediction task."
+        "step_reasoning": "Establishes the clinical criteria for the intelligence prediction task."
       },
       {
         "component": "executor",
-        "prompt_tokens": 4577,
-        "completion_tokens": 855,
-        "total": 5432,
+        "prompt_tokens": 4586,
+        "completion_tokens": 736,
+        "total": 5322,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Focuses the morphometric data into actionable features for the regression model."
+        "step_reasoning": "Extracts key structural patterns relevant to intelligence prediction."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2091,
-        "completion_tokens": 787,
-        "total": 2878,
-        "step_tool": "DifferentialDiagnosis",
-        "step_reasoning": "Integrates the phenotype definition, structural anomalies, and compressed morphometry to estimate the IST score."
+        "prompt_tokens": 1050,
+        "completion_tokens": 185,
+        "total": 1235,
+        "step_tool": "CodeExecutor",
+        "step_reasoning": "Calculates the final quantitative prediction based on the synthesized features and compressed data."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 16355,
-        "completion_tokens": 1077,
-        "total": 17432,
+        "prompt_tokens": 15756,
+        "completion_tokens": 852,
+        "total": 16608,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 182,
-        "completion_tokens": 34,
-        "total": 216,
+        "prompt_tokens": 184,
+        "completion_tokens": 38,
+        "total": 222,
         "step_tool": null,
         "step_reasoning": null
       }
@@ -229,7 +229,7 @@
   },
   "plan_summary": {
     "plan_id": "sub-0673-ist-prediction-001",
-    "total_steps": 4,
+    "total_steps": 5,
     "priority_domains": [
       "BRAIN_MORPHOMETRY"
     ]

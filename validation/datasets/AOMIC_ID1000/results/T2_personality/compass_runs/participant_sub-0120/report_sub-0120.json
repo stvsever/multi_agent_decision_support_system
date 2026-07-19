@@ -1,16 +1,16 @@
 {
-  "report_id": "RPT_sub-0120_20260718_171338",
+  "report_id": "RPT_sub-0120_20260719_110750",
   "participant_id": "sub-0120",
-  "generated_at": "2026-07-18T17:13:38.605799",
+  "generated_at": "2026-07-19T11:07:50.643091",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 221.400",
-    "probability": 0.65,
+    "primary_output": "IST_intelligence_total: 222.550",
+    "probability": 0.45,
     "binary_probability": null,
-    "root_confidence": 0.65,
-    "confidence": "MEDIUM",
+    "root_confidence": 0.45,
+    "confidence": "LOW",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
     "prediction_task_spec": {
@@ -36,21 +36,23 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 221.4
+          "IST_intelligence_total": 222.55
         }
       },
-      "confidence_level": "MEDIUM",
-      "confidence_score": 0.65,
+      "confidence_level": "LOW",
+      "confidence_score": 0.45,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Strong demographic and socioeconomic indicators correlate positively with IST 2000-R scores."
+        "Positive demographic deviations (age, education, SES) suggest above-average cognitive potential."
       ],
       "supporting_evidence_against": [
-        "Lack of direct cognitive data limits the precision of the regression estimate."
+        "Personality traits do not provide strong predictive signal.",
+        "No direct cognitive performance data available."
       ],
       "uncertainty_factors": [
-        "Inference based on proxy variables rather than direct cognitive assessment."
+        "High reliance on environmental proxies.",
+        "Diffuse signal across domains."
       ],
       "children": []
     }
@@ -63,29 +65,24 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Education level (z=0.953, 83rd percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Age (z=1.55, 94th percentile, MODERATE effect) and Education level (z=0.95, 83rd percentile, SMALL effect) indicate favorable environmental factors for cognitive performance.",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Age (z=1.553, 94th percentile, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "PERSONALITY",
-      "finding": "Conscientiousness (z=-0.648, 26th percentile, SMALL effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Conscientiousness (z=-0.65, 26th percentile, SMALL effect) is slightly below average, which may marginally offset positive demographic indicators.",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic and personality features as proxies for cognitive ability in the absence of direct IST subscale scores.",
-    "Step 2: Identified strong positive predictive signals from education level (z=0.953) and background socioeconomic status (z=0.837).",
-    "Step 3: Evaluated personality traits, noting that while most are near-normal, the lower conscientiousness (z=-0.648) acts as a slight negative constraint on test-taking efficiency.",
-    "Step 4: Integrated these factors using a regression-based approach, anchoring the estimate above the population mean (200) due to the favorable demographic profile.",
-    "Step 5: Finalized the estimate at 221.4, reflecting a moderate positive deviation from the cohort mean."
+    "Step 1: Analyzed demographic and psychological feature profiles for sub-0120.",
+    "Step 2: Identified that demographic features (age, education, SES) show consistent positive deviations (z > 0.8), while personality traits are largely within the normal range.",
+    "Step 3: Applied a regression-based approach using the mean z-score of prioritized demographic features to estimate the IST-2000-R total score.",
+    "Step 4: Calculated the predicted value by adjusting the cohort mean (200) by the weighted influence of the observed demographic deviations.",
+    "Step 5: Finalized the estimate at 222.55, reflecting a moderate positive shift from the population mean."
   ],
-  "clinical_summary": "Participant sub-0120 exhibits a demographic profile highly conducive to strong cognitive performance, characterized by high educational attainment and socioeconomic background. While personality metrics are largely unremarkable, the lower-than-average conscientiousness score suggests potential for inconsistent performance on long-form cognitive batteries. Overall, the participant is expected to perform above the cohort mean on the IST 2000-R.",
+  "clinical_summary": "Participant sub-0120 exhibits a demographic profile (higher age and education level) that correlates with slightly above-average cognitive performance in healthy young-adult cohorts. Personality traits are largely unremarkable, with the exception of slightly lower conscientiousness. The predicted IST-2000-R total score of 222.55 is consistent with a high-functioning individual within the normal distribution, though the lack of direct cognitive performance data necessitates a conservative interpretation.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -143,8 +140,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 6480,
-          "final_tokens": 6563,
+          "baseline_tokens": 6215,
+          "final_tokens": 6298,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -157,8 +154,8 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 5
           },
           "all_feature_count": 11,
           "unprocessed_feature_count": 11,
@@ -179,10 +176,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 31087,
+    "tokens_used": 23877,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ],
     "detailed_logs": []
   },
@@ -191,23 +188,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS, PSYCHOLOGICAL_PROFILES",
       "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize direct feature extraction and synthesis. We use early-stage tools to define the intelligence phenotype and extract feature importance, then fuse the personality and demographic domains into a final prediction model.",
-      "timestamp": "2026-07-18T17:13:28.399207",
+      "reasoning": "Since the data volume is small (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify relevant patterns in psychological and demographic data before performing a final regression-based prediction.",
+      "timestamp": "2026-07-19T11:07:39.153553",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Education level (z=0.953, 83rd percentile, MODERATE effect), Age (z=1.553, 94th percentile, MODERATE effect), Conscientiousness (z=-0.648, 26th percentile, SMALL effect)...",
-      "output_summary": "IST_intelligence_total: 221.400 (confidence=0.650)",
-      "reasoning": "Participant sub-0120 exhibits a demographic profile highly conducive to strong cognitive performance, characterized by high educational attainment and socioeconomic background. While personality metrics are largely unremarkable, the lower-than-average conscientiousness score suggests potential for inconsistent performance on long-form cognitive batteries. Overall, the participant is expected to perform above the cohort mean on the IST 2000-R.",
-      "timestamp": "2026-07-18T17:13:38.000928",
+      "input_summary": "Key findings: Age (z=1.55, 94th percentile, MODERATE effect) and Education level (z=0.95, 83rd percentile, SMALL effect) indicate favorable environmental factors for cognitive performance., Conscientiousness (z=-0.65, 26th percentile, SMALL effect) is slightly below average, which may marginally offset positive demographic indicators....",
+      "output_summary": "IST_intelligence_total: 222.550 (confidence=0.450)",
+      "reasoning": "Participant sub-0120 exhibits a demographic profile (higher age and education level) that correlates with slightly above-average cognitive performance in healthy young-adult cohorts. Personality traits are largely unremarkable, with the exception of slightly lower conscientiousness. The predicted IST-2000-R total score of 222.55 is consistent with a high-functioning individual within the normal distribution, though the lack of direct cognitive performance data necessitates a conservative interpr",
+      "timestamp": "2026-07-19T11:07:50.034009",
       "metadata": {
-        "probability": 0.65,
-        "classification": "IST_intelligence_total: 221.400"
+        "probability": 0.45,
+        "classification": "IST_intelligence_total: 222.550"
       }
     },
     {
@@ -217,7 +214,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:13:38.604687",
+      "timestamp": "2026-07-19T11:07:50.642205",
       "metadata": {}
     }
   ]

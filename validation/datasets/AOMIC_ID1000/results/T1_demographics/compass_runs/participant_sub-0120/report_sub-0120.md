@@ -1,12 +1,12 @@
 # Patient Report: sub-0120
 
-**Generated**: 2026-07-18T17:12:09.142477
+**Generated**: 2026-07-19T11:06:25.390171
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 228.920
-- **Probability / Root Confidence**: 65.0%
-- **Confidence**: MEDIUM
+- **Primary Output**: IST_intelligence_total: 212.500
+- **Probability / Root Confidence**: 35.0%
+- **Confidence**: LOW
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
 
 ## Evaluation
@@ -14,22 +14,22 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[DEMOGRAPHICS_AND_PHYSICAL]** Education level (z=0.953, 83rd percentile, MODERATE effect)
-2. **[DEMOGRAPHICS_AND_PHYSICAL]** Background socio-economic status (z=0.837, 80th percentile, MODERATE effect)
-3. **[DEMOGRAPHICS_AND_PHYSICAL]** Age (z=1.553, 94th percentile, MODERATE effect)
+1. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Age is elevated (z=1.55, 94th percentile, MODERATE effect)
+2. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Education level is elevated (z=0.95, 83rd percentile, SMALL effect)
+3. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Background socio-economic status is elevated (z=0.84, 80th percentile, SMALL effect)
 
 ## Clinical Summary
-Participant sub-0120 exhibits demographic and socioeconomic profiles that are consistently above the cohort mean. Given the established correlation between high educational attainment, favorable socio-economic background, and cognitive test performance, the participant is estimated to have an IST-2000R total score of approximately 229, placing them in the high-average range of cognitive ability. This estimate is based on proxy variables and lacks direct cognitive performance validation.
+The participant exhibits a favorable demographic profile characterized by higher-than-average educational attainment and socioeconomic background relative to the cohort. While these factors are positively correlated with cognitive performance, they are distal proxies and do not constitute direct evidence of intelligence. The estimated IST 2000-R score is adjusted moderately above the population mean of 200, reflecting these demographic advantages while accounting for the significant uncertainty inherent in the absence of direct psychometric data.
 
 ## Reasoning Chain
-1. Step 1: Analyzed demographic and socioeconomic features as proxies for general intelligence (g-factor) in the absence of direct cognitive test data.
-2. Step 2: Identified consistent positive deviations in education (z=0.953), SES (z=0.837), and age (z=1.553) relative to the cohort mean.
-3. Step 3: Calculated an estimated IST-2000R score using the mean z-score of 0.723 applied to the cohort distribution (Mean=200, SD=40).
-4. Step 4: Adjusted the estimate to account for the lack of direct cognitive performance metrics, resulting in a predicted score of 228.92.
+1. Step 1: Analyzed demographic and socioeconomic inputs which show a consistent positive deviation from the population mean.
+2. Step 2: Acknowledged the absence of direct cognitive, psychometric, or executive function data, which limits the predictive precision.
+3. Step 3: Applied a shrinkage factor to the raw demographic z-score correlations to prevent over-estimation, as these are distal proxies for intelligence.
+4. Step 4: Calculated a conservative estimate by regressing the demographic-derived signal toward the population mean of 200, resulting in a moderate upward adjustment.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 23,514
-- **Domains Processed**: DEMOGRAPHICS_AND_PHYSICAL
+- **Tokens Used**: 22,367
+- **Domains Processed**: DEMOGRAPHICS_AND_ANTHROPOMETRICS

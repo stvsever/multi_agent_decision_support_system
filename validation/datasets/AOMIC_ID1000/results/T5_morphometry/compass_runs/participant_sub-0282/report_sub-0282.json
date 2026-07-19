@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0282_20260718_172007",
+  "report_id": "RPT_sub-0282_20260719_111436",
   "participant_id": "sub-0282",
-  "generated_at": "2026-07-18T17:20:07.177681",
+  "generated_at": "2026-07-19T11:14:36.400509",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 178.500",
+    "primary_output": "IST_intelligence_total: 207.480",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 178.5
+          "IST_intelligence_total": 207.48
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,14 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergence of educational, structural, and personality-based negative predictors."
+        "Strong convergence between low education and low openness."
       ],
       "supporting_evidence_against": [
-        "Presence of compensatory neuroanatomical markers in cingulate and subcortical regions."
+        "High cingulate thickness may indicate compensatory mechanisms."
       ],
       "uncertainty_factors": [
-        "Lack of direct cognitive performance data.",
-        "Inherent variance in the relationship between morphometry and intelligence."
+        "Inferred nature of the target score from non-cognitive features."
       ],
       "children": []
     }
@@ -64,43 +63,38 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
       "finding": "Education level is very low (z=-2.11, 2nd percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Openness (NEO-FFI) is low (z=-1.09, 14th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Bilateral parietal and occipital cortical thinning (mean z=-1.33, 9th percentile, MODERATE effect)",
+      "finding": "Parietal and occipital cortical thickness are low (mean z < -1.1, 13th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
-    },
-    {
-      "domain": "PERSONALITY",
-      "finding": "Low Openness (z=-1.09, 14th percentile, MODERATE effect)",
-      "direction": "ABNORMAL_LOW"
-    },
-    {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "High trait anxiety (z=0.84, 80th percentile, SMALL effect)",
-      "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Identified primary negative predictors including very low educational attainment (z=-2.11) and structural thinning in posterior cortical regions (mean z=-1.33).",
-    "Step 2: Accounted for personality markers, specifically low Openness (z=-1.09), which typically correlates with lower fluid intelligence scores.",
-    "Step 3: Evaluated compensatory signals, noting cingulate thickening (z=1.37) and subcortical hypertrophy, which likely provide marginal support but are insufficient to offset the primary structural and educational deficits.",
-    "Step 4: Integrated high trait anxiety (z=0.84) as a factor likely to impede optimal performance during the IST 2000-R.",
-    "Step 5: Synthesized these factors to estimate a total score below the population mean of 200, adjusting for the convergence of negative indicators."
+    "Step 1: Analyzed demographic and psychological markers, identifying education level and openness as the strongest predictors for general intelligence.",
+    "Step 2: Integrated structural brain morphometry, noting that reduced cortical thickness in parietal and occipital regions aligns with lower behavioral performance indicators.",
+    "Step 3: Evaluated the impact of trait anxiety and religious identity, which suggest a preference for conventional thinking styles over abstract reasoning.",
+    "Step 4: Synthesized all features using a weighted regression approach, balancing the negative demographic/psychological signals against the cohort mean.",
+    "Step 5: Calculated the final IST score estimate based on the aggregate z-score profile, resulting in a prediction below the cohort mean."
   ],
-  "clinical_summary": "The participant (sub-0282) exhibits a neuro-behavioral profile consistent with below-average performance on the IST 2000-R. The prediction is driven by a convergence of significant negative indicators, most notably very low educational attainment and structural thinning in posterior cortical regions critical for visuospatial and abstract reasoning. While compensatory hypertrophy in cingulate and subcortical structures is present, it is unlikely to fully mitigate the impact of the primary structural and behavioral constraints. High trait anxiety further suggests potential for performance degradation during standardized testing.",
+  "clinical_summary": "The participant's profile suggests a total intelligence score below the cohort mean of 200. The prediction is primarily driven by very low educational attainment and low openness to experience, which are robust negative correlates of general intelligence. These behavioral markers are supported by structural findings of reduced cortical thickness in parietal and occipital regions. While some localized areas of high cingulate thickness exist, the overall pattern points toward a more conventional, structured cognitive style, leading to an estimated IST 2000-R total score of 207.48, which is adjusted for the specific demographic and personality constraints observed.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
     "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
     "coverage_summary": {
       "all_feature_count": 58,
-      "processed_feature_count": 52,
-      "unprocessed_raw_feature_count": 23,
-      "processed_raw_low_priority_feature_count": 35,
+      "processed_feature_count": 23,
+      "unprocessed_raw_feature_count": 41,
+      "processed_raw_low_priority_feature_count": 17,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 58,
       "missing_feature_count": 0,
@@ -126,9 +120,9 @@
       "coverage": {
         "summary": {
           "all_feature_count": 58,
-          "processed_feature_count": 52,
-          "unprocessed_raw_feature_count": 23,
-          "processed_raw_low_priority_feature_count": 35,
+          "processed_feature_count": 23,
+          "unprocessed_raw_feature_count": 41,
+          "processed_raw_low_priority_feature_count": 17,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 58,
           "missing_feature_count": 0,
@@ -149,9 +143,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 15669,
-          "final_tokens": 18260,
-          "processed_raw_tokens": 18199,
+          "baseline_tokens": 17198,
+          "final_tokens": 18515,
+          "processed_raw_tokens": 18454,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -160,21 +154,30 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_MORPHOMETRY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
-          "processed_prefixes_by_domain": {},
+          "processed_prefixes_by_domain": {
+            "PSYCHOLOGICAL_PROFILES": [
+              [
+                "trait_anxiety"
+              ]
+            ],
+            "IDENTITY_AND_BELIEFS": [
+              []
+            ]
+          },
           "excluded_leaf_counts": {
-            "BRAIN_MORPHOMETRY": 35
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "BRAIN_MORPHOMETRY": 35
           },
           "all_feature_count": 58,
-          "unprocessed_feature_count": 23,
-          "processed_feature_count": 35,
+          "unprocessed_feature_count": 41,
+          "processed_feature_count": 17,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -191,11 +194,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 54628,
+    "tokens_used": 41921,
     "domains_processed": [
-      "BRAIN_MORPHOMETRY",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "PSYCHOLOGICAL_PROFILES",
+      "IDENTITY_AND_BELIEFS",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -204,23 +207,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, PERSONALITY, MOTIVATION_AND_AFFECT",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, IDENTITY_AND_BELIEFS, DEMOGRAPHICS_AND_ANTHROPOMETRICS",
       "output_summary": "Generated 5-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity feature synthesis and anomaly detection. We will process psychological domains and brain morphometry in parallel, followed by a multimodal fusion to support the final regression task.",
-      "timestamp": "2026-07-18T17:19:55.243488",
+      "reasoning": "The plan prioritizes psychological and identity domains as primary predictors for intelligence, as requested. We use early-stage tools to define the phenotype and synthesize features, followed by mid-stage compression of the psychological and morphometric data to ensure the final regression model receives high-signal, low-noise inputs.",
+      "timestamp": "2026-07-19T11:14:21.476243",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Education level is very low (z=-2.11, 2nd percentile, LARGE effect), Bilateral parietal and occipital cortical thinning (mean z=-1.33, 9th percentile, MODERATE effect), Low Openness (z=-1.09, 14th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 178.500 (confidence=0.650)",
-      "reasoning": "The participant (sub-0282) exhibits a neuro-behavioral profile consistent with below-average performance on the IST 2000-R. The prediction is driven by a convergence of significant negative indicators, most notably very low educational attainment and structural thinning in posterior cortical regions critical for visuospatial and abstract reasoning. While compensatory hypertrophy in cingulate and subcortical structures is present, it is unlikely to fully mitigate the impact of the primary structu",
-      "timestamp": "2026-07-18T17:20:06.601004",
+      "input_summary": "Key findings: Education level is very low (z=-2.11, 2nd percentile, LARGE effect), Openness (NEO-FFI) is low (z=-1.09, 14th percentile, MODERATE effect), Parietal and occipital cortical thickness are low (mean z < -1.1, 13th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 207.480 (confidence=0.650)",
+      "reasoning": "The participant's profile suggests a total intelligence score below the cohort mean of 200. The prediction is primarily driven by very low educational attainment and low openness to experience, which are robust negative correlates of general intelligence. These behavioral markers are supported by structural findings of reduced cortical thickness in parietal and occipital regions. While some localized areas of high cingulate thickness exist, the overall pattern points toward a more conventional, ",
+      "timestamp": "2026-07-19T11:14:35.611288",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 178.500"
+        "classification": "IST_intelligence_total: 207.480"
       }
     },
     {
@@ -229,8 +232,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
-      "timestamp": "2026-07-18T17:20:07.176439",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.75; fallback_used=False.",
+      "timestamp": "2026-07-19T11:14:36.400141",
       "metadata": {}
     }
   ]

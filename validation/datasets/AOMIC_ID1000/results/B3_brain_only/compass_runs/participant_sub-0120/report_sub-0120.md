@@ -1,12 +1,12 @@
 # Patient Report: sub-0120
 
-**Generated**: 2026-07-18T17:26:44.923836
+**Generated**: 2026-07-19T11:21:00.828226
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 220.000
-- **Probability / Root Confidence**: 65.0%
-- **Confidence**: MEDIUM
+- **Primary Output**: IST_intelligence_total: 218.000
+- **Probability / Root Confidence**: 85.0%
+- **Confidence**: HIGH
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
 
 ## Evaluation
@@ -14,22 +14,23 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[BRAIN_MORPHOMETRY]** High white matter volume (z=1.04, 85th percentile, SMALL effect) and subcortical expansion (accumbens z=1.88, 97th percentile, MODERATE effect).
-2. **[BRAIN_MORPHOMETRY]** Posterior cortical thinning (occipital z=-1.62, 5th percentile, MODERATE effect).
-3. **[BRAIN_CONNECTOME]** Hyper-connectivity between limbic and frontoparietal networks (z=2.04, 98th percentile, MODERATE effect).
+1. **[BRAIN_MORPHOMETRY]** High-normal global brain volume (z=0.779) and cerebral white matter (z=1.037)
+2. **[BRAIN_MORPHOMETRY]** Posterior cortical thinning (parietal/occipital, z=-1.3 to -1.6)
+3. **[FUNCTIONAL_CONNECTOME]** Hyper-connectivity between Limbic and Frontoparietal Control networks (z=2.04)
 
 ## Clinical Summary
-Participant sub-0120 exhibits a neurobiological profile consistent with high-average general cognitive ability. While structural expansion in white matter and subcortical regions supports high executive function, localized posterior cortical thinning and visual network decoupling suggest specific limitations in visual-spatial integration. Compensatory hyper-connectivity in frontoparietal control networks likely mitigates these deficits, resulting in an estimated IST 2000-R total score of 220.
+Subject sub-0120 presents with a neurobiological profile that balances localized structural thinning in posterior sensory regions with robust compensatory hyper-connectivity in executive and reward-related networks. This profile is consistent with high-average cognitive performance, as the subject's executive-limbic integration likely supports sustained cognitive effort and task-directed motivation, offsetting potential sensory-integration bottlenecks. The estimated IST 2000-R total score is 218.
 
 ## Reasoning Chain
-1. Step 1: Analyzed neuroanatomical profile showing robust subcortical and white matter volumes, which are positive predictors for general intelligence.
-2. Step 2: Identified localized posterior cortical thinning and visual network decoupling, which act as constraints on visual-spatial reasoning performance.
-3. Step 3: Integrated connectomic data showing compensatory hyper-connectivity in executive control networks, suggesting the participant utilizes high-level executive resources to offset specific structural limitations.
-4. Step 4: Synthesized these findings to estimate a total IST 2000-R score slightly above the population mean of 200, accounting for the balance between structural expansion and localized thinning.
+1. Step 1: Analyzed structural morphometry, noting high-normal global volumes and subcortical reward structure hypertrophy (accumbens z=1.88).
+2. Step 2: Identified localized cortical thinning in posterior sensory regions (parietal/occipital), which typically correlates with reduced efficiency in visuospatial processing.
+3. Step 3: Integrated functional connectome data, highlighting robust hyper-connectivity between executive (Frontoparietal) and affective (Limbic) networks.
+4. Step 4: Synthesized the structural-functional trade-off: the posterior structural deficit is likely compensated by the high-functioning executive-limbic integration, stabilizing performance.
+5. Step 5: Estimated the IST 2000-R total score based on the cohort mean (200) and the observed high-average neurobiological markers.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 50,767
-- **Domains Processed**: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME
+- **Tokens Used**: 59,705
+- **Domains Processed**: BRAIN_MORPHOMETRY, FUNCTIONAL_CONNECTOME

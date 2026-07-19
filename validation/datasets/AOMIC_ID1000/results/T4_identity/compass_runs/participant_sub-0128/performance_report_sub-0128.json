@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:17:13.426026",
-  "total_duration_seconds": 18.44,
+  "execution_timestamp": "2026-07-19T11:11:36.329130",
+  "total_duration_seconds": 15.18,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 10040,
-        "final_tokens": 10843,
-        "processed_raw_tokens": 10782,
+        "baseline_tokens": 9761,
+        "final_tokens": 10573,
+        "processed_raw_tokens": 10512,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,23 +97,15 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "MOTIVATION_AND_AFFECT",
-          "PERSONALITY"
+          "PSYCHOLOGICAL_PROFILES"
         ],
-        "processed_prefixes_by_domain": {
-          "MOTIVATION_AND_AFFECT": [
-            [
-              "anxiety_traits"
-            ]
-          ]
-        },
+        "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5
+          "PSYCHOLOGICAL_PROFILES": 10
         },
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "IDENTITY_AND_BELIEF": 7
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+          "IDENTITY_AND_BELIEFS": 7
         },
         "all_feature_count": 23,
         "unprocessed_feature_count": 13,
@@ -135,7 +127,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 209.080",
+    "classification": "IST_intelligence_total: 207.210",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -147,7 +139,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 209.08
+          "IST_intelligence_total": 207.21
         }
       },
       "confidence_level": "MEDIUM",
@@ -155,84 +147,76 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergent personality and motivational signals (mean |z| > 1.3)."
+        "Consistent positive psychological markers across multiple domains."
       ],
       "supporting_evidence_against": [
-        "Indirect nature of behavioral proxies."
+        "Indirect nature of the input features."
       ],
       "uncertainty_factors": [
-        "Lack of direct cognitive testing data."
+        "Lack of direct cognitive performance data."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 37631,
-    "prompt_tokens": 32037,
-    "completion_tokens": 5594,
+    "total_tokens": 35023,
+    "prompt_tokens": 30374,
+    "completion_tokens": 4649,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4715,
-        "completion_tokens": 1213,
-        "total": 5928,
+        "prompt_tokens": 4699,
+        "completion_tokens": 1039,
+        "total": 5738,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1976,
-        "completion_tokens": 516,
-        "total": 2492,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which personality and motivational traits are most predictive of cognitive performance."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 1270,
-        "completion_tokens": 663,
-        "total": 1933,
-        "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria and cognitive correlates associated with intelligence scores."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 2108,
-        "completion_tokens": 681,
-        "total": 2789,
+        "prompt_tokens": 2640,
+        "completion_tokens": 533,
+        "total": 3173,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Aggregates psychological traits into meaningful patterns relevant to cognitive performance."
+        "step_reasoning": "Extracts latent cognitive indicators from psychological data for better regression accuracy."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1457,
-        "completion_tokens": 564,
-        "total": 2021,
-        "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Refines the feature set based on the synthesized importance and the target condition."
+        "prompt_tokens": 1268,
+        "completion_tokens": 688,
+        "total": 1956,
+        "step_tool": "PhenotypeRepresentation",
+        "step_reasoning": "Establishes the clinical and cognitive criteria for the prediction task."
       },
       {
         "component": "executor",
-        "prompt_tokens": 3811,
-        "completion_tokens": 710,
-        "total": 4521,
+        "prompt_tokens": 1828,
+        "completion_tokens": 492,
+        "total": 2320,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Identifies which demographic and psychological variables are most predictive of cognitive performance."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 3761,
+        "completion_tokens": 659,
+        "total": 4420,
         "step_tool": "MultimodalNarrativeCreator",
-        "step_reasoning": "Creates a unified narrative of the participant's profile to support the final regression estimate."
+        "step_reasoning": "Fuses the extracted patterns into a coherent narrative of the participant's cognitive profile."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1102,
-        "completion_tokens": 221,
-        "total": 1323,
+        "prompt_tokens": 1095,
+        "completion_tokens": 263,
+        "total": 1358,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Uses the integrated narrative and ranked features to calculate the final quantitative intelligence score."
+        "step_reasoning": "Uses the synthesized features and integrated narrative to calculate the final numerical intelligence estimate."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 15414,
-        "completion_tokens": 992,
-        "total": 16406,
+        "prompt_tokens": 14899,
+        "completion_tokens": 941,
+        "total": 15840,
         "step_tool": null,
         "step_reasoning": null
       },
@@ -248,12 +232,11 @@
   },
   "plan_summary": {
     "plan_id": "sub-0128-ist-prediction-001",
-    "total_steps": 6,
+    "total_steps": 5,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "IDENTITY_AND_BELIEFS"
     ]
   },
   "explainability": {

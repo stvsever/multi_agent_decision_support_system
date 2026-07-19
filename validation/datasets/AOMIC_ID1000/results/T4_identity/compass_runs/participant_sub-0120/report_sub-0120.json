@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0120_20260718_171713",
+  "report_id": "RPT_sub-0120_20260719_111136",
   "participant_id": "sub-0120",
-  "generated_at": "2026-07-18T17:17:13.418906",
+  "generated_at": "2026-07-19T11:11:36.324315",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 217.520",
+    "primary_output": "IST_intelligence_total: 217.480",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 217.52
+          "IST_intelligence_total": 217.48
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,15 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Strong demographic and educational markers (z~0.9).",
-        "Low anxiety traits (z=-0.92) reducing performance inhibition."
+        "Strong demographic and educational foundation."
       ],
       "supporting_evidence_against": [
-        "Moderate reduction in conscientiousness (z=-0.648) potentially impacting sustained effort."
+        "Motivational and executive trait deficits."
       ],
       "uncertainty_factors": [
-        "Inference based entirely on proxy variables.",
-        "Limited granularity in cognitive-specific domains."
+        "Proxy-based inference without direct cognitive metrics."
       ],
       "children": []
     }
@@ -65,28 +63,28 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "High educational attainment (z=0.953, 83rd percentile, MODERATE effect) and socioeconomic status (z=0.837, 80th percentile, MODERATE effect).",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "High educational attainment (z=0.953) and socioeconomic status (z=0.837) suggest above-average cognitive reserve.",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Reduced conscientiousness (z=-0.648, 26th percentile, SMALL effect).",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Reduced reward responsiveness (z=-1.066) and conscientiousness (z=-0.648) suggest potential for lower-than-optimal test engagement.",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "Low trait anxiety (z=-0.92, 18th percentile, MODERATE effect).",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low trait anxiety (z=-0.92) acts as a protective factor against test-taking stress.",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic and socioeconomic markers, which are robust positive predictors of IST-2000R performance.",
-    "Step 2: Evaluated personality traits, noting a moderate dip in conscientiousness that may slightly offset the positive demographic signal.",
-    "Step 3: Integrated affective markers, specifically low trait anxiety, which acts as a stabilizing factor for cognitive assessment.",
-    "Step 4: Synthesized all features into a weighted aggregate z-score of 0.438, mapping to an estimated IST-2000R score of 217.52."
+    "Step 1: Identified positive cognitive predictors (education, SES) which anchor the estimate above the population mean of 200.",
+    "Step 2: Evaluated negative pressures from motivational/executive traits (low BAS reward responsiveness, low conscientiousness).",
+    "Step 3: Applied a dampening factor for the motivational deficit while accounting for the protective effect of low trait anxiety.",
+    "Step 4: Calculated the final estimate using a weighted linear transformation of the aggregate z-score profile, resulting in a predicted score of 217.48."
   ],
-  "clinical_summary": "Participant sub-0120 exhibits a profile of high educational and socioeconomic standing, which are strong indicators of cognitive reserve. While a moderate reduction in conscientiousness suggests potential challenges with sustained task focus, this is balanced by low trait anxiety, which likely facilitates optimal performance under testing conditions. The estimated IST-2000R total score is 217.52, placing the participant approximately 0.44 standard deviations above the cohort mean.",
+  "clinical_summary": "The participant's predicted IST 2000-R total score is 217.48. This estimate is derived from a profile of high socioeconomic and educational advantages, which provide a strong baseline for cognitive performance. While motivational deficits (low reward responsiveness and conscientiousness) may slightly limit peak performance on a comprehensive assessment, these are balanced by low trait anxiety, which likely facilitates a stable and focused testing experience. The prediction reflects an above-average cognitive potential consistent with the participant's demographic background.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -144,9 +142,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8934,
-          "final_tokens": 9737,
-          "processed_raw_tokens": 9676,
+          "baseline_tokens": 8921,
+          "final_tokens": 9733,
+          "processed_raw_tokens": 9672,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -155,23 +153,15 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "PSYCHOLOGICAL_PROFILES"
           ],
-          "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
-              [
-                "anxiety_traits"
-              ]
-            ]
-          },
+          "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
+            "PSYCHOLOGICAL_PROFILES": 10
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 23,
           "unprocessed_feature_count": 13,
@@ -192,12 +182,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 32955,
+    "tokens_used": 34283,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "IDENTITY_AND_BELIEFS"
     ],
     "detailed_logs": []
   },
@@ -206,23 +195,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS",
       "output_summary": "Generated 5-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify key predictors of intelligence. We use UnimodalCompressor to extract clinical patterns from the personality and motivational domains, then fuse these with demographic and identity data to generate a final regression estimate.",
-      "timestamp": "2026-07-18T17:16:59.423231",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify patterns relevant to intelligence. We use the UnimodalCompressor to extract cognitive-relevant patterns from psychological profiles, then fuse these with demographic and identity data to generate a final regression estimate.",
+      "timestamp": "2026-07-19T11:11:21.157265",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: High educational attainment (z=0.953, 83rd percentile, MODERATE effect) and socioeconomic status (z=0.837, 80th percentile, MODERATE effect)., Reduced conscientiousness (z=-0.648, 26th percentile, SMALL effect)., Low trait anxiety (z=-0.92, 18th percentile, MODERATE effect)....",
-      "output_summary": "IST_intelligence_total: 217.520 (confidence=0.650)",
-      "reasoning": "Participant sub-0120 exhibits a profile of high educational and socioeconomic standing, which are strong indicators of cognitive reserve. While a moderate reduction in conscientiousness suggests potential challenges with sustained task focus, this is balanced by low trait anxiety, which likely facilitates optimal performance under testing conditions. The estimated IST-2000R total score is 217.52, placing the participant approximately 0.44 standard deviations above the cohort mean.",
-      "timestamp": "2026-07-18T17:17:12.614207",
+      "input_summary": "Key findings: High educational attainment (z=0.953) and socioeconomic status (z=0.837) suggest above-average cognitive reserve., Reduced reward responsiveness (z=-1.066) and conscientiousness (z=-0.648) suggest potential for lower-than-optimal test engagement., Low trait anxiety (z=-0.92) acts as a protective factor against test-taking stress....",
+      "output_summary": "IST_intelligence_total: 217.480 (confidence=0.650)",
+      "reasoning": "The participant's predicted IST 2000-R total score is 217.48. This estimate is derived from a profile of high socioeconomic and educational advantages, which provide a strong baseline for cognitive performance. While motivational deficits (low reward responsiveness and conscientiousness) may slightly limit peak performance on a comprehensive assessment, these are balanced by low trait anxiety, which likely facilitates a stable and focused testing experience. The prediction reflects an above-aver",
+      "timestamp": "2026-07-19T11:11:35.750963",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 217.520"
+        "classification": "IST_intelligence_total: 217.480"
       }
     },
     {
@@ -232,7 +221,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:17:13.417791",
+      "timestamp": "2026-07-19T11:11:36.323789",
       "metadata": {}
     }
   ]

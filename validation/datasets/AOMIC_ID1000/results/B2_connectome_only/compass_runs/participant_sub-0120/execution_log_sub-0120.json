@@ -1,29 +1,29 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:24:46.594645",
+    "timestamp": "2026-07-19T11:19:02.923667",
     "data": {
       "participant_id": "sub-0120",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:24:46.594640"
+      "timestamp": "2026-07-19T11:19:02.923658"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:24:49.550656",
+    "timestamp": "2026-07-19T11:19:08.523551",
     "data": {
-      "plan_id": "sub-0120-ist-prediction-001",
+      "plan_id": "IST_2000R_PREDICTION_0120",
       "total_steps": 5,
       "priority_domains": [
-        "BRAIN_CONNECTOME"
+        "FUNCTIONAL_CONNECTOME"
       ]
     }
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:25:03.149907",
+    "timestamp": "2026-07-19T11:19:19.282143",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -66,9 +66,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8366,
-          "final_tokens": 10453,
-          "processed_raw_tokens": 10392,
+          "baseline_tokens": 7056,
+          "final_tokens": 9143,
+          "processed_raw_tokens": 9082,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -76,14 +76,12 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [],
-          "processed_prefixes_by_domain": {
-            "BRAIN_CONNECTOME": [
-              []
-            ]
-          },
+          "processed_whole_domains": [
+            "FUNCTIONAL_CONNECTOME"
+          ],
+          "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {},
           "all_feature_count": 28,
@@ -108,16 +106,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:25:03.149967",
+    "timestamp": "2026-07-19T11:19:19.282192",
     "data": {
-      "classification": "IST_intelligence_total: 245.000",
-      "probability": 0.8,
+      "classification": "IST_intelligence_total: 227.600",
+      "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:25:03.975286",
+    "timestamp": "2026-07-19T11:19:19.838759",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

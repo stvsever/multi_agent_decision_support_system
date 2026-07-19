@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:28:16.310780",
-  "total_duration_seconds": 18.65,
+  "execution_timestamp": "2026-07-19T11:22:29.268137",
+  "total_duration_seconds": 20.58,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 10861,
-        "final_tokens": 15479,
-        "processed_raw_tokens": 15418,
+        "baseline_tokens": 12401,
+        "final_tokens": 17025,
+        "processed_raw_tokens": 16964,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,13 +97,13 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "BRAIN_CONNECTOME",
-          "BRAIN_MORPHOMETRY"
+          "BRAIN_MORPHOMETRY",
+          "FUNCTIONAL_CONNECTOME"
         ],
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {
           "BRAIN_MORPHOMETRY": 35,
-          "BRAIN_CONNECTOME": 28
+          "FUNCTIONAL_CONNECTOME": 28
         },
         "unprocessed_leaf_counts": {},
         "all_feature_count": 63,
@@ -126,10 +126,10 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 219.780",
+    "classification": "IST_intelligence_total: 240.000",
     "probability": null,
-    "root_confidence": 0.75,
-    "confidence": "MEDIUM",
+    "root_confidence": 0.85,
+    "confidence": "HIGH",
     "primary_output_kind": "regression",
     "root_prediction": {
       "node_id": "root",
@@ -138,121 +138,120 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 219.78
+          "IST_intelligence_total": 240.0
         }
       },
-      "confidence_level": "MEDIUM",
-      "confidence_score": 0.75,
+      "confidence_level": "HIGH",
+      "confidence_score": 0.85,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent positive z-scores across structural domains",
-        "Executive network hyper-connectivity"
+        "Global volumetric expansion (z=1.16)",
+        "Frontoparietal control network cohesion (z=1.35)"
       ],
       "supporting_evidence_against": [
-        "Large-effect functional disconnects in limbic-executive pathways"
+        "Limbic-Frontoparietal decoupling (z=-2.40)"
       ],
       "uncertainty_factors": [
-        "Inferred intelligence from neuroimaging proxies",
-        "Potential for functional-structural mismatch"
+        "Absence of direct cognitive subscale data"
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 60239,
-    "prompt_tokens": 53813,
-    "completion_tokens": 6426,
+    "total_tokens": 63143,
+    "prompt_tokens": 55820,
+    "completion_tokens": 7323,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4671,
-        "completion_tokens": 1073,
-        "total": 5744,
+        "prompt_tokens": 4669,
+        "completion_tokens": 1227,
+        "total": 5896,
         "step_tool": null,
         "step_reasoning": null
       },
       {
-        "component": "orchestrator",
-        "prompt_tokens": 4711,
-        "completion_tokens": 1021,
-        "total": 5732,
-        "step_tool": null,
-        "step_reasoning": null
+        "component": "executor",
+        "prompt_tokens": 1607,
+        "completion_tokens": 473,
+        "total": 2080,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Prioritizes brain regions and connectivity metrics most relevant to cognitive performance."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 4586,
+        "completion_tokens": 728,
+        "total": 5314,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Extracts clinical patterns from morphometric data to support regression."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 3518,
+        "completion_tokens": 739,
+        "total": 4257,
+        "step_tool": "AnomalyNarrativeBuilder",
+        "step_reasoning": "Identifies significant deviations in brain structure and function relative to healthy norms."
       },
       {
         "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 631,
-        "total": 1899,
+        "completion_tokens": 724,
+        "total": 1992,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria and biomarker associations for intelligence assessment."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 1599,
-        "completion_tokens": 471,
-        "total": 2070,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which brain regions and connectivity pathways are most relevant for intelligence prediction."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 4579,
-        "completion_tokens": 733,
-        "total": 5312,
-        "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Extracts relevant structural patterns from morphometry data to support the regression task."
+        "step_reasoning": "Establishes the gold standard criteria for intelligence-related biomarker associations."
       },
       {
         "component": "executor",
         "prompt_tokens": 4105,
-        "completion_tokens": 814,
-        "total": 4919,
+        "completion_tokens": 845,
+        "total": 4950,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Extracts relevant connectivity patterns from connectome data to support the regression task."
+        "step_reasoning": "Extracts clinical patterns from functional connectivity data to support regression."
       },
       {
         "component": "executor",
-        "prompt_tokens": 8624,
-        "completion_tokens": 615,
-        "total": 9239,
+        "prompt_tokens": 8582,
+        "completion_tokens": 675,
+        "total": 9257,
         "step_tool": "MultimodalNarrativeCreator",
-        "step_reasoning": "Integrates neuroimaging findings into a coherent narrative for the predictor."
+        "step_reasoning": "Integrates structural and functional findings to explain cognitive capacity."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1069,
-        "completion_tokens": 202,
-        "total": 1271,
-        "step_tool": "CodeExecutor",
-        "step_reasoning": "Calculates the final quantitative intelligence score based on synthesized features and narratives."
+        "prompt_tokens": 2676,
+        "completion_tokens": 874,
+        "total": 3550,
+        "step_tool": "DifferentialDiagnosis",
+        "step_reasoning": "Synthesizes all narratives, rankings, and compressed data to predict the total intelligence score."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 23003,
-        "completion_tokens": 832,
-        "total": 23835,
+        "prompt_tokens": 24625,
+        "completion_tokens": 1000,
+        "total": 25625,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
         "prompt_tokens": 184,
-        "completion_tokens": 34,
-        "total": 218,
+        "completion_tokens": 38,
+        "total": 222,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_2000R_PREDICTION_0673",
-    "total_steps": 6,
+    "plan_id": "sub-0673-ist-prediction-001",
+    "total_steps": 7,
     "priority_domains": [
       "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ]
   },
   "explainability": {

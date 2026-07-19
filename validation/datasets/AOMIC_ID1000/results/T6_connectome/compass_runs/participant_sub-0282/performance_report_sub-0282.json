@@ -28,14 +28,14 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:22:01.426312",
-  "total_duration_seconds": 18.83,
+  "execution_timestamp": "2026-07-19T11:16:23.867456",
+  "total_duration_seconds": 20.41,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
   "coverage_summary": {
     "all_feature_count": 86,
-    "processed_feature_count": 23,
+    "processed_feature_count": 86,
     "unprocessed_raw_feature_count": 69,
     "processed_raw_low_priority_feature_count": 17,
     "chunk_cited_feature_count": 0,
@@ -63,7 +63,7 @@
     "coverage": {
       "summary": {
         "all_feature_count": 86,
-        "processed_feature_count": 23,
+        "processed_feature_count": 86,
         "unprocessed_raw_feature_count": 69,
         "processed_raw_low_priority_feature_count": 17,
         "chunk_cited_feature_count": 0,
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 25031,
-        "final_tokens": 26327,
-        "processed_raw_tokens": 26266,
+        "baseline_tokens": 28188,
+        "final_tokens": 29505,
+        "processed_raw_tokens": 29444,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,20 +97,18 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "IDENTITY_AND_BELIEF",
-          "MOTIVATION_AND_AFFECT",
-          "PERSONALITY"
+          "IDENTITY_AND_BELIEFS",
+          "PSYCHOLOGICAL_PROFILES"
         ],
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5,
-          "IDENTITY_AND_BELIEF": 7
+          "PSYCHOLOGICAL_PROFILES": 10,
+          "IDENTITY_AND_BELIEFS": 7
         },
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
           "BRAIN_MORPHOMETRY": 35,
-          "BRAIN_CONNECTOME": 28
+          "FUNCTIONAL_CONNECTOME": 28
         },
         "all_feature_count": 86,
         "unprocessed_feature_count": 69,
@@ -132,7 +130,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 165.000",
+    "classification": "IST_intelligence_total: 152.000",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -144,7 +142,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 165.0
+          "IST_intelligence_total": 152.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -152,105 +150,104 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergent negative indicators across education, personality, and connectome domains"
+        "Convergent structural, functional, and demographic markers of lower cognitive performance."
       ],
       "supporting_evidence_against": [
-        "Normal global brain morphometry"
+        "Reliance on indirect proxy features."
       ],
       "uncertainty_factors": [
-        "Absence of direct cognitive performance metrics"
+        "Absence of direct IST subscale scores."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 51575,
-    "prompt_tokens": 45739,
-    "completion_tokens": 5836,
+    "total_tokens": 63424,
+    "prompt_tokens": 57162,
+    "completion_tokens": 6262,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4775,
-        "completion_tokens": 1042,
-        "total": 5817,
+        "prompt_tokens": 4756,
+        "completion_tokens": 1129,
+        "total": 5885,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 2099,
-        "completion_tokens": 454,
-        "total": 2553,
-        "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Extracts key personality traits relevant to cognitive performance."
+        "prompt_tokens": 4502,
+        "completion_tokens": 440,
+        "total": 4942,
+        "step_tool": "AnomalyNarrativeBuilder",
+        "step_reasoning": ""
       },
       {
         "component": "executor",
-        "prompt_tokens": 2202,
-        "completion_tokens": 503,
-        "total": 2705,
+        "prompt_tokens": 2368,
+        "completion_tokens": 472,
+        "total": 2840,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Extracts affective states that influence cognitive testing performance."
+        "step_reasoning": "Extracts identity-related markers that may correlate with cognitive performance."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2334,
-        "completion_tokens": 489,
-        "total": 2823,
+        "prompt_tokens": 2634,
+        "completion_tokens": 792,
+        "total": 3426,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Captures identity-related factors potentially correlated with cognitive self-efficacy."
+        "step_reasoning": "Extracts latent cognitive-behavioral patterns from psychological data."
       },
       {
         "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 683,
-        "total": 1951,
+        "completion_tokens": 720,
+        "total": 1988,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the search criteria for cognitive-related biomarkers and behavioral traits."
+        "step_reasoning": "Establishes the search criteria for cognitive intelligence markers."
       },
       {
         "component": "executor",
-        "prompt_tokens": 5236,
-        "completion_tokens": 776,
-        "total": 6012,
+        "prompt_tokens": 10145,
+        "completion_tokens": 733,
+        "total": 10878,
         "step_tool": "MultimodalNarrativeCreator",
-        "step_reasoning": "Synthesizes disparate psychological domains into a unified cognitive profile."
+        "step_reasoning": "Integrates behavioral and neurobiological data to form a comprehensive cognitive profile."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2559,
-        "completion_tokens": 902,
-        "total": 3461,
+        "prompt_tokens": 2534,
+        "completion_tokens": 898,
+        "total": 3432,
         "step_tool": "DifferentialDiagnosis",
-        "step_reasoning": "Uses the integrated narrative and raw demographic data to estimate the final intelligence score."
+        "step_reasoning": "Synthesizes all processed data to output the final IST 2000-R score."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 25082,
-        "completion_tokens": 953,
-        "total": 26035,
+        "prompt_tokens": 28773,
+        "completion_tokens": 1044,
+        "total": 29817,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 184,
+        "prompt_tokens": 182,
         "completion_tokens": 34,
-        "total": 218,
+        "total": 216,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "sub-0282-intelligence-prediction-001",
+    "plan_id": "sub-0282-ist-prediction-001",
     "total_steps": 6,
     "priority_domains": [
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF",
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "PSYCHOLOGICAL_PROFILES",
+      "IDENTITY_AND_BELIEFS",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ]
   },
   "explainability": {

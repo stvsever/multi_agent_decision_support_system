@@ -1,6 +1,6 @@
 {
-  "DEMOGRAPHICS_AND_PHYSICAL": {
-    "personal_attributes": {
+  "DEMOGRAPHICS_AND_ANTHROPOMETRICS": {
+    "biological_characteristics": {
       "_leaves": [
         {
           "feature": "Age",
@@ -19,11 +19,7 @@
           "z_score": 0.351,
           "value": "right (Normal)",
           "ref_range": "cohort distribution right:89%, left:11%"
-        }
-      ]
-    },
-    "anthropometrics": {
-      "_leaves": [
+        },
         {
           "feature": "Body mass index",
           "z_score": -0.248,
@@ -32,7 +28,7 @@
         }
       ]
     },
-    "socioeconomic_status": {
+    "socioeconomic_background": {
       "_leaves": [
         {
           "feature": "Education level",
@@ -49,8 +45,8 @@
       ]
     }
   },
-  "PERSONALITY": {
-    "big_five_personality": {
+  "PSYCHOLOGICAL_PROFILES": {
+    "personality_traits": {
       "_leaves": [
         {
           "feature": "Neuroticism (NEO-FFI)",
@@ -83,9 +79,7 @@
           "ref_range": "cohort mean 37.8, sd 5.9 (population-referenced)"
         }
       ]
-    }
-  },
-  "MOTIVATION_AND_AFFECT": {
+    },
     "reinforcement_sensitivity": {
       "_leaves": [
         {
@@ -114,7 +108,7 @@
         }
       ]
     },
-    "anxiety_traits": {
+    "trait_anxiety": {
       "_leaves": [
         {
           "feature": "Trait anxiety (STAI-T)",
@@ -125,7 +119,7 @@
       ]
     }
   },
-  "IDENTITY_AND_BELIEF": {
+  "IDENTITY_AND_BELIEFS": {
     "sexual_and_gender_identity": {
       "_leaves": [
         {
@@ -154,7 +148,7 @@
         }
       ]
     },
-    "religiosity": {
+    "religious_affiliation_and_importance": {
       "_leaves": [
         {
           "feature": "Religious upbringing",

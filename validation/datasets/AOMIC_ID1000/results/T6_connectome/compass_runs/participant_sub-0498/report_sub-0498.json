@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0498_20260718_172235",
+  "report_id": "RPT_sub-0498_20260719_111703",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:22:35.694717",
+  "generated_at": "2026-07-19T11:17:03.885793",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 185.000",
+    "primary_output": "IST_intelligence_total: 209.720",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 185.0
+          "IST_intelligence_total": 209.72
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,16 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Cortical thickness as a reliable proxy for cognitive efficiency",
-        "Integration of multiple domains (morphometry, connectome, personality)"
+        "Integrated z-score profile (mean 0.243) indicates a positive deviation from the cohort mean."
       ],
       "supporting_evidence_against": [
-        "Subcortical volume deficits",
-        "Affective interference from high anxiety"
+        "Affective and motivational stressors (anxiety, low BAS) may limit peak performance."
       ],
       "uncertainty_factors": [
-        "Indirect inference from non-cognitive features",
-        "Complex neurobiological trade-offs"
+        "Inference-based prediction from non-cognitive proxies."
       ],
       "children": []
     }
@@ -66,42 +63,38 @@
   },
   "key_findings": [
     {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Widespread cortical thickening (e.g., left frontal lobe z=2.16, 98th percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Elevated Neuroticism (z=1.42, 92nd percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Subcortical volume reduction (e.g., left caudate z=-2.03, 2nd percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Reduced BAS reward responsiveness (z=-1.07, 14th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "Elevated neuroticism (z=1.42, 92nd percentile) and trait anxiety (z=0.75, 77th percentile)",
+      "domain": "IDENTITY_AND_BELIEFS",
+      "finding": "High religious engagement (z=1.93, 97th percentile, LARGE effect)",
       "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Disrupted attention-salience integration (z=-2.58, 0.5th percentile, LARGE effect)",
-      "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Identified strong positive structural markers (cortical thickness) suggesting high cognitive potential.",
-    "Step 2: Identified significant negative structural markers (subcortical volume) and connectomic decoupling (attention-salience) suggesting processing inefficiencies.",
-    "Step 3: Integrated psychological profile (high anxiety/neuroticism) which acts as a performance constraint during standardized testing.",
-    "Step 4: Synthesized these conflicting signals to estimate a score slightly above the cohort mean of 200, adjusted for the observed performance bottlenecks."
+    "Step 1: Analyzed psychological profile showing elevated neuroticism (z=1.42) and trait anxiety (z=0.75), which typically correlate with reduced cognitive efficiency under pressure.",
+    "Step 2: Identified reduced behavioral activation system (BAS) components (reward responsiveness z=-1.07, fun-seeking z=-1.25), suggesting lower motivational drive for sustained cognitive effort.",
+    "Step 3: Integrated demographic and identity markers, noting high religious engagement (z=1.93) but low subjective importance, indicating potential external social pressure.",
+    "Step 4: Applied computational scaling based on integrated z-score features (mean z=0.243), resulting in a projected IST 2000-R score of 209.72.",
+    "Step 5: Adjusted the final estimate downward slightly to account for the negative impact of high anxiety and low motivational drive on test-taking performance."
   ],
-  "clinical_summary": "The subject exhibits a complex neurobiological profile where structural cortical expansion (z > 2.0) suggests high intellectual potential, yet this is tempered by significant subcortical volume deficits and connectomic decoupling (z < -2.0). Psychosocial factors, including elevated neuroticism and trait anxiety, likely act as performance bottlenecks during high-pressure cognitive assessments. The predicted IST 2000-R score reflects this tension between high structural capacity and functional/affective constraints.",
+  "clinical_summary": "The participant exhibits a psychological profile characterized by elevated neuroticism and trait anxiety, coupled with reduced reward-seeking motivation. While demographic and identity markers are within normative ranges, the combination of high emotional reactivity and lower motivational drive suggests a potential for slight cognitive interference during high-demand standardized testing. The predicted IST 2000-R score is 209.72, reflecting a performance slightly above the cohort mean, tempered by the identified affective and motivational stressors.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
     "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
     "coverage_summary": {
       "all_feature_count": 86,
-      "processed_feature_count": 80,
-      "unprocessed_raw_feature_count": 23,
-      "processed_raw_low_priority_feature_count": 63,
+      "processed_feature_count": 23,
+      "unprocessed_raw_feature_count": 69,
+      "processed_raw_low_priority_feature_count": 17,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 86,
       "missing_feature_count": 0,
@@ -127,9 +120,9 @@
       "coverage": {
         "summary": {
           "all_feature_count": 86,
-          "processed_feature_count": 80,
-          "unprocessed_raw_feature_count": 23,
-          "processed_raw_low_priority_feature_count": 63,
+          "processed_feature_count": 23,
+          "unprocessed_raw_feature_count": 69,
+          "processed_raw_low_priority_feature_count": 17,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 86,
           "missing_feature_count": 0,
@@ -150,9 +143,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 16405,
-          "final_tokens": 21023,
-          "processed_raw_tokens": 20962,
+          "baseline_tokens": 23992,
+          "final_tokens": 25309,
+          "processed_raw_tokens": 25248,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -161,23 +154,22 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "BRAIN_MORPHOMETRY": 35,
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "all_feature_count": 86,
-          "unprocessed_feature_count": 23,
-          "processed_feature_count": 63,
+          "unprocessed_feature_count": 69,
+          "processed_feature_count": 17,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -194,13 +186,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 55984,
+    "tokens_used": 51917,
     "domains_processed": [
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF",
-      "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME"
+      "PSYCHOLOGICAL_PROFILES",
+      "IDENTITY_AND_BELIEFS",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -209,23 +199,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF, BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
-      "output_summary": "Generated 6-step plan",
-      "reasoning": "The plan prioritizes parallel early-stage analysis of features and brain data, followed by a sequential fusion process to synthesize the final regression output.",
-      "timestamp": "2026-07-18T17:22:23.983047",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, IDENTITY_AND_BELIEFS, DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since IST subscales are absent, the plan focuses on extracting predictive behavioral and identity patterns using the UnimodalCompressor. We prioritize psychological and identity domains as they are the primary proxies for cognitive performance in this dataset, while demographics provide the necessary baseline adjustment.",
+      "timestamp": "2026-07-19T11:16:52.220716",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Widespread cortical thickening (e.g., left frontal lobe z=2.16, 98th percentile, MODERATE effect), Subcortical volume reduction (e.g., left caudate z=-2.03, 2nd percentile, MODERATE effect), Elevated neuroticism (z=1.42, 92nd percentile) and trait anxiety (z=0.75, 77th percentile)...",
-      "output_summary": "IST_intelligence_total: 185.000 (confidence=0.650)",
-      "reasoning": "The subject exhibits a complex neurobiological profile where structural cortical expansion (z > 2.0) suggests high intellectual potential, yet this is tempered by significant subcortical volume deficits and connectomic decoupling (z < -2.0). Psychosocial factors, including elevated neuroticism and trait anxiety, likely act as performance bottlenecks during high-pressure cognitive assessments. The predicted IST 2000-R score reflects this tension between high structural capacity and functional/aff",
-      "timestamp": "2026-07-18T17:22:35.109450",
+      "input_summary": "Key findings: Elevated Neuroticism (z=1.42, 92nd percentile, MODERATE effect), Reduced BAS reward responsiveness (z=-1.07, 14th percentile, MODERATE effect), High religious engagement (z=1.93, 97th percentile, LARGE effect)...",
+      "output_summary": "IST_intelligence_total: 209.720 (confidence=0.650)",
+      "reasoning": "The participant exhibits a psychological profile characterized by elevated neuroticism and trait anxiety, coupled with reduced reward-seeking motivation. While demographic and identity markers are within normative ranges, the combination of high emotional reactivity and lower motivational drive suggests a potential for slight cognitive interference during high-demand standardized testing. The predicted IST 2000-R score is 209.72, reflecting a performance slightly above the cohort mean, tempered ",
+      "timestamp": "2026-07-19T11:17:03.181954",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 185.000"
+        "classification": "IST_intelligence_total: 209.720"
       }
     },
     {
@@ -234,8 +224,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.83; fallback_used=False.",
-      "timestamp": "2026-07-18T17:22:35.693704",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
+      "timestamp": "2026-07-19T11:17:03.885206",
       "metadata": {}
     }
   ]

@@ -28,16 +28,16 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:15:43.699277",
-  "total_duration_seconds": 15.62,
+  "execution_timestamp": "2026-07-19T11:10:06.440043",
+  "total_duration_seconds": 19.42,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
   "coverage_summary": {
     "all_feature_count": 16,
     "processed_feature_count": 16,
-    "unprocessed_raw_feature_count": 16,
-    "processed_raw_low_priority_feature_count": 0,
+    "unprocessed_raw_feature_count": 6,
+    "processed_raw_low_priority_feature_count": 10,
     "chunk_cited_feature_count": 0,
     "represented_feature_count": 16,
     "missing_feature_count": 0,
@@ -64,8 +64,8 @@
       "summary": {
         "all_feature_count": 16,
         "processed_feature_count": 16,
-        "unprocessed_raw_feature_count": 16,
-        "processed_raw_low_priority_feature_count": 0,
+        "unprocessed_raw_feature_count": 6,
+        "processed_raw_low_priority_feature_count": 10,
         "chunk_cited_feature_count": 0,
         "represented_feature_count": 16,
         "missing_feature_count": 0,
@@ -83,12 +83,12 @@
       "chunking_reason": "payload_fit_excluding_processed_raw"
     },
     "context_fill": {
-      "processed_raw_full_included": false,
+      "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 7902,
-        "final_tokens": 7985,
-        "processed_raw_tokens": null,
+        "baseline_tokens": 8436,
+        "final_tokens": 9248,
+        "processed_raw_tokens": 9187,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -96,17 +96,19 @@
         "runtime_instruction_applied": true
       },
       "coverage_snapshot": {
-        "processed_whole_domains": [],
+        "processed_whole_domains": [
+          "PSYCHOLOGICAL_PROFILES"
+        ],
         "processed_prefixes_by_domain": {},
-        "excluded_leaf_counts": {},
+        "excluded_leaf_counts": {
+          "PSYCHOLOGICAL_PROFILES": 10
+        },
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
         },
         "all_feature_count": 16,
-        "unprocessed_feature_count": 16,
-        "processed_feature_count": 0,
+        "unprocessed_feature_count": 6,
+        "processed_feature_count": 10,
         "missing_feature_count": 0
       },
       "embedding_store": {
@@ -124,7 +126,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 211.160",
+    "classification": "IST_intelligence_total: 208.000",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +138,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 211.16
+          "IST_intelligence_total": 208.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,69 +146,76 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Positive socioeconomic status (z=1.67) and education level (z=0.95) are strong indicators of higher cognitive potential."
+        "High SES and education level provide a robust foundation for cognitive performance."
       ],
       "supporting_evidence_against": [
-        "Lower-than-average scores in Openness and Agreeableness suggest potential limitations in cognitive engagement or test-taking style."
+        "Personality traits suggest lower-than-optimal engagement with standardized testing."
       ],
       "uncertainty_factors": [
-        "Absence of direct cognitive performance data.",
-        "Proxy-based inference relies on population-level correlations."
+        "Personality-based inference is indirect and subject to individual variance."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 26082,
-    "prompt_tokens": 22301,
-    "completion_tokens": 3781,
+    "total_tokens": 35647,
+    "prompt_tokens": 29908,
+    "completion_tokens": 5739,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4691,
-        "completion_tokens": 832,
-        "total": 5523,
+        "prompt_tokens": 4673,
+        "completion_tokens": 1001,
+        "total": 5674,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1270,
-        "completion_tokens": 619,
-        "total": 1889,
-        "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the criteria and psychological markers associated with cognitive performance to guide the analysis."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 1799,
-        "completion_tokens": 573,
-        "total": 2372,
+        "prompt_tokens": 1619,
+        "completion_tokens": 479,
+        "total": 2098,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": ""
+        "step_reasoning": "Identifies which demographic and psychological variables are most predictive of cognitive performance."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1527,
-        "completion_tokens": 531,
-        "total": 2058,
-        "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Prioritizes the most informative variables for the final regression model."
+        "prompt_tokens": 1270,
+        "completion_tokens": 698,
+        "total": 1968,
+        "step_tool": "PhenotypeRepresentation",
+        "step_reasoning": "Establishes the clinical and cognitive criteria for the target prediction."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1088,
-        "completion_tokens": 172,
-        "total": 1260,
-        "step_tool": "CodeExecutor",
-        "step_reasoning": "Calculates the final numerical prediction based on the prioritized features."
+        "prompt_tokens": 2640,
+        "completion_tokens": 725,
+        "total": 3365,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Summarizes psychological data into actionable patterns for the regression task."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 3220,
+        "completion_tokens": 747,
+        "total": 3967,
+        "step_tool": "MultimodalNarrativeCreator",
+        "step_reasoning": "Integrates disparate data sources into a coherent clinical picture for the final prediction."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 2633,
+        "completion_tokens": 976,
+        "total": 3609,
+        "step_tool": "DifferentialDiagnosis",
+        "step_reasoning": "Synthesizes all previous findings to output the final numerical intelligence prediction."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 11744,
-        "completion_tokens": 1020,
-        "total": 12764,
+        "prompt_tokens": 13671,
+        "completion_tokens": 1079,
+        "total": 14750,
         "step_tool": null,
         "step_reasoning": null
       },
@@ -221,12 +230,11 @@
     ]
   },
   "plan_summary": {
-    "plan_id": "sub-0153-intelligence-prediction-001",
-    "total_steps": 4,
+    "plan_id": "sub-0153-ist-prediction-001",
+    "total_steps": 5,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ]
   },
   "explainability": {

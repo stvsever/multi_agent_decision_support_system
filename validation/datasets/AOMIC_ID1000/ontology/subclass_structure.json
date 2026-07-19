@@ -1,14 +1,14 @@
 {
   "domains": [
     {
-      "id": "DEMOGRAPHICS_AND_PHYSICAL",
-      "label": "Demographics and Physical Characteristics",
-      "definition": "Basic biological, physical, and socioeconomic descriptors of the study participants.",
+      "id": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "label": "Demographics and Anthropometrics",
+      "definition": "Basic participant characteristics including age, biological sex, handedness, body mass index, education level, and socio-economic status.",
       "subdomains": [
         {
-          "id": "personal_attributes",
-          "label": "Personal Attributes",
-          "definition": "Fundamental demographic identifiers including age, biological sex, and handedness.",
+          "id": "biological_characteristics",
+          "label": "Biological Characteristics",
+          "definition": "Fundamental physiological and physical attributes of the participant.",
           "features": [
             {
               "id": "age",
@@ -30,14 +30,7 @@
               "definition": "Left- or right-handed.",
               "stat_type": "binary",
               "units": null
-            }
-          ]
-        },
-        {
-          "id": "anthropometrics",
-          "label": "Anthropometrics",
-          "definition": "Quantitative measurements of physical body dimensions such as body mass index.",
-          "features": [
+            },
             {
               "id": "BMI",
               "label": "Body mass index",
@@ -48,9 +41,9 @@
           ]
         },
         {
-          "id": "socioeconomic_status",
-          "label": "Socioeconomic Status",
-          "definition": "Indicators of an individual's social and economic standing, including educational attainment and background.",
+          "id": "socioeconomic_background",
+          "label": "Socioeconomic Background",
+          "definition": "Indicators of the participant's educational attainment and social status.",
           "features": [
             {
               "id": "education_level",
@@ -71,14 +64,14 @@
       ]
     },
     {
-      "id": "PERSONALITY",
-      "label": "Personality Traits",
-      "definition": "Psychological characteristics describing stable patterns of behavior and temperament.",
+      "id": "PSYCHOLOGICAL_PROFILES",
+      "label": "Psychological Profiles",
+      "definition": "Self-report questionnaire constructs measuring personality traits (NEO-FFI), reinforcement sensitivity (BIS/BAS), and trait anxiety (STAI).",
       "subdomains": [
         {
-          "id": "big_five_personality",
-          "label": "Big Five Personality",
-          "definition": "Measures of the five core dimensions of personality: openness, conscientiousness, extraversion, agreeableness, and neuroticism.",
+          "id": "personality_traits",
+          "label": "Personality Traits",
+          "definition": "Measures of the Big Five personality dimensions as assessed by the NEO-FFI questionnaire.",
           "features": [
             {
               "id": "NEO_N",
@@ -116,18 +109,11 @@
               "units": null
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "MOTIVATION_AND_AFFECT",
-      "label": "Motivation and Affect",
-      "definition": "Psychological constructs related to reinforcement sensitivity and emotional regulation.",
-      "subdomains": [
+        },
         {
           "id": "reinforcement_sensitivity",
           "label": "Reinforcement Sensitivity",
-          "definition": "Measures of behavioral approach and inhibition systems in response to reward and punishment.",
+          "definition": "Measures of behavioral activation and inhibition systems related to reward and punishment sensitivity.",
           "features": [
             {
               "id": "BAS_drive",
@@ -160,9 +146,9 @@
           ]
         },
         {
-          "id": "anxiety_traits",
-          "label": "Anxiety Traits",
-          "definition": "Assessment of stable individual differences in the tendency to experience anxiety.",
+          "id": "trait_anxiety",
+          "label": "Trait Anxiety",
+          "definition": "Measures of stable individual differences in the tendency to experience anxiety.",
           "features": [
             {
               "id": "STAI_T",
@@ -176,26 +162,26 @@
       ]
     },
     {
-      "id": "IDENTITY_AND_BELIEF",
-      "label": "Identity and Belief",
-      "definition": "Self-reported measures concerning sexual identity, gender, and religious affiliation.",
+      "id": "IDENTITY_AND_BELIEFS",
+      "label": "Identity and Beliefs",
+      "definition": "Self-reported measures concerning sexual orientation, gender identity, and religious affiliation or importance.",
       "subdomains": [
         {
           "id": "sexual_and_gender_identity",
           "label": "Sexual and Gender Identity",
-          "definition": "Self-ratings regarding sexual attraction and gender identity.",
+          "definition": "Self-reported measures regarding an individual's sexual attraction and gender identity.",
           "features": [
             {
               "id": "sexual_attraction_M",
               "label": "Sexual attraction to males",
-              "definition": "",
+              "definition": "Degree of sexual attraction to males (1-7).",
               "stat_type": "numeric",
               "units": null
             },
             {
               "id": "sexual_attraction_F",
               "label": "Sexual attraction to females",
-              "definition": "",
+              "definition": "Degree of sexual attraction to females (1-7).",
               "stat_type": "numeric",
               "units": null
             },
@@ -216,9 +202,9 @@
           ]
         },
         {
-          "id": "religiosity",
-          "label": "Religiosity",
-          "definition": "Measures of religious upbringing, current religious practice, and the personal importance of religion.",
+          "id": "religious_affiliation_and_importance",
+          "label": "Religious Affiliation and Importance",
+          "definition": "Self-reported measures concerning religious upbringing, current religious status, and the subjective importance of religion.",
           "features": [
             {
               "id": "religious_upbringing",
@@ -248,12 +234,12 @@
     {
       "id": "BRAIN_MORPHOMETRY",
       "label": "Brain Morphometry",
-      "definition": "Structural measurements of brain anatomy derived from structural MRI data.",
+      "definition": "Structural brain measures derived from T1-weighted MRI, including subcortical volumes and cortical thickness metrics.",
       "subdomains": [
         {
-          "id": "global_brain_measures",
-          "label": "Global Brain Measures",
-          "definition": "Aggregate volumetric measurements of total brain tissue and major structural compartments.",
+          "id": "global_volumetric_measures",
+          "label": "Global Volumetric Measures",
+          "definition": "Aggregate structural metrics representing total tissue volumes within the brain.",
           "features": [
             {
               "id": "fs_brainseg_vol",
@@ -295,7 +281,7 @@
         {
           "id": "subcortical_volumes",
           "label": "Subcortical Volumes",
-          "definition": "Volumetric measurements of specific deep brain structures such as the hippocampus and amygdala.",
+          "definition": "Volumetric measures of specific deep gray matter structures and associated regions.",
           "features": [
             {
               "id": "fs_vol_lh_hippocampus",
@@ -414,7 +400,7 @@
         {
           "id": "cortical_thickness",
           "label": "Cortical Thickness",
-          "definition": "Measurements of the thickness of the cerebral cortex across different lobes and hemispheres.",
+          "definition": "Metrics quantifying the thickness of the cerebral cortex, organized by hemisphere and anatomical lobe.",
           "features": [
             {
               "id": "fs_mean_thickness_lh",
@@ -519,14 +505,14 @@
       ]
     },
     {
-      "id": "BRAIN_CONNECTOME",
-      "label": "Brain Connectome",
-      "definition": "Functional connectivity patterns between brain networks derived from movie-watching fMRI.",
+      "id": "FUNCTIONAL_CONNECTOME",
+      "label": "Functional Connectome",
+      "definition": "Functional connectivity metrics between Yeo resting-state networks derived from movie-watching fMRI data.",
       "subdomains": [
         {
           "id": "within_network_connectivity",
-          "label": "Within-Network Connectivity",
-          "definition": "Functional synchronization strength between regions belonging to the same functional network.",
+          "label": "Within-network functional connectivity",
+          "definition": "Measures of internal functional coherence within individual Yeo resting-state networks.",
           "features": [
             {
               "id": "fc_vis_within",
@@ -581,8 +567,8 @@
         },
         {
           "id": "between_network_connectivity",
-          "label": "Between-Network Connectivity",
-          "definition": "Functional synchronization strength between regions belonging to different functional networks.",
+          "label": "Between-network functional connectivity",
+          "definition": "Measures of functional interaction between distinct Yeo resting-state networks.",
           "features": [
             {
               "id": "fc_vis_sommot",
@@ -737,149 +723,148 @@
     }
   ],
   "repair_stats": {
-    "duplicates_removed": 0,
-    "unknown_removed": 0,
-    "unassigned_added": 0
+    "domains_proposed": 5,
+    "unassigned_repaired": 0
   },
   "column_index": {
     "age": {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "subdomain": "personal_attributes",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "biological_characteristics",
       "feature_label": "Age"
     },
     "sex": {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "subdomain": "personal_attributes",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "biological_characteristics",
       "feature_label": "Biological sex"
     },
     "handedness": {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "subdomain": "personal_attributes",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "biological_characteristics",
       "feature_label": "Handedness"
     },
     "BMI": {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "subdomain": "anthropometrics",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "biological_characteristics",
       "feature_label": "Body mass index"
     },
     "education_level": {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "subdomain": "socioeconomic_status",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "socioeconomic_background",
       "feature_label": "Education level"
     },
     "background_SES": {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "subdomain": "socioeconomic_status",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "socioeconomic_background",
       "feature_label": "Background socio-economic status"
     },
     "NEO_N": {
-      "domain": "PERSONALITY",
-      "subdomain": "big_five_personality",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "subdomain": "personality_traits",
       "feature_label": "Neuroticism (NEO-FFI)"
     },
     "NEO_E": {
-      "domain": "PERSONALITY",
-      "subdomain": "big_five_personality",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "subdomain": "personality_traits",
       "feature_label": "Extraversion (NEO-FFI)"
     },
     "NEO_O": {
-      "domain": "PERSONALITY",
-      "subdomain": "big_five_personality",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "subdomain": "personality_traits",
       "feature_label": "Openness (NEO-FFI)"
     },
     "NEO_A": {
-      "domain": "PERSONALITY",
-      "subdomain": "big_five_personality",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "subdomain": "personality_traits",
       "feature_label": "Agreeableness (NEO-FFI)"
     },
     "NEO_C": {
-      "domain": "PERSONALITY",
-      "subdomain": "big_five_personality",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "subdomain": "personality_traits",
       "feature_label": "Conscientiousness (NEO-FFI)"
     },
     "BAS_drive": {
-      "domain": "MOTIVATION_AND_AFFECT",
+      "domain": "PSYCHOLOGICAL_PROFILES",
       "subdomain": "reinforcement_sensitivity",
       "feature_label": "BAS drive"
     },
     "BAS_fun": {
-      "domain": "MOTIVATION_AND_AFFECT",
+      "domain": "PSYCHOLOGICAL_PROFILES",
       "subdomain": "reinforcement_sensitivity",
       "feature_label": "BAS fun-seeking"
     },
     "BAS_reward": {
-      "domain": "MOTIVATION_AND_AFFECT",
+      "domain": "PSYCHOLOGICAL_PROFILES",
       "subdomain": "reinforcement_sensitivity",
       "feature_label": "BAS reward responsiveness"
     },
     "BIS": {
-      "domain": "MOTIVATION_AND_AFFECT",
+      "domain": "PSYCHOLOGICAL_PROFILES",
       "subdomain": "reinforcement_sensitivity",
       "feature_label": "Behavioural inhibition (BIS)"
     },
     "STAI_T": {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "subdomain": "anxiety_traits",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "subdomain": "trait_anxiety",
       "feature_label": "Trait anxiety (STAI-T)"
     },
     "sexual_attraction_M": {
-      "domain": "IDENTITY_AND_BELIEF",
+      "domain": "IDENTITY_AND_BELIEFS",
       "subdomain": "sexual_and_gender_identity",
       "feature_label": "Sexual attraction to males"
     },
     "sexual_attraction_F": {
-      "domain": "IDENTITY_AND_BELIEF",
+      "domain": "IDENTITY_AND_BELIEFS",
       "subdomain": "sexual_and_gender_identity",
       "feature_label": "Sexual attraction to females"
     },
     "gender_identity_M": {
-      "domain": "IDENTITY_AND_BELIEF",
+      "domain": "IDENTITY_AND_BELIEFS",
       "subdomain": "sexual_and_gender_identity",
       "feature_label": "Gender identity (male)"
     },
     "gender_identity_F": {
-      "domain": "IDENTITY_AND_BELIEF",
+      "domain": "IDENTITY_AND_BELIEFS",
       "subdomain": "sexual_and_gender_identity",
       "feature_label": "Gender identity (female)"
     },
     "religious_upbringing": {
-      "domain": "IDENTITY_AND_BELIEF",
-      "subdomain": "religiosity",
+      "domain": "IDENTITY_AND_BELIEFS",
+      "subdomain": "religious_affiliation_and_importance",
       "feature_label": "Religious upbringing"
     },
     "religious_now": {
-      "domain": "IDENTITY_AND_BELIEF",
-      "subdomain": "religiosity",
+      "domain": "IDENTITY_AND_BELIEFS",
+      "subdomain": "religious_affiliation_and_importance",
       "feature_label": "Currently religious"
     },
     "religious_importance": {
-      "domain": "IDENTITY_AND_BELIEF",
-      "subdomain": "religiosity",
+      "domain": "IDENTITY_AND_BELIEFS",
+      "subdomain": "religious_affiliation_and_importance",
       "feature_label": "Importance of religion"
     },
     "fs_brainseg_vol": {
       "domain": "BRAIN_MORPHOMETRY",
-      "subdomain": "global_brain_measures",
+      "subdomain": "global_volumetric_measures",
       "feature_label": "Total brain segmentation volume"
     },
     "fs_total_gray_vol": {
       "domain": "BRAIN_MORPHOMETRY",
-      "subdomain": "global_brain_measures",
+      "subdomain": "global_volumetric_measures",
       "feature_label": "Total gray matter volume"
     },
     "fs_cortex_vol": {
       "domain": "BRAIN_MORPHOMETRY",
-      "subdomain": "global_brain_measures",
+      "subdomain": "global_volumetric_measures",
       "feature_label": "Total cortical gray matter volume"
     },
     "fs_cerebral_wm_vol": {
       "domain": "BRAIN_MORPHOMETRY",
-      "subdomain": "global_brain_measures",
+      "subdomain": "global_volumetric_measures",
       "feature_label": "Total cerebral white matter volume"
     },
     "fs_subcort_gray_vol": {
       "domain": "BRAIN_MORPHOMETRY",
-      "subdomain": "global_brain_measures",
+      "subdomain": "global_volumetric_measures",
       "feature_label": "Total subcortical gray matter volume"
     },
     "fs_vol_lh_hippocampus": {
@@ -1033,142 +1018,142 @@
       "feature_label": "Right insula lobe cortical thickness"
     },
     "fc_vis_within": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "within_network_connectivity",
       "feature_label": "Visual within-network FC"
     },
     "fc_sommot_within": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "within_network_connectivity",
       "feature_label": "Somatomotor within-network FC"
     },
     "fc_dorsattn_within": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "within_network_connectivity",
       "feature_label": "Dorsal attention within-network FC"
     },
     "fc_salventattn_within": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "within_network_connectivity",
       "feature_label": "Salience / ventral attention within-network FC"
     },
     "fc_limbic_within": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "within_network_connectivity",
       "feature_label": "Limbic within-network FC"
     },
     "fc_cont_within": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "within_network_connectivity",
       "feature_label": "Frontoparietal control within-network FC"
     },
     "fc_default_within": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "within_network_connectivity",
       "feature_label": "Default mode within-network FC"
     },
     "fc_vis_sommot": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Visual - Somatomotor FC"
     },
     "fc_vis_dorsattn": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Visual - Dorsal attention FC"
     },
     "fc_vis_salventattn": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Visual - Salience / ventral attention FC"
     },
     "fc_vis_limbic": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Visual - Limbic FC"
     },
     "fc_vis_cont": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Visual - Frontoparietal control FC"
     },
     "fc_vis_default": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Visual - Default mode FC"
     },
     "fc_sommot_dorsattn": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Somatomotor - Dorsal attention FC"
     },
     "fc_sommot_salventattn": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Somatomotor - Salience / ventral attention FC"
     },
     "fc_sommot_limbic": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Somatomotor - Limbic FC"
     },
     "fc_sommot_cont": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Somatomotor - Frontoparietal control FC"
     },
     "fc_sommot_default": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Somatomotor - Default mode FC"
     },
     "fc_dorsattn_salventattn": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Dorsal attention - Salience / ventral attention FC"
     },
     "fc_dorsattn_limbic": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Dorsal attention - Limbic FC"
     },
     "fc_dorsattn_cont": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Dorsal attention - Frontoparietal control FC"
     },
     "fc_dorsattn_default": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Dorsal attention - Default mode FC"
     },
     "fc_salventattn_limbic": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Salience / ventral attention - Limbic FC"
     },
     "fc_salventattn_cont": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Salience / ventral attention - Frontoparietal control FC"
     },
     "fc_salventattn_default": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Salience / ventral attention - Default mode FC"
     },
     "fc_limbic_cont": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Limbic - Frontoparietal control FC"
     },
     "fc_limbic_default": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Limbic - Default mode FC"
     },
     "fc_cont_default": {
-      "domain": "BRAIN_CONNECTOME",
+      "domain": "FUNCTIONAL_CONNECTOME",
       "subdomain": "between_network_connectivity",
       "feature_label": "Frontoparietal control - Default mode FC"
     }
@@ -1176,5 +1161,6 @@
   "dataset": "AOMIC_ID1000",
   "context": "AOMIC ID1000: 928 healthy Dutch young adults. Features span self-report questionnaires (NEO-FFI Big Five personality, BIS/BAS reinforcement sensitivity, STAI trait anxiety), demographics, anthropometrics, socio-economic status, sexual/gender identity ratings, religiosity, plus structural brain morphometry (FreeSurfer subcortical volumes and cortical thickness) and functional connectome (Yeo network connectivity from movie-watching fMRI). Group measures from the same instrument or brain system together; keep brain morphometry and connectome as separate domains.",
   "n_features": 86,
-  "construction": "hint_structured_llm_labeled"
+  "user_guidance": "",
+  "construction": "semantic_llm_domains_then_subdomains"
 }

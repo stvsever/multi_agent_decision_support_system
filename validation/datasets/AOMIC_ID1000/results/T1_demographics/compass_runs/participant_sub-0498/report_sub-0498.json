@@ -1,15 +1,15 @@
 {
-  "report_id": "RPT_sub-0498_20260718_171303",
+  "report_id": "RPT_sub-0498_20260719_110720",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:13:03.696749",
+  "generated_at": "2026-07-19T11:07:20.367192",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 180.940",
-    "probability": 0.45,
+    "primary_output": "IST_intelligence_total: 189.130",
+    "probability": 0.35,
     "binary_probability": null,
-    "root_confidence": 0.45,
+    "root_confidence": 0.35,
     "confidence": "LOW",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
@@ -36,21 +36,21 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 180.94
+          "IST_intelligence_total": 189.13
         }
       },
       "confidence_level": "LOW",
-      "confidence_score": 0.45,
+      "confidence_score": 0.35,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent negative deviations across all primary demographic and physical features"
+        "Estimated score derived from the mean z-score of -0.27 applied to the population distribution."
       ],
       "supporting_evidence_against": [
-        "No direct cognitive assessment data available"
+        "High reliance on indirect demographic proxies."
       ],
       "uncertainty_factors": [
-        "High reliance on indirect demographic proxies for cognitive constructs"
+        "Low feature-to-target specificity."
       ],
       "children": []
     }
@@ -63,29 +63,28 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Handedness deviation (z=-2.85, <1st percentile, LARGE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Handedness deviation (z=-2.85, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Age deviation (z=-1.08, 14th percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Age (z=-1.08, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Body mass index deviation (z=-0.91, 18th percentile, SMALL effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Education and SES (z=-0.58, -0.42, SMALL effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed available demographic and physical features as proxies for cognitive performance.",
-    "Step 2: Identified significant negative deviations in handedness (z=-2.85) and age (z=-1.08) as the primary drivers of the prediction.",
-    "Step 3: Discounted the aggregate domain z-score (1.133) as non-specific demographic noise, prioritizing granular leaf-level data.",
-    "Step 4: Applied a downward adjustment from the population mean (200) based on the weighted average of negative deviations.",
-    "Step 5: Calculated the final regression estimate of 180.94, reflecting a conservative shift below the cohort mean."
+    "Step 1: Analyzed demographic and anthropometric features as proxies for cognitive performance.",
+    "Step 2: Observed consistent negative deviations across all available features (age, education, SES, BMI, handedness).",
+    "Step 3: Calculated an estimated score based on the mean z-score of -0.27 relative to the population mean of 200 and SD of 40.",
+    "Step 4: Applied a shrinkage adjustment to account for the lack of direct cognitive psychometric data, centering the prediction slightly below the population mean to reflect the negative demographic profile."
   ],
-  "clinical_summary": "The participant's predicted IST 2000-R total intelligence score is 180.94. This estimate is derived from demographic and physical attributes, specifically noting a significant negative deviation in handedness and age. Given the absence of direct psychometric testing, this score reflects a statistical inference based on available distal proxies and should be interpreted with caution as a population-level estimate rather than a clinical assessment.",
+  "clinical_summary": "The participant presents with a demographic profile characterized by consistent, mild-to-moderate negative deviations from the cohort mean across age, education, and socioeconomic indicators. In the absence of direct cognitive testing, these proxies suggest a total intelligence score slightly below the population average of 200. The prediction is constrained by the lack of specific psychometric data.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -143,8 +142,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 4381,
-          "final_tokens": 4464,
+          "baseline_tokens": 3817,
+          "final_tokens": 3900,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -157,7 +156,7 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 6,
           "unprocessed_feature_count": 6,
@@ -178,9 +177,9 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 22415,
+    "tokens_used": 24782,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -189,23 +188,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL",
-      "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity feature synthesis and direct clinical relevance ranking. We use PhenotypeRepresentation to establish the cognitive baseline, followed by an analysis of the available demographic features to predict the IST score.",
-      "timestamp": "2026-07-18T17:12:53.501570",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "output_summary": "Generated 3-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW) and only demographics are available, we prioritize defining the phenotype and synthesizing features from the provided context to perform a regression estimate.",
+      "timestamp": "2026-07-19T11:07:11.687085",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Handedness deviation (z=-2.85, <1st percentile, LARGE effect), Age deviation (z=-1.08, 14th percentile, MODERATE effect), Body mass index deviation (z=-0.91, 18th percentile, SMALL effect)...",
-      "output_summary": "IST_intelligence_total: 180.940 (confidence=0.450)",
-      "reasoning": "The participant's predicted IST 2000-R total intelligence score is 180.94. This estimate is derived from demographic and physical attributes, specifically noting a significant negative deviation in handedness and age. Given the absence of direct psychometric testing, this score reflects a statistical inference based on available distal proxies and should be interpreted with caution as a population-level estimate rather than a clinical assessment.",
-      "timestamp": "2026-07-18T17:13:03.101508",
+      "input_summary": "Key findings: Handedness deviation (z=-2.85, LARGE effect), Age (z=-1.08, MODERATE effect), Education and SES (z=-0.58, -0.42, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 189.130 (confidence=0.350)",
+      "reasoning": "The participant presents with a demographic profile characterized by consistent, mild-to-moderate negative deviations from the cohort mean across age, education, and socioeconomic indicators. In the absence of direct cognitive testing, these proxies suggest a total intelligence score slightly below the population average of 200. The prediction is constrained by the lack of specific psychometric data.",
+      "timestamp": "2026-07-19T11:07:19.787754",
       "metadata": {
-        "probability": 0.45,
-        "classification": "IST_intelligence_total: 180.940"
+        "probability": 0.35,
+        "classification": "IST_intelligence_total: 189.130"
       }
     },
     {
@@ -215,7 +214,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:13:03.695097",
+      "timestamp": "2026-07-19T11:07:20.366660",
       "metadata": {}
     }
   ]

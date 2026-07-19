@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:25:37.454861",
-  "total_duration_seconds": 14.66,
+  "execution_timestamp": "2026-07-19T11:19:55.870355",
+  "total_duration_seconds": 12.85,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 6077,
-        "final_tokens": 8164,
-        "processed_raw_tokens": 8103,
+        "baseline_tokens": 5856,
+        "final_tokens": 7943,
+        "processed_raw_tokens": 7882,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,11 +97,11 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "BRAIN_CONNECTOME"
+          "FUNCTIONAL_CONNECTOME"
         ],
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {
-          "BRAIN_CONNECTOME": 28
+          "FUNCTIONAL_CONNECTOME": 28
         },
         "unprocessed_leaf_counts": {},
         "all_feature_count": 28,
@@ -124,7 +124,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 150.000",
+    "classification": "IST_intelligence_total: 191.590",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +136,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 150.0
+          "IST_intelligence_total": 191.59
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,85 +144,76 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Significant negative deviations in within-network connectivity across multiple cognitive-relevant networks."
+        "Consistent intra-network hypoconnectivity across multiple functional domains."
       ],
       "supporting_evidence_against": [
-        "Preservation of between-network connectivity suggests global architecture is not severely compromised."
+        "High-side variance in cross-network connectivity may indicate non-specific physiological noise."
       ],
       "uncertainty_factors": [
-        "Absence of behavioral data.",
-        "Mapping of connectome z-scores to IST-2000R scale is probabilistic."
+        "Inferred intelligence from neuroimaging data only; lacks behavioral validation."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 37223,
-    "prompt_tokens": 31402,
-    "completion_tokens": 5821,
+    "total_tokens": 30944,
+    "prompt_tokens": 27066,
+    "completion_tokens": 3878,
     "calls": [
       {
         "component": "orchestrator",
         "prompt_tokens": 4640,
-        "completion_tokens": 910,
-        "total": 5550,
+        "completion_tokens": 824,
+        "total": 5464,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1231,
-        "completion_tokens": 551,
-        "total": 1782,
+        "prompt_tokens": 4097,
+        "completion_tokens": 635,
+        "total": 4732,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Extracts meaningful patterns from the functional connectome to support the regression task."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1227,
+        "completion_tokens": 471,
+        "total": 1698,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Prioritizes connectivity features for the regression task."
+        "step_reasoning": "Identifies which connectomic features are most relevant for intelligence prediction based on deviation patterns."
       },
       {
         "component": "executor",
         "prompt_tokens": 1270,
-        "completion_tokens": 673,
-        "total": 1943,
+        "completion_tokens": 785,
+        "total": 2055,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical and cognitive criteria for the target variable."
+        "step_reasoning": "Establishes the clinical criteria and cognitive domains associated with the IST 2000-R test."
       },
       {
         "component": "executor",
-        "prompt_tokens": 4095,
-        "completion_tokens": 733,
-        "total": 4828,
-        "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Extracts relevant connectivity patterns for intelligence prediction."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 2960,
-        "completion_tokens": 772,
-        "total": 3732,
-        "step_tool": "AnomalyNarrativeBuilder",
-        "step_reasoning": "Identifies significant deviations in brain connectivity that may correlate with cognitive performance."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 2399,
-        "completion_tokens": 1076,
-        "total": 3475,
-        "step_tool": "DifferentialDiagnosis",
-        "step_reasoning": "Synthesizes all findings to generate the final quantitative prediction."
+        "prompt_tokens": 1050,
+        "completion_tokens": 232,
+        "total": 1282,
+        "step_tool": "CodeExecutor",
+        "step_reasoning": "Performs the final quantitative estimation based on the compressed connectome features and clinical context."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 14623,
-        "completion_tokens": 1072,
-        "total": 15695,
+        "prompt_tokens": 14598,
+        "completion_tokens": 896,
+        "total": 15494,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
         "prompt_tokens": 184,
-        "completion_tokens": 34,
-        "total": 218,
+        "completion_tokens": 35,
+        "total": 219,
         "step_tool": null,
         "step_reasoning": null
       }
@@ -230,9 +221,9 @@
   },
   "plan_summary": {
     "plan_id": "sub-0282-ist-prediction-001",
-    "total_steps": 5,
+    "total_steps": 4,
     "priority_domains": [
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ]
   },
   "explainability": {

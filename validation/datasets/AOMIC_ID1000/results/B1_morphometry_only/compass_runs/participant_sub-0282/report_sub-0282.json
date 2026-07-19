@@ -1,16 +1,16 @@
 {
-  "report_id": "RPT_sub-0282_20260718_172408",
+  "report_id": "RPT_sub-0282_20260719_111830",
   "participant_id": "sub-0282",
-  "generated_at": "2026-07-18T17:24:08.500950",
+  "generated_at": "2026-07-19T11:18:30.331436",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 200.000",
-    "probability": 0.85,
+    "primary_output": "IST_intelligence_total: 205.000",
+    "probability": 0.65,
     "binary_probability": null,
-    "root_confidence": 0.85,
-    "confidence": "HIGH",
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
     "prediction_task_spec": {
@@ -36,23 +36,24 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 200.0
+          "IST_intelligence_total": 205.0
         }
       },
-      "confidence_level": "HIGH",
-      "confidence_score": 0.85,
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Population mean for healthy young-adult cohort is 200.",
-        "All 35 morphometric features are within normal range."
+        "Structural profile consistent with healthy young adult cohort.",
+        "Compensatory executive network development balances perceptual thinning."
       ],
       "supporting_evidence_against": [
-        "None; the evidence profile is consistent with a population mean estimate."
+        "Localized cortical thinning in posterior regions.",
+        "Inference based on structural proxies rather than direct cognitive testing."
       ],
       "uncertainty_factors": [
-        "Absence of Big Five personality data.",
-        "Lack of educational attainment history."
+        "No cognitive subscale data provided.",
+        "Structural-to-functional mapping for intelligence is inherently noisy."
       ],
       "children": []
     }
@@ -66,23 +67,27 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "All 35 morphometric metrics are within the normal range (z-scores -0.35 to 0.5).",
-      "direction": "NORMAL"
+      "finding": "Bilateral parietal and occipital cortical thinning (mean z=-1.34, MODERATE effect)",
+      "direction": "ABNORMAL_LOW"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Right parietal lobe cortical thickness is low (z=-1.50, MODERATE effect).",
-      "direction": "ABNORMAL_LOW"
+      "finding": "Cingulate cortex hypertrophy (mean z=+1.02, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "Subcortical expansion in striatal/amygdalar regions (mean z=+0.75, SMALL effect)",
+      "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed 35 brain morphometry features; all are within normal limits (z-scores between -0.35 and 0.5).",
-    "Step 2: Evaluated clinical relevance; no psychiatric or cognitive history provided to suggest deviation from normative cognitive function.",
-    "Step 3: Integrated findings; the neuroanatomical profile is consistent with a healthy young-adult population.",
-    "Step 4: Applied population mean (200) as the most robust estimate given the lack of specific cognitive or personality markers.",
-    "Step 5: Concluded that the absence of significant structural pathology or cognitive-linked morphometric patterns necessitates a regression to the population mean."
+    "Step 1: Analyzed neuroanatomical profile; identified localized posterior cortical thinning (parietal/occipital) which correlates with visuospatial sub-components of intelligence.",
+    "Step 2: Identified compensatory hypertrophy in cingulate and subcortical structures, which are linked to executive function and cognitive reserve.",
+    "Step 3: Integrated structural findings; the dissociation between reduced perceptual efficiency and preserved executive control suggests a shift in cognitive strategy rather than a global deficit.",
+    "Step 4: Estimated IST-2000R total score based on the cohort mean (200) adjusted for the observed structural balance, resulting in a prediction near the population average."
   ],
-  "clinical_summary": "The participant presents with a neuroanatomical profile entirely consistent with the healthy young-adult population mean. All morphometric metrics are within normal limits, and there is no evidence of structural pathology or specific cortical thickness patterns that would suggest a deviation from the mean IST 2000-R score of 200. The prediction is anchored to the population mean due to the absence of informative psychometric or clinical data.",
+  "clinical_summary": "The participant displays a neuroanatomical profile within normal limits for a healthy young adult. While bilateral thinning in parietal and occipital regions (mean z=-1.34) suggests potential constraints in visuospatial processing, this is offset by robust cingulate and subcortical development (mean z=+0.85), which supports high executive and motivational capacity. The predicted IST-2000R total score is 205, reflecting an average to high-average cognitive performance.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -90,8 +95,8 @@
     "coverage_summary": {
       "all_feature_count": 35,
       "processed_feature_count": 35,
-      "unprocessed_raw_feature_count": 35,
-      "processed_raw_low_priority_feature_count": 0,
+      "unprocessed_raw_feature_count": 0,
+      "processed_raw_low_priority_feature_count": 35,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 35,
       "missing_feature_count": 0,
@@ -118,8 +123,8 @@
         "summary": {
           "all_feature_count": 35,
           "processed_feature_count": 35,
-          "unprocessed_raw_feature_count": 35,
-          "processed_raw_low_priority_feature_count": 0,
+          "unprocessed_raw_feature_count": 0,
+          "processed_raw_low_priority_feature_count": 35,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 35,
           "missing_feature_count": 0,
@@ -137,12 +142,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": false,
+        "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 13817,
-          "final_tokens": 13900,
-          "processed_raw_tokens": null,
+          "baseline_tokens": 8239,
+          "final_tokens": 10836,
+          "processed_raw_tokens": 10775,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -150,15 +155,17 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [],
+          "processed_whole_domains": [
+            "BRAIN_MORPHOMETRY"
+          ],
           "processed_prefixes_by_domain": {},
-          "excluded_leaf_counts": {},
-          "unprocessed_leaf_counts": {
+          "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35
           },
+          "unprocessed_leaf_counts": {},
           "all_feature_count": 35,
-          "unprocessed_feature_count": 35,
-          "processed_feature_count": 0,
+          "unprocessed_feature_count": 0,
+          "processed_feature_count": 35,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -175,7 +182,7 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 35831,
+    "tokens_used": 46952,
     "domains_processed": [
       "BRAIN_MORPHOMETRY"
     ],
@@ -187,22 +194,22 @@
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
       "input_summary": "Domains: BRAIN_MORPHOMETRY",
-      "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (860 tokens), we can process the BRAIN_MORPHOMETRY domain directly while using the FeatureSynthesizer to prioritize structural markers. The plan follows a standard progression: defining the phenotype, synthesizing feature importance, and performing a regression-based prediction.",
-      "timestamp": "2026-07-18T17:23:55.628535",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "The participant data is small enough to be processed efficiently. We start by defining the phenotype and synthesizing feature importance from the hierarchical deviation map. Since BRAIN_MORPHOMETRY is the primary quantitative domain, we use the UnimodalCompressor to extract relevant structural patterns before integrating them with non-numerical clinical context for the final regression.",
+      "timestamp": "2026-07-19T11:18:13.735844",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: All 35 morphometric metrics are within the normal range (z-scores -0.35 to 0.5)., Right parietal lobe cortical thickness is low (z=-1.50, MODERATE effect)....",
-      "output_summary": "IST_intelligence_total: 200.000 (confidence=0.850)",
-      "reasoning": "The participant presents with a neuroanatomical profile entirely consistent with the healthy young-adult population mean. All morphometric metrics are within normal limits, and there is no evidence of structural pathology or specific cortical thickness patterns that would suggest a deviation from the mean IST 2000-R score of 200. The prediction is anchored to the population mean due to the absence of informative psychometric or clinical data.",
-      "timestamp": "2026-07-18T17:24:07.612752",
+      "input_summary": "Key findings: Bilateral parietal and occipital cortical thinning (mean z=-1.34, MODERATE effect), Cingulate cortex hypertrophy (mean z=+1.02, MODERATE effect), Subcortical expansion in striatal/amygdalar regions (mean z=+0.75, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 205.000 (confidence=0.650)",
+      "reasoning": "The participant displays a neuroanatomical profile within normal limits for a healthy young adult. While bilateral thinning in parietal and occipital regions (mean z=-1.34) suggests potential constraints in visuospatial processing, this is offset by robust cingulate and subcortical development (mean z=+0.85), which supports high executive and motivational capacity. The predicted IST-2000R total score is 205, reflecting an average to high-average cognitive performance.",
+      "timestamp": "2026-07-19T11:18:29.696730",
       "metadata": {
-        "probability": 0.85,
-        "classification": "IST_intelligence_total: 200.000"
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 205.000"
       }
     },
     {
@@ -212,7 +219,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:24:08.499974",
+      "timestamp": "2026-07-19T11:18:30.330647",
       "metadata": {}
     }
   ]

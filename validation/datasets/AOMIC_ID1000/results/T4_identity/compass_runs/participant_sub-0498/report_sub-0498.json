@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0498_20260718_171835",
+  "report_id": "RPT_sub-0498_20260719_111252",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:18:35.696478",
+  "generated_at": "2026-07-19T11:12:52.118433",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 206.600",
+    "primary_output": "IST_intelligence_total: 188.000",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 206.6
+          "IST_intelligence_total": 188.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,16 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Estimated value derived from multi-domain feature synthesis",
-        "Consistent with healthy young-adult cohort distribution"
+        "Profile consistent with normative range but skewed by affective/motivational factors"
       ],
       "supporting_evidence_against": [
-        "High reliance on non-cognitive proxies",
-        "Diffuse nature of predictive signals"
+        "Absence of direct cognitive test scores"
       ],
       "uncertainty_factors": [
-        "Absence of direct cognitive testing data",
-        "High variance in personality-intelligence correlations"
+        "Distal nature of personality and demographic features"
       ],
       "children": []
     }
@@ -66,29 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "PERSONALITY",
-      "finding": "Elevated Neuroticism (z=1.42, 92nd percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Elevated neuroticism (z=1.42, 92nd percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "Reduced reward responsiveness (z=-1.07, 14th percentile, SMALL effect) and fun-seeking (z=-1.25, 11th percentile, SMALL effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Reduced BAS reward responsiveness (z=-1.07, 14th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Left-handedness (z=-2.85, 0.2nd percentile, LARGE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Lower-than-average education level (z=-0.58, 28th percentile, SMALL effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic and personality features to infer cognitive performance potential.",
-    "Step 2: Identified high Neuroticism (z=1.42) and trait anxiety (z=0.75) as primary negative modifiers for cognitive performance under pressure.",
-    "Step 3: Integrated low BAS reward-seeking (z=-1.07 to -1.25) as a proxy for reduced cognitive engagement/drive.",
-    "Step 4: Accounted for demographic deviations (young age, left-handedness) which contribute to variance.",
-    "Step 5: Synthesized these factors against the cohort mean (200) to estimate a slightly elevated score of 206.6, reflecting the absence of severe cognitive impairment markers despite the presence of performance-suppressing personality traits."
+    "Step 1: Analyzed the absence of direct cognitive markers and identified personality/demographic proxies.",
+    "Step 2: Evaluated the impact of elevated neuroticism (z=1.42) and reduced BAS reward sensitivity (z=-1.07) as likely inhibitors of peak cognitive performance.",
+    "Step 3: Integrated demographic indicators, noting that lower-than-average education (z=-0.58) provides a slight downward pressure on the expected mean.",
+    "Step 4: Synthesized these factors to estimate a score slightly below the cohort mean of 200, accounting for the lack of strong positive cognitive indicators.",
+    "Step 5: Calculated the final estimate of 188, reflecting a moderate downward adjustment from the population mean."
   ],
-  "clinical_summary": "Participant sub-0498 exhibits a personality profile characterized by high emotional reactivity and low reward-seeking drive. While these traits are associated with potential performance interference in high-pressure cognitive tasks, the absence of direct cognitive impairment markers suggests a baseline intelligence within the normal range. The estimated IST 2000-R total score is 206.6, slightly above the cohort mean, reflecting a stable cognitive profile despite the presence of non-cognitive performance suppressors.",
+  "clinical_summary": "Participant sub-0498 exhibits a psychological profile characterized by high neuroticism and reduced reward-seeking motivation, which are factors likely to impede optimal performance on high-stakes cognitive assessments. Combined with lower-than-average educational indicators, the predicted IST-2000R total score is estimated to be slightly below the cohort mean of 200.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -146,9 +143,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8605,
-          "final_tokens": 9901,
-          "processed_raw_tokens": 9840,
+          "baseline_tokens": 9410,
+          "final_tokens": 10727,
+          "processed_raw_tokens": 10666,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -157,29 +154,16 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "IDENTITY_AND_BELIEF",
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
-          "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
-              [
-                "anxiety_traits"
-              ]
-            ],
-            "IDENTITY_AND_BELIEF": [
-              [
-                "religiosity"
-              ]
-            ]
-          },
+          "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 23,
           "unprocessed_feature_count": 6,
@@ -200,12 +184,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 40858,
+    "tokens_used": 41570,
     "domains_processed": [
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF",
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "IDENTITY_AND_BELIEFS"
     ],
     "detailed_logs": []
   },
@@ -214,23 +197,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF, DEMOGRAPHICS_AND_PHYSICAL",
-      "output_summary": "Generated 5-step plan",
-      "reasoning": "Since the total data volume is low (2,629 tokens), we can process the domains efficiently without aggressive compression. We start by defining the intelligence phenotype and synthesizing feature importance, then process each psychological domain to extract relevant cognitive correlates, and finally integrate these into a regression model.",
-      "timestamp": "2026-07-18T17:18:22.040821",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS",
+      "output_summary": "Generated 6-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify key predictors of intelligence. We use the UnimodalCompressor to extract latent patterns from psychological and identity domains, then fuse these with demographic data to perform the final regression-based prediction.",
+      "timestamp": "2026-07-19T11:12:37.245922",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Elevated Neuroticism (z=1.42, 92nd percentile, MODERATE effect), Reduced reward responsiveness (z=-1.07, 14th percentile, SMALL effect) and fun-seeking (z=-1.25, 11th percentile, SMALL effect), Left-handedness (z=-2.85, 0.2nd percentile, LARGE effect)...",
-      "output_summary": "IST_intelligence_total: 206.600 (confidence=0.650)",
-      "reasoning": "Participant sub-0498 exhibits a personality profile characterized by high emotional reactivity and low reward-seeking drive. While these traits are associated with potential performance interference in high-pressure cognitive tasks, the absence of direct cognitive impairment markers suggests a baseline intelligence within the normal range. The estimated IST 2000-R total score is 206.6, slightly above the cohort mean, reflecting a stable cognitive profile despite the presence of non-cognitive per",
-      "timestamp": "2026-07-18T17:18:34.853271",
+      "input_summary": "Key findings: Elevated neuroticism (z=1.42, 92nd percentile, MODERATE effect), Reduced BAS reward responsiveness (z=-1.07, 14th percentile, MODERATE effect), Lower-than-average education level (z=-0.58, 28th percentile, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 188.000 (confidence=0.650)",
+      "reasoning": "Participant sub-0498 exhibits a psychological profile characterized by high neuroticism and reduced reward-seeking motivation, which are factors likely to impede optimal performance on high-stakes cognitive assessments. Combined with lower-than-average educational indicators, the predicted IST-2000R total score is estimated to be slightly below the cohort mean of 200.",
+      "timestamp": "2026-07-19T11:12:51.469959",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 206.600"
+        "classification": "IST_intelligence_total: 188.000"
       }
     },
     {
@@ -240,7 +223,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:18:35.695354",
+      "timestamp": "2026-07-19T11:12:52.117855",
       "metadata": {}
     }
   ]

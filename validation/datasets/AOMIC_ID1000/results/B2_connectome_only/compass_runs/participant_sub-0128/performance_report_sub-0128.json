@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:25:03.984719",
-  "total_duration_seconds": 14.09,
+  "execution_timestamp": "2026-07-19T11:19:19.844830",
+  "total_duration_seconds": 19.3,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 6453,
-        "final_tokens": 8540,
-        "processed_raw_tokens": 8479,
+        "baseline_tokens": 6554,
+        "final_tokens": 8641,
+        "processed_raw_tokens": 8580,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,11 +97,11 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "BRAIN_CONNECTOME"
+          "FUNCTIONAL_CONNECTOME"
         ],
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {
-          "BRAIN_CONNECTOME": 28
+          "FUNCTIONAL_CONNECTOME": 28
         },
         "unprocessed_leaf_counts": {},
         "all_feature_count": 28,
@@ -124,7 +124,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 195.000",
+    "classification": "IST_intelligence_total: 192.000",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +136,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 195.0
+          "IST_intelligence_total": 192.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,69 +144,77 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Connectome metrics show no significant pathological deviations (mean_abs=0.549).",
-        "Absence of clinical markers for cognitive impairment."
+        "Connectome profile consistent with healthy adult norms.",
+        "Absence of clinical markers of cognitive impairment."
       ],
       "supporting_evidence_against": [
-        "Connectivity bottlenecks in attentional-executive networks suggest minor efficiency limitations."
+        "Moderate decoupling in attention-executive networks suggests potential for slight performance suppression."
       ],
       "uncertainty_factors": [
-        "Inference based solely on connectome data without behavioral or demographic context."
+        "Inference based solely on connectome data without cognitive subtest scores."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 33031,
-    "prompt_tokens": 28514,
-    "completion_tokens": 4517,
+    "total_tokens": 40169,
+    "prompt_tokens": 34908,
+    "completion_tokens": 5261,
     "calls": [
       {
         "component": "orchestrator",
         "prompt_tokens": 4640,
-        "completion_tokens": 830,
-        "total": 5470,
+        "completion_tokens": 667,
+        "total": 5307,
+        "step_tool": null,
+        "step_reasoning": null
+      },
+      {
+        "component": "orchestrator",
+        "prompt_tokens": 4682,
+        "completion_tokens": 696,
+        "total": 5378,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1227,
-        "completion_tokens": 476,
-        "total": 1703,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which connectomic sub-regions are most relevant to cognitive performance."
+        "prompt_tokens": 2756,
+        "completion_tokens": 610,
+        "total": 3366,
+        "step_tool": "AnomalyNarrativeBuilder",
+        "step_reasoning": "Identifies significant deviations in brain connectivity that may correlate with cognitive performance."
       },
       {
         "component": "executor",
         "prompt_tokens": 4099,
-        "completion_tokens": 728,
-        "total": 4827,
+        "completion_tokens": 768,
+        "total": 4867,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Reduces high-dimensional connectomic data into interpretable clinical summaries for the prediction model."
+        "step_reasoning": "Extracts meaningful connectivity features relevant to intelligence from the functional connectome."
       },
       {
         "component": "executor",
         "prompt_tokens": 1270,
-        "completion_tokens": 750,
-        "total": 2020,
+        "completion_tokens": 682,
+        "total": 1952,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria and cognitive domains associated with the IST 2000-R test."
+        "step_reasoning": "Establishes the clinical criteria for intelligence assessment."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2254,
-        "completion_tokens": 896,
-        "total": 3150,
+        "prompt_tokens": 2062,
+        "completion_tokens": 890,
+        "total": 2952,
         "step_tool": "DifferentialDiagnosis",
-        "step_reasoning": "Integrates the phenotype definition, feature importance, and compressed connectomic summaries to output the final regression estimate."
+        "step_reasoning": "Integrates phenotype, connectivity patterns, and anomalies to perform the regression task."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 14842,
-        "completion_tokens": 803,
-        "total": 15645,
+        "prompt_tokens": 15217,
+        "completion_tokens": 914,
+        "total": 16131,
         "step_tool": null,
         "step_reasoning": null
       },
@@ -221,10 +229,10 @@
     ]
   },
   "plan_summary": {
-    "plan_id": "sub-0128-ist-prediction-001",
+    "plan_id": "IST_2000R_PREDICTION_0128",
     "total_steps": 4,
     "priority_domains": [
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ]
   },
   "explainability": {

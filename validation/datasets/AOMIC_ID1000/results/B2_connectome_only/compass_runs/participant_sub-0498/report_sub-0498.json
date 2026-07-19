@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0498_20260718_172605",
+  "report_id": "RPT_sub-0498_20260719_112023",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:26:05.900847",
+  "generated_at": "2026-07-19T11:20:23.988826",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 204.050",
+    "primary_output": "IST_intelligence_total: 201.320",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 204.05
+          "IST_intelligence_total": 201.32
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Strong executive-DMN integration (z=1.71) suggests a high baseline for intelligence."
+        "Convergent markers of neural efficiency in executive-DMN coupling."
       ],
       "supporting_evidence_against": [
-        "The severe decoupling of dorsal-ventral attention (z=-2.58) acts as a negative constraint on cognitive efficiency."
+        "Significant bottleneck in attentional network integration."
       ],
       "uncertainty_factors": [
-        "Data limited to connectomic features; no behavioral or psychometric data available."
+        "Inferred from functional connectivity only; lacks behavioral/demographic data."
       ],
       "children": []
     }
@@ -63,28 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Strong executive-DMN integration (z=1.71, 96th percentile, MODERATE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Elevated Default Mode within-network connectivity (z=1.73, 96th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Severe decoupling of dorsal-ventral attention systems (z=-2.58, <1st percentile, LARGE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Severe decoupling between Dorsal Attention and Salience/Ventral Attention networks (z=-2.58, <1st percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Elevated Default Mode Network internal connectivity (z=1.73, 96th percentile, MODERATE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Elevated Frontoparietal control - Default mode coupling (z=1.71, 96th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed connectomic profile showing high-efficiency coupling between DMN and FPCN (z=1.71), which is a known neurobiological marker for higher intelligence.",
-    "Step 2: Identified significant attentional bottleneck via severe dorsal-ventral attention system decoupling (z=-2.58).",
-    "Step 3: Balanced the positive executive-DMN integration against the negative attentional constraint.",
-    "Step 4: Synthesized these features to estimate a score slightly above the population mean (200), resulting in a predicted value of 204.05."
+    "Step 1: Analyzed functional connectome features for markers of cognitive efficiency.",
+    "Step 2: Identified convergent evidence of high-level integration (DMN/DAN integrity and FPC-DMN coupling) which typically correlates with higher IST scores.",
+    "Step 3: Identified significant divergent evidence (Dorsal Attention - Salience/Ventral Attention decoupling) suggesting a bottleneck in attentional resource allocation.",
+    "Step 4: Synthesized these opposing signals using a linear transformation of the mean z-score (0.331) relative to the population mean (200) and standard deviation (40).",
+    "Step 5: Concluded that the net effect of these connectivity patterns results in a score slightly above the population mean."
   ],
-  "clinical_summary": "The participant exhibits a neurobiological profile characterized by robust executive-default mode network integration, suggesting high cognitive potential. However, this is partially offset by significant dysconnectivity between attentional systems, which may introduce variability in complex task performance. The overall estimate of 204.05 reflects an above-average cognitive baseline within the healthy young-adult cohort.",
+  "clinical_summary": "The participant exhibits a complex functional connectome profile. While robust within-network connectivity in the Default Mode and Dorsal Attention networks, alongside elevated Frontoparietal-DMN coupling, suggests a strong foundation for abstract reasoning, these strengths are partially offset by a severe decoupling between attentional networks. This suggests high cognitive potential constrained by specific inefficiencies in attentional switching, resulting in a predicted IST 2000-R total score slightly above the population mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -142,9 +143,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 7578,
-          "final_tokens": 9665,
-          "processed_raw_tokens": 9604,
+          "baseline_tokens": 7404,
+          "final_tokens": 9491,
+          "processed_raw_tokens": 9430,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -153,11 +154,11 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME"
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {},
           "all_feature_count": 28,
@@ -179,9 +180,9 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 37769,
+    "tokens_used": 37854,
     "domains_processed": [
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -190,23 +191,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_CONNECTOME",
+      "input_summary": "Domains: FUNCTIONAL_CONNECTOME",
       "output_summary": "Generated 5-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity analysis. We start by defining the cognitive phenotype, then extract connectomic patterns, and finally synthesize these with non-numerical clinical context to perform the regression task.",
-      "timestamp": "2026-07-18T17:25:54.944012",
+      "reasoning": "The participant data is small enough to be processed efficiently. We will first establish the phenotype criteria for cognitive performance, analyze functional connectivity patterns, and then synthesize these into a regression-ready prediction.",
+      "timestamp": "2026-07-19T11:20:12.277012",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Strong executive-DMN integration (z=1.71, 96th percentile, MODERATE effect), Severe decoupling of dorsal-ventral attention systems (z=-2.58, <1st percentile, LARGE effect), Elevated Default Mode Network internal connectivity (z=1.73, 96th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 204.050 (confidence=0.650)",
-      "reasoning": "The participant exhibits a neurobiological profile characterized by robust executive-default mode network integration, suggesting high cognitive potential. However, this is partially offset by significant dysconnectivity between attentional systems, which may introduce variability in complex task performance. The overall estimate of 204.05 reflects an above-average cognitive baseline within the healthy young-adult cohort.",
-      "timestamp": "2026-07-18T17:26:04.976077",
+      "input_summary": "Key findings: Elevated Default Mode within-network connectivity (z=1.73, 96th percentile, MODERATE effect), Severe decoupling between Dorsal Attention and Salience/Ventral Attention networks (z=-2.58, <1st percentile, LARGE effect), Elevated Frontoparietal control - Default mode coupling (z=1.71, 96th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 201.320 (confidence=0.650)",
+      "reasoning": "The participant exhibits a complex functional connectome profile. While robust within-network connectivity in the Default Mode and Dorsal Attention networks, alongside elevated Frontoparietal-DMN coupling, suggests a strong foundation for abstract reasoning, these strengths are partially offset by a severe decoupling between attentional networks. This suggests high cognitive potential constrained by specific inefficiencies in attentional switching, resulting in a predicted IST 2000-R total score",
+      "timestamp": "2026-07-19T11:20:23.324226",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 204.050"
+        "classification": "IST_intelligence_total: 201.320"
       }
     },
     {
@@ -216,7 +217,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:26:05.899213",
+      "timestamp": "2026-07-19T11:20:23.987897",
       "metadata": {}
     }
   ]

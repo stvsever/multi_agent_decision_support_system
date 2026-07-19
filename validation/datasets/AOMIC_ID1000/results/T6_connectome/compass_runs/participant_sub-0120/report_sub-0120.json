@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0120_20260718_172110",
+  "report_id": "RPT_sub-0120_20260719_111542",
   "participant_id": "sub-0120",
-  "generated_at": "2026-07-18T17:21:10.577267",
+  "generated_at": "2026-07-19T11:15:42.816829",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 216.040",
+    "primary_output": "IST_intelligence_total: 215.000",
     "probability": 0.75,
     "binary_probability": null,
     "root_confidence": 0.75,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 216.04
+          "IST_intelligence_total": 215.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,16 +44,16 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Robust global structural measures",
-        "Stable emotional regulation profile"
+        "High-normal socioeconomic status and education level.",
+        "Elevated subcortical volumes and robust functional connectivity."
       ],
       "supporting_evidence_against": [
-        "Localized posterior cortical thinning",
-        "Visual-associative network decoupling"
+        "Focal cortical thinning in posterior regions.",
+        "Low-normal conscientiousness."
       ],
       "uncertainty_factors": [
-        "Inferred from non-cognitive features",
-        "Structural trade-offs complicate linear estimation"
+        "Lack of direct cognitive performance data.",
+        "Proxy-based estimation."
       ],
       "children": []
     }
@@ -66,35 +66,40 @@
   },
   "key_findings": [
     {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Posterior cortical thinning (Right Occipital z=-1.62, Right Parietal z=-1.31, Left Parietal z=-1.29)",
-      "direction": "ABNORMAL_LOW"
-    },
-    {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Visual network decoupling (Visual-Default Mode FC z=-1.76, Visual-Limbic FC z=-1.71)",
-      "direction": "ABNORMAL_LOW"
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "High-normal education level (z=0.95) and socio-economic status (z=0.84)",
+      "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Subcortical volume expansion (Left Accumbens z=1.88, Left Ventral DC z=1.51)",
+      "finding": "Subcortical hypertrophy (left accumbens z=1.88, left ventraldc z=1.51)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "Parietal and occipital cortical thinning (mean z=-1.35)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Elevated limbic-frontoparietal connectivity (z=2.04)",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Evaluated structural morphometry, noting a trade-off between robust subcortical volumes (protective) and significant posterior cortical thinning (potentially detrimental to visuospatial reasoning).",
-    "Step 2: Analyzed connectome data, identifying a critical bottleneck in visual-associative network integration (z < -1.5), which likely limits complex pattern recognition performance.",
-    "Step 3: Integrated personality and affective traits, noting low trait anxiety and high limbic-FPCN connectivity (z=2.04), which suggests a stable, resilient test-taking temperament.",
-    "Step 4: Synthesized all signals using the regression model, which accounts for the structural/connectomic trade-offs to estimate a score slightly above the cohort mean, reflecting the robust global brain volume despite localized cortical deficits."
+    "Step 1: Analyzed demographic and socio-economic indicators, which are consistently in the high-normal range, providing a strong baseline for cognitive performance.",
+    "Step 2: Evaluated neurobiological markers; while cortical thinning in posterior regions suggests potential fluid reasoning limitations, this is balanced by significant subcortical volume expansion and high white matter integrity.",
+    "Step 3: Integrated functional connectivity data, noting that the hyper-connectivity between limbic and frontoparietal networks likely compensates for lower affective drive, facilitating stable executive function.",
+    "Step 4: Synthesized all markers, concluding that the participant's profile is consistent with an intelligence score slightly above the cohort mean of 200, given the lack of cognitive impairment and presence of positive reserve markers."
   ],
-  "clinical_summary": "Subject sub-0120 exhibits a neuro-cognitive profile characterized by robust subcortical and white matter structural integrity, which supports baseline cognitive capacity. However, this is offset by localized cortical thinning in posterior regions and a decoupling of the visual network from higher-order associative hubs. The subject's low trait anxiety and stable emotional regulation likely facilitate consistent performance, resulting in an estimated IST 2000-R total score of 216.04, placing the subject slightly above the cohort mean.",
+  "clinical_summary": "Participant sub-0120 presents with a neuro-phenotypic profile consistent with high-average cognitive functioning. The combination of high educational attainment, stable personality traits, and robust functional integration between executive and limbic networks suggests a cognitive capacity slightly above the population mean. While focal cortical thinning in posterior regions is noted, it is likely offset by significant subcortical volume expansion and efficient network connectivity, supporting an estimated IST-2000R total score of 215.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
     "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
     "coverage_summary": {
       "all_feature_count": 86,
-      "processed_feature_count": 73,
+      "processed_feature_count": 86,
       "unprocessed_raw_feature_count": 23,
       "processed_raw_low_priority_feature_count": 63,
       "chunk_cited_feature_count": 0,
@@ -122,7 +127,7 @@
       "coverage": {
         "summary": {
           "all_feature_count": 86,
-          "processed_feature_count": 73,
+          "processed_feature_count": 86,
           "unprocessed_raw_feature_count": 23,
           "processed_raw_low_priority_feature_count": 63,
           "chunk_cited_feature_count": 0,
@@ -145,9 +150,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 18527,
-          "final_tokens": 23145,
-          "processed_raw_tokens": 23084,
+          "baseline_tokens": 21417,
+          "final_tokens": 26041,
+          "processed_raw_tokens": 25980,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -156,19 +161,18 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "BRAIN_MORPHOMETRY",
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 86,
           "unprocessed_feature_count": 23,
@@ -189,12 +193,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 69136,
+    "tokens_used": 78992,
     "domains_processed": [
+      "PSYCHOLOGICAL_PROFILES",
       "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -203,23 +206,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME, PERSONALITY, MOTIVATION_AND_AFFECT",
-      "output_summary": "Generated 6-step plan",
-      "reasoning": "The plan prioritizes brain morphology and connectomics as primary biological predictors, supplemented by personality and affect data. Since the total data volume is low (2,045 tokens), we use UnimodalCompressor to extract key clinical patterns from the brain data to ensure the regression model receives high-signal features rather than raw noise.",
-      "timestamp": "2026-07-18T17:20:56.777908",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, BRAIN_MORPHOMETRY, FUNCTIONAL_CONNECTOME",
+      "output_summary": "Generated 7-step plan",
+      "reasoning": "The plan prioritizes early feature synthesis and anomaly detection to identify relevant markers for intelligence. Given the data is within raw limits, we use UnimodalCompressor to focus on extracting cognitive and structural patterns that correlate with intelligence, followed by a final narrative fusion to support the regression task.",
+      "timestamp": "2026-07-19T11:15:33.274817",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Posterior cortical thinning (Right Occipital z=-1.62, Right Parietal z=-1.31, Left Parietal z=-1.29), Visual network decoupling (Visual-Default Mode FC z=-1.76, Visual-Limbic FC z=-1.71), Subcortical volume expansion (Left Accumbens z=1.88, Left Ventral DC z=1.51)...",
-      "output_summary": "IST_intelligence_total: 216.040 (confidence=0.750)",
-      "reasoning": "Subject sub-0120 exhibits a neuro-cognitive profile characterized by robust subcortical and white matter structural integrity, which supports baseline cognitive capacity. However, this is offset by localized cortical thinning in posterior regions and a decoupling of the visual network from higher-order associative hubs. The subject's low trait anxiety and stable emotional regulation likely facilitate consistent performance, resulting in an estimated IST 2000-R total score of 216.04, placing the ",
-      "timestamp": "2026-07-18T17:21:09.758079",
+      "input_summary": "Key findings: High-normal education level (z=0.95) and socio-economic status (z=0.84), Subcortical hypertrophy (left accumbens z=1.88, left ventraldc z=1.51), Parietal and occipital cortical thinning (mean z=-1.35)...",
+      "output_summary": "IST_intelligence_total: 215.000 (confidence=0.750)",
+      "reasoning": "Participant sub-0120 presents with a neuro-phenotypic profile consistent with high-average cognitive functioning. The combination of high educational attainment, stable personality traits, and robust functional integration between executive and limbic networks suggests a cognitive capacity slightly above the population mean. While focal cortical thinning in posterior regions is noted, it is likely offset by significant subcortical volume expansion and efficient network connectivity, supporting a",
+      "timestamp": "2026-07-19T11:15:41.975754",
       "metadata": {
         "probability": 0.75,
-        "classification": "IST_intelligence_total: 216.040"
+        "classification": "IST_intelligence_total: 215.000"
       }
     },
     {
@@ -228,8 +231,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.67; fallback_used=False.",
-      "timestamp": "2026-07-18T17:21:10.576085",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
+      "timestamp": "2026-07-19T11:15:42.816091",
       "metadata": {}
     }
   ]

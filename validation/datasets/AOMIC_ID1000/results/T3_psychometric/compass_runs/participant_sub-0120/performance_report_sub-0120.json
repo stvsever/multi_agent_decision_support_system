@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:15:06.673508",
-  "total_duration_seconds": 18.35,
+  "execution_timestamp": "2026-07-19T11:09:24.233752",
+  "total_duration_seconds": 17.77,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,8 +86,8 @@
       "processed_raw_full_included": false,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 7692,
-        "final_tokens": 7775,
+        "baseline_tokens": 7936,
+        "final_tokens": 8019,
         "processed_raw_tokens": null,
         "single_chunk_limit": 30000,
         "threshold": 943718,
@@ -100,9 +100,8 @@
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {},
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+          "PSYCHOLOGICAL_PROFILES": 10
         },
         "all_feature_count": 16,
         "unprocessed_feature_count": 16,
@@ -124,7 +123,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 211.200",
+    "classification": "IST_intelligence_total: 209.840",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +135,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 211.2
+          "IST_intelligence_total": 209.84
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,99 +143,95 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Positive socioeconomic and educational z-scores.",
-        "Low trait anxiety facilitating test performance."
+        "Consistent positive demographic and socioeconomic deviations."
       ],
       "supporting_evidence_against": [
-        "Absence of direct cognitive subscale data.",
-        "Lower-than-average conscientiousness."
+        "Lack of direct cognitive performance data."
       ],
       "uncertainty_factors": [
-        "Indirect proxy reliance.",
-        "Cohort-based estimation limitations."
+        "Inference based on proxies rather than direct measurement."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 31234,
-    "prompt_tokens": 26610,
-    "completion_tokens": 4624,
+    "total_tokens": 30906,
+    "prompt_tokens": 26414,
+    "completion_tokens": 4492,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4692,
-        "completion_tokens": 898,
-        "total": 5590,
+        "prompt_tokens": 4673,
+        "completion_tokens": 774,
+        "total": 5447,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "orchestrator",
-        "prompt_tokens": 4732,
-        "completion_tokens": 825,
-        "total": 5557,
+        "prompt_tokens": 4715,
+        "completion_tokens": 831,
+        "total": 5546,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1789,
-        "completion_tokens": 483,
-        "total": 2272,
+        "prompt_tokens": 1628,
+        "completion_tokens": 532,
+        "total": 2160,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which personality and motivational traits are most predictive of cognitive outcomes."
+        "step_reasoning": "Identifies which demographic and psychological variables are most predictive of cognitive performance."
       },
       {
         "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 748,
-        "total": 2016,
+        "completion_tokens": 699,
+        "total": 1967,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical and behavioral criteria for the target prediction."
+        "step_reasoning": "Establishes the clinical and cognitive criteria for the intelligence target."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1356,
-        "completion_tokens": 495,
-        "total": 1851,
+        "prompt_tokens": 1384,
+        "completion_tokens": 513,
+        "total": 1897,
         "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Prioritizes the most informative features for the regression model."
+        "step_reasoning": "Refines the feature set to focus on variables most likely to correlate with intelligence scores."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1075,
-        "completion_tokens": 201,
-        "total": 1276,
+        "prompt_tokens": 1072,
+        "completion_tokens": 224,
+        "total": 1296,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Calculates the final intelligence score based on the prioritized features."
+        "step_reasoning": "Performs the final univariate regression calculation using the prioritized features."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 11514,
-        "completion_tokens": 940,
-        "total": 12454,
+        "prompt_tokens": 11492,
+        "completion_tokens": 881,
+        "total": 12373,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 184,
-        "completion_tokens": 34,
-        "total": 218,
+        "prompt_tokens": 182,
+        "completion_tokens": 38,
+        "total": 220,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_2000R_PREDICTION_0120",
+    "plan_id": "IST_PRED_0120",
     "total_steps": 4,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ]
   },
   "explainability": {

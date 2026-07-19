@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0282_20260718_171617",
+  "report_id": "RPT_sub-0282_20260719_111040",
   "participant_id": "sub-0282",
-  "generated_at": "2026-07-18T17:16:17.552656",
+  "generated_at": "2026-07-19T11:10:40.499720",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 156.000",
+    "primary_output": "IST_intelligence_total: 188.500",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 156.0
+          "IST_intelligence_total": 188.5
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,14 +44,14 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Strong negative weighting of educational attainment and openness in this specific cohort."
+        "Negative demographic and personality indicators consistently point toward a score below the population mean."
       ],
       "supporting_evidence_against": [
-        "Average performance is possible if the participant possesses high specific aptitude in verbal or numerical modules despite low formal education."
+        "Lack of direct cognitive markers limits the precision of the estimate."
       ],
       "uncertainty_factors": [
-        "Lack of direct IST subscale scores.",
-        "Inherent variance in 'g' factor estimation from non-cognitive proxies."
+        "Indirect nature of the input features.",
+        "High variance in intelligence scores within the healthy population."
       ],
       "children": []
     }
@@ -64,29 +64,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Education level is significantly below cohort mean (z=-2.108, <2nd percentile, LARGE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Education level is notably low (z=-2.11, 2nd percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Openness to Experience is below cohort mean (z=-1.094, 14th percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Openness to experience is low (z=-1.09, 14th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "Trait anxiety is elevated (z=0.843, 80th percentile, SMALL effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Trait anxiety is elevated (z=0.84, 80th percentile, SMALL effect)",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Identify primary demographic predictors; education level (z=-2.108) is a strong negative correlate for IST-2000R scores.",
-    "Step 2: Assess personality markers; low Openness (z=-1.094) suggests reduced engagement with complex cognitive tasks.",
-    "Step 3: Integrate affective data; elevated trait anxiety (z=0.843) and lower extraversion (z=-0.82) suggest potential for reduced efficiency in testing environments.",
-    "Step 4: Synthesize findings; the convergence of these factors points to a score below the cohort mean of 200.",
-    "Step 5: Estimate score; applying a downward adjustment of approximately 1.1 SD from the mean (200 - 44 = 156) to account for the cumulative negative impact of the identified features."
+    "Step 1: Analyzed demographic and psychological feature deviations relative to the healthy young-adult cohort (mean=200, sd=40).",
+    "Step 2: Identified significant negative pressure from low educational attainment (z=-2.11) and low openness (z=-1.09).",
+    "Step 3: Factored in the potential for cognitive interference due to elevated trait anxiety (z=0.84).",
+    "Step 4: Synthesized these indicators into a regression estimate, adjusting the population mean downward to reflect the cumulative impact of these negative predictors.",
+    "Step 5: Final estimate calculated as 188.5, reflecting a slight shift below the population mean."
   ],
-  "clinical_summary": "Participant sub-0282 exhibits a profile characterized by significant educational disadvantage and low Openness to Experience, both of which are robust negative predictors for general cognitive ability. While the participant is within a healthy age range, the convergence of these demographic and personality markers, coupled with elevated trait anxiety, suggests a total intelligence score below the cohort mean. The estimated IST 2000-R composite score is 156.",
+  "clinical_summary": "The participant's predicted IST 2000-R total intelligence score is 188.5. This estimate is derived from a profile characterized by low educational attainment and low openness to experience, which are significant negative predictors of cognitive test performance. While the participant's trait anxiety is elevated, the primary downward pressure on the score stems from the demographic and personality-based proxies. The prediction remains within the normative range for the cohort, acknowledging the lack of direct cognitive performance data.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -94,8 +94,8 @@
     "coverage_summary": {
       "all_feature_count": 16,
       "processed_feature_count": 16,
-      "unprocessed_raw_feature_count": 0,
-      "processed_raw_low_priority_feature_count": 16,
+      "unprocessed_raw_feature_count": 16,
+      "processed_raw_low_priority_feature_count": 0,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 16,
       "missing_feature_count": 0,
@@ -122,8 +122,8 @@
         "summary": {
           "all_feature_count": 16,
           "processed_feature_count": 16,
-          "unprocessed_raw_feature_count": 0,
-          "processed_raw_low_priority_feature_count": 16,
+          "unprocessed_raw_feature_count": 16,
+          "processed_raw_low_priority_feature_count": 0,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 16,
           "missing_feature_count": 0,
@@ -141,12 +141,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": true,
+        "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8406,
-          "final_tokens": 9625,
-          "processed_raw_tokens": 9564,
+          "baseline_tokens": 7891,
+          "final_tokens": 7974,
+          "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -154,21 +154,16 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [
-            "DEMOGRAPHICS_AND_PHYSICAL",
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
-          ],
+          "processed_whole_domains": [],
           "processed_prefixes_by_domain": {},
-          "excluded_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
+          "excluded_leaf_counts": {},
+          "unprocessed_leaf_counts": {
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10
           },
-          "unprocessed_leaf_counts": {},
           "all_feature_count": 16,
-          "unprocessed_feature_count": 0,
-          "processed_feature_count": 16,
+          "unprocessed_feature_count": 16,
+          "processed_feature_count": 0,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -185,11 +180,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 43662,
+    "tokens_used": 25333,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ],
     "detailed_logs": []
   },
@@ -198,23 +192,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT",
-      "output_summary": "Generated 7-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity feature extraction. We use early-stage tools to define the phenotypic search space, then compress the three available domains to extract relevant behavioral and demographic patterns before performing a final regression-based prediction.",
-      "timestamp": "2026-07-18T17:16:03.503469",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS, PSYCHOLOGICAL_PROFILES",
+      "output_summary": "Generated 4-step plan",
+      "reasoning": "Since the data volume is small (FIT_FOR_RAW), we bypass aggressive compression and focus on feature synthesis and ranking to optimize the regression model for the IST 2000-R score. The plan prioritizes identifying the most relevant psychological and demographic markers before performing the final regression calculation.",
+      "timestamp": "2026-07-19T11:10:29.131379",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Education level is significantly below cohort mean (z=-2.108, <2nd percentile, LARGE effect), Openness to Experience is below cohort mean (z=-1.094, 14th percentile, MODERATE effect), Trait anxiety is elevated (z=0.843, 80th percentile, SMALL effect)...",
-      "output_summary": "IST_intelligence_total: 156.000 (confidence=0.650)",
-      "reasoning": "Participant sub-0282 exhibits a profile characterized by significant educational disadvantage and low Openness to Experience, both of which are robust negative predictors for general cognitive ability. While the participant is within a healthy age range, the convergence of these demographic and personality markers, coupled with elevated trait anxiety, suggests a total intelligence score below the cohort mean. The estimated IST 2000-R composite score is 156.",
-      "timestamp": "2026-07-18T17:16:16.949143",
+      "input_summary": "Key findings: Education level is notably low (z=-2.11, 2nd percentile, LARGE effect), Openness to experience is low (z=-1.09, 14th percentile, MODERATE effect), Trait anxiety is elevated (z=0.84, 80th percentile, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 188.500 (confidence=0.650)",
+      "reasoning": "The participant's predicted IST 2000-R total intelligence score is 188.5. This estimate is derived from a profile characterized by low educational attainment and low openness to experience, which are significant negative predictors of cognitive test performance. While the participant's trait anxiety is elevated, the primary downward pressure on the score stems from the demographic and personality-based proxies. The prediction remains within the normative range for the cohort, acknowledging the l",
+      "timestamp": "2026-07-19T11:10:39.608605",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 156.000"
+        "classification": "IST_intelligence_total: 188.500"
       }
     },
     {
@@ -224,7 +218,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:16:17.551794",
+      "timestamp": "2026-07-19T11:10:40.498859",
       "metadata": {}
     }
   ]

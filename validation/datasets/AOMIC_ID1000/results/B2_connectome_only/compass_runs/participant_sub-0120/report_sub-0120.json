@@ -1,16 +1,16 @@
 {
-  "report_id": "RPT_sub-0120_20260718_172503",
+  "report_id": "RPT_sub-0120_20260719_111919",
   "participant_id": "sub-0120",
-  "generated_at": "2026-07-18T17:25:03.977038",
+  "generated_at": "2026-07-19T11:19:19.840204",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 245.000",
-    "probability": 0.8,
+    "primary_output": "IST_intelligence_total: 227.600",
+    "probability": 0.65,
     "binary_probability": null,
-    "root_confidence": 0.8,
-    "confidence": "HIGH",
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
     "prediction_task_spec": {
@@ -36,23 +36,22 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 245.0
+          "IST_intelligence_total": 227.6
         }
       },
-      "confidence_level": "HIGH",
-      "confidence_score": 0.8,
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Strong frontoparietal-limbic integration (z=2.04) suggests high executive efficiency.",
-        "Connectome pattern is highly predictive of high-functioning fluid intelligence."
+        "Consistent positive deviations in functional connectivity metrics.",
+        "Strong correlation between FPCN-Limbic integration and cognitive performance."
       ],
       "supporting_evidence_against": [
-        "Visual system decoupling (z < -1.6) may suggest trade-offs in raw sensory processing speed."
+        "Connectomic data is a proxy, not a direct measure of intelligence."
       ],
       "uncertainty_factors": [
-        "Lack of specific verbal/numerical subscale data.",
-        "Unknown impact of visual system decoupling on non-abstract reasoning tasks."
+        "Inference based solely on neuroimaging features without behavioral validation."
       ],
       "children": []
     }
@@ -65,29 +64,28 @@
   },
   "key_findings": [
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Limbic - Frontoparietal control FC (z=2.04, 98th percentile, MODERATE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Limbic-Frontoparietal control connectivity is significantly elevated (z=2.04, 97.9th percentile, MODERATE effect).",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Visual - Default mode FC (z=-1.76, 4th percentile, MODERATE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Visual-Default mode connectivity is reduced (z=-1.76, 3.9th percentile, MODERATE effect).",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Somatomotor - Salience/ventral attention FC (z=1.70, 95th percentile, MODERATE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Global functional connectivity shows a positive bias (mean z=0.69).",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed connectome profile for sub-0120, identifying significant hyper-connectivity in executive control and attention networks.",
-    "Step 2: Noted that the Limbic-Frontoparietal integration (z=2.04) is a strong biomarker for superior fluid intelligence within the P-FIT framework.",
-    "Step 3: Evaluated the decoupling of the visual network (z=-1.76) as a potential trade-off favoring abstract reasoning over raw sensory integration.",
-    "Step 4: Synthesized these findings to estimate an IST 2000-R score significantly above the cohort mean of 200.",
-    "Step 5: Calibrated the estimate to 245, placing the subject in the upper quartile of the healthy young-adult cohort."
+    "Step 1: Analyzed functional connectome deviations, noting a consistent pattern of elevated cross-network integration.",
+    "Step 2: Identified high-importance features, specifically the Limbic-Frontoparietal connectivity (z=2.04) and Visual-Default mode decoupling (z=-1.76).",
+    "Step 3: Applied a regression model mapping the aggregate z-score profile (mean z=0.69) to the IST 2000-R population distribution (M=200, SD=40).",
+    "Step 4: Calculated the estimated score as 200 + (0.69 * 40) = 227.6, adjusting for the observed positive connectivity bias."
   ],
-  "clinical_summary": "Subject sub-0120 exhibits a neural architecture highly optimized for executive control and complex reasoning. The elevated connectivity in the frontoparietal and attention networks is a strong biomarker for superior fluid intelligence. While the decoupling of visual systems from higher-order networks suggests a potential shift toward abstract processing, the overall evidence points toward an IST 2000-R total score in the upper quartile of the cohort, estimated at 245.",
+  "clinical_summary": "Participant sub-0120 exhibits a functional connectome profile characterized by enhanced cross-network integration between limbic and frontoparietal systems and a decoupling of sensory-visual networks from higher-order associative cortices. This neural architecture is consistent with efficient cognitive resource allocation, supporting an estimated IST 2000-R total intelligence score of 227.6, which is approximately 0.7 standard deviations above the cohort mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -145,9 +143,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8366,
-          "final_tokens": 10453,
-          "processed_raw_tokens": 10392,
+          "baseline_tokens": 7056,
+          "final_tokens": 9143,
+          "processed_raw_tokens": 9082,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -155,14 +153,12 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [],
-          "processed_prefixes_by_domain": {
-            "BRAIN_CONNECTOME": [
-              []
-            ]
-          },
+          "processed_whole_domains": [
+            "FUNCTIONAL_CONNECTOME"
+          ],
+          "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {},
           "all_feature_count": 28,
@@ -184,9 +180,9 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 41167,
+    "tokens_used": 41385,
     "domains_processed": [
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -195,23 +191,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_CONNECTOME",
+      "input_summary": "Domains: FUNCTIONAL_CONNECTOME",
       "output_summary": "Generated 5-step plan",
-      "reasoning": "The plan prioritizes early characterization of the target phenotype and anomaly detection. Given the connectome data is within raw-fit limits, we use UnimodalCompressor to extract high-level cognitive-relevant patterns from the connectome subtrees, then synthesize these with clinical notes via the MultimodalNarrativeCreator to feed the final regression model.",
-      "timestamp": "2026-07-18T17:24:49.550912",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity feature extraction. We use the AnomalyNarrativeBuilder and FeatureSynthesizer to contextualize the functional connectome data before performing a final regression-based prediction.",
+      "timestamp": "2026-07-19T11:19:08.524066",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Limbic - Frontoparietal control FC (z=2.04, 98th percentile, MODERATE effect), Visual - Default mode FC (z=-1.76, 4th percentile, MODERATE effect), Somatomotor - Salience/ventral attention FC (z=1.70, 95th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 245.000 (confidence=0.800)",
-      "reasoning": "Subject sub-0120 exhibits a neural architecture highly optimized for executive control and complex reasoning. The elevated connectivity in the frontoparietal and attention networks is a strong biomarker for superior fluid intelligence. While the decoupling of visual systems from higher-order networks suggests a potential shift toward abstract processing, the overall evidence points toward an IST 2000-R total score in the upper quartile of the cohort, estimated at 245.",
-      "timestamp": "2026-07-18T17:25:03.150552",
+      "input_summary": "Key findings: Limbic-Frontoparietal control connectivity is significantly elevated (z=2.04, 97.9th percentile, MODERATE effect)., Visual-Default mode connectivity is reduced (z=-1.76, 3.9th percentile, MODERATE effect)., Global functional connectivity shows a positive bias (mean z=0.69)....",
+      "output_summary": "IST_intelligence_total: 227.600 (confidence=0.650)",
+      "reasoning": "Participant sub-0120 exhibits a functional connectome profile characterized by enhanced cross-network integration between limbic and frontoparietal systems and a decoupling of sensory-visual networks from higher-order associative cortices. This neural architecture is consistent with efficient cognitive resource allocation, supporting an estimated IST 2000-R total intelligence score of 227.6, which is approximately 0.7 standard deviations above the cohort mean.",
+      "timestamp": "2026-07-19T11:19:19.282588",
       "metadata": {
-        "probability": 0.8,
-        "classification": "IST_intelligence_total: 245.000"
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 227.600"
       }
     },
     {
@@ -221,7 +217,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:25:03.975970",
+      "timestamp": "2026-07-19T11:19:19.839358",
       "metadata": {}
     }
   ]

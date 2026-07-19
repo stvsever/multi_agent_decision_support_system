@@ -64,43 +64,65 @@ consistent.
 | B2 Brain-only connectome | isolate function | brain_connectome |
 | B3 Brain-only | structure + function | brain morphometry + connectome |
 
-## 4. Automated exploration and the LLM-based master ontology
+## 4. Semantic, LLM-driven ontology construction
 
-Ontology construction is preceded by a sophisticated, dataset-agnostic **automated
-exploration** ([`common/explore.py`](../../common/explore.py)): automatic type
-inference, distribution and missingness profiling, robust (Spearman) correlation
-structure, hierarchical feature clustering, near-duplicate detection, and target
-associations. On this dataset it flags real redundancies (total-gray vs cortical
-volume r=0.97, left vs right mean thickness r=0.96, sexual-attraction M/F r=-0.95) and
-proposes data-driven clusters, written to `ontology/exploration_report.json`.
+Construction is preceded by a dataset-agnostic **automated exploration**
+([`common/explore.py`](../../common/explore.py)): type inference, distribution and
+missingness profiling, robust (Spearman) correlation structure, feature clustering,
+near-duplicate detection, and target associations, written to
+`ontology/exploration_report.json`. This exploration documents the data and later
+quality-checks the ontology, but it deliberately **does not drive the structure**.
+Grouping features by how they correlate would be wrong: two semantically unrelated
+measures (say a subcortical volume and a verbal-reasoning score) can correlate by
+accident. The ontology must group by **meaning**.
 
-One non-redundant `DOMAIN -> SUBDOMAIN -> FEATURE` ontology is then built over all 86
-features. The structure is fixed from per-feature hints (guaranteeing complete,
-non-redundant coverage and keeping brain morphometry and connectome as separate
-domains); a small model generates only the interpretable parent labels and
-definitions. Leaf features store a self-explanatory label and no redundant
-description; only parent nodes carry LLM-written definitions. The prompt is serialised
-as TOON to keep it token-cheap even at 86 features.
+So the ontology is built by the LLM, semantically, and it is general to any dataset
+([`common/ontology.py`](../../common/ontology.py), `build_semantic_ontology`):
 
-The ontology is then **quality-assessed** (`ontology/ontology_report.json`): the
-adjusted Rand index between the semantic subdomains and the data-driven clusters
-(~0.48 here, i.e. meaning-based grouping that partly but not slavishly follows
-statistics), plus a compact LLM review for MECE / non-redundancy / coherence. Result:
+1. the model is given every feature with its label, description, units, measurement
+   source, and a few sample values (serialised as TOON for token efficiency),
+2. it **proposes the domains itself** (not hardcoded), grouping by meaning and source,
+3. for each proposed domain in parallel, it selects that domain's features and
+   organises them into subdomains,
+4. code then enforces exact coverage and non-redundancy (a feature claimed twice is
+   kept once; anything unclaimed is repaired into an explicit `UNASSIGNED` domain).
+
+Decomposing per domain keeps every prompt small, so it scales to large multimodal
+feature sets ("commands" rather than one giant call). An optional **free-text user
+guidance** argument is injected into every prompt; this is the backend hook for a
+future UI where a user can steer the ontology in natural language
+(`--guidance "..."` on step 02, or `ONTOLOGY_USER_GUIDANCE` in config).
+
+On this dataset the model proposed 5 domains over 86 features (it chose to fold
+personality, motivation and anxiety into one "Psychological Profiles" domain, and kept
+morphometry and connectome separate):
 
 ```
-DEMOGRAPHICS_AND_PHYSICAL   personal_attributes, anthropometrics, socioeconomic_status
-PERSONALITY                 big_five_personality
-MOTIVATION_AND_AFFECT       reinforcement_sensitivity, anxiety_traits
-IDENTITY_AND_BELIEF         sexual_and_gender_identity, religiosity
-BRAIN_MORPHOMETRY           global_brain_measures, subcortical_volumes, cortical_thickness
-BRAIN_CONNECTOME            within_network_connectivity, between_network_connectivity
+DEMOGRAPHICS_AND_ANTHROPOMETRICS   biological_characteristics, socioeconomic_background
+PSYCHOLOGICAL_PROFILES             personality_traits, reinforcement_sensitivity, trait_anxiety
+IDENTITY_AND_BELIEFS               sexual_and_gender_identity, religious_affiliation_and_importance
+BRAIN_MORPHOMETRY                  global_volumetric_measures, subcortical_volumes, cortical_thickness
+FUNCTIONAL_CONNECTOME              within_network_connectivity, between_network_connectivity
 ```
 
-Artifacts in [`ontology/`](ontology/): `aomic_id1000.owl` (loads in Protege),
-`subclass_structure.json`, `feature_manifest.json`, `exploration_report.json`, and
-`ontology_report.json`. The ontology is built once and reused as a fixed base template
-for every subject and every tier, so there is no per-individual structural variation,
-only differences in which leaf values are present.
+The ontology is **quality-assessed** (`ontology/ontology_report.json`): the adjusted
+Rand index against the purely statistical clusters (~0.48, confirming the ontology is
+meaning-based rather than statistics-driven) plus a compact LLM MECE/coherence review.
+
+Artifacts in [`ontology/`](ontology/):
+
+- `aomic_id1000.owl` - loads in Protege,
+- `subclass_structure.json` - the machine-readable tree and column index,
+- `ontology_features.csv` - a single flat benchmark matrix: 928 participants x all 86
+  features, with the hierarchy encoded in each column name
+  (`DOMAIN|subdomain|feature`) plus the target, ready for ML comparison,
+- `ontology_viewer.html` - a self-contained interactive explorer (expand/collapse,
+  drag, and top-down / left-right / radial layouts),
+- `exploration_report.json`, `ontology_report.json`, `feature_manifest.json`.
+
+The ontology is built once and reused as a fixed base template for every subject and
+every tier, so there is no per-individual structural variation, only differences in
+which leaf values are present.
 
 ## 5. Pipeline
 
@@ -128,28 +150,36 @@ python3 run_tiers.py --live --skip-brain   # reuse already-extracted brain featu
 ## 6. Results (subset of 6 participants, `google/gemini-3.1-flash-lite`, 1 iteration)
 
 All tiers produced valid numeric regressions rated SATISFACTORY by the critic. With
-N=6 the point error is noisy; **rank recovery** (Spearman) and its bootstrap stability
-are the informative signals.
+N=6 every number is noisy, so read trends across tiers, not any single cell. R2 is
+reported alongside rank recovery (Spearman) and its bootstrap stability.
 
-| Tier | Features | MAE | nMAE | Pearson r | Spearman rho | Rank stability |
-|---|---|---|---|---|---|---|
-| T1 Demographics | 6 | 43.2 | 1.07 | 0.78 | 0.71 | 0.65 |
-| T2 + Personality | 11 | 44.3 | 1.10 | 0.85 | 1.00 | 1.00 |
-| T3 + Motivation & Affect | 16 | 41.4 | 1.03 | 0.87 | 0.71 | 0.70 |
-| T4 + Identity & Belief | 23 | 44.9 | 1.11 | 0.85 | 0.54 | 0.55 |
-| T5 + Brain morphometry | 58 | 45.5 | 1.13 | **0.91** | 0.83 | 0.81 |
-| T6 + Brain connectome (full) | 86 | **40.6** | **1.00** | 0.78 | 0.60 | 0.59 |
-| B1 Brain-only morphometry | 35 | 52.4 | 1.30 | 0.55 | 0.77 | 0.73 |
-| B2 Brain-only connectome | 28 | 42.3 | 1.05 | 0.87 | 0.66 | 0.67 |
-| B3 Brain-only | 63 | 47.3 | 1.17 | 0.76 | 0.37 | 0.43 |
+| Tier | Features | R2 | MAE | RMSE | Pearson r | Spearman rho | Rank stability |
+|---|---|---|---|---|---|---|---|
+| T1 Demographics | 6 | 0.10 | 53.8 | 70.2 | 0.56 | 0.50 | 0.51 |
+| T2 + Personality | 11 | 0.15 | 49.5 | 64.2 | 0.63 | 0.49 | 0.49 |
+| T3 + Motivation & Affect | 16 | 0.22 | 42.4 | 61.7 | 0.67 | 0.94 | 0.89 |
+| T4 + Identity & Belief | 23 | 0.05 | 48.8 | 67.9 | 0.37 | 0.49 | 0.47 |
+| T5 + Brain morphometry | 58 | 0.02 | 51.0 | 69.1 | 0.63 | 0.77 | 0.73 |
+| T6 + Brain connectome (full) | 86 | **0.44** | 49.0 | **56.9** | **0.87** | **0.90** | **0.88** |
+| B1 Brain-only morphometry | 35 | -0.03 | 52.4 | 70.8 | 0.20 | 0.03 | 0.12 |
+| B2 Brain-only connectome | 28 | 0.21 | 45.7 | 62.0 | 0.65 | 0.60 | 0.59 |
+| B3 Brain-only | 63 | 0.17 | 51.3 | 63.6 | 0.68 | 0.49 | 0.47 |
 
-Reading: adding personality (T2) and morphometry (T5) give the strongest linear
-tracking of intelligence (Pearson up to 0.91), and the full multimodal tier (T6) gives
-the best absolute error (nMAE 1.00). The brain-only connectome tier alone reaches
-Pearson 0.87, consistent with naturalistic-viewing FC carrying individual-difference
-signal. These are 6-subject numbers and fluctuate; they validate the multi-modal
-ingestion, ontology, and end-to-end engine flow rather than establishing predictive
-performance. Raise `SUBSET_SIZE` / `MAX_ITERATIONS` in `config.py` to scale up.
+Reading, in trend terms:
+
+- The **full multimodal tier (T6)** is clearly the strongest (R2 0.44, Pearson 0.87,
+  Spearman 0.90, lowest RMSE), so combining self-report and brain modalities helps.
+- Adding the **connectome** (T5 to T6) is the single biggest jump (R2 0.02 to 0.44).
+- **Connectome-only (B2, R2 0.21)** beats **morphometry-only (B1, R2 about 0)** by a
+  wide margin, consistent with naturalistic-viewing functional connectivity carrying
+  more individual-difference signal for intelligence than regional structure at this
+  sample size.
+- The self-report ladder is non-monotonic at N=6 (T3 spikes, T4 dips), which is the
+  expected small-sample noise.
+
+These 5-to-6 subject numbers validate the multi-modal ingestion, semantic ontology,
+tiering, and end-to-end engine flow, not predictive performance. Raise `SUBSET_SIZE`
+and `MAX_ITERATIONS` in `config.py` to scale up.
 
 Per-tier detail: `results/<tier>/predictions.json`, `results/<tier>/metrics.json`,
 full engine outputs under `results/<tier>/compass_runs/`, and the cross-tier

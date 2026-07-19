@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0120_20260718_171525",
+  "report_id": "RPT_sub-0120_20260719_110942",
   "participant_id": "sub-0120",
-  "generated_at": "2026-07-18T17:15:25.019925",
+  "generated_at": "2026-07-19T11:09:42.002058",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 211.200",
+    "primary_output": "IST_intelligence_total: 209.840",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 211.2
+          "IST_intelligence_total": 209.84
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,16 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Positive socioeconomic and educational z-scores.",
-        "Low trait anxiety facilitating test performance."
+        "Consistent positive demographic and socioeconomic deviations."
       ],
       "supporting_evidence_against": [
-        "Absence of direct cognitive subscale data.",
-        "Lower-than-average conscientiousness."
+        "Lack of direct cognitive performance data."
       ],
       "uncertainty_factors": [
-        "Indirect proxy reliance.",
-        "Cohort-based estimation limitations."
+        "Inference based on proxies rather than direct measurement."
       ],
       "children": []
     }
@@ -66,28 +63,23 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Elevated educational level (z=0.95, 83rd percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Elevated age (z=1.55, 94th percentile, MODERATE effect) and high education level (z=0.95, 83rd percentile, SMALL effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Elevated background socio-economic status (z=0.84, 80th percentile, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "Low trait anxiety (z=-0.92, 18th percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low trait anxiety (z=-0.92, 18th percentile, SMALL effect) and low BAS reward responsiveness (z=-1.07, 14th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic and socioeconomic proxies, which show consistent positive deviations (z ~ 0.8-1.0).",
-    "Step 2: Evaluated personality and affective traits; found them largely at baseline, with the exception of low trait anxiety, which is a positive modulator for cognitive performance.",
-    "Step 3: Integrated these features using a regression model anchored to the cohort mean (200) and standard deviation (40).",
-    "Step 4: Calculated the predicted IST total score based on the weighted contribution of socioeconomic advantages and affective stability, resulting in a score of 211.2."
+    "Step 1: Identified demographic and socioeconomic factors as the primary predictors for IST-2000R total intelligence in the absence of direct cognitive testing.",
+    "Step 2: Aggregated positive z-scores from education level (z=0.95) and socioeconomic status (z=0.84) to establish an upward baseline shift from the population mean.",
+    "Step 3: Evaluated psychological profiles; found low-magnitude deviations (e.g., trait anxiety z=-0.92) that do not correlate with cognitive deficit, thus regularizing these inputs to avoid false-negative bias.",
+    "Step 4: Applied a regression model mapping the mean feature z-score (0.246) to the IST-2000R distribution (mean 200, SD 40), resulting in a predicted score of 209.84."
   ],
-  "clinical_summary": "The participant exhibits a cognitive profile consistent with slightly above-average intelligence, estimated at 211.2 on the IST 2000-R scale. This estimate is supported by favorable socioeconomic and educational indicators, alongside a low-anxiety affective profile that likely supports efficient test performance. The absence of significant personality deviations suggests a stable cognitive baseline.",
+  "clinical_summary": "The participant exhibits a demographic profile (high education, high SES) that is positively associated with standardized cognitive performance. While psychological traits show minor deviations, they lack clinical significance regarding cognitive function. The predicted IST-2000R score of 209.84 places the individual slightly above the cohort mean, consistent with their favorable socioeconomic background.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -145,8 +137,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 7692,
-          "final_tokens": 7775,
+          "baseline_tokens": 7936,
+          "final_tokens": 8019,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -159,9 +151,8 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10
           },
           "all_feature_count": 16,
           "unprocessed_feature_count": 16,
@@ -182,11 +173,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 31234,
+    "tokens_used": 30906,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ],
     "detailed_logs": []
   },
@@ -195,23 +185,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS, PSYCHOLOGICAL_PROFILES",
       "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify patterns relevant to cognitive performance. We then perform a regression-focused integration to estimate the IST 2000-R score.",
-      "timestamp": "2026-07-18T17:15:13.023458",
+      "reasoning": "The data volume is small (FIT_FOR_RAW), allowing for direct processing. We prioritize early synthesis of psychological and demographic features to establish a baseline for the IST 2000-R regression task, followed by a final predictive synthesis.",
+      "timestamp": "2026-07-19T11:09:30.131740",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Elevated educational level (z=0.95, 83rd percentile, MODERATE effect), Elevated background socio-economic status (z=0.84, 80th percentile, MODERATE effect), Low trait anxiety (z=-0.92, 18th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 211.200 (confidence=0.650)",
-      "reasoning": "The participant exhibits a cognitive profile consistent with slightly above-average intelligence, estimated at 211.2 on the IST 2000-R scale. This estimate is supported by favorable socioeconomic and educational indicators, alongside a low-anxiety affective profile that likely supports efficient test performance. The absence of significant personality deviations suggests a stable cognitive baseline.",
-      "timestamp": "2026-07-18T17:15:24.377660",
+      "input_summary": "Key findings: Elevated age (z=1.55, 94th percentile, MODERATE effect) and high education level (z=0.95, 83rd percentile, SMALL effect), Low trait anxiety (z=-0.92, 18th percentile, SMALL effect) and low BAS reward responsiveness (z=-1.07, 14th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 209.840 (confidence=0.650)",
+      "reasoning": "The participant exhibits a demographic profile (high education, high SES) that is positively associated with standardized cognitive performance. While psychological traits show minor deviations, they lack clinical significance regarding cognitive function. The predicted IST-2000R score of 209.84 places the individual slightly above the cohort mean, consistent with their favorable socioeconomic background.",
+      "timestamp": "2026-07-19T11:09:41.036632",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 211.200"
+        "classification": "IST_intelligence_total: 209.840"
       }
     },
     {
@@ -221,7 +211,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:15:25.018586",
+      "timestamp": "2026-07-19T11:09:42.001342",
       "metadata": {}
     }
   ]

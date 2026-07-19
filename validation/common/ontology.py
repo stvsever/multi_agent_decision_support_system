@@ -72,6 +72,166 @@ def _slug(text: str) -> str:
     return re.sub(r"[^A-Za-z0-9_]+", "_", str(text).strip()).strip("_")
 
 
+# =========================================================================== #
+# Semantic, LLM-driven ontology construction (primary path)
+#
+# The LLM is given the full feature structure (labels, descriptions, units, and any
+# source/provenance hints) and produces the hierarchy by MEANING, never by statistics.
+# It is general: domains are proposed by the model, so it works for any multimodal
+# dataset (demographics, biological assays, imaging, cognition, ...). It scales by
+# decomposing into small calls: propose domains, then organise each domain's features
+# into subdomains in parallel ("commands" when there are too many features for one shot).
+# =========================================================================== #
+_DOMAIN_SYSTEM = """You are a biomedical ontology engineer. Given all measured features of a dataset
+(with labels, descriptions, units and source hints), propose a small set of top-level DOMAINS that
+group the features by SEMANTIC meaning and measurement source (e.g. demographics, a questionnaire
+construct, a biological assay, brain structure, brain function). Group by what features MEAN, never
+by statistical similarity. Aim for 3 to 12 coherent, non-overlapping domains. Return ONLY JSON."""
+
+_ORGANISE_SYSTEM = """You are a biomedical ontology engineer. From the full feature list, select the
+features that belong to the given DOMAIN and organise ONLY those into SUBDOMAINS by semantic meaning
+(shared construct, sub-system, or anatomy), never by statistical similarity. Each selected feature
+appears in exactly one subdomain. Use concise lower_snake_case subdomain ids with readable labels and
+one-sentence definitions. Do not invent feature ids. Return ONLY JSON."""
+
+
+def _tooned(obj: Any) -> str:
+    try:
+        from src.full_stack.backend.utils.toon import json_to_toon
+        return json_to_toon(obj)
+    except Exception:
+        return json.dumps(obj)
+
+
+def _feature_listing(features: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    out = []
+    for f in features:
+        row = {"id": f["id"], "label": f.get("label", f["id"])}
+        if f.get("definition"):
+            row["desc"] = f["definition"]
+        if f.get("units"):
+            row["units"] = f["units"]
+        if f.get("source"):
+            row["source"] = f["source"]
+        if f.get("sample") is not None:
+            row["sample"] = f["sample"]
+        out.append(row)
+    return out
+
+
+def _propose_domains(llm, dataset_name, context, listing, user_guidance) -> List[Dict[str, Any]]:
+    guidance = f"\nUser guidance (respect this): {user_guidance.strip()}\n" if user_guidance.strip() else ""
+    user = (
+        f"Dataset: {dataset_name}\nContext: {context}{guidance}\n"
+        f"All {len(listing)} features (TOON):\n{_tooned(listing)}\n\n"
+        'Return: {"domains": [{"id": "UPPER_SNAKE_CASE", "label": "..", "definition": ".."}]}'
+    )
+    try:
+        obj = llm.chat_json(_DOMAIN_SYSTEM, user, max_tokens=2500)
+        doms = obj.get("domains", []) if isinstance(obj, dict) else []
+    except Exception:
+        doms = []
+    clean = []
+    for d in doms:
+        did = _slug(d.get("id") or d.get("label") or "").upper()
+        if did:
+            clean.append({"id": did, "label": d.get("label") or did.replace("_", " ").title(),
+                          "definition": d.get("definition") or ""})
+    return clean or [{"id": "ALL_FEATURES", "label": "All Features", "definition": ""}]
+
+
+def _organise_domain(llm, dataset_name, domain, listing, user_guidance) -> Dict[str, Any]:
+    guidance = f"\nUser guidance (respect this): {user_guidance.strip()}\n" if user_guidance.strip() else ""
+    user = (
+        f"Dataset: {dataset_name}\nDOMAIN to populate: {domain['label']} (id {domain['id']}) - "
+        f"{domain.get('definition','')}{guidance}\n"
+        f"Full feature list (TOON); select only those that belong to this domain:\n{_tooned(listing)}\n\n"
+        'Return: {"subdomains": [{"id": "..", "label": "..", "definition": "..", '
+        '"features": ["feature_id", ...]}]}'
+    )
+    try:
+        obj = llm.chat_json(_ORGANISE_SYSTEM, user, max_tokens=4000)
+        return obj if isinstance(obj, dict) else {}
+    except Exception:
+        return {}
+
+
+def build_semantic_ontology(
+    features: List[Dict[str, Any]],
+    dataset_name: str,
+    context: str,
+    llm,
+    user_guidance: str = "",
+    max_workers: int = 6,
+) -> Dict[str, Any]:
+    """Build a purely semantic, LLM-driven ontology, general to any dataset.
+
+    Stage 1: the model proposes semantic domains from the whole feature set.
+    Stage 2: for each proposed domain (in parallel), the model selects the features
+    that belong to it and organises them into subdomains by meaning.
+    Stage 3: completeness/non-redundancy is enforced in code - a feature claimed by
+    more than one domain is kept on first claim, and any feature no domain claimed is
+    repaired into an ``UNASSIGNED`` domain, so coverage is always exact.
+    """
+    from concurrent.futures import ThreadPoolExecutor
+
+    by_id = {f["id"]: f for f in features}
+    listing = _feature_listing(features)
+    domain_specs = _propose_domains(llm, dataset_name, context, listing, user_guidance)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as ex:
+        proposals = list(ex.map(
+            lambda d: (d, _organise_domain(llm, dataset_name, d, listing, user_guidance)),
+            domain_specs,
+        ))
+
+    claimed: set[str] = set()
+    domains: List[Dict[str, Any]] = []
+    for spec, proposal in proposals:
+        subdomains: List[Dict[str, Any]] = []
+        for sub in proposal.get("subdomains", []) or []:
+            feat_ids = [c for c in (sub.get("features") or []) if c in by_id and c not in claimed]
+            for c in feat_ids:
+                claimed.add(c)
+            if feat_ids:
+                subdomains.append({
+                    "id": _slug(sub.get("id") or "subdomain").lower(),
+                    "label": sub.get("label") or _slug(sub.get("id") or "").replace("_", " ").title(),
+                    "definition": sub.get("definition") or "",
+                    "features": [_feature_node_from(by_id[c]) for c in feat_ids],
+                })
+        if subdomains:
+            domains.append({"id": spec["id"], "label": spec["label"],
+                            "definition": spec.get("definition", ""), "subdomains": subdomains})
+
+    missing = [f["id"] for f in features if f["id"] not in claimed]
+    if missing:
+        domains.append({
+            "id": "UNASSIGNED", "label": "Unassigned Features",
+            "definition": "Features no domain claimed; retained for full coverage.",
+            "subdomains": [{"id": "unassigned", "label": "Unassigned",
+                            "definition": "Auto-assigned to preserve coverage.",
+                            "features": [_feature_node_from(by_id[c]) for c in missing]}],
+        })
+
+    n_feats = sum(len(s["features"]) for d in domains for s in d["subdomains"])
+    return {
+        "domains": domains,
+        "repair_stats": {"domains_proposed": len(domain_specs), "unassigned_repaired": len(missing)},
+        "column_index": _build_column_index(domains),
+        "dataset": dataset_name,
+        "context": context,
+        "n_features": n_feats,
+        "user_guidance": user_guidance,
+        "construction": "semantic_llm_domains_then_subdomains",
+    }
+
+
+def _feature_node_from(f: Dict[str, Any]) -> Dict[str, Any]:
+    return {"id": f["id"], "label": f.get("label", f["id"]), "definition": f.get("definition", ""),
+            "stat_type": f.get("stat_type"), "units": f.get("units")}
+
+
 _LABELING_SYSTEM = """You are an ontology engineer writing clean, interpretable labels for a
 feature ontology. You are given a fixed DOMAIN -> SUBDOMAIN -> FEATURE hierarchy (the
 structure is decided; do not change it). For every domain and subdomain, write a concise
@@ -459,6 +619,20 @@ def _build_column_index(domains: List[Dict[str, Any]]) -> Dict[str, Dict[str, st
 # --------------------------------------------------------------------------- #
 # Serialisation
 # --------------------------------------------------------------------------- #
+
+def hierarchical_names(ontology: Dict[str, Any], sep: str = "|") -> Dict[str, str]:
+    """Map each feature id to a flat column name encoding its ontology path.
+
+    e.g. ``fs_vol_lh_hippocampus`` -> ``BRAIN_MORPHOMETRY|subcortical_volumes|fs_vol_lh_hippocampus``.
+    Used to flatten the hierarchy into a single benchmark CSV without losing structure.
+    """
+    out: Dict[str, str] = {}
+    for d in ontology["domains"]:
+        for s in d["subdomains"]:
+            for f in s["features"]:
+                out[f["id"]] = f"{d['id']}{sep}{s['id']}{sep}{f['id']}"
+    return out
+
 
 def write_subclass_json(ontology: Dict[str, Any], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)

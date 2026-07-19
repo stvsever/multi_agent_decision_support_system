@@ -28,16 +28,16 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:19:30.242492",
-  "total_duration_seconds": 18.11,
+  "execution_timestamp": "2026-07-19T11:13:56.018063",
+  "total_duration_seconds": 21.32,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
   "coverage_summary": {
     "all_feature_count": 58,
-    "processed_feature_count": 51,
-    "unprocessed_raw_feature_count": 23,
-    "processed_raw_low_priority_feature_count": 35,
+    "processed_feature_count": 58,
+    "unprocessed_raw_feature_count": 6,
+    "processed_raw_low_priority_feature_count": 52,
     "chunk_cited_feature_count": 0,
     "represented_feature_count": 58,
     "missing_feature_count": 0,
@@ -63,9 +63,9 @@
     "coverage": {
       "summary": {
         "all_feature_count": 58,
-        "processed_feature_count": 51,
-        "unprocessed_raw_feature_count": 23,
-        "processed_raw_low_priority_feature_count": 35,
+        "processed_feature_count": 58,
+        "unprocessed_raw_feature_count": 6,
+        "processed_raw_low_priority_feature_count": 52,
         "chunk_cited_feature_count": 0,
         "represented_feature_count": 58,
         "missing_feature_count": 0,
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 13651,
-        "final_tokens": 16242,
-        "processed_raw_tokens": 16181,
+        "baseline_tokens": 12813,
+        "final_tokens": 16661,
+        "processed_raw_tokens": 16600,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,21 +97,31 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "BRAIN_MORPHOMETRY"
+          "BRAIN_MORPHOMETRY",
+          "IDENTITY_AND_BELIEFS",
+          "PSYCHOLOGICAL_PROFILES"
         ],
-        "processed_prefixes_by_domain": {},
+        "processed_prefixes_by_domain": {
+          "PSYCHOLOGICAL_PROFILES": [
+            [
+              "trait_anxiety"
+            ]
+          ],
+          "IDENTITY_AND_BELIEFS": [
+            []
+          ]
+        },
         "excluded_leaf_counts": {
+          "PSYCHOLOGICAL_PROFILES": 10,
+          "IDENTITY_AND_BELIEFS": 7,
           "BRAIN_MORPHOMETRY": 35
         },
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5,
-          "IDENTITY_AND_BELIEF": 7
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
         },
         "all_feature_count": 58,
-        "unprocessed_feature_count": 23,
-        "processed_feature_count": 35,
+        "unprocessed_feature_count": 6,
+        "processed_feature_count": 52,
         "missing_feature_count": 0
       },
       "embedding_store": {
@@ -129,7 +139,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 211.920",
+    "classification": "IST_intelligence_total: 211.600",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -141,7 +151,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 211.92
+          "IST_intelligence_total": 211.6
         }
       },
       "confidence_level": "MEDIUM",
@@ -149,99 +159,114 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "High cortical thickness in association cortices",
-        "High socio-economic status"
+        "Structural brain architecture (cortical thickness) strongly suggests high cognitive potential.",
+        "High-normal socioeconomic status provides a favorable developmental baseline."
       ],
       "supporting_evidence_against": [
-        "Low Openness to experience",
-        "Low reward-responsiveness (BAS fun-seeking)"
+        "Low Openness and Conscientiousness are significant behavioral inhibitors for standardized test performance.",
+        "Low reward-seeking behavior (BAS fun-seeking) may reduce sustained attention during testing."
       ],
       "uncertainty_factors": [
-        "Inferred intelligence from non-cognitive markers",
-        "Divergence between structural potential and behavioral traits"
+        "The prediction is based on indirect structural and personality proxies rather than direct cognitive performance data."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 46368,
-    "prompt_tokens": 41610,
-    "completion_tokens": 4758,
+    "total_tokens": 61119,
+    "prompt_tokens": 54157,
+    "completion_tokens": 6962,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4745,
-        "completion_tokens": 953,
-        "total": 5698,
+        "prompt_tokens": 4728,
+        "completion_tokens": 1027,
+        "total": 5755,
+        "step_tool": null,
+        "step_reasoning": null
+      },
+      {
+        "component": "orchestrator",
+        "prompt_tokens": 4770,
+        "completion_tokens": 1085,
+        "total": 5855,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 2448,
-        "completion_tokens": 527,
-        "total": 2975,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which domains and sub-features are most predictive of cognitive performance."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 1270,
-        "completion_tokens": 666,
-        "total": 1936,
-        "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical and cognitive criteria for the intelligence prediction task."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 4583,
-        "completion_tokens": 611,
-        "total": 5194,
+        "prompt_tokens": 4592,
+        "completion_tokens": 471,
+        "total": 5063,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Even though total data is low, compressing morphometry helps isolate structural markers of cognitive capacity."
+        "step_reasoning": "Extracts structural features that correlate with cognitive performance."
       },
       {
         "component": "executor",
-        "prompt_tokens": 6471,
-        "completion_tokens": 671,
-        "total": 7142,
+        "prompt_tokens": 2646,
+        "completion_tokens": 715,
+        "total": 3361,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Reduces dimensionality of psychological and identity datasets to focus on intelligence-related patterns."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1268,
+        "completion_tokens": 768,
+        "total": 2036,
+        "step_tool": "PhenotypeRepresentation",
+        "step_reasoning": "Establishes the clinical and cognitive criteria for the target variable."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 4168,
+        "completion_tokens": 946,
+        "total": 5114,
+        "step_tool": "AnomalyNarrativeBuilder",
+        "step_reasoning": "Identifies significant deviations in brain morphometry and psychological profiles."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 7112,
+        "completion_tokens": 743,
+        "total": 7855,
         "step_tool": "MultimodalNarrativeCreator",
-        "step_reasoning": "Integrates diverse data sources to form a coherent basis for the regression model."
+        "step_reasoning": "Synthesizes cross-domain patterns to provide a holistic view of the participant's cognitive profile."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1134,
-        "completion_tokens": 214,
-        "total": 1348,
+        "prompt_tokens": 1112,
+        "completion_tokens": 174,
+        "total": 1286,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Uses the synthesized features and narrative to perform the final univariate regression prediction."
+        "step_reasoning": "Calculates the final numerical prediction based on the fused multimodal narrative and clinical features."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 20777,
-        "completion_tokens": 1082,
-        "total": 21859,
+        "prompt_tokens": 23577,
+        "completion_tokens": 994,
+        "total": 24571,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 182,
-        "completion_tokens": 34,
-        "total": 216,
+        "prompt_tokens": 184,
+        "completion_tokens": 39,
+        "total": 223,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_2000R_PRED_0153",
-    "total_steps": 5,
+    "plan_id": "IST_PRED_0153_STRAT",
+    "total_steps": 6,
     "priority_domains": [
+      "PSYCHOLOGICAL_PROFILES",
       "BRAIN_MORPHOMETRY",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "IDENTITY_AND_BELIEFS"
     ]
   },
   "explainability": {

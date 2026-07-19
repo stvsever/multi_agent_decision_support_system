@@ -1,16 +1,16 @@
 {
-  "report_id": "RPT_sub-0128_20260718_172703",
+  "report_id": "RPT_sub-0128_20260719_112119",
   "participant_id": "sub-0128",
-  "generated_at": "2026-07-18T17:27:03.048980",
+  "generated_at": "2026-07-19T11:21:19.722585",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 238.000",
-    "probability": 0.85,
+    "primary_output": "IST_intelligence_total: 228.000",
+    "probability": 0.65,
     "binary_probability": null,
-    "root_confidence": 0.85,
-    "confidence": "HIGH",
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
     "prediction_task_spec": {
@@ -36,21 +36,21 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 238.0
+          "IST_intelligence_total": 228.0
         }
       },
-      "confidence_level": "HIGH",
-      "confidence_score": 0.85,
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Structural metrics consistently in the upper quartile of the population."
+        "Structural markers consistently in the 85th-95th percentile range."
       ],
       "supporting_evidence_against": [
-        "Functional network disconnects likely limit peak performance on speeded components."
+        "Functional network bottlenecks in executive control systems."
       ],
       "uncertainty_factors": [
-        "Inferred score based on structural proxies rather than direct cognitive testing."
+        "Inferred prediction without direct cognitive subscale data."
       ],
       "children": []
     }
@@ -64,33 +64,22 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "High total cortical gray matter volume (z=1.53, 94th percentile, MODERATE effect)",
+      "finding": "Widespread cortical and subcortical volumetric enhancement (mean z=+1.28), including parietal cortex (z=1.44) and hippocampus (z=1.68).",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Left hippocampus volume elevation (z=1.68, 95th percentile, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Dorsal attention - Salience/ventral attention connectivity deficit (z=-1.54, 6th percentile, MODERATE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Significant decoupling of the dorsal attention network from salience (z=-1.54) and frontoparietal control networks (z=-1.15).",
       "direction": "ABNORMAL_LOW"
-    },
-    {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Limbic - Frontoparietal control hyper-connectivity (z=1.39, 92nd percentile, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed morphometric data showing consistent high-normal to elevated volumes across cortical and subcortical structures.",
-    "Step 2: Identified that high cortical gray matter (z=1.53) and hippocampal volumes (z=1.68) provide a strong structural foundation for intelligence.",
-    "Step 3: Evaluated connectome data revealing functional inefficiencies, specifically a disconnect between dorsal attention and executive networks (z=-1.54).",
-    "Step 4: Integrated structural robustness with functional bottlenecks, concluding that the subject has high potential (structural) but likely faces efficiency constraints (functional) on speeded tasks.",
-    "Step 5: Estimated the IST 2000-R score based on the cohort mean (200) and the observed structural advantages, adjusting for functional inefficiencies."
+    "Step 1: Analyzed structural neuroanatomy, identifying robust markers of high intelligence (parietal/hippocampal volume).",
+    "Step 2: Evaluated functional connectome, identifying specific executive network decoupling that may constrain performance.",
+    "Step 3: Integrated structural potential (high) with functional efficiency (moderate/constrained).",
+    "Step 4: Estimated IST-2000R score based on the interplay between structural capacity and functional network bottlenecks, projecting a score above the cohort mean (200)."
   ],
-  "clinical_summary": "Subject sub-0128 exhibits a neural architecture characterized by significant structural advantages, including high cortical gray matter and hippocampal volumes, which are strongly predictive of superior cognitive potential. However, functional network analysis indicates a bottleneck in the integration of the dorsal attention and executive control networks. This suggests that while the subject possesses the raw structural capacity for high intelligence, real-time processing efficiency on speed-dependent tasks may be attenuated. The predicted IST 2000-R score reflects this high-average cognitive phenotype.",
+  "clinical_summary": "Subject sub-0128 exhibits a neuroanatomical profile strongly associated with superior cognitive performance, characterized by high gray matter and parietal volumes. However, functional connectome analysis reveals significant decoupling in executive and attentional networks, suggesting that while the structural potential for high intelligence is present, real-time cognitive efficiency may be constrained. The estimated IST-2000R score is 228.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -148,9 +137,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 13334,
-          "final_tokens": 17952,
-          "processed_raw_tokens": 17891,
+          "baseline_tokens": 11275,
+          "final_tokens": 15899,
+          "processed_raw_tokens": 15838,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -159,13 +148,13 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "BRAIN_MORPHOMETRY",
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {},
           "all_feature_count": 63,
@@ -187,10 +176,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 63688,
+    "tokens_used": 58701,
     "domains_processed": [
       "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -199,23 +188,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
-      "output_summary": "Generated 7-step plan",
-      "reasoning": "Given the 'FIT_FOR_RAW' status, we prioritize high-fidelity feature extraction. We use early-stage tools to define the phenotype and identify significant deviations, followed by targeted compression of brain imaging sub-domains to isolate patterns relevant to cognitive performance. Finally, we synthesize these findings into a regression-based prediction.",
-      "timestamp": "2026-07-18T17:26:48.887232",
+      "input_summary": "Domains: BRAIN_MORPHOMETRY, FUNCTIONAL_CONNECTOME",
+      "output_summary": "Generated 6-step plan",
+      "reasoning": "The plan uses a parallel early-stage approach to define the phenotype and identify anomalies. Mid-stage processing uses UnimodalCompressor to distill imaging data, followed by a MultimodalNarrativeCreator to fuse these findings. The final step uses the DifferentialDiagnosis tool to synthesize all evidence into a univariate regression estimate for the IST 2000-R score.",
+      "timestamp": "2026-07-19T11:21:04.644575",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: High total cortical gray matter volume (z=1.53, 94th percentile, MODERATE effect), Left hippocampus volume elevation (z=1.68, 95th percentile, MODERATE effect), Dorsal attention - Salience/ventral attention connectivity deficit (z=-1.54, 6th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 238.000 (confidence=0.850)",
-      "reasoning": "Subject sub-0128 exhibits a neural architecture characterized by significant structural advantages, including high cortical gray matter and hippocampal volumes, which are strongly predictive of superior cognitive potential. However, functional network analysis indicates a bottleneck in the integration of the dorsal attention and executive control networks. This suggests that while the subject possesses the raw structural capacity for high intelligence, real-time processing efficiency on speed-de",
-      "timestamp": "2026-07-18T17:27:02.255162",
+      "input_summary": "Key findings: Widespread cortical and subcortical volumetric enhancement (mean z=+1.28), including parietal cortex (z=1.44) and hippocampus (z=1.68)., Significant decoupling of the dorsal attention network from salience (z=-1.54) and frontoparietal control networks (z=-1.15)....",
+      "output_summary": "IST_intelligence_total: 228.000 (confidence=0.650)",
+      "reasoning": "Subject sub-0128 exhibits a neuroanatomical profile strongly associated with superior cognitive performance, characterized by high gray matter and parietal volumes. However, functional connectome analysis reveals significant decoupling in executive and attentional networks, suggesting that while the structural potential for high intelligence is present, real-time cognitive efficiency may be constrained. The estimated IST-2000R score is 228.",
+      "timestamp": "2026-07-19T11:21:18.774699",
       "metadata": {
-        "probability": 0.85,
-        "classification": "IST_intelligence_total: 238.000"
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 228.000"
       }
     },
     {
@@ -225,7 +214,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:27:03.047911",
+      "timestamp": "2026-07-19T11:21:19.721256",
       "metadata": {}
     }
   ]

@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0498_20260718_172026",
+  "report_id": "RPT_sub-0498_20260719_111500",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:20:26.563224",
+  "generated_at": "2026-07-19T11:15:00.589933",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 207.240",
+    "primary_output": "IST_intelligence_total: 209.120",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 207.24
+          "IST_intelligence_total": 209.12
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Integrated feature mean (z=0.181) suggests performance slightly above the population mean."
+        "Cortical thickness metrics are highly predictive of g-factor intelligence."
       ],
       "supporting_evidence_against": [
-        "Subcortical atrophy and anxiety traits suggest a performance ceiling."
+        "Subcortical volume deficits and high trait anxiety are known to suppress performance on standardized intelligence tests."
       ],
       "uncertainty_factors": [
-        "Absence of direct cognitive task data."
+        "Inference based on structural/personality proxies rather than direct cognitive assessment."
       ],
       "children": []
     }
@@ -64,36 +64,41 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Widespread cortical hypertrophy (mean z=1.98 across lobes, 98th percentile, MODERATE effect)",
+      "finding": "Widespread cortical thickening (mean z ~ 1.8) across frontal and insular regions, suggesting high cognitive reserve.",
       "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Significant subcortical volume reduction (mean z=-1.44, 5th percentile, MODERATE effect)",
+      "finding": "Significant subcortical volume reduction (thalamus z=-2.01, caudate z=-2.02).",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Elevated neuroticism (z=1.42, 92nd percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Elevated Neuroticism (z=1.42) and Trait Anxiety (z=0.75).",
       "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Reduced BAS reward responsiveness (z=-1.07).",
+      "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed morphometric data showing a dissociation between cortical hypertrophy (positive indicator) and subcortical atrophy (negative indicator).",
-    "Step 2: Integrated personality and affective data, noting elevated neuroticism and trait anxiety as potential performance dampeners.",
-    "Step 3: Evaluated the net effect of structural and psychological features on the IST 2000-R composite score.",
-    "Step 4: Applied linear transformation of integrated feature mean (z=0.181) to the IST scale (mean=200, SD=40) to derive the final estimate."
+    "Step 1: Analyzed neuroanatomical profile showing a dichotomy between cortical hypertrophy and subcortical atrophy.",
+    "Step 2: Integrated psychological markers, noting that elevated anxiety and low reward sensitivity likely act as cognitive interference.",
+    "Step 3: Evaluated the net effect of structural compensatory mechanisms versus affective performance-suppression.",
+    "Step 4: Synthesized findings into a regression estimate, adjusting the cohort mean (200) based on the observed structural-affective trade-off."
   ],
-  "clinical_summary": "The subject presents a complex neuro-psychological profile. While widespread cortical hypertrophy in executive-relevant regions suggests high cognitive potential, this is offset by significant subcortical volume loss and an anxiety-prone personality profile. The net effect of these competing factors suggests an intelligence score near the cohort mean, slightly adjusted by the structural advantages.",
+  "clinical_summary": "The subject presents a complex neuro-psychological profile. While widespread cortical thickening suggests high cognitive reserve, this is significantly offset by marked subcortical volume reductions and an affective profile characterized by high anxiety and low reward-seeking motivation. These factors likely create a bottleneck in cognitive processing efficiency, resulting in a predicted IST 2000-R total score slightly above the cohort mean, but constrained by affective interference.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
     "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
     "coverage_summary": {
       "all_feature_count": 58,
-      "processed_feature_count": 45,
-      "unprocessed_raw_feature_count": 13,
-      "processed_raw_low_priority_feature_count": 45,
+      "processed_feature_count": 52,
+      "unprocessed_raw_feature_count": 6,
+      "processed_raw_low_priority_feature_count": 52,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 58,
       "missing_feature_count": 0,
@@ -119,9 +124,9 @@
       "coverage": {
         "summary": {
           "all_feature_count": 58,
-          "processed_feature_count": 45,
-          "unprocessed_raw_feature_count": 13,
-          "processed_raw_low_priority_feature_count": 45,
+          "processed_feature_count": 52,
+          "unprocessed_raw_feature_count": 6,
+          "processed_raw_low_priority_feature_count": 52,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 58,
           "missing_feature_count": 0,
@@ -142,9 +147,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 14813,
-          "final_tokens": 18147,
-          "processed_raw_tokens": 18086,
+          "baseline_tokens": 13162,
+          "final_tokens": 17016,
+          "processed_raw_tokens": 16955,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -154,28 +159,30 @@
         "coverage_snapshot": {
           "processed_whole_domains": [
             "BRAIN_MORPHOMETRY",
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
           "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
+            "PSYCHOLOGICAL_PROFILES": [
               [
-                "anxiety_traits"
+                "trait_anxiety"
               ]
+            ],
+            "IDENTITY_AND_BELIEFS": [
+              []
             ]
           },
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7,
             "BRAIN_MORPHOMETRY": 35
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 58,
-          "unprocessed_feature_count": 13,
-          "processed_feature_count": 45,
+          "unprocessed_feature_count": 6,
+          "processed_feature_count": 52,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -192,11 +199,12 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 52638,
+    "tokens_used": 58882,
     "domains_processed": [
-      "BRAIN_MORPHOMETRY",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "PSYCHOLOGICAL_PROFILES",
+      "IDENTITY_AND_BELIEFS",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "BRAIN_MORPHOMETRY"
     ],
     "detailed_logs": []
   },
@@ -205,23 +213,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, PERSONALITY, MOTIVATION_AND_AFFECT",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, IDENTITY_AND_BELIEFS, DEMOGRAPHICS_AND_ANTHROPOMETRICS, BRAIN_MORPHOMETRY",
       "output_summary": "Generated 6-step plan",
-      "reasoning": "The plan prioritizes early synthesis of personality and affect, which are known correlates of cognitive performance. Given the low token count, we use UnimodalCompressor to extract high-level patterns from brain morphometry and psychological domains to ensure the final regression model receives high-signal, low-noise features.",
-      "timestamp": "2026-07-18T17:20:11.323653",
+      "reasoning": "The plan prioritizes psychological and identity domains as primary predictors for intelligence, supplemented by brain morphometry. Since the total data volume is low (1293 tokens), we use UnimodalCompressor to extract high-level patterns from these domains to ensure the final regression model receives clinically relevant features rather than raw noise.",
+      "timestamp": "2026-07-19T11:14:44.837997",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Widespread cortical hypertrophy (mean z=1.98 across lobes, 98th percentile, MODERATE effect), Significant subcortical volume reduction (mean z=-1.44, 5th percentile, MODERATE effect), Elevated neuroticism (z=1.42, 92nd percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 207.240 (confidence=0.650)",
-      "reasoning": "The subject presents a complex neuro-psychological profile. While widespread cortical hypertrophy in executive-relevant regions suggests high cognitive potential, this is offset by significant subcortical volume loss and an anxiety-prone personality profile. The net effect of these competing factors suggests an intelligence score near the cohort mean, slightly adjusted by the structural advantages.",
-      "timestamp": "2026-07-18T17:20:25.199240",
+      "input_summary": "Key findings: Widespread cortical thickening (mean z ~ 1.8) across frontal and insular regions, suggesting high cognitive reserve., Significant subcortical volume reduction (thalamus z=-2.01, caudate z=-2.02)., Elevated Neuroticism (z=1.42) and Trait Anxiety (z=0.75)....",
+      "output_summary": "IST_intelligence_total: 209.120 (confidence=0.650)",
+      "reasoning": "The subject presents a complex neuro-psychological profile. While widespread cortical thickening suggests high cognitive reserve, this is significantly offset by marked subcortical volume reductions and an affective profile characterized by high anxiety and low reward-seeking motivation. These factors likely create a bottleneck in cognitive processing efficiency, resulting in a predicted IST 2000-R total score slightly above the cohort mean, but constrained by affective interference.",
+      "timestamp": "2026-07-19T11:14:59.769055",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 207.240"
+        "classification": "IST_intelligence_total: 209.120"
       }
     },
     {
@@ -230,8 +238,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
-      "timestamp": "2026-07-18T17:20:26.562449",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-19T11:15:00.588692",
       "metadata": {}
     }
   ]

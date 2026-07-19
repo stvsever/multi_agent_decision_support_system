@@ -1,31 +1,32 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:20:07.191259",
+    "timestamp": "2026-07-19T11:14:36.409508",
     "data": {
       "participant_id": "sub-0498",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:20:07.191253"
+      "timestamp": "2026-07-19T11:14:36.409506"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:20:11.323037",
+    "timestamp": "2026-07-19T11:14:44.837659",
     "data": {
-      "plan_id": "sub-0498-ist-prediction-001",
+      "plan_id": "IST_2000R_PREDICTION_0498",
       "total_steps": 6,
       "priority_domains": [
-        "BRAIN_MORPHOMETRY",
-        "PERSONALITY",
-        "MOTIVATION_AND_AFFECT"
+        "PSYCHOLOGICAL_PROFILES",
+        "IDENTITY_AND_BELIEFS",
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "BRAIN_MORPHOMETRY"
       ]
     }
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:20:25.198112",
+    "timestamp": "2026-07-19T11:14:59.768559",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -45,9 +46,9 @@
       "coverage": {
         "summary": {
           "all_feature_count": 58,
-          "processed_feature_count": 45,
-          "unprocessed_raw_feature_count": 13,
-          "processed_raw_low_priority_feature_count": 45,
+          "processed_feature_count": 52,
+          "unprocessed_raw_feature_count": 6,
+          "processed_raw_low_priority_feature_count": 52,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 58,
           "missing_feature_count": 0,
@@ -68,9 +69,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 14813,
-          "final_tokens": 18147,
-          "processed_raw_tokens": 18086,
+          "baseline_tokens": 13162,
+          "final_tokens": 17016,
+          "processed_raw_tokens": 16955,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -80,28 +81,30 @@
         "coverage_snapshot": {
           "processed_whole_domains": [
             "BRAIN_MORPHOMETRY",
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
           "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
+            "PSYCHOLOGICAL_PROFILES": [
               [
-                "anxiety_traits"
+                "trait_anxiety"
               ]
+            ],
+            "IDENTITY_AND_BELIEFS": [
+              []
             ]
           },
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7,
             "BRAIN_MORPHOMETRY": 35
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 58,
-          "unprocessed_feature_count": 13,
-          "processed_feature_count": 45,
+          "unprocessed_feature_count": 6,
+          "processed_feature_count": 52,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -121,16 +124,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:20:25.198163",
+    "timestamp": "2026-07-19T11:14:59.768584",
     "data": {
-      "classification": "IST_intelligence_total: 207.240",
+      "classification": "IST_intelligence_total: 209.120",
       "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:20:26.562174",
+    "timestamp": "2026-07-19T11:15:00.587941",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

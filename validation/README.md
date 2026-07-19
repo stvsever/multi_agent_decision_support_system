@@ -16,7 +16,8 @@ validation/
     explore.py                   automated data understanding (types, correlations,
                                  feature clustering, redundancy, quality flags)
     manifest.py                  deterministic feature-structure profiling
-    ontology.py                  LLM ontology (hint or auto) + QA review + OWL/JSON
+    ontology.py                  semantic LLM ontology + QA review + OWL/JSON/CSV
+    viewer.py                    self-contained interactive ontology explorer (HTML)
     deviation.py                 reference strategies (cohort / external / absolute)
     compass_writer.py            emits the four COMPASS participant files
     freesurfer.py                FreeSurfer morphometry feature extraction
@@ -40,17 +41,19 @@ validation/
    automatic type inference, distribution and missingness profiling, robust
    correlation structure, hierarchical feature clustering, near-duplicate detection,
    target associations, and quality flags. No hand-written hints required.
-2. **Ontologise** - organise all features into a strict, non-redundant
-   `DOMAIN -> SUBDOMAIN -> FEATURE` subclass hierarchy. Structure comes from
-   per-feature hints when domain knowledge exists, or from the exploration's
-   data-driven clusters otherwise; a small model generates only the interpretable
-   parent labels and definitions (leaves keep labels, no redundant descriptions).
-   The prompt is serialised as TOON, not JSON, to save tokens. The result is then
-   quality-assessed: adjusted Rand index against the statistical clusters plus a
-   compact LLM MECE/coherence review. The ontology is built **once per dataset** and
-   reused as a fixed base template for every subject, so participants differ only in
-   which leaf values are present, never in structure. Emits Protege-loadable OWL, a
-   subclass JSON, and exploration/quality reports.
+2. **Ontologise** (semantic, LLM-driven) - organise all features into a strict,
+   non-redundant `DOMAIN -> SUBDOMAIN -> FEATURE` subclass hierarchy by **meaning**,
+   never by statistics (two unrelated measures can correlate by accident). The model
+   is given each feature's label, description, units, source and sample values
+   (as TOON), proposes the domains itself, then organises each domain into subdomains
+   in parallel; code enforces exact, non-redundant coverage. This is general for any
+   dataset and scales via per-domain calls. An optional free-text user-guidance
+   argument is injected into every prompt (the hook for a future UI). The result is
+   quality-assessed (adjusted Rand index against the statistical clusters, plus a
+   compact LLM MECE review). Built **once per dataset** and reused as a fixed base
+   template for every subject, so participants differ only in which leaf values are
+   present, never in structure. Emits Protege-loadable OWL, a subclass JSON, a single
+   hierarchy-encoded benchmark CSV, an interactive HTML explorer, and QA reports.
 3. **Encode** - standardise each feature into a deviation score with its label
    preserved. Reference strategy is auto-selected: `cohort` (batch is its own
    reference), `external` (supplied norms), or `absolute` (no reference / single

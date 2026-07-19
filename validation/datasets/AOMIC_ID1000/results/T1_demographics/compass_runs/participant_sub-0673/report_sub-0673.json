@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0673_20260718_171321",
+  "report_id": "RPT_sub-0673_20260719_110735",
   "participant_id": "sub-0673",
-  "generated_at": "2026-07-18T17:13:21.671135",
+  "generated_at": "2026-07-19T11:07:35.779773",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 221.690",
+    "primary_output": "IST_intelligence_total: 212.500",
     "probability": 0.35,
     "binary_probability": null,
     "root_confidence": 0.35,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 221.69
+          "IST_intelligence_total": 212.5
         }
       },
       "confidence_level": "LOW",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Positive deviation in socioeconomic indicators (Education and SES)."
+        "Positive deviation in education and socioeconomic status."
       ],
       "supporting_evidence_against": [
-        "No direct cognitive assessment data available."
+        "Lack of direct cognitive testing data."
       ],
       "uncertainty_factors": [
-        "High reliance on environmental proxies."
+        "High reliance on indirect proxies."
       ],
       "children": []
     }
@@ -63,29 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Education level is elevated (z=0.953, 83rd percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Education level is elevated (z=0.953, 83rd percentile, SMALL effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Background socio-economic status is elevated (z=0.837, 80th percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Socio-economic status is elevated (z=0.837, 80th percentile, SMALL effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Age is lower than cohort mean (z=-1.23, 11th percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Age is reduced (z=-1.23, 11th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Identified the target as a regression task for IST 2000-R (Mean=200, SD=40).",
-    "Step 2: Evaluated available features; cognitive and educational performance data are absent, necessitating reliance on demographic proxies.",
-    "Step 3: Weighted socioeconomic indicators (Education level z=0.953, SES z=0.837) as the primary positive predictors for cognitive ability.",
-    "Step 4: Accounted for age (z=-1.23) and sex (z=1.042) as secondary demographic covariates.",
-    "Step 5: Applied a shrinkage-adjusted regression estimate, shifting the population mean (200) upward based on the positive socioeconomic signal, resulting in a predicted score of 221.69."
+    "Step 1: Analyzed demographic and socioeconomic features as proxies for cognitive performance in the absence of direct IST subscale data.",
+    "Step 2: Identified education level (z=0.953) and socioeconomic status (z=0.837) as the primary positive indicators for intelligence.",
+    "Step 3: Evaluated biological characteristics (age, sex, BMI) as non-informative noise for cognitive performance estimation.",
+    "Step 4: Applied a regression model anchored to the population mean of 200, adjusting upward based on the combined positive socioeconomic and educational signal.",
+    "Step 5: Final prediction calculated as 212.5, reflecting a modest deviation above the mean consistent with the observed demographic profile."
   ],
-  "clinical_summary": "The participant's predicted IST 2000-R total score is 221.69. This estimate is derived from demographic and socioeconomic proxies, specifically high educational attainment and favorable background socio-economic status, which are positively correlated with general cognitive ability. Given the absence of direct cognitive performance metrics, this prediction reflects a population-level association and should be interpreted with caution, as individual cognitive variance remains unmeasured.",
+  "clinical_summary": "The participant's predicted IST 2000-R total intelligence score is 212.5. This estimate is derived from demographic and socioeconomic proxies, specifically high educational attainment and favorable socioeconomic background, which correlate with higher cognitive performance. Given the absence of direct psychometric data, this prediction remains an estimate with significant uncertainty, anchored toward the cohort mean of 200.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -143,8 +143,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 4339,
-          "final_tokens": 4422,
+          "baseline_tokens": 4442,
+          "final_tokens": 4525,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -157,7 +157,7 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 6,
           "unprocessed_feature_count": 6,
@@ -178,9 +178,9 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 27550,
+    "tokens_used": 22220,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -189,23 +189,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS",
       "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and clinical relevance ranking to extract meaningful patterns from the available demographic and physical data. We will use the FeatureSynthesizer and ClinicalRelevanceRanker to ensure the regression model receives the most predictive variables.",
-      "timestamp": "2026-07-18T17:13:09.943847",
+      "reasoning": "Given the small dataset size (2,279 tokens), raw data is sufficient for processing. The plan focuses on synthesizing demographic and lifestyle features to predict the continuous IST score, leveraging early-stage feature synthesis and late-stage regression analysis.",
+      "timestamp": "2026-07-19T11:07:23.687097",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Education level is elevated (z=0.953, 83rd percentile, MODERATE effect), Background socio-economic status is elevated (z=0.837, 80th percentile, MODERATE effect), Age is lower than cohort mean (z=-1.23, 11th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 221.690 (confidence=0.350)",
-      "reasoning": "The participant's predicted IST 2000-R total score is 221.69. This estimate is derived from demographic and socioeconomic proxies, specifically high educational attainment and favorable background socio-economic status, which are positively correlated with general cognitive ability. Given the absence of direct cognitive performance metrics, this prediction reflects a population-level association and should be interpreted with caution, as individual cognitive variance remains unmeasured.",
-      "timestamp": "2026-07-18T17:13:20.876392",
+      "input_summary": "Key findings: Education level is elevated (z=0.953, 83rd percentile, SMALL effect), Socio-economic status is elevated (z=0.837, 80th percentile, SMALL effect), Age is reduced (z=-1.23, 11th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 212.500 (confidence=0.350)",
+      "reasoning": "The participant's predicted IST 2000-R total intelligence score is 212.5. This estimate is derived from demographic and socioeconomic proxies, specifically high educational attainment and favorable socioeconomic background, which correlate with higher cognitive performance. Given the absence of direct psychometric data, this prediction remains an estimate with significant uncertainty, anchored toward the cohort mean of 200.",
+      "timestamp": "2026-07-19T11:07:35.150089",
       "metadata": {
         "probability": 0.35,
-        "classification": "IST_intelligence_total: 221.690"
+        "classification": "IST_intelligence_total: 212.500"
       }
     },
     {
@@ -215,7 +215,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:13:21.669759",
+      "timestamp": "2026-07-19T11:07:35.779119",
       "metadata": {}
     }
   ]

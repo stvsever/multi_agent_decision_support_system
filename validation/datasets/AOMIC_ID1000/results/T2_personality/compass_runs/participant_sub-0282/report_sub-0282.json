@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0282_20260718_171433",
+  "report_id": "RPT_sub-0282_20260719_110845",
   "participant_id": "sub-0282",
-  "generated_at": "2026-07-18T17:14:33.998346",
+  "generated_at": "2026-07-19T11:08:45.807803",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 190.920",
+    "primary_output": "IST_intelligence_total: 198.740",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 190.92
+          "IST_intelligence_total": 198.74
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,14 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent negative deviations across education, BMI, and personality domains"
+        "Convergent negative signals across education, personality, and age domains."
       ],
       "supporting_evidence_against": [
-        "High residual uncertainty due to lack of proximal cognitive markers"
+        "Lack of direct cognitive performance data."
       ],
       "uncertainty_factors": [
-        "Proxy-based estimation",
-        "Heterogeneity in root-level demographic data"
+        "Inference based on indirect proxies."
       ],
       "children": []
     }
@@ -64,29 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
       "finding": "Education level is significantly below cohort mean (z=-2.11, 2nd percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Body mass index is low (z=-1.58, 6th percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Openness to Experience is notably reduced (z=-1.09, 14th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Openness to experience is low (z=-1.09, 14th percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Age is below cohort mean (z=-1.67, 5th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Establish baseline population mean (200) and standard deviation (40) for the IST 2000-R.",
-    "Step 2: Identify primary negative signals: Education level (z=-2.11) and BMI (z=-1.58) suggest potential environmental or developmental limitations.",
-    "Step 3: Integrate personality markers: Low Openness (z=-1.09) correlates with lower intellectual curiosity, providing a secondary negative weight.",
-    "Step 4: Apply regression model: Given the absence of direct cognitive data, the prediction is anchored to the mean and adjusted downward by approximately 0.25 standard deviations based on the aggregate negative signal of the identified proxies.",
-    "Step 5: Final calculation: 200 - (0.25 * 40) = 190."
+    "Step 1: Analyzed demographic and personality features as proxies for cognitive performance.",
+    "Step 2: Identified strong negative signal from education level (z=-2.11) and Openness (z=-1.09).",
+    "Step 3: Integrated developmental context (low age, z=-1.67) which suggests potential for future cognitive growth but current lower-than-average performance.",
+    "Step 4: Applied regression model based on population mean of 200 and SD of 40, adjusting for the identified negative deviations.",
+    "Step 5: Synthesized final estimate of 198.74, reflecting a slight downward shift from the cohort mean."
   ],
-  "clinical_summary": "The participant's predicted IST 2000-R score is 190.92, which is slightly below the population mean of 200. This estimate is derived from demographic and personality proxies, specifically a notably low education level and reduced openness to experience. The prediction is tempered by the lack of direct cognitive performance data, resulting in a moderate confidence level.",
+  "clinical_summary": "The participant (sub-0282) demonstrates a cognitive profile inferred from demographic and personality markers that is slightly below the cohort mean. The most significant predictors are the low education level and reduced Openness to Experience, which are known correlates of lower crystallized intelligence. While the participant's age suggests they may not have reached peak cognitive maturity, the current evidence points to a performance level near, but slightly below, the population average of 200.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -94,8 +93,8 @@
     "coverage_summary": {
       "all_feature_count": 11,
       "processed_feature_count": 11,
-      "unprocessed_raw_feature_count": 11,
-      "processed_raw_low_priority_feature_count": 0,
+      "unprocessed_raw_feature_count": 6,
+      "processed_raw_low_priority_feature_count": 5,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 11,
       "missing_feature_count": 0,
@@ -122,8 +121,8 @@
         "summary": {
           "all_feature_count": 11,
           "processed_feature_count": 11,
-          "unprocessed_raw_feature_count": 11,
-          "processed_raw_low_priority_feature_count": 0,
+          "unprocessed_raw_feature_count": 6,
+          "processed_raw_low_priority_feature_count": 5,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 11,
           "missing_feature_count": 0,
@@ -141,12 +140,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": false,
+        "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 6155,
-          "final_tokens": 6238,
-          "processed_raw_tokens": null,
+          "baseline_tokens": 6906,
+          "final_tokens": 7355,
+          "processed_raw_tokens": 7294,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -154,16 +153,19 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [],
+          "processed_whole_domains": [
+            "PSYCHOLOGICAL_PROFILES"
+          ],
           "processed_prefixes_by_domain": {},
-          "excluded_leaf_counts": {},
+          "excluded_leaf_counts": {
+            "PSYCHOLOGICAL_PROFILES": 5
+          },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 11,
-          "unprocessed_feature_count": 11,
-          "processed_feature_count": 0,
+          "unprocessed_feature_count": 6,
+          "processed_feature_count": 5,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -180,10 +182,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 24149,
+    "tokens_used": 35401,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ],
     "detailed_logs": []
   },
@@ -192,23 +194,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY",
-      "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we do not require aggressive compression. We will use the PhenotypeRepresentation to define the cognitive construct, synthesize feature importance from the hierarchical deviation map, and then perform a regression analysis using the available personality and demographic data.",
-      "timestamp": "2026-07-18T17:14:21.741025",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS, PSYCHOLOGICAL_PROFILES",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the total data volume is low (2,406 tokens), we can process the data efficiently. We will use early-stage tools to define the phenotype and synthesize features, followed by unimodal compression to extract cognitive-relevant patterns from the psychological profiles, and finally, a regression-based synthesis to predict the IST 2000-R score.",
+      "timestamp": "2026-07-19T11:08:31.209197",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Education level is significantly below cohort mean (z=-2.11, 2nd percentile, LARGE effect), Body mass index is low (z=-1.58, 6th percentile, MODERATE effect), Openness to experience is low (z=-1.09, 14th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 190.920 (confidence=0.650)",
-      "reasoning": "The participant's predicted IST 2000-R score is 190.92, which is slightly below the population mean of 200. This estimate is derived from demographic and personality proxies, specifically a notably low education level and reduced openness to experience. The prediction is tempered by the lack of direct cognitive performance data, resulting in a moderate confidence level.",
-      "timestamp": "2026-07-18T17:14:32.424043",
+      "input_summary": "Key findings: Education level is significantly below cohort mean (z=-2.11, 2nd percentile, LARGE effect), Openness to Experience is notably reduced (z=-1.09, 14th percentile, MODERATE effect), Age is below cohort mean (z=-1.67, 5th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 198.740 (confidence=0.650)",
+      "reasoning": "The participant (sub-0282) demonstrates a cognitive profile inferred from demographic and personality markers that is slightly below the cohort mean. The most significant predictors are the low education level and reduced Openness to Experience, which are known correlates of lower crystallized intelligence. While the participant's age suggests they may not have reached peak cognitive maturity, the current evidence points to a performance level near, but slightly below, the population average of ",
+      "timestamp": "2026-07-19T11:08:45.099332",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 190.920"
+        "classification": "IST_intelligence_total: 198.740"
       }
     },
     {
@@ -218,7 +220,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:14:33.997193",
+      "timestamp": "2026-07-19T11:08:45.806815",
       "metadata": {}
     }
   ]

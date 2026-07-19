@@ -1,31 +1,31 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:18:51.308002",
+    "timestamp": "2026-07-19T11:13:14.943149",
     "data": {
       "participant_id": "sub-0120",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:18:51.307995"
+      "timestamp": "2026-07-19T11:13:14.943146"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:18:58.526739",
+    "timestamp": "2026-07-19T11:13:23.225364",
     "data": {
-      "plan_id": "sub-0120-intelligence-prediction-001",
+      "plan_id": "IST_2000R_PREDICTION_0120",
       "total_steps": 6,
       "priority_domains": [
+        "PSYCHOLOGICAL_PROFILES",
         "BRAIN_MORPHOMETRY",
-        "PERSONALITY",
-        "MOTIVATION_AND_AFFECT"
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
       ]
     }
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:19:11.314693",
+    "timestamp": "2026-07-19T11:13:38.244951",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -45,9 +45,9 @@
       "coverage": {
         "summary": {
           "all_feature_count": 58,
-          "processed_feature_count": 45,
-          "unprocessed_raw_feature_count": 18,
-          "processed_raw_low_priority_feature_count": 40,
+          "processed_feature_count": 51,
+          "unprocessed_raw_feature_count": 23,
+          "processed_raw_low_priority_feature_count": 35,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 58,
           "missing_feature_count": 0,
@@ -68,9 +68,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 15252,
-          "final_tokens": 18221,
-          "processed_raw_tokens": 18160,
+          "baseline_tokens": 17515,
+          "final_tokens": 20112,
+          "processed_raw_tokens": 20051,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -79,37 +79,20 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "BRAIN_MORPHOMETRY"
           ],
-          "processed_prefixes_by_domain": {
-            "BRAIN_MORPHOMETRY": [
-              [
-                "cortical_thickness"
-              ],
-              [
-                "subcortical_volumes"
-              ]
-            ],
-            "MOTIVATION_AND_AFFECT": [
-              [
-                "anxiety_traits"
-              ]
-            ]
-          },
+          "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "BRAIN_MORPHOMETRY": 30
+            "BRAIN_MORPHOMETRY": 35
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7,
-            "BRAIN_MORPHOMETRY": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 58,
-          "unprocessed_feature_count": 18,
-          "processed_feature_count": 40,
+          "unprocessed_feature_count": 23,
+          "processed_feature_count": 35,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -129,16 +112,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:19:11.314735",
+    "timestamp": "2026-07-19T11:13:38.244967",
     "data": {
-      "classification": "IST_intelligence_total: 218.440",
-      "probability": 0.75,
+      "classification": "IST_intelligence_total: 214.600",
+      "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:19:11.894977",
+    "timestamp": "2026-07-19T11:13:39.132349",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

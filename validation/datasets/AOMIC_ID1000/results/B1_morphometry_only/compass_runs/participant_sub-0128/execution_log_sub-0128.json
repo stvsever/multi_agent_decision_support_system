@@ -1,18 +1,18 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:23:17.677418",
+    "timestamp": "2026-07-19T11:17:35.930267",
     "data": {
       "participant_id": "sub-0128",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:23:17.677411"
+      "timestamp": "2026-07-19T11:17:35.930264"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:23:23.969916",
+    "timestamp": "2026-07-19T11:17:39.737208",
     "data": {
       "plan_id": "IST_2000R_PREDICTION_0128",
       "total_steps": 5,
@@ -23,7 +23,7 @@
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:23:34.594215",
+    "timestamp": "2026-07-19T11:17:50.386481",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -66,8 +66,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 14947,
-          "final_tokens": 15030,
+          "baseline_tokens": 15455,
+          "final_tokens": 15538,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -104,7 +104,7 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:23:34.594227",
+    "timestamp": "2026-07-19T11:17:50.386510",
     "data": {
       "classification": "IST_intelligence_total: 230.190",
       "probability": 0.65,
@@ -113,7 +113,7 @@
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:23:35.186987",
+    "timestamp": "2026-07-19T11:17:51.568233",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

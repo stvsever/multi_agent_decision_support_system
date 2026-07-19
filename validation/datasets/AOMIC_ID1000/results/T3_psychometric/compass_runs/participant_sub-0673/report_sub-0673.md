@@ -1,10 +1,10 @@
 # Patient Report: sub-0673
 
-**Generated**: 2026-07-18T17:16:56.231568
+**Generated**: 2026-07-19T11:11:17.601811
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 216.480
+- **Primary Output**: IST_intelligence_total: 208.000
 - **Probability / Root Confidence**: 65.0%
 - **Confidence**: MEDIUM
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
@@ -14,22 +14,23 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[DEMOGRAPHICS_AND_PHYSICAL]** High education level (z=0.953, 83rd percentile, MODERATE effect) and background SES (z=0.837, 80th percentile, MODERATE effect).
-2. **[PERSONALITY]** High extraversion (z=1.291, 90th percentile, MODERATE effect) and very low conscientiousness (z=-2.012, 2nd percentile, LARGE effect).
-3. **[MOTIVATION_AND_AFFECT]** High BAS drive (z=1.495, 93rd percentile, MODERATE effect).
+1. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** High socioeconomic and educational background (z=0.95, 83rd percentile, MODERATE effect)
+2. **[PSYCHOLOGICAL_PROFILES]** Very low conscientiousness (z=-2.01, 2nd percentile, LARGE effect)
+3. **[PSYCHOLOGICAL_PROFILES]** High BAS-drive (z=1.50, 93rd percentile, MODERATE effect)
 
 ## Clinical Summary
-The participant exhibits a cognitive profile consistent with above-average intelligence, supported by favorable socioeconomic and educational indicators. While personality traits are heterogeneous—specifically showing high extraversion and drive but low conscientiousness—the overall aggregate signal points to a score above the cohort mean. The predicted IST 2000-R total score is 216.48, placing the individual approximately 0.4 standard deviations above the population mean.
+Participant sub-0673 exhibits a cognitive profile likely influenced by a high-resource socioeconomic background, which is tempered by a personality structure characterized by low conscientiousness and high reward-seeking behavior. While the environmental foundation supports above-average intelligence, the behavioral profile suggests potential performance variability on standardized assessments. The predicted IST-2000-R total score is estimated at 208, reflecting a balance between high potential and behavioral constraints.
 
 ## Reasoning Chain
-1. Step 1: Analyzed demographic markers showing above-average educational and socioeconomic status, which are robust proxies for cognitive reserve.
-2. Step 2: Evaluated personality traits; while extraversion and BAS drive suggest high engagement, the significant deficit in conscientiousness (z=-2.01) represents a potential bottleneck for standardized test performance.
-3. Step 3: Integrated aggregate branch signals; the positive shift in socioeconomic and motivational domains outweighs the negative personality facets.
-4. Step 4: Applied linear mapping to the IST 2000-R population parameters (mean 200, SD 40) using the calculated mean z-score of 0.412 to derive the final estimate.
+1. Step 1: Analyzed demographic indicators (high SES/education) which provide a strong baseline for cognitive potential.
+2. Step 2: Evaluated personality traits; identified significant negative deviations in conscientiousness and agreeableness, which are known to negatively impact standardized test outcomes.
+3. Step 3: Integrated motivational profile (high BAS-drive, high extraversion) suggesting a cognitive style that prioritizes rapid response over methodical accuracy.
+4. Step 4: Synthesized opposing signals: favorable environmental background vs. unfavorable behavioral/personality traits for test-taking.
+5. Step 5: Estimated the final IST-2000-R score by adjusting the population mean (200) based on the net impact of these factors, resulting in a slight upward shift.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 31,125
-- **Domains Processed**: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT
+- **Tokens Used**: 27,664
+- **Domains Processed**: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS

@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0282_20260718_172220",
+  "report_id": "RPT_sub-0282_20260719_111644",
   "participant_id": "sub-0282",
-  "generated_at": "2026-07-18T17:22:20.250586",
+  "generated_at": "2026-07-19T11:16:44.277207",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 165.000",
+    "primary_output": "IST_intelligence_total: 152.000",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 165.0
+          "IST_intelligence_total": 152.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergent negative indicators across education, personality, and connectome domains"
+        "Convergent structural, functional, and demographic markers of lower cognitive performance."
       ],
       "supporting_evidence_against": [
-        "Normal global brain morphometry"
+        "Reliance on indirect proxy features."
       ],
       "uncertainty_factors": [
-        "Absence of direct cognitive performance metrics"
+        "Absence of direct IST subscale scores."
       ],
       "children": []
     }
@@ -63,36 +63,41 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Education level is very low (z=-2.11, 2nd percentile, LARGE effect)",
+      "domain": "DEMOGRAPHICS",
+      "finding": "Education level is very low (z=-2.11, <1st percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "PERSONALITY",
+      "domain": "PSYCHOLOGICAL_PROFILES",
       "finding": "Openness to experience is low (z=-1.09, 14th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Limbic within-network FC is very low (z=-2.99, <1st percentile, LARGE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Global reduction in within-network functional connectivity (mean z < -1.5, MODERATE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "Parietal and occipital cortical thinning (z=-1.50, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic markers, identifying very low educational attainment (z=-2.11) as a primary negative indicator for IST-2000R performance.",
-    "Step 2: Evaluated personality traits, noting low Openness (z=-1.09) and Extraversion (z=-0.82), which are statistically linked to lower cognitive engagement and fluid reasoning scores.",
-    "Step 3: Integrated motivational and affective data, observing elevated trait anxiety (z=0.84) and reduced reward responsiveness (z=-0.55), which may interfere with optimal test-taking performance.",
-    "Step 4: Synthesized brain connectome data, where widespread low within-network connectivity (specifically Limbic z=-2.99 and Salience z=-2.64) suggests reduced neural synchronization efficiency.",
-    "Step 5: Concluded that the convergence of low education, low openness, and reduced neural network connectivity supports a downward adjustment from the cohort mean of 200."
+    "Step 1: Analyzed demographic markers, identifying very low education level (z=-2.11) as a primary constraint on crystallized intelligence.",
+    "Step 2: Integrated personality traits, noting low openness (z=-1.09) and extraversion, which correlate with lower fluid intelligence outcomes.",
+    "Step 3: Evaluated neuroimaging data, finding convergent evidence of parietal/occipital thinning and global functional connectivity deficits (mean z < -1.5).",
+    "Step 4: Synthesized these findings to estimate an IST 2000-R total score significantly below the cohort mean of 200.",
+    "Step 5: Calculated the regression estimate based on the observed 1.0-1.5 standard deviation deficit across multiple key cognitive-predictive domains."
   ],
-  "clinical_summary": "The participant exhibits a profile of reduced cognitive engagement and lower-than-average educational attainment. Personality markers (low Openness, low Extraversion) and neuroimaging connectome data (widespread low within-network connectivity) converge to suggest a performance level below the healthy young-adult cohort mean. The estimated IST 2000-R total score is 165.",
+  "clinical_summary": "Participant sub-0282 exhibits a convergent profile of below-average cognitive markers. The combination of low educational attainment, reduced cortical thickness in critical intelligence-related brain regions (parietal/occipital), and widespread reduction in functional connectivity strongly suggests an IST 2000-R total score significantly below the cohort mean of 200. The estimated score is approximately 152, reflecting a pattern of lower fluid reasoning and reduced crystallized knowledge acquisition.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
     "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
     "coverage_summary": {
       "all_feature_count": 86,
-      "processed_feature_count": 23,
+      "processed_feature_count": 86,
       "unprocessed_raw_feature_count": 69,
       "processed_raw_low_priority_feature_count": 17,
       "chunk_cited_feature_count": 0,
@@ -120,7 +125,7 @@
       "coverage": {
         "summary": {
           "all_feature_count": 86,
-          "processed_feature_count": 23,
+          "processed_feature_count": 86,
           "unprocessed_raw_feature_count": 69,
           "processed_raw_low_priority_feature_count": 17,
           "chunk_cited_feature_count": 0,
@@ -143,9 +148,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 25031,
-          "final_tokens": 26327,
-          "processed_raw_tokens": 26266,
+          "baseline_tokens": 28188,
+          "final_tokens": 29505,
+          "processed_raw_tokens": 29444,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -154,20 +159,18 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "IDENTITY_AND_BELIEF",
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
             "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "all_feature_count": 86,
           "unprocessed_feature_count": 69,
@@ -188,12 +191,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 51575,
+    "tokens_used": 63424,
     "domains_processed": [
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF",
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "PSYCHOLOGICAL_PROFILES",
+      "IDENTITY_AND_BELIEFS",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -202,23 +204,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF, DEMOGRAPHICS_AND_PHYSICAL",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, IDENTITY_AND_BELIEFS, DEMOGRAPHICS_AND_ANTHROPOMETRICS",
       "output_summary": "Generated 6-step plan",
-      "reasoning": "Since the IST 2000-R score must be inferred from non-brain imaging data, the plan focuses on extracting high-fidelity behavioral and psychological patterns. We use UnimodalCompressor to distill these domains into predictive features, followed by a narrative fusion to capture cross-domain interactions before the final regression.",
-      "timestamp": "2026-07-18T17:22:04.914917",
+      "reasoning": "Since IST subscale scores are absent, the plan focuses on extracting predictive patterns from psychological and identity domains. We use the UnimodalCompressor to distill behavioral and identity-based markers into high-level features, then fuse them with demographics to estimate the intelligence score.",
+      "timestamp": "2026-07-19T11:16:27.751558",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Education level is very low (z=-2.11, 2nd percentile, LARGE effect), Openness to experience is low (z=-1.09, 14th percentile, MODERATE effect), Limbic within-network FC is very low (z=-2.99, <1st percentile, LARGE effect)...",
-      "output_summary": "IST_intelligence_total: 165.000 (confidence=0.650)",
-      "reasoning": "The participant exhibits a profile of reduced cognitive engagement and lower-than-average educational attainment. Personality markers (low Openness, low Extraversion) and neuroimaging connectome data (widespread low within-network connectivity) converge to suggest a performance level below the healthy young-adult cohort mean. The estimated IST 2000-R total score is 165.",
-      "timestamp": "2026-07-18T17:22:19.660005",
+      "input_summary": "Key findings: Education level is very low (z=-2.11, <1st percentile, LARGE effect), Openness to experience is low (z=-1.09, 14th percentile, MODERATE effect), Global reduction in within-network functional connectivity (mean z < -1.5, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 152.000 (confidence=0.650)",
+      "reasoning": "Participant sub-0282 exhibits a convergent profile of below-average cognitive markers. The combination of low educational attainment, reduced cortical thickness in critical intelligence-related brain regions (parietal/occipital), and widespread reduction in functional connectivity strongly suggests an IST 2000-R total score significantly below the cohort mean of 200. The estimated score is approximately 152, reflecting a pattern of lower fluid reasoning and reduced crystallized knowledge acquisi",
+      "timestamp": "2026-07-19T11:16:43.213839",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 165.000"
+        "classification": "IST_intelligence_total: 152.000"
       }
     },
     {
@@ -227,8 +229,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.67; fallback_used=False.",
-      "timestamp": "2026-07-18T17:22:20.249637",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
+      "timestamp": "2026-07-19T11:16:44.276513",
       "metadata": {}
     }
   ]

@@ -1,31 +1,53 @@
 #!/usr/bin/env python3
 """
-Step 02 - automated data exploration + master ontology construction.
+Step 02 - automated exploration + semantic, LLM-driven ontology construction.
 
-First runs a sophisticated, dataset-agnostic exploration (type inference,
-distributions, rank-correlation structure, hierarchical feature clustering,
-redundancy and quality flags, target associations). Then builds one
-non-redundant DOMAIN -> SUBDOMAIN -> FEATURE ontology over all features, and
-assesses its quality: statistical agreement between the semantic subdomains and
-the data-driven clusters (adjusted Rand index) plus a compact LLM review.
+First runs a dataset-agnostic exploration (types, distributions, correlation
+structure, feature clustering, redundancy, target associations) purely to
+document the data and to quality-check the ontology later (it never drives the
+structure). Then builds one non-redundant DOMAIN -> SUBDOMAIN -> FEATURE ontology
+by MEANING: the LLM is given every feature's label, description, units, source and
+sample values, proposes the domains itself, and organises each domain into
+subdomains. Optional free-text user guidance is injected into every prompt (the
+backend hook for a future UI). Finally, a single flattened benchmark CSV encodes
+the whole hierarchy in the column names for downstream ML comparison.
 
 Writes:
-  ontology/exploration_report.json   automated understanding of the data
-  ontology/subclass_structure.json   machine-readable ontology + column index
-  ontology/aomic_id1000.owl          Protege-loadable OWL (RDF/XML)
-  ontology/ontology_report.json      coverage, cluster agreement, LLM review
+  ontology/exploration_report.json    automated understanding of the data
+  ontology/subclass_structure.json    machine-readable ontology + column index
+  ontology/aomic_id1000.owl           Protege-loadable OWL (RDF/XML)
+  ontology/ontology_report.json       coverage, cluster agreement, LLM review
+  ontology/ontology_features.csv       all participants x all features, hierarchy-encoded
 """
 
+import argparse
 import json
 
 import _bootstrap  # noqa: F401
+import pandas as pd
 
 import config
 from validation.common import explore as expl, ontology as onto
 from validation.common.llm import OntologyLLM
 
 
+def _write_benchmark_csv(df, ontology, path):
+    """One CSV: rows=participants, cols=DOMAIN|subdomain|feature (+ target)."""
+    names = onto.hierarchical_names(ontology)
+    cols = [c for c in names if c in df.columns]
+    out = df[["participant_id"] + cols].rename(columns=names)
+    tcol = config.TARGET["column"]
+    out["TARGET|" + tcol] = pd.to_numeric(df[tcol], errors="coerce")
+    out.to_csv(path, index=False)
+    return len(cols)
+
+
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--guidance", default=config.ONTOLOGY_USER_GUIDANCE,
+                    help="free-text guidance injected into ontology-building prompts")
+    args = ap.parse_args()
+
     df = config.load_merged_frame()
     specs = config.all_feature_specs()
 
@@ -33,19 +55,24 @@ def main() -> None:
     exploration = expl.explore(df, specs, target=config.TARGET["column"])
     with open(config.ONTOLOGY_DIR / "exploration_report.json", "w") as f:
         json.dump(exploration, f, indent=2)
-    print(f"[02] Types: {exploration['type_counts']} | data-driven clusters: "
+    print(f"[02] Types: {exploration['type_counts']} | data-driven clusters (QA only): "
           f"{exploration['n_auto_clusters']} | redundant pairs: {len(exploration['redundant_pairs'])}")
-    flags = {k: len(v) for k, v in exploration["quality_flags"].items() if v}
-    if flags:
-        print(f"[02] Quality flags: {flags}")
 
-    print(f"[02] Building master ontology with model {config.ONTOLOGY_MODEL} ...")
+    print(f"[02] Semantic LLM ontology construction with {config.ONTOLOGY_MODEL} ...")
+    if args.guidance.strip():
+        print(f"[02] User guidance: {args.guidance.strip()!r}")
     llm = OntologyLLM(model=config.ONTOLOGY_MODEL, temperature=0.2)
-    features = config.features_with_hints()
-    ontology = onto.build_labeled_ontology(features, config.DATASET_NAME, config.ONTOLOGY_CONTEXT, llm)
+    features = config.features_for_ontology(df)
+    ontology = onto.build_semantic_ontology(
+        features, config.DATASET_NAME, config.ONTOLOGY_CONTEXT, llm, user_guidance=args.guidance,
+    )
 
     onto.write_subclass_json(ontology, config.ONTOLOGY_DIR / "subclass_structure.json")
     onto.write_owl(ontology, config.ONTOLOGY_DIR / "aomic_id1000.owl")
+    n_cols = _write_benchmark_csv(df, ontology, config.ONTOLOGY_DIR / "ontology_features.csv")
+
+    from validation.common import viewer
+    viewer.write_viewer(ontology, config.ONTOLOGY_DIR / "ontology_viewer.html", title=config.DATASET_LABEL)
 
     report = onto.assess_ontology(ontology, exploration, llm=llm, verify=True)
     with open(config.ONTOLOGY_DIR / "ontology_report.json", "w") as f:
@@ -55,14 +82,13 @@ def main() -> None:
     assert n_feats == len(features), f"coverage mismatch: {n_feats} vs {len(features)}"
     ari = (report.get("cluster_agreement") or {}).get("adjusted_rand_index")
     rev = report.get("llm_review") or {}
-    print(f"[02] Ontology: {report['n_domains']} domains, {report['n_subdomains']} subdomains, "
-          f"{n_feats} leaves (coverage passed).")
+    print(f"[02] Ontology (construction={ontology['construction']}): {report['n_domains']} domains, "
+          f"{report['n_subdomains']} subdomains, {n_feats} leaves; repair={ontology['repair_stats']}")
     for d in ontology["domains"]:
         print(f"      {d['id']} = {d['label']!r} ({len(d['subdomains'])} subdomains)")
-    print(f"[02] Ontology-vs-data cluster agreement (ARI): {ari}")
-    print(f"[02] LLM review: MECE={rev.get('mece_ok')} coherence={rev.get('coherence_1to5')}/5 "
-          f"issues={len(rev.get('issues', []))}")
-    print(f"[02] Wrote exploration_report.json, subclass_structure.json, aomic_id1000.owl, ontology_report.json")
+    print(f"[02] Ontology-vs-data cluster agreement (ARI, QA): {ari} | "
+          f"LLM review MECE={rev.get('mece_ok')} coherence={rev.get('coherence_1to5')}/5")
+    print(f"[02] Benchmark CSV: {n_cols} feature columns + target -> ontology_features.csv")
 
 
 if __name__ == "__main__":

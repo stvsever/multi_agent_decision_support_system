@@ -1,7 +1,7 @@
 {
-  "report_id": "RPT_sub-0153_20260718_172349",
+  "report_id": "RPT_sub-0153_20260719_111806",
   "participant_id": "sub-0153",
-  "generated_at": "2026-07-18T17:23:49.477951",
+  "generated_at": "2026-07-19T11:18:06.862690",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent positive deviations in cortical thickness across multiple brain regions."
+        "Cortical thickness in associative regions is a well-established positive correlate of intelligence."
       ],
       "supporting_evidence_against": [
-        "Structural data provides only a weak correlation with general intelligence."
+        "Subcortical volume deficits in reward-related circuits may dampen executive efficiency."
       ],
       "uncertainty_factors": [
-        "Inference based solely on structural morphometry without behavioral or cognitive input."
+        "Structural morphometry is an indirect proxy for cognitive performance."
       ],
       "children": []
     }
@@ -64,27 +64,23 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Left parietal lobe cortical thickness is elevated (z=1.79, 96th percentile, MODERATE effect)",
+      "finding": "Widespread cortical thickening in associative regions (Left parietal z=1.79, Left occipital z=1.74, Right insula z=1.57).",
       "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Right accumbens volume is reduced (z=-1.38, 8th percentile, SMALL effect)",
+      "finding": "Reduced volume in subcortical structures (Right accumbens z=-1.38, Right caudate z=-0.97).",
       "direction": "ABNORMAL_LOW"
-    },
-    {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Left occipital lobe cortical thickness is elevated (z=1.74, 96th percentile, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed brain morphometry profile for participant sub-0153, noting a general trend of elevated cortical thickness across multiple lobes.",
-    "Step 2: Evaluated the impact of specific structural deviations (e.g., left parietal/occipital thickness) on general cognitive ability (g-factor).",
-    "Step 3: Integrated the mean z-score deviation (0.4165) into the baseline IST 2000-R population mean of 200.",
-    "Step 4: Calculated the final predicted score of 216.66, reflecting a slightly above-average cognitive performance profile consistent with the observed structural markers."
+    "Step 1: Analyzed morphometric profile, identifying a pattern of cortical hypertrophy in associative regions (parietal, temporal, occipital).",
+    "Step 2: Evaluated subcortical volume deficits, specifically in the right accumbens and caudate, which may indicate lower efficiency in reward-based cognitive processing.",
+    "Step 3: Integrated these divergent signals; the cortical thickness signal (positive) is weighted more heavily as a predictor of general intelligence than the subcortical volume signal (negative).",
+    "Step 4: Applied linear mapping to the population distribution (Mean=200, SD=40) based on the calculated mean z-score of 0.4165.",
+    "Step 5: Finalized the predicted IST_intelligence_total score at 216.66."
   ],
-  "clinical_summary": "Participant sub-0153 exhibits a healthy brain morphometry profile with mild elevations in cortical thickness across parietal and occipital regions. These structural markers, while within normal physiological limits, suggest a slightly higher-than-average cognitive reserve. The predicted IST 2000-R total score of 216.66 is consistent with the observed neuroanatomical data and the cohort's baseline distribution.",
+  "clinical_summary": "The participant exhibits a structural brain profile characterized by significant cortical thickening in associative regions, which is a robust indicator of higher cognitive performance. While focal volume reductions in subcortical reward-related structures (accumbens, caudate) are present, they are secondary to the cortical findings. The predicted IST-2000R total score is 216.66, placing the participant approximately 0.4 standard deviations above the cohort mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -92,8 +88,8 @@
     "coverage_summary": {
       "all_feature_count": 35,
       "processed_feature_count": 35,
-      "unprocessed_raw_feature_count": 35,
-      "processed_raw_low_priority_feature_count": 0,
+      "unprocessed_raw_feature_count": 0,
+      "processed_raw_low_priority_feature_count": 35,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 35,
       "missing_feature_count": 0,
@@ -120,8 +116,8 @@
         "summary": {
           "all_feature_count": 35,
           "processed_feature_count": 35,
-          "unprocessed_raw_feature_count": 35,
-          "processed_raw_low_priority_feature_count": 0,
+          "unprocessed_raw_feature_count": 0,
+          "processed_raw_low_priority_feature_count": 35,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 35,
           "missing_feature_count": 0,
@@ -139,12 +135,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": false,
+        "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 13500,
-          "final_tokens": 13583,
-          "processed_raw_tokens": null,
+          "baseline_tokens": 6238,
+          "final_tokens": 8835,
+          "processed_raw_tokens": 8774,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -152,15 +148,17 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [],
+          "processed_whole_domains": [
+            "BRAIN_MORPHOMETRY"
+          ],
           "processed_prefixes_by_domain": {},
-          "excluded_leaf_counts": {},
-          "unprocessed_leaf_counts": {
+          "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35
           },
+          "unprocessed_leaf_counts": {},
           "all_feature_count": 35,
-          "unprocessed_feature_count": 35,
-          "processed_feature_count": 0,
+          "unprocessed_feature_count": 0,
+          "processed_feature_count": 35,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -177,7 +175,7 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 35763,
+    "tokens_used": 37347,
     "domains_processed": [
       "BRAIN_MORPHOMETRY"
     ],
@@ -190,18 +188,18 @@
       "decision_type": "PLAN_GENERATION",
       "input_summary": "Domains: BRAIN_MORPHOMETRY",
       "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (862 tokens), we will perform a direct analysis. We prioritize PhenotypeRepresentation to define the target, then use AnomalyNarrativeBuilder and FeatureSynthesizer to extract relevant structural signals. Finally, we use CodeExecutor to perform the univariate regression for the IST score.",
-      "timestamp": "2026-07-18T17:23:41.537958",
+      "reasoning": "The plan prioritizes early phenotype definition and feature synthesis, followed by targeted compression of the morphometric data. Given the univariate regression task, we will use the synthesized features and compressed brain data to feed the final predictive model.",
+      "timestamp": "2026-07-19T11:17:57.986328",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Left parietal lobe cortical thickness is elevated (z=1.79, 96th percentile, MODERATE effect), Right accumbens volume is reduced (z=-1.38, 8th percentile, SMALL effect), Left occipital lobe cortical thickness is elevated (z=1.74, 96th percentile, MODERATE effect)...",
+      "input_summary": "Key findings: Widespread cortical thickening in associative regions (Left parietal z=1.79, Left occipital z=1.74, Right insula z=1.57)., Reduced volume in subcortical structures (Right accumbens z=-1.38, Right caudate z=-0.97)....",
       "output_summary": "IST_intelligence_total: 216.660 (confidence=0.650)",
-      "reasoning": "Participant sub-0153 exhibits a healthy brain morphometry profile with mild elevations in cortical thickness across parietal and occipital regions. These structural markers, while within normal physiological limits, suggest a slightly higher-than-average cognitive reserve. The predicted IST 2000-R total score of 216.66 is consistent with the observed neuroanatomical data and the cohort's baseline distribution.",
-      "timestamp": "2026-07-18T17:23:48.715663",
+      "reasoning": "The participant exhibits a structural brain profile characterized by significant cortical thickening in associative regions, which is a robust indicator of higher cognitive performance. While focal volume reductions in subcortical reward-related structures (accumbens, caudate) are present, they are secondary to the cortical findings. The predicted IST-2000R total score is 216.66, placing the participant approximately 0.4 standard deviations above the cohort mean.",
+      "timestamp": "2026-07-19T11:18:06.259633",
       "metadata": {
         "probability": 0.65,
         "classification": "IST_intelligence_total: 216.660"
@@ -214,7 +212,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:23:49.477096",
+      "timestamp": "2026-07-19T11:18:06.862229",
       "metadata": {}
     }
   ]

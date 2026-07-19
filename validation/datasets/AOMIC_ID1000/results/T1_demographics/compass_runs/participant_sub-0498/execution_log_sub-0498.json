@@ -1,29 +1,29 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:12:50.677026",
+    "timestamp": "2026-07-19T11:07:06.249238",
     "data": {
       "participant_id": "sub-0498",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:12:50.677022"
+      "timestamp": "2026-07-19T11:07:06.249235"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:12:53.501107",
+    "timestamp": "2026-07-19T11:07:11.686728",
     "data": {
-      "plan_id": "IST_PRED_0498_001",
-      "total_steps": 4,
+      "plan_id": "sub-0498-ist-prediction-001",
+      "total_steps": 3,
       "priority_domains": [
-        "DEMOGRAPHICS_AND_PHYSICAL"
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
       ]
     }
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:13:03.100807",
+    "timestamp": "2026-07-19T11:07:19.786305",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -66,8 +66,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 4381,
-          "final_tokens": 4464,
+          "baseline_tokens": 3817,
+          "final_tokens": 3900,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -80,7 +80,7 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 6,
           "unprocessed_feature_count": 6,
@@ -104,16 +104,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:13:03.100852",
+    "timestamp": "2026-07-19T11:07:19.786337",
     "data": {
-      "classification": "IST_intelligence_total: 180.940",
-      "probability": 0.45,
+      "classification": "IST_intelligence_total: 189.130",
+      "probability": 0.35,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:13:03.694543",
+    "timestamp": "2026-07-19T11:07:20.366428",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

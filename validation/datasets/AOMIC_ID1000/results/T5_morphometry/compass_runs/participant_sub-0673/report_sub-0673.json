@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0673_20260718_172048",
+  "report_id": "RPT_sub-0673_20260719_111523",
   "participant_id": "sub-0673",
-  "generated_at": "2026-07-18T17:20:48.489047",
+  "generated_at": "2026-07-19T11:15:23.714260",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 220.480",
+    "primary_output": "IST_intelligence_total: 222.680",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 220.48
+          "IST_intelligence_total": 222.68
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,16 +44,15 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent positive structural brain deviations",
-        "High motivational drive for goal-directed tasks"
+        "Consistent positive volumetric deviations across global and subcortical brain regions.",
+        "High reinforcement sensitivity (BAS drive) correlates with cognitive engagement."
       ],
       "supporting_evidence_against": [
-        "Very low conscientiousness and agreeableness scores",
-        "Localized cortical thinning in the cingulate cortex"
+        "Significant negative deviations in personality traits (Conscientiousness, Agreeableness) likely reduce test-taking efficiency."
       ],
       "uncertainty_factors": [
-        "Lack of direct cognitive performance data",
-        "Potential for personality-driven performance variance"
+        "Inference based on proxy traits rather than direct cognitive assessment.",
+        "Potential for non-linear interaction between high brain volume and low conscientiousness."
       ],
       "children": []
     }
@@ -67,40 +66,35 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Global brain volume expansion (z=1.16, 88th percentile, MODERATE effect)",
+      "finding": "Global brain volume expansion (z=1.16, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Subcortical nuclei hypertrophy (z=1.44, 92nd percentile, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "PERSONALITY",
-      "finding": "Very low conscientiousness (z=-2.01, 2nd percentile, LARGE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Very low Conscientiousness (z=-2.01, LARGE effect) and Agreeableness (z=-2.14, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "High BAS drive (z=1.50, 93rd percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "High Extraversion (z=1.29, MODERATE effect) and BAS drive (z=1.50, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Identified robust structural brain markers (global and subcortical volumes) as primary positive predictors for intelligence.",
-    "Step 2: Integrated motivational markers (high BAS drive) which suggest strong potential for cognitive engagement.",
-    "Step 3: Evaluated personality traits; noted that while structural capacity is high, the significant deficit in conscientiousness and agreeableness likely limits test-taking performance.",
-    "Step 4: Synthesized these factors using a weighted regression approach, adjusting the population mean (200) upward due to structural advantages, but tempering the increase due to personality-based performance risks.",
-    "Step 5: Final estimate calculated at 220.48, reflecting a balance between high biological potential and behavioral constraints."
+    "Step 1: Analyzed neuroanatomical markers showing widespread volumetric expansion (global volume z=1.16, subcortical volumes z=1.44), which are robust positive predictors for intelligence.",
+    "Step 2: Evaluated psychological profile; high BAS drive and Extraversion suggest high cognitive engagement, but very low Conscientiousness and Agreeableness indicate potential test-taking behavioral constraints.",
+    "Step 3: Integrated demographic and identity markers, noting high current religiosity and education level as secondary contextual factors.",
+    "Step 4: Synthesized findings using a weighted model mapping the mean z-score (0.567) onto the IST distribution (mean 200, SD 40), adjusting for the dampening effect of low conscientiousness on standardized test performance.",
+    "Step 5: Final estimate calculated as 222.68, reflecting the balance between high biological capacity and behavioral performance limitations."
   ],
-  "clinical_summary": "The participant exhibits a bifurcated profile for cognitive potential. Neuroanatomical markers, including global brain volume and subcortical structures (caudate, pallidum), are consistently elevated (z > 1.0), providing a strong biological substrate for high intelligence. This is supported by high BAS drive, suggesting strong goal-directed motivation. However, these positive indicators are offset by very low conscientiousness and agreeableness, which may negatively impact performance on standardized assessments like the IST 2000-R. The predicted score of 220.48 reflects this interplay between high structural capacity and behavioral performance variability.",
+  "clinical_summary": "The subject (sub-0673) presents with a robust neuroanatomical profile characterized by global and subcortical volume expansion, which strongly correlates with higher cognitive capacity. While these biological markers suggest superior intelligence, the subject's personality profile\u2014specifically very low conscientiousness and agreeableness\u2014likely acts as a performance dampener in structured, timed testing environments. The predicted IST 2000-R score of 222.68 places the subject approximately 0.57 SD above the cohort mean, reflecting a high-potential individual whose test performance is modulated by specific behavioral traits.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
     "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
     "coverage_summary": {
       "all_feature_count": 58,
-      "processed_feature_count": 45,
+      "processed_feature_count": 58,
       "unprocessed_raw_feature_count": 23,
       "processed_raw_low_priority_feature_count": 35,
       "chunk_cited_feature_count": 0,
@@ -128,7 +122,7 @@
       "coverage": {
         "summary": {
           "all_feature_count": 58,
-          "processed_feature_count": 45,
+          "processed_feature_count": 58,
           "unprocessed_raw_feature_count": 23,
           "processed_raw_low_priority_feature_count": 35,
           "chunk_cited_feature_count": 0,
@@ -151,9 +145,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 17238,
-          "final_tokens": 19829,
-          "processed_raw_tokens": 19768,
+          "baseline_tokens": 15660,
+          "final_tokens": 18257,
+          "processed_raw_tokens": 18196,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -169,10 +163,9 @@
             "BRAIN_MORPHOMETRY": 35
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 58,
           "unprocessed_feature_count": 23,
@@ -193,11 +186,12 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 52988,
+    "tokens_used": 54836,
     "domains_processed": [
+      "PSYCHOLOGICAL_PROFILES",
+      "IDENTITY_AND_BELIEFS",
       "BRAIN_MORPHOMETRY",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -206,23 +200,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, PERSONALITY, MOTIVATION_AND_AFFECT",
-      "output_summary": "Generated 6-step plan",
-      "reasoning": "The plan prioritizes early synthesis of personality and brain morphometry, which are strong correlates of intelligence. Given the low total token count, we use UnimodalCompressor to extract meaningful patterns from the BRAIN_MORPHOMETRY domain while treating smaller domains as context for the final regression.",
-      "timestamp": "2026-07-18T17:20:30.811270",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, IDENTITY_AND_BELIEFS, BRAIN_MORPHOMETRY, DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "The plan prioritizes psychological and identity data as primary predictors for intelligence, supplemented by brain morphometry. Early-stage tools establish the phenotype and feature importance, followed by targeted compression of the morphometry data to ensure the regression model receives high-signal inputs.",
+      "timestamp": "2026-07-19T11:15:09.022483",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Global brain volume expansion (z=1.16, 88th percentile, MODERATE effect), Subcortical nuclei hypertrophy (z=1.44, 92nd percentile, MODERATE effect), Very low conscientiousness (z=-2.01, 2nd percentile, LARGE effect)...",
-      "output_summary": "IST_intelligence_total: 220.480 (confidence=0.650)",
-      "reasoning": "The participant exhibits a bifurcated profile for cognitive potential. Neuroanatomical markers, including global brain volume and subcortical structures (caudate, pallidum), are consistently elevated (z > 1.0), providing a strong biological substrate for high intelligence. This is supported by high BAS drive, suggesting strong goal-directed motivation. However, these positive indicators are offset by very low conscientiousness and agreeableness, which may negatively impact performance on standar",
-      "timestamp": "2026-07-18T17:20:47.709991",
+      "input_summary": "Key findings: Global brain volume expansion (z=1.16, MODERATE effect), Very low Conscientiousness (z=-2.01, LARGE effect) and Agreeableness (z=-2.14, LARGE effect), High Extraversion (z=1.29, MODERATE effect) and BAS drive (z=1.50, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 222.680 (confidence=0.650)",
+      "reasoning": "The subject (sub-0673) presents with a robust neuroanatomical profile characterized by global and subcortical volume expansion, which strongly correlates with higher cognitive capacity. While these biological markers suggest superior intelligence, the subject's personality profile\u2014specifically very low conscientiousness and agreeableness\u2014likely acts as a performance dampener in structured, timed testing environments. The predicted IST 2000-R score of 222.68 places the subject approximately 0.57 ",
+      "timestamp": "2026-07-19T11:15:23.031421",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 220.480"
+        "classification": "IST_intelligence_total: 222.680"
       }
     },
     {
@@ -231,8 +225,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
-      "timestamp": "2026-07-18T17:20:48.487750",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
+      "timestamp": "2026-07-19T11:15:23.713501",
       "metadata": {}
     }
   ]

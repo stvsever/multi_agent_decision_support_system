@@ -1,7 +1,7 @@
 {
-  "report_id": "RPT_sub-0128_20260718_172335",
+  "report_id": "RPT_sub-0128_20260719_111751",
   "participant_id": "sub-0128",
-  "generated_at": "2026-07-18T17:23:35.188931",
+  "generated_at": "2026-07-19T11:17:51.569018",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent positive structural deviations across global brain measures."
+        "Consistent positive z-scores across all relevant cognitive-structural domains."
       ],
       "supporting_evidence_against": [
-        "Absence of functional or psychometric data."
+        "Structural data is not a direct measure of cognitive performance."
       ],
       "uncertainty_factors": [
-        "Structural data provides only a partial estimate of cognitive capacity."
+        "Inference based on structural proxies only."
       ],
       "children": []
     }
@@ -64,27 +64,28 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Total cortical gray matter volume is elevated (z=1.53, 94th percentile, MODERATE effect)",
+      "finding": "Total cortical gray matter volume is elevated (z=+1.53, 94th percentile, MODERATE effect).",
       "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Left hippocampus volume is elevated (z=1.68, 95th percentile, MODERATE effect)",
+      "finding": "Left hippocampus volume is elevated (z=+1.68, 95th percentile, MODERATE effect).",
       "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Consistent positive deviation across global brain measures and cortical thickness (mean z=0.75)",
+      "finding": "Parietal and cingulate cortical thickness are consistently elevated (z range +1.13 to +1.44, SMALL to MODERATE effect).",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed hierarchical brain morphometry data, identifying a consistent positive bias across global gray matter and cortical thickness metrics.",
-    "Step 2: Evaluated the significance of specific high-z features (Total cortical gray matter z=1.53, Left hippocampus z=1.68) as established neurobiological correlates of cognitive capacity.",
-    "Step 3: Applied a regression model to map the aggregate structural profile (mean z=0.75) onto the IST 2000-R scale (mean 200, SD 40).",
-    "Step 4: Calculated the predicted IST total score as 230.19, reflecting a performance approximately 0.75 standard deviations above the cohort mean."
+    "Step 1: Analyzed global and regional brain morphometry metrics for participant sub-0128.",
+    "Step 2: Identified a consistent pattern of high-normal to elevated gray matter volumes and cortical thickness across association cortices.",
+    "Step 3: Aggregated the mean z-score of structural features (mean z ~ 0.75) to estimate cognitive performance relative to the cohort mean (200).",
+    "Step 4: Applied the standard deviation (40) to the mean z-score to calculate the predicted IST-2000R total score.",
+    "Step 5: Concluded that the structural profile supports an above-average cognitive performance estimate."
   ],
-  "clinical_summary": "Participant sub-0128 exhibits a structural brain phenotype characterized by high-normal gray matter volumes and cortical thickness. The consistent positive deviation across global morphometric indices, particularly in cortical gray matter and hippocampal structures, is associated with superior cognitive performance in healthy young-adult cohorts. The predicted IST 2000-R total score of 230.19 places the participant in the upper quartile of the expected distribution.",
+  "clinical_summary": "Participant sub-0128 demonstrates a robust neuroanatomical profile with widespread volumetric and thickness advantages, particularly in cortical gray matter and hippocampal structures. These structural markers are consistent with high cognitive reserve and suggest an above-average performance on the IST-2000R intelligence composite. The absence of atrophy or degenerative markers provides a stable substrate for high-order cognitive processing.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -142,8 +143,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 14947,
-          "final_tokens": 15030,
+          "baseline_tokens": 15455,
+          "final_tokens": 15538,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -177,7 +178,7 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 39478,
+    "tokens_used": 37952,
     "domains_processed": [
       "BRAIN_MORPHOMETRY"
     ],
@@ -190,18 +191,18 @@
       "decision_type": "PLAN_GENERATION",
       "input_summary": "Domains: BRAIN_MORPHOMETRY",
       "output_summary": "Generated 5-step plan",
-      "reasoning": "Since the data volume is low (853 tokens), we can process the BRAIN_MORPHOMETRY data directly while using the AnomalyNarrativeBuilder and FeatureSynthesizer to provide context for the regression task. The final step uses the CodeExecutor to perform the univariate regression prediction based on the synthesized features.",
-      "timestamp": "2026-07-18T17:23:23.970360",
+      "reasoning": "Since the data volume is low (853 tokens), we can process the BRAIN_MORPHOMETRY domain directly while using the AnomalyNarrativeBuilder and FeatureSynthesizer to provide context. The final prediction will be generated by synthesizing these structural findings with the non-numerical clinical context.",
+      "timestamp": "2026-07-19T11:17:39.737517",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Total cortical gray matter volume is elevated (z=1.53, 94th percentile, MODERATE effect), Left hippocampus volume is elevated (z=1.68, 95th percentile, MODERATE effect), Consistent positive deviation across global brain measures and cortical thickness (mean z=0.75)...",
+      "input_summary": "Key findings: Total cortical gray matter volume is elevated (z=+1.53, 94th percentile, MODERATE effect)., Left hippocampus volume is elevated (z=+1.68, 95th percentile, MODERATE effect)., Parietal and cingulate cortical thickness are consistently elevated (z range +1.13 to +1.44, SMALL to MODERATE effect)....",
       "output_summary": "IST_intelligence_total: 230.190 (confidence=0.650)",
-      "reasoning": "Participant sub-0128 exhibits a structural brain phenotype characterized by high-normal gray matter volumes and cortical thickness. The consistent positive deviation across global morphometric indices, particularly in cortical gray matter and hippocampal structures, is associated with superior cognitive performance in healthy young-adult cohorts. The predicted IST 2000-R total score of 230.19 places the participant in the upper quartile of the expected distribution.",
-      "timestamp": "2026-07-18T17:23:34.594316",
+      "reasoning": "Participant sub-0128 demonstrates a robust neuroanatomical profile with widespread volumetric and thickness advantages, particularly in cortical gray matter and hippocampal structures. These structural markers are consistent with high cognitive reserve and suggest an above-average performance on the IST-2000R intelligence composite. The absence of atrophy or degenerative markers provides a stable substrate for high-order cognitive processing.",
+      "timestamp": "2026-07-19T11:17:50.386743",
       "metadata": {
         "probability": 0.65,
         "classification": "IST_intelligence_total: 230.190"
@@ -214,7 +215,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:23:35.187640",
+      "timestamp": "2026-07-19T11:17:51.568461",
       "metadata": {}
     }
   ]

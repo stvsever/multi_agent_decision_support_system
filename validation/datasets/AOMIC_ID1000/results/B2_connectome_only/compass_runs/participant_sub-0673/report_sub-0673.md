@@ -1,10 +1,10 @@
 # Patient Report: sub-0673
 
-**Generated**: 2026-07-18T17:26:26.643626
+**Generated**: 2026-07-19T11:20:40.005437
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 235.000
+- **Primary Output**: IST_intelligence_total: 215.000
 - **Probability / Root Confidence**: 65.0%
 - **Confidence**: MEDIUM
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
@@ -14,21 +14,23 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[BRAIN_CONNECTOME]** Elevated internal cohesion in Frontoparietal (z=1.347) and Salience (z=1.413) networks, suggesting high-efficiency executive processing.
-2. **[BRAIN_CONNECTOME]** Pronounced decoupling between Frontoparietal control and Limbic systems (z=-2.401, 0.8th percentile).
+1. **[FUNCTIONAL_CONNECTOME]** Strong Visual-Frontoparietal control FC (z=2.22, 98th percentile, LARGE effect)
+2. **[FUNCTIONAL_CONNECTOME]** Reduced Limbic-Frontoparietal control FC (z=-2.40, 1st percentile, LARGE effect)
+3. **[FUNCTIONAL_CONNECTOME]** Elevated Frontoparietal control within-network FC (z=1.35, 91st percentile, MODERATE effect)
 
 ## Clinical Summary
-Participant sub-0673 exhibits a specialized neurobiological profile characterized by enhanced connectivity in executive-control and salience networks, coupled with efficient segregation from limbic systems. This connectomic architecture is strongly associated with high-average fluid intelligence and executive control. Given the lack of direct psychometric data, the predicted IST 2000-R score is estimated at 235, reflecting a high-average cognitive performance profile.
+The participant exhibits a functional connectome profile characterized by robust internal connectivity within executive control networks (FPCN, Salience) and a notable hyper-connectivity between the Visual and Frontoparietal control networks. While this configuration suggests high potential for abstract reasoning and executive regulation, the significant decoupling of the FPCN from limbic and somatomotor systems indicates a specialized, internally-directed processing style. The estimated IST-2000R total score of 215 reflects this high executive potential, placing the participant above the cohort mean.
 
 ## Reasoning Chain
-1. Step 1: Analyzed connectomic profile showing robust internal connectivity in executive-control and salience networks (mean z ~ 1.35).
-2. Step 2: Identified significant decoupling between executive networks and limbic/motor systems (z < -1.8), suggesting an architecture optimized for high-level cognitive integration.
-3. Step 3: Integrated these findings as proxies for fluid intelligence and executive efficiency, which are strong predictors of IST 2000-R performance.
-4. Step 4: Estimated the IST score based on the observed neurobiological efficiency, positioning the participant above the cohort mean (200) but within the high-average range (230-245).
+1. Step 1: Analyzed functional connectome metrics for sub-0673, identifying a pattern of high internal control network integrity (FPCN, Salience) and atypical cross-network decoupling.
+2. Step 2: Identified strong Visual-FPCN coupling (z=2.22) as a primary positive marker for abstract/spatial reasoning, which is a core component of the IST-2000R.
+3. Step 3: Evaluated the impact of reduced FPCN-Limbic/Somatomotor connectivity (z=-2.40, z=-1.96) as a potential constraint on rapid, integrated cross-modal processing.
+4. Step 4: Synthesized these findings using the population mean (200) and SD (40) to estimate a score above the cohort average, reflecting the high executive control potential.
+5. Step 5: Finalized the IST-2000R total score estimate at 215, consistent with the observed hyper-connectivity in executive networks.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 44,698
-- **Domains Processed**: BRAIN_CONNECTOME
+- **Tokens Used**: 37,122
+- **Domains Processed**: FUNCTIONAL_CONNECTOME

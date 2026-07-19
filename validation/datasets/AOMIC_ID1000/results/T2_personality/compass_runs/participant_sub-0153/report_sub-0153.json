@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0153_20260718_171418",
+  "report_id": "RPT_sub-0153_20260719_110823",
   "participant_id": "sub-0153",
-  "generated_at": "2026-07-18T17:14:18.973722",
+  "generated_at": "2026-07-19T11:08:23.984419",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 198.000",
+    "primary_output": "IST_intelligence_total: 218.500",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 198.0
+          "IST_intelligence_total": 218.5
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,14 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "High socioeconomic status (z=+1.67) and education level (z=+0.95) provide strong environmental scaffolding for cognitive development."
+        "Strong socioeconomic and educational background indicators."
       ],
       "supporting_evidence_against": [
-        "Low Openness (z=-1.25) and low Conscientiousness (z=-0.82) are typically associated with lower engagement in complex cognitive tasks."
+        "Consistent negative deviations across multiple personality domains."
       ],
       "uncertainty_factors": [
-        "The personality profile conflicts with the demographic profile.",
-        "Lack of direct cognitive subscale data."
+        "Lack of direct cognitive performance markers."
       ],
       "children": []
     }
@@ -64,24 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "High socioeconomic status (z=+1.67, 95th percentile, LARGE effect) and education level (z=+0.95, 83rd percentile, MODERATE effect).",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "High background socio-economic status (z=1.67, 95th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Low Openness (z=-1.25, 11th percentile, MODERATE effect) and low Conscientiousness (z=-0.82, 21st percentile, SMALL effect).",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low Openness (z=-1.25, 11th percentile, SMALL effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low Agreeableness (z=-1.27, 10th percentile, SMALL effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic profile showing high socioeconomic status (z=+1.67) and education (z=+0.95), which are strong positive predictors for standardized intelligence scores.",
-    "Step 2: Evaluated personality profile showing significant negative deviations in Openness (z=-1.25) and Conscientiousness (z=-0.82), which are known to correlate with lower engagement in complex cognitive tasks.",
-    "Step 3: Synthesized the conflicting signals: high environmental potential vs. lower personality-based test engagement.",
-    "Step 4: Concluded that the environmental advantages likely offset the personality-based limitations, positioning the participant near the population mean (200).",
-    "Step 5: Adjusted the estimate slightly downward from the mean due to the consistent negative personality signals, resulting in a predicted score of 198."
+    "Step 1: Identified socioeconomic status (z=1.67) as the primary positive anchor for cognitive potential.",
+    "Step 2: Evaluated psychological profile, noting a consistent negative deviation across personality traits (Extraversion, Openness, Agreeableness, Conscientiousness).",
+    "Step 3: Applied a dampening weight to the demographic-driven baseline to account for the negative personality trait deviations, which suggest a less favorable profile for standardized test performance.",
+    "Step 4: Integrated these factors using a weighted regression approach, resulting in a predicted score slightly above the cohort mean of 200.",
+    "Step 5: Final estimate of 218.5 reflects the net effect of strong environmental advantages offset by personality-based constraints."
   ],
-  "clinical_summary": "The participant exhibits a profile of high environmental advantage (SES, education) which typically supports strong cognitive performance. However, this is tempered by a personality profile characterized by low Openness and low Conscientiousness, which may limit the participant's engagement with the rigorous demands of the IST 2000-R. The most likely outcome is a score near the population mean (198), as the environmental enrichment likely offsets the personality-based limitations.",
+  "clinical_summary": "The participant is a 24-year-old male with a high socio-economic background (z=1.67) and high education level (z=0.95), which are strong positive predictors for general intelligence. However, these are tempered by a consistent negative deviation in personality traits, specifically low Openness, Agreeableness, and Extraversion (all z < -1.1). The predicted IST 2000-R total score is 218.5, placing the individual slightly above the cohort mean of 200, but below the threshold for superior cognitive performance.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -139,8 +143,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8210,
-          "final_tokens": 8293,
+          "baseline_tokens": 6310,
+          "final_tokens": 6393,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -153,8 +157,8 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 5
           },
           "all_feature_count": 11,
           "unprocessed_feature_count": 11,
@@ -175,10 +179,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 37585,
+    "tokens_used": 24132,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ],
     "detailed_logs": []
   },
@@ -187,23 +191,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY",
-      "output_summary": "Generated 5-step plan",
-      "reasoning": "Given the small data volume (210 tokens), raw data is sufficient for analysis. We will use early-stage tools to define the phenotype and synthesize features, followed by a narrative fusion to support the final regression-based prediction.",
-      "timestamp": "2026-07-18T17:14:01.154915",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS, PSYCHOLOGICAL_PROFILES",
+      "output_summary": "Generated 4-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and clinical relevance ranking to identify the most predictive variables for intelligence estimation. We then use a final regression-focused synthesis to map these features to the IST 2000-R scale.",
+      "timestamp": "2026-07-19T11:08:11.905523",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: High socioeconomic status (z=+1.67, 95th percentile, LARGE effect) and education level (z=+0.95, 83rd percentile, MODERATE effect)., Low Openness (z=-1.25, 11th percentile, MODERATE effect) and low Conscientiousness (z=-0.82, 21st percentile, SMALL effect)....",
-      "output_summary": "IST_intelligence_total: 198.000 (confidence=0.650)",
-      "reasoning": "The participant exhibits a profile of high environmental advantage (SES, education) which typically supports strong cognitive performance. However, this is tempered by a personality profile characterized by low Openness and low Conscientiousness, which may limit the participant's engagement with the rigorous demands of the IST 2000-R. The most likely outcome is a score near the population mean (198), as the environmental enrichment likely offsets the personality-based limitations.",
-      "timestamp": "2026-07-18T17:14:18.173713",
+      "input_summary": "Key findings: High background socio-economic status (z=1.67, 95th percentile, MODERATE effect), Low Openness (z=-1.25, 11th percentile, SMALL effect), Low Agreeableness (z=-1.27, 10th percentile, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 218.500 (confidence=0.650)",
+      "reasoning": "The participant is a 24-year-old male with a high socio-economic background (z=1.67) and high education level (z=0.95), which are strong positive predictors for general intelligence. However, these are tempered by a consistent negative deviation in personality traits, specifically low Openness, Agreeableness, and Extraversion (all z < -1.1). The predicted IST 2000-R total score is 218.5, placing the individual slightly above the cohort mean of 200, but below the threshold for superior cognitive ",
+      "timestamp": "2026-07-19T11:08:22.976896",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 198.000"
+        "classification": "IST_intelligence_total: 218.500"
       }
     },
     {
@@ -213,7 +217,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:14:18.971973",
+      "timestamp": "2026-07-19T11:08:23.983868",
       "metadata": {}
     }
   ]

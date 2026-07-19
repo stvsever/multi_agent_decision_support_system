@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:25:52.113628",
-  "total_duration_seconds": 13.79,
+  "execution_timestamp": "2026-07-19T11:20:08.721833",
+  "total_duration_seconds": 15.27,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 7578,
-        "final_tokens": 9665,
-        "processed_raw_tokens": 9604,
+        "baseline_tokens": 7404,
+        "final_tokens": 9491,
+        "processed_raw_tokens": 9430,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,11 +97,11 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "BRAIN_CONNECTOME"
+          "FUNCTIONAL_CONNECTOME"
         ],
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {
-          "BRAIN_CONNECTOME": 28
+          "FUNCTIONAL_CONNECTOME": 28
         },
         "unprocessed_leaf_counts": {},
         "all_feature_count": 28,
@@ -124,7 +124,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 204.050",
+    "classification": "IST_intelligence_total: 201.320",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +136,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 204.05
+          "IST_intelligence_total": 201.32
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,84 +144,84 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Strong executive-DMN integration (z=1.71) suggests a high baseline for intelligence."
+        "Convergent markers of neural efficiency in executive-DMN coupling."
       ],
       "supporting_evidence_against": [
-        "The severe decoupling of dorsal-ventral attention (z=-2.58) acts as a negative constraint on cognitive efficiency."
+        "Significant bottleneck in attentional network integration."
       ],
       "uncertainty_factors": [
-        "Data limited to connectomic features; no behavioral or psychometric data available."
+        "Inferred from functional connectivity only; lacks behavioral/demographic data."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 37769,
-    "prompt_tokens": 33491,
-    "completion_tokens": 4278,
+    "total_tokens": 37854,
+    "prompt_tokens": 33361,
+    "completion_tokens": 4493,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4640,
-        "completion_tokens": 766,
-        "total": 5406,
+        "prompt_tokens": 4638,
+        "completion_tokens": 902,
+        "total": 5540,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
         "prompt_tokens": 1228,
-        "completion_tokens": 493,
-        "total": 1721,
+        "completion_tokens": 452,
+        "total": 1680,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which connectomic features are most relevant to cognitive performance."
+        "step_reasoning": "Identifies which connectivity features are most relevant to cognitive variance."
       },
       {
         "component": "executor",
         "prompt_tokens": 1270,
-        "completion_tokens": 682,
-        "total": 1952,
+        "completion_tokens": 621,
+        "total": 1891,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria for the intelligence prediction task."
+        "step_reasoning": "Establishes the clinical and cognitive criteria for the target regression task."
       },
       {
         "component": "executor",
-        "prompt_tokens": 4089,
-        "completion_tokens": 601,
-        "total": 4690,
+        "prompt_tokens": 4087,
+        "completion_tokens": 742,
+        "total": 4829,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Extracts meaningful connectivity patterns relevant to cognitive function."
+        "step_reasoning": "Extracts meaningful patterns from the functional connectome to support the regression model."
       },
       {
         "component": "executor",
-        "prompt_tokens": 4731,
-        "completion_tokens": 616,
-        "total": 5347,
+        "prompt_tokens": 4730,
+        "completion_tokens": 592,
+        "total": 5322,
         "step_tool": "MultimodalNarrativeCreator",
-        "step_reasoning": "Integrates brain data with qualitative lifestyle and identity factors to inform the final prediction."
+        "step_reasoning": "Integrates neural findings into a narrative context for the final prediction."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1037,
-        "completion_tokens": 178,
-        "total": 1215,
+        "prompt_tokens": 1043,
+        "completion_tokens": 212,
+        "total": 1255,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Performs the final univariate regression based on the fused multimodal evidence."
+        "step_reasoning": "Calculates the final numerical prediction based on the synthesized cognitive narrative and ranked features."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 16314,
-        "completion_tokens": 907,
-        "total": 17221,
+        "prompt_tokens": 16181,
+        "completion_tokens": 934,
+        "total": 17115,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 182,
-        "completion_tokens": 35,
-        "total": 217,
+        "prompt_tokens": 184,
+        "completion_tokens": 38,
+        "total": 222,
         "step_tool": null,
         "step_reasoning": null
       }
@@ -231,7 +231,7 @@
     "plan_id": "sub-0498-ist-prediction-001",
     "total_steps": 5,
     "priority_domains": [
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ]
   },
   "explainability": {

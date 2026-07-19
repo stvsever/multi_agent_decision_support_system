@@ -1,15 +1,15 @@
 {
-  "report_id": "RPT_sub-0282_20260718_171250",
+  "report_id": "RPT_sub-0282_20260719_110706",
   "participant_id": "sub-0282",
-  "generated_at": "2026-07-18T17:12:50.669998",
+  "generated_at": "2026-07-19T11:07:06.243519",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 184.040",
-    "probability": 0.45,
+    "primary_output": "IST_intelligence_total: 194.760",
+    "probability": 0.35,
     "binary_probability": null,
-    "root_confidence": 0.45,
+    "root_confidence": 0.35,
     "confidence": "LOW",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
@@ -36,21 +36,22 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 184.04
+          "IST_intelligence_total": 194.76
         }
       },
       "confidence_level": "LOW",
-      "confidence_score": 0.45,
+      "confidence_score": 0.35,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent negative z-scores across education and anthropometric domains."
+        "Estimated based on population mean (200) adjusted by mean z-score of available demographic features."
       ],
       "supporting_evidence_against": [
-        "Lack of direct cognitive metrics; reliance on demographic proxies."
+        "Lack of direct cognitive testing data significantly limits predictive precision."
       ],
       "uncertainty_factors": [
-        "High reliance on indirect proxies; potential for systemic bias in aggregate domain scores."
+        "High reliance on indirect demographic proxies.",
+        "Potential for non-linear relationships between education and intelligence not captured by linear z-score aggregation."
       ],
       "children": []
     }
@@ -63,30 +64,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
       "finding": "Education level is significantly below cohort mean (z=-2.11, 2nd percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Body mass index is below cohort mean (z=-1.57, 6th percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Age is below cohort mean (z=-1.67, 5th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Age is below cohort mean (z=-1.67, 5th percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Body mass index is below cohort mean (z=-1.57, 6th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Identified that no direct cognitive test scores are available for the IST 2000-R composite.",
-    "Step 2: Analyzed demographic and physical features as proxies for general intelligence (g-factor).",
-    "Step 3: Noted consistent negative deviations in education level (z=-2.11), BMI (z=-1.57), and age (z=-1.67).",
-    "Step 4: Evaluated the hierarchical conflict where the aggregate domain score (z=1.124) was positive, but granular leaf nodes were negative; prioritized leaf nodes as more reliable indicators.",
-    "Step 5: Applied a linear mapping from the mean z-score of relevant features to the IST 2000-R scale (Mean 200, SD 40).",
-    "Step 6: Calculated the final estimate of 184.04 based on the weighted influence of negative demographic proxies."
+    "Step 1: Analyzed demographic and socioeconomic features as proxies for general intelligence (IST-2000R).",
+    "Step 2: Identified significant negative deviation in education level (z=-2.11) and age (z=-1.67).",
+    "Step 3: Balanced these against the positive deviation in biological sex (z=1.04) and neutral socioeconomic status (z=0.0).",
+    "Step 4: Applied population parameters (mean=200, SD=40) to the aggregated z-score profile.",
+    "Step 5: Calculated an estimated score of 194.76, reflecting the downward pressure of low educational attainment on the composite intelligence estimate."
   ],
-  "clinical_summary": "The participant's predicted IST 2000-R total intelligence score is 184.04. This estimate is derived from demographic and physical proxies, specifically noting a significantly lower education level and lower BMI compared to the healthy young-adult cohort. Given the absence of direct cognitive performance data, this prediction reflects a conservative downward adjustment from the population mean of 200, acknowledging the limitations of using demographic markers as surrogates for cognitive ability.",
+  "clinical_summary": "The participant's estimated IST-2000R total score is 194.76. This estimate is derived from demographic and socioeconomic proxies, as no direct cognitive performance data was available. The prediction is heavily influenced by the participant's low educational level relative to the cohort, which acts as a negative anchor for general intelligence estimation, partially offset by other demographic variables.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -144,8 +144,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 4448,
-          "final_tokens": 4531,
+          "baseline_tokens": 3823,
+          "final_tokens": 3906,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -158,7 +158,7 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 6,
           "unprocessed_feature_count": 6,
@@ -179,9 +179,9 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 28272,
+    "tokens_used": 19719,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -190,23 +190,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL",
-      "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify key predictors of intelligence within the demographic and lifestyle domains. We will use the FeatureSynthesizer to rank variables and the CodeExecutor to perform the final regression calculation based on the synthesized clinical profile.",
-      "timestamp": "2026-07-18T17:12:39.400407",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "output_summary": "Generated 3-step plan",
+      "reasoning": "The total data volume is very low (2,298 tokens), well below the threshold for aggressive compression. Therefore, we will proceed with a direct feature synthesis and regression analysis approach. We will use the PhenotypeRepresentation to define the intelligence construct, synthesize features from the available demographic data, and execute a regression analysis to predict the IST 2000-R score.",
+      "timestamp": "2026-07-19T11:06:55.834015",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Education level is significantly below cohort mean (z=-2.11, 2nd percentile, LARGE effect), Body mass index is below cohort mean (z=-1.57, 6th percentile, MODERATE effect), Age is below cohort mean (z=-1.67, 5th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 184.040 (confidence=0.450)",
-      "reasoning": "The participant's predicted IST 2000-R total intelligence score is 184.04. This estimate is derived from demographic and physical proxies, specifically noting a significantly lower education level and lower BMI compared to the healthy young-adult cohort. Given the absence of direct cognitive performance data, this prediction reflects a conservative downward adjustment from the population mean of 200, acknowledging the limitations of using demographic markers as surrogates for cognitive ability.",
-      "timestamp": "2026-07-18T17:12:49.787018",
+      "input_summary": "Key findings: Education level is significantly below cohort mean (z=-2.11, 2nd percentile, LARGE effect), Age is below cohort mean (z=-1.67, 5th percentile, MODERATE effect), Body mass index is below cohort mean (z=-1.57, 6th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 194.760 (confidence=0.350)",
+      "reasoning": "The participant's estimated IST-2000R total score is 194.76. This estimate is derived from demographic and socioeconomic proxies, as no direct cognitive performance data was available. The prediction is heavily influenced by the participant's low educational level relative to the cohort, which acts as a negative anchor for general intelligence estimation, partially offset by other demographic variables.",
+      "timestamp": "2026-07-19T11:07:05.626618",
       "metadata": {
-        "probability": 0.45,
-        "classification": "IST_intelligence_total: 184.040"
+        "probability": 0.35,
+        "classification": "IST_intelligence_total: 194.760"
       }
     },
     {
@@ -216,7 +216,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:12:50.669054",
+      "timestamp": "2026-07-19T11:07:06.242949",
       "metadata": {}
     }
   ]

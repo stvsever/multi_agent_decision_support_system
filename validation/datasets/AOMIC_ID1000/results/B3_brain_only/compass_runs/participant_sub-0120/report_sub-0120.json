@@ -1,16 +1,16 @@
 {
-  "report_id": "RPT_sub-0120_20260718_172644",
+  "report_id": "RPT_sub-0120_20260719_112100",
   "participant_id": "sub-0120",
-  "generated_at": "2026-07-18T17:26:44.923836",
+  "generated_at": "2026-07-19T11:21:00.828226",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 220.000",
-    "probability": 0.65,
+    "primary_output": "IST_intelligence_total: 218.000",
+    "probability": 0.85,
     "binary_probability": null,
-    "root_confidence": 0.65,
-    "confidence": "MEDIUM",
+    "root_confidence": 0.85,
+    "confidence": "HIGH",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
     "prediction_task_spec": {
@@ -36,21 +36,21 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 220.0
+          "IST_intelligence_total": 218.0
         }
       },
-      "confidence_level": "MEDIUM",
-      "confidence_score": 0.65,
+      "confidence_level": "HIGH",
+      "confidence_score": 0.85,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Robust white matter and subcortical volumes correlate with higher-than-average cognitive potential."
+        "Robust structural substrate and high-functioning executive-limbic integration."
       ],
       "supporting_evidence_against": [
-        "Posterior cortical thinning and visual network decoupling suggest specific cognitive trade-offs."
+        "Localized posterior cortical thinning."
       ],
       "uncertainty_factors": [
-        "Lack of behavioral performance data (e.g., reaction time, educational history)."
+        "Lack of behavioral task performance data."
       ],
       "children": []
     }
@@ -64,27 +64,28 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "High white matter volume (z=1.04, 85th percentile, SMALL effect) and subcortical expansion (accumbens z=1.88, 97th percentile, MODERATE effect).",
-      "direction": "ABNORMAL_HIGH"
+      "finding": "High-normal global brain volume (z=0.779) and cerebral white matter (z=1.037)",
+      "direction": "NORMAL"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Posterior cortical thinning (occipital z=-1.62, 5th percentile, MODERATE effect).",
-      "direction": "ABNORMAL_LOW"
+      "finding": "Posterior cortical thinning (parietal/occipital, z=-1.3 to -1.6)",
+      "direction": "NORMAL"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Hyper-connectivity between limbic and frontoparietal networks (z=2.04, 98th percentile, MODERATE effect).",
-      "direction": "ABNORMAL_HIGH"
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Hyper-connectivity between Limbic and Frontoparietal Control networks (z=2.04)",
+      "direction": "NORMAL"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed neuroanatomical profile showing robust subcortical and white matter volumes, which are positive predictors for general intelligence.",
-    "Step 2: Identified localized posterior cortical thinning and visual network decoupling, which act as constraints on visual-spatial reasoning performance.",
-    "Step 3: Integrated connectomic data showing compensatory hyper-connectivity in executive control networks, suggesting the participant utilizes high-level executive resources to offset specific structural limitations.",
-    "Step 4: Synthesized these findings to estimate a total IST 2000-R score slightly above the population mean of 200, accounting for the balance between structural expansion and localized thinning."
+    "Step 1: Analyzed structural morphometry, noting high-normal global volumes and subcortical reward structure hypertrophy (accumbens z=1.88).",
+    "Step 2: Identified localized cortical thinning in posterior sensory regions (parietal/occipital), which typically correlates with reduced efficiency in visuospatial processing.",
+    "Step 3: Integrated functional connectome data, highlighting robust hyper-connectivity between executive (Frontoparietal) and affective (Limbic) networks.",
+    "Step 4: Synthesized the structural-functional trade-off: the posterior structural deficit is likely compensated by the high-functioning executive-limbic integration, stabilizing performance.",
+    "Step 5: Estimated the IST 2000-R total score based on the cohort mean (200) and the observed high-average neurobiological markers."
   ],
-  "clinical_summary": "Participant sub-0120 exhibits a neurobiological profile consistent with high-average general cognitive ability. While structural expansion in white matter and subcortical regions supports high executive function, localized posterior cortical thinning and visual network decoupling suggest specific limitations in visual-spatial integration. Compensatory hyper-connectivity in frontoparietal control networks likely mitigates these deficits, resulting in an estimated IST 2000-R total score of 220.",
+  "clinical_summary": "Subject sub-0120 presents with a neurobiological profile that balances localized structural thinning in posterior sensory regions with robust compensatory hyper-connectivity in executive and reward-related networks. This profile is consistent with high-average cognitive performance, as the subject's executive-limbic integration likely supports sustained cognitive effort and task-directed motivation, offsetting potential sensory-integration bottlenecks. The estimated IST 2000-R total score is 218.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -142,9 +143,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 10028,
-          "final_tokens": 14646,
-          "processed_raw_tokens": 14585,
+          "baseline_tokens": 11511,
+          "final_tokens": 16135,
+          "processed_raw_tokens": 16074,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -153,13 +154,13 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "BRAIN_MORPHOMETRY",
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {},
           "all_feature_count": 63,
@@ -181,10 +182,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 50767,
+    "tokens_used": 59705,
     "domains_processed": [
       "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -193,23 +194,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
+      "input_summary": "Domains: BRAIN_MORPHOMETRY, FUNCTIONAL_CONNECTOME",
       "output_summary": "Generated 6-step plan",
-      "reasoning": "The data volume is low enough to be processed efficiently. We use early-stage tools to define the phenotype and synthesize features, followed by mid-stage compression of brain data to extract relevant cognitive markers. Finally, we fuse these findings with non-numerical clinical context to perform the regression task.",
-      "timestamp": "2026-07-18T17:26:29.861172",
+      "reasoning": "The data volume is low enough to be processed efficiently. We prioritize early analysis of structural and functional brain data using compression to extract clinical patterns, then fuse these with non-numerical clinical context to generate a final regression prediction.",
+      "timestamp": "2026-07-19T11:20:43.958882",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: High white matter volume (z=1.04, 85th percentile, SMALL effect) and subcortical expansion (accumbens z=1.88, 97th percentile, MODERATE effect)., Posterior cortical thinning (occipital z=-1.62, 5th percentile, MODERATE effect)., Hyper-connectivity between limbic and frontoparietal networks (z=2.04, 98th percentile, MODERATE effect)....",
-      "output_summary": "IST_intelligence_total: 220.000 (confidence=0.650)",
-      "reasoning": "Participant sub-0120 exhibits a neurobiological profile consistent with high-average general cognitive ability. While structural expansion in white matter and subcortical regions supports high executive function, localized posterior cortical thinning and visual network decoupling suggest specific limitations in visual-spatial integration. Compensatory hyper-connectivity in frontoparietal control networks likely mitigates these deficits, resulting in an estimated IST 2000-R total score of 220.",
-      "timestamp": "2026-07-18T17:26:44.052054",
+      "input_summary": "Key findings: High-normal global brain volume (z=0.779) and cerebral white matter (z=1.037), Posterior cortical thinning (parietal/occipital, z=-1.3 to -1.6), Hyper-connectivity between Limbic and Frontoparietal Control networks (z=2.04)...",
+      "output_summary": "IST_intelligence_total: 218.000 (confidence=0.850)",
+      "reasoning": "Subject sub-0120 presents with a neurobiological profile that balances localized structural thinning in posterior sensory regions with robust compensatory hyper-connectivity in executive and reward-related networks. This profile is consistent with high-average cognitive performance, as the subject's executive-limbic integration likely supports sustained cognitive effort and task-directed motivation, offsetting potential sensory-integration bottlenecks. The estimated IST 2000-R total score is 218",
+      "timestamp": "2026-07-19T11:20:59.886565",
       "metadata": {
-        "probability": 0.65,
-        "classification": "IST_intelligence_total: 220.000"
+        "probability": 0.85,
+        "classification": "IST_intelligence_total: 218.000"
       }
     },
     {
@@ -219,7 +220,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:26:44.922297",
+      "timestamp": "2026-07-19T11:21:00.826814",
       "metadata": {}
     }
   ]

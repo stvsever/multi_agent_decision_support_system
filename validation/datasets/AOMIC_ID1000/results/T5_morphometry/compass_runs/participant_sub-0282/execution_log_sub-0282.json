@@ -1,31 +1,31 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:19:48.363560",
+    "timestamp": "2026-07-19T11:14:17.341528",
     "data": {
       "participant_id": "sub-0282",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:19:48.363548"
+      "timestamp": "2026-07-19T11:14:17.341526"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:19:55.242964",
+    "timestamp": "2026-07-19T11:14:21.476085",
     "data": {
-      "plan_id": "IST_2000R_PREDICTION_0282",
+      "plan_id": "sub-0282-ist-prediction-001",
       "total_steps": 5,
       "priority_domains": [
-        "BRAIN_MORPHOMETRY",
-        "PERSONALITY",
-        "MOTIVATION_AND_AFFECT"
+        "PSYCHOLOGICAL_PROFILES",
+        "IDENTITY_AND_BELIEFS",
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
       ]
     }
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:20:06.600739",
+    "timestamp": "2026-07-19T11:14:35.610990",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -45,9 +45,9 @@
       "coverage": {
         "summary": {
           "all_feature_count": 58,
-          "processed_feature_count": 52,
-          "unprocessed_raw_feature_count": 23,
-          "processed_raw_low_priority_feature_count": 35,
+          "processed_feature_count": 23,
+          "unprocessed_raw_feature_count": 41,
+          "processed_raw_low_priority_feature_count": 17,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 58,
           "missing_feature_count": 0,
@@ -68,9 +68,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 15669,
-          "final_tokens": 18260,
-          "processed_raw_tokens": 18199,
+          "baseline_tokens": 17198,
+          "final_tokens": 18515,
+          "processed_raw_tokens": 18454,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -79,21 +79,30 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_MORPHOMETRY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
-          "processed_prefixes_by_domain": {},
+          "processed_prefixes_by_domain": {
+            "PSYCHOLOGICAL_PROFILES": [
+              [
+                "trait_anxiety"
+              ]
+            ],
+            "IDENTITY_AND_BELIEFS": [
+              []
+            ]
+          },
           "excluded_leaf_counts": {
-            "BRAIN_MORPHOMETRY": 35
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "BRAIN_MORPHOMETRY": 35
           },
           "all_feature_count": 58,
-          "unprocessed_feature_count": 23,
-          "processed_feature_count": 35,
+          "unprocessed_feature_count": 41,
+          "processed_feature_count": 17,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -113,16 +122,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:20:06.600775",
+    "timestamp": "2026-07-19T11:14:35.611003",
     "data": {
-      "classification": "IST_intelligence_total: 178.500",
+      "classification": "IST_intelligence_total: 207.480",
       "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:20:07.175954",
+    "timestamp": "2026-07-19T11:14:36.399992",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

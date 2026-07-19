@@ -1,32 +1,31 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:16:56.243792",
+    "timestamp": "2026-07-19T11:11:17.611678",
     "data": {
       "participant_id": "sub-0120",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:16:56.243785"
+      "timestamp": "2026-07-19T11:11:17.611673"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:16:59.422962",
+    "timestamp": "2026-07-19T11:11:21.156953",
     "data": {
-      "plan_id": "sub-0120-ist-prediction-001",
+      "plan_id": "IST-2000R-PRED-0120",
       "total_steps": 5,
       "priority_domains": [
-        "DEMOGRAPHICS_AND_PHYSICAL",
-        "PERSONALITY",
-        "MOTIVATION_AND_AFFECT",
-        "IDENTITY_AND_BELIEF"
+        "PSYCHOLOGICAL_PROFILES",
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "IDENTITY_AND_BELIEFS"
       ]
     }
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:17:12.613792",
+    "timestamp": "2026-07-19T11:11:35.750560",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -69,9 +68,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8934,
-          "final_tokens": 9737,
-          "processed_raw_tokens": 9676,
+          "baseline_tokens": 8921,
+          "final_tokens": 9733,
+          "processed_raw_tokens": 9672,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -80,23 +79,15 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "PSYCHOLOGICAL_PROFILES"
           ],
-          "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
-              [
-                "anxiety_traits"
-              ]
-            ]
-          },
+          "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
+            "PSYCHOLOGICAL_PROFILES": 10
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 23,
           "unprocessed_feature_count": 13,
@@ -120,16 +111,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:17:12.613837",
+    "timestamp": "2026-07-19T11:11:35.750576",
     "data": {
-      "classification": "IST_intelligence_total: 217.520",
+      "classification": "IST_intelligence_total: 217.480",
       "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:17:13.417326",
+    "timestamp": "2026-07-19T11:11:36.323577",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

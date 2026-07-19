@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0673_20260718_171851",
+  "report_id": "RPT_sub-0673_20260719_111314",
   "participant_id": "sub-0673",
-  "generated_at": "2026-07-18T17:18:51.294494",
+  "generated_at": "2026-07-19T11:13:14.936920",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 218.450",
+    "primary_output": "IST_intelligence_total: 210.000",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 218.45
+          "IST_intelligence_total": 210.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "High socioeconomic and educational background provides a robust baseline for intelligence estimation."
+        "High socioeconomic and educational background provides a strong cognitive foundation."
       ],
       "supporting_evidence_against": [
-        "Extremely low conscientiousness may lead to underperformance on standardized tests relative to cognitive potential."
+        "Severe deficit in conscientiousness likely limits performance on complex, sustained cognitive tasks."
       ],
       "uncertainty_factors": [
-        "The prediction relies on personality and demographic proxies rather than direct cognitive assessment."
+        "Absence of direct cognitive measures; prediction is based on personality and demographic proxies."
       ],
       "children": []
     }
@@ -63,28 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "High education level (z=0.95) and background SES (z=0.84) are strong positive predictors for cognitive performance.",
-      "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "PERSONALITY",
-      "finding": "Extremely low conscientiousness (z=-2.01) and agreeableness (z=-2.14) suggest potential for inconsistent test-taking performance.",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Severe deficit in conscientiousness (z=-2.01, 2.2nd percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "High BAS drive (z=1.50) indicates high approach-oriented behavior.",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "High BAS drive (z=1.49, 93rd percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "High educational attainment (z=0.95, 83rd percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Identified socioeconomic status and education as the most reliable proxies for cognitive potential in this dataset.",
-    "Step 2: Evaluated personality traits; while extraversion and BAS drive are high, the significant deficits in conscientiousness and agreeableness suggest a non-traditional, potentially inconsistent cognitive profile.",
-    "Step 3: Integrated the positive socioeconomic signal with the negative personality-based performance moderators.",
-    "Step 4: Applied a linear regression mapping of the aggregate z-score mean (0.485) to the IST-2000-R normative scale (Mean=200, SD=40), resulting in an estimated score of 218.45."
+    "Step 1: Establish baseline intelligence expectation based on high socioeconomic and educational status (z=0.95).",
+    "Step 2: Evaluate personality constraints; severe low conscientiousness (z=-2.01) and low agreeableness (z=-2.14) suggest significant difficulty with structured, long-form cognitive tasks.",
+    "Step 3: Integrate motivational factors; high BAS drive (z=1.49) and extraversion (z=1.29) suggest an active, high-energy approach that may mitigate some performance deficits.",
+    "Step 4: Synthesize findings; the combination of high environmental resources and high motivation is tempered by poor executive regulation, leading to a predicted score slightly above the population mean.",
+    "Step 5: Final calculation; mean (200) + adjustment for SES/Education (+15) - adjustment for conscientiousness (-5) = 210."
   ],
-  "clinical_summary": "Participant sub-0673 exhibits a cognitive profile characterized by high socioeconomic and educational advantages, which are offset by non-traditional personality traits, specifically very low conscientiousness and agreeableness. While the participant's background suggests a high cognitive potential, the personality profile indicates a risk for inconsistent performance on standardized assessments. The estimated IST-2000-R total score is 218.45, placing the participant slightly above the cohort mean.",
+  "clinical_summary": "The participant (sub-0673) exhibits a profile of high environmental and motivational support (high SES, high BAS drive) but significant personality-based constraints on executive regulation (very low conscientiousness). While the demographic indicators suggest a baseline of high-average intelligence, the extreme deficit in conscientiousness serves as a performance ceiling. The estimated IST 2000-R total score is 210, representing a moderate deviation from the cohort mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -92,8 +93,8 @@
     "coverage_summary": {
       "all_feature_count": 23,
       "processed_feature_count": 23,
-      "unprocessed_raw_feature_count": 23,
-      "processed_raw_low_priority_feature_count": 0,
+      "unprocessed_raw_feature_count": 6,
+      "processed_raw_low_priority_feature_count": 17,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 23,
       "missing_feature_count": 0,
@@ -120,8 +121,8 @@
         "summary": {
           "all_feature_count": 23,
           "processed_feature_count": 23,
-          "unprocessed_raw_feature_count": 23,
-          "processed_raw_low_priority_feature_count": 0,
+          "unprocessed_raw_feature_count": 6,
+          "processed_raw_low_priority_feature_count": 17,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 23,
           "missing_feature_count": 0,
@@ -139,12 +140,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": false,
+        "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 11091,
-          "final_tokens": 11174,
-          "processed_raw_tokens": null,
+          "baseline_tokens": 9450,
+          "final_tokens": 10767,
+          "processed_raw_tokens": 10706,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -152,18 +153,30 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [],
-          "processed_prefixes_by_domain": {},
-          "excluded_leaf_counts": {},
+          "processed_whole_domains": [
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
+          ],
+          "processed_prefixes_by_domain": {
+            "PSYCHOLOGICAL_PROFILES": [
+              [
+                "trait_anxiety"
+              ]
+            ],
+            "IDENTITY_AND_BELIEFS": [
+              []
+            ]
+          },
+          "excluded_leaf_counts": {
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
+          },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 23,
-          "unprocessed_feature_count": 23,
-          "processed_feature_count": 0,
+          "unprocessed_feature_count": 6,
+          "processed_feature_count": 17,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -180,12 +193,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 31469,
+    "tokens_used": 44343,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "IDENTITY_AND_BELIEFS"
     ],
     "detailed_logs": []
   },
@@ -194,23 +206,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF",
-      "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is small (FIT_FOR_RAW), we prioritize high-fidelity feature synthesis and narrative integration. We use the AnomalyNarrativeBuilder and FeatureSynthesizer to identify key predictors for intelligence, followed by a MultimodalNarrativeCreator to fuse these psychological domains before the final regression estimate.",
-      "timestamp": "2026-07-18T17:18:38.883944",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the total data volume is low (2,647 tokens), we can process the data with high fidelity. We will start by defining the target phenotype and analyzing feature importance, then synthesize the psychological and identity data to predict the IST 2000-R composite score.",
+      "timestamp": "2026-07-19T11:12:59.272940",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: High education level (z=0.95) and background SES (z=0.84) are strong positive predictors for cognitive performance., Extremely low conscientiousness (z=-2.01) and agreeableness (z=-2.14) suggest potential for inconsistent test-taking performance., High BAS drive (z=1.50) indicates high approach-oriented behavior....",
-      "output_summary": "IST_intelligence_total: 218.450 (confidence=0.650)",
-      "reasoning": "Participant sub-0673 exhibits a cognitive profile characterized by high socioeconomic and educational advantages, which are offset by non-traditional personality traits, specifically very low conscientiousness and agreeableness. While the participant's background suggests a high cognitive potential, the personality profile indicates a risk for inconsistent performance on standardized assessments. The estimated IST-2000-R total score is 218.45, placing the participant slightly above the cohort me",
-      "timestamp": "2026-07-18T17:18:50.664925",
+      "input_summary": "Key findings: Severe deficit in conscientiousness (z=-2.01, 2.2nd percentile, LARGE effect), High BAS drive (z=1.49, 93rd percentile, MODERATE effect), High educational attainment (z=0.95, 83rd percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 210.000 (confidence=0.650)",
+      "reasoning": "The participant (sub-0673) exhibits a profile of high environmental and motivational support (high SES, high BAS drive) but significant personality-based constraints on executive regulation (very low conscientiousness). While the demographic indicators suggest a baseline of high-average intelligence, the extreme deficit in conscientiousness serves as a performance ceiling. The estimated IST 2000-R total score is 210, representing a moderate deviation from the cohort mean.",
+      "timestamp": "2026-07-19T11:13:13.957157",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 218.450"
+        "classification": "IST_intelligence_total: 210.000"
       }
     },
     {
@@ -220,7 +232,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:18:51.293394",
+      "timestamp": "2026-07-19T11:13:14.936511",
       "metadata": {}
     }
   ]

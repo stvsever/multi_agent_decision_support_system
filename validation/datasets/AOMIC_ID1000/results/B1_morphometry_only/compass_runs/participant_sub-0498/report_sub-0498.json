@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0498_20260718_172426",
+  "report_id": "RPT_sub-0498_20260719_111848",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:24:26.586092",
+  "generated_at": "2026-07-19T11:18:48.235260",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 208.010",
+    "primary_output": "IST_intelligence_total: 201.000",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 208.01
+          "IST_intelligence_total": 201.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Cortical thickness z-scores indicate high neural substrate capacity"
+        "Cortical thickness metrics provide a positive bias toward higher cognitive capacity."
       ],
       "supporting_evidence_against": [
-        "Global brain and subcortical volume deficits suggest structural scaling limitations"
+        "Global volumetric deficits suggest a more conservative intelligence estimate."
       ],
       "uncertainty_factors": [
-        "Morphometric divergence creates non-linear predictive uncertainty"
+        "Structural-to-cognitive mapping is probabilistic and lacks functional validation."
       ],
       "children": []
     }
@@ -64,27 +64,28 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Widespread cortical thickening (e.g., left frontal lobe z=2.16, left insula z=2.08, right occipital lobe z=2.08)",
+      "finding": "Elevated cortical thickness (z=1.532, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Significant subcortical volume reduction (e.g., left caudate z=-2.03, left thalamus z=-2.01)",
+      "finding": "Reduced global volumetric measures (z=-1.177, SMALL effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Reduced global brain and white matter volumes (e.g., total cerebral white matter z=-1.53)",
+      "finding": "Reduced subcortical volumes (z=-0.868, SMALL effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed morphometric profile showing a distinct divergence between cortical thickness (positive) and subcortical/global volumes (negative).",
-    "Step 2: Evaluated the positive cortical signal as a proxy for high cognitive capacity, balanced against the negative subcortical/white matter signal which suggests potential limitations in processing speed or structural connectivity.",
-    "Step 3: Integrated these opposing signals using a weighted approach, prioritizing the cortical thickness as the primary driver of intelligence while damping the estimate due to the global volume deficits.",
-    "Step 4: Calculated the final estimate based on the net morphometric balance, resulting in a score slightly above the cohort mean of 200."
+    "Step 1: Analyzed BRAIN_MORPHOMETRY domain, noting a significant divergence between elevated cortical thickness and reduced global/subcortical volumes.",
+    "Step 2: Identified cortical thickness as the primary positive driver for IST-2000R performance, reflecting neural complexity.",
+    "Step 3: Utilized global and subcortical volume deficits as regularizers to prevent overestimation of cognitive performance.",
+    "Step 4: Integrated these opposing structural signals using a regression model calibrated to the cohort mean (200) and standard deviation (40).",
+    "Step 5: Concluded that the structural profile supports a slightly above-average intelligence estimate."
   ],
-  "clinical_summary": "The participant exhibits a complex morphometric phenotype characterized by significant cortical hypertrophy in key cognitive regions, which is strongly associated with high intelligence. However, this is offset by moderate-to-severe reductions in subcortical structures and total white matter volume. The predicted IST 2000-R total score reflects this balance, suggesting above-average cognitive potential tempered by structural constraints.",
+  "clinical_summary": "The participant exhibits a complex neuroanatomical profile characterized by globally elevated cortical thickness, particularly in frontal and insular regions, contrasted against reduced global and subcortical volumes. This structural dissociation suggests a phenotype potentially optimized for higher-order cognitive processing, despite lower-than-average raw volumetric mass. The predicted IST 2000-R total score is 201.0, placing the participant near the cohort mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -92,8 +93,8 @@
     "coverage_summary": {
       "all_feature_count": 35,
       "processed_feature_count": 35,
-      "unprocessed_raw_feature_count": 0,
-      "processed_raw_low_priority_feature_count": 35,
+      "unprocessed_raw_feature_count": 35,
+      "processed_raw_low_priority_feature_count": 0,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 35,
       "missing_feature_count": 0,
@@ -120,8 +121,8 @@
         "summary": {
           "all_feature_count": 35,
           "processed_feature_count": 35,
-          "unprocessed_raw_feature_count": 0,
-          "processed_raw_low_priority_feature_count": 35,
+          "unprocessed_raw_feature_count": 35,
+          "processed_raw_low_priority_feature_count": 0,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 35,
           "missing_feature_count": 0,
@@ -139,12 +140,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": true,
+        "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8090,
-          "final_tokens": 10681,
-          "processed_raw_tokens": 10620,
+          "baseline_tokens": 15125,
+          "final_tokens": 15208,
+          "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -152,17 +153,15 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [
-            "BRAIN_MORPHOMETRY"
-          ],
+          "processed_whole_domains": [],
           "processed_prefixes_by_domain": {},
-          "excluded_leaf_counts": {
+          "excluded_leaf_counts": {},
+          "unprocessed_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35
           },
-          "unprocessed_leaf_counts": {},
           "all_feature_count": 35,
-          "unprocessed_feature_count": 0,
-          "processed_feature_count": 35,
+          "unprocessed_feature_count": 35,
+          "processed_feature_count": 0,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -179,7 +178,7 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 41534,
+    "tokens_used": 39784,
     "domains_processed": [
       "BRAIN_MORPHOMETRY"
     ],
@@ -192,21 +191,21 @@
       "decision_type": "PLAN_GENERATION",
       "input_summary": "Domains: BRAIN_MORPHOMETRY",
       "output_summary": "Generated 5-step plan",
-      "reasoning": "Since the data volume is low (853 tokens), we can process the BRAIN_MORPHOMETRY domain directly while using the hierarchical deviation map to guide feature importance. We prioritize early-stage synthesis to define the phenotype, followed by compression of the morphometric data to extract structural intelligence correlates, culminating in a regression-based prediction.",
-      "timestamp": "2026-07-18T17:24:15.196811",
+      "reasoning": "Since the data volume is low (853 tokens), we can process the morphometric data directly. We will use the PhenotypeRepresentation to define the cognitive target, synthesize feature importance from the deviation map, and then integrate these findings into a final regression estimate.",
+      "timestamp": "2026-07-19T11:18:36.674404",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Widespread cortical thickening (e.g., left frontal lobe z=2.16, left insula z=2.08, right occipital lobe z=2.08), Significant subcortical volume reduction (e.g., left caudate z=-2.03, left thalamus z=-2.01), Reduced global brain and white matter volumes (e.g., total cerebral white matter z=-1.53)...",
-      "output_summary": "IST_intelligence_total: 208.010 (confidence=0.650)",
-      "reasoning": "The participant exhibits a complex morphometric phenotype characterized by significant cortical hypertrophy in key cognitive regions, which is strongly associated with high intelligence. However, this is offset by moderate-to-severe reductions in subcortical structures and total white matter volume. The predicted IST 2000-R total score reflects this balance, suggesting above-average cognitive potential tempered by structural constraints.",
-      "timestamp": "2026-07-18T17:24:26.011047",
+      "input_summary": "Key findings: Elevated cortical thickness (z=1.532, MODERATE effect), Reduced global volumetric measures (z=-1.177, SMALL effect), Reduced subcortical volumes (z=-0.868, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 201.000 (confidence=0.650)",
+      "reasoning": "The participant exhibits a complex neuroanatomical profile characterized by globally elevated cortical thickness, particularly in frontal and insular regions, contrasted against reduced global and subcortical volumes. This structural dissociation suggests a phenotype potentially optimized for higher-order cognitive processing, despite lower-than-average raw volumetric mass. The predicted IST 2000-R total score is 201.0, placing the participant near the cohort mean.",
+      "timestamp": "2026-07-19T11:18:47.661672",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 208.010"
+        "classification": "IST_intelligence_total: 201.000"
       }
     },
     {
@@ -216,7 +215,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:24:26.585074",
+      "timestamp": "2026-07-19T11:18:48.234182",
       "metadata": {}
     }
   ]

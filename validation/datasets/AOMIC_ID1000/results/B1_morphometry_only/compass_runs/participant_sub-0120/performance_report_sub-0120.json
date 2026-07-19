@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:22:56.815345",
-  "total_duration_seconds": 20.85,
+  "execution_timestamp": "2026-07-19T11:17:19.467254",
+  "total_duration_seconds": 16.46,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 7807,
-        "final_tokens": 10398,
-        "processed_raw_tokens": 10337,
+        "baseline_tokens": 8851,
+        "final_tokens": 11448,
+        "processed_raw_tokens": 11387,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -124,7 +124,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 218.000",
+    "classification": "IST_intelligence_total: 200.000",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +136,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 218.0
+          "IST_intelligence_total": 200.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,92 +144,84 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Elevated white matter volume (z=1.04) supports above-average neural efficiency."
+        "Robust global and white matter volumes support average-to-high cognitive potential."
       ],
       "supporting_evidence_against": [
-        "Posterior cortical thinning (z < -1.28) acts as a structural bottleneck for abstract reasoning."
+        "Posterior cortical thinning may limit performance on specific abstract reasoning components of the IST."
       ],
       "uncertainty_factors": [
-        "No behavioral or educational data provided."
+        "Lack of direct cognitive performance data necessitates reliance on structural morphometry proxies."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 48618,
-    "prompt_tokens": 42429,
-    "completion_tokens": 6189,
+    "total_tokens": 42500,
+    "prompt_tokens": 37740,
+    "completion_tokens": 4760,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4639,
-        "completion_tokens": 832,
-        "total": 5471,
+        "prompt_tokens": 4641,
+        "completion_tokens": 929,
+        "total": 5570,
         "step_tool": null,
         "step_reasoning": null
-      },
-      {
-        "component": "orchestrator",
-        "prompt_tokens": 4683,
-        "completion_tokens": 864,
-        "total": 5547,
-        "step_tool": null,
-        "step_reasoning": null
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 2913,
-        "completion_tokens": 576,
-        "total": 3489,
-        "step_tool": "AnomalyNarrativeBuilder",
-        "step_reasoning": "Identifies significant structural deviations that may correlate with cognitive performance."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 4579,
-        "completion_tokens": 649,
-        "total": 5228,
-        "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Extracts structural patterns from morphometric data for regression analysis."
       },
       {
         "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 730,
-        "total": 1998,
+        "completion_tokens": 676,
+        "total": 1944,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria and cognitive domains relevant to the IST 2000-R test."
+        "step_reasoning": "Establishes the clinical criteria for intelligence-related biomarkers."
       },
       {
         "component": "executor",
-        "prompt_tokens": 5167,
-        "completion_tokens": 677,
-        "total": 5844,
+        "prompt_tokens": 2915,
+        "completion_tokens": 588,
+        "total": 3503,
+        "step_tool": "AnomalyNarrativeBuilder",
+        "step_reasoning": "Identifies significant structural deviations that may correlate with cognitive variance."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 4584,
+        "completion_tokens": 769,
+        "total": 5353,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Extracts relevant structural patterns for cognitive prediction."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 5149,
+        "completion_tokens": 700,
+        "total": 5849,
         "step_tool": "MultimodalNarrativeCreator",
-        "step_reasoning": "Synthesizes structural and qualitative data into a coherent narrative for cognitive prediction."
+        "step_reasoning": "Fuses biological and qualitative data to form a holistic cognitive profile."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2355,
-        "completion_tokens": 833,
-        "total": 3188,
-        "step_tool": "DifferentialDiagnosis",
-        "step_reasoning": "Uses the integrated narrative and phenotype definition to generate the final quantitative prediction."
+        "prompt_tokens": 1050,
+        "completion_tokens": 188,
+        "total": 1238,
+        "step_tool": "CodeExecutor",
+        "step_reasoning": "Calculates the final numerical prediction based on integrated narrative and hierarchical features."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 16641,
-        "completion_tokens": 994,
-        "total": 17635,
+        "prompt_tokens": 17951,
+        "completion_tokens": 876,
+        "total": 18827,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 184,
+        "prompt_tokens": 182,
         "completion_tokens": 34,
-        "total": 218,
+        "total": 216,
         "step_tool": null,
         "step_reasoning": null
       }

@@ -1,7 +1,7 @@
 {
   "participant_id": "sub-0128",
   "domain_coverage": {
-    "DEMOGRAPHICS_AND_PHYSICAL": {
+    "DEMOGRAPHICS_AND_ANTHROPOMETRICS": {
       "present_leaves": 6,
       "total_leaves": 6,
       "coverage_percentage": 100.0,
@@ -9,28 +9,19 @@
       "total_tokens": 109,
       "is_available": true
     },
-    "PERSONALITY": {
-      "present_leaves": 5,
-      "total_leaves": 5,
+    "PSYCHOLOGICAL_PROFILES": {
+      "present_leaves": 10,
+      "total_leaves": 10,
       "coverage_percentage": 100.0,
       "missing_count": 0,
-      "total_tokens": 100,
-      "is_available": true
-    },
-    "MOTIVATION_AND_AFFECT": {
-      "present_leaves": 5,
-      "total_leaves": 5,
-      "coverage_percentage": 100.0,
-      "missing_count": 0,
-      "total_tokens": 97,
+      "total_tokens": 197,
       "is_available": true
     }
   },
   "total_tokens": 306,
   "available_domains": [
-    "DEMOGRAPHICS_AND_PHYSICAL",
-    "PERSONALITY",
-    "MOTIVATION_AND_AFFECT"
+    "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+    "PSYCHOLOGICAL_PROFILES"
   ],
   "token_budget": 336
 }

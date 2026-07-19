@@ -1,12 +1,12 @@
 # Patient Report: sub-0282
 
-**Generated**: 2026-07-18T17:24:08.500950
+**Generated**: 2026-07-19T11:18:30.331436
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 200.000
-- **Probability / Root Confidence**: 85.0%
-- **Confidence**: HIGH
+- **Primary Output**: IST_intelligence_total: 205.000
+- **Probability / Root Confidence**: 65.0%
+- **Confidence**: MEDIUM
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
 
 ## Evaluation
@@ -14,22 +14,22 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[BRAIN_MORPHOMETRY]** All 35 morphometric metrics are within the normal range (z-scores -0.35 to 0.5).
-2. **[BRAIN_MORPHOMETRY]** Right parietal lobe cortical thickness is low (z=-1.50, MODERATE effect).
+1. **[BRAIN_MORPHOMETRY]** Bilateral parietal and occipital cortical thinning (mean z=-1.34, MODERATE effect)
+2. **[BRAIN_MORPHOMETRY]** Cingulate cortex hypertrophy (mean z=+1.02, MODERATE effect)
+3. **[BRAIN_MORPHOMETRY]** Subcortical expansion in striatal/amygdalar regions (mean z=+0.75, SMALL effect)
 
 ## Clinical Summary
-The participant presents with a neuroanatomical profile entirely consistent with the healthy young-adult population mean. All morphometric metrics are within normal limits, and there is no evidence of structural pathology or specific cortical thickness patterns that would suggest a deviation from the mean IST 2000-R score of 200. The prediction is anchored to the population mean due to the absence of informative psychometric or clinical data.
+The participant displays a neuroanatomical profile within normal limits for a healthy young adult. While bilateral thinning in parietal and occipital regions (mean z=-1.34) suggests potential constraints in visuospatial processing, this is offset by robust cingulate and subcortical development (mean z=+0.85), which supports high executive and motivational capacity. The predicted IST-2000R total score is 205, reflecting an average to high-average cognitive performance.
 
 ## Reasoning Chain
-1. Step 1: Analyzed 35 brain morphometry features; all are within normal limits (z-scores between -0.35 and 0.5).
-2. Step 2: Evaluated clinical relevance; no psychiatric or cognitive history provided to suggest deviation from normative cognitive function.
-3. Step 3: Integrated findings; the neuroanatomical profile is consistent with a healthy young-adult population.
-4. Step 4: Applied population mean (200) as the most robust estimate given the lack of specific cognitive or personality markers.
-5. Step 5: Concluded that the absence of significant structural pathology or cognitive-linked morphometric patterns necessitates a regression to the population mean.
+1. Step 1: Analyzed neuroanatomical profile; identified localized posterior cortical thinning (parietal/occipital) which correlates with visuospatial sub-components of intelligence.
+2. Step 2: Identified compensatory hypertrophy in cingulate and subcortical structures, which are linked to executive function and cognitive reserve.
+3. Step 3: Integrated structural findings; the dissociation between reduced perceptual efficiency and preserved executive control suggests a shift in cognitive strategy rather than a global deficit.
+4. Step 4: Estimated IST-2000R total score based on the cohort mean (200) adjusted for the observed structural balance, resulting in a prediction near the population average.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 35,831
+- **Tokens Used**: 46,952
 - **Domains Processed**: BRAIN_MORPHOMETRY

@@ -1,21 +1,21 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:23:49.485502",
+    "timestamp": "2026-07-19T11:18:06.871655",
     "data": {
       "participant_id": "sub-0282",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:23:49.485499"
+      "timestamp": "2026-07-19T11:18:06.871650"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:23:55.627984",
+    "timestamp": "2026-07-19T11:18:13.735295",
     "data": {
       "plan_id": "sub-0282-ist-prediction-001",
-      "total_steps": 4,
+      "total_steps": 5,
       "priority_domains": [
         "BRAIN_MORPHOMETRY"
       ]
@@ -23,7 +23,7 @@
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:24:07.611788",
+    "timestamp": "2026-07-19T11:18:29.695585",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -44,8 +44,8 @@
         "summary": {
           "all_feature_count": 35,
           "processed_feature_count": 35,
-          "unprocessed_raw_feature_count": 35,
-          "processed_raw_low_priority_feature_count": 0,
+          "unprocessed_raw_feature_count": 0,
+          "processed_raw_low_priority_feature_count": 35,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 35,
           "missing_feature_count": 0,
@@ -63,12 +63,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": false,
+        "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 13817,
-          "final_tokens": 13900,
-          "processed_raw_tokens": null,
+          "baseline_tokens": 8239,
+          "final_tokens": 10836,
+          "processed_raw_tokens": 10775,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -76,15 +76,17 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [],
+          "processed_whole_domains": [
+            "BRAIN_MORPHOMETRY"
+          ],
           "processed_prefixes_by_domain": {},
-          "excluded_leaf_counts": {},
-          "unprocessed_leaf_counts": {
+          "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35
           },
+          "unprocessed_leaf_counts": {},
           "all_feature_count": 35,
-          "unprocessed_feature_count": 35,
-          "processed_feature_count": 0,
+          "unprocessed_feature_count": 0,
+          "processed_feature_count": 35,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -104,16 +106,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:24:07.611836",
+    "timestamp": "2026-07-19T11:18:29.695620",
     "data": {
-      "classification": "IST_intelligence_total: 200.000",
-      "probability": 0.85,
+      "classification": "IST_intelligence_total: 205.000",
+      "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:24:08.499572",
+    "timestamp": "2026-07-19T11:18:30.329777",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

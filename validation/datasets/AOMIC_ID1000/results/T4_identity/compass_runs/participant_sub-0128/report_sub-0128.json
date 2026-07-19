@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0128_20260718_171731",
+  "report_id": "RPT_sub-0128_20260719_111151",
   "participant_id": "sub-0128",
-  "generated_at": "2026-07-18T17:17:31.864906",
+  "generated_at": "2026-07-19T11:11:51.505679",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 209.080",
+    "primary_output": "IST_intelligence_total: 207.210",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 209.08
+          "IST_intelligence_total": 207.21
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergent personality and motivational signals (mean |z| > 1.3)."
+        "Consistent positive psychological markers across multiple domains."
       ],
       "supporting_evidence_against": [
-        "Indirect nature of behavioral proxies."
+        "Indirect nature of the input features."
       ],
       "uncertainty_factors": [
-        "Lack of direct cognitive testing data."
+        "Lack of direct cognitive performance data."
       ],
       "children": []
     }
@@ -63,29 +63,34 @@
   },
   "key_findings": [
     {
-      "domain": "PERSONALITY",
+      "domain": "PSYCHOLOGICAL_PROFILES",
       "finding": "High extraversion (z=1.64, 95th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "High reinforcement sensitivity (mean z=1.50, 93rd percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "High BAS drive and reward responsiveness (z=1.50, 93rd percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Low neuroticism (z=-1.07, 14th percentile, SMALL effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low neuroticism and trait anxiety (z=-1.07, 14th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "High education level (z=0.95, 83rd percentile, SMALL effect)",
+      "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed personality and motivational traits as proxies for cognitive performance in the absence of direct IST subscale scores.",
-    "Step 2: Identified convergent positive signals from high extraversion (z=1.64) and high reinforcement sensitivity (z=1.50).",
-    "Step 3: Factored in low neuroticism (z=-1.07) and high education level (z=0.95) as protective/supportive factors for cognitive test performance.",
-    "Step 4: Calculated the estimated score using the mean z-score of the identified traits (0.227) relative to the population mean of 200 and SD of 40.",
-    "Step 5: Final estimate derived as 200 + (0.227 * 40) = 209.08."
+    "Step 1: Analyzed demographic and psychological profiles to identify latent cognitive markers.",
+    "Step 2: Identified strong convergence between high extraversion, high BAS drive, and low trait anxiety, which collectively optimize cognitive test-taking performance.",
+    "Step 3: Integrated high education level as a secondary positive indicator for crystallized reasoning capacity.",
+    "Step 4: Applied linear transformation based on cohort mean (200) and standard deviation (40) to estimate the IST-2000R total score.",
+    "Step 5: Synthesized findings to arrive at a predicted score of 207.21, reflecting the participant's favorable psychological and demographic profile."
   ],
-  "clinical_summary": "Participant sub-0128 exhibits a high-functioning, approach-oriented personality profile characterized by high extraversion and reinforcement sensitivity, coupled with low neuroticism. These traits, alongside a high education level, suggest strong cognitive engagement and emotional stability, which are positively associated with performance on the IST 2000-R. The estimated total intelligence score is 209.08, placing the participant slightly above the cohort mean.",
+  "clinical_summary": "Participant sub-0128 exhibits a highly favorable psychological and demographic profile for cognitive performance. The combination of high approach-oriented motivation (BAS drive/reward responsiveness), high extraversion, and low trait anxiety suggests an individual who is well-equipped to engage persistently and effectively with the demands of the IST 2000-R. Supported by a high education level, the participant is predicted to perform above the cohort mean, with minimal affective interference.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -143,9 +148,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 10040,
-          "final_tokens": 10843,
-          "processed_raw_tokens": 10782,
+          "baseline_tokens": 9761,
+          "final_tokens": 10573,
+          "processed_raw_tokens": 10512,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -154,23 +159,15 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "PSYCHOLOGICAL_PROFILES"
           ],
-          "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
-              [
-                "anxiety_traits"
-              ]
-            ]
-          },
+          "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
+            "PSYCHOLOGICAL_PROFILES": 10
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 23,
           "unprocessed_feature_count": 13,
@@ -191,12 +188,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 37631,
+    "tokens_used": 35023,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "IDENTITY_AND_BELIEFS"
     ],
     "detailed_logs": []
   },
@@ -205,23 +201,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF",
-      "output_summary": "Generated 6-step plan",
-      "reasoning": "The plan prioritizes psychological and demographic domains as requested. It uses parallel early-stage tools to define the phenotype and synthesize features, followed by compression and narrative fusion to prepare the data for a final regression calculation via CodeExecutor.",
-      "timestamp": "2026-07-18T17:17:17.411603",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize structural synthesis over aggressive compression. We use early-stage tools to define the cognitive phenotype and synthesize feature importance, then use the UnimodalCompressor to extract latent patterns from psychological profiles before final regression analysis.",
+      "timestamp": "2026-07-19T11:11:40.141571",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: High extraversion (z=1.64, 95th percentile, MODERATE effect), High reinforcement sensitivity (mean z=1.50, 93rd percentile, MODERATE effect), Low neuroticism (z=-1.07, 14th percentile, SMALL effect)...",
-      "output_summary": "IST_intelligence_total: 209.080 (confidence=0.650)",
-      "reasoning": "Participant sub-0128 exhibits a high-functioning, approach-oriented personality profile characterized by high extraversion and reinforcement sensitivity, coupled with low neuroticism. These traits, alongside a high education level, suggest strong cognitive engagement and emotional stability, which are positively associated with performance on the IST 2000-R. The estimated total intelligence score is 209.08, placing the participant slightly above the cohort mean.",
-      "timestamp": "2026-07-18T17:17:31.331114",
+      "input_summary": "Key findings: High extraversion (z=1.64, 95th percentile, MODERATE effect), High BAS drive and reward responsiveness (z=1.50, 93rd percentile, MODERATE effect), Low neuroticism and trait anxiety (z=-1.07, 14th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 207.210 (confidence=0.650)",
+      "reasoning": "Participant sub-0128 exhibits a highly favorable psychological and demographic profile for cognitive performance. The combination of high approach-oriented motivation (BAS drive/reward responsiveness), high extraversion, and low trait anxiety suggests an individual who is well-equipped to engage persistently and effectively with the demands of the IST 2000-R. Supported by a high education level, the participant is predicted to perform above the cohort mean, with minimal affective interference.",
+      "timestamp": "2026-07-19T11:11:50.958676",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 209.080"
+        "classification": "IST_intelligence_total: 207.210"
       }
     },
     {
@@ -231,7 +227,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:17:31.863892",
+      "timestamp": "2026-07-19T11:11:51.505207",
       "metadata": {}
     }
   ]

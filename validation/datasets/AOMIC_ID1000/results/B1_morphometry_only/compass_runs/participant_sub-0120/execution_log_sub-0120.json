@@ -1,18 +1,18 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:22:56.819690",
+    "timestamp": "2026-07-19T11:17:19.472713",
     "data": {
       "participant_id": "sub-0120",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:22:56.819683"
+      "timestamp": "2026-07-19T11:17:19.472701"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:23:03.116224",
+    "timestamp": "2026-07-19T11:17:22.945158",
     "data": {
       "plan_id": "sub-0120-ist-prediction-001",
       "total_steps": 5,
@@ -23,7 +23,7 @@
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:23:17.020491",
+    "timestamp": "2026-07-19T11:17:35.068849",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -66,9 +66,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 7807,
-          "final_tokens": 10398,
-          "processed_raw_tokens": 10337,
+          "baseline_tokens": 8851,
+          "final_tokens": 11448,
+          "processed_raw_tokens": 11387,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -106,16 +106,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:23:17.020540",
+    "timestamp": "2026-07-19T11:17:35.068892",
     "data": {
-      "classification": "IST_intelligence_total: 218.000",
+      "classification": "IST_intelligence_total: 200.000",
       "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:23:17.664442",
+    "timestamp": "2026-07-19T11:17:35.921873",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0282_20260718_171816",
+  "report_id": "RPT_sub-0282_20260719_111233",
   "participant_id": "sub-0282",
-  "generated_at": "2026-07-18T17:18:16.675000",
+  "generated_at": "2026-07-19T11:12:33.808610",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 165.000",
+    "primary_output": "IST_intelligence_total: 209.110",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 165.0
+          "IST_intelligence_total": 209.11
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergence of low education level and low openness."
+        "Regression estimate derived from weighted integration of demographic and personality proxies."
       ],
       "supporting_evidence_against": [
-        "Absence of clinical cognitive impairment."
+        "Lack of direct cognitive performance data limits precision."
       ],
       "uncertainty_factors": [
-        "Inference based on psychosocial proxies rather than direct cognitive testing."
+        "Indirect nature of features used for regression."
       ],
       "children": []
     }
@@ -63,28 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Education level is significantly below cohort mean (z=-2.11, 2nd percentile, LARGE effect).",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Education level is very low (z=-2.11, <1st percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Openness (NEO-FFI) is notably low (z=-1.09, 14th percentile, MODERATE effect).",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Openness (NEO-FFI) is low (z=-1.09, 14th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Body mass index is low (z=-1.57, 6th percentile, MODERATE effect).",
-      "direction": "ABNORMAL_LOW"
+      "domain": "IDENTITY_AND_BELIEFS",
+      "finding": "Currently religious is high (z=+1.93, 97th percentile, MODERATE effect)",
+      "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Identified primary negative predictors for IST-2000R performance, specifically low education level (z=-2.11) and low openness (z=-1.09).",
-    "Step 2: Evaluated secondary indicators, including low BMI (z=-1.57) and high religiosity (z=1.93), which collectively suggest a profile less aligned with high-performance cognitive testing outcomes.",
-    "Step 3: Integrated personality and demographic data to estimate the composite score relative to the cohort mean of 200 (SD=40).",
-    "Step 4: Applied a downward adjustment from the mean based on the convergence of multiple negative indicators, resulting in an estimated score of 165."
+    "Step 1: Analyzed demographic and personality features as proxies for cognitive ability in the absence of direct IST subscale data.",
+    "Step 2: Identified education level (z=-2.11) as the primary downward pressure on the predicted score.",
+    "Step 3: Integrated personality traits, specifically low Openness (z=-1.09), which correlates with lower fluid reasoning performance.",
+    "Step 4: Balanced these negative indicators against the participant's young age and high religiosity, which suggest a stable, conventional cognitive profile.",
+    "Step 5: Applied linear transformation based on cohort mean (200) and SD (40) to derive a regression estimate of 209.11, adjusted for the observed feature profile."
   ],
-  "clinical_summary": "The participant's profile is characterized by significant deviations in factors known to correlate with cognitive assessment performance. The most critical findings are the very low education level (z=-2.11) and low openness (z=-1.09), both of which are robust predictors of lower composite intelligence scores in young adults. These structural demographic limitations are compounded by a personality profile that lacks the intellectual engagement typical of high scorers on the IST-2000R. The predicted IST-2000R score is estimated at 165, which is approximately 0.875 SD below the cohort mean.",
+  "clinical_summary": "The participant (sub-0282) exhibits a cognitive profile characterized by significant negative deviations in educational attainment and Openness to Experience. While these factors suggest a lower-than-average performance on standardized intelligence tests, the participant's overall profile remains within the normal range for this young-adult cohort. The predicted IST 2000-R total score is 209.11, reflecting a balance between demographic constraints and the baseline population mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -92,8 +93,8 @@
     "coverage_summary": {
       "all_feature_count": 23,
       "processed_feature_count": 23,
-      "unprocessed_raw_feature_count": 13,
-      "processed_raw_low_priority_feature_count": 10,
+      "unprocessed_raw_feature_count": 23,
+      "processed_raw_low_priority_feature_count": 0,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 23,
       "missing_feature_count": 0,
@@ -120,8 +121,8 @@
         "summary": {
           "all_feature_count": 23,
           "processed_feature_count": 23,
-          "unprocessed_raw_feature_count": 13,
-          "processed_raw_low_priority_feature_count": 10,
+          "unprocessed_raw_feature_count": 23,
+          "processed_raw_low_priority_feature_count": 0,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 23,
           "missing_feature_count": 0,
@@ -139,12 +140,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": true,
+        "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 9927,
-          "final_tokens": 10730,
-          "processed_raw_tokens": 10669,
+          "baseline_tokens": 11606,
+          "final_tokens": 11689,
+          "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -152,28 +153,17 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
-          ],
-          "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
-              [
-                "anxiety_traits"
-              ]
-            ]
-          },
-          "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
-          },
+          "processed_whole_domains": [],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 23,
-          "unprocessed_feature_count": 13,
-          "processed_feature_count": 10,
+          "unprocessed_feature_count": 23,
+          "processed_feature_count": 0,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -190,12 +180,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 46151,
+    "tokens_used": 39507,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "IDENTITY_AND_BELIEFS"
     ],
     "detailed_logs": []
   },
@@ -204,23 +193,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF",
-      "output_summary": "Generated 6-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify key psychological drivers of cognitive performance. We use UnimodalCompressor to extract latent patterns from personality and motivation domains, then fuse them with identity and demographic data to generate a final regression estimate.",
-      "timestamp": "2026-07-18T17:18:00.720916",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize analytical synthesis over aggressive compression. We will first define the cognitive phenotype, synthesize feature importance from existing deviations, and then integrate these into a final regression model.",
+      "timestamp": "2026-07-19T11:12:18.718205",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Education level is significantly below cohort mean (z=-2.11, 2nd percentile, LARGE effect)., Openness (NEO-FFI) is notably low (z=-1.09, 14th percentile, MODERATE effect)., Body mass index is low (z=-1.57, 6th percentile, MODERATE effect)....",
-      "output_summary": "IST_intelligence_total: 165.000 (confidence=0.650)",
-      "reasoning": "The participant's profile is characterized by significant deviations in factors known to correlate with cognitive assessment performance. The most critical findings are the very low education level (z=-2.11) and low openness (z=-1.09), both of which are robust predictors of lower composite intelligence scores in young adults. These structural demographic limitations are compounded by a personality profile that lacks the intellectual engagement typical of high scorers on the IST-2000R. The predic",
-      "timestamp": "2026-07-18T17:18:16.089512",
+      "input_summary": "Key findings: Education level is very low (z=-2.11, <1st percentile, LARGE effect), Openness (NEO-FFI) is low (z=-1.09, 14th percentile, MODERATE effect), Currently religious is high (z=+1.93, 97th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 209.110 (confidence=0.650)",
+      "reasoning": "The participant (sub-0282) exhibits a cognitive profile characterized by significant negative deviations in educational attainment and Openness to Experience. While these factors suggest a lower-than-average performance on standardized intelligence tests, the participant's overall profile remains within the normal range for this young-adult cohort. The predicted IST 2000-R total score is 209.11, reflecting a balance between demographic constraints and the baseline population mean.",
+      "timestamp": "2026-07-19T11:12:32.845866",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 165.000"
+        "classification": "IST_intelligence_total: 209.110"
       }
     },
     {
@@ -230,7 +219,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:18:16.674167",
+      "timestamp": "2026-07-19T11:12:33.808341",
       "metadata": {}
     }
   ]

@@ -1,15 +1,15 @@
 {
-  "report_id": "RPT_sub-0153_20260718_172201",
+  "report_id": "RPT_sub-0153_20260719_111623",
   "participant_id": "sub-0153",
-  "generated_at": "2026-07-18T17:22:01.416722",
+  "generated_at": "2026-07-19T11:16:23.861007",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 225.000",
-    "probability": 0.75,
+    "primary_output": "IST_intelligence_total: 208.000",
+    "probability": 0.65,
     "binary_probability": null,
-    "root_confidence": 0.75,
+    "root_confidence": 0.65,
     "confidence": "MEDIUM",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
@@ -36,23 +36,21 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 225.0
+          "IST_intelligence_total": 208.0
         }
       },
       "confidence_level": "MEDIUM",
-      "confidence_score": 0.75,
+      "confidence_score": 0.65,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "High cortical thickness and SES provide strong structural foundation.",
-        "High-order network connectivity supports efficient processing."
+        "Strong positive socioeconomic and structural brain markers."
       ],
       "supporting_evidence_against": [
-        "Personality traits suggest lower-than-optimal test engagement.",
-        "Functional decoupling in executive networks may limit peak performance."
+        "Negative personality and motivational markers dampen potential."
       ],
       "uncertainty_factors": [
-        "Discrepancy between structural potential and behavioral engagement."
+        "Indirect estimation method."
       ],
       "children": []
     }
@@ -65,43 +63,43 @@
   },
   "key_findings": [
     {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Enhanced cortical thickness (mean z=1.42, 92nd percentile, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "High socioeconomic status (z=1.67, 95th percentile, LARGE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Decoupling of Salience and Frontoparietal networks (z=-1.43, 8th percentile, MODERATE effect)",
-      "direction": "ABNORMAL_LOW"
-    },
-    {
-      "domain": "PERSONALITY",
+      "domain": "PSYCHOLOGICAL_PROFILES",
       "finding": "Low Openness (z=-1.25, 11th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS",
-      "finding": "High background socio-economic status (z=1.67, 95th percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low BAS fun-seeking (z=-1.77, 4th percentile, LARGE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "BRAIN_MORPHOMETRY",
+      "finding": "High cortical thickness (z=1.02, 85th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Identified strong structural neurobiological markers (cortical thickness z=1.42) and high SES (z=1.67) as primary positive predictors for intelligence.",
-    "Step 2: Evaluated personality and motivational constraints, specifically low Openness (z=-1.25) and low BAS fun-seeking (z=-1.77), which suggest reduced engagement in exploratory cognitive tasks.",
-    "Step 3: Integrated connectome findings showing high within-network coherence but significant functional decoupling between Salience and Frontoparietal control networks (z=-1.43), indicating potential executive efficiency bottlenecks.",
-    "Step 4: Synthesized the high structural capacity with the moderate behavioral/motivational constraints to project an IST score above the cohort mean (200) but below the extreme upper bound.",
-    "Step 5: Estimated the final IST-2000-R total score at 225, reflecting a high-average cognitive profile."
+    "Step 1: Analyzed demographic and socioeconomic anchors, identifying high SES as a strong positive driver for intelligence.",
+    "Step 2: Evaluated brain morphometry, noting high cortical thickness as a structural support for cognitive potential.",
+    "Step 3: Integrated psychological profiles, identifying significant negative deviations in Openness and BAS fun-seeking as dampening factors for fluid intelligence.",
+    "Step 4: Synthesized the conflicting signals (positive structural/SES vs. negative personality/motivational) to estimate a score slightly above the cohort mean.",
+    "Step 5: Calculated the final regression value based on the weighted influence of these features."
   ],
-  "clinical_summary": "Participant sub-0153 exhibits a robust neurobiological substrate for high cognitive performance, characterized by significant cortical thickening and high socioeconomic status. These positive indicators are tempered by a personality profile (low Openness, low Conscientiousness) and functional connectome bottlenecks (Salience-Frontoparietal decoupling) that likely constrain the translation of structural capacity into maximum standardized test performance. The estimated IST-2000-R score of 225 reflects a high-average cognitive ability.",
+  "clinical_summary": "The participant exhibits a complex profile with strong structural and socioeconomic indicators of high cognitive potential, tempered by personality traits (low Openness, low BAS fun-seeking) that may reduce engagement in fluid reasoning tasks. The estimated IST 2000-R total score is 208, reflecting a balance between high structural capacity and lower motivational drive.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
     "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
     "coverage_summary": {
       "all_feature_count": 86,
-      "processed_feature_count": 80,
-      "unprocessed_raw_feature_count": 23,
-      "processed_raw_low_priority_feature_count": 63,
+      "processed_feature_count": 23,
+      "unprocessed_raw_feature_count": 69,
+      "processed_raw_low_priority_feature_count": 17,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 86,
       "missing_feature_count": 0,
@@ -127,9 +125,9 @@
       "coverage": {
         "summary": {
           "all_feature_count": 86,
-          "processed_feature_count": 80,
-          "unprocessed_raw_feature_count": 23,
-          "processed_raw_low_priority_feature_count": 63,
+          "processed_feature_count": 23,
+          "unprocessed_raw_feature_count": 69,
+          "processed_raw_low_priority_feature_count": 17,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 86,
           "missing_feature_count": 0,
@@ -150,9 +148,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 22031,
-          "final_tokens": 26649,
-          "processed_raw_tokens": 26588,
+          "baseline_tokens": 24637,
+          "final_tokens": 25948,
+          "processed_raw_tokens": 25887,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -161,23 +159,22 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "BRAIN_MORPHOMETRY": 35,
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "all_feature_count": 86,
-          "unprocessed_feature_count": 23,
-          "processed_feature_count": 63,
+          "unprocessed_feature_count": 69,
+          "processed_feature_count": 17,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -194,12 +191,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 74352,
+    "tokens_used": 49860,
     "domains_processed": [
-      "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "PSYCHOLOGICAL_PROFILES",
+      "IDENTITY_AND_BELIEFS",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -208,23 +204,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME, PERSONALITY, MOTIVATION_AND_AFFECT",
-      "output_summary": "Generated 7-step plan",
-      "reasoning": "The plan prioritizes brain and behavioral domains as primary predictors for intelligence. We use early-stage tools to define the phenotype and synthesize feature importance, followed by targeted compression of high-volume brain data to ensure the final prediction agent receives high-fidelity, pattern-rich summaries.",
-      "timestamp": "2026-07-18T17:21:46.024801",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, IDENTITY_AND_BELIEFS, DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "output_summary": "Generated 6-step plan",
+      "reasoning": "Since IST subscale scores are absent, the plan focuses on extracting predictive patterns from psychological and identity domains. We use FeatureSynthesizer to prioritize relevant traits and UnimodalCompressor to distill behavioral patterns, culminating in a regression-based prediction.",
+      "timestamp": "2026-07-19T11:16:07.150926",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Enhanced cortical thickness (mean z=1.42, 92nd percentile, MODERATE effect), Decoupling of Salience and Frontoparietal networks (z=-1.43, 8th percentile, MODERATE effect), Low Openness (z=-1.25, 11th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 225.000 (confidence=0.750)",
-      "reasoning": "Participant sub-0153 exhibits a robust neurobiological substrate for high cognitive performance, characterized by significant cortical thickening and high socioeconomic status. These positive indicators are tempered by a personality profile (low Openness, low Conscientiousness) and functional connectome bottlenecks (Salience-Frontoparietal decoupling) that likely constrain the translation of structural capacity into maximum standardized test performance. The estimated IST-2000-R score of 225 ref",
-      "timestamp": "2026-07-18T17:22:00.312084",
+      "input_summary": "Key findings: High socioeconomic status (z=1.67, 95th percentile, LARGE effect), Low Openness (z=-1.25, 11th percentile, MODERATE effect), Low BAS fun-seeking (z=-1.77, 4th percentile, LARGE effect)...",
+      "output_summary": "IST_intelligence_total: 208.000 (confidence=0.650)",
+      "reasoning": "The participant exhibits a complex profile with strong structural and socioeconomic indicators of high cognitive potential, tempered by personality traits (low Openness, low BAS fun-seeking) that may reduce engagement in fluid reasoning tasks. The estimated IST 2000-R total score is 208, reflecting a balance between high structural capacity and lower motivational drive.",
+      "timestamp": "2026-07-19T11:16:22.916990",
       "metadata": {
-        "probability": 0.75,
-        "classification": "IST_intelligence_total: 225.000"
+        "probability": 0.65,
+        "classification": "IST_intelligence_total: 208.000"
       }
     },
     {
@@ -233,8 +229,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.67; fallback_used=False.",
-      "timestamp": "2026-07-18T17:22:01.415546",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
+      "timestamp": "2026-07-19T11:16:23.860251",
       "metadata": {}
     }
   ]

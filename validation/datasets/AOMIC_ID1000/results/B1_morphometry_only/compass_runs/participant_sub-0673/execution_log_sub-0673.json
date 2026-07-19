@@ -1,21 +1,21 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:24:26.599909",
+    "timestamp": "2026-07-19T11:18:48.245966",
     "data": {
       "participant_id": "sub-0673",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:24:26.599904"
+      "timestamp": "2026-07-19T11:18:48.245960"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:24:32.941543",
+    "timestamp": "2026-07-19T11:18:51.112185",
     "data": {
       "plan_id": "sub-0673-ist-prediction-001",
-      "total_steps": 4,
+      "total_steps": 5,
       "priority_domains": [
         "BRAIN_MORPHOMETRY"
       ]
@@ -23,7 +23,7 @@
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:24:45.719523",
+    "timestamp": "2026-07-19T11:19:02.275213",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -66,9 +66,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 7481,
-          "final_tokens": 10072,
-          "processed_raw_tokens": 10011,
+          "baseline_tokens": 6746,
+          "final_tokens": 9343,
+          "processed_raw_tokens": 9282,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -106,16 +106,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:24:45.719572",
+    "timestamp": "2026-07-19T11:19:02.275256",
     "data": {
-      "classification": "IST_intelligence_total: 250.000",
+      "classification": "IST_intelligence_total: 233.750",
       "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:24:46.581881",
+    "timestamp": "2026-07-19T11:19:02.908477",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

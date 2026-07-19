@@ -28,16 +28,16 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:23:49.483708",
-  "total_duration_seconds": 19.02,
+  "execution_timestamp": "2026-07-19T11:18:06.868220",
+  "total_duration_seconds": 23.47,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
   "coverage_summary": {
     "all_feature_count": 35,
     "processed_feature_count": 35,
-    "unprocessed_raw_feature_count": 35,
-    "processed_raw_low_priority_feature_count": 0,
+    "unprocessed_raw_feature_count": 0,
+    "processed_raw_low_priority_feature_count": 35,
     "chunk_cited_feature_count": 0,
     "represented_feature_count": 35,
     "missing_feature_count": 0,
@@ -64,8 +64,8 @@
       "summary": {
         "all_feature_count": 35,
         "processed_feature_count": 35,
-        "unprocessed_raw_feature_count": 35,
-        "processed_raw_low_priority_feature_count": 0,
+        "unprocessed_raw_feature_count": 0,
+        "processed_raw_low_priority_feature_count": 35,
         "chunk_cited_feature_count": 0,
         "represented_feature_count": 35,
         "missing_feature_count": 0,
@@ -83,12 +83,12 @@
       "chunking_reason": "payload_fit_excluding_processed_raw"
     },
     "context_fill": {
-      "processed_raw_full_included": false,
+      "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 13817,
-        "final_tokens": 13900,
-        "processed_raw_tokens": null,
+        "baseline_tokens": 8239,
+        "final_tokens": 10836,
+        "processed_raw_tokens": 10775,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -96,15 +96,17 @@
         "runtime_instruction_applied": true
       },
       "coverage_snapshot": {
-        "processed_whole_domains": [],
+        "processed_whole_domains": [
+          "BRAIN_MORPHOMETRY"
+        ],
         "processed_prefixes_by_domain": {},
-        "excluded_leaf_counts": {},
-        "unprocessed_leaf_counts": {
+        "excluded_leaf_counts": {
           "BRAIN_MORPHOMETRY": 35
         },
+        "unprocessed_leaf_counts": {},
         "all_feature_count": 35,
-        "unprocessed_feature_count": 35,
-        "processed_feature_count": 0,
+        "unprocessed_feature_count": 0,
+        "processed_feature_count": 35,
         "missing_feature_count": 0
       },
       "embedding_store": {
@@ -122,10 +124,10 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 200.000",
+    "classification": "IST_intelligence_total: 205.000",
     "probability": null,
-    "root_confidence": 0.85,
-    "confidence": "HIGH",
+    "root_confidence": 0.65,
+    "confidence": "MEDIUM",
     "primary_output_kind": "regression",
     "root_prediction": {
       "node_id": "root",
@@ -134,94 +136,103 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 200.0
+          "IST_intelligence_total": 205.0
         }
       },
-      "confidence_level": "HIGH",
-      "confidence_score": 0.85,
+      "confidence_level": "MEDIUM",
+      "confidence_score": 0.65,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Population mean for healthy young-adult cohort is 200.",
-        "All 35 morphometric features are within normal range."
+        "Structural profile consistent with healthy young adult cohort.",
+        "Compensatory executive network development balances perceptual thinning."
       ],
       "supporting_evidence_against": [
-        "None; the evidence profile is consistent with a population mean estimate."
+        "Localized cortical thinning in posterior regions.",
+        "Inference based on structural proxies rather than direct cognitive testing."
       ],
       "uncertainty_factors": [
-        "Absence of Big Five personality data.",
-        "Lack of educational attainment history."
+        "No cognitive subscale data provided.",
+        "Structural-to-functional mapping for intelligence is inherently noisy."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 35831,
-    "prompt_tokens": 30853,
-    "completion_tokens": 4978,
+    "total_tokens": 46952,
+    "prompt_tokens": 40905,
+    "completion_tokens": 6047,
     "calls": [
       {
         "component": "orchestrator",
         "prompt_tokens": 4639,
-        "completion_tokens": 877,
-        "total": 5516,
+        "completion_tokens": 973,
+        "total": 5612,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "orchestrator",
         "prompt_tokens": 4683,
-        "completion_tokens": 763,
-        "total": 5446,
+        "completion_tokens": 936,
+        "total": 5619,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1322,
-        "completion_tokens": 453,
-        "total": 1775,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which morphometric features are most relevant for predicting cognitive performance."
-      },
-      {
-        "component": "executor",
         "prompt_tokens": 1270,
-        "completion_tokens": 741,
-        "total": 2011,
+        "completion_tokens": 635,
+        "total": 1905,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria and cognitive domains associated with the IST 2000-R test."
+        "step_reasoning": "Establishes the clinical criteria for intelligence estimation."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1228,
-        "completion_tokens": 455,
-        "total": 1683,
-        "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Refines the feature set to focus on structural markers known to correlate with cognitive capacity."
+        "prompt_tokens": 1326,
+        "completion_tokens": 496,
+        "total": 1822,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Identifies which brain regions are most relevant for cognitive prediction."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2222,
-        "completion_tokens": 811,
-        "total": 3033,
+        "prompt_tokens": 4584,
+        "completion_tokens": 644,
+        "total": 5228,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Extracts structural patterns relevant to cognitive performance."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 5112,
+        "completion_tokens": 552,
+        "total": 5664,
+        "step_tool": "MultimodalNarrativeCreator",
+        "step_reasoning": "Combines structural brain data with lifestyle/clinical context for a holistic view."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 2248,
+        "completion_tokens": 837,
+        "total": 3085,
         "step_tool": "DifferentialDiagnosis",
-        "step_reasoning": "Final integration of phenotype definitions and ranked morphometric features to estimate the target score."
+        "step_reasoning": "Synthesizes all findings to provide the final quantitative prediction."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 15307,
-        "completion_tokens": 845,
-        "total": 16152,
+        "prompt_tokens": 16859,
+        "completion_tokens": 940,
+        "total": 17799,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 182,
-        "completion_tokens": 33,
-        "total": 215,
+        "prompt_tokens": 184,
+        "completion_tokens": 34,
+        "total": 218,
         "step_tool": null,
         "step_reasoning": null
       }
@@ -229,7 +240,7 @@
   },
   "plan_summary": {
     "plan_id": "sub-0282-ist-prediction-001",
-    "total_steps": 4,
+    "total_steps": 5,
     "priority_domains": [
       "BRAIN_MORPHOMETRY"
     ]

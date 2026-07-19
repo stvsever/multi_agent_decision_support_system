@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:14:34.004826",
-  "total_duration_seconds": 14.98,
+  "execution_timestamp": "2026-07-19T11:08:45.815521",
+  "total_duration_seconds": 17.86,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,8 +86,8 @@
       "processed_raw_full_included": false,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 6194,
-        "final_tokens": 6277,
+        "baseline_tokens": 6860,
+        "final_tokens": 6943,
         "processed_raw_tokens": null,
         "single_chunk_limit": 30000,
         "threshold": 943718,
@@ -100,8 +100,8 @@
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {},
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "PERSONALITY": 5
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+          "PSYCHOLOGICAL_PROFILES": 5
         },
         "all_feature_count": 11,
         "unprocessed_feature_count": 11,
@@ -123,9 +123,9 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 191.910",
+    "classification": "IST_intelligence_total: 195.500",
     "probability": null,
-    "root_confidence": 0.65,
+    "root_confidence": 0.55,
     "confidence": "MEDIUM",
     "primary_output_kind": "regression",
     "root_prediction": {
@@ -135,95 +135,103 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 191.91
+          "IST_intelligence_total": 195.5
         }
       },
       "confidence_level": "MEDIUM",
-      "confidence_score": 0.65,
+      "confidence_score": 0.55,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent negative trends in socioeconomic and physical attributes."
+        "Regression estimate derived from mean z-score adjustment of cohort baseline."
       ],
       "supporting_evidence_against": [
-        "Weak positive signals from personality domain."
+        "Limited predictive power of personality traits for g-factor intelligence."
       ],
       "uncertainty_factors": [
-        "Indirect nature of features used for cognitive estimation."
+        "Lack of direct cognitive performance data."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 24522,
-    "prompt_tokens": 20617,
-    "completion_tokens": 3905,
+    "total_tokens": 31129,
+    "prompt_tokens": 26655,
+    "completion_tokens": 4474,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4664,
-        "completion_tokens": 872,
-        "total": 5536,
+        "prompt_tokens": 4668,
+        "completion_tokens": 820,
+        "total": 5488,
+        "step_tool": null,
+        "step_reasoning": null
+      },
+      {
+        "component": "orchestrator",
+        "prompt_tokens": 4712,
+        "completion_tokens": 803,
+        "total": 5515,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1501,
-        "completion_tokens": 564,
-        "total": 2065,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which demographic and personality features are most predictive of cognitive variance."
-      },
-      {
-        "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 803,
-        "total": 2071,
+        "completion_tokens": 594,
+        "total": 1862,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria and search template for intelligence-related biomarkers and traits."
+        "step_reasoning": "Establishes the criteria for intelligence-related biomarkers and behavioral indicators."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1496,
-        "completion_tokens": 521,
-        "total": 2017,
-        "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Refines the feature set to focus on variables most strongly correlated with intelligence."
+        "prompt_tokens": 1445,
+        "completion_tokens": 573,
+        "total": 2018,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Identifies which demographic and psychological variables are most predictive of intelligence scores."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1080,
-        "completion_tokens": 200,
-        "total": 1280,
+        "prompt_tokens": 2668,
+        "completion_tokens": 542,
+        "total": 3210,
+        "step_tool": "MultimodalNarrativeCreator",
+        "step_reasoning": "Integrates disparate data points into a narrative that supports the regression task."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1047,
+        "completion_tokens": 210,
+        "total": 1257,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Calculates the final quantitative intelligence estimate using the prioritized features."
+        "step_reasoning": "Uses the synthesized features and narrative to perform the final univariate regression prediction."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 10424,
-        "completion_tokens": 906,
-        "total": 11330,
+        "prompt_tokens": 10663,
+        "completion_tokens": 898,
+        "total": 11561,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
         "prompt_tokens": 184,
-        "completion_tokens": 39,
-        "total": 223,
+        "completion_tokens": 34,
+        "total": 218,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_PRED_0498_001",
+    "plan_id": "sub-0498-intelligence-prediction-001",
     "total_steps": 4,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ]
   },
   "explainability": {

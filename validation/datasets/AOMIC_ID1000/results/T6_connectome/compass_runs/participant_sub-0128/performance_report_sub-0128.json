@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:21:10.584927",
-  "total_duration_seconds": 28.28,
+  "execution_timestamp": "2026-07-19T11:15:42.823103",
+  "total_duration_seconds": 20.68,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 20093,
-        "final_tokens": 24711,
-        "processed_raw_tokens": 24650,
+        "baseline_tokens": 18334,
+        "final_tokens": 22958,
+        "processed_raw_tokens": 22897,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,19 +97,18 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "BRAIN_CONNECTOME",
-          "BRAIN_MORPHOMETRY"
+          "BRAIN_MORPHOMETRY",
+          "FUNCTIONAL_CONNECTOME"
         ],
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {
           "BRAIN_MORPHOMETRY": 35,
-          "BRAIN_CONNECTOME": 28
+          "FUNCTIONAL_CONNECTOME": 28
         },
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5,
-          "IDENTITY_AND_BELIEF": 7
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+          "PSYCHOLOGICAL_PROFILES": 10,
+          "IDENTITY_AND_BELIEFS": 7
         },
         "all_feature_count": 86,
         "unprocessed_feature_count": 23,
@@ -131,7 +130,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 245.000",
+    "classification": "IST_intelligence_total: 213.760",
     "probability": null,
     "root_confidence": 0.85,
     "confidence": "HIGH",
@@ -143,7 +142,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 245.0
+          "IST_intelligence_total": 213.76
         }
       },
       "confidence_level": "HIGH",
@@ -151,113 +150,113 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent positive deviations across structural brain measures and motivational traits."
+        "Consistent positive structural deviations across multiple brain regions.",
+        "Personality traits (Extraversion, BAS) align with high-functioning cognitive engagement."
       ],
       "supporting_evidence_against": [
-        "Connectome decoupling of executive networks."
+        "Functional connectome decoupling in attentional networks may limit peak performance."
       ],
       "uncertainty_factors": [
-        "Reliance on proxy features rather than direct cognitive testing."
+        "Inference based on proxies rather than direct cognitive performance data."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 70875,
-    "prompt_tokens": 63927,
-    "completion_tokens": 6948,
+    "total_tokens": 68091,
+    "prompt_tokens": 61455,
+    "completion_tokens": 6636,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4773,
-        "completion_tokens": 1039,
-        "total": 5812,
+        "prompt_tokens": 4755,
+        "completion_tokens": 965,
+        "total": 5720,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "orchestrator",
-        "prompt_tokens": 4813,
-        "completion_tokens": 1144,
-        "total": 5957,
+        "prompt_tokens": 4797,
+        "completion_tokens": 1049,
+        "total": 5846,
         "step_tool": null,
         "step_reasoning": null
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 2631,
-        "completion_tokens": 558,
-        "total": 3189,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which brain regions and behavioral traits are most relevant for intelligence prediction."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 4573,
-        "completion_tokens": 657,
-        "total": 5230,
-        "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Reduces high-dimensional morphometric data into a summary of cortical/subcortical patterns."
       },
       {
         "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 679,
-        "total": 1947,
+        "completion_tokens": 581,
+        "total": 1849,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical benchmark for intelligence-related biomarkers."
+        "step_reasoning": "Establishes the clinical search criteria for intelligence-related biomarkers and traits."
       },
       {
         "component": "executor",
-        "prompt_tokens": 4099,
-        "completion_tokens": 784,
-        "total": 4883,
+        "prompt_tokens": 2483,
+        "completion_tokens": 480,
+        "total": 2963,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Identifies which brain and psychological features are most relevant for intelligence prediction."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 4578,
+        "completion_tokens": 775,
+        "total": 5353,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Reduces connectivity data into functional/structural network patterns."
+        "step_reasoning": "Summarizes structural brain features to extract patterns relevant to cognitive performance."
       },
       {
         "component": "executor",
-        "prompt_tokens": 9597,
-        "completion_tokens": 780,
-        "total": 10377,
+        "prompt_tokens": 4097,
+        "completion_tokens": 871,
+        "total": 4968,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Summarizes functional connectivity patterns linked to cognitive processing efficiency."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 9518,
+        "completion_tokens": 637,
+        "total": 10155,
         "step_tool": "MultimodalNarrativeCreator",
-        "step_reasoning": "Integrates brain-behavior relationships into a coherent narrative for the predictive model."
+        "step_reasoning": "Integrates neurobiological and psychological data into a unified narrative for regression analysis."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1138,
-        "completion_tokens": 191,
-        "total": 1329,
+        "prompt_tokens": 1130,
+        "completion_tokens": 186,
+        "total": 1316,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Final step to calculate the intelligence score based on synthesized features and narratives."
+        "step_reasoning": "Uses the integrated narrative and features to calculate the final intelligence score prediction."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 30853,
-        "completion_tokens": 1082,
-        "total": 31935,
+        "prompt_tokens": 28647,
+        "completion_tokens": 1054,
+        "total": 29701,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
         "prompt_tokens": 182,
-        "completion_tokens": 34,
-        "total": 216,
+        "completion_tokens": 38,
+        "total": 220,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_2000R_PREDICTION_0128",
+    "plan_id": "IST_2000R_PRED_0128",
     "total_steps": 6,
     "priority_domains": [
+      "PSYCHOLOGICAL_PROFILES",
       "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "FUNCTIONAL_CONNECTOME"
     ]
   },
   "explainability": {

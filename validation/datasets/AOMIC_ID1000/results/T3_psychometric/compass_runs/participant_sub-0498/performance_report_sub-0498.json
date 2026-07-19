@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:16:17.559105",
-  "total_duration_seconds": 20.32,
+  "execution_timestamp": "2026-07-19T11:10:40.507471",
+  "total_duration_seconds": 22.52,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,8 +86,8 @@
       "processed_raw_full_included": false,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 8883,
-        "final_tokens": 8966,
+        "baseline_tokens": 10089,
+        "final_tokens": 10172,
         "processed_raw_tokens": null,
         "single_chunk_limit": 30000,
         "threshold": 943718,
@@ -100,9 +100,8 @@
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {},
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+          "PSYCHOLOGICAL_PROFILES": 10
         },
         "all_feature_count": 16,
         "unprocessed_feature_count": 16,
@@ -124,7 +123,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 199.320",
+    "classification": "IST_intelligence_total: 190.000",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +135,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 199.32
+          "IST_intelligence_total": 190.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,104 +143,96 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Regression estimate derived from multi-domain feature synthesis centered on population mean."
+        "Personality-based performance modulation",
+        "Demographic deviation analysis"
       ],
       "supporting_evidence_against": [
-        "Absence of direct cognitive biomarkers limits precision."
+        "Absence of direct cognitive subscale data"
       ],
       "uncertainty_factors": [
-        "Indirect nature of predictive features."
+        "Indirect proxy reliance"
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 35777,
-    "prompt_tokens": 30054,
-    "completion_tokens": 5723,
+    "total_tokens": 33459,
+    "prompt_tokens": 28140,
+    "completion_tokens": 5319,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4689,
-        "completion_tokens": 974,
-        "total": 5663,
+        "prompt_tokens": 4671,
+        "completion_tokens": 989,
+        "total": 5660,
         "step_tool": null,
         "step_reasoning": null
       },
       {
-        "component": "orchestrator",
-        "prompt_tokens": 4733,
-        "completion_tokens": 893,
-        "total": 5626,
-        "step_tool": null,
-        "step_reasoning": null
+        "component": "executor",
+        "prompt_tokens": 1627,
+        "completion_tokens": 503,
+        "total": 2130,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Identifies which psychological and demographic features are most predictive of cognitive variance."
       },
       {
         "component": "executor",
         "prompt_tokens": 1270,
-        "completion_tokens": 675,
-        "total": 1945,
+        "completion_tokens": 682,
+        "total": 1952,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the criteria for what constitutes high/low intelligence markers in the context of the IST 2000-R."
+        "step_reasoning": "Establishes the clinical benchmark for intelligence-related cognitive and psychological markers."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1792,
-        "completion_tokens": 611,
-        "total": 2403,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which personality and affective traits are most statistically significant for the target prediction."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 1569,
-        "completion_tokens": 566,
-        "total": 2135,
+        "prompt_tokens": 1442,
+        "completion_tokens": 486,
+        "total": 1928,
         "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Refines the feature set to focus on those most predictive of intelligence scores."
+        "step_reasoning": "Refines the feature set to focus on variables with the highest impact on cognitive performance."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1075,
-        "completion_tokens": 188,
-        "total": 1263,
-        "step_tool": "CodeExecutor",
-        "step_reasoning": "Calculates the final numerical prediction based on the ranked features and demographic baseline."
+        "prompt_tokens": 3106,
+        "completion_tokens": 613,
+        "total": 3719,
+        "step_tool": "MultimodalNarrativeCreator",
+        "step_reasoning": "Fuses the prioritized features into a coherent narrative that supports the regression model."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1984,
-        "completion_tokens": 864,
-        "total": 2848,
+        "prompt_tokens": 2387,
+        "completion_tokens": 1016,
+        "total": 3403,
         "step_tool": "DifferentialDiagnosis",
-        "step_reasoning": "Provides the final output for the regression task, ensuring all context is integrated."
+        "step_reasoning": "Synthesizes all processed data to output the final regression estimate for the IST 2000-R score."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 12760,
-        "completion_tokens": 918,
-        "total": 13678,
+        "prompt_tokens": 13453,
+        "completion_tokens": 992,
+        "total": 14445,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 182,
-        "completion_tokens": 34,
-        "total": 216,
+        "prompt_tokens": 184,
+        "completion_tokens": 38,
+        "total": 222,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_2000R_PREDICTION_0498",
+    "plan_id": "sub-0498-ist-prediction-001",
     "total_steps": 5,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ]
   },
   "explainability": {

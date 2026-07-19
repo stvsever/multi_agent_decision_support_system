@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0673_20260718_171506",
+  "report_id": "RPT_sub-0673_20260719_110924",
   "participant_id": "sub-0673",
-  "generated_at": "2026-07-18T17:15:06.665715",
+  "generated_at": "2026-07-19T11:09:24.225416",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 198.500",
+    "primary_output": "IST_intelligence_total: 195.000",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 198.5
+          "IST_intelligence_total": 195.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,16 +44,14 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Demographic indicators suggest baseline potential above mean.",
-        "Regression toward mean due to personality-based performance attenuation."
+        "Strong educational and socioeconomic background supports above-average cognitive capacity."
       ],
       "supporting_evidence_against": [
-        "Lack of direct cognitive data.",
-        "High volatility in personality-based prediction models."
+        "Severe personality-based executive deficits likely depress standardized test performance."
       ],
       "uncertainty_factors": [
-        "Personality traits are indirect proxies for cognitive performance.",
-        "Potential for non-linear interactions between SES and personality."
+        "Absence of direct cognitive subtest scores.",
+        "High reliance on personality-intelligence correlations."
       ],
       "children": []
     }
@@ -66,23 +64,28 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "High socioeconomic and educational attainment (Education z=0.95, SES z=0.84)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "High education level (z=0.953, 83rd percentile, MODERATE effect) and high socioeconomic background (z=0.837, 80th percentile, MODERATE effect).",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Extremely low Conscientiousness (z=-2.01) and Agreeableness (z=-2.14)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Severe deficits in Conscientiousness (z=-2.012, 2nd percentile, LARGE effect) and Agreeableness (z=-2.144, 2nd percentile, LARGE effect).",
       "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Elevated Extraversion (z=1.291, 90th percentile, MODERATE effect).",
+      "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic markers (Education, SES) which indicate a baseline cognitive potential above the cohort mean.",
-    "Step 2: Evaluated personality traits; identified significant negative deviations in Conscientiousness and Agreeableness, which are known to negatively impact performance on structured, time-intensive cognitive batteries like the IST 2000-R.",
-    "Step 3: Integrated the conflicting signals: high environmental potential vs. low task-engagement personality traits.",
-    "Step 4: Concluded that the intelligence score is likely to regress toward the cohort mean (200) rather than reflecting the high potential suggested by demographics alone."
+    "Step 1: Identified strong positive environmental and educational markers (z~0.9) which typically anchor intelligence scores above the population mean (200).",
+    "Step 2: Evaluated the impact of severe personality deficits (Conscientiousness/Agreeableness z < -2.0), which are known to negatively impact performance on structured, time-limited cognitive tests like the IST 2000-R.",
+    "Step 3: Balanced the structural potential (high SES/Education) against the functional performance inhibitors (low conscientiousness).",
+    "Step 4: Concluded that the subject's cognitive potential is likely high-average, but test performance is likely dampened by behavioral factors, resulting in an estimate slightly above the cohort mean."
   ],
-  "clinical_summary": "Participant sub-0673 exhibits a profile of high socioeconomic and educational attainment, which typically supports higher cognitive performance. However, this is significantly tempered by a personality profile characterized by very low Conscientiousness and Agreeableness. These traits suggest a potential for lower-than-expected performance on standardized cognitive testing due to reduced task persistence and engagement. Consequently, the predicted IST 2000-R total score is estimated to be near the population mean.",
+  "clinical_summary": "The subject presents with a bifurcated profile: strong environmental and educational indicators (z=0.89) suggest high cognitive potential, while severe deficits in conscientiousness and agreeableness (z=-2.08) suggest significant test-taking behavior that may impede performance. The predicted IST 2000-R score is 195, reflecting a high-average cognitive baseline tempered by behavioral self-regulation constraints.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -90,8 +93,8 @@
     "coverage_summary": {
       "all_feature_count": 11,
       "processed_feature_count": 11,
-      "unprocessed_raw_feature_count": 11,
-      "processed_raw_low_priority_feature_count": 0,
+      "unprocessed_raw_feature_count": 6,
+      "processed_raw_low_priority_feature_count": 5,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 11,
       "missing_feature_count": 0,
@@ -118,8 +121,8 @@
         "summary": {
           "all_feature_count": 11,
           "processed_feature_count": 11,
-          "unprocessed_raw_feature_count": 11,
-          "processed_raw_low_priority_feature_count": 0,
+          "unprocessed_raw_feature_count": 6,
+          "processed_raw_low_priority_feature_count": 5,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 11,
           "missing_feature_count": 0,
@@ -137,12 +140,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": false,
+        "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 6684,
-          "final_tokens": 6767,
-          "processed_raw_tokens": null,
+          "baseline_tokens": 7739,
+          "final_tokens": 8188,
+          "processed_raw_tokens": 8127,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -150,16 +153,19 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [],
+          "processed_whole_domains": [
+            "PSYCHOLOGICAL_PROFILES"
+          ],
           "processed_prefixes_by_domain": {},
-          "excluded_leaf_counts": {},
+          "excluded_leaf_counts": {
+            "PSYCHOLOGICAL_PROFILES": 5
+          },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 11,
-          "unprocessed_feature_count": 11,
-          "processed_feature_count": 0,
+          "unprocessed_feature_count": 6,
+          "processed_feature_count": 5,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -176,10 +182,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 31033,
+    "tokens_used": 37767,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ],
     "detailed_logs": []
   },
@@ -188,23 +194,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY",
-      "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize direct feature synthesis and anomaly detection to capture subtle correlations between personality and cognitive performance. We use the FeatureSynthesizer to weight personality markers before generating a final regression-based prediction.",
-      "timestamp": "2026-07-18T17:14:54.735056",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS, PSYCHOLOGICAL_PROFILES",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the total data volume is low (2,428 tokens) and fits within the raw processing threshold, we prioritize feature synthesis and anomaly narrative building to identify the most relevant predictors for intelligence. We will use the UnimodalCompressor to extract high-level patterns from the psychological profiles, followed by a final synthesis to generate the regression estimate.",
+      "timestamp": "2026-07-19T11:09:10.362502",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: High socioeconomic and educational attainment (Education z=0.95, SES z=0.84), Extremely low Conscientiousness (z=-2.01) and Agreeableness (z=-2.14)...",
-      "output_summary": "IST_intelligence_total: 198.500 (confidence=0.650)",
-      "reasoning": "Participant sub-0673 exhibits a profile of high socioeconomic and educational attainment, which typically supports higher cognitive performance. However, this is significantly tempered by a personality profile characterized by very low Conscientiousness and Agreeableness. These traits suggest a potential for lower-than-expected performance on standardized cognitive testing due to reduced task persistence and engagement. Consequently, the predicted IST 2000-R total score is estimated to be near t",
-      "timestamp": "2026-07-18T17:15:05.701741",
+      "input_summary": "Key findings: High education level (z=0.953, 83rd percentile, MODERATE effect) and high socioeconomic background (z=0.837, 80th percentile, MODERATE effect)., Severe deficits in Conscientiousness (z=-2.012, 2nd percentile, LARGE effect) and Agreeableness (z=-2.144, 2nd percentile, LARGE effect)., Elevated Extraversion (z=1.291, 90th percentile, MODERATE effect)....",
+      "output_summary": "IST_intelligence_total: 195.000 (confidence=0.650)",
+      "reasoning": "The subject presents with a bifurcated profile: strong environmental and educational indicators (z=0.89) suggest high cognitive potential, while severe deficits in conscientiousness and agreeableness (z=-2.08) suggest significant test-taking behavior that may impede performance. The predicted IST 2000-R score is 195, reflecting a high-average cognitive baseline tempered by behavioral self-regulation constraints.",
+      "timestamp": "2026-07-19T11:09:23.199597",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 198.500"
+        "classification": "IST_intelligence_total: 195.000"
       }
     },
     {
@@ -214,7 +220,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:15:06.664441",
+      "timestamp": "2026-07-19T11:09:24.224442",
       "metadata": {}
     }
   ]

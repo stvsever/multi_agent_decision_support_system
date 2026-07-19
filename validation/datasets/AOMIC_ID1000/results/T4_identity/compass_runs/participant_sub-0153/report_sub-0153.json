@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0153_20260718_171754",
+  "report_id": "RPT_sub-0153_20260719_111211",
   "participant_id": "sub-0153",
-  "generated_at": "2026-07-18T17:17:54.553191",
+  "generated_at": "2026-07-19T11:12:11.322655",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 218.000",
+    "primary_output": "IST_intelligence_total: 210.560",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 218.0
+          "IST_intelligence_total": 210.56
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "High SES and education act as strong positive predictors for IST performance."
+        "Socioeconomic background (z=1.67) and education (z=0.95) provide a strong baseline for above-average performance."
       ],
       "supporting_evidence_against": [
-        "Low openness and conscientiousness likely limit performance on standardized cognitive tests."
+        "Personality traits (Openness, Extraversion) and reinforcement sensitivity (BAS fun-seeking) show significant negative deviations (z < -1.1)."
       ],
       "uncertainty_factors": [
-        "Lack of direct cognitive performance data necessitates reliance on proxy variables."
+        "Proxy-based inference is inherently limited by the strength of the correlation between personality/demographics and actual cognitive test performance."
       ],
       "children": []
     }
@@ -63,29 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "High socioeconomic status (z=+1.67) and education level (z=+0.95) provide a strong positive cognitive buffer.",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "High background socio-economic status (z=1.67, 95th percentile, LARGE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Low openness (z=-1.25) and low conscientiousness (z=-0.82) indicate reduced intellectual engagement.",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low BAS fun-seeking (z=-1.77, 4th percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "Low BAS fun-seeking (z=-1.77) suggests reduced exploratory drive.",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low Openness (z=-1.25, 11th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Identify baseline population mean (200) and SD (40).",
-    "Step 2: Weight demographic advantages (SES/Education) as strong positive predictors of cognitive potential.",
-    "Step 3: Weight personality constraints (Openness/Conscientiousness) as significant negative predictors of test-taking engagement.",
-    "Step 4: Integrate conflicting signals: demographic potential is high, but personality-driven engagement is low.",
-    "Step 5: Conclude that the participant likely performs above the population mean due to the protective effect of high SES, but below their theoretical maximum due to personality constraints, resulting in a high-average estimate."
+    "Step 1: Analyzed demographic and socioeconomic markers, identifying high SES (z=1.67) as a primary positive anchor for intelligence estimation.",
+    "Step 2: Evaluated psychological profile, noting a cluster of negative deviations in Openness (z=-1.25), Extraversion (z=-1.17), and BAS fun-seeking (z=-1.77).",
+    "Step 3: Integrated these conflicting signals; while high SES supports above-average performance, the personality profile suggests lower-than-average exploratory drive and cognitive engagement.",
+    "Step 4: Applied linear transformation model based on cohort norms (Mean=200, SD=40) adjusted for the net influence of these features.",
+    "Step 5: Synthesized final estimate of 210.56, reflecting a slight positive deviation from the population mean."
   ],
-  "clinical_summary": "The participant presents a high-average cognitive profile. While demographic indicators (high SES, high education) strongly support above-average intelligence, the personality profile (low openness, low conscientiousness) suggests a lower propensity for the intellectual curiosity required to maximize performance on the IST 2000-R. The predicted score reflects a balance between these protective demographic factors and personality-based constraints.",
+  "clinical_summary": "The participant exhibits a cognitive profile estimated to be slightly above the population mean (IST 2000-R total score of 210.56). This estimate is supported by high socioeconomic and educational advantages, which are partially offset by a personality profile characterized by lower openness, reduced extraversion, and diminished behavioral activation. The prediction remains within the expected range for a healthy young-adult cohort.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -93,8 +93,8 @@
     "coverage_summary": {
       "all_feature_count": 23,
       "processed_feature_count": 23,
-      "unprocessed_raw_feature_count": 13,
-      "processed_raw_low_priority_feature_count": 10,
+      "unprocessed_raw_feature_count": 6,
+      "processed_raw_low_priority_feature_count": 17,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 23,
       "missing_feature_count": 0,
@@ -121,8 +121,8 @@
         "summary": {
           "all_feature_count": 23,
           "processed_feature_count": 23,
-          "unprocessed_raw_feature_count": 13,
-          "processed_raw_low_priority_feature_count": 10,
+          "unprocessed_raw_feature_count": 6,
+          "processed_raw_low_priority_feature_count": 17,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 23,
           "missing_feature_count": 0,
@@ -143,9 +143,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 10230,
-          "final_tokens": 11033,
-          "processed_raw_tokens": 10972,
+          "baseline_tokens": 7085,
+          "final_tokens": 8396,
+          "processed_raw_tokens": 8335,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -154,27 +154,29 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
+            "IDENTITY_AND_BELIEFS",
+            "PSYCHOLOGICAL_PROFILES"
           ],
           "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
+            "PSYCHOLOGICAL_PROFILES": [
               [
-                "anxiety_traits"
+                "trait_anxiety"
               ]
+            ],
+            "IDENTITY_AND_BELIEFS": [
+              []
             ]
           },
           "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
           },
           "all_feature_count": 23,
-          "unprocessed_feature_count": 13,
-          "processed_feature_count": 10,
+          "unprocessed_feature_count": 6,
+          "processed_feature_count": 17,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -191,12 +193,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 42622,
+    "tokens_used": 35294,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "IDENTITY_AND_BELIEFS"
     ],
     "detailed_logs": []
   },
@@ -205,23 +206,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF",
-      "output_summary": "Generated 5-step plan",
-      "reasoning": "Since the total data volume is low (2,624 tokens), we will use early-stage tools to synthesize feature importance and build narratives, followed by targeted compression of psychological domains to ensure the regression model receives high-quality, normalized inputs.",
-      "timestamp": "2026-07-18T17:17:38.764110",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS",
+      "output_summary": "Generated 4-step plan",
+      "reasoning": "Since the total data volume is low (2,617 tokens), we can process most data directly. We prioritize early synthesis of psychological and demographic features to establish a baseline for cognitive performance, followed by a final regression step to estimate the IST score.",
+      "timestamp": "2026-07-19T11:11:58.261852",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: High socioeconomic status (z=+1.67) and education level (z=+0.95) provide a strong positive cognitive buffer., Low openness (z=-1.25) and low conscientiousness (z=-0.82) indicate reduced intellectual engagement., Low BAS fun-seeking (z=-1.77) suggests reduced exploratory drive....",
-      "output_summary": "IST_intelligence_total: 218.000 (confidence=0.650)",
-      "reasoning": "The participant presents a high-average cognitive profile. While demographic indicators (high SES, high education) strongly support above-average intelligence, the personality profile (low openness, low conscientiousness) suggests a lower propensity for the intellectual curiosity required to maximize performance on the IST 2000-R. The predicted score reflects a balance between these protective demographic factors and personality-based constraints.",
-      "timestamp": "2026-07-18T17:17:53.958958",
+      "input_summary": "Key findings: High background socio-economic status (z=1.67, 95th percentile, LARGE effect), Low BAS fun-seeking (z=-1.77, 4th percentile, LARGE effect), Low Openness (z=-1.25, 11th percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 210.560 (confidence=0.650)",
+      "reasoning": "The participant exhibits a cognitive profile estimated to be slightly above the population mean (IST 2000-R total score of 210.56). This estimate is supported by high socioeconomic and educational advantages, which are partially offset by a personality profile characterized by lower openness, reduced extraversion, and diminished behavioral activation. The prediction remains within the expected range for a healthy young-adult cohort.",
+      "timestamp": "2026-07-19T11:12:10.377540",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 218.000"
+        "classification": "IST_intelligence_total: 210.560"
       }
     },
     {
@@ -231,7 +232,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:17:54.552396",
+      "timestamp": "2026-07-19T11:12:11.321910",
       "metadata": {}
     }
   ]

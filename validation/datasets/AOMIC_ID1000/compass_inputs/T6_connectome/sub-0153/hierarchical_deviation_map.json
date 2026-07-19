@@ -1,12 +1,9 @@
 {
-  "DEMOGRAPHICS_AND_PHYSICAL": {
-    "personal_attributes": {
-      "score": 0.738
+  "DEMOGRAPHICS_AND_ANTHROPOMETRICS": {
+    "biological_characteristics": {
+      "score": 0.491
     },
-    "anthropometrics": {
-      "score": -0.248
-    },
-    "socioeconomic_status": {
+    "socioeconomic_background": {
       "score": 1.313
     },
     "_stats": {
@@ -14,32 +11,26 @@
       "n_leaves": 6
     }
   },
-  "PERSONALITY": {
-    "big_five_personality": {
+  "PSYCHOLOGICAL_PROFILES": {
+    "personality_traits": {
       "score": -0.751
     },
-    "_stats": {
-      "mean_abs_score": 1.053,
-      "n_leaves": 5
-    }
-  },
-  "MOTIVATION_AND_AFFECT": {
     "reinforcement_sensitivity": {
       "score": -0.507
     },
-    "anxiety_traits": {
+    "trait_anxiety": {
       "score": 0.059
     },
     "_stats": {
-      "mean_abs_score": 0.705,
-      "n_leaves": 5
+      "mean_abs_score": 0.879,
+      "n_leaves": 10
     }
   },
-  "IDENTITY_AND_BELIEF": {
+  "IDENTITY_AND_BELIEFS": {
     "sexual_and_gender_identity": {
       "score": 0.018
     },
-    "religiosity": {
+    "religious_affiliation_and_importance": {
       "score": -0.619
     },
     "_stats": {
@@ -48,7 +39,7 @@
     }
   },
   "BRAIN_MORPHOMETRY": {
-    "global_brain_measures": {
+    "global_volumetric_measures": {
       "score": 0.351
     },
     "subcortical_volumes": {
@@ -62,7 +53,7 @@
       "n_leaves": 35
     }
   },
-  "BRAIN_CONNECTOME": {
+  "FUNCTIONAL_CONNECTOME": {
     "within_network_connectivity": {
       "score": 0.503
     },

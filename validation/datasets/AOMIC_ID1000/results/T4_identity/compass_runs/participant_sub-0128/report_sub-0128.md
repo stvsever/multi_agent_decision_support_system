@@ -1,10 +1,10 @@
 # Patient Report: sub-0128
 
-**Generated**: 2026-07-18T17:17:31.864906
+**Generated**: 2026-07-19T11:11:51.505679
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 209.080
+- **Primary Output**: IST_intelligence_total: 207.210
 - **Probability / Root Confidence**: 65.0%
 - **Confidence**: MEDIUM
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
@@ -14,23 +14,24 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[PERSONALITY]** High extraversion (z=1.64, 95th percentile, MODERATE effect)
-2. **[MOTIVATION_AND_AFFECT]** High reinforcement sensitivity (mean z=1.50, 93rd percentile, MODERATE effect)
-3. **[PERSONALITY]** Low neuroticism (z=-1.07, 14th percentile, SMALL effect)
+1. **[PSYCHOLOGICAL_PROFILES]** High extraversion (z=1.64, 95th percentile, MODERATE effect)
+2. **[PSYCHOLOGICAL_PROFILES]** High BAS drive and reward responsiveness (z=1.50, 93rd percentile, MODERATE effect)
+3. **[PSYCHOLOGICAL_PROFILES]** Low neuroticism and trait anxiety (z=-1.07, 14th percentile, MODERATE effect)
+4. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** High education level (z=0.95, 83rd percentile, SMALL effect)
 
 ## Clinical Summary
-Participant sub-0128 exhibits a high-functioning, approach-oriented personality profile characterized by high extraversion and reinforcement sensitivity, coupled with low neuroticism. These traits, alongside a high education level, suggest strong cognitive engagement and emotional stability, which are positively associated with performance on the IST 2000-R. The estimated total intelligence score is 209.08, placing the participant slightly above the cohort mean.
+Participant sub-0128 exhibits a highly favorable psychological and demographic profile for cognitive performance. The combination of high approach-oriented motivation (BAS drive/reward responsiveness), high extraversion, and low trait anxiety suggests an individual who is well-equipped to engage persistently and effectively with the demands of the IST 2000-R. Supported by a high education level, the participant is predicted to perform above the cohort mean, with minimal affective interference.
 
 ## Reasoning Chain
-1. Step 1: Analyzed personality and motivational traits as proxies for cognitive performance in the absence of direct IST subscale scores.
-2. Step 2: Identified convergent positive signals from high extraversion (z=1.64) and high reinforcement sensitivity (z=1.50).
-3. Step 3: Factored in low neuroticism (z=-1.07) and high education level (z=0.95) as protective/supportive factors for cognitive test performance.
-4. Step 4: Calculated the estimated score using the mean z-score of the identified traits (0.227) relative to the population mean of 200 and SD of 40.
-5. Step 5: Final estimate derived as 200 + (0.227 * 40) = 209.08.
+1. Step 1: Analyzed demographic and psychological profiles to identify latent cognitive markers.
+2. Step 2: Identified strong convergence between high extraversion, high BAS drive, and low trait anxiety, which collectively optimize cognitive test-taking performance.
+3. Step 3: Integrated high education level as a secondary positive indicator for crystallized reasoning capacity.
+4. Step 4: Applied linear transformation based on cohort mean (200) and standard deviation (40) to estimate the IST-2000R total score.
+5. Step 5: Synthesized findings to arrive at a predicted score of 207.21, reflecting the participant's favorable psychological and demographic profile.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 37,631
-- **Domains Processed**: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF
+- **Tokens Used**: 35,023
+- **Domains Processed**: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS

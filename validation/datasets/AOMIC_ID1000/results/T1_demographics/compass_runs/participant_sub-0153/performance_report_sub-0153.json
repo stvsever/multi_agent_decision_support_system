@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:12:20.931719",
-  "total_duration_seconds": 11.96,
+  "execution_timestamp": "2026-07-19T11:06:38.018159",
+  "total_duration_seconds": 14.82,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,8 +86,8 @@
       "processed_raw_full_included": false,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 3754,
-        "final_tokens": 3837,
+        "baseline_tokens": 5096,
+        "final_tokens": 5179,
         "processed_raw_tokens": null,
         "single_chunk_limit": 30000,
         "threshold": 943718,
@@ -100,7 +100,7 @@
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {},
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
         },
         "all_feature_count": 6,
         "unprocessed_feature_count": 6,
@@ -122,7 +122,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 226.510",
+    "classification": "IST_intelligence_total: 225.000",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -134,7 +134,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 226.51
+          "IST_intelligence_total": 225.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -142,78 +142,86 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "High socioeconomic status and education level are robust predictors of cognitive performance."
+        "Positive demographic indicators (SES and Education) suggest above-average cognitive capacity."
       ],
       "supporting_evidence_against": [
-        "Demographic proxies are indirect and do not account for individual neurobiological variation."
+        "No direct cognitive assessment data provided."
       ],
       "uncertainty_factors": [
-        "Lack of direct cognitive testing data."
+        "Absence of proximal cognitive markers."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 19735,
-    "prompt_tokens": 16691,
-    "completion_tokens": 3044,
+    "total_tokens": 25600,
+    "prompt_tokens": 21231,
+    "completion_tokens": 4369,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4641,
-        "completion_tokens": 708,
-        "total": 5349,
+        "prompt_tokens": 4645,
+        "completion_tokens": 751,
+        "total": 5396,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1327,
-        "completion_tokens": 483,
-        "total": 1810,
+        "prompt_tokens": 1256,
+        "completion_tokens": 490,
+        "total": 1746,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which demographic and lifestyle variables are most predictive of cognitive outcomes."
+        "step_reasoning": "Ranks features by their potential correlation with cognitive outcomes."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1270,
-        "completion_tokens": 692,
-        "total": 1962,
+        "prompt_tokens": 2170,
+        "completion_tokens": 566,
+        "total": 2736,
+        "step_tool": "AnomalyNarrativeBuilder",
+        "step_reasoning": "Identifies if any demographic or lifestyle factors deviate significantly from the norm."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1268,
+        "completion_tokens": 710,
+        "total": 1978,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria and cognitive domains relevant to the IST 2000-R test."
+        "step_reasoning": "Establishes the criteria for intelligence estimation based on the provided task."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1052,
-        "completion_tokens": 211,
-        "total": 1263,
-        "step_tool": "CodeExecutor",
-        "step_reasoning": "Calculates the final intelligence score based on the synthesized features and demographic data."
+        "prompt_tokens": 2120,
+        "completion_tokens": 1059,
+        "total": 3179,
+        "step_tool": "DifferentialDiagnosis",
+        "step_reasoning": "Final step to synthesize all findings into a single numerical prediction for the target task."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 8217,
-        "completion_tokens": 912,
-        "total": 9129,
+        "prompt_tokens": 9590,
+        "completion_tokens": 760,
+        "total": 10350,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 184,
-        "completion_tokens": 38,
-        "total": 222,
+        "prompt_tokens": 182,
+        "completion_tokens": 33,
+        "total": 215,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_2000R_PRED_0153",
-    "total_steps": 3,
+    "plan_id": "IST_PRED_0153",
+    "total_steps": 4,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ]
   },
   "explainability": {

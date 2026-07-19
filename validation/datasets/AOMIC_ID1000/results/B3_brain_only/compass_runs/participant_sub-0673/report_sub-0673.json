@@ -1,16 +1,16 @@
 {
-  "report_id": "RPT_sub-0673_20260718_172834",
+  "report_id": "RPT_sub-0673_20260719_112249",
   "participant_id": "sub-0673",
-  "generated_at": "2026-07-18T17:28:34.960435",
+  "generated_at": "2026-07-19T11:22:49.848559",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 219.780",
-    "probability": 0.75,
+    "primary_output": "IST_intelligence_total: 240.000",
+    "probability": 0.85,
     "binary_probability": null,
-    "root_confidence": 0.75,
-    "confidence": "MEDIUM",
+    "root_confidence": 0.85,
+    "confidence": "HIGH",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
     "prediction_task_spec": {
@@ -36,23 +36,22 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 219.78
+          "IST_intelligence_total": 240.0
         }
       },
-      "confidence_level": "MEDIUM",
-      "confidence_score": 0.75,
+      "confidence_level": "HIGH",
+      "confidence_score": 0.85,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent positive z-scores across structural domains",
-        "Executive network hyper-connectivity"
+        "Global volumetric expansion (z=1.16)",
+        "Frontoparietal control network cohesion (z=1.35)"
       ],
       "supporting_evidence_against": [
-        "Large-effect functional disconnects in limbic-executive pathways"
+        "Limbic-Frontoparietal decoupling (z=-2.40)"
       ],
       "uncertainty_factors": [
-        "Inferred intelligence from neuroimaging proxies",
-        "Potential for functional-structural mismatch"
+        "Absence of direct cognitive subscale data"
       ],
       "children": []
     }
@@ -66,23 +65,28 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Generalized structural hypertrophy (mean z=1.16) including subcortical nuclei (caudate z=1.74, pallidum z=1.82).",
+      "finding": "Global volumetric expansion (z=1.16, 88th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Hyper-connectivity in executive and salience networks (z=1.35) with significant limbic-executive decoupling (z=-2.40).",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Frontoparietal control network internal cohesion (z=1.35, 91st percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Limbic-Frontoparietal decoupling (z=-2.40, 1st percentile, LARGE effect)",
+      "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed global brain morphometry, identifying a consistent pattern of structural hypertrophy across cortical and subcortical regions.",
-    "Step 2: Evaluated connectome data, noting hyper-connectivity in executive control networks which is typically associated with higher cognitive performance.",
-    "Step 3: Identified a significant functional bottleneck (limbic-frontoparietal decoupling, z=-2.40) that may temper the potential for peak performance.",
-    "Step 4: Synthesized structural and functional signals using a linear transformation model based on population norms (Mean=200, SD=40).",
-    "Step 5: Calculated the final predicted score of 219.78, reflecting the observed neurobiological robustness."
+    "Step 1: Analyzed global neuroanatomical markers; observed consistent volumetric expansion (mean z=1.16) across cortical and subcortical regions.",
+    "Step 2: Evaluated functional connectome; identified high internal cohesion within the frontoparietal control network (z=1.35), a key marker for executive function.",
+    "Step 3: Noted significant decoupling between limbic and frontoparietal networks (z=-2.40), indicating a specialized cognitive style rather than a purely generalized one.",
+    "Step 4: Synthesized structural and functional data; the combination of high structural reserve and efficient executive network connectivity supports a score above the cohort mean (200).",
+    "Step 5: Estimated IST 2000-R total score at 240 based on the convergence of high-level volumetric and connectivity markers."
   ],
-  "clinical_summary": "Subject sub-0673 exhibits a neuroanatomical profile characterized by generalized structural hypertrophy and hyper-connectivity within executive networks, which are strong indicators of superior cognitive capacity. While the structural foundation is robust, the presence of a large-effect functional decoupling between the limbic system and frontoparietal control suggests potential limitations in emotional-cognitive integration. The predicted IST 2000-R score of 219.78 places the subject above the population mean.",
+  "clinical_summary": "Participant sub-0673 exhibits a neurobiological profile consistent with high-average cognitive ability. The evidence is characterized by global volumetric expansion and strong frontoparietal connectivity, which are robust predictors of intelligence. While the significantly decoupled limbic-frontoparietal connectivity suggests an atypical, specialized cognitive profile, the overall structural and functional markers strongly support a predicted IST 2000-R score in the upper quartile of the cohort.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -140,9 +144,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 10861,
-          "final_tokens": 15479,
-          "processed_raw_tokens": 15418,
+          "baseline_tokens": 12401,
+          "final_tokens": 17025,
+          "processed_raw_tokens": 16964,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -151,13 +155,13 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "BRAIN_MORPHOMETRY",
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {},
           "all_feature_count": 63,
@@ -179,10 +183,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 60239,
+    "tokens_used": 63143,
     "domains_processed": [
       "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -191,23 +195,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
-      "output_summary": "Generated 6-step plan",
-      "reasoning": "The plan prioritizes early phenotype definition and feature synthesis. Given the data is 'FIT_FOR_RAW', we use UnimodalCompressor to extract high-level clinical patterns from the neuroimaging data to focus the predictor on relevant biomarkers, followed by a multimodal fusion and final regression analysis.",
-      "timestamp": "2026-07-18T17:28:23.589501",
+      "input_summary": "Domains: BRAIN_MORPHOMETRY, FUNCTIONAL_CONNECTOME",
+      "output_summary": "Generated 7-step plan",
+      "reasoning": "The plan leverages parallelism for early-stage analysis (phenotype definition and anomaly detection) and mid-stage compression. It ensures all multimodal data is processed efficiently before final synthesis for the regression task.",
+      "timestamp": "2026-07-19T11:22:33.632475",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Generalized structural hypertrophy (mean z=1.16) including subcortical nuclei (caudate z=1.74, pallidum z=1.82)., Hyper-connectivity in executive and salience networks (z=1.35) with significant limbic-executive decoupling (z=-2.40)....",
-      "output_summary": "IST_intelligence_total: 219.780 (confidence=0.750)",
-      "reasoning": "Subject sub-0673 exhibits a neuroanatomical profile characterized by generalized structural hypertrophy and hyper-connectivity within executive networks, which are strong indicators of superior cognitive capacity. While the structural foundation is robust, the presence of a large-effect functional decoupling between the limbic system and frontoparietal control suggests potential limitations in emotional-cognitive integration. The predicted IST 2000-R score of 219.78 places the subject above the ",
-      "timestamp": "2026-07-18T17:28:34.454634",
+      "input_summary": "Key findings: Global volumetric expansion (z=1.16, 88th percentile, MODERATE effect), Frontoparietal control network internal cohesion (z=1.35, 91st percentile, MODERATE effect), Limbic-Frontoparietal decoupling (z=-2.40, 1st percentile, LARGE effect)...",
+      "output_summary": "IST_intelligence_total: 240.000 (confidence=0.850)",
+      "reasoning": "Participant sub-0673 exhibits a neurobiological profile consistent with high-average cognitive ability. The evidence is characterized by global volumetric expansion and strong frontoparietal connectivity, which are robust predictors of intelligence. While the significantly decoupled limbic-frontoparietal connectivity suggests an atypical, specialized cognitive profile, the overall structural and functional markers strongly support a predicted IST 2000-R score in the upper quartile of the cohort.",
+      "timestamp": "2026-07-19T11:22:49.297309",
       "metadata": {
-        "probability": 0.75,
-        "classification": "IST_intelligence_total: 219.780"
+        "probability": 0.85,
+        "classification": "IST_intelligence_total: 240.000"
       }
     },
     {
@@ -217,7 +221,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:28:34.959433",
+      "timestamp": "2026-07-19T11:22:49.847600",
       "metadata": {}
     }
   ]

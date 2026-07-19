@@ -1,11 +1,11 @@
 # Patient Report: sub-0498
 
-**Generated**: 2026-07-18T17:13:03.696749
+**Generated**: 2026-07-19T11:07:20.367192
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 180.940
-- **Probability / Root Confidence**: 45.0%
+- **Primary Output**: IST_intelligence_total: 189.130
+- **Probability / Root Confidence**: 35.0%
 - **Confidence**: LOW
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
 
@@ -14,23 +14,22 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[DEMOGRAPHICS_AND_PHYSICAL]** Handedness deviation (z=-2.85, <1st percentile, LARGE effect)
-2. **[DEMOGRAPHICS_AND_PHYSICAL]** Age deviation (z=-1.08, 14th percentile, MODERATE effect)
-3. **[DEMOGRAPHICS_AND_PHYSICAL]** Body mass index deviation (z=-0.91, 18th percentile, SMALL effect)
+1. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Handedness deviation (z=-2.85, LARGE effect)
+2. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Age (z=-1.08, MODERATE effect)
+3. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Education and SES (z=-0.58, -0.42, SMALL effect)
 
 ## Clinical Summary
-The participant's predicted IST 2000-R total intelligence score is 180.94. This estimate is derived from demographic and physical attributes, specifically noting a significant negative deviation in handedness and age. Given the absence of direct psychometric testing, this score reflects a statistical inference based on available distal proxies and should be interpreted with caution as a population-level estimate rather than a clinical assessment.
+The participant presents with a demographic profile characterized by consistent, mild-to-moderate negative deviations from the cohort mean across age, education, and socioeconomic indicators. In the absence of direct cognitive testing, these proxies suggest a total intelligence score slightly below the population average of 200. The prediction is constrained by the lack of specific psychometric data.
 
 ## Reasoning Chain
-1. Step 1: Analyzed available demographic and physical features as proxies for cognitive performance.
-2. Step 2: Identified significant negative deviations in handedness (z=-2.85) and age (z=-1.08) as the primary drivers of the prediction.
-3. Step 3: Discounted the aggregate domain z-score (1.133) as non-specific demographic noise, prioritizing granular leaf-level data.
-4. Step 4: Applied a downward adjustment from the population mean (200) based on the weighted average of negative deviations.
-5. Step 5: Calculated the final regression estimate of 180.94, reflecting a conservative shift below the cohort mean.
+1. Step 1: Analyzed demographic and anthropometric features as proxies for cognitive performance.
+2. Step 2: Observed consistent negative deviations across all available features (age, education, SES, BMI, handedness).
+3. Step 3: Calculated an estimated score based on the mean z-score of -0.27 relative to the population mean of 200 and SD of 40.
+4. Step 4: Applied a shrinkage adjustment to account for the lack of direct cognitive psychometric data, centering the prediction slightly below the population mean to reflect the negative demographic profile.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 22,415
-- **Domains Processed**: DEMOGRAPHICS_AND_PHYSICAL
+- **Tokens Used**: 24,782
+- **Domains Processed**: DEMOGRAPHICS_AND_ANTHROPOMETRICS

@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0498_20260718_172816",
+  "report_id": "RPT_sub-0498_20260719_112229",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:28:16.304095",
+  "generated_at": "2026-07-19T11:22:29.260992",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 222.000",
+    "primary_output": "IST_intelligence_total: 206.010",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 222.0
+          "IST_intelligence_total": 206.01
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,16 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Structural markers (cortical thickness) suggest potential in the 220-230 range."
+        "Cortical thickness markers",
+        "Executive network integrity"
       ],
       "supporting_evidence_against": [
-        "Functional network constraints suggest a ceiling effect, pulling the estimate toward the 210-220 range."
+        "Subcortical volume loss",
+        "Attentional network decoupling"
       ],
       "uncertainty_factors": [
-        "Structural-functional dissociation makes precise point estimation difficult."
+        "Inferred intelligence from structural/functional proxies",
+        "Non-linear compensatory effects"
       ],
       "children": []
     }
@@ -64,33 +67,33 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Generalized cortical hypertrophy (e.g., left frontal lobe z=2.16, left insula z=2.08)",
+      "finding": "Widespread cortical thickness elevation (mean z=1.532, >90th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Subcortical volume reduction (e.g., left caudate z=-2.03, left thalamus z=-2.01)",
+      "finding": "Subcortical volume deficits (mean z=-1.44, <10th percentile, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Executive-Default Mode network coupling (z=1.71)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Dorsal Attention-Salience decoupling (z=-2.58, <1st percentile, LARGE effect)",
+      "direction": "ABNORMAL_LOW"
+    },
+    {
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Frontoparietal-Default Mode hyper-connectivity (z=1.71, 96th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Attentional network decoupling (dorsal attention - salience/ventral attention FC z=-2.58)",
-      "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Identified strong structural potential for high intelligence via widespread cortical thickening (z > 2.0 in frontal regions).",
-    "Step 2: Acknowledged significant subcortical volume deficits (caudate/thalamus z < -2.0) which likely act as a bottleneck for processing speed.",
-    "Step 3: Integrated connectome data showing strong executive-DMN coupling (z=1.71) as a compensatory mechanism for cognitive performance.",
-    "Step 4: Factored in the severe attentional network decoupling (z=-2.58) as a limiting factor for high-end performance.",
-    "Step 5: Synthesized these divergent signals to estimate a score above the cohort mean (200), but constrained by functional inefficiencies."
+    "Step 1: Analyzed neuroanatomical profile showing a dissociation between subcortical atrophy and cortical hypertrophy.",
+    "Step 2: Evaluated functional connectome, noting a shift from external attentional vigilance (Dorsal Attention Network decoupling) to internal conceptual processing (Frontoparietal-DMN hyper-connectivity).",
+    "Step 3: Integrated structural-functional trade-offs; the cortical hypertrophy is interpreted as a compensatory reserve for the subcortical volume deficits.",
+    "Step 4: Applied linear transformation of aggregate z-scores (mean z=0.23) to the IST 2000-R scale (Mean=200, SD=40) to derive the final estimate.",
+    "Step 5: Concluded that the subject's profile is consistent with an average to high-average intelligence score, reflecting a compensatory neurodevelopmental reorganization."
   ],
-  "clinical_summary": "The subject presents a divergent neurobiological profile characterized by high structural potential (cortical thickness) and strong executive-DMN integration, balanced against significant subcortical volume reductions and attentional network decoupling. The net effect suggests a high-average cognitive aptitude, with structural markers supporting performance above the cohort mean, while functional network bottlenecks likely prevent peak performance.",
+  "clinical_summary": "Subject sub-0498 exhibits a complex neurobiological profile characterized by significant subcortical volume reductions (e.g., thalamus, caudate) contrasted with widespread cortical thickening in frontal and insular regions. Functional connectivity analysis reveals a decoupling of the Dorsal Attention Network and hyper-connectivity between the Frontoparietal Control and Default Mode networks. This architecture suggests a cognitive style prioritizing internal reflective processing over rapid external attentional switching. The structural hypertrophy likely serves as a compensatory reserve, resulting in an estimated IST 2000-R score within the average to high-average range.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -148,9 +151,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 12326,
-          "final_tokens": 16944,
-          "processed_raw_tokens": 16883,
+          "baseline_tokens": 11593,
+          "final_tokens": 16217,
+          "processed_raw_tokens": 16156,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -159,13 +162,13 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "BRAIN_MORPHOMETRY",
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {},
           "all_feature_count": 63,
@@ -187,10 +190,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 69071,
+    "tokens_used": 65851,
     "domains_processed": [
       "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -199,23 +202,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME",
+      "input_summary": "Domains: BRAIN_MORPHOMETRY, FUNCTIONAL_CONNECTOME",
       "output_summary": "Generated 7-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity processing. We use early-stage tools to establish the phenotypic baseline and feature importance, followed by targeted compression of brain imaging domains to extract relevant cognitive-correlate patterns. Finally, we synthesize these into a unified narrative to support the regression task.",
-      "timestamp": "2026-07-18T17:28:00.057372",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity processing. We use early-stage tools to establish the cognitive phenotype and anomaly profile, followed by targeted compression of brain domains to extract relevant patterns for regression, culminating in a final predictive synthesis.",
+      "timestamp": "2026-07-19T11:22:14.693742",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Generalized cortical hypertrophy (e.g., left frontal lobe z=2.16, left insula z=2.08), Subcortical volume reduction (e.g., left caudate z=-2.03, left thalamus z=-2.01), Executive-Default Mode network coupling (z=1.71)...",
-      "output_summary": "IST_intelligence_total: 222.000 (confidence=0.650)",
-      "reasoning": "The subject presents a divergent neurobiological profile characterized by high structural potential (cortical thickness) and strong executive-DMN integration, balanced against significant subcortical volume reductions and attentional network decoupling. The net effect suggests a high-average cognitive aptitude, with structural markers supporting performance above the cohort mean, while functional network bottlenecks likely prevent peak performance.",
-      "timestamp": "2026-07-18T17:28:15.651077",
+      "input_summary": "Key findings: Widespread cortical thickness elevation (mean z=1.532, >90th percentile, MODERATE effect), Subcortical volume deficits (mean z=-1.44, <10th percentile, MODERATE effect), Dorsal Attention-Salience decoupling (z=-2.58, <1st percentile, LARGE effect)...",
+      "output_summary": "IST_intelligence_total: 206.010 (confidence=0.650)",
+      "reasoning": "Subject sub-0498 exhibits a complex neurobiological profile characterized by significant subcortical volume reductions (e.g., thalamus, caudate) contrasted with widespread cortical thickening in frontal and insular regions. Functional connectivity analysis reveals a decoupling of the Dorsal Attention Network and hyper-connectivity between the Frontoparietal Control and Default Mode networks. This architecture suggests a cognitive style prioritizing internal reflective processing over rapid exter",
+      "timestamp": "2026-07-19T11:22:28.335212",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 222.000"
+        "classification": "IST_intelligence_total: 206.010"
       }
     },
     {
@@ -225,7 +228,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:28:16.303071",
+      "timestamp": "2026-07-19T11:22:29.259787",
       "metadata": {}
     }
   ]

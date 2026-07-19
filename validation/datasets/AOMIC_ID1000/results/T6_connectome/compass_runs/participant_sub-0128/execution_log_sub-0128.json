@@ -1,32 +1,31 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:21:10.591881",
+    "timestamp": "2026-07-19T11:15:42.828093",
     "data": {
       "participant_id": "sub-0128",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:21:10.591875"
+      "timestamp": "2026-07-19T11:15:42.828088"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:21:17.951691",
+    "timestamp": "2026-07-19T11:15:50.265564",
     "data": {
-      "plan_id": "IST_2000R_PREDICTION_0128",
+      "plan_id": "IST_2000R_PRED_0128",
       "total_steps": 6,
       "priority_domains": [
+        "PSYCHOLOGICAL_PROFILES",
         "BRAIN_MORPHOMETRY",
-        "BRAIN_CONNECTOME",
-        "PERSONALITY",
-        "MOTIVATION_AND_AFFECT"
+        "FUNCTIONAL_CONNECTOME"
       ]
     }
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:21:38.038587",
+    "timestamp": "2026-07-19T11:16:02.764446",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -69,9 +68,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 20093,
-          "final_tokens": 24711,
-          "processed_raw_tokens": 24650,
+          "baseline_tokens": 18334,
+          "final_tokens": 22958,
+          "processed_raw_tokens": 22897,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -80,19 +79,18 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "BRAIN_MORPHOMETRY",
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 86,
           "unprocessed_feature_count": 23,
@@ -116,16 +114,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:21:38.038632",
+    "timestamp": "2026-07-19T11:16:02.764480",
     "data": {
-      "classification": "IST_intelligence_total: 245.000",
+      "classification": "IST_intelligence_total: 213.760",
       "probability": 0.85,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:21:38.862696",
+    "timestamp": "2026-07-19T11:16:03.497198",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

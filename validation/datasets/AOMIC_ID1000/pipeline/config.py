@@ -212,6 +212,23 @@ GROUP_DOMAIN = {
     "brain_connectome": "BRAIN_CONNECTOME",
 }
 
+# Measurement source per group. This is factual provenance given to the LLM as
+# context for semantic ontology construction; it does NOT force the hierarchy
+# (the model proposes the domains/subdomains itself).
+SOURCE_INFO = {
+    "demographics": "self-report demographics and socio-economic background",
+    "personality": "NEO-FFI Big Five personality questionnaire",
+    "motivation_affect": "BIS/BAS reinforcement-sensitivity and STAI anxiety questionnaires",
+    "identity_belief": "self-report sexual/gender identity and religiosity items",
+    "brain_morphometry": "structural T1-weighted MRI morphometry (FreeSurfer)",
+    "brain_connectome": "functional connectivity from movie-watching fMRI (Yeo networks)",
+}
+
+# Optional free-text guidance for ontology construction. This is the backend hook
+# for a future UI free-text input; whatever a user types would be passed here and
+# injected into every ontology-building prompt.
+ONTOLOGY_USER_GUIDANCE = ""
+
 
 def _load_brain_specs():
     """Merge in generated brain feature specs if the extraction steps have run."""
@@ -337,18 +354,28 @@ def load_merged_frame():
     return df
 
 
-def features_with_hints():
-    """Feature dicts carrying structural hints (domain, subdomain) for the ontology."""
+def features_for_ontology(df=None):
+    """Rich feature descriptors for semantic, LLM-driven ontology construction.
+
+    Provides label, description, units, statistical type, measurement source, and a
+    small sample of observed values so the model has everything it needs to group by
+    meaning. No target domain/subdomain is imposed; the model proposes the hierarchy.
+    """
+    import pandas as pd
     specs = all_feature_specs()
     out = []
     for col, spec in specs.items():
+        sample = None
+        if df is not None and col in df.columns:
+            vals = df[col].dropna().unique()[:4]
+            sample = [str(v) for v in vals]
         out.append({
             "id": col,
             "label": spec.get("label", col),
             "definition": spec.get("description", ""),
             "stat_type": spec.get("stat_type", "numeric"),
             "units": spec.get("units"),
-            "domain": GROUP_DOMAIN.get(spec.get("group", "other"), "OTHER"),
-            "subdomain": spec.get("subdomain_hint", "general"),
+            "source": SOURCE_INFO.get(spec.get("group", ""), ""),
+            "sample": sample,
         })
     return out

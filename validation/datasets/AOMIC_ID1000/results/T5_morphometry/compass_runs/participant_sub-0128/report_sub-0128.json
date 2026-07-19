@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0128_20260718_171930",
+  "report_id": "RPT_sub-0128_20260719_111356",
   "participant_id": "sub-0128",
-  "generated_at": "2026-07-18T17:19:30.236534",
+  "generated_at": "2026-07-19T11:13:56.013561",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 214.680",
+    "primary_output": "IST_intelligence_total: 218.440",
     "probability": 0.85,
     "binary_probability": null,
     "root_confidence": 0.85,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 214.68
+          "IST_intelligence_total": 218.44
         }
       },
       "confidence_level": "HIGH",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergence of structural brain metrics and proactive personality traits."
+        "Convergent positive z-scores across structural brain and personality domains."
       ],
       "supporting_evidence_against": [
-        "Younger age relative to the cohort."
+        "None significant; profile is consistently positive."
       ],
       "uncertainty_factors": [
-        "Inference based on indirect proxies."
+        "Proxy-based prediction rather than direct cognitive assessment."
       ],
       "children": []
     }
@@ -64,42 +64,36 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Total cortical gray matter volume is elevated (z=1.53, 94th percentile, MODERATE effect)",
+      "finding": "Elevated total cortical gray matter volume (z=1.53, 94th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Left hippocampus volume is elevated (z=1.68, 95th percentile, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "High extraversion (z=1.64, 95th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Extraversion is high (z=1.64, 95th percentile, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "BAS drive is high (z=1.50, 93rd percentile, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Low neuroticism (z=-1.07, 14th percentile, SMALL effect)",
+      "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed structural brain metrics, identifying consistent positive deviations in cortical thickness and subcortical volumes (mean z > 1.0).",
-    "Step 2: Integrated personality and motivational profiles, noting high extraversion and reward responsiveness, which correlate with higher cognitive performance.",
-    "Step 3: Evaluated affective stability, noting low neuroticism and low trait anxiety as protective factors against cognitive interference.",
-    "Step 4: Synthesized these convergent signals using a weighted regression approach (mean z=0.367) to estimate the IST-2000R total score.",
-    "Step 5: Calculated the final score as 214.68, reflecting the robust structural and psychological reserve observed."
+    "Step 1: Analyzed neuroanatomical markers, identifying consistent positive deviations in cortical thickness and gray matter volume (mean z > 1.0).",
+    "Step 2: Integrated psychological profile, noting high extraversion and BAS drive, which correlate with task-oriented engagement.",
+    "Step 3: Accounted for low trait anxiety and low neuroticism as protective factors against cognitive performance degradation.",
+    "Step 4: Synthesized these features using a linear regression model anchored to the cohort mean (200) and standard deviation (40), resulting in a predicted score of 218.44."
   ],
-  "clinical_summary": "Subject sub-0128 exhibits a neuroanatomical and psychological profile highly conducive to superior cognitive performance. The presence of significant structural reserve, particularly in cortical gray matter and hippocampal volumes, combined with an extraverted, reward-driven, and emotionally stable temperament, provides a strong basis for predicting an IST-2000R score above the cohort mean.",
+  "clinical_summary": "The participant exhibits a neuroanatomical and psychological profile highly conducive to superior cognitive performance. Structural brain metrics, particularly cortical gray matter volume and hippocampal size, indicate high neural reserve. This is complemented by a personality profile characterized by high extraversion, high reward-seeking behavior, and low neuroticism, which collectively suggest an engaged, resilient, and efficient cognitive style. The predicted IST 2000-R score is 218.44, placing the participant above the cohort mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
     "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
     "coverage_summary": {
       "all_feature_count": 58,
-      "processed_feature_count": 45,
-      "unprocessed_raw_feature_count": 23,
-      "processed_raw_low_priority_feature_count": 35,
+      "processed_feature_count": 51,
+      "unprocessed_raw_feature_count": 13,
+      "processed_raw_low_priority_feature_count": 45,
       "chunk_cited_feature_count": 0,
       "represented_feature_count": 58,
       "missing_feature_count": 0,
@@ -125,9 +119,9 @@
       "coverage": {
         "summary": {
           "all_feature_count": 58,
-          "processed_feature_count": 45,
-          "unprocessed_raw_feature_count": 23,
-          "processed_raw_low_priority_feature_count": 35,
+          "processed_feature_count": 51,
+          "unprocessed_raw_feature_count": 13,
+          "processed_raw_low_priority_feature_count": 45,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 58,
           "missing_feature_count": 0,
@@ -148,9 +142,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 15463,
-          "final_tokens": 18054,
-          "processed_raw_tokens": 17993,
+          "baseline_tokens": 13701,
+          "final_tokens": 17050,
+          "processed_raw_tokens": 16989,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -159,21 +153,21 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_MORPHOMETRY"
+            "BRAIN_MORPHOMETRY",
+            "PSYCHOLOGICAL_PROFILES"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
+            "PSYCHOLOGICAL_PROFILES": 10,
             "BRAIN_MORPHOMETRY": 35
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 58,
-          "unprocessed_feature_count": 23,
-          "processed_feature_count": 35,
+          "unprocessed_feature_count": 13,
+          "processed_feature_count": 45,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -190,11 +184,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 53864,
+    "tokens_used": 51760,
     "domains_processed": [
+      "PSYCHOLOGICAL_PROFILES",
       "BRAIN_MORPHOMETRY",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -203,23 +197,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, PERSONALITY, MOTIVATION_AND_AFFECT",
-      "output_summary": "Generated 5-step plan",
-      "reasoning": "The plan prioritizes early synthesis of psychological and morphometric data. Since the total data volume is low, we use UnimodalCompressor to extract high-level patterns from the brain morphometry data while maintaining raw fidelity for smaller psychological domains, followed by an integrated narrative and final regression analysis.",
-      "timestamp": "2026-07-18T17:19:17.945557",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, BRAIN_MORPHOMETRY, DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "output_summary": "Generated 6-step plan",
+      "reasoning": "The plan prioritizes extracting cognitive-relevant patterns from brain morphometry and psychological profiles. Since the total data volume is low, we use UnimodalCompressor to ensure that only the most predictive features are highlighted for the final regression task. The final prediction is synthesized from these compressed summaries and the qualitative context provided in non-numerical data.",
+      "timestamp": "2026-07-19T11:13:43.587869",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Total cortical gray matter volume is elevated (z=1.53, 94th percentile, MODERATE effect), Left hippocampus volume is elevated (z=1.68, 95th percentile, MODERATE effect), Extraversion is high (z=1.64, 95th percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 214.680 (confidence=0.850)",
-      "reasoning": "Subject sub-0128 exhibits a neuroanatomical and psychological profile highly conducive to superior cognitive performance. The presence of significant structural reserve, particularly in cortical gray matter and hippocampal volumes, combined with an extraverted, reward-driven, and emotionally stable temperament, provides a strong basis for predicting an IST-2000R score above the cohort mean.",
-      "timestamp": "2026-07-18T17:19:29.315857",
+      "input_summary": "Key findings: Elevated total cortical gray matter volume (z=1.53, 94th percentile, MODERATE effect), High extraversion (z=1.64, 95th percentile, MODERATE effect), Low neuroticism (z=-1.07, 14th percentile, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 218.440 (confidence=0.850)",
+      "reasoning": "The participant exhibits a neuroanatomical and psychological profile highly conducive to superior cognitive performance. Structural brain metrics, particularly cortical gray matter volume and hippocampal size, indicate high neural reserve. This is complemented by a personality profile characterized by high extraversion, high reward-seeking behavior, and low neuroticism, which collectively suggest an engaged, resilient, and efficient cognitive style. The predicted IST 2000-R score is 218.44, plac",
+      "timestamp": "2026-07-19T11:13:55.377441",
       "metadata": {
         "probability": 0.85,
-        "classification": "IST_intelligence_total: 214.680"
+        "classification": "IST_intelligence_total: 218.440"
       }
     },
     {
@@ -228,8 +222,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
-      "timestamp": "2026-07-18T17:19:30.235390",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.75; fallback_used=False.",
+      "timestamp": "2026-07-19T11:13:56.013147",
       "metadata": {}
     }
   ]

@@ -1,10 +1,10 @@
 # Patient Report: sub-0128
 
-**Generated**: 2026-07-18T17:25:18.076396
+**Generated**: 2026-07-19T11:19:39.137228
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 195.000
+- **Primary Output**: IST_intelligence_total: 192.000
 - **Probability / Root Confidence**: 65.0%
 - **Confidence**: MEDIUM
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
@@ -14,22 +14,23 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[BRAIN_CONNECTOME]** Dorsal attention - Salience/ventral attention FC (z=-1.536, ~6th percentile, MODERATE effect)
-2. **[BRAIN_CONNECTOME]** Limbic - Frontoparietal control FC (z=1.393, ~92nd percentile, MODERATE effect)
+1. **[FUNCTIONAL_CONNECTOME]** Dorsal attention - Salience/ventral attention FC (z=-1.54, MODERATE effect)
+2. **[FUNCTIONAL_CONNECTOME]** Limbic - Frontoparietal control FC (z=1.39, SMALL effect)
+3. **[FUNCTIONAL_CONNECTOME]** Salience/ventral attention - Default mode FC (z=-1.26, SMALL effect)
 
 ## Clinical Summary
-The participant displays a neurobiological profile consistent with a healthy young-adult cohort. While there are moderate deviations in connectivity between attentional and executive networks, these do not reach clinical significance for cognitive impairment. The predicted IST 2000-R total score is estimated to be near the population mean, reflecting average cognitive performance.
+The participant's functional connectome profile is within normal limits for a healthy adult cohort. While there is no evidence of clinical pathology, the observed moderate decoupling in attention-executive networks and increased limbic-executive integration suggest a cognitive profile characterized by average intelligence with potential for slight inefficiency in high-demand executive reasoning tasks. The predicted IST-2000R total score is 192.
 
 ## Reasoning Chain
-1. Step 1: Evaluated the connectome profile for markers of cognitive efficiency. The data shows no severe pathological deviations, pointing toward a normative cognitive baseline.
-2. Step 2: Identified moderate connectivity bottlenecks between dorsal attention and executive control networks (z=-1.15 to -1.54), which may slightly reduce processing efficiency.
-3. Step 3: Observed hyper-connectivity between limbic and frontoparietal networks (z=1.39), suggesting a shift toward affective-cognitive integration rather than pure analytical efficiency.
-4. Step 4: Integrated these findings with the absence of clinical cognitive impairment markers. The overall profile remains consistent with a healthy young-adult population mean.
-5. Step 5: Estimated the IST 2000-R total score based on the population mean (200) adjusted for the observed minor connectivity inefficiencies.
+1. Step 1: Analyzed functional connectome data for sub-0128, noting no severe pathological deviations (all |z| < 1.6).
+2. Step 2: Identified moderate decoupling in attention-executive networks (Dorsal attention-Salience/ventral attention, z=-1.54) and increased limbic-executive coupling (z=1.39).
+3. Step 3: Integrated these findings with the understanding that IST-2000R performance relies on efficient frontoparietal integration.
+4. Step 4: Concluded that the observed connectivity profile suggests average cognitive efficiency, with slight potential for performance suppression in high-demand fluid reasoning tasks.
+5. Step 5: Estimated the IST total score to be slightly below the population mean of 200, given the identified attentional and executive network inefficiencies.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 33,031
-- **Domains Processed**: BRAIN_CONNECTOME
+- **Tokens Used**: 40,169
+- **Domains Processed**: FUNCTIONAL_CONNECTOME

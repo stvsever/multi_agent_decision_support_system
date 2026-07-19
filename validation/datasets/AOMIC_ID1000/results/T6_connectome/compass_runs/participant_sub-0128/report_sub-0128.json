@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0128_20260718_172138",
+  "report_id": "RPT_sub-0128_20260719_111603",
   "participant_id": "sub-0128",
-  "generated_at": "2026-07-18T17:21:38.864225",
+  "generated_at": "2026-07-19T11:16:03.498338",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 245.000",
+    "primary_output": "IST_intelligence_total: 213.760",
     "probability": 0.85,
     "binary_probability": null,
     "root_confidence": 0.85,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 245.0
+          "IST_intelligence_total": 213.76
         }
       },
       "confidence_level": "HIGH",
@@ -44,13 +44,14 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent positive deviations across structural brain measures and motivational traits."
+        "Consistent positive structural deviations across multiple brain regions.",
+        "Personality traits (Extraversion, BAS) align with high-functioning cognitive engagement."
       ],
       "supporting_evidence_against": [
-        "Connectome decoupling of executive networks."
+        "Functional connectome decoupling in attentional networks may limit peak performance."
       ],
       "uncertainty_factors": [
-        "Reliance on proxy features rather than direct cognitive testing."
+        "Inference based on proxies rather than direct cognitive performance data."
       ],
       "children": []
     }
@@ -64,32 +65,32 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Global cortical gray matter volume is significantly elevated (z=1.53, MODERATE effect).",
+      "finding": "Global cortical gray matter volume is elevated (z=1.53, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Left hippocampus volume is notably enlarged (z=1.68, MODERATE effect).",
+      "finding": "Left hippocampal volume is significantly elevated (z=1.68, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "BAS drive and reward responsiveness are high (z=1.50, MODERATE effect).",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Extraversion is high (z=1.64, MODERATE effect) and BAS drive is high (z=1.50, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Dorsal attention - Salience/ventral attention FC is low (z=-1.54, MODERATE effect).",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Dorsal attention network connectivity is reduced (z=-1.54, MODERATE effect)",
       "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Identified robust structural markers of intelligence, specifically global cortical gray matter (z=1.53) and hippocampal volume (z=1.68).",
-    "Step 2: Integrated motivational traits (BAS drive z=1.50) and personality (Extraversion z=1.64) as indicators of high cognitive engagement.",
-    "Step 3: Analyzed connectome data, noting a shift from standard dorsal-attention-led executive control to a limbic-frontoparietal-recruitment strategy (Limbic-FPC FC z=1.39).",
-    "Step 4: Synthesized structural and behavioral data to estimate a score above the cohort mean (200), resulting in a predicted IST-2000R total of 245."
+    "Step 1: Aggregated structural brain metrics (cortical thickness, hippocampal volume) show consistent positive deviations (z > 1.0), providing a strong neuroanatomical foundation for above-average cognitive performance.",
+    "Step 2: Psychological profiles (high extraversion, high BAS drive) suggest a motivational phenotype conducive to high performance on standardized testing.",
+    "Step 3: Functional connectome analysis reveals a trade-off: while structural potential is high, there is a decoupling of the dorsal attention network (z=-1.54), which may limit peak efficiency in sustained attentional tasks.",
+    "Step 4: Integrating these factors, the model predicts a score above the cohort mean (200), adjusted for the observed functional attentional bottleneck."
   ],
-  "clinical_summary": "The participant exhibits a neurobiological and psychological profile highly conducive to superior cognitive performance. Morphometrically, the subject shows global cortical hypertrophy and significant hippocampal enlargement, providing a strong structural foundation for reasoning. This is complemented by high extraversion and reward-driven motivation, which facilitate sustained cognitive engagement. While the connectome shows atypical network segregation, the hyper-connectivity between limbic and frontoparietal systems suggests a compensatory, high-efficiency cognitive processing style. The predicted IST-2000R score is 245.",
+  "clinical_summary": "The participant exhibits a highly favorable structural profile for cognitive performance, characterized by significant cortical gray matter expansion and large hippocampal volumes. This morphometric foundation is complemented by a psychological phenotype marked by high extraversion and reward-seeking motivation. While functional connectome analysis indicates a potential bottleneck in top-down attentional control, the overall neuroanatomical and psychological markers strongly support an intelligence estimate above the population mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -147,9 +148,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 20093,
-          "final_tokens": 24711,
-          "processed_raw_tokens": 24650,
+          "baseline_tokens": 18334,
+          "final_tokens": 22958,
+          "processed_raw_tokens": 22897,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -158,19 +159,18 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME",
-            "BRAIN_MORPHOMETRY"
+            "BRAIN_MORPHOMETRY",
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
             "BRAIN_MORPHOMETRY": 35,
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 86,
           "unprocessed_feature_count": 23,
@@ -191,12 +191,11 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 70875,
+    "tokens_used": 68091,
     "domains_processed": [
+      "PSYCHOLOGICAL_PROFILES",
       "BRAIN_MORPHOMETRY",
-      "BRAIN_CONNECTOME",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -205,23 +204,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_MORPHOMETRY, BRAIN_CONNECTOME, PERSONALITY, MOTIVATION_AND_AFFECT",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, BRAIN_MORPHOMETRY, FUNCTIONAL_CONNECTOME",
       "output_summary": "Generated 6-step plan",
-      "reasoning": "The plan prioritizes early synthesis of behavioral and neuroimaging data. Since the total token count is low, we use UnimodalCompressor to extract high-level patterns from the brain data to ensure the regression model receives meaningful features rather than raw z-scores. Parallel execution is used for initial feature synthesis and domain compression.",
-      "timestamp": "2026-07-18T17:21:17.952345",
+      "reasoning": "The plan prioritizes psychological and neuroimaging data as primary predictors for intelligence. Early-stage tools establish the phenotype and feature importance, while mid-stage tools compress the high-dimensional imaging data. A final synthesis step integrates these findings to provide a regression estimate for the IST-2000R score.",
+      "timestamp": "2026-07-19T11:15:50.266132",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Global cortical gray matter volume is significantly elevated (z=1.53, MODERATE effect)., Left hippocampus volume is notably enlarged (z=1.68, MODERATE effect)., BAS drive and reward responsiveness are high (z=1.50, MODERATE effect)....",
-      "output_summary": "IST_intelligence_total: 245.000 (confidence=0.850)",
-      "reasoning": "The participant exhibits a neurobiological and psychological profile highly conducive to superior cognitive performance. Morphometrically, the subject shows global cortical hypertrophy and significant hippocampal enlargement, providing a strong structural foundation for reasoning. This is complemented by high extraversion and reward-driven motivation, which facilitate sustained cognitive engagement. While the connectome shows atypical network segregation, the hyper-connectivity between limbic an",
-      "timestamp": "2026-07-18T17:21:38.039398",
+      "input_summary": "Key findings: Global cortical gray matter volume is elevated (z=1.53, MODERATE effect), Left hippocampal volume is significantly elevated (z=1.68, MODERATE effect), Extraversion is high (z=1.64, MODERATE effect) and BAS drive is high (z=1.50, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 213.760 (confidence=0.850)",
+      "reasoning": "The participant exhibits a highly favorable structural profile for cognitive performance, characterized by significant cortical gray matter expansion and large hippocampal volumes. This morphometric foundation is complemented by a psychological phenotype marked by high extraversion and reward-seeking motivation. While functional connectome analysis indicates a potential bottleneck in top-down attentional control, the overall neuroanatomical and psychological markers strongly support an intellige",
+      "timestamp": "2026-07-19T11:16:02.765108",
       "metadata": {
         "probability": 0.85,
-        "classification": "IST_intelligence_total: 245.000"
+        "classification": "IST_intelligence_total: 213.760"
       }
     },
     {
@@ -230,8 +229,8 @@
       "decision_type": "EVALUATION",
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
-      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.67; fallback_used=False.",
-      "timestamp": "2026-07-18T17:21:38.863229",
+      "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=0.60; fallback_used=False.",
+      "timestamp": "2026-07-19T11:16:03.497549",
       "metadata": {}
     }
   ]

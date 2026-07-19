@@ -1294,7 +1294,12 @@
                     <div style="margin-bottom: 1.5rem;">
                         <label class="form-label">PARTICIPANT IDENTIFIER (or path)</label>
                         <input type="text" id="input-pid" class="form-input"
-                            placeholder="e.g. participant_ID6015951 or 6015951" value="">
+                            placeholder="e.g. participant_ID6015951, a full folder path, or any ingested dataset" value="">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="form-label">OUTPUT DIRECTORY (optional)</label>
+                        <input type="text" id="input-output-dir" class="form-input"
+                            placeholder="e.g. /path/to/results (blank = default results/)" value="">
                     </div>
 
                     <!-- ADVANCED SETTINGS TOGGLE -->
@@ -2727,6 +2732,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         id: pid,
+                        output_dir: (document.getElementById('input-output-dir')?.value || '').trim(),
                         target: predictionConfig.targetLabel,
                         control: predictionConfig.controlLabel,
                         prediction_type: predictionConfig.predictionType,

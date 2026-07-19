@@ -1,32 +1,31 @@
 [
   {
     "type": "PIPELINE_START",
-    "timestamp": "2026-07-18T17:17:54.562544",
+    "timestamp": "2026-07-19T11:12:11.331627",
     "data": {
       "participant_id": "sub-0282",
       "target_condition": "Total Intelligence (IST 2000-R composite)",
       "control_condition": "",
       "prediction_task_mode": "univariate_regression",
-      "timestamp": "2026-07-18T17:17:54.562542"
+      "timestamp": "2026-07-19T11:12:11.331623"
     }
   },
   {
     "type": "ORCHESTRATOR",
-    "timestamp": "2026-07-18T17:18:00.720439",
+    "timestamp": "2026-07-19T11:12:18.717844",
     "data": {
-      "plan_id": "sub-0282-intelligence-prediction-001",
-      "total_steps": 6,
+      "plan_id": "sub-0282-ist-prediction-001",
+      "total_steps": 5,
       "priority_domains": [
-        "DEMOGRAPHICS_AND_PHYSICAL",
-        "PERSONALITY",
-        "MOTIVATION_AND_AFFECT",
-        "IDENTITY_AND_BELIEF"
+        "PSYCHOLOGICAL_PROFILES",
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "IDENTITY_AND_BELIEFS"
       ]
     }
   },
   {
     "type": "DATAFLOW_SUMMARY",
-    "timestamp": "2026-07-18T17:18:16.088929",
+    "timestamp": "2026-07-19T11:12:32.844672",
     "data": {
       "iteration": 1,
       "target_condition": "Total Intelligence (IST 2000-R composite)",
@@ -47,8 +46,8 @@
         "summary": {
           "all_feature_count": 23,
           "processed_feature_count": 23,
-          "unprocessed_raw_feature_count": 13,
-          "processed_raw_low_priority_feature_count": 10,
+          "unprocessed_raw_feature_count": 23,
+          "processed_raw_low_priority_feature_count": 0,
           "chunk_cited_feature_count": 0,
           "represented_feature_count": 23,
           "missing_feature_count": 0,
@@ -66,12 +65,12 @@
         "chunking_reason": "payload_fit_excluding_processed_raw"
       },
       "context_fill": {
-        "processed_raw_full_included": true,
+        "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 9927,
-          "final_tokens": 10730,
-          "processed_raw_tokens": 10669,
+          "baseline_tokens": 11606,
+          "final_tokens": 11689,
+          "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -79,28 +78,17 @@
           "runtime_instruction_applied": true
         },
         "coverage_snapshot": {
-          "processed_whole_domains": [
-            "MOTIVATION_AND_AFFECT",
-            "PERSONALITY"
-          ],
-          "processed_prefixes_by_domain": {
-            "MOTIVATION_AND_AFFECT": [
-              [
-                "anxiety_traits"
-              ]
-            ]
-          },
-          "excluded_leaf_counts": {
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
-          },
+          "processed_whole_domains": [],
+          "processed_prefixes_by_domain": {},
+          "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "IDENTITY_AND_BELIEF": 7
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10,
+            "IDENTITY_AND_BELIEFS": 7
           },
           "all_feature_count": 23,
-          "unprocessed_feature_count": 13,
-          "processed_feature_count": 10,
+          "unprocessed_feature_count": 23,
+          "processed_feature_count": 0,
           "missing_feature_count": 0
         },
         "embedding_store": {
@@ -120,16 +108,16 @@
   },
   {
     "type": "PREDICTOR",
-    "timestamp": "2026-07-18T17:18:16.088978",
+    "timestamp": "2026-07-19T11:12:32.844722",
     "data": {
-      "classification": "IST_intelligence_total: 165.000",
+      "classification": "IST_intelligence_total: 209.110",
       "probability": 0.65,
       "prediction_task_mode": "univariate_regression"
     }
   },
   {
     "type": "CRITIC",
-    "timestamp": "2026-07-18T17:18:16.673830",
+    "timestamp": "2026-07-19T11:12:33.808219",
     "data": {
       "verdict": "SATISFACTORY",
       "confidence": 0.95

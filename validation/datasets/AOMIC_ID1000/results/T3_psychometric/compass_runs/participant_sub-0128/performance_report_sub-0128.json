@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:15:25.026745",
-  "total_duration_seconds": 18.67,
+  "execution_timestamp": "2026-07-19T11:09:42.009574",
+  "total_duration_seconds": 24.43,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,8 +86,8 @@
       "processed_raw_full_included": false,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 7638,
-        "final_tokens": 7721,
+        "baseline_tokens": 9976,
+        "final_tokens": 10059,
         "processed_raw_tokens": null,
         "single_chunk_limit": 30000,
         "threshold": 943718,
@@ -100,9 +100,8 @@
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {},
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+          "PSYCHOLOGICAL_PROFILES": 10
         },
         "all_feature_count": 16,
         "unprocessed_feature_count": 16,
@@ -124,7 +123,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 211.120",
+    "classification": "IST_intelligence_total: 234.000",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -136,7 +135,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 211.12
+          "IST_intelligence_total": 234.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -144,76 +143,84 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergent positive signals across MOTIVATION_AND_AFFECT and PERSONALITY domains."
+        "Convergent positive indicators across demographics and psychological traits."
       ],
       "supporting_evidence_against": [
-        "Indirect nature of the predictive features."
+        "Absence of direct cognitive performance data."
       ],
       "uncertainty_factors": [
-        "Absence of direct cognitive testing metrics."
+        "Proxy-based estimation rather than direct measurement."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 31463,
-    "prompt_tokens": 26615,
-    "completion_tokens": 4848,
+    "total_tokens": 38706,
+    "prompt_tokens": 32621,
+    "completion_tokens": 6085,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4690,
-        "completion_tokens": 1111,
-        "total": 5801,
+        "prompt_tokens": 4673,
+        "completion_tokens": 905,
+        "total": 5578,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "orchestrator",
-        "prompt_tokens": 4732,
-        "completion_tokens": 922,
-        "total": 5654,
+        "prompt_tokens": 4715,
+        "completion_tokens": 927,
+        "total": 5642,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1789,
-        "completion_tokens": 479,
-        "total": 2268,
+        "prompt_tokens": 1626,
+        "completion_tokens": 473,
+        "total": 2099,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which personality and affective traits are most relevant to cognitive performance in this participant."
+        "step_reasoning": "Identifies which demographic and psychological features are most relevant for intelligence prediction."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1268,
-        "completion_tokens": 677,
-        "total": 1945,
+        "prompt_tokens": 1270,
+        "completion_tokens": 687,
+        "total": 1957,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical and cognitive criteria for the target intelligence score."
+        "step_reasoning": "Establishes the criteria for intelligence-related patterns in the data."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1394,
-        "completion_tokens": 434,
-        "total": 1828,
+        "prompt_tokens": 1297,
+        "completion_tokens": 498,
+        "total": 1795,
         "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Refines the feature list to ensure only the most predictive variables are used for the final estimation."
+        "step_reasoning": "Prioritizes the most predictive features for the final regression model."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1094,
-        "completion_tokens": 197,
-        "total": 1291,
-        "step_tool": "CodeExecutor",
-        "step_reasoning": "Performs the final univariate regression calculation based on the prioritized features and phenotype definition."
+        "prompt_tokens": 3118,
+        "completion_tokens": 661,
+        "total": 3779,
+        "step_tool": "MultimodalNarrativeCreator",
+        "step_reasoning": "Fuses the ranked features into a coherent clinical narrative for the prediction agent."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 2391,
+        "completion_tokens": 882,
+        "total": 3273,
+        "step_tool": "DifferentialDiagnosis",
+        "step_reasoning": "Final step to integrate all findings into a single numerical regression prediction."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 11464,
-        "completion_tokens": 990,
-        "total": 12454,
+        "prompt_tokens": 13347,
+        "completion_tokens": 1014,
+        "total": 14361,
         "step_tool": null,
         "step_reasoning": null
       },
@@ -228,12 +235,11 @@
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_2000R_PREDICTION_0128",
-    "total_steps": 4,
+    "plan_id": "sub-0128-intelligence-prediction-001",
+    "total_steps": 5,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ]
   },
   "explainability": {

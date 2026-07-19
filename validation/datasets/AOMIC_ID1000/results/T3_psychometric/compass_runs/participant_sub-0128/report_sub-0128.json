@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0128_20260718_171543",
+  "report_id": "RPT_sub-0128_20260719_111006",
   "participant_id": "sub-0128",
-  "generated_at": "2026-07-18T17:15:43.692992",
+  "generated_at": "2026-07-19T11:10:06.433013",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 211.120",
+    "primary_output": "IST_intelligence_total: 234.000",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 211.12
+          "IST_intelligence_total": 234.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Convergent positive signals across MOTIVATION_AND_AFFECT and PERSONALITY domains."
+        "Convergent positive indicators across demographics and psychological traits."
       ],
       "supporting_evidence_against": [
-        "Indirect nature of the predictive features."
+        "Absence of direct cognitive performance data."
       ],
       "uncertainty_factors": [
-        "Absence of direct cognitive testing metrics."
+        "Proxy-based estimation rather than direct measurement."
       ],
       "children": []
     }
@@ -63,29 +63,34 @@
   },
   "key_findings": [
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "Elevated reinforcement sensitivity (BAS drive z=1.495, BAS reward responsiveness z=1.495, MODERATE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Education level is elevated (z=0.95, 83rd percentile, SMALL effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "High extraversion (z=1.643, MODERATE effect) and low neuroticism (z=-1.074, SMALL effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Extraversion is notably elevated (z=1.64, 95th percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Education level (z=0.953, SMALL effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Reinforcement sensitivity (BAS drive/reward) is elevated (z=1.50, 93rd percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Neuroticism is reduced (z=-1.07, 14th percentile, SMALL effect)",
+      "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic, personality, and motivational features for latent intelligence signals.",
-    "Step 2: Identified strong positive signals in reinforcement sensitivity (BAS) and extraversion, which correlate with higher cognitive engagement.",
-    "Step 3: Integrated secondary positive signals from education level and conscientiousness.",
-    "Step 4: Applied linear transformation (mu=200, sigma=40) to the aggregated z-score signal (mean_z=0.278) to estimate the IST 2000-R total score.",
-    "Step 5: Finalized prediction at 211.12, reflecting a moderate upward shift from the population mean."
+    "Step 1: Analyzed demographic and psychological profile for indicators of cognitive performance.",
+    "Step 2: Identified convergence of high educational attainment (z=0.95) and high openness (z=0.65), which are robust predictors of higher IST scores.",
+    "Step 3: Integrated motivational factors (high BAS drive/reward responsiveness, z=1.50) and low anxiety (low neuroticism, z=-1.07) as facilitators of optimal test-taking performance.",
+    "Step 4: Estimated the total IST 2000-R score by adjusting the cohort mean (200) upward by approximately 0.85 standard deviations (34 points) based on the synergistic effect of these positive predictors.",
+    "Step 5: Final estimate calculated as 234, reflecting an above-average cognitive profile."
   ],
-  "clinical_summary": "Participant sub-0128 exhibits a psychological profile characterized by high reinforcement sensitivity, high extraversion, and low neuroticism. These traits, combined with above-average educational attainment, suggest a higher-than-average cognitive engagement and performance potential. The estimated IST 2000-R total score of 211.12 is consistent with these positive latent indicators within a healthy young-adult cohort.",
+  "clinical_summary": "The participant exhibits a profile highly conducive to optimal performance on the IST 2000-R. The combination of high educational attainment, high openness, and high task-oriented motivation (BAS drive), coupled with low neuroticism and trait anxiety, suggests a stable and efficient cognitive performance. The evidence points to an above-average intelligence score, estimated at 234, which is approximately 0.85 standard deviations above the cohort mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -143,8 +148,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 7638,
-          "final_tokens": 7721,
+          "baseline_tokens": 9976,
+          "final_tokens": 10059,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -157,9 +162,8 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10
           },
           "all_feature_count": 16,
           "unprocessed_feature_count": 16,
@@ -180,11 +184,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 31463,
+    "tokens_used": 38706,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ],
     "detailed_logs": []
   },
@@ -193,23 +196,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT",
-      "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify key predictors for intelligence estimation. We will use the FeatureSynthesizer to weight personality and affective traits against demographic baselines before performing a final regression-based prediction.",
-      "timestamp": "2026-07-18T17:15:32.936485",
+      "input_summary": "Domains: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the total data volume is low (FIT_FOR_RAW), we prioritize high-level synthesis tools to extract predictive patterns from the psychological and demographic data. We use FeatureSynthesizer and ClinicalRelevanceRanker to weight the most informative variables before final regression-based prediction.",
+      "timestamp": "2026-07-19T11:09:48.866203",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Elevated reinforcement sensitivity (BAS drive z=1.495, BAS reward responsiveness z=1.495, MODERATE effect), High extraversion (z=1.643, MODERATE effect) and low neuroticism (z=-1.074, SMALL effect), Education level (z=0.953, SMALL effect)...",
-      "output_summary": "IST_intelligence_total: 211.120 (confidence=0.650)",
-      "reasoning": "Participant sub-0128 exhibits a psychological profile characterized by high reinforcement sensitivity, high extraversion, and low neuroticism. These traits, combined with above-average educational attainment, suggest a higher-than-average cognitive engagement and performance potential. The estimated IST 2000-R total score of 211.12 is consistent with these positive latent indicators within a healthy young-adult cohort.",
-      "timestamp": "2026-07-18T17:15:42.946792",
+      "input_summary": "Key findings: Education level is elevated (z=0.95, 83rd percentile, SMALL effect), Extraversion is notably elevated (z=1.64, 95th percentile, MODERATE effect), Reinforcement sensitivity (BAS drive/reward) is elevated (z=1.50, 93rd percentile, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 234.000 (confidence=0.650)",
+      "reasoning": "The participant exhibits a profile highly conducive to optimal performance on the IST 2000-R. The combination of high educational attainment, high openness, and high task-oriented motivation (BAS drive), coupled with low neuroticism and trait anxiety, suggests a stable and efficient cognitive performance. The evidence points to an above-average intelligence score, estimated at 234, which is approximately 0.85 standard deviations above the cohort mean.",
+      "timestamp": "2026-07-19T11:10:05.855866",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 211.120"
+        "classification": "IST_intelligence_total: 234.000"
       }
     },
     {
@@ -219,7 +222,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:15:43.691738",
+      "timestamp": "2026-07-19T11:10:06.431966",
       "metadata": {}
     }
   ]

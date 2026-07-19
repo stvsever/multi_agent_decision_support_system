@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0120_20260718_172317",
+  "report_id": "RPT_sub-0120_20260719_111735",
   "participant_id": "sub-0120",
-  "generated_at": "2026-07-18T17:23:17.666305",
+  "generated_at": "2026-07-19T11:17:35.922567",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 218.000",
+    "primary_output": "IST_intelligence_total: 200.000",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 218.0
+          "IST_intelligence_total": 200.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Elevated white matter volume (z=1.04) supports above-average neural efficiency."
+        "Robust global and white matter volumes support average-to-high cognitive potential."
       ],
       "supporting_evidence_against": [
-        "Posterior cortical thinning (z < -1.28) acts as a structural bottleneck for abstract reasoning."
+        "Posterior cortical thinning may limit performance on specific abstract reasoning components of the IST."
       ],
       "uncertainty_factors": [
-        "No behavioral or educational data provided."
+        "Lack of direct cognitive performance data necessitates reliance on structural morphometry proxies."
       ],
       "children": []
     }
@@ -64,28 +64,27 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Elevated global white matter volume (z=1.04, MODERATE effect)",
+      "finding": "Global brain and white matter volumes are elevated (z=+1.04), suggesting strong structural foundations for general cognitive capacity.",
       "direction": "ABNORMAL_HIGH"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Posterior cortical thinning in parietal and occipital lobes (z=-1.28 to -1.62, MODERATE effect)",
+      "finding": "Bilateral posterior cortical thinning (parietal/occipital, mean z=-1.39) indicates potential vulnerability in visuospatial processing.",
       "direction": "ABNORMAL_LOW"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Elevated subcortical volumes (Accumbens z=1.88, Pallidum z=1.08, MODERATE effect)",
+      "finding": "Enlargement of reward-related subcortical structures (left accumbens z=1.88, left ventraldc z=1.50).",
       "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed global brain metrics, identifying elevated white matter volume (z=1.04) as a proxy for efficient neural connectivity.",
-    "Step 2: Identified localized posterior cortical thinning (z < -1.28) as a potential bottleneck for visuospatial and abstract reasoning tasks.",
-    "Step 3: Integrated subcortical findings (Accumbens z=1.88) which suggest high motivational capacity, likely compensating for cortical constraints.",
-    "Step 4: Synthesized these divergent structural signals to estimate an IST score slightly above the cohort mean (200).",
-    "Step 5: Calculated the final estimate of 218, reflecting the balance between structural connectivity advantages and localized cortical thinning."
+    "Step 1: Analyzed global morphometric markers which indicate a robust structural baseline (z > 0.7) for general cognitive potential.",
+    "Step 2: Identified focal structural vulnerabilities in posterior cortical regions (parietal/occipital) which typically correlate with reduced visuospatial reasoning efficiency.",
+    "Step 3: Evaluated the compensatory role of high-functioning reward circuitry (accumbens/ventraldc), which likely supports executive drive and task persistence.",
+    "Step 4: Integrated these mixed signals to estimate an IST total score that remains near the population mean, as the structural strengths and vulnerabilities likely offset one another."
   ],
-  "clinical_summary": "Subject sub-0120 exhibits a structural profile characterized by high-normal global brain volume and elevated white matter, which typically supports above-average cognitive performance. While localized posterior cortical thinning (parietal/occipital) suggests potential constraints on visuospatial reasoning, these are likely mitigated by robust connectivity and high subcortical (reward/motivation) volume. The estimated IST 2000-R total score is 218, placing the subject approximately 0.45 SD above the cohort mean.",
+  "clinical_summary": "The participant exhibits a complex neuroanatomical profile characterized by high global and white matter volumes, which generally support high-average cognitive potential. However, this is balanced by moderate focal thinning in posterior cortical regions, which may constrain visuospatial reasoning. The presence of enlarged reward-system structures suggests a high level of cognitive persistence, which likely serves as a compensatory mechanism. The predicted IST 2000-R total score is estimated at 200, reflecting a balance between structural strengths and regional vulnerabilities.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -143,9 +142,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 7807,
-          "final_tokens": 10398,
-          "processed_raw_tokens": 10337,
+          "baseline_tokens": 8851,
+          "final_tokens": 11448,
+          "processed_raw_tokens": 11387,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -180,7 +179,7 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 48618,
+    "tokens_used": 42500,
     "domains_processed": [
       "BRAIN_MORPHOMETRY"
     ],
@@ -193,21 +192,21 @@
       "decision_type": "PLAN_GENERATION",
       "input_summary": "Domains: BRAIN_MORPHOMETRY",
       "output_summary": "Generated 5-step plan",
-      "reasoning": "The participant's data is small enough to be processed efficiently. We will use early-stage tools to define the phenotype and analyze deviations, then compress the brain morphometry data to extract relevant structural patterns before integrating all findings into a final regression estimate.",
-      "timestamp": "2026-07-18T17:23:03.116670",
+      "reasoning": "The plan prioritizes early definition of the cognitive phenotype and structural anomaly screening. Since the data volume is low (865 tokens), we use a direct compression approach for the morphometry domain followed by a narrative fusion to integrate qualitative clinical notes before performing the final regression calculation.",
+      "timestamp": "2026-07-19T11:17:22.945625",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Elevated global white matter volume (z=1.04, MODERATE effect), Posterior cortical thinning in parietal and occipital lobes (z=-1.28 to -1.62, MODERATE effect), Elevated subcortical volumes (Accumbens z=1.88, Pallidum z=1.08, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 218.000 (confidence=0.650)",
-      "reasoning": "Subject sub-0120 exhibits a structural profile characterized by high-normal global brain volume and elevated white matter, which typically supports above-average cognitive performance. While localized posterior cortical thinning (parietal/occipital) suggests potential constraints on visuospatial reasoning, these are likely mitigated by robust connectivity and high subcortical (reward/motivation) volume. The estimated IST 2000-R total score is 218, placing the subject approximately 0.45 SD above ",
-      "timestamp": "2026-07-18T17:23:17.020985",
+      "input_summary": "Key findings: Global brain and white matter volumes are elevated (z=+1.04), suggesting strong structural foundations for general cognitive capacity., Bilateral posterior cortical thinning (parietal/occipital, mean z=-1.39) indicates potential vulnerability in visuospatial processing., Enlargement of reward-related subcortical structures (left accumbens z=1.88, left ventraldc z=1.50)....",
+      "output_summary": "IST_intelligence_total: 200.000 (confidence=0.650)",
+      "reasoning": "The participant exhibits a complex neuroanatomical profile characterized by high global and white matter volumes, which generally support high-average cognitive potential. However, this is balanced by moderate focal thinning in posterior cortical regions, which may constrain visuospatial reasoning. The presence of enlarged reward-system structures suggests a high level of cognitive persistence, which likely serves as a compensatory mechanism. The predicted IST 2000-R total score is estimated at ",
+      "timestamp": "2026-07-19T11:17:35.069353",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 218.000"
+        "classification": "IST_intelligence_total: 200.000"
       }
     },
     {
@@ -217,7 +216,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:23:17.664877",
+      "timestamp": "2026-07-19T11:17:35.922087",
       "metadata": {}
     }
   ]

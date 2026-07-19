@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0498_20260718_171637",
+  "report_id": "RPT_sub-0498_20260719_111103",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:16:37.879227",
+  "generated_at": "2026-07-19T11:11:03.020040",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 199.320",
+    "primary_output": "IST_intelligence_total: 190.000",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 199.32
+          "IST_intelligence_total": 190.0
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,14 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Regression estimate derived from multi-domain feature synthesis centered on population mean."
+        "Personality-based performance modulation",
+        "Demographic deviation analysis"
       ],
       "supporting_evidence_against": [
-        "Absence of direct cognitive biomarkers limits precision."
+        "Absence of direct cognitive subscale data"
       ],
       "uncertainty_factors": [
-        "Indirect nature of predictive features."
+        "Indirect proxy reliance"
       ],
       "children": []
     }
@@ -63,28 +64,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Handedness is significantly deviated (z=-2.85, LARGE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Extreme handedness deviation (z=-2.85, <1st percentile, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "MOTIVATION_AND_AFFECT",
-      "finding": "Trait anxiety (STAI-T) is elevated (z=0.745, SMALL effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Elevated Neuroticism (z=1.42, 92nd percentile, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
     },
     {
-      "domain": "PERSONALITY",
-      "finding": "Neuroticism (NEO-FFI) is elevated (z=1.421, MODERATE effect)",
-      "direction": "ABNORMAL_HIGH"
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Reduced BAS fun-seeking (z=-1.25, 11th percentile, SMALL effect)",
+      "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic and personality features as proxies for g-factor in the absence of direct cognitive scores.",
-    "Step 2: Identified that while the participant shows specific deviations (e.g., high neuroticism, left-handedness), these do not map to significant cognitive impairment or giftedness.",
-    "Step 3: Integrated the population mean (200) with the observed mild negative deviations in reinforcement sensitivity and socioeconomic markers.",
-    "Step 4: Applied a conservative regression adjustment to the population mean, resulting in an estimate slightly below the cohort average due to the cumulative effect of anxiety and neuroticism on potential test performance."
+    "Step 1: Establish baseline mean of 200 (SD 40) for the healthy young-adult cohort.",
+    "Step 2: Identify negative pressure from demographic outliers (age z=-1.08, handedness z=-2.85).",
+    "Step 3: Integrate psychological moderators; high Neuroticism (z=1.42) and low BAS drive (z=-1.07) are known to negatively correlate with standardized test performance.",
+    "Step 4: Synthesize evidence indicating a downward shift from the cohort mean due to anxiety-induced performance interference and reduced task engagement.",
+    "Step 5: Estimate final score at 190, reflecting a moderate downward adjustment from the mean."
   ],
-  "clinical_summary": "Participant sub-0498 exhibits a personality and demographic profile consistent with a healthy young adult. While elevated neuroticism and trait anxiety are present, they are not indicative of cognitive pathology. The estimated IST 2000-R total score is predicted to be within the normative range, slightly below the cohort mean of 200, reflecting the influence of non-cognitive factors on potential test performance.",
+  "clinical_summary": "Participant sub-0498 exhibits a personality and demographic profile that suggests a slight downward pressure on standardized cognitive performance. While within the normal range, the combination of elevated Neuroticism, trait anxiety, and reduced behavioral activation (BAS) likely hinders optimal performance on the IST 2000-R. The estimated total intelligence score is 190, slightly below the cohort mean of 200.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -142,8 +144,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 8883,
-          "final_tokens": 8966,
+          "baseline_tokens": 10089,
+          "final_tokens": 10172,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -156,9 +158,8 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5,
-            "MOTIVATION_AND_AFFECT": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 10
           },
           "all_feature_count": 16,
           "unprocessed_feature_count": 16,
@@ -179,11 +180,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 35777,
+    "tokens_used": 33459,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ],
     "detailed_logs": []
   },
@@ -192,23 +192,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS, PSYCHOLOGICAL_PROFILES",
       "output_summary": "Generated 5-step plan",
-      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify patterns relevant to cognitive performance. We then rank these features by clinical relevance before performing a final regression-based prediction.",
-      "timestamp": "2026-07-18T17:16:23.795224",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize feature synthesis and anomaly detection to identify patterns relevant to cognitive performance. We use the FeatureSynthesizer to weight psychological and demographic variables, followed by a narrative fusion to support the final regression task.",
+      "timestamp": "2026-07-19T11:10:45.045224",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Handedness is significantly deviated (z=-2.85, LARGE effect), Trait anxiety (STAI-T) is elevated (z=0.745, SMALL effect), Neuroticism (NEO-FFI) is elevated (z=1.421, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 199.320 (confidence=0.650)",
-      "reasoning": "Participant sub-0498 exhibits a personality and demographic profile consistent with a healthy young adult. While elevated neuroticism and trait anxiety are present, they are not indicative of cognitive pathology. The estimated IST 2000-R total score is predicted to be within the normative range, slightly below the cohort mean of 200, reflecting the influence of non-cognitive factors on potential test performance.",
-      "timestamp": "2026-07-18T17:16:37.049402",
+      "input_summary": "Key findings: Extreme handedness deviation (z=-2.85, <1st percentile, LARGE effect), Elevated Neuroticism (z=1.42, 92nd percentile, MODERATE effect), Reduced BAS fun-seeking (z=-1.25, 11th percentile, SMALL effect)...",
+      "output_summary": "IST_intelligence_total: 190.000 (confidence=0.650)",
+      "reasoning": "Participant sub-0498 exhibits a personality and demographic profile that suggests a slight downward pressure on standardized cognitive performance. While within the normal range, the combination of elevated Neuroticism, trait anxiety, and reduced behavioral activation (BAS) likely hinders optimal performance on the IST 2000-R. The estimated total intelligence score is 190, slightly below the cohort mean of 200.",
+      "timestamp": "2026-07-19T11:11:02.420313",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 199.320"
+        "classification": "IST_intelligence_total: 190.000"
       }
     },
     {
@@ -218,7 +218,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:16:37.878002",
+      "timestamp": "2026-07-19T11:11:03.019158",
       "metadata": {}
     }
   ]

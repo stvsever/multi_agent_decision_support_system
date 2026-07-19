@@ -1,10 +1,10 @@
 # Patient Report: sub-0673
 
-**Generated**: 2026-07-18T17:20:48.489047
+**Generated**: 2026-07-19T11:15:23.714260
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 220.480
+- **Primary Output**: IST_intelligence_total: 222.680
 - **Probability / Root Confidence**: 65.0%
 - **Confidence**: MEDIUM
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
@@ -14,24 +14,23 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[BRAIN_MORPHOMETRY]** Global brain volume expansion (z=1.16, 88th percentile, MODERATE effect)
-2. **[BRAIN_MORPHOMETRY]** Subcortical nuclei hypertrophy (z=1.44, 92nd percentile, MODERATE effect)
-3. **[PERSONALITY]** Very low conscientiousness (z=-2.01, 2nd percentile, LARGE effect)
-4. **[MOTIVATION_AND_AFFECT]** High BAS drive (z=1.50, 93rd percentile, MODERATE effect)
+1. **[BRAIN_MORPHOMETRY]** Global brain volume expansion (z=1.16, MODERATE effect)
+2. **[PSYCHOLOGICAL_PROFILES]** Very low Conscientiousness (z=-2.01, LARGE effect) and Agreeableness (z=-2.14, LARGE effect)
+3. **[PSYCHOLOGICAL_PROFILES]** High Extraversion (z=1.29, MODERATE effect) and BAS drive (z=1.50, MODERATE effect)
 
 ## Clinical Summary
-The participant exhibits a bifurcated profile for cognitive potential. Neuroanatomical markers, including global brain volume and subcortical structures (caudate, pallidum), are consistently elevated (z > 1.0), providing a strong biological substrate for high intelligence. This is supported by high BAS drive, suggesting strong goal-directed motivation. However, these positive indicators are offset by very low conscientiousness and agreeableness, which may negatively impact performance on standardized assessments like the IST 2000-R. The predicted score of 220.48 reflects this interplay between high structural capacity and behavioral performance variability.
+The subject (sub-0673) presents with a robust neuroanatomical profile characterized by global and subcortical volume expansion, which strongly correlates with higher cognitive capacity. While these biological markers suggest superior intelligence, the subject's personality profile—specifically very low conscientiousness and agreeableness—likely acts as a performance dampener in structured, timed testing environments. The predicted IST 2000-R score of 222.68 places the subject approximately 0.57 SD above the cohort mean, reflecting a high-potential individual whose test performance is modulated by specific behavioral traits.
 
 ## Reasoning Chain
-1. Step 1: Identified robust structural brain markers (global and subcortical volumes) as primary positive predictors for intelligence.
-2. Step 2: Integrated motivational markers (high BAS drive) which suggest strong potential for cognitive engagement.
-3. Step 3: Evaluated personality traits; noted that while structural capacity is high, the significant deficit in conscientiousness and agreeableness likely limits test-taking performance.
-4. Step 4: Synthesized these factors using a weighted regression approach, adjusting the population mean (200) upward due to structural advantages, but tempering the increase due to personality-based performance risks.
-5. Step 5: Final estimate calculated at 220.48, reflecting a balance between high biological potential and behavioral constraints.
+1. Step 1: Analyzed neuroanatomical markers showing widespread volumetric expansion (global volume z=1.16, subcortical volumes z=1.44), which are robust positive predictors for intelligence.
+2. Step 2: Evaluated psychological profile; high BAS drive and Extraversion suggest high cognitive engagement, but very low Conscientiousness and Agreeableness indicate potential test-taking behavioral constraints.
+3. Step 3: Integrated demographic and identity markers, noting high current religiosity and education level as secondary contextual factors.
+4. Step 4: Synthesized findings using a weighted model mapping the mean z-score (0.567) onto the IST distribution (mean 200, SD 40), adjusting for the dampening effect of low conscientiousness on standardized test performance.
+5. Step 5: Final estimate calculated as 222.68, reflecting the balance between high biological capacity and behavioral performance limitations.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 52,988
-- **Domains Processed**: BRAIN_MORPHOMETRY, PERSONALITY, MOTIVATION_AND_AFFECT
+- **Tokens Used**: 54,836
+- **Domains Processed**: PSYCHOLOGICAL_PROFILES, IDENTITY_AND_BELIEFS, BRAIN_MORPHOMETRY, DEMOGRAPHICS_AND_ANTHROPOMETRICS

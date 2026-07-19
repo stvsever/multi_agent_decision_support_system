@@ -13,50 +13,49 @@
     {
       "participant_id": "sub-0120",
       "ground_truth": 296.0,
-      "predicted": 216.04,
-      "abs_error": 79.96,
+      "predicted": 215.0,
+      "abs_error": 81.0,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 22.1
+      "duration_seconds": 19.1
     },
     {
       "participant_id": "sub-0128",
       "ground_truth": 235.0,
-      "predicted": 245.0,
-      "abs_error": 10.0,
+      "predicted": 213.76,
+      "abs_error": 21.24,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 28.3
+      "duration_seconds": 20.7
     },
     {
       "participant_id": "sub-0153",
       "ground_truth": 193.0,
-      "predicted": 225.0,
-      "abs_error": 32.0,
+      "predicted": 208.0,
+      "abs_error": 15.0,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 22.6
+      "duration_seconds": 20.4
     },
     {
       "participant_id": "sub-0282",
       "ground_truth": 68.0,
-      "predicted": 165.0,
-      "abs_error": 97.0,
+      "predicted": 152.0,
+      "abs_error": 84.0,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 18.8
+      "duration_seconds": 20.4
     },
     {
       "participant_id": "sub-0498",
       "ground_truth": 166.0,
-      "predicted": 185.0,
-      "abs_error": 19.0,
+      "predicted": 209.72,
+      "abs_error": 43.72,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 15.4
+      "duration_seconds": 19.6
     },
     {
       "participant_id": "sub-0673",
       "ground_truth": 216.0,
-      "predicted": 221.44,
-      "abs_error": 5.44,
-      "verdict": "SATISFACTORY",
-      "duration_seconds": 21.1
+      "predicted": null,
+      "abs_error": null,
+      "error": "ValueError: Missing regression output 'IST_intelligence_total' for node 'root'"
     }
   ]
 }

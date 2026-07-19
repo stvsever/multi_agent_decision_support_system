@@ -1,15 +1,15 @@
 {
-  "report_id": "RPT_sub-0498_20260718_171448",
+  "report_id": "RPT_sub-0498_20260719_110903",
   "participant_id": "sub-0498",
-  "generated_at": "2026-07-18T17:14:48.984379",
+  "generated_at": "2026-07-19T11:09:03.673383",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 191.910",
-    "probability": 0.65,
+    "primary_output": "IST_intelligence_total: 195.500",
+    "probability": 0.55,
     "binary_probability": null,
-    "root_confidence": 0.65,
+    "root_confidence": 0.55,
     "confidence": "MEDIUM",
     "target_condition": "Total Intelligence (IST 2000-R composite)",
     "control_condition": "",
@@ -36,21 +36,21 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 191.91
+          "IST_intelligence_total": 195.5
         }
       },
       "confidence_level": "MEDIUM",
-      "confidence_score": 0.65,
+      "confidence_score": 0.55,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent negative trends in socioeconomic and physical attributes."
+        "Regression estimate derived from mean z-score adjustment of cohort baseline."
       ],
       "supporting_evidence_against": [
-        "Weak positive signals from personality domain."
+        "Limited predictive power of personality traits for g-factor intelligence."
       ],
       "uncertainty_factors": [
-        "Indirect nature of features used for cognitive estimation."
+        "Lack of direct cognitive performance data."
       ],
       "children": []
     }
@@ -63,29 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Handedness deviation (z=-2.85, LARGE effect)",
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Handedness is a significant outlier (z=-2.85, LARGE effect)",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "DEMOGRAPHICS_AND_PHYSICAL",
-      "finding": "Age (z=-1.08, MODERATE effect)",
-      "direction": "ABNORMAL_LOW"
-    },
-    {
-      "domain": "PERSONALITY",
-      "finding": "Neuroticism (z=+1.42, MODERATE effect)",
+      "domain": "PSYCHOLOGICAL_PROFILES",
+      "finding": "Neuroticism (NEO-FFI) is elevated (z=+1.42, MODERATE effect)",
       "direction": "ABNORMAL_HIGH"
+    },
+    {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "finding": "Age is lower than cohort mean (z=-1.08, MODERATE effect)",
+      "direction": "ABNORMAL_LOW"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed demographic and personality features as proxies for cognitive performance.",
-    "Step 2: Identified consistent negative deviations across physical and socioeconomic leaf nodes (age, handedness, BMI, education).",
-    "Step 3: Evaluated the conflict between positive root-level aggregates and negative leaf-level data; prioritized granular leaf data as per clinical guidance.",
-    "Step 4: Applied a regression model mapping the mean z-score of -0.202 to the IST-2000R scale (mean 200, SD 40).",
-    "Step 5: Calculated the final estimate of 191.9, reflecting a mild downward adjustment from the population mean."
+    "Step 1: Analyzed demographic and psychological features to estimate IST 2000-R total score.",
+    "Step 2: Identified handedness (z=-2.85) and neuroticism (z=+1.42) as primary deviations.",
+    "Step 3: Considered the negative impact of high neuroticism on standardized testing performance.",
+    "Step 4: Integrated demographic factors (age, education) which suggest a baseline near the cohort mean.",
+    "Step 5: Applied a regression estimate based on the mean of normalized features, adjusted for the dampening effect of neuroticism on cognitive performance."
   ],
-  "clinical_summary": "The participant exhibits a cognitive profile estimated to be slightly below the cohort mean of 200. The prediction is driven by consistent negative deviations in demographic and socioeconomic markers, specifically age and handedness, which outweigh the minor positive signals from personality traits. The estimate of 191.9 reflects a conservative adjustment given the absence of direct cognitive testing data.",
+  "clinical_summary": "Participant sub-0498 exhibits a unique profile characterized by atypical handedness and elevated neuroticism. While demographic factors are generally within normal limits, the combination of these specific deviations suggests a potential for slightly lower-than-average performance on standardized cognitive tests like the IST 2000-R, primarily due to the potential for performance interference from affective traits.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -143,8 +143,8 @@
         "processed_raw_full_included": false,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 6194,
-          "final_tokens": 6277,
+          "baseline_tokens": 6860,
+          "final_tokens": 6943,
           "processed_raw_tokens": null,
           "single_chunk_limit": 30000,
           "threshold": 943718,
@@ -157,8 +157,8 @@
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {},
           "unprocessed_leaf_counts": {
-            "DEMOGRAPHICS_AND_PHYSICAL": 6,
-            "PERSONALITY": 5
+            "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+            "PSYCHOLOGICAL_PROFILES": 5
           },
           "all_feature_count": 11,
           "unprocessed_feature_count": 11,
@@ -179,10 +179,10 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 24522,
+    "tokens_used": 31129,
     "domains_processed": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ],
     "detailed_logs": []
   },
@@ -191,23 +191,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY",
+      "input_summary": "Domains: DEMOGRAPHICS_AND_ANTHROPOMETRICS, PSYCHOLOGICAL_PROFILES",
       "output_summary": "Generated 4-step plan",
-      "reasoning": "The data volume is small (FIT_FOR_RAW), so complex compression is unnecessary. The plan focuses on identifying the most relevant demographic and personality features using the FeatureSynthesizer and RelevanceRanker, then applying a regression model via CodeExecutor to estimate the IST 2000-R score.",
-      "timestamp": "2026-07-18T17:14:36.878604",
+      "reasoning": "Since the data volume is low (FIT_FOR_RAW), we prioritize high-fidelity feature synthesis and anomaly detection. We use the psychological and demographic domains to build a comprehensive profile, synthesize relevant features for intelligence prediction, and then perform a final regression analysis.",
+      "timestamp": "2026-07-19T11:08:52.146165",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Handedness deviation (z=-2.85, LARGE effect), Age (z=-1.08, MODERATE effect), Neuroticism (z=+1.42, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 191.910 (confidence=0.650)",
-      "reasoning": "The participant exhibits a cognitive profile estimated to be slightly below the cohort mean of 200. The prediction is driven by consistent negative deviations in demographic and socioeconomic markers, specifically age and handedness, which outweigh the minor positive signals from personality traits. The estimate of 191.9 reflects a conservative adjustment given the absence of direct cognitive testing data.",
-      "timestamp": "2026-07-18T17:14:48.358451",
+      "input_summary": "Key findings: Handedness is a significant outlier (z=-2.85, LARGE effect), Neuroticism (NEO-FFI) is elevated (z=+1.42, MODERATE effect), Age is lower than cohort mean (z=-1.08, MODERATE effect)...",
+      "output_summary": "IST_intelligence_total: 195.500 (confidence=0.550)",
+      "reasoning": "Participant sub-0498 exhibits a unique profile characterized by atypical handedness and elevated neuroticism. While demographic factors are generally within normal limits, the combination of these specific deviations suggests a potential for slightly lower-than-average performance on standardized cognitive tests like the IST 2000-R, primarily due to the potential for performance interference from affective traits.",
+      "timestamp": "2026-07-19T11:09:03.045960",
       "metadata": {
-        "probability": 0.65,
-        "classification": "IST_intelligence_total: 191.910"
+        "probability": 0.55,
+        "classification": "IST_intelligence_total: 195.500"
       }
     },
     {
@@ -217,7 +217,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:14:48.982957",
+      "timestamp": "2026-07-19T11:09:03.673163",
       "metadata": {}
     }
   ]

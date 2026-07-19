@@ -28,16 +28,16 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:23:35.196184",
-  "total_duration_seconds": 14.28,
+  "execution_timestamp": "2026-07-19T11:17:51.573803",
+  "total_duration_seconds": 15.29,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
   "coverage_summary": {
     "all_feature_count": 35,
     "processed_feature_count": 35,
-    "unprocessed_raw_feature_count": 35,
-    "processed_raw_low_priority_feature_count": 0,
+    "unprocessed_raw_feature_count": 0,
+    "processed_raw_low_priority_feature_count": 35,
     "chunk_cited_feature_count": 0,
     "represented_feature_count": 35,
     "missing_feature_count": 0,
@@ -64,8 +64,8 @@
       "summary": {
         "all_feature_count": 35,
         "processed_feature_count": 35,
-        "unprocessed_raw_feature_count": 35,
-        "processed_raw_low_priority_feature_count": 0,
+        "unprocessed_raw_feature_count": 0,
+        "processed_raw_low_priority_feature_count": 35,
         "chunk_cited_feature_count": 0,
         "represented_feature_count": 35,
         "missing_feature_count": 0,
@@ -83,12 +83,12 @@
       "chunking_reason": "payload_fit_excluding_processed_raw"
     },
     "context_fill": {
-      "processed_raw_full_included": false,
+      "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 13500,
-        "final_tokens": 13583,
-        "processed_raw_tokens": null,
+        "baseline_tokens": 6238,
+        "final_tokens": 8835,
+        "processed_raw_tokens": 8774,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -96,15 +96,17 @@
         "runtime_instruction_applied": true
       },
       "coverage_snapshot": {
-        "processed_whole_domains": [],
+        "processed_whole_domains": [
+          "BRAIN_MORPHOMETRY"
+        ],
         "processed_prefixes_by_domain": {},
-        "excluded_leaf_counts": {},
-        "unprocessed_leaf_counts": {
+        "excluded_leaf_counts": {
           "BRAIN_MORPHOMETRY": 35
         },
+        "unprocessed_leaf_counts": {},
         "all_feature_count": 35,
-        "unprocessed_feature_count": 35,
-        "processed_feature_count": 0,
+        "unprocessed_feature_count": 0,
+        "processed_feature_count": 35,
         "missing_feature_count": 0
       },
       "embedding_store": {
@@ -142,84 +144,84 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent positive deviations in cortical thickness across multiple brain regions."
+        "Cortical thickness in associative regions is a well-established positive correlate of intelligence."
       ],
       "supporting_evidence_against": [
-        "Structural data provides only a weak correlation with general intelligence."
+        "Subcortical volume deficits in reward-related circuits may dampen executive efficiency."
       ],
       "uncertainty_factors": [
-        "Inference based solely on structural morphometry without behavioral or cognitive input."
+        "Structural morphometry is an indirect proxy for cognitive performance."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 35763,
-    "prompt_tokens": 31341,
-    "completion_tokens": 4422,
+    "total_tokens": 37347,
+    "prompt_tokens": 32931,
+    "completion_tokens": 4416,
     "calls": [
       {
         "component": "orchestrator",
         "prompt_tokens": 4639,
-        "completion_tokens": 853,
-        "total": 5492,
+        "completion_tokens": 862,
+        "total": 5501,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "orchestrator",
         "prompt_tokens": 4681,
-        "completion_tokens": 709,
-        "total": 5390,
+        "completion_tokens": 760,
+        "total": 5441,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1326,
-        "completion_tokens": 477,
-        "total": 1803,
-        "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Ranks morphometric features by their potential predictive value for intelligence."
+        "prompt_tokens": 4592,
+        "completion_tokens": 476,
+        "total": 5068,
+        "step_tool": "UnimodalCompressor",
+        "step_reasoning": "Extracts key structural brain patterns relevant to intelligence prediction."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2927,
-        "completion_tokens": 654,
-        "total": 3581,
-        "step_tool": "AnomalyNarrativeBuilder",
-        "step_reasoning": "Identifies structural brain deviations that may correlate with cognitive performance."
+        "prompt_tokens": 1327,
+        "completion_tokens": 459,
+        "total": 1786,
+        "step_tool": "FeatureSynthesizer",
+        "step_reasoning": "Identifies which morphometric features are most relevant for predicting cognitive performance."
       },
       {
         "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 630,
-        "total": 1898,
+        "completion_tokens": 678,
+        "total": 1946,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical benchmark for the intelligence prediction task."
+        "step_reasoning": "Establishes the clinical criteria and cognitive markers associated with the target intelligence score."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1050,
-        "completion_tokens": 192,
-        "total": 1242,
+        "prompt_tokens": 1046,
+        "completion_tokens": 183,
+        "total": 1229,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Uses the synthesized features and anomaly narratives to calculate the final intelligence score prediction."
+        "step_reasoning": "Integrates compressed morphometric summaries and synthesized features to perform the final univariate regression."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 15268,
-        "completion_tokens": 873,
-        "total": 16141,
+        "prompt_tokens": 15194,
+        "completion_tokens": 964,
+        "total": 16158,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 182,
+        "prompt_tokens": 184,
         "completion_tokens": 34,
-        "total": 216,
+        "total": 218,
         "step_tool": null,
         "step_reasoning": null
       }

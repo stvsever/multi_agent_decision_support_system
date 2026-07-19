@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0282_20260718_172552",
+  "report_id": "RPT_sub-0282_20260719_112008",
   "participant_id": "sub-0282",
-  "generated_at": "2026-07-18T17:25:52.108831",
+  "generated_at": "2026-07-19T11:20:08.713709",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 150.000",
+    "primary_output": "IST_intelligence_total: 191.590",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 150.0
+          "IST_intelligence_total": 191.59
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,14 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Significant negative deviations in within-network connectivity across multiple cognitive-relevant networks."
+        "Consistent intra-network hypoconnectivity across multiple functional domains."
       ],
       "supporting_evidence_against": [
-        "Preservation of between-network connectivity suggests global architecture is not severely compromised."
+        "High-side variance in cross-network connectivity may indicate non-specific physiological noise."
       ],
       "uncertainty_factors": [
-        "Absence of behavioral data.",
-        "Mapping of connectome z-scores to IST-2000R scale is probabilistic."
+        "Inferred intelligence from neuroimaging data only; lacks behavioral validation."
       ],
       "children": []
     }
@@ -64,29 +63,29 @@
   },
   "key_findings": [
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Limbic within-network connectivity (z=-2.99, 0.14th percentile, LARGE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Systemic intra-network hypoconnectivity, notably in limbic (z=-2.99) and salience (z=-2.64) networks.",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Salience/Ventral Attention within-network connectivity (z=-2.64, 0.41th percentile, LARGE effect)",
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Disruption of Limbic-DMN axis (z=-2.04).",
       "direction": "ABNORMAL_LOW"
     },
     {
-      "domain": "BRAIN_CONNECTOME",
-      "finding": "Global within-network connectivity (z=-2.016, 2.2nd percentile, MODERATE effect)",
-      "direction": "ABNORMAL_LOW"
+      "domain": "FUNCTIONAL_CONNECTOME",
+      "finding": "Compensatory hyper-connectivity between sensory and control networks (e.g., Visual-FP control, z=+1.30).",
+      "direction": "ABNORMAL_HIGH"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed the hierarchical deviation profile, identifying a severe, generalized reduction in within-network connectivity across multiple functional domains.",
-    "Step 2: Evaluated the impact of limbic (z=-2.99) and salience (z=-2.64) network hypoconnectivity on cognitive efficiency, noting their critical role in executive function and task-based performance.",
-    "Step 3: Considered the presence of compensatory hyper-connectivity (e.g., Dorsal Attention-Default Mode, z=1.94) as a potential mitigating factor, though insufficient to offset the widespread within-network deficits.",
-    "Step 4: Integrated these findings into a regression estimate, shifting the prediction from the population mean (200) downward to reflect the compromised neural infrastructure for high-level cognitive integration.",
-    "Step 5: Concluded that a score in the lower-average range (150) is the most plausible estimate given the observed connectivity profile."
+    "Step 1: Analyzed functional connectome data, identifying widespread intra-network hypoconnectivity as the primary signal.",
+    "Step 2: Evaluated the impact of limbic and salience network deficits on cognitive processing capacity.",
+    "Step 3: Integrated compensatory hyper-connectivity patterns which suggest potential neural strain.",
+    "Step 4: Applied linear mapping of the mean z-score (-0.21) to the IST 2000-R population distribution (mean 200, SD 40).",
+    "Step 5: Finalized prediction at 191.59, reflecting a slightly below-average intelligence score within the healthy range."
   ],
-  "clinical_summary": "Participant sub-0282 exhibits a pattern of severe within-network hypoconnectivity, particularly within the limbic and salience networks. While global network architecture remains largely intact, the reduction in specialized processing efficiency within these key cognitive-affective circuits suggests a diminished capacity for the high-level executive integration required for superior performance on the IST 2000-R. The estimated total intelligence score is 150, placing the participant in the lower-average range of the cohort.",
+  "clinical_summary": "The participant exhibits a functional connectome characterized by significant intra-network hypoconnectivity, particularly within the limbic and salience systems. While compensatory hyper-connectivity between sensory and executive networks is observed, the overall pattern suggests a slight reduction in neural processing efficiency. The predicted IST 2000-R total score of 191.59 is consistent with these findings, placing the individual within one standard deviation of the population mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -144,9 +143,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 6077,
-          "final_tokens": 8164,
-          "processed_raw_tokens": 8103,
+          "baseline_tokens": 5856,
+          "final_tokens": 7943,
+          "processed_raw_tokens": 7882,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -155,11 +154,11 @@
         },
         "coverage_snapshot": {
           "processed_whole_domains": [
-            "BRAIN_CONNECTOME"
+            "FUNCTIONAL_CONNECTOME"
           ],
           "processed_prefixes_by_domain": {},
           "excluded_leaf_counts": {
-            "BRAIN_CONNECTOME": 28
+            "FUNCTIONAL_CONNECTOME": 28
           },
           "unprocessed_leaf_counts": {},
           "all_feature_count": 28,
@@ -181,9 +180,9 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 37223,
+    "tokens_used": 30944,
     "domains_processed": [
-      "BRAIN_CONNECTOME"
+      "FUNCTIONAL_CONNECTOME"
     ],
     "detailed_logs": []
   },
@@ -192,23 +191,23 @@
       "decision_id": "D001",
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
-      "input_summary": "Domains: BRAIN_CONNECTOME",
-      "output_summary": "Generated 5-step plan",
-      "reasoning": "The plan utilizes early-stage analysis to define the phenotype and prioritize features, followed by targeted compression of the connectome data. The final step integrates these findings to perform the regression prediction for the IST 2000-R score.",
-      "timestamp": "2026-07-18T17:25:40.368262",
+      "input_summary": "Domains: FUNCTIONAL_CONNECTOME",
+      "output_summary": "Generated 4-step plan",
+      "reasoning": "The plan prioritizes early definition of the target phenotype and feature synthesis to guide the compression of the functional connectome. Since the data volume is low, we use a single compression step for the connectome followed by a code-based regression to generate the final prediction.",
+      "timestamp": "2026-07-19T11:19:59.299236",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Limbic within-network connectivity (z=-2.99, 0.14th percentile, LARGE effect), Salience/Ventral Attention within-network connectivity (z=-2.64, 0.41th percentile, LARGE effect), Global within-network connectivity (z=-2.016, 2.2nd percentile, MODERATE effect)...",
-      "output_summary": "IST_intelligence_total: 150.000 (confidence=0.650)",
-      "reasoning": "Participant sub-0282 exhibits a pattern of severe within-network hypoconnectivity, particularly within the limbic and salience networks. While global network architecture remains largely intact, the reduction in specialized processing efficiency within these key cognitive-affective circuits suggests a diminished capacity for the high-level executive integration required for superior performance on the IST 2000-R. The estimated total intelligence score is 150, placing the participant in the lower",
-      "timestamp": "2026-07-18T17:25:51.529856",
+      "input_summary": "Key findings: Systemic intra-network hypoconnectivity, notably in limbic (z=-2.99) and salience (z=-2.64) networks., Disruption of Limbic-DMN axis (z=-2.04)., Compensatory hyper-connectivity between sensory and control networks (e.g., Visual-FP control, z=+1.30)....",
+      "output_summary": "IST_intelligence_total: 191.590 (confidence=0.650)",
+      "reasoning": "The participant exhibits a functional connectome characterized by significant intra-network hypoconnectivity, particularly within the limbic and salience systems. While compensatory hyper-connectivity between sensory and executive networks is observed, the overall pattern suggests a slight reduction in neural processing efficiency. The predicted IST 2000-R total score of 191.59 is consistent with these findings, placing the individual within one standard deviation of the population mean.",
+      "timestamp": "2026-07-19T11:20:08.071509",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 150.000"
+        "classification": "IST_intelligence_total: 191.590"
       }
     },
     {
@@ -218,7 +217,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:25:52.107553",
+      "timestamp": "2026-07-19T11:20:08.712766",
       "metadata": {}
     }
   ]

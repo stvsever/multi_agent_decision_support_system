@@ -1,10 +1,10 @@
 # Patient Report: sub-0673
 
-**Generated**: 2026-07-18T17:13:21.671135
+**Generated**: 2026-07-19T11:07:35.779773
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 221.690
+- **Primary Output**: IST_intelligence_total: 212.500
 - **Probability / Root Confidence**: 35.0%
 - **Confidence**: LOW
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
@@ -14,23 +14,23 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[DEMOGRAPHICS_AND_PHYSICAL]** Education level is elevated (z=0.953, 83rd percentile, MODERATE effect)
-2. **[DEMOGRAPHICS_AND_PHYSICAL]** Background socio-economic status is elevated (z=0.837, 80th percentile, MODERATE effect)
-3. **[DEMOGRAPHICS_AND_PHYSICAL]** Age is lower than cohort mean (z=-1.23, 11th percentile, MODERATE effect)
+1. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Education level is elevated (z=0.953, 83rd percentile, SMALL effect)
+2. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Socio-economic status is elevated (z=0.837, 80th percentile, SMALL effect)
+3. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** Age is reduced (z=-1.23, 11th percentile, MODERATE effect)
 
 ## Clinical Summary
-The participant's predicted IST 2000-R total score is 221.69. This estimate is derived from demographic and socioeconomic proxies, specifically high educational attainment and favorable background socio-economic status, which are positively correlated with general cognitive ability. Given the absence of direct cognitive performance metrics, this prediction reflects a population-level association and should be interpreted with caution, as individual cognitive variance remains unmeasured.
+The participant's predicted IST 2000-R total intelligence score is 212.5. This estimate is derived from demographic and socioeconomic proxies, specifically high educational attainment and favorable socioeconomic background, which correlate with higher cognitive performance. Given the absence of direct psychometric data, this prediction remains an estimate with significant uncertainty, anchored toward the cohort mean of 200.
 
 ## Reasoning Chain
-1. Step 1: Identified the target as a regression task for IST 2000-R (Mean=200, SD=40).
-2. Step 2: Evaluated available features; cognitive and educational performance data are absent, necessitating reliance on demographic proxies.
-3. Step 3: Weighted socioeconomic indicators (Education level z=0.953, SES z=0.837) as the primary positive predictors for cognitive ability.
-4. Step 4: Accounted for age (z=-1.23) and sex (z=1.042) as secondary demographic covariates.
-5. Step 5: Applied a shrinkage-adjusted regression estimate, shifting the population mean (200) upward based on the positive socioeconomic signal, resulting in a predicted score of 221.69.
+1. Step 1: Analyzed demographic and socioeconomic features as proxies for cognitive performance in the absence of direct IST subscale data.
+2. Step 2: Identified education level (z=0.953) and socioeconomic status (z=0.837) as the primary positive indicators for intelligence.
+3. Step 3: Evaluated biological characteristics (age, sex, BMI) as non-informative noise for cognitive performance estimation.
+4. Step 4: Applied a regression model anchored to the population mean of 200, adjusting upward based on the combined positive socioeconomic and educational signal.
+5. Step 5: Final prediction calculated as 212.5, reflecting a modest deviation above the mean consistent with the observed demographic profile.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 27,550
-- **Domains Processed**: DEMOGRAPHICS_AND_PHYSICAL
+- **Tokens Used**: 22,220
+- **Domains Processed**: DEMOGRAPHICS_AND_ANTHROPOMETRICS

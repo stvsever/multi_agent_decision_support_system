@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:13:38.612658",
-  "total_duration_seconds": 16.52,
+  "execution_timestamp": "2026-07-19T11:07:50.650469",
+  "total_duration_seconds": 18.06,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,8 +86,8 @@
       "processed_raw_full_included": false,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 6086,
-        "final_tokens": 6169,
+        "baseline_tokens": 6354,
+        "final_tokens": 6437,
         "processed_raw_tokens": null,
         "single_chunk_limit": 30000,
         "threshold": 943718,
@@ -100,8 +100,8 @@
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {},
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "PERSONALITY": 5
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+          "PSYCHOLOGICAL_PROFILES": 5
         },
         "all_feature_count": 11,
         "unprocessed_feature_count": 11,
@@ -123,7 +123,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 215.110",
+    "classification": "IST_intelligence_total: 218.080",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -135,7 +135,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 215.11
+          "IST_intelligence_total": 218.08
         }
       },
       "confidence_level": "MEDIUM",
@@ -143,84 +143,87 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Positive directional alignment of personality and SES indicators."
+        "Positive covariance between personality traits (Extraversion, Openness) and cognitive performance.",
+        "High educational attainment as a proxy for cognitive reserve."
       ],
       "supporting_evidence_against": [
-        "Lack of direct cognitive test data."
+        "Low magnitude of individual z-score deviations (all < 1.7).",
+        "Lack of direct cognitive performance data."
       ],
       "uncertainty_factors": [
-        "Indirect nature of predictive features."
+        "Indirect nature of personality-based intelligence estimation.",
+        "Potential for non-linear relationships between personality and test performance."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 29330,
-    "prompt_tokens": 24985,
-    "completion_tokens": 4345,
+    "total_tokens": 29446,
+    "prompt_tokens": 25034,
+    "completion_tokens": 4412,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4665,
-        "completion_tokens": 810,
-        "total": 5475,
+        "prompt_tokens": 4671,
+        "completion_tokens": 732,
+        "total": 5403,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "orchestrator",
-        "prompt_tokens": 4707,
-        "completion_tokens": 826,
-        "total": 5533,
+        "prompt_tokens": 4711,
+        "completion_tokens": 839,
+        "total": 5550,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1270,
-        "completion_tokens": 682,
-        "total": 1952,
-        "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the gold standard criteria for intelligence prediction."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 1501,
-        "completion_tokens": 477,
-        "total": 1978,
+        "prompt_tokens": 1447,
+        "completion_tokens": 465,
+        "total": 1912,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which demographic and personality features correlate most strongly with cognitive outcomes."
+        "step_reasoning": "Identifies which demographic and psychological variables are most predictive of intelligence scores."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1328,
-        "completion_tokens": 489,
-        "total": 1817,
+        "prompt_tokens": 1268,
+        "completion_tokens": 740,
+        "total": 2008,
+        "step_tool": "PhenotypeRepresentation",
+        "step_reasoning": "Establishes the clinical criteria and search template for intelligence-related biomarkers and behavioral traits."
+      },
+      {
+        "component": "executor",
+        "prompt_tokens": 1318,
+        "completion_tokens": 547,
+        "total": 1865,
         "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Refines the feature set to focus on the most predictive variables for intelligence."
+        "step_reasoning": "Refines the feature set to ensure the regression model focuses on the most informative variables."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1066,
-        "completion_tokens": 187,
-        "total": 1253,
+        "prompt_tokens": 1050,
+        "completion_tokens": 189,
+        "total": 1239,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Performs the final univariate regression calculation based on the prioritized features."
+        "step_reasoning": "Performs the final quantitative estimation based on the ranked features and participant data."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 10264,
-        "completion_tokens": 840,
-        "total": 11104,
+        "prompt_tokens": 10387,
+        "completion_tokens": 867,
+        "total": 11254,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 184,
-        "completion_tokens": 34,
-        "total": 218,
+        "prompt_tokens": 182,
+        "completion_tokens": 33,
+        "total": 215,
         "step_tool": null,
         "step_reasoning": null
       }
@@ -230,8 +233,8 @@
     "plan_id": "IST-2000R-PRED-0128",
     "total_steps": 4,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "PSYCHOLOGICAL_PROFILES"
     ]
   },
   "explainability": {

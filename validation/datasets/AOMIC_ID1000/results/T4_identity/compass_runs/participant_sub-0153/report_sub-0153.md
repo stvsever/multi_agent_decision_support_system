@@ -1,10 +1,10 @@
 # Patient Report: sub-0153
 
-**Generated**: 2026-07-18T17:17:54.553191
+**Generated**: 2026-07-19T11:12:11.322655
 
 ## Prediction
 - **Prediction Type**: univariate_regression
-- **Primary Output**: IST_intelligence_total: 218.000
+- **Primary Output**: IST_intelligence_total: 210.560
 - **Probability / Root Confidence**: 65.0%
 - **Confidence**: MEDIUM
 - **Target Label Context**: Total Intelligence (IST 2000-R composite)
@@ -14,23 +14,23 @@
 - **Checklist**: 8/8 passed
 
 ## Key Findings
-1. **[DEMOGRAPHICS_AND_PHYSICAL]** High socioeconomic status (z=+1.67) and education level (z=+0.95) provide a strong positive cognitive buffer.
-2. **[PERSONALITY]** Low openness (z=-1.25) and low conscientiousness (z=-0.82) indicate reduced intellectual engagement.
-3. **[MOTIVATION_AND_AFFECT]** Low BAS fun-seeking (z=-1.77) suggests reduced exploratory drive.
+1. **[DEMOGRAPHICS_AND_ANTHROPOMETRICS]** High background socio-economic status (z=1.67, 95th percentile, LARGE effect)
+2. **[PSYCHOLOGICAL_PROFILES]** Low BAS fun-seeking (z=-1.77, 4th percentile, LARGE effect)
+3. **[PSYCHOLOGICAL_PROFILES]** Low Openness (z=-1.25, 11th percentile, MODERATE effect)
 
 ## Clinical Summary
-The participant presents a high-average cognitive profile. While demographic indicators (high SES, high education) strongly support above-average intelligence, the personality profile (low openness, low conscientiousness) suggests a lower propensity for the intellectual curiosity required to maximize performance on the IST 2000-R. The predicted score reflects a balance between these protective demographic factors and personality-based constraints.
+The participant exhibits a cognitive profile estimated to be slightly above the population mean (IST 2000-R total score of 210.56). This estimate is supported by high socioeconomic and educational advantages, which are partially offset by a personality profile characterized by lower openness, reduced extraversion, and diminished behavioral activation. The prediction remains within the expected range for a healthy young-adult cohort.
 
 ## Reasoning Chain
-1. Step 1: Identify baseline population mean (200) and SD (40).
-2. Step 2: Weight demographic advantages (SES/Education) as strong positive predictors of cognitive potential.
-3. Step 3: Weight personality constraints (Openness/Conscientiousness) as significant negative predictors of test-taking engagement.
-4. Step 4: Integrate conflicting signals: demographic potential is high, but personality-driven engagement is low.
-5. Step 5: Conclude that the participant likely performs above the population mean due to the protective effect of high SES, but below their theoretical maximum due to personality constraints, resulting in a high-average estimate.
+1. Step 1: Analyzed demographic and socioeconomic markers, identifying high SES (z=1.67) as a primary positive anchor for intelligence estimation.
+2. Step 2: Evaluated psychological profile, noting a cluster of negative deviations in Openness (z=-1.25), Extraversion (z=-1.17), and BAS fun-seeking (z=-1.77).
+3. Step 3: Integrated these conflicting signals; while high SES supports above-average performance, the personality profile suggests lower-than-average exploratory drive and cognitive engagement.
+4. Step 4: Applied linear transformation model based on cohort norms (Mean=200, SD=40) adjusted for the net influence of these features.
+5. Step 5: Synthesized final estimate of 210.56, reflecting a slight positive deviation from the population mean.
 
 ## Execution Details
 - **Iterations**: 1
 - **Selected Iteration**: 1
 - **Selection Reason**: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).
-- **Tokens Used**: 42,622
-- **Domains Processed**: DEMOGRAPHICS_AND_PHYSICAL, PERSONALITY, MOTIVATION_AND_AFFECT, IDENTITY_AND_BELIEF
+- **Tokens Used**: 35,294
+- **Domains Processed**: PSYCHOLOGICAL_PROFILES, DEMOGRAPHICS_AND_ANTHROPOMETRICS, IDENTITY_AND_BELIEFS

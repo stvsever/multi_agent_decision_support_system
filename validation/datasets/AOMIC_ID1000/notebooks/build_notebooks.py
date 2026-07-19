@@ -357,6 +357,9 @@ def nb_ontology():
 This notebook shows the automated data understanding that grounds the ontology, the
 resulting ontology graph, how well the semantic ontology matches the data-driven
 clusters, the complexity-tier ladder, and per-tier engine performance.
+
+For hands-on exploration, open `../ontology/ontology_viewer.html` in a browser: an
+interactive tree with expand/collapse, drag, and top-down / left-right / radial layouts.
 """),
         code(PRELUDE + """
 import networkx as nx

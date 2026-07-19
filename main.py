@@ -2464,6 +2464,17 @@ Examples:
                     f"(mode: {runtime_task_spec.root.mode.value})"
                 )
                 
+                # Optional user-chosen output directory (flexible ingestion).
+                _out = str(config.get("output_dir") or "").strip()
+                if _out:
+                    try:
+                        chosen = Path(_out).expanduser()
+                        chosen.mkdir(parents=True, exist_ok=True)
+                        settings.paths.output_dir = chosen
+                        print(f"[*] Output directory set to: {chosen}")
+                    except Exception as e:
+                        print(f"[!] Could not use output_dir '{_out}': {e}")
+
                 p_dir = resolve_participant_dir(participant_id, compass_data_root, settings)
                 if not p_dir or not p_dir.exists():
                     print(f"[!] Error: Participant folder not found for ID: {participant_id}")

@@ -1,12 +1,12 @@
 {
-  "report_id": "RPT_sub-0673_20260718_172446",
+  "report_id": "RPT_sub-0673_20260719_111902",
   "participant_id": "sub-0673",
-  "generated_at": "2026-07-18T17:24:46.583489",
+  "generated_at": "2026-07-19T11:19:02.910439",
   "prediction": {
     "prediction_type": "univariate_regression",
     "root_mode": "univariate_regression",
     "classification": null,
-    "primary_output": "IST_intelligence_total: 250.000",
+    "primary_output": "IST_intelligence_total: 233.750",
     "probability": 0.65,
     "binary_probability": null,
     "root_confidence": 0.65,
@@ -36,7 +36,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 250.0
+          "IST_intelligence_total": 233.75
         }
       },
       "confidence_level": "MEDIUM",
@@ -44,13 +44,13 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent global and subcortical volumetric hypertrophy (z ~ 1.25 average deviation)."
+        "Consistent positive volumetric deviations across global and subcortical structures."
       ],
       "supporting_evidence_against": [
-        "Lack of behavioral/cognitive performance data."
+        "Lack of direct cognitive test scores requires reliance on structural proxies."
       ],
       "uncertainty_factors": [
-        "Inference based on structural proxies only."
+        "Structural-cognitive correlations are probabilistic, not deterministic."
       ],
       "children": []
     }
@@ -64,28 +64,22 @@
   "key_findings": [
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Global brain segmentation volume is significantly elevated (z=1.16, 88th percentile, MODERATE effect).",
-      "direction": "ABNORMAL_HIGH"
+      "finding": "Global volumetric expansion (z=1.16) and subcortical hypertrophy (z=1.44) suggest high neural reserve.",
+      "direction": "NORMAL"
     },
     {
       "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Subcortical gray matter volume is elevated (z=1.44, 92nd percentile, MODERATE effect).",
-      "direction": "ABNORMAL_HIGH"
-    },
-    {
-      "domain": "BRAIN_MORPHOMETRY",
-      "finding": "Left caudate volume is notably elevated (z=1.74, 96th percentile, MODERATE effect).",
-      "direction": "ABNORMAL_HIGH"
+      "finding": "Occipital cortical thickening (z=1.86) indicates enhanced visual-spatial processing potential.",
+      "direction": "NORMAL"
     }
   ],
   "reasoning": [
-    "Step 1: Analyzed global brain morphometry, which shows consistent positive deviations (z > 1.0) across total brain, gray matter, and white matter volumes.",
-    "Step 2: Evaluated subcortical structures; observed significant hypertrophy in the caudate (z=1.74) and pallidum (z=1.82), which are key nodes for executive function and fluid intelligence.",
-    "Step 3: Integrated findings with established neuroanatomical correlates of intelligence, where larger brain volumes and specific subcortical hypertrophy are associated with higher g-factor scores.",
-    "Step 4: Accounted for minor focal thinning in the cingulate cortex (z=-0.72), which is insufficient to negate the robust global positive neuroanatomical reserve.",
-    "Step 5: Estimated IST 2000-R total score based on the observed 1.0-1.5 SD positive deviation from the cohort mean (M=200, SD=40)."
+    "Step 1: Analyzed brain morphometry data showing consistent positive deviations across global and subcortical volumes.",
+    "Step 2: Identified that global volumetric measures (z=1.175) and subcortical volumes (z=1.113) are strong proxies for general cognitive ability.",
+    "Step 3: Applied a regression model mapping the mean z-score of 0.844 to the IST 2000-R scale (mean 200, SD 40).",
+    "Step 4: Calculated the estimated score as 233.75, reflecting the observed structural advantages while accounting for the lack of direct cognitive test data."
   ],
-  "clinical_summary": "Participant sub-0673 exhibits a robust neuroanatomical profile characterized by widespread volumetric hypertrophy across both cortical and subcortical regions. Given the established positive correlation between brain volume and general intelligence, the subject is predicted to perform in the superior range on the IST 2000-R. The estimated score reflects a consistent 1.25 SD positive deviation from the cohort mean.",
+  "clinical_summary": "Participant sub-0673 exhibits a robust neuroanatomical profile characterized by global and subcortical volumetric increases. These structural features are positively associated with cognitive reserve and intelligence. Based on the morphometric data, the estimated IST 2000-R total intelligence score is 233.75, placing the participant approximately 0.84 standard deviations above the cohort mean.",
   "execution": {
     "iterations": 1,
     "selected_iteration": 1,
@@ -143,9 +137,9 @@
         "processed_raw_full_included": true,
         "rag_added_count": null,
         "predictor_payload_estimate": {
-          "baseline_tokens": 7481,
-          "final_tokens": 10072,
-          "processed_raw_tokens": 10011,
+          "baseline_tokens": 6746,
+          "final_tokens": 9343,
+          "processed_raw_tokens": 9282,
           "single_chunk_limit": 30000,
           "threshold": 943718,
           "chunked_two_pass_required": false,
@@ -180,7 +174,7 @@
         "processed_raw_flag_consistent": true
       }
     },
-    "tokens_used": 42464,
+    "tokens_used": 36470,
     "domains_processed": [
       "BRAIN_MORPHOMETRY"
     ],
@@ -192,22 +186,22 @@
       "component": "Orchestrator",
       "decision_type": "PLAN_GENERATION",
       "input_summary": "Domains: BRAIN_MORPHOMETRY",
-      "output_summary": "Generated 4-step plan",
-      "reasoning": "Since the data volume is low (848 tokens), we can process the morphometry data directly while using the UnimodalCompressor to focus on identifying relevant neuroanatomical patterns for intelligence prediction. Parallel early-stage tools ensure we have a robust phenotype definition and anomaly profile before final synthesis.",
-      "timestamp": "2026-07-18T17:24:32.942247",
+      "output_summary": "Generated 5-step plan",
+      "reasoning": "Since the data volume is low (848 tokens), we can process the BRAIN_MORPHOMETRY domain directly. We use early-stage tools to establish the clinical context and feature importance, followed by a compression step to ensure the most relevant structural features are highlighted for the final regression task.",
+      "timestamp": "2026-07-19T11:18:51.112597",
       "metadata": {}
     },
     {
       "decision_id": "D002",
       "component": "Predictor",
       "decision_type": "PREDICTION_OUTPUT",
-      "input_summary": "Key findings: Global brain segmentation volume is significantly elevated (z=1.16, 88th percentile, MODERATE effect)., Subcortical gray matter volume is elevated (z=1.44, 92nd percentile, MODERATE effect)., Left caudate volume is notably elevated (z=1.74, 96th percentile, MODERATE effect)....",
-      "output_summary": "IST_intelligence_total: 250.000 (confidence=0.650)",
-      "reasoning": "Participant sub-0673 exhibits a robust neuroanatomical profile characterized by widespread volumetric hypertrophy across both cortical and subcortical regions. Given the established positive correlation between brain volume and general intelligence, the subject is predicted to perform in the superior range on the IST 2000-R. The estimated score reflects a consistent 1.25 SD positive deviation from the cohort mean.",
-      "timestamp": "2026-07-18T17:24:45.721229",
+      "input_summary": "Key findings: Global volumetric expansion (z=1.16) and subcortical hypertrophy (z=1.44) suggest high neural reserve., Occipital cortical thickening (z=1.86) indicates enhanced visual-spatial processing potential....",
+      "output_summary": "IST_intelligence_total: 233.750 (confidence=0.650)",
+      "reasoning": "Participant sub-0673 exhibits a robust neuroanatomical profile characterized by global and subcortical volumetric increases. These structural features are positively associated with cognitive reserve and intelligence. Based on the morphometric data, the estimated IST 2000-R total intelligence score is 233.75, placing the participant approximately 0.84 standard deviations above the cohort mean.",
+      "timestamp": "2026-07-19T11:19:02.275597",
       "metadata": {
         "probability": 0.65,
-        "classification": "IST_intelligence_total: 250.000"
+        "classification": "IST_intelligence_total: 233.750"
       }
     },
     {
@@ -217,7 +211,7 @@
       "input_summary": "Checklist: 8/8 passed",
       "output_summary": "SATISFACTORY",
       "reasoning": "Required nodes present=True; output schema valid=True; classification probabilities valid=n/a; regression values valid=True; hierarchy consistent=n/a; coverage ratio=1.00; fallback_used=False.",
-      "timestamp": "2026-07-18T17:24:46.582418",
+      "timestamp": "2026-07-19T11:19:02.909056",
       "metadata": {}
     }
   ]

@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:16:56.240089",
-  "total_duration_seconds": 17.18,
+  "execution_timestamp": "2026-07-19T11:11:17.608190",
+  "total_duration_seconds": 18.72,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,9 +86,9 @@
       "processed_raw_full_included": true,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 8934,
-        "final_tokens": 9737,
-        "processed_raw_tokens": 9676,
+        "baseline_tokens": 8921,
+        "final_tokens": 9733,
+        "processed_raw_tokens": 9672,
         "single_chunk_limit": 30000,
         "threshold": 943718,
         "chunked_two_pass_required": false,
@@ -97,23 +97,15 @@
       },
       "coverage_snapshot": {
         "processed_whole_domains": [
-          "MOTIVATION_AND_AFFECT",
-          "PERSONALITY"
+          "PSYCHOLOGICAL_PROFILES"
         ],
-        "processed_prefixes_by_domain": {
-          "MOTIVATION_AND_AFFECT": [
-            [
-              "anxiety_traits"
-            ]
-          ]
-        },
+        "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {
-          "PERSONALITY": 5,
-          "MOTIVATION_AND_AFFECT": 5
+          "PSYCHOLOGICAL_PROFILES": 10
         },
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6,
-          "IDENTITY_AND_BELIEF": 7
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6,
+          "IDENTITY_AND_BELIEFS": 7
         },
         "all_feature_count": 23,
         "unprocessed_feature_count": 13,
@@ -135,7 +127,7 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 217.520",
+    "classification": "IST_intelligence_total: 217.480",
     "probability": null,
     "root_confidence": 0.65,
     "confidence": "MEDIUM",
@@ -147,7 +139,7 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 217.52
+          "IST_intelligence_total": 217.48
         }
       },
       "confidence_level": "MEDIUM",
@@ -155,99 +147,96 @@
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Strong demographic and educational markers (z~0.9).",
-        "Low anxiety traits (z=-0.92) reducing performance inhibition."
+        "Strong demographic and educational foundation."
       ],
       "supporting_evidence_against": [
-        "Moderate reduction in conscientiousness (z=-0.648) potentially impacting sustained effort."
+        "Motivational and executive trait deficits."
       ],
       "uncertainty_factors": [
-        "Inference based entirely on proxy variables.",
-        "Limited granularity in cognitive-specific domains."
+        "Proxy-based inference without direct cognitive metrics."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 32955,
-    "prompt_tokens": 28494,
-    "completion_tokens": 4461,
+    "total_tokens": 34283,
+    "prompt_tokens": 29487,
+    "completion_tokens": 4796,
     "calls": [
       {
         "component": "orchestrator",
-        "prompt_tokens": 4717,
-        "completion_tokens": 909,
-        "total": 5626,
+        "prompt_tokens": 4699,
+        "completion_tokens": 1031,
+        "total": 5730,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1990,
-        "completion_tokens": 563,
-        "total": 2553,
+        "prompt_tokens": 1820,
+        "completion_tokens": 538,
+        "total": 2358,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which psychological and demographic features are most predictive of cognitive outcomes."
+        "step_reasoning": "Identifies which psychological and demographic features are most predictive of cognitive variance."
       },
       {
         "component": "executor",
         "prompt_tokens": 1268,
-        "completion_tokens": 697,
-        "total": 1965,
+        "completion_tokens": 691,
+        "total": 1959,
         "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical criteria and cognitive correlates for the target intelligence score."
+        "step_reasoning": "Establishes the criteria for cognitive performance estimation."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2108,
-        "completion_tokens": 561,
-        "total": 2669,
+        "prompt_tokens": 2633,
+        "completion_tokens": 589,
+        "total": 3222,
         "step_tool": "UnimodalCompressor",
-        "step_reasoning": "Extracts latent patterns from personality and affect that correlate with intelligence."
+        "step_reasoning": "Extracts latent patterns from personality and psychological data that correlate with intelligence."
       },
       {
         "component": "executor",
-        "prompt_tokens": 2966,
-        "completion_tokens": 498,
-        "total": 3464,
+        "prompt_tokens": 3796,
+        "completion_tokens": 799,
+        "total": 4595,
         "step_tool": "MultimodalNarrativeCreator",
-        "step_reasoning": "Integrates all processed domains into a coherent narrative for the regression model."
+        "step_reasoning": ""
       },
       {
         "component": "executor",
-        "prompt_tokens": 1108,
-        "completion_tokens": 231,
-        "total": 1339,
+        "prompt_tokens": 1093,
+        "completion_tokens": 187,
+        "total": 1280,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Performs the final univariate regression calculation based on the integrated multimodal narrative."
+        "step_reasoning": "Performs the final univariate regression calculation based on the integrated narrative and feature rankings."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 14155,
-        "completion_tokens": 968,
-        "total": 15123,
+        "prompt_tokens": 13994,
+        "completion_tokens": 927,
+        "total": 14921,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "critic",
-        "prompt_tokens": 182,
+        "prompt_tokens": 184,
         "completion_tokens": 34,
-        "total": 216,
+        "total": 218,
         "step_tool": null,
         "step_reasoning": null
       }
     ]
   },
   "plan_summary": {
-    "plan_id": "sub-0120-ist-prediction-001",
+    "plan_id": "IST-2000R-PRED-0120",
     "total_steps": 5,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL",
-      "PERSONALITY",
-      "MOTIVATION_AND_AFFECT",
-      "IDENTITY_AND_BELIEF"
+      "PSYCHOLOGICAL_PROFILES",
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "IDENTITY_AND_BELIEFS"
     ]
   },
   "explainability": {

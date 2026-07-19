@@ -28,8 +28,8 @@
     "critic": "",
     "communicator": ""
   },
-  "execution_timestamp": "2026-07-18T17:12:50.674866",
-  "total_duration_seconds": 13.03,
+  "execution_timestamp": "2026-07-19T11:07:06.247603",
+  "total_duration_seconds": 14.12,
   "iterations": 1,
   "selected_iteration": 1,
   "selection_reason": "Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).",
@@ -86,8 +86,8 @@
       "processed_raw_full_included": false,
       "rag_added_count": null,
       "predictor_payload_estimate": {
-        "baseline_tokens": 4381,
-        "final_tokens": 4464,
+        "baseline_tokens": 3817,
+        "final_tokens": 3900,
         "processed_raw_tokens": null,
         "single_chunk_limit": 30000,
         "threshold": 943718,
@@ -100,7 +100,7 @@
         "processed_prefixes_by_domain": {},
         "excluded_leaf_counts": {},
         "unprocessed_leaf_counts": {
-          "DEMOGRAPHICS_AND_PHYSICAL": 6
+          "DEMOGRAPHICS_AND_ANTHROPOMETRICS": 6
         },
         "all_feature_count": 6,
         "unprocessed_feature_count": 6,
@@ -122,9 +122,9 @@
     }
   },
   "prediction_result": {
-    "classification": "IST_intelligence_total: 180.940",
+    "classification": "IST_intelligence_total: 189.130",
     "probability": null,
-    "root_confidence": 0.45,
+    "root_confidence": 0.35,
     "confidence": "LOW",
     "primary_output_kind": "regression",
     "root_prediction": {
@@ -134,76 +134,76 @@
       "classification": null,
       "regression": {
         "values": {
-          "IST_intelligence_total": 180.94
+          "IST_intelligence_total": 189.13
         }
       },
       "confidence_level": "LOW",
-      "confidence_score": 0.45,
+      "confidence_score": 0.35,
       "key_findings": [],
       "reasoning_chain": [],
       "supporting_evidence_for": [
-        "Consistent negative deviations across all primary demographic and physical features"
+        "Estimated score derived from the mean z-score of -0.27 applied to the population distribution."
       ],
       "supporting_evidence_against": [
-        "No direct cognitive assessment data available"
+        "High reliance on indirect demographic proxies."
       ],
       "uncertainty_factors": [
-        "High reliance on indirect demographic proxies for cognitive constructs"
+        "Low feature-to-target specificity."
       ],
       "children": []
     }
   },
   "critic_verdict": "SATISFACTORY",
   "token_usage": {
-    "total_tokens": 22415,
-    "prompt_tokens": 18857,
-    "completion_tokens": 3558,
+    "total_tokens": 24782,
+    "prompt_tokens": 21250,
+    "completion_tokens": 3532,
     "calls": [
       {
         "component": "orchestrator",
         "prompt_tokens": 4643,
-        "completion_tokens": 811,
-        "total": 5454,
+        "completion_tokens": 566,
+        "total": 5209,
+        "step_tool": null,
+        "step_reasoning": null
+      },
+      {
+        "component": "orchestrator",
+        "prompt_tokens": 4685,
+        "completion_tokens": 667,
+        "total": 5352,
         "step_tool": null,
         "step_reasoning": null
       },
       {
         "component": "executor",
-        "prompt_tokens": 1270,
-        "completion_tokens": 626,
-        "total": 1896,
-        "step_tool": "PhenotypeRepresentation",
-        "step_reasoning": "Establishes the clinical and cognitive criteria for the target prediction."
-      },
-      {
-        "component": "executor",
-        "prompt_tokens": 1329,
-        "completion_tokens": 492,
-        "total": 1821,
+        "prompt_tokens": 1255,
+        "completion_tokens": 560,
+        "total": 1815,
         "step_tool": "FeatureSynthesizer",
-        "step_reasoning": "Identifies which demographic and lifestyle features are most predictive of cognitive outcomes."
+        "step_reasoning": "Identifies which available demographic markers are most relevant to cognitive performance."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1403,
-        "completion_tokens": 524,
-        "total": 1927,
-        "step_tool": "ClinicalRelevanceRanker",
-        "step_reasoning": "Refines the feature set to focus on variables most correlated with cognitive performance."
+        "prompt_tokens": 1270,
+        "completion_tokens": 760,
+        "total": 2030,
+        "step_tool": "PhenotypeRepresentation",
+        "step_reasoning": "Establishes the clinical and cognitive criteria for the target variable."
       },
       {
         "component": "executor",
-        "prompt_tokens": 1041,
-        "completion_tokens": 180,
-        "total": 1221,
+        "prompt_tokens": 1038,
+        "completion_tokens": 213,
+        "total": 1251,
         "step_tool": "CodeExecutor",
-        "step_reasoning": "Performs the final univariate regression calculation based on the prioritized features."
+        "step_reasoning": "Uses the synthesized features and demographic data to perform the univariate regression task."
       },
       {
         "component": "predictor",
-        "prompt_tokens": 8987,
-        "completion_tokens": 891,
-        "total": 9878,
+        "prompt_tokens": 8175,
+        "completion_tokens": 732,
+        "total": 8907,
         "step_tool": null,
         "step_reasoning": null
       },
@@ -218,10 +218,10 @@
     ]
   },
   "plan_summary": {
-    "plan_id": "IST_PRED_0498_001",
-    "total_steps": 4,
+    "plan_id": "sub-0498-ist-prediction-001",
+    "total_steps": 3,
     "priority_domains": [
-      "DEMOGRAPHICS_AND_PHYSICAL"
+      "DEMOGRAPHICS_AND_ANTHROPOMETRICS"
     ]
   },
   "explainability": {

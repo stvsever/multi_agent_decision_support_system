@@ -1,14 +1,14 @@
 {
-  "n_domains": 6,
-  "n_subdomains": 13,
+  "n_domains": 5,
+  "n_subdomains": 12,
   "n_features": 86,
   "subdomain_size_min_max_mean": [
     1,
     21,
-    6.62
+    7.17
   ],
   "cluster_agreement": {
-    "adjusted_rand_index": 0.48,
+    "adjusted_rand_index": 0.478,
     "n_features_compared": 86,
     "interpretation": "1.0 = ontology subdomains match data-driven clusters exactly"
   },
@@ -141,13 +141,14 @@
     "mece_ok": false,
     "coherence_1to5": 3,
     "issues": [
-      "Identity and Belief: Sexual attraction and gender identity features are not MECE; they are binary/categorical variables split into individual features, leading to redundancy and potential logical gaps.",
-      "Brain Morphometry: Cortical thickness features are incomplete; they only list the Left hemisphere, creating a lack of collective exhaustiveness compared to the bilateral subcortical volumes.",
-      "Brain Connectome: Between-Network Connectivity is not exhaustive; it only lists interactions involving the Visual network, ignoring all other pairwise network combinations.",
-      "Redundancy: 'Total brain segmentation volume' is mathematically redundant if all sub-components (gray/white matter) are included."
+      "Sexual and Gender Identity features are not mutually exclusive or collectively exhaustive (e.g., non-binary identities are excluded, and attraction/identity are conflated).",
+      "Brain Morphometry subdomains suffer from high redundancy; global volumes are mathematical aggregates of subcortical and cortical measures.",
+      "Functional Connectome between-network FC is not scalable; it creates a combinatorial explosion that violates the principle of non-redundancy.",
+      "Biological Characteristics lacks exhaustiveness regarding other relevant anthropometrics (e.g., height, weight)."
     ],
     "misplaced_features": [
-      "Body mass index -> Demographics and Physical Characteristics: Physical Health (BMI is a health metric, not strictly an anthropometric demographic)"
+      "Total brain segmentation volume -> Global Brain Metrics (remove from Morphometry to avoid redundancy)",
+      "Trait anxiety (STAI-T) -> Psychological Profiles: Affective Traits (create new subdomain to separate from personality/reinforcement)"
     ]
   }
 }
