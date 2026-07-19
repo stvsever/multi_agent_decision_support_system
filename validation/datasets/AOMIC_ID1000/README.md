@@ -64,15 +64,28 @@ consistent.
 | B2 Brain-only connectome | isolate function | brain_connectome |
 | B3 Brain-only | structure + function | brain morphometry + connectome |
 
-## 4. LLM-based master ontology
+## 4. Automated exploration and the LLM-based master ontology
 
-One non-redundant `DOMAIN -> SUBDOMAIN -> FEATURE` ontology is built over all 86
+Ontology construction is preceded by a sophisticated, dataset-agnostic **automated
+exploration** ([`common/explore.py`](../../common/explore.py)): automatic type
+inference, distribution and missingness profiling, robust (Spearman) correlation
+structure, hierarchical feature clustering, near-duplicate detection, and target
+associations. On this dataset it flags real redundancies (total-gray vs cortical
+volume r=0.97, left vs right mean thickness r=0.96, sexual-attraction M/F r=-0.95) and
+proposes data-driven clusters, written to `ontology/exploration_report.json`.
+
+One non-redundant `DOMAIN -> SUBDOMAIN -> FEATURE` ontology is then built over all 86
 features. The structure is fixed from per-feature hints (guaranteeing complete,
 non-redundant coverage and keeping brain morphometry and connectome as separate
 domains); a small model generates only the interpretable parent labels and
 definitions. Leaf features store a self-explanatory label and no redundant
 description; only parent nodes carry LLM-written definitions. The prompt is serialised
-as TOON to keep it token-cheap even at 86 features. Result:
+as TOON to keep it token-cheap even at 86 features.
+
+The ontology is then **quality-assessed** (`ontology/ontology_report.json`): the
+adjusted Rand index between the semantic subdomains and the data-driven clusters
+(~0.48 here, i.e. meaning-based grouping that partly but not slavishly follows
+statistics), plus a compact LLM review for MECE / non-redundancy / coherence. Result:
 
 ```
 DEMOGRAPHICS_AND_PHYSICAL   personal_attributes, anthropometrics, socioeconomic_status
@@ -84,9 +97,10 @@ BRAIN_CONNECTOME            within_network_connectivity, between_network_connect
 ```
 
 Artifacts in [`ontology/`](ontology/): `aomic_id1000.owl` (loads in Protege),
-`subclass_structure.json`, and `feature_manifest.json`. The ontology is built once and
-reused as a fixed base template for every subject and every tier, so there is no
-per-individual structural variation, only differences in which leaf values are present.
+`subclass_structure.json`, `feature_manifest.json`, `exploration_report.json`, and
+`ontology_report.json`. The ontology is built once and reused as a fixed base template
+for every subject and every tier, so there is no per-individual structural variation,
+only differences in which leaf values are present.
 
 ## 5. Pipeline
 
@@ -143,14 +157,22 @@ full engine outputs under `results/<tier>/compass_runs/`, and the cross-tier
 
 ## 7. Notebooks
 
-Executed, self-contained notebooks with embedded visualisations in
+Three executed, self-contained notebooks with ~26 embedded visualisations in
 [`notebooks/`](notebooks/):
 
-- `01_tabular_data_exploration.ipynb` - target and subscales, coverage/missingness,
-  feature-feature correlation heatmap, feature-vs-intelligence correlations.
-- `02_brain_preprocessing.ipynb` - subcortical volume distributions, morphometry
-  correlation structure and IQ links, the Yeo-7 network FC matrix (nilearn), and a
-  glass-brain rendering of one subject's parcel-level connectome.
+- `01_tabular_data_exploration.ipynb` - target and subscales, coverage and missingness
+  co-occurrence, a distribution grid over every feature, clustered correlation heatmap
+  and dendrogram, IQ associations, violins by education/sex, a pairplot, and a PCA of
+  participants coloured by IQ.
+- `02_brain_preprocessing.ipynb` - subcortical volume distributions and hemispheric
+  symmetry, head-size scaling, a lobe-thickness map, morphometry correlations and IQ
+  links, morphometry PCA, the Yeo-7 group and per-subject FC matrices (nilearn),
+  within/between-network edge strengths, and a parcel-level FC matrix plus glass-brain
+  connectome for one subject.
+- `03_ontology_and_results.ipynb` - the ontology as a graph, features per domain,
+  data-driven clusters and their agreement with the ontology, detected redundancies,
+  the tier ladder, per-tier performance bars, rank stability, and one participant's
+  deviation profile across all domains.
 
 Regenerate with `python3 notebooks/build_notebooks.py`.
 

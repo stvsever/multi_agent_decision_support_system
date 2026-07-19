@@ -20,6 +20,8 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import numpy as np
+
 from .llm import OntologyLLM
 
 _SYSTEM_PROMPT = """You are an ontology engineer building a clean biomedical/psychometric feature ontology.
@@ -162,6 +164,126 @@ def _clean_definition(label: str, definition: str) -> str:
     if lab and lab in core and (len(core) - len(lab)) < 20:
         return ""
     return d
+
+
+_AUTO_SYSTEM = """You are an ontology engineer. You are given data-driven feature clusters (features
+that behave statistically alike) plus each feature's human label. Organise them into a clean,
+non-redundant DOMAIN -> SUBDOMAIN -> FEATURE subclass ontology. Keep every feature exactly once,
+group by shared construct/measurement, and give concise interpretable labels and definitions.
+Return ONLY JSON."""
+
+_VERIFY_SYSTEM = """You are a senior ontology reviewer. Assess a fixed feature ontology for quality:
+mutual exclusivity and collective exhaustiveness (MECE), non-redundancy, and whether each feature
+sits in the most sensible subdomain. Be concise and specific. Return ONLY JSON."""
+
+
+def build_ontology_auto(
+    features: List[Dict[str, Any]],
+    dataset_name: str,
+    context: str,
+    llm,
+    exploration: Dict[str, Any],
+) -> Dict[str, Any]:
+    """Hint-free ontology construction driven by automated exploration.
+
+    Statistical feature clusters (from ``explore``) seed the structure; the LLM
+    assigns clusters to domains and writes all labels/definitions. Used when a
+    dataset provides no domain knowledge; validated and repaired for coverage.
+    """
+    by_id = {f["id"]: f for f in features}
+    clusters = exploration.get("auto_clusters") or {f["id"]: [f["id"]] for f in features}
+    cluster_lines = []
+    for cid, cols in clusters.items():
+        labels = ", ".join(by_id[c]["label"] for c in cols if c in by_id)
+        cluster_lines.append(f"{cid}: [{labels}]")
+    user = (
+        f"Dataset: {dataset_name}\nContext: {context}\n\n"
+        "Assign each statistical cluster to a domain and subdomain, and label everything.\n\n"
+        + "\n".join(cluster_lines) +
+        '\n\nReturn: {"clusters": {"cluster_id": {"domain": "DOMAIN_ID", "domain_label": "..", '
+        '"subdomain": "sub_id", "subdomain_label": ".."}}}'
+    )
+    mapping = {}
+    try:
+        obj = llm.chat_json(_AUTO_SYSTEM, user, max_tokens=4000)
+        mapping = obj.get("clusters", {}) if isinstance(obj, dict) else {}
+    except Exception:
+        mapping = {}
+    # Attach hints from the LLM cluster assignment (fallback: one domain per cluster).
+    for cid, cols in clusters.items():
+        m = mapping.get(cid, {})
+        dom = _slug(m.get("domain") or "DATA").upper()
+        sub = _slug(m.get("subdomain") or cid).lower()
+        for c in cols:
+            if c in by_id:
+                by_id[c] = {**by_id[c], "domain": dom, "subdomain": sub}
+    return build_labeled_ontology(list(by_id.values()), dataset_name, context, llm)
+
+
+def assess_ontology(
+    ontology: Dict[str, Any],
+    exploration: Optional[Dict[str, Any]],
+    llm=None,
+    verify: bool = True,
+) -> Dict[str, Any]:
+    """Produce a quality report: coverage, agreement with data clusters, LLM review."""
+    domains = ontology["domains"]
+    n_dom = len(domains)
+    n_sub = sum(len(d["subdomains"]) for d in domains)
+    n_feat = sum(len(s["features"]) for d in domains for s in d["subdomains"])
+    sizes = [len(s["features"]) for d in domains for s in d["subdomains"]]
+    report: Dict[str, Any] = {
+        "n_domains": n_dom, "n_subdomains": n_sub, "n_features": n_feat,
+        "subdomain_size_min_max_mean": [min(sizes), max(sizes), round(float(np.mean(sizes)), 2)] if sizes else None,
+    }
+    if exploration:
+        report["cluster_agreement"] = _cluster_agreement(ontology, exploration)
+        report["redundant_pairs"] = exploration.get("redundant_pairs", [])[:10]
+        report["quality_flags"] = exploration.get("quality_flags", {})
+    if verify and llm is not None:
+        report["llm_review"] = _verify_ontology(llm, ontology)
+    return report
+
+
+def _cluster_agreement(ontology: Dict[str, Any], exploration: Dict[str, Any]) -> Dict[str, Any]:
+    """Adjusted Rand Index between the semantic subdomain partition and data clusters."""
+    feat_sub = {f["id"]: f"{d['id']}/{s['id']}"
+                for d in ontology["domains"] for s in d["subdomains"] for f in s["features"]}
+    feat_clu: Dict[str, str] = {}
+    for cid, cols in (exploration.get("auto_clusters") or {}).items():
+        for c in cols:
+            feat_clu[c] = cid
+    common = [f for f in feat_sub if f in feat_clu]
+    if len(common) < 3:
+        return {"adjusted_rand_index": None, "n_features_compared": len(common)}
+    try:
+        from sklearn.metrics import adjusted_rand_score
+        ari = adjusted_rand_score([feat_sub[f] for f in common], [feat_clu[f] for f in common])
+        return {"adjusted_rand_index": round(float(ari), 3), "n_features_compared": len(common),
+                "interpretation": "1.0 = ontology subdomains match data-driven clusters exactly"}
+    except Exception:
+        return {"adjusted_rand_index": None, "n_features_compared": len(common)}
+
+
+def _verify_ontology(llm, ontology: Dict[str, Any]) -> Dict[str, Any]:
+    """One compact LLM QA pass over the ontology (structure sent as TOON)."""
+    compact = {d["label"]: {s["label"]: [f["label"] for f in s["features"]]
+                            for s in d["subdomains"]} for d in ontology["domains"]}
+    try:
+        from src.full_stack.backend.utils.toon import json_to_toon
+        payload = json_to_toon(compact)
+    except Exception:
+        payload = str(compact)
+    user = (
+        "Review this DOMAIN -> SUBDOMAIN -> FEATURE ontology (TOON).\n\n" + payload +
+        '\n\nReturn: {"mece_ok": true/false, "coherence_1to5": <int>, '
+        '"issues": ["..."], "misplaced_features": ["feature -> better subdomain"]}'
+    )
+    try:
+        obj = llm.chat_json(_VERIFY_SYSTEM, user, max_tokens=1500)
+        return obj if isinstance(obj, dict) else {}
+    except Exception:
+        return {}
 
 
 def _request_node_labels(llm, dataset_name, context, domains_order, subs_order, buckets) -> Dict[str, Any]:

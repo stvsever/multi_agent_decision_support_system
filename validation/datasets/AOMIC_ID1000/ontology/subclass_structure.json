@@ -3,12 +3,12 @@
     {
       "id": "DEMOGRAPHICS_AND_PHYSICAL",
       "label": "Demographics and Physical Characteristics",
-      "definition": "Basic biographical, physical, and socioeconomic data describing the individual participant.",
+      "definition": "Basic biological, physical, and socioeconomic descriptors of the study participants.",
       "subdomains": [
         {
           "id": "personal_attributes",
           "label": "Personal Attributes",
-          "definition": "Core biological and developmental identifiers including age, sex, and handedness.",
+          "definition": "Fundamental demographic identifiers including age, biological sex, and handedness.",
           "features": [
             {
               "id": "age",
@@ -36,7 +36,7 @@
         {
           "id": "anthropometrics",
           "label": "Anthropometrics",
-          "definition": "Quantitative measurements of physical body dimensions and composition.",
+          "definition": "Quantitative measurements of physical body dimensions such as body mass index.",
           "features": [
             {
               "id": "BMI",
@@ -50,7 +50,7 @@
         {
           "id": "socioeconomic_status",
           "label": "Socioeconomic Status",
-          "definition": "Indicators of an individual's educational attainment and social or economic background.",
+          "definition": "Indicators of an individual's social and economic standing, including educational attainment and background.",
           "features": [
             {
               "id": "education_level",
@@ -73,12 +73,12 @@
     {
       "id": "PERSONALITY",
       "label": "Personality Traits",
-      "definition": "Stable patterns of behavior, thought, and emotion as measured by standardized personality assessments.",
+      "definition": "Psychological characteristics describing stable patterns of behavior and temperament.",
       "subdomains": [
         {
           "id": "big_five_personality",
           "label": "Big Five Personality",
-          "definition": "Measures of the five broad dimensions of personality: Neuroticism, Extraversion, Openness, Agreeableness, and Conscientiousness.",
+          "definition": "Measures of the five core dimensions of personality: openness, conscientiousness, extraversion, agreeableness, and neuroticism.",
           "features": [
             {
               "id": "NEO_N",
@@ -127,7 +127,7 @@
         {
           "id": "reinforcement_sensitivity",
           "label": "Reinforcement Sensitivity",
-          "definition": "Measures of behavioral approach and inhibition systems in response to reward and punishment stimuli.",
+          "definition": "Measures of behavioral approach and inhibition systems in response to reward and punishment.",
           "features": [
             {
               "id": "BAS_drive",
@@ -162,7 +162,7 @@
         {
           "id": "anxiety_traits",
           "label": "Anxiety Traits",
-          "definition": "Assessment of stable, long-term tendencies toward experiencing anxiety.",
+          "definition": "Assessment of stable individual differences in the tendency to experience anxiety.",
           "features": [
             {
               "id": "STAI_T",
@@ -178,12 +178,12 @@
     {
       "id": "IDENTITY_AND_BELIEF",
       "label": "Identity and Belief",
-      "definition": "Self-reported measures concerning sexual orientation, gender identity, and religious affiliation.",
+      "definition": "Self-reported measures concerning sexual identity, gender, and religious affiliation.",
       "subdomains": [
         {
           "id": "sexual_and_gender_identity",
           "label": "Sexual and Gender Identity",
-          "definition": "Ratings reflecting an individual's sexual attraction patterns and gender self-identification.",
+          "definition": "Self-ratings regarding sexual attraction and gender identity.",
           "features": [
             {
               "id": "sexual_attraction_M",
@@ -218,7 +218,7 @@
         {
           "id": "religiosity",
           "label": "Religiosity",
-          "definition": "Measures of an individual's religious upbringing, current practice, and the perceived importance of faith.",
+          "definition": "Measures of religious upbringing, current religious practice, and the personal importance of religion.",
           "features": [
             {
               "id": "religious_upbringing",
@@ -248,12 +248,12 @@
     {
       "id": "BRAIN_MORPHOMETRY",
       "label": "Brain Morphometry",
-      "definition": "Structural measurements of brain anatomy derived from high-resolution structural MRI.",
+      "definition": "Structural measurements of brain anatomy derived from structural MRI data.",
       "subdomains": [
         {
           "id": "global_brain_measures",
           "label": "Global Brain Measures",
-          "definition": "Aggregate volumetric metrics representing total brain tissue and fluid compartments.",
+          "definition": "Aggregate volumetric measurements of total brain tissue and major structural compartments.",
           "features": [
             {
               "id": "fs_brainseg_vol",
@@ -295,7 +295,7 @@
         {
           "id": "subcortical_volumes",
           "label": "Subcortical Volumes",
-          "definition": "Volumetric measurements of specific deep-brain structures involved in memory and emotion.",
+          "definition": "Volumetric measurements of specific deep brain structures such as the hippocampus and amygdala.",
           "features": [
             {
               "id": "fs_vol_lh_hippocampus",
@@ -414,7 +414,7 @@
         {
           "id": "cortical_thickness",
           "label": "Cortical Thickness",
-          "definition": "Measurements of the thickness of the cerebral cortex across different anatomical regions.",
+          "definition": "Measurements of the thickness of the cerebral cortex across different lobes and hemispheres.",
           "features": [
             {
               "id": "fs_mean_thickness_lh",
@@ -521,12 +521,12 @@
     {
       "id": "BRAIN_CONNECTOME",
       "label": "Brain Connectome",
-      "definition": "Functional connectivity patterns between brain networks derived from movie-watching fMRI data.",
+      "definition": "Functional connectivity patterns between brain networks derived from movie-watching fMRI.",
       "subdomains": [
         {
           "id": "within_network_connectivity",
           "label": "Within-Network Connectivity",
-          "definition": "Functional synchronization strength between regions belonging to the same canonical brain network.",
+          "definition": "Functional synchronization strength between regions belonging to the same functional network.",
           "features": [
             {
               "id": "fc_vis_within",
@@ -582,7 +582,7 @@
         {
           "id": "between_network_connectivity",
           "label": "Between-Network Connectivity",
-          "definition": "Functional synchronization strength between distinct, non-overlapping brain networks.",
+          "definition": "Functional synchronization strength between regions belonging to different functional networks.",
           "features": [
             {
               "id": "fc_vis_sommot",

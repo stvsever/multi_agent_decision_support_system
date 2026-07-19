@@ -1,0 +1,153 @@
+{
+  "n_domains": 6,
+  "n_subdomains": 13,
+  "n_features": 86,
+  "subdomain_size_min_max_mean": [
+    1,
+    21,
+    6.62
+  ],
+  "cluster_agreement": {
+    "adjusted_rand_index": 0.48,
+    "n_features_compared": 86,
+    "interpretation": "1.0 = ontology subdomains match data-driven clusters exactly"
+  },
+  "redundant_pairs": [
+    {
+      "a": "fs_total_gray_vol",
+      "b": "fs_cortex_vol",
+      "spearman_r": 0.973
+    },
+    {
+      "a": "fs_mean_thickness_lh",
+      "b": "fs_mean_thickness_rh",
+      "spearman_r": 0.962
+    },
+    {
+      "a": "sexual_attraction_M",
+      "b": "sexual_attraction_F",
+      "spearman_r": -0.945
+    },
+    {
+      "a": "gender_identity_M",
+      "b": "gender_identity_F",
+      "spearman_r": -0.925
+    },
+    {
+      "a": "fs_thk_lh_parietal",
+      "b": "fs_thk_rh_parietal",
+      "spearman_r": 0.924
+    },
+    {
+      "a": "fs_brainseg_vol",
+      "b": "fs_total_gray_vol",
+      "spearman_r": 0.922
+    },
+    {
+      "a": "fs_vol_lh_ventraldc",
+      "b": "fs_vol_rh_ventraldc",
+      "spearman_r": 0.921
+    },
+    {
+      "a": "fs_brainseg_vol",
+      "b": "fs_cerebral_wm_vol",
+      "spearman_r": 0.919
+    },
+    {
+      "a": "sex",
+      "b": "gender_identity_F",
+      "spearman_r": -0.915
+    },
+    {
+      "a": "fs_thk_lh_frontal",
+      "b": "fs_thk_rh_frontal",
+      "spearman_r": 0.915
+    }
+  ],
+  "quality_flags": {
+    "constant": [],
+    "near_constant": [],
+    "high_missing": [
+      "religious_importance",
+      "fs_brainseg_vol",
+      "fs_total_gray_vol",
+      "fs_cortex_vol",
+      "fs_cerebral_wm_vol",
+      "fs_subcort_gray_vol",
+      "fs_vol_lh_hippocampus",
+      "fs_vol_rh_hippocampus",
+      "fs_vol_lh_amygdala",
+      "fs_vol_rh_amygdala",
+      "fs_vol_lh_thalamus",
+      "fs_vol_rh_thalamus",
+      "fs_vol_lh_caudate",
+      "fs_vol_rh_caudate",
+      "fs_vol_lh_putamen",
+      "fs_vol_rh_putamen",
+      "fs_vol_lh_pallidum",
+      "fs_vol_rh_pallidum",
+      "fs_vol_lh_accumbens",
+      "fs_vol_rh_accumbens",
+      "fs_vol_lh_ventraldc",
+      "fs_vol_rh_ventraldc",
+      "fs_mean_thickness_lh",
+      "fs_thk_lh_frontal",
+      "fs_thk_lh_parietal",
+      "fs_thk_lh_temporal",
+      "fs_thk_lh_occipital",
+      "fs_thk_lh_cingulate",
+      "fs_thk_lh_insula",
+      "fs_mean_thickness_rh",
+      "fs_thk_rh_frontal",
+      "fs_thk_rh_parietal",
+      "fs_thk_rh_temporal",
+      "fs_thk_rh_occipital",
+      "fs_thk_rh_cingulate",
+      "fs_thk_rh_insula",
+      "fc_vis_within",
+      "fc_vis_sommot",
+      "fc_vis_dorsattn",
+      "fc_vis_salventattn",
+      "fc_vis_limbic",
+      "fc_vis_cont",
+      "fc_vis_default",
+      "fc_sommot_within",
+      "fc_sommot_dorsattn",
+      "fc_sommot_salventattn",
+      "fc_sommot_limbic",
+      "fc_sommot_cont",
+      "fc_sommot_default",
+      "fc_dorsattn_within",
+      "fc_dorsattn_salventattn",
+      "fc_dorsattn_limbic",
+      "fc_dorsattn_cont",
+      "fc_dorsattn_default",
+      "fc_salventattn_within",
+      "fc_salventattn_limbic",
+      "fc_salventattn_cont",
+      "fc_salventattn_default",
+      "fc_limbic_within",
+      "fc_limbic_cont",
+      "fc_limbic_default",
+      "fc_cont_within",
+      "fc_cont_default",
+      "fc_default_within"
+    ],
+    "highly_skewed": [
+      "handedness"
+    ]
+  },
+  "llm_review": {
+    "mece_ok": false,
+    "coherence_1to5": 3,
+    "issues": [
+      "Identity and Belief: Sexual attraction and gender identity features are not MECE; they are binary/categorical variables split into individual features, leading to redundancy and potential logical gaps.",
+      "Brain Morphometry: Cortical thickness features are incomplete; they only list the Left hemisphere, creating a lack of collective exhaustiveness compared to the bilateral subcortical volumes.",
+      "Brain Connectome: Between-Network Connectivity is not exhaustive; it only lists interactions involving the Visual network, ignoring all other pairwise network combinations.",
+      "Redundancy: 'Total brain segmentation volume' is mathematically redundant if all sub-components (gray/white matter) are included."
+    ],
+    "misplaced_features": [
+      "Body mass index -> Demographics and Physical Characteristics: Physical Health (BMI is a health metric, not strictly an anthropometric demographic)"
+    ]
+  }
+}

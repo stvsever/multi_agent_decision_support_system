@@ -13,8 +13,10 @@ full-stack engine stays dataset-agnostic.
 ```
 validation/
   common/                      reusable, dataset-agnostic ingestion engine
+    explore.py                   automated data understanding (types, correlations,
+                                 feature clustering, redundancy, quality flags)
     manifest.py                  deterministic feature-structure profiling
-    ontology.py                  LLM-labeled, hint-structured subclass ontology (+ OWL/JSON)
+    ontology.py                  LLM ontology (hint or auto) + QA review + OWL/JSON
     deviation.py                 reference strategies (cohort / external / absolute)
     compass_writer.py            emits the four COMPASS participant files
     freesurfer.py                FreeSurfer morphometry feature extraction
@@ -34,16 +36,21 @@ validation/
 
 ## How ingestion works
 
-1. **Explore** (hardcoded) - profile every feature: type, cardinality, missingness,
-   distribution. No LLM.
+1. **Explore** - a sophisticated automated pass that *understands* any tabular folder:
+   automatic type inference, distribution and missingness profiling, robust
+   correlation structure, hierarchical feature clustering, near-duplicate detection,
+   target associations, and quality flags. No hand-written hints required.
 2. **Ontologise** - organise all features into a strict, non-redundant
-   `DOMAIN -> SUBDOMAIN -> FEATURE` subclass hierarchy. The structure comes from
-   per-feature hints (guaranteeing clean, fully-covered domains and keeping brain
-   modalities separate); a small model generates only the interpretable parent
-   labels and definitions. The prompt is serialised as TOON, not JSON, to save
-   tokens. The ontology is built **once per dataset** and reused as a fixed base
-   template for every subject, so participants differ only in which leaf values are
-   present, never in structure. Emits Protege-loadable OWL plus a subclass JSON.
+   `DOMAIN -> SUBDOMAIN -> FEATURE` subclass hierarchy. Structure comes from
+   per-feature hints when domain knowledge exists, or from the exploration's
+   data-driven clusters otherwise; a small model generates only the interpretable
+   parent labels and definitions (leaves keep labels, no redundant descriptions).
+   The prompt is serialised as TOON, not JSON, to save tokens. The result is then
+   quality-assessed: adjusted Rand index against the statistical clusters plus a
+   compact LLM MECE/coherence review. The ontology is built **once per dataset** and
+   reused as a fixed base template for every subject, so participants differ only in
+   which leaf values are present, never in structure. Emits Protege-loadable OWL, a
+   subclass JSON, and exploration/quality reports.
 3. **Encode** - standardise each feature into a deviation score with its label
    preserved. Reference strategy is auto-selected: `cohort` (batch is its own
    reference), `external` (supplied norms), or `absolute` (no reference / single

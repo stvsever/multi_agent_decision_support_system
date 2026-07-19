@@ -1,0 +1,2681 @@
+{
+  "n_participants": 928,
+  "n_features": 86,
+  "type_counts": {
+    "numeric": 81,
+    "binary": 4,
+    "ordinal": 1
+  },
+  "profiles": {
+    "age": {
+      "label": "Age",
+      "stat_type": "numeric",
+      "units": "years",
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 27,
+      "mean": 22.8499,
+      "std": 1.7066,
+      "min": 19.0,
+      "max": 26.0,
+      "skew": 0.084,
+      "kurtosis": -1.166,
+      "quantiles_5_25_50_75_95": [
+        20.25,
+        21.25,
+        22.75,
+        24.25,
+        25.5
+      ],
+      "outlier_fraction": 0.0
+    },
+    "sex": {
+      "label": "Biological sex",
+      "stat_type": "binary",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 2,
+      "mean": 0.4795,
+      "std": 0.4996,
+      "min": 0.0,
+      "max": 1.0,
+      "skew": 0.082,
+      "kurtosis": -1.998,
+      "quantiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "handedness": {
+      "label": "Handedness",
+      "stat_type": "binary",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 2,
+      "mean": 0.8901,
+      "std": 0.3128,
+      "min": 0.0,
+      "max": 1.0,
+      "skew": -2.498,
+      "kurtosis": 4.251,
+      "quantiles_5_25_50_75_95": [
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "outlier_fraction": 0.11
+    },
+    "BMI": {
+      "label": "Body mass index",
+      "stat_type": "numeric",
+      "units": "kg/m^2",
+      "n_present": 921,
+      "coverage_pct": 99.2,
+      "n_unique": 32,
+      "mean": 24.1227,
+      "std": 4.5235,
+      "min": 16.0,
+      "max": 47.0,
+      "skew": 1.543,
+      "kurtosis": 3.333,
+      "quantiles_5_25_50_75_95": [
+        19.0,
+        21.0,
+        23.0,
+        26.0,
+        33.0
+      ],
+      "outlier_fraction": 0.049
+    },
+    "education_level": {
+      "label": "Education level",
+      "stat_type": "ordinal",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 3,
+      "mean": 1.3772,
+      "std": 0.6532,
+      "min": 0.0,
+      "max": 2.0,
+      "skew": -0.572,
+      "kurtosis": -0.664,
+      "quantiles_5_25_50_75_95": [
+        0.0,
+        1.0,
+        1.0,
+        2.0,
+        2.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "background_SES": {
+      "label": "Background socio-economic status",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 9,
+      "mean": 4.0,
+      "std": 1.1945,
+      "min": 2.0,
+      "max": 6.0,
+      "skew": -0.014,
+      "kurtosis": -0.885,
+      "quantiles_5_25_50_75_95": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "NEO_N": {
+      "label": "Neuroticism (NEO-FFI)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 35,
+      "mean": 32.4558,
+      "std": 6.0137,
+      "min": 16.0,
+      "max": 52.0,
+      "skew": 0.223,
+      "kurtosis": -0.149,
+      "quantiles_5_25_50_75_95": [
+        23.0,
+        28.0,
+        32.0,
+        36.0,
+        43.0
+      ],
+      "outlier_fraction": 0.003
+    },
+    "NEO_E": {
+      "label": "Extraversion (NEO-FFI)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 35,
+      "mean": 41.6606,
+      "std": 5.6829,
+      "min": 19.0,
+      "max": 55.0,
+      "skew": -0.393,
+      "kurtosis": 0.142,
+      "quantiles_5_25_50_75_95": [
+        32.0,
+        38.0,
+        42.0,
+        46.0,
+        50.0
+      ],
+      "outlier_fraction": 0.008
+    },
+    "NEO_O": {
+      "label": "Openness (NEO-FFI)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 36,
+      "mean": 40.8869,
+      "std": 6.2927,
+      "min": 22.0,
+      "max": 58.0,
+      "skew": 0.024,
+      "kurtosis": -0.35,
+      "quantiles_5_25_50_75_95": [
+        30.0,
+        36.0,
+        41.0,
+        45.0,
+        51.0
+      ],
+      "outlier_fraction": 0.001
+    },
+    "NEO_A": {
+      "label": "Agreeableness (NEO-FFI)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 34,
+      "mean": 40.2349,
+      "std": 5.7062,
+      "min": 25.0,
+      "max": 58.0,
+      "skew": -0.037,
+      "kurtosis": -0.273,
+      "quantiles_5_25_50_75_95": [
+        31.0,
+        36.0,
+        40.0,
+        44.0,
+        49.0
+      ],
+      "outlier_fraction": 0.002
+    },
+    "NEO_C": {
+      "label": "Conscientiousness (NEO-FFI)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 927,
+      "coverage_pct": 99.9,
+      "n_unique": 34,
+      "mean": 37.7961,
+      "std": 5.862,
+      "min": 19.0,
+      "max": 57.0,
+      "skew": -0.182,
+      "kurtosis": -0.199,
+      "quantiles_5_25_50_75_95": [
+        28.0,
+        34.0,
+        38.0,
+        42.0,
+        47.0
+      ],
+      "outlier_fraction": 0.005
+    },
+    "BAS_drive": {
+      "label": "BAS drive",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 13,
+      "mean": 10.8739,
+      "std": 2.0912,
+      "min": 4.0,
+      "max": 16.0,
+      "skew": 0.036,
+      "kurtosis": 0.294,
+      "quantiles_5_25_50_75_95": [
+        8.0,
+        9.0,
+        11.0,
+        12.0,
+        15.0
+      ],
+      "outlier_fraction": 0.004
+    },
+    "BAS_fun": {
+      "label": "BAS fun-seeking",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 13,
+      "mean": 11.3621,
+      "std": 1.895,
+      "min": 4.0,
+      "max": 16.0,
+      "skew": -0.022,
+      "kurtosis": 0.122,
+      "quantiles_5_25_50_75_95": [
+        9.0,
+        10.0,
+        11.0,
+        13.0,
+        15.0
+      ],
+      "outlier_fraction": 0.004
+    },
+    "BAS_reward": {
+      "label": "BAS reward responsiveness",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 12,
+      "mean": 16.0819,
+      "std": 1.9525,
+      "min": 5.0,
+      "max": 20.0,
+      "skew": -0.293,
+      "kurtosis": 0.752,
+      "quantiles_5_25_50_75_95": [
+        13.0,
+        15.0,
+        16.0,
+        17.0,
+        19.0
+      ],
+      "outlier_fraction": 0.014
+    },
+    "BIS": {
+      "label": "Behavioural inhibition (BIS)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 21,
+      "mean": 19.3685,
+      "std": 3.6592,
+      "min": 8.0,
+      "max": 28.0,
+      "skew": -0.13,
+      "kurtosis": -0.181,
+      "quantiles_5_25_50_75_95": [
+        13.0,
+        17.0,
+        20.0,
+        22.0,
+        25.0
+      ],
+      "outlier_fraction": 0.002
+    },
+    "STAI_T": {
+      "label": "Trait anxiety (STAI-T)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 927,
+      "coverage_pct": 99.9,
+      "n_unique": 51,
+      "mean": 38.3937,
+      "std": 10.2052,
+      "min": 20.0,
+      "max": 77.0,
+      "skew": 0.595,
+      "kurtosis": 0.003,
+      "quantiles_5_25_50_75_95": [
+        24.0,
+        31.0,
+        37.0,
+        45.0,
+        57.0
+      ],
+      "outlier_fraction": 0.01
+    },
+    "sexual_attraction_M": {
+      "label": "Sexual attraction to males",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 554,
+      "coverage_pct": 59.7,
+      "n_unique": 7,
+      "mean": 3.9043,
+      "std": 2.7795,
+      "min": 1.0,
+      "max": 7.0,
+      "skew": 0.029,
+      "kurtosis": -1.895,
+      "quantiles_5_25_50_75_95": [
+        1.0,
+        1.0,
+        4.0,
+        7.0,
+        7.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "sexual_attraction_F": {
+      "label": "Sexual attraction to females",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 554,
+      "coverage_pct": 59.7,
+      "n_unique": 7,
+      "mean": 4.1895,
+      "std": 2.7544,
+      "min": 1.0,
+      "max": 7.0,
+      "skew": -0.08,
+      "kurtosis": -1.88,
+      "quantiles_5_25_50_75_95": [
+        1.0,
+        1.0,
+        4.0,
+        7.0,
+        7.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "gender_identity_M": {
+      "label": "Gender identity (male)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 554,
+      "coverage_pct": 59.7,
+      "n_unique": 7,
+      "mean": 3.8412,
+      "std": 2.7847,
+      "min": 1.0,
+      "max": 7.0,
+      "skew": 0.081,
+      "kurtosis": -1.902,
+      "quantiles_5_25_50_75_95": [
+        1.0,
+        1.0,
+        3.0,
+        7.0,
+        7.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "gender_identity_F": {
+      "label": "Gender identity (female)",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 554,
+      "coverage_pct": 59.7,
+      "n_unique": 7,
+      "mean": 3.8845,
+      "std": 2.781,
+      "min": 1.0,
+      "max": 7.0,
+      "skew": 0.054,
+      "kurtosis": -1.906,
+      "quantiles_5_25_50_75_95": [
+        1.0,
+        1.0,
+        3.0,
+        7.0,
+        7.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "religious_upbringing": {
+      "label": "Religious upbringing",
+      "stat_type": "binary",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 2,
+      "mean": 0.3405,
+      "std": 0.4739,
+      "min": 0.0,
+      "max": 1.0,
+      "skew": 0.674,
+      "kurtosis": -1.549,
+      "quantiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "religious_now": {
+      "label": "Currently religious",
+      "stat_type": "binary",
+      "units": null,
+      "n_present": 928,
+      "coverage_pct": 100.0,
+      "n_unique": 2,
+      "mean": 0.2123,
+      "std": 0.4089,
+      "min": 0.0,
+      "max": 1.0,
+      "skew": 1.409,
+      "kurtosis": -0.013,
+      "quantiles_5_25_50_75_95": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "outlier_fraction": 0.212
+    },
+    "religious_importance": {
+      "label": "Importance of religion",
+      "stat_type": "numeric",
+      "units": null,
+      "n_present": 197,
+      "coverage_pct": 21.2,
+      "n_unique": 5,
+      "mean": 2.7259,
+      "std": 1.4056,
+      "min": 1.0,
+      "max": 5.0,
+      "skew": 0.354,
+      "kurtosis": -1.165,
+      "quantiles_5_25_50_75_95": [
+        1.0,
+        2.0,
+        2.0,
+        4.0,
+        5.0
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_brainseg_vol": {
+      "label": "Total brain segmentation volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 1238177.925,
+      "std": 108234.2684,
+      "min": 987355.0,
+      "max": 1461674.0,
+      "skew": -0.082,
+      "kurtosis": -0.608,
+      "quantiles_5_25_50_75_95": [
+        1060111.55,
+        1167414.75,
+        1238338.5,
+        1316205.5,
+        1416271.85
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_total_gray_vol": {
+      "label": "Total gray matter volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 696893.5009,
+      "std": 59082.8736,
+      "min": 546088.4456,
+      "max": 837490.9098,
+      "skew": -0.263,
+      "kurtosis": -0.291,
+      "quantiles_5_25_50_75_95": [
+        600110.348,
+        652467.78,
+        705673.151,
+        734539.954,
+        790409.541
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_cortex_vol": {
+      "label": "Total cortical gray matter volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 513947.2426,
+      "std": 46309.3299,
+      "min": 394481.4456,
+      "max": 630992.9098,
+      "skew": -0.291,
+      "kurtosis": -0.139,
+      "quantiles_5_25_50_75_95": [
+        437257.42,
+        479232.61,
+        520399.006,
+        544040.639,
+        584888.901
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_cerebral_wm_vol": {
+      "label": "Total cerebral white matter volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 487988.8012,
+      "std": 51477.0268,
+      "min": 392755.644,
+      "max": 626514.4344,
+      "skew": 0.26,
+      "kurtosis": -0.508,
+      "quantiles_5_25_50_75_95": [
+        407360.27,
+        448327.625,
+        482115.904,
+        525085.008,
+        572104.983
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_subcort_gray_vol": {
+      "label": "Total subcortical gray matter volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 62279.5583,
+      "std": 4790.5255,
+      "min": 49458.0,
+      "max": 76671.0,
+      "skew": -0.053,
+      "kurtosis": 0.022,
+      "quantiles_5_25_50_75_95": [
+        54725.2,
+        59225.0,
+        62376.5,
+        65248.75,
+        69395.65
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_vol_lh_hippocampus": {
+      "label": "Left hippocampus volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 4303.7333,
+      "std": 394.2655,
+      "min": 3171.2,
+      "max": 5051.9,
+      "skew": -0.27,
+      "kurtosis": -0.136,
+      "quantiles_5_25_50_75_95": [
+        3688.795,
+        4040.825,
+        4287.8,
+        4610.875,
+        4940.4
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_vol_rh_hippocampus": {
+      "label": "Right hippocampus volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 4380.91,
+      "std": 431.7254,
+      "min": 3171.1,
+      "max": 5500.5,
+      "skew": 0.227,
+      "kurtosis": 0.131,
+      "quantiles_5_25_50_75_95": [
+        3724.13,
+        4059.4,
+        4338.05,
+        4644.0,
+        5168.055
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_vol_lh_amygdala": {
+      "label": "Left amygdala volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 1660.1058,
+      "std": 207.3947,
+      "min": 1152.9,
+      "max": 2312.1,
+      "skew": 0.422,
+      "kurtosis": 0.824,
+      "quantiles_5_25_50_75_95": [
+        1365.095,
+        1511.525,
+        1644.15,
+        1789.375,
+        2002.3
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_vol_rh_amygdala": {
+      "label": "Right amygdala volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 118,
+      "mean": 1863.7542,
+      "std": 212.3273,
+      "min": 1344.3,
+      "max": 2404.5,
+      "skew": 0.07,
+      "kurtosis": -0.397,
+      "quantiles_5_25_50_75_95": [
+        1553.665,
+        1701.95,
+        1845.9,
+        2019.7,
+        2223.1
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_vol_lh_thalamus": {
+      "label": "Left thalamus volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 8479.05,
+      "std": 760.2063,
+      "min": 6544.1,
+      "max": 10216.1,
+      "skew": -0.183,
+      "kurtosis": -0.368,
+      "quantiles_5_25_50_75_95": [
+        7204.53,
+        7917.5,
+        8514.85,
+        8982.25,
+        9706.865
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_vol_rh_thalamus": {
+      "label": "Right thalamus volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 7711.93,
+      "std": 667.0198,
+      "min": 6247.5,
+      "max": 9219.0,
+      "skew": 0.075,
+      "kurtosis": -0.63,
+      "quantiles_5_25_50_75_95": [
+        6682.96,
+        7289.25,
+        7634.6,
+        8200.525,
+        8786.33
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_vol_lh_caudate": {
+      "label": "Left caudate volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 3866.0775,
+      "std": 473.5584,
+      "min": 2736.8,
+      "max": 5846.4,
+      "skew": 0.585,
+      "kurtosis": 1.952,
+      "quantiles_5_25_50_75_95": [
+        3102.44,
+        3568.525,
+        3859.95,
+        4118.475,
+        4695.76
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_vol_rh_caudate": {
+      "label": "Right caudate volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 119,
+      "mean": 3978.4433,
+      "std": 472.8979,
+      "min": 2791.7,
+      "max": 5938.3,
+      "skew": 0.445,
+      "kurtosis": 1.954,
+      "quantiles_5_25_50_75_95": [
+        3236.45,
+        3694.975,
+        4043.35,
+        4210.95,
+        4738.35
+      ],
+      "outlier_fraction": 0.033
+    },
+    "fs_vol_lh_putamen": {
+      "label": "Left putamen volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 5167.9492,
+      "std": 534.4634,
+      "min": 3595.5,
+      "max": 6670.7,
+      "skew": -0.042,
+      "kurtosis": 0.265,
+      "quantiles_5_25_50_75_95": [
+        4222.305,
+        4835.425,
+        5130.25,
+        5536.575,
+        6013.65
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_vol_rh_putamen": {
+      "label": "Right putamen volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 5308.6175,
+      "std": 509.2974,
+      "min": 4045.5,
+      "max": 6641.2,
+      "skew": -0.011,
+      "kurtosis": 0.024,
+      "quantiles_5_25_50_75_95": [
+        4345.365,
+        5009.525,
+        5289.8,
+        5679.5,
+        6101.36
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_vol_lh_pallidum": {
+      "label": "Left pallidum volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 118,
+      "mean": 2228.1233,
+      "std": 240.128,
+      "min": 1635.3,
+      "max": 2953.2,
+      "skew": 0.057,
+      "kurtosis": -0.111,
+      "quantiles_5_25_50_75_95": [
+        1835.905,
+        2067.15,
+        2221.55,
+        2398.8,
+        2591.62
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_vol_rh_pallidum": {
+      "label": "Right pallidum volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 2189.8267,
+      "std": 221.6507,
+      "min": 1727.2,
+      "max": 2854.7,
+      "skew": 0.162,
+      "kurtosis": 0.026,
+      "quantiles_5_25_50_75_95": [
+        1808.99,
+        2052.55,
+        2180.7,
+        2332.275,
+        2592.605
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_vol_lh_accumbens": {
+      "label": "Left accumbens volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 114,
+      "mean": 417.6367,
+      "std": 88.9909,
+      "min": 175.0,
+      "max": 624.1,
+      "skew": 0.054,
+      "kurtosis": -0.018,
+      "quantiles_5_25_50_75_95": [
+        292.97,
+        355.15,
+        412.55,
+        481.175,
+        561.805
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_vol_rh_accumbens": {
+      "label": "Right accumbens volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 117,
+      "mean": 552.7842,
+      "std": 77.973,
+      "min": 349.9,
+      "max": 812.4,
+      "skew": 0.291,
+      "kurtosis": 0.699,
+      "quantiles_5_25_50_75_95": [
+        441.37,
+        503.175,
+        554.05,
+        597.675,
+        688.31
+      ],
+      "outlier_fraction": 0.025
+    },
+    "fs_vol_lh_ventraldc": {
+      "label": "Left ventraldc volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 4442.4708,
+      "std": 394.5976,
+      "min": 3413.1,
+      "max": 5740.0,
+      "skew": 0.281,
+      "kurtosis": 0.31,
+      "quantiles_5_25_50_75_95": [
+        3809.03,
+        4171.7,
+        4394.85,
+        4730.0,
+        5037.23
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_vol_rh_ventraldc": {
+      "label": "Right ventraldc volume",
+      "stat_type": "numeric",
+      "units": "mm^3",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 4341.1983,
+      "std": 385.6391,
+      "min": 3399.1,
+      "max": 5568.4,
+      "skew": -0.103,
+      "kurtosis": 0.194,
+      "quantiles_5_25_50_75_95": [
+        3715.765,
+        4091.1,
+        4357.55,
+        4589.125,
+        4894.715
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_mean_thickness_lh": {
+      "label": "Left hemisphere mean cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 2.5919,
+      "std": 0.0843,
+      "min": 2.3993,
+      "max": 2.839,
+      "skew": 0.237,
+      "kurtosis": 0.178,
+      "quantiles_5_25_50_75_95": [
+        2.46,
+        2.536,
+        2.59,
+        2.654,
+        2.72
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_thk_lh_frontal": {
+      "label": "Left frontal lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 119,
+      "mean": 2.7161,
+      "std": 0.0937,
+      "min": 2.5224,
+      "max": 3.0196,
+      "skew": 0.473,
+      "kurtosis": 0.872,
+      "quantiles_5_25_50_75_95": [
+        2.565,
+        2.655,
+        2.712,
+        2.771,
+        2.869
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_thk_lh_parietal": {
+      "label": "Left parietal lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 117,
+      "mean": 2.4206,
+      "std": 0.0961,
+      "min": 2.1901,
+      "max": 2.6886,
+      "skew": 0.046,
+      "kurtosis": -0.26,
+      "quantiles_5_25_50_75_95": [
+        2.263,
+        2.351,
+        2.424,
+        2.486,
+        2.576
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_thk_lh_temporal": {
+      "label": "Left temporal lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 118,
+      "mean": 2.9168,
+      "std": 0.1072,
+      "min": 2.6927,
+      "max": 3.2441,
+      "skew": 0.231,
+      "kurtosis": -0.202,
+      "quantiles_5_25_50_75_95": [
+        2.753,
+        2.832,
+        2.913,
+        2.989,
+        3.092
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_thk_lh_occipital": {
+      "label": "Left occipital lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 118,
+      "mean": 1.971,
+      "std": 0.0898,
+      "min": 1.7855,
+      "max": 2.2536,
+      "skew": 0.2,
+      "kurtosis": -0.234,
+      "quantiles_5_25_50_75_95": [
+        1.829,
+        1.905,
+        1.966,
+        2.039,
+        2.114
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_thk_lh_cingulate": {
+      "label": "Left cingulate lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 117,
+      "mean": 2.7256,
+      "std": 0.1274,
+      "min": 2.3317,
+      "max": 2.9913,
+      "skew": -0.414,
+      "kurtosis": 0.0,
+      "quantiles_5_25_50_75_95": [
+        2.502,
+        2.644,
+        2.73,
+        2.825,
+        2.904
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_thk_lh_insula": {
+      "label": "Left insula lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 115,
+      "mean": 3.1943,
+      "std": 0.1454,
+      "min": 2.845,
+      "max": 3.582,
+      "skew": -0.061,
+      "kurtosis": 0.116,
+      "quantiles_5_25_50_75_95": [
+        2.943,
+        3.096,
+        3.208,
+        3.289,
+        3.431
+      ],
+      "outlier_fraction": 0.008
+    },
+    "fs_mean_thickness_rh": {
+      "label": "Right hemisphere mean cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 2.5944,
+      "std": 0.0834,
+      "min": 2.3933,
+      "max": 2.8395,
+      "skew": 0.228,
+      "kurtosis": 0.306,
+      "quantiles_5_25_50_75_95": [
+        2.457,
+        2.549,
+        2.597,
+        2.641,
+        2.745
+      ],
+      "outlier_fraction": 0.025
+    },
+    "fs_thk_rh_frontal": {
+      "label": "Right frontal lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 118,
+      "mean": 2.7221,
+      "std": 0.0919,
+      "min": 2.5147,
+      "max": 2.9623,
+      "skew": 0.22,
+      "kurtosis": 0.046,
+      "quantiles_5_25_50_75_95": [
+        2.572,
+        2.667,
+        2.719,
+        2.778,
+        2.881
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_thk_rh_parietal": {
+      "label": "Right parietal lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 117,
+      "mean": 2.407,
+      "std": 0.091,
+      "min": 2.2284,
+      "max": 2.6902,
+      "skew": 0.355,
+      "kurtosis": 0.065,
+      "quantiles_5_25_50_75_95": [
+        2.258,
+        2.346,
+        2.404,
+        2.453,
+        2.563
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_thk_rh_temporal": {
+      "label": "Right temporal lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 116,
+      "mean": 2.9429,
+      "std": 0.1094,
+      "min": 2.6579,
+      "max": 3.2645,
+      "skew": 0.111,
+      "kurtosis": 0.572,
+      "quantiles_5_25_50_75_95": [
+        2.773,
+        2.871,
+        2.946,
+        3.012,
+        3.116
+      ],
+      "outlier_fraction": 0.025
+    },
+    "fs_thk_rh_occipital": {
+      "label": "Right occipital lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 119,
+      "mean": 1.9981,
+      "std": 0.0905,
+      "min": 1.8025,
+      "max": 2.3575,
+      "skew": 0.437,
+      "kurtosis": 1.312,
+      "quantiles_5_25_50_75_95": [
+        1.853,
+        1.944,
+        2.0,
+        2.054,
+        2.12
+      ],
+      "outlier_fraction": 0.017
+    },
+    "fs_thk_rh_cingulate": {
+      "label": "Right cingulate lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 120,
+      "mean": 2.7166,
+      "std": 0.1373,
+      "min": 2.3905,
+      "max": 3.054,
+      "skew": 0.004,
+      "kurtosis": -0.518,
+      "quantiles_5_25_50_75_95": [
+        2.504,
+        2.623,
+        2.703,
+        2.838,
+        2.938
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fs_thk_rh_insula": {
+      "label": "Right insula lobe cortical thickness",
+      "stat_type": "numeric",
+      "units": "mm",
+      "n_present": 120,
+      "coverage_pct": 12.9,
+      "n_unique": 110,
+      "mean": 3.2188,
+      "std": 0.1521,
+      "min": 2.749,
+      "max": 3.595,
+      "skew": 0.064,
+      "kurtosis": -0.143,
+      "quantiles_5_25_50_75_95": [
+        3.017,
+        3.108,
+        3.204,
+        3.348,
+        3.458
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_vis_within": {
+      "label": "Visual within-network FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.358,
+      "std": 0.0744,
+      "min": 0.2215,
+      "max": 0.5231,
+      "skew": 0.157,
+      "kurtosis": -0.239,
+      "quantiles_5_25_50_75_95": [
+        0.24,
+        0.304,
+        0.375,
+        0.398,
+        0.469
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_vis_sommot": {
+      "label": "Visual - Somatomotor FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.091,
+      "std": 0.0834,
+      "min": -0.2642,
+      "max": 0.0699,
+      "skew": -0.248,
+      "kurtosis": -0.017,
+      "quantiles_5_25_50_75_95": [
+        -0.252,
+        -0.138,
+        -0.072,
+        -0.048,
+        0.034
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_vis_dorsattn": {
+      "label": "Visual - Dorsal attention FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.0317,
+      "std": 0.0663,
+      "min": -0.0917,
+      "max": 0.1472,
+      "skew": 0.391,
+      "kurtosis": -0.954,
+      "quantiles_5_25_50_75_95": [
+        -0.037,
+        -0.017,
+        0.008,
+        0.089,
+        0.137
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_vis_salventattn": {
+      "label": "Visual - Salience / ventral attention FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.1191,
+      "std": 0.0659,
+      "min": -0.3029,
+      "max": -0.0127,
+      "skew": -0.705,
+      "kurtosis": 0.86,
+      "quantiles_5_25_50_75_95": [
+        -0.194,
+        -0.158,
+        -0.131,
+        -0.063,
+        -0.042
+      ],
+      "outlier_fraction": 0.043
+    },
+    "fc_vis_limbic": {
+      "label": "Visual - Limbic FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.089,
+      "std": 0.0635,
+      "min": -0.2167,
+      "max": 0.0169,
+      "skew": -0.155,
+      "kurtosis": -0.655,
+      "quantiles_5_25_50_75_95": [
+        -0.194,
+        -0.138,
+        -0.082,
+        -0.045,
+        0.014
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_vis_cont": {
+      "label": "Visual - Frontoparietal control FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 22,
+      "mean": -0.1329,
+      "std": 0.0703,
+      "min": -0.2832,
+      "max": 0.0228,
+      "skew": -0.026,
+      "kurtosis": 0.325,
+      "quantiles_5_25_50_75_95": [
+        -0.25,
+        -0.168,
+        -0.131,
+        -0.096,
+        -0.03
+      ],
+      "outlier_fraction": 0.087
+    },
+    "fc_vis_default": {
+      "label": "Visual - Default mode FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.1387,
+      "std": 0.0707,
+      "min": -0.2743,
+      "max": -0.0235,
+      "skew": -0.398,
+      "kurtosis": -0.61,
+      "quantiles_5_25_50_75_95": [
+        -0.262,
+        -0.173,
+        -0.128,
+        -0.092,
+        -0.045
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_sommot_within": {
+      "label": "Somatomotor within-network FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.4846,
+      "std": 0.1323,
+      "min": 0.2,
+      "max": 0.6562,
+      "skew": -0.743,
+      "kurtosis": -0.232,
+      "quantiles_5_25_50_75_95": [
+        0.211,
+        0.397,
+        0.503,
+        0.595,
+        0.647
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_sommot_dorsattn": {
+      "label": "Somatomotor - Dorsal attention FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.1353,
+      "std": 0.0732,
+      "min": -0.0185,
+      "max": 0.2759,
+      "skew": 0.077,
+      "kurtosis": -0.156,
+      "quantiles_5_25_50_75_95": [
+        0.025,
+        0.092,
+        0.128,
+        0.186,
+        0.269
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_sommot_salventattn": {
+      "label": "Somatomotor - Salience / ventral attention FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.2392,
+      "std": 0.0874,
+      "min": 0.0824,
+      "max": 0.3958,
+      "skew": 0.004,
+      "kurtosis": -0.68,
+      "quantiles_5_25_50_75_95": [
+        0.111,
+        0.186,
+        0.244,
+        0.293,
+        0.386
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_sommot_limbic": {
+      "label": "Somatomotor - Limbic FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.0049,
+      "std": 0.0618,
+      "min": -0.1663,
+      "max": 0.0767,
+      "skew": -0.979,
+      "kurtosis": 0.927,
+      "quantiles_5_25_50_75_95": [
+        -0.129,
+        -0.026,
+        0.004,
+        0.035,
+        0.076
+      ],
+      "outlier_fraction": 0.087
+    },
+    "fc_sommot_cont": {
+      "label": "Somatomotor - Frontoparietal control FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.0778,
+      "std": 0.0754,
+      "min": -0.2583,
+      "max": 0.0771,
+      "skew": -0.302,
+      "kurtosis": 1.116,
+      "quantiles_5_25_50_75_95": [
+        -0.22,
+        -0.099,
+        -0.076,
+        -0.049,
+        0.057
+      ],
+      "outlier_fraction": 0.174
+    },
+    "fc_sommot_default": {
+      "label": "Somatomotor - Default mode FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 22,
+      "mean": -0.0485,
+      "std": 0.078,
+      "min": -0.2044,
+      "max": 0.124,
+      "skew": 0.128,
+      "kurtosis": 0.104,
+      "quantiles_5_25_50_75_95": [
+        -0.184,
+        -0.092,
+        -0.056,
+        0.006,
+        0.075
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_dorsattn_within": {
+      "label": "Dorsal attention within-network FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.3071,
+      "std": 0.0701,
+      "min": 0.1785,
+      "max": 0.4389,
+      "skew": -0.013,
+      "kurtosis": -0.568,
+      "quantiles_5_25_50_75_95": [
+        0.191,
+        0.265,
+        0.312,
+        0.348,
+        0.412
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_dorsattn_salventattn": {
+      "label": "Dorsal attention - Salience / ventral attention FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.1195,
+      "std": 0.0673,
+      "min": -0.054,
+      "max": 0.2119,
+      "skew": -0.796,
+      "kurtosis": 0.342,
+      "quantiles_5_25_50_75_95": [
+        0.016,
+        0.079,
+        0.134,
+        0.168,
+        0.204
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_dorsattn_limbic": {
+      "label": "Dorsal attention - Limbic FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.0788,
+      "std": 0.064,
+      "min": -0.2919,
+      "max": 0.0243,
+      "skew": -1.569,
+      "kurtosis": 4.331,
+      "quantiles_5_25_50_75_95": [
+        -0.175,
+        -0.089,
+        -0.075,
+        -0.046,
+        0.0
+      ],
+      "outlier_fraction": 0.174
+    },
+    "fc_dorsattn_cont": {
+      "label": "Dorsal attention - Frontoparietal control FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.0216,
+      "std": 0.0659,
+      "min": -0.1318,
+      "max": 0.0918,
+      "skew": 0.098,
+      "kurtosis": -1.172,
+      "quantiles_5_25_50_75_95": [
+        -0.108,
+        -0.078,
+        -0.034,
+        0.036,
+        0.075
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_dorsattn_default": {
+      "label": "Dorsal attention - Default mode FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.1351,
+      "std": 0.0745,
+      "min": -0.2632,
+      "max": 0.0093,
+      "skew": -0.109,
+      "kurtosis": -0.793,
+      "quantiles_5_25_50_75_95": [
+        -0.261,
+        -0.19,
+        -0.127,
+        -0.082,
+        -0.033
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_salventattn_within": {
+      "label": "Salience / ventral attention within-network FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.3486,
+      "std": 0.0861,
+      "min": 0.1214,
+      "max": 0.4914,
+      "skew": -0.84,
+      "kurtosis": 1.112,
+      "quantiles_5_25_50_75_95": [
+        0.183,
+        0.321,
+        0.356,
+        0.399,
+        0.47
+      ],
+      "outlier_fraction": 0.087
+    },
+    "fc_salventattn_limbic": {
+      "label": "Salience / ventral attention - Limbic FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.0458,
+      "std": 0.0565,
+      "min": -0.1924,
+      "max": 0.0457,
+      "skew": -0.819,
+      "kurtosis": 0.566,
+      "quantiles_5_25_50_75_95": [
+        -0.138,
+        -0.073,
+        -0.04,
+        -0.009,
+        0.023
+      ],
+      "outlier_fraction": 0.043
+    },
+    "fc_salventattn_cont": {
+      "label": "Salience / ventral attention - Frontoparietal control FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.0495,
+      "std": 0.0421,
+      "min": -0.0266,
+      "max": 0.1599,
+      "skew": 0.236,
+      "kurtosis": 0.9,
+      "quantiles_5_25_50_75_95": [
+        -0.022,
+        0.032,
+        0.048,
+        0.073,
+        0.104
+      ],
+      "outlier_fraction": 0.043
+    },
+    "fc_salventattn_default": {
+      "label": "Salience / ventral attention - Default mode FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": -0.0294,
+      "std": 0.0687,
+      "min": -0.1435,
+      "max": 0.1015,
+      "skew": 0.277,
+      "kurtosis": -0.896,
+      "quantiles_5_25_50_75_95": [
+        -0.122,
+        -0.086,
+        -0.043,
+        0.021,
+        0.088
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_limbic_within": {
+      "label": "Limbic within-network FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.1626,
+      "std": 0.1047,
+      "min": -0.1508,
+      "max": 0.3428,
+      "skew": -0.946,
+      "kurtosis": 2.081,
+      "quantiles_5_25_50_75_95": [
+        0.025,
+        0.117,
+        0.16,
+        0.235,
+        0.295
+      ],
+      "outlier_fraction": 0.043
+    },
+    "fc_limbic_cont": {
+      "label": "Limbic - Frontoparietal control FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 22,
+      "mean": 0.006,
+      "std": 0.0428,
+      "min": -0.0967,
+      "max": 0.0933,
+      "skew": -0.241,
+      "kurtosis": 0.482,
+      "quantiles_5_25_50_75_95": [
+        -0.065,
+        -0.022,
+        0.011,
+        0.029,
+        0.066
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_limbic_default": {
+      "label": "Limbic - Default mode FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.145,
+      "std": 0.0532,
+      "min": 0.0365,
+      "max": 0.2773,
+      "skew": 0.427,
+      "kurtosis": 0.431,
+      "quantiles_5_25_50_75_95": [
+        0.071,
+        0.111,
+        0.127,
+        0.176,
+        0.22
+      ],
+      "outlier_fraction": 0.043
+    },
+    "fc_cont_within": {
+      "label": "Frontoparietal control within-network FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.2756,
+      "std": 0.0675,
+      "min": 0.1763,
+      "max": 0.4286,
+      "skew": 0.23,
+      "kurtosis": -0.718,
+      "quantiles_5_25_50_75_95": [
+        0.179,
+        0.222,
+        0.276,
+        0.332,
+        0.364
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_cont_default": {
+      "label": "Frontoparietal control - Default mode FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.1083,
+      "std": 0.0575,
+      "min": 0.0063,
+      "max": 0.2116,
+      "skew": 0.352,
+      "kurtosis": -0.657,
+      "quantiles_5_25_50_75_95": [
+        0.026,
+        0.062,
+        0.097,
+        0.147,
+        0.209
+      ],
+      "outlier_fraction": 0.0
+    },
+    "fc_default_within": {
+      "label": "Default mode within-network FC",
+      "stat_type": "numeric",
+      "units": "Pearson r",
+      "n_present": 23,
+      "coverage_pct": 2.5,
+      "n_unique": 23,
+      "mean": 0.2493,
+      "std": 0.0761,
+      "min": 0.1087,
+      "max": 0.393,
+      "skew": 0.137,
+      "kurtosis": -0.66,
+      "quantiles_5_25_50_75_95": [
+        0.138,
+        0.198,
+        0.244,
+        0.316,
+        0.378
+      ],
+      "outlier_fraction": 0.0
+    }
+  },
+  "correlation_features": [
+    "age",
+    "sex",
+    "handedness",
+    "BMI",
+    "education_level",
+    "background_SES",
+    "NEO_N",
+    "NEO_E",
+    "NEO_O",
+    "NEO_A",
+    "NEO_C",
+    "BAS_drive",
+    "BAS_fun",
+    "BAS_reward",
+    "BIS",
+    "STAI_T",
+    "sexual_attraction_M",
+    "sexual_attraction_F",
+    "gender_identity_M",
+    "gender_identity_F",
+    "religious_upbringing",
+    "religious_now",
+    "religious_importance",
+    "fs_brainseg_vol",
+    "fs_total_gray_vol",
+    "fs_cortex_vol",
+    "fs_cerebral_wm_vol",
+    "fs_subcort_gray_vol",
+    "fs_vol_lh_hippocampus",
+    "fs_vol_rh_hippocampus",
+    "fs_vol_lh_amygdala",
+    "fs_vol_rh_amygdala",
+    "fs_vol_lh_thalamus",
+    "fs_vol_rh_thalamus",
+    "fs_vol_lh_caudate",
+    "fs_vol_rh_caudate",
+    "fs_vol_lh_putamen",
+    "fs_vol_rh_putamen",
+    "fs_vol_lh_pallidum",
+    "fs_vol_rh_pallidum",
+    "fs_vol_lh_accumbens",
+    "fs_vol_rh_accumbens",
+    "fs_vol_lh_ventraldc",
+    "fs_vol_rh_ventraldc",
+    "fs_mean_thickness_lh",
+    "fs_thk_lh_frontal",
+    "fs_thk_lh_parietal",
+    "fs_thk_lh_temporal",
+    "fs_thk_lh_occipital",
+    "fs_thk_lh_cingulate",
+    "fs_thk_lh_insula",
+    "fs_mean_thickness_rh",
+    "fs_thk_rh_frontal",
+    "fs_thk_rh_parietal",
+    "fs_thk_rh_temporal",
+    "fs_thk_rh_occipital",
+    "fs_thk_rh_cingulate",
+    "fs_thk_rh_insula",
+    "fc_vis_within",
+    "fc_vis_sommot",
+    "fc_vis_dorsattn",
+    "fc_vis_salventattn",
+    "fc_vis_limbic",
+    "fc_vis_cont",
+    "fc_vis_default",
+    "fc_sommot_within",
+    "fc_sommot_dorsattn",
+    "fc_sommot_salventattn",
+    "fc_sommot_limbic",
+    "fc_sommot_cont",
+    "fc_sommot_default",
+    "fc_dorsattn_within",
+    "fc_dorsattn_salventattn",
+    "fc_dorsattn_limbic",
+    "fc_dorsattn_cont",
+    "fc_dorsattn_default",
+    "fc_salventattn_within",
+    "fc_salventattn_limbic",
+    "fc_salventattn_cont",
+    "fc_salventattn_default",
+    "fc_limbic_within",
+    "fc_limbic_cont",
+    "fc_limbic_default",
+    "fc_cont_within",
+    "fc_cont_default",
+    "fc_default_within"
+  ],
+  "auto_clusters": {
+    "cluster_11": [
+      "age",
+      "religious_importance",
+      "fc_sommot_dorsattn",
+      "fc_sommot_salventattn",
+      "fc_dorsattn_salventattn"
+    ],
+    "cluster_4": [
+      "sex",
+      "sexual_attraction_M",
+      "sexual_attraction_F",
+      "gender_identity_M",
+      "gender_identity_F",
+      "fs_brainseg_vol",
+      "fs_total_gray_vol",
+      "fs_cortex_vol",
+      "fs_cerebral_wm_vol",
+      "fs_subcort_gray_vol",
+      "fs_vol_lh_hippocampus",
+      "fs_vol_rh_hippocampus",
+      "fs_vol_lh_amygdala",
+      "fs_vol_rh_amygdala",
+      "fs_vol_lh_thalamus",
+      "fs_vol_rh_thalamus",
+      "fs_vol_lh_caudate",
+      "fs_vol_rh_caudate",
+      "fs_vol_lh_putamen",
+      "fs_vol_rh_putamen",
+      "fs_vol_lh_pallidum",
+      "fs_vol_rh_pallidum",
+      "fs_vol_lh_accumbens",
+      "fs_vol_rh_accumbens",
+      "fs_vol_lh_ventraldc",
+      "fs_vol_rh_ventraldc",
+      "fc_sommot_cont"
+    ],
+    "cluster_2": [
+      "handedness",
+      "fc_vis_within"
+    ],
+    "cluster_3": [
+      "BMI"
+    ],
+    "cluster_9": [
+      "education_level",
+      "background_SES",
+      "fc_sommot_within",
+      "fc_cont_within"
+    ],
+    "cluster_12": [
+      "NEO_N",
+      "NEO_E",
+      "BIS",
+      "STAI_T"
+    ],
+    "cluster_6": [
+      "NEO_O",
+      "fc_salventattn_cont"
+    ],
+    "cluster_7": [
+      "NEO_A",
+      "fc_limbic_within"
+    ],
+    "cluster_10": [
+      "NEO_C",
+      "fc_salventattn_within"
+    ],
+    "cluster_8": [
+      "BAS_drive",
+      "BAS_fun",
+      "BAS_reward",
+      "fc_dorsattn_limbic"
+    ],
+    "cluster_1": [
+      "religious_upbringing",
+      "religious_now"
+    ],
+    "cluster_5": [
+      "fs_mean_thickness_lh",
+      "fs_thk_lh_frontal",
+      "fs_thk_lh_parietal",
+      "fs_thk_lh_temporal",
+      "fs_thk_lh_occipital",
+      "fs_thk_lh_cingulate",
+      "fs_thk_lh_insula",
+      "fs_mean_thickness_rh",
+      "fs_thk_rh_frontal",
+      "fs_thk_rh_parietal",
+      "fs_thk_rh_temporal",
+      "fs_thk_rh_occipital",
+      "fs_thk_rh_cingulate",
+      "fs_thk_rh_insula",
+      "fc_limbic_cont"
+    ],
+    "cluster_14": [
+      "fc_vis_sommot",
+      "fc_vis_dorsattn",
+      "fc_vis_salventattn",
+      "fc_sommot_limbic",
+      "fc_sommot_default",
+      "fc_dorsattn_cont",
+      "fc_dorsattn_default",
+      "fc_salventattn_limbic",
+      "fc_salventattn_default"
+    ],
+    "cluster_13": [
+      "fc_vis_limbic",
+      "fc_vis_cont",
+      "fc_vis_default",
+      "fc_dorsattn_within",
+      "fc_limbic_default",
+      "fc_cont_default",
+      "fc_default_within"
+    ]
+  },
+  "n_auto_clusters": 14,
+  "redundant_pairs": [
+    {
+      "a": "fs_total_gray_vol",
+      "b": "fs_cortex_vol",
+      "spearman_r": 0.973
+    },
+    {
+      "a": "fs_mean_thickness_lh",
+      "b": "fs_mean_thickness_rh",
+      "spearman_r": 0.962
+    },
+    {
+      "a": "sexual_attraction_M",
+      "b": "sexual_attraction_F",
+      "spearman_r": -0.945
+    },
+    {
+      "a": "gender_identity_M",
+      "b": "gender_identity_F",
+      "spearman_r": -0.925
+    },
+    {
+      "a": "fs_thk_lh_parietal",
+      "b": "fs_thk_rh_parietal",
+      "spearman_r": 0.924
+    },
+    {
+      "a": "fs_brainseg_vol",
+      "b": "fs_total_gray_vol",
+      "spearman_r": 0.922
+    },
+    {
+      "a": "fs_vol_lh_ventraldc",
+      "b": "fs_vol_rh_ventraldc",
+      "spearman_r": 0.921
+    },
+    {
+      "a": "fs_brainseg_vol",
+      "b": "fs_cerebral_wm_vol",
+      "spearman_r": 0.919
+    },
+    {
+      "a": "sex",
+      "b": "gender_identity_F",
+      "spearman_r": -0.915
+    },
+    {
+      "a": "fs_thk_lh_frontal",
+      "b": "fs_thk_rh_frontal",
+      "spearman_r": 0.915
+    },
+    {
+      "a": "sex",
+      "b": "gender_identity_M",
+      "spearman_r": 0.91
+    },
+    {
+      "a": "fs_vol_lh_putamen",
+      "b": "fs_vol_rh_putamen",
+      "spearman_r": 0.907
+    },
+    {
+      "a": "fs_brainseg_vol",
+      "b": "fs_cortex_vol",
+      "spearman_r": 0.901
+    }
+  ],
+  "quality_flags": {
+    "constant": [],
+    "near_constant": [],
+    "high_missing": [
+      "religious_importance",
+      "fs_brainseg_vol",
+      "fs_total_gray_vol",
+      "fs_cortex_vol",
+      "fs_cerebral_wm_vol",
+      "fs_subcort_gray_vol",
+      "fs_vol_lh_hippocampus",
+      "fs_vol_rh_hippocampus",
+      "fs_vol_lh_amygdala",
+      "fs_vol_rh_amygdala",
+      "fs_vol_lh_thalamus",
+      "fs_vol_rh_thalamus",
+      "fs_vol_lh_caudate",
+      "fs_vol_rh_caudate",
+      "fs_vol_lh_putamen",
+      "fs_vol_rh_putamen",
+      "fs_vol_lh_pallidum",
+      "fs_vol_rh_pallidum",
+      "fs_vol_lh_accumbens",
+      "fs_vol_rh_accumbens",
+      "fs_vol_lh_ventraldc",
+      "fs_vol_rh_ventraldc",
+      "fs_mean_thickness_lh",
+      "fs_thk_lh_frontal",
+      "fs_thk_lh_parietal",
+      "fs_thk_lh_temporal",
+      "fs_thk_lh_occipital",
+      "fs_thk_lh_cingulate",
+      "fs_thk_lh_insula",
+      "fs_mean_thickness_rh",
+      "fs_thk_rh_frontal",
+      "fs_thk_rh_parietal",
+      "fs_thk_rh_temporal",
+      "fs_thk_rh_occipital",
+      "fs_thk_rh_cingulate",
+      "fs_thk_rh_insula",
+      "fc_vis_within",
+      "fc_vis_sommot",
+      "fc_vis_dorsattn",
+      "fc_vis_salventattn",
+      "fc_vis_limbic",
+      "fc_vis_cont",
+      "fc_vis_default",
+      "fc_sommot_within",
+      "fc_sommot_dorsattn",
+      "fc_sommot_salventattn",
+      "fc_sommot_limbic",
+      "fc_sommot_cont",
+      "fc_sommot_default",
+      "fc_dorsattn_within",
+      "fc_dorsattn_salventattn",
+      "fc_dorsattn_limbic",
+      "fc_dorsattn_cont",
+      "fc_dorsattn_default",
+      "fc_salventattn_within",
+      "fc_salventattn_limbic",
+      "fc_salventattn_cont",
+      "fc_salventattn_default",
+      "fc_limbic_within",
+      "fc_limbic_cont",
+      "fc_limbic_default",
+      "fc_cont_within",
+      "fc_cont_default",
+      "fc_default_within"
+    ],
+    "highly_skewed": [
+      "handedness"
+    ]
+  },
+  "target": "IST_intelligence_total",
+  "target_associations": [
+    {
+      "feature": "fc_cont_within",
+      "label": "Frontoparietal control within-network FC",
+      "spearman_r": 0.562
+    },
+    {
+      "feature": "education_level",
+      "label": "Education level",
+      "spearman_r": 0.464
+    },
+    {
+      "feature": "fc_limbic_cont",
+      "label": "Limbic - Frontoparietal control FC",
+      "spearman_r": 0.451
+    },
+    {
+      "feature": "fc_cont_default",
+      "label": "Frontoparietal control - Default mode FC",
+      "spearman_r": 0.418
+    },
+    {
+      "feature": "fc_vis_limbic",
+      "label": "Visual - Limbic FC",
+      "spearman_r": -0.405
+    },
+    {
+      "feature": "background_SES",
+      "label": "Background socio-economic status",
+      "spearman_r": 0.358
+    },
+    {
+      "feature": "fc_vis_within",
+      "label": "Visual within-network FC",
+      "spearman_r": 0.327
+    },
+    {
+      "feature": "fc_sommot_default",
+      "label": "Somatomotor - Default mode FC",
+      "spearman_r": -0.325
+    },
+    {
+      "feature": "fc_vis_default",
+      "label": "Visual - Default mode FC",
+      "spearman_r": -0.311
+    },
+    {
+      "feature": "fc_default_within",
+      "label": "Default mode within-network FC",
+      "spearman_r": 0.3
+    },
+    {
+      "feature": "fc_salventattn_cont",
+      "label": "Salience / ventral attention - Frontoparietal control FC",
+      "spearman_r": 0.29
+    },
+    {
+      "feature": "fc_limbic_default",
+      "label": "Limbic - Default mode FC",
+      "spearman_r": 0.286
+    },
+    {
+      "feature": "fc_sommot_within",
+      "label": "Somatomotor within-network FC",
+      "spearman_r": 0.279
+    },
+    {
+      "feature": "fs_vol_lh_thalamus",
+      "label": "Left thalamus volume",
+      "spearman_r": 0.276
+    },
+    {
+      "feature": "fc_vis_cont",
+      "label": "Visual - Frontoparietal control FC",
+      "spearman_r": -0.268
+    },
+    {
+      "feature": "fs_vol_rh_thalamus",
+      "label": "Right thalamus volume",
+      "spearman_r": 0.265
+    },
+    {
+      "feature": "fc_salventattn_default",
+      "label": "Salience / ventral attention - Default mode FC",
+      "spearman_r": -0.264
+    },
+    {
+      "feature": "NEO_O",
+      "label": "Openness (NEO-FFI)",
+      "spearman_r": 0.254
+    },
+    {
+      "feature": "fc_sommot_limbic",
+      "label": "Somatomotor - Limbic FC",
+      "spearman_r": -0.237
+    },
+    {
+      "feature": "fs_vol_lh_ventraldc",
+      "label": "Left ventraldc volume",
+      "spearman_r": 0.216
+    },
+    {
+      "feature": "fs_total_gray_vol",
+      "label": "Total gray matter volume",
+      "spearman_r": 0.215
+    },
+    {
+      "feature": "fs_brainseg_vol",
+      "label": "Total brain segmentation volume",
+      "spearman_r": 0.203
+    },
+    {
+      "feature": "fs_cortex_vol",
+      "label": "Total cortical gray matter volume",
+      "spearman_r": 0.195
+    },
+    {
+      "feature": "fs_subcort_gray_vol",
+      "label": "Total subcortical gray matter volume",
+      "spearman_r": 0.194
+    },
+    {
+      "feature": "STAI_T",
+      "label": "Trait anxiety (STAI-T)",
+      "spearman_r": -0.186
+    },
+    {
+      "feature": "fs_vol_rh_ventraldc",
+      "label": "Right ventraldc volume",
+      "spearman_r": 0.181
+    },
+    {
+      "feature": "fs_thk_rh_occipital",
+      "label": "Right occipital lobe cortical thickness",
+      "spearman_r": 0.18
+    },
+    {
+      "feature": "BAS_drive",
+      "label": "BAS drive",
+      "spearman_r": -0.174
+    },
+    {
+      "feature": "fc_vis_dorsattn",
+      "label": "Visual - Dorsal attention FC",
+      "spearman_r": 0.172
+    },
+    {
+      "feature": "fs_vol_lh_caudate",
+      "label": "Left caudate volume",
+      "spearman_r": 0.171
+    },
+    {
+      "feature": "fc_dorsattn_cont",
+      "label": "Dorsal attention - Frontoparietal control FC",
+      "spearman_r": -0.169
+    },
+    {
+      "feature": "fs_cerebral_wm_vol",
+      "label": "Total cerebral white matter volume",
+      "spearman_r": 0.167
+    },
+    {
+      "feature": "fc_salventattn_within",
+      "label": "Salience / ventral attention within-network FC",
+      "spearman_r": 0.162
+    },
+    {
+      "feature": "fc_vis_sommot",
+      "label": "Visual - Somatomotor FC",
+      "spearman_r": 0.15
+    },
+    {
+      "feature": "fs_thk_lh_cingulate",
+      "label": "Left cingulate lobe cortical thickness",
+      "spearman_r": -0.146
+    },
+    {
+      "feature": "fs_thk_rh_insula",
+      "label": "Right insula lobe cortical thickness",
+      "spearman_r": 0.144
+    },
+    {
+      "feature": "fc_dorsattn_within",
+      "label": "Dorsal attention within-network FC",
+      "spearman_r": 0.143
+    },
+    {
+      "feature": "religious_now",
+      "label": "Currently religious",
+      "spearman_r": -0.136
+    },
+    {
+      "feature": "fc_sommot_salventattn",
+      "label": "Somatomotor - Salience / ventral attention FC",
+      "spearman_r": 0.135
+    },
+    {
+      "feature": "sex",
+      "label": "Biological sex",
+      "spearman_r": 0.131
+    },
+    {
+      "feature": "fs_vol_lh_accumbens",
+      "label": "Left accumbens volume",
+      "spearman_r": 0.131
+    },
+    {
+      "feature": "fs_vol_lh_hippocampus",
+      "label": "Left hippocampus volume",
+      "spearman_r": 0.129
+    },
+    {
+      "feature": "fs_vol_rh_caudate",
+      "label": "Right caudate volume",
+      "spearman_r": 0.125
+    },
+    {
+      "feature": "fs_thk_lh_occipital",
+      "label": "Left occipital lobe cortical thickness",
+      "spearman_r": 0.117
+    },
+    {
+      "feature": "NEO_C",
+      "label": "Conscientiousness (NEO-FFI)",
+      "spearman_r": -0.114
+    },
+    {
+      "feature": "fs_vol_lh_pallidum",
+      "label": "Left pallidum volume",
+      "spearman_r": 0.107
+    },
+    {
+      "feature": "fs_vol_rh_amygdala",
+      "label": "Right amygdala volume",
+      "spearman_r": 0.102
+    },
+    {
+      "feature": "fc_dorsattn_default",
+      "label": "Dorsal attention - Default mode FC",
+      "spearman_r": -0.097
+    },
+    {
+      "feature": "fc_vis_salventattn",
+      "label": "Visual - Salience / ventral attention FC",
+      "spearman_r": 0.096
+    },
+    {
+      "feature": "fc_sommot_dorsattn",
+      "label": "Somatomotor - Dorsal attention FC",
+      "spearman_r": 0.096
+    },
+    {
+      "feature": "fc_dorsattn_salventattn",
+      "label": "Dorsal attention - Salience / ventral attention FC",
+      "spearman_r": 0.088
+    },
+    {
+      "feature": "fc_sommot_cont",
+      "label": "Somatomotor - Frontoparietal control FC",
+      "spearman_r": 0.087
+    },
+    {
+      "feature": "fs_vol_rh_pallidum",
+      "label": "Right pallidum volume",
+      "spearman_r": 0.082
+    },
+    {
+      "feature": "fc_dorsattn_limbic",
+      "label": "Dorsal attention - Limbic FC",
+      "spearman_r": 0.081
+    },
+    {
+      "feature": "fs_vol_lh_putamen",
+      "label": "Left putamen volume",
+      "spearman_r": 0.079
+    },
+    {
+      "feature": "fs_thk_lh_parietal",
+      "label": "Left parietal lobe cortical thickness",
+      "spearman_r": 0.075
+    },
+    {
+      "feature": "fs_vol_rh_hippocampus",
+      "label": "Right hippocampus volume",
+      "spearman_r": 0.073
+    },
+    {
+      "feature": "fs_thk_rh_parietal",
+      "label": "Right parietal lobe cortical thickness",
+      "spearman_r": 0.068
+    },
+    {
+      "feature": "fs_vol_rh_accumbens",
+      "label": "Right accumbens volume",
+      "spearman_r": -0.067
+    },
+    {
+      "feature": "gender_identity_F",
+      "label": "Gender identity (female)",
+      "spearman_r": -0.066
+    },
+    {
+      "feature": "BAS_fun",
+      "label": "BAS fun-seeking",
+      "spearman_r": -0.06
+    },
+    {
+      "feature": "NEO_N",
+      "label": "Neuroticism (NEO-FFI)",
+      "spearman_r": -0.055
+    },
+    {
+      "feature": "NEO_E",
+      "label": "Extraversion (NEO-FFI)",
+      "spearman_r": -0.052
+    },
+    {
+      "feature": "BMI",
+      "label": "Body mass index",
+      "spearman_r": -0.051
+    },
+    {
+      "feature": "fc_limbic_within",
+      "label": "Limbic within-network FC",
+      "spearman_r": -0.051
+    },
+    {
+      "feature": "sexual_attraction_M",
+      "label": "Sexual attraction to males",
+      "spearman_r": -0.05
+    },
+    {
+      "feature": "sexual_attraction_F",
+      "label": "Sexual attraction to females",
+      "spearman_r": 0.048
+    },
+    {
+      "feature": "fs_vol_rh_putamen",
+      "label": "Right putamen volume",
+      "spearman_r": 0.044
+    },
+    {
+      "feature": "fs_thk_lh_frontal",
+      "label": "Left frontal lobe cortical thickness",
+      "spearman_r": -0.043
+    },
+    {
+      "feature": "gender_identity_M",
+      "label": "Gender identity (male)",
+      "spearman_r": 0.04
+    },
+    {
+      "feature": "age",
+      "label": "Age",
+      "spearman_r": 0.039
+    },
+    {
+      "feature": "handedness",
+      "label": "Handedness",
+      "spearman_r": -0.038
+    },
+    {
+      "feature": "fs_mean_thickness_rh",
+      "label": "Right hemisphere mean cortical thickness",
+      "spearman_r": 0.036
+    },
+    {
+      "feature": "fs_thk_rh_cingulate",
+      "label": "Right cingulate lobe cortical thickness",
+      "spearman_r": -0.033
+    },
+    {
+      "feature": "fs_vol_lh_amygdala",
+      "label": "Left amygdala volume",
+      "spearman_r": 0.031
+    },
+    {
+      "feature": "BAS_reward",
+      "label": "BAS reward responsiveness",
+      "spearman_r": -0.03
+    },
+    {
+      "feature": "NEO_A",
+      "label": "Agreeableness (NEO-FFI)",
+      "spearman_r": 0.026
+    },
+    {
+      "feature": "fs_thk_lh_temporal",
+      "label": "Left temporal lobe cortical thickness",
+      "spearman_r": -0.026
+    },
+    {
+      "feature": "fc_salventattn_limbic",
+      "label": "Salience / ventral attention - Limbic FC",
+      "spearman_r": -0.024
+    },
+    {
+      "feature": "fs_mean_thickness_lh",
+      "label": "Left hemisphere mean cortical thickness",
+      "spearman_r": 0.022
+    },
+    {
+      "feature": "fs_thk_rh_temporal",
+      "label": "Right temporal lobe cortical thickness",
+      "spearman_r": 0.022
+    },
+    {
+      "feature": "religious_upbringing",
+      "label": "Religious upbringing",
+      "spearman_r": -0.019
+    },
+    {
+      "feature": "fs_thk_rh_frontal",
+      "label": "Right frontal lobe cortical thickness",
+      "spearman_r": -0.019
+    },
+    {
+      "feature": "religious_importance",
+      "label": "Importance of religion",
+      "spearman_r": 0.018
+    },
+    {
+      "feature": "fs_thk_lh_insula",
+      "label": "Left insula lobe cortical thickness",
+      "spearman_r": 0.012
+    },
+    {
+      "feature": "BIS",
+      "label": "Behavioural inhibition (BIS)",
+      "spearman_r": 0.0
+    }
+  ]
+}
