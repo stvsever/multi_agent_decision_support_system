@@ -1,18 +1,19 @@
-# COMPASS cross-dataset validation
+# COMPASS validation framework
 
-This directory validates the COMPASS engine against real, open-access datasets whose
-structure differs from the UK Biobank layout the engine was originally shaped around.
-It demonstrates the engine's **flexible ingestion**: any pre-processed multi-modal
-dataset is projected onto the engine's contract without touching `src/full_stack`.
+This directory contains reproducible evaluations of COMPASS on open-access,
+multimodal datasets. It provides a consistent workflow for data exploration,
+semantic ontology construction, participant encoding, inference, and quantitative
+evaluation while keeping the core engine dataset-agnostic.
 
-**Design rule:** all dataset-specific code, data, and results live here. The
-full-stack engine stays dataset-agnostic.
+Dataset-specific configuration, derived features, model inputs, and results remain
+inside each dataset directory. Reusable validation components live in `common/`.
 
 ## Structure
 
-```
+```text
 validation/
-  common/                      reusable, dataset-agnostic ingestion engine
+  README.md                    framework overview and dataset registry
+  common/                      reusable, dataset-agnostic validation components
     explore.py                   automated data understanding (types, correlations,
                                  feature clustering, redundancy, quality flags)
     manifest.py                  deterministic feature-structure profiling
@@ -25,23 +26,23 @@ validation/
     tiers.py                     project the ontology onto a complexity tier
     llm.py                       minimal OpenRouter client (reads repo-root .env)
   datasets/
-    AOMIC_ID1000/              first validated dataset (OpenNeuro ds003097)
-      dataset/                   raw CC0 data + data dictionary
-      pipeline/                  config + numbered sequential scripts (01..05, 10, 11)
-      brain/                     FreeSurfer + connectome extracted features
-      ontology/                  master ontology (OWL + subclass JSON) + manifest
-      compass_inputs/<tier>/     generated engine inputs per tier and participant
-      results/<tier>/            predictions, metrics, full engine outputs per tier
-      notebooks/                 executed preprocessing + visualisation notebooks
+    AOMIC_ID1000/              OpenNeuro ds003097 validation
+      README.md                  dataset overview, features, tiers, and run status
+      METHODOLOGY.md             cohort, blinding, leakage, and metrics protocol
+      dataset/                   CC0 participant table and data dictionary
+      pipeline/                  extraction, ontology, inference, and evaluation
+      brain/                     derived FreeSurfer and connectome features
+      ontology/                  OWL, hierarchy, benchmark matrix, and QA reports
+      compass_inputs/<tier>/     blinded inputs per tier and participant
+      results/<tier>/            compact predictions, metrics, and rank tables
+      notebooks/                 reproducible exploration and result visualizations
 ```
 
 ## How ingestion works
 
-1. **Explore** - a sophisticated automated pass that *understands* any tabular folder:
-   automatic type inference, distribution and missingness profiling, robust
-   correlation structure, hierarchical feature clustering, near-duplicate detection,
-   target associations, and quality flags. No hand-written hints required.
-2. **Ontologise** (semantic, LLM-driven) - organise all features into a strict,
+1. **Explore**: profile types, distributions, missingness, correlations, feature
+   clusters, near-duplicates, target associations, and data-quality flags.
+2. **Ontologize**: organize all features into a strict,
    non-redundant `DOMAIN -> SUBDOMAIN -> FEATURE` subclass hierarchy by **meaning**,
    never by statistics (two unrelated measures can correlate by accident). The model
    is given each feature's label, description, units, source and sample values
@@ -54,16 +55,15 @@ validation/
    template for every subject, so participants differ only in which leaf values are
    present, never in structure. Emits Protege-loadable OWL, a subclass JSON, a single
    hierarchy-encoded benchmark CSV, an interactive HTML explorer, and QA reports.
-3. **Encode** - standardise each feature into a deviation score with its label
+3. **Encode**: standardize each feature into a deviation score with its label
    preserved. Reference strategy is auto-selected: `cohort` (batch is its own
    reference), `external` (supplied norms), or `absolute` (no reference / single
    subject, with an optional LLM range estimate).
-4. **Write** - render the four engine files.
+4. **Write**: render the four participant input files consumed by COMPASS.
 
-The engine ingests those files exactly as it does UK-Biobank-style inputs and, like
-the engine's own agents, reasons over the token-efficient TOON representation of the
-data. Because feature **labels** travel with every value, the multi-agent system can
-interpret what each number means.
+The engine reasons over the token-efficient TOON representation of the data. Feature
+labels, units, hierarchy, reference deviations, and coverage metadata travel with
+each value so the multi-agent system can interpret and audit the evidence.
 
 ## Why a clean hierarchical ontology matters to the engine
 
@@ -79,7 +79,7 @@ scaffold that makes multi-modal evidence tractable and auditable.
 
 | Dataset | Source | Task | Modalities | Status |
 |---|---|---|---|---|
-| [AOMIC-ID1000](datasets/AOMIC_ID1000/) | OpenNeuro ds003097 (CC0) | Total-IQ univariate regression | Self-report, FreeSurfer morphometry, fMRI connectome | Validated across 9 complexity tiers |
+| [AOMIC-ID1000](datasets/AOMIC_ID1000/) | OpenNeuro ds003097 (CC0) | Native IST total-score regression | Self-report, FreeSurfer morphometry, fMRI connectome | 874 of 900 valid predictions; 8 tiers complete |
 
 More datasets plug in by copying a dataset folder and editing its `pipeline/config.py`.
 

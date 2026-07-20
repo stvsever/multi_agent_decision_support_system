@@ -61,8 +61,8 @@ from sorted eligible participant IDs with `RANDOM_SEED=42`.
 
 Target values are never used to order, stratify, or select participants. Filtering
 on whether an evaluation label exists is allowed; filtering on its numeric value is
-not. The previous six-person range-spanning challenge sample is no longer used for
-headline performance because selecting target extremes distorted R2 and rank metrics.
+not. A range-spanning challenge sample is unsuitable for headline performance because
+selecting target extremes distorts R2 and rank metrics.
 
 All normalization and target-scale calibration are fitted on participants outside the
 100-person evaluation set. For brain-inclusive tiers, at least 20 non-evaluation
@@ -119,9 +119,9 @@ that the target and its three IST subscales are absent from predictor specificat
 | B2 | Functional connectome only | 28 |
 | B3 | Morphometry + connectome only | 64 |
 
-T3 and T4 are cumulative. For example, T3 contains demographics, personality, and
-motivation/affect together. T4 contains all of those plus identity/belief. This is why
-their scores answer the requested incremental evidence question.
+T3 and T4 are cumulative. T3 contains demographics, personality, and motivation and
+affect together. T4 contains all of those plus identity and belief, enabling direct
+evaluation of each incremental evidence block.
 
 ## Parallel execution, retries, and artifacts
 
@@ -132,7 +132,7 @@ one compact `predictions.json` per tier after each completed job, so interrupted
 resume safely. Failed or schema-invalid predictions receive two retries with
 exponential backoff by default.
 
-Verbose engine reports are temporary unless `--keep-run-artifacts` is requested.
+Verbose engine reports are temporary unless `--keep-run-artifacts` is enabled.
 Canonical committed outputs are compact:
 
 - `results/<tier>/predictions.json`

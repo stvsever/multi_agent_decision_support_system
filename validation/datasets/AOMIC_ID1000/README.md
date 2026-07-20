@@ -73,8 +73,8 @@ parameters are also excluded because they are not participant phenotypes.
 | B2 | Functional connectome only | 28 |
 | B3 | Morphometry plus connectome only | 64 |
 
-T4 is the requested combined self-report tier. It contains personality, motivation
-and affect, and identity and belief together, along with the demographic baseline.
+T4 is the complete self-report tier. It combines demographics, personality,
+motivation and affect, and identity and belief in one cumulative feature set.
 
 ## Current run status
 
