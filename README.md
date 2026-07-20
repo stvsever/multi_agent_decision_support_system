@@ -213,8 +213,8 @@ See [HPC README](src/full_stack/backend/hpc/README.md) and [HPC Operational Guid
 
 ```text
 multi_agent_decision_support_system/
-├── docker/                         # CPU/UI and full container images
-├── report/                         # Local LaTeX reporting workspace, ignored by Git
+├── docker/                         # CPU/UI and full container definitions
+├── report/                         # Manuscript sources and generated report objects
 ├── src/
 │   ├── full_stack/
 │   │   ├── backend/
@@ -226,9 +226,25 @@ multi_agent_decision_support_system/
 │   │   │   └── utils/             # Core engine, validation, XAI, and logging
 │   │   └── frontend/               # Flask dashboard, templates, and static assets
 │   └── tests/                      # Backend and frontend unit tests
-├── COMPASS_demo.ipynb
+├── validation/
+│   ├── common/                     # Reusable exploration, ontology, MRI, and evaluation code
+│   └── datasets/
+│       └── AOMIC_ID1000/           # OpenNeuro ds003097 IQ inference validation
+│           ├── brain/              # Derived morphometry and connectome features
+│           ├── compass_inputs/     # Blinded inputs for 100 evaluation participants
+│           ├── dataset/            # Source participant table and field metadata
+│           ├── notebooks/          # Exploration and result notebooks
+│           ├── ontology/           # Generated semantic ontology and reports
+│           ├── pipeline/           # Extraction, inference, and evaluation scripts
+│           ├── results/            # Compact predictions, metrics, and rank comparisons
+│           ├── METHODOLOGY.md       # Leakage controls and evaluation protocol
+│           └── README.md            # Dataset contents, tier definitions, and run status
+├── COMPASS_demo.ipynb              # End-to-end demonstration notebook
 ├── main.py                         # CLI and UI entry point
-├── requirements.txt
+├── pyproject.toml                  # Package metadata and build configuration
+├── requirements.txt               # Python dependencies
+├── CITATION.cff                    # Citation metadata
+├── LICENSE
 └── README.md
 ```
 
