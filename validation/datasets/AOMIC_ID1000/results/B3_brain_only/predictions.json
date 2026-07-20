@@ -9,54 +9,872 @@
     "description": "Total intelligence score from the Intelligence Structure Test 2000-R.",
     "units": "points"
   },
+  "execution": {
+    "requested_n": 100,
+    "workers": 12,
+    "retries": 2,
+    "process_isolated": true,
+    "parent_atomic_checkpoints": true,
+    "model_facing_ids_blinded": true
+  },
   "predictions": [
     {
-      "participant_id": "sub-0120",
-      "ground_truth": 296.0,
-      "predicted": 218.0,
+      "participant_id": "eval-0001",
+      "ground_truth": 227.0,
+      "predicted": 158.5,
+      "abs_error": 68.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.0
+    },
+    {
+      "participant_id": "eval-0002",
+      "ground_truth": 267.0,
+      "predicted": 218.5,
+      "abs_error": 48.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.7
+    },
+    {
+      "participant_id": "eval-0003",
+      "ground_truth": 240.0,
+      "predicted": 238.5,
+      "abs_error": 1.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.0
+    },
+    {
+      "participant_id": "eval-0004",
+      "ground_truth": 133.0,
+      "predicted": 238.0,
+      "abs_error": 105.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 2,
+      "duration_seconds": 40.6
+    },
+    {
+      "participant_id": "eval-0005",
+      "ground_truth": 87.0,
+      "predicted": 203.16,
+      "abs_error": 116.16,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 25.0
+    },
+    {
+      "participant_id": "eval-0006",
+      "ground_truth": 166.0,
+      "predicted": 184.5,
+      "abs_error": 18.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 25.9
+    },
+    {
+      "participant_id": "eval-0007",
+      "ground_truth": 227.0,
+      "predicted": 168.5,
+      "abs_error": 58.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.4
+    },
+    {
+      "participant_id": "eval-0008",
+      "ground_truth": 239.0,
+      "predicted": 168.5,
+      "abs_error": 70.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.9
+    },
+    {
+      "participant_id": "eval-0009",
+      "ground_truth": 226.0,
+      "predicted": 204.16,
+      "abs_error": 21.84,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 17.1
+    },
+    {
+      "participant_id": "eval-0010",
+      "ground_truth": 147.0,
+      "predicted": 189.55,
+      "abs_error": 42.55,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.9
+    },
+    {
+      "participant_id": "eval-0011",
+      "ground_truth": 172.0,
+      "predicted": 152.0,
+      "abs_error": 20.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.1
+    },
+    {
+      "participant_id": "eval-0012",
+      "ground_truth": 226.0,
+      "predicted": 178.5,
+      "abs_error": 47.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.4
+    },
+    {
+      "participant_id": "eval-0013",
+      "ground_truth": 265.0,
+      "predicted": 172.5,
+      "abs_error": 92.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 26.5
+    },
+    {
+      "participant_id": "eval-0014",
+      "ground_truth": 208.0,
+      "predicted": 207.01,
+      "abs_error": 0.99,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.3
+    },
+    {
+      "participant_id": "eval-0015",
+      "ground_truth": 135.0,
+      "predicted": 135.5,
+      "abs_error": 0.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.4
+    },
+    {
+      "participant_id": "eval-0016",
+      "ground_truth": 216.0,
+      "predicted": 172.5,
+      "abs_error": 43.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.5
+    },
+    {
+      "participant_id": "eval-0017",
+      "ground_truth": 193.0,
+      "predicted": 182.5,
+      "abs_error": 10.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.1
+    },
+    {
+      "participant_id": "eval-0018",
+      "ground_truth": 235.0,
+      "predicted": 225.0,
+      "abs_error": 10.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.1
+    },
+    {
+      "participant_id": "eval-0019",
+      "ground_truth": 181.0,
+      "predicted": 194.52,
+      "abs_error": 13.52,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.1
+    },
+    {
+      "participant_id": "eval-0020",
+      "ground_truth": 239.0,
+      "predicted": 182.5,
+      "abs_error": 56.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.8
+    },
+    {
+      "participant_id": "eval-0021",
+      "ground_truth": 195.0,
+      "predicted": 198.5,
+      "abs_error": 3.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.7
+    },
+    {
+      "participant_id": "eval-0022",
+      "ground_truth": 216.0,
+      "predicted": 221.32,
+      "abs_error": 5.32,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.3
+    },
+    {
+      "participant_id": "eval-0023",
+      "ground_truth": 178.0,
+      "predicted": 218.5,
+      "abs_error": 40.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.6
+    },
+    {
+      "participant_id": "eval-0024",
+      "ground_truth": 172.0,
+      "predicted": 208.5,
+      "abs_error": 36.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.9
+    },
+    {
+      "participant_id": "eval-0025",
+      "ground_truth": 240.0,
+      "predicted": 215.0,
+      "abs_error": 25.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 26.9
+    },
+    {
+      "participant_id": "eval-0026",
+      "ground_truth": 199.0,
+      "predicted": 198.57,
+      "abs_error": 0.43,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.6
+    },
+    {
+      "participant_id": "eval-0027",
+      "ground_truth": 133.0,
+      "predicted": 148.5,
+      "abs_error": 15.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 26.1
+    },
+    {
+      "participant_id": "eval-0028",
+      "ground_truth": 175.0,
+      "predicted": 188.5,
+      "abs_error": 13.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.1
+    },
+    {
+      "participant_id": "eval-0029",
+      "ground_truth": 151.0,
+      "predicted": 150.17,
+      "abs_error": 0.83,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 28.7
+    },
+    {
+      "participant_id": "eval-0030",
+      "ground_truth": 262.0,
+      "predicted": 178.5,
+      "abs_error": 83.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.1
+    },
+    {
+      "participant_id": "eval-0031",
+      "ground_truth": 174.0,
+      "predicted": 165.0,
+      "abs_error": 9.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.4
+    },
+    {
+      "participant_id": "eval-0032",
+      "ground_truth": 208.0,
+      "predicted": 168.5,
+      "abs_error": 39.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.1
+    },
+    {
+      "participant_id": "eval-0033",
+      "ground_truth": 102.0,
+      "predicted": 166.2,
+      "abs_error": 64.2,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.0
+    },
+    {
+      "participant_id": "eval-0034",
+      "ground_truth": 240.0,
+      "predicted": 192.5,
+      "abs_error": 47.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.2
+    },
+    {
+      "participant_id": "eval-0035",
+      "ground_truth": 223.0,
+      "predicted": 242.5,
+      "abs_error": 19.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.1
+    },
+    {
+      "participant_id": "eval-0036",
+      "ground_truth": 174.0,
+      "predicted": 178.4,
+      "abs_error": 4.4,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.8
+    },
+    {
+      "participant_id": "eval-0037",
+      "ground_truth": 220.0,
+      "predicted": 188.5,
+      "abs_error": 31.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 16.8
+    },
+    {
+      "participant_id": "eval-0038",
+      "ground_truth": 165.0,
+      "predicted": 204.41,
+      "abs_error": 39.41,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.4
+    },
+    {
+      "participant_id": "eval-0039",
+      "ground_truth": 177.0,
+      "predicted": 170.2,
+      "abs_error": 6.8,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.3
+    },
+    {
+      "participant_id": "eval-0040",
+      "ground_truth": 197.0,
+      "predicted": 178.5,
+      "abs_error": 18.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.4
+    },
+    {
+      "participant_id": "eval-0041",
+      "ground_truth": 254.0,
+      "predicted": 206.28,
+      "abs_error": 47.72,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.5
+    },
+    {
+      "participant_id": "eval-0042",
+      "ground_truth": 192.0,
+      "predicted": 148.5,
+      "abs_error": 43.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.4
+    },
+    {
+      "participant_id": "eval-0043",
+      "ground_truth": 189.0,
+      "predicted": 142.5,
+      "abs_error": 46.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 27.7
+    },
+    {
+      "participant_id": "eval-0044",
+      "ground_truth": 112.0,
+      "predicted": 190.0,
       "abs_error": 78.0,
       "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.1
+    },
+    {
+      "participant_id": "eval-0045",
+      "ground_truth": 159.0,
+      "predicted": 155.0,
+      "abs_error": 4.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.0
+    },
+    {
+      "participant_id": "eval-0046",
+      "ground_truth": 181.0,
+      "predicted": 189.69,
+      "abs_error": 8.69,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.9
+    },
+    {
+      "participant_id": "eval-0047",
+      "ground_truth": 246.0,
+      "predicted": 178.5,
+      "abs_error": 67.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.2
+    },
+    {
+      "participant_id": "eval-0048",
+      "ground_truth": 230.0,
+      "predicted": 196.67,
+      "abs_error": 33.33,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
       "duration_seconds": 20.8
     },
     {
-      "participant_id": "sub-0128",
-      "ground_truth": 235.0,
-      "predicted": 228.0,
-      "abs_error": 7.0,
+      "participant_id": "eval-0049",
+      "ground_truth": 201.0,
+      "predicted": 180.5,
+      "abs_error": 20.5,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 18.9
+      "attempts": 1,
+      "duration_seconds": 31.5
     },
     {
-      "participant_id": "sub-0153",
-      "ground_truth": 193.0,
-      "predicted": 232.0,
-      "abs_error": 39.0,
+      "participant_id": "eval-0050",
+      "ground_truth": 194.0,
+      "predicted": 184.5,
+      "abs_error": 9.5,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 24.5
+      "attempts": 1,
+      "duration_seconds": 19.6
     },
     {
-      "participant_id": "sub-0282",
-      "ground_truth": 68.0,
-      "predicted": 188.0,
-      "abs_error": 120.0,
-      "verdict": "SATISFACTORY",
-      "duration_seconds": 21.8
-    },
-    {
-      "participant_id": "sub-0498",
-      "ground_truth": 166.0,
-      "predicted": 206.01,
-      "abs_error": 40.01,
-      "verdict": "SATISFACTORY",
-      "duration_seconds": 23.3
-    },
-    {
-      "participant_id": "sub-0673",
+      "participant_id": "eval-0051",
       "ground_truth": 216.0,
-      "predicted": 240.0,
-      "abs_error": 24.0,
+      "predicted": 222.5,
+      "abs_error": 6.5,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 20.6
+      "attempts": 1,
+      "duration_seconds": 16.5
+    },
+    {
+      "participant_id": "eval-0052",
+      "ground_truth": 224.0,
+      "predicted": 172.5,
+      "abs_error": 51.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.2
+    },
+    {
+      "participant_id": "eval-0053",
+      "ground_truth": 254.0,
+      "predicted": 178.5,
+      "abs_error": 75.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.7
+    },
+    {
+      "participant_id": "eval-0054",
+      "ground_truth": 248.0,
+      "predicted": 196.48,
+      "abs_error": 51.52,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.0
+    },
+    {
+      "participant_id": "eval-0055",
+      "ground_truth": 134.0,
+      "predicted": 168.5,
+      "abs_error": 34.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.3
+    },
+    {
+      "participant_id": "eval-0056",
+      "ground_truth": 206.0,
+      "predicted": 222.89,
+      "abs_error": 16.89,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.9
+    },
+    {
+      "participant_id": "eval-0057",
+      "ground_truth": 157.0,
+      "predicted": 168.5,
+      "abs_error": 11.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 28.7
+    },
+    {
+      "participant_id": "eval-0058",
+      "ground_truth": 192.0,
+      "predicted": 170.2,
+      "abs_error": 21.8,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.8
+    },
+    {
+      "participant_id": "eval-0059",
+      "ground_truth": 201.0,
+      "predicted": 188.5,
+      "abs_error": 12.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 27.7
+    },
+    {
+      "participant_id": "eval-0060",
+      "ground_truth": 108.0,
+      "predicted": 204.42,
+      "abs_error": 96.42,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.0
+    },
+    {
+      "participant_id": "eval-0061",
+      "ground_truth": 148.0,
+      "predicted": 178.5,
+      "abs_error": 30.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.1
+    },
+    {
+      "participant_id": "eval-0062",
+      "ground_truth": 229.0,
+      "predicted": 192.5,
+      "abs_error": 36.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 25.2
+    },
+    {
+      "participant_id": "eval-0063",
+      "ground_truth": 197.0,
+      "predicted": 168.5,
+      "abs_error": 28.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.9
+    },
+    {
+      "participant_id": "eval-0064",
+      "ground_truth": 268.0,
+      "predicted": 224.5,
+      "abs_error": 43.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 27.1
+    },
+    {
+      "participant_id": "eval-0065",
+      "ground_truth": 210.0,
+      "predicted": 140.15,
+      "abs_error": 69.85,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.7
+    },
+    {
+      "participant_id": "eval-0066",
+      "ground_truth": 280.0,
+      "predicted": 205.88,
+      "abs_error": 74.12,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 25.1
+    },
+    {
+      "participant_id": "eval-0067",
+      "ground_truth": 161.0,
+      "predicted": 158.5,
+      "abs_error": 2.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.5
+    },
+    {
+      "participant_id": "eval-0068",
+      "ground_truth": 250.0,
+      "predicted": 246.3,
+      "abs_error": 3.7,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.5
+    },
+    {
+      "participant_id": "eval-0069",
+      "ground_truth": 160.0,
+      "predicted": 178.5,
+      "abs_error": 18.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.8
+    },
+    {
+      "participant_id": "eval-0070",
+      "ground_truth": 181.0,
+      "predicted": 218.0,
+      "abs_error": 37.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.0
+    },
+    {
+      "participant_id": "eval-0071",
+      "ground_truth": 207.0,
+      "predicted": 225.0,
+      "abs_error": 18.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.7
+    },
+    {
+      "participant_id": "eval-0072",
+      "ground_truth": 241.0,
+      "predicted": 245.0,
+      "abs_error": 4.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.2
+    },
+    {
+      "participant_id": "eval-0073",
+      "ground_truth": 209.0,
+      "predicted": 182.5,
+      "abs_error": 26.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.1
+    },
+    {
+      "participant_id": "eval-0074",
+      "ground_truth": 225.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 48.8,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0075",
+      "ground_truth": 225.0,
+      "predicted": 178.4,
+      "abs_error": 46.6,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.2
+    },
+    {
+      "participant_id": "eval-0076",
+      "ground_truth": 245.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 54.8,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0077",
+      "ground_truth": 273.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 54.2,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0078",
+      "ground_truth": 236.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 53.8,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0079",
+      "ground_truth": 249.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 57.0,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0080",
+      "ground_truth": 136.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 51.6,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0081",
+      "ground_truth": 261.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 50.9,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0082",
+      "ground_truth": 243.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 54.5,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0083",
+      "ground_truth": 189.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 53.9,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0084",
+      "ground_truth": 219.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 51.7,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0085",
+      "ground_truth": 206.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 58.2,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
+    },
+    {
+      "participant_id": "eval-0086",
+      "ground_truth": 183.0,
+      "predicted": null,
+      "abs_error": null,
+      "attempts": 3,
+      "duration_seconds": 35.9,
+      "error": "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+      "error_history": [
+        "attempt 1: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 2: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}",
+        "attempt 3: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}"
+      ],
+      "log_tail": " {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 1 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nLLM call failed: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] Attempt 2 failed: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n[Orchestrator] \u2717 Error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\nOrchestrator error: Failed after 2 retries: APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient credits. Add more using https://openrouter.ai/settings/credits', 'code': 402}}\n",
+      "provider_quota_exceeded": false
     }
   ]
 }

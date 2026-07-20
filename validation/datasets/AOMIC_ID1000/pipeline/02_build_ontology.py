@@ -49,10 +49,13 @@ def main() -> None:
     args = ap.parse_args()
 
     df = config.load_merged_frame()
+    evaluation_ids = set(config.select_subset_ids(df))
+    reference_df = df[~df["participant_id"].isin(evaluation_ids)].copy()
     specs = config.all_feature_specs()
 
-    print(f"[02] Automated exploration of {len(specs)} features over {len(df)} participants ...")
-    exploration = expl.explore(df, specs, target=config.TARGET["column"])
+    print(f"[02] Automated exploration of {len(specs)} features over "
+          f"{len(reference_df)} reference participants ...")
+    exploration = expl.explore(reference_df, specs, target=config.TARGET["column"])
     with open(config.ONTOLOGY_DIR / "exploration_report.json", "w") as f:
         json.dump(exploration, f, indent=2)
     print(f"[02] Types: {exploration['type_counts']} | data-driven clusters (QA only): "
@@ -62,7 +65,7 @@ def main() -> None:
     if args.guidance.strip():
         print(f"[02] User guidance: {args.guidance.strip()!r}")
     llm = OntologyLLM(model=config.ONTOLOGY_MODEL, temperature=0.2)
-    features = config.features_for_ontology(df)
+    features = config.features_for_ontology(reference_df)
     ontology = onto.build_semantic_ontology(
         features, config.DATASET_NAME, config.ONTOLOGY_CONTEXT, llm, user_guidance=args.guidance,
     )

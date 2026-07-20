@@ -6,30 +6,524 @@
     "description": "Total intelligence score from the Intelligence Structure Test 2000-R.",
     "units": "points"
   },
+  "selection": {
+    "method": "seeded random target-blind draw after predictor completeness filtering",
+    "seed": 42,
+    "n_evaluation": 100,
+    "evaluation_reference_disjoint": true,
+    "model_facing_ids_blinded": true
+  },
+  "target_calibration": {
+    "source": "disjoint non-evaluation reference split",
+    "n": 826,
+    "native_mean": 200.273608,
+    "native_sd": 40.082363,
+    "iq_equivalent_mean": 100.0,
+    "iq_equivalent_sd": 15.0,
+    "formula": "100 + 15 * (native_IST - native_mean) / native_sd",
+    "caveat": "Interpretive cohort standardization, not an official IST norm conversion"
+  },
+  "agent_target_scale_note": "Prediction target: IST_intelligence_total, the native total score of the Intelligence Structure Test 2000-R. This is not a conventional IQ score. In the disjoint reference split, mean=200.27 and sd=40.08 native IST points. Predict one numeric value on that native scale. No IST total or subscale values for this evaluation participant are provided. Infer only from the provided non-cognitive multimodal features.",
   "participants": [
     {
-      "participant_id": "sub-0120",
-      "ground_truth": 296.0
+      "participant_id": "eval-0001",
+      "source_participant_id": "sub-0003",
+      "ground_truth": 227.0
     },
     {
-      "participant_id": "sub-0128",
-      "ground_truth": 235.0
+      "participant_id": "eval-0002",
+      "source_participant_id": "sub-0011",
+      "ground_truth": 267.0
     },
     {
-      "participant_id": "sub-0153",
-      "ground_truth": 193.0
+      "participant_id": "eval-0003",
+      "source_participant_id": "sub-0039",
+      "ground_truth": 240.0
     },
     {
-      "participant_id": "sub-0282",
-      "ground_truth": 68.0
+      "participant_id": "eval-0004",
+      "source_participant_id": "sub-0055",
+      "ground_truth": 133.0
     },
     {
-      "participant_id": "sub-0498",
+      "participant_id": "eval-0005",
+      "source_participant_id": "sub-0059",
+      "ground_truth": 87.0
+    },
+    {
+      "participant_id": "eval-0006",
+      "source_participant_id": "sub-0068",
       "ground_truth": 166.0
     },
     {
-      "participant_id": "sub-0673",
+      "participant_id": "eval-0007",
+      "source_participant_id": "sub-0071",
+      "ground_truth": 227.0
+    },
+    {
+      "participant_id": "eval-0008",
+      "source_participant_id": "sub-0074",
+      "ground_truth": 239.0
+    },
+    {
+      "participant_id": "eval-0009",
+      "source_participant_id": "sub-0078",
+      "ground_truth": 226.0
+    },
+    {
+      "participant_id": "eval-0010",
+      "source_participant_id": "sub-0079",
+      "ground_truth": 147.0
+    },
+    {
+      "participant_id": "eval-0011",
+      "source_participant_id": "sub-0088",
+      "ground_truth": 172.0
+    },
+    {
+      "participant_id": "eval-0012",
+      "source_participant_id": "sub-0107",
+      "ground_truth": 226.0
+    },
+    {
+      "participant_id": "eval-0013",
+      "source_participant_id": "sub-0116",
+      "ground_truth": 265.0
+    },
+    {
+      "participant_id": "eval-0014",
+      "source_participant_id": "sub-0131",
+      "ground_truth": 208.0
+    },
+    {
+      "participant_id": "eval-0015",
+      "source_participant_id": "sub-0138",
+      "ground_truth": 135.0
+    },
+    {
+      "participant_id": "eval-0016",
+      "source_participant_id": "sub-0147",
       "ground_truth": 216.0
+    },
+    {
+      "participant_id": "eval-0017",
+      "source_participant_id": "sub-0153",
+      "ground_truth": 193.0
+    },
+    {
+      "participant_id": "eval-0018",
+      "source_participant_id": "sub-0156",
+      "ground_truth": 235.0
+    },
+    {
+      "participant_id": "eval-0019",
+      "source_participant_id": "sub-0169",
+      "ground_truth": 181.0
+    },
+    {
+      "participant_id": "eval-0020",
+      "source_participant_id": "sub-0171",
+      "ground_truth": 239.0
+    },
+    {
+      "participant_id": "eval-0021",
+      "source_participant_id": "sub-0172",
+      "ground_truth": 195.0
+    },
+    {
+      "participant_id": "eval-0022",
+      "source_participant_id": "sub-0195",
+      "ground_truth": 216.0
+    },
+    {
+      "participant_id": "eval-0023",
+      "source_participant_id": "sub-0206",
+      "ground_truth": 178.0
+    },
+    {
+      "participant_id": "eval-0024",
+      "source_participant_id": "sub-0221",
+      "ground_truth": 172.0
+    },
+    {
+      "participant_id": "eval-0025",
+      "source_participant_id": "sub-0239",
+      "ground_truth": 240.0
+    },
+    {
+      "participant_id": "eval-0026",
+      "source_participant_id": "sub-0267",
+      "ground_truth": 199.0
+    },
+    {
+      "participant_id": "eval-0027",
+      "source_participant_id": "sub-0286",
+      "ground_truth": 133.0
+    },
+    {
+      "participant_id": "eval-0028",
+      "source_participant_id": "sub-0291",
+      "ground_truth": 175.0
+    },
+    {
+      "participant_id": "eval-0029",
+      "source_participant_id": "sub-0309",
+      "ground_truth": 151.0
+    },
+    {
+      "participant_id": "eval-0030",
+      "source_participant_id": "sub-0315",
+      "ground_truth": 262.0
+    },
+    {
+      "participant_id": "eval-0031",
+      "source_participant_id": "sub-0320",
+      "ground_truth": 174.0
+    },
+    {
+      "participant_id": "eval-0032",
+      "source_participant_id": "sub-0326",
+      "ground_truth": 208.0
+    },
+    {
+      "participant_id": "eval-0033",
+      "source_participant_id": "sub-0331",
+      "ground_truth": 102.0
+    },
+    {
+      "participant_id": "eval-0034",
+      "source_participant_id": "sub-0343",
+      "ground_truth": 240.0
+    },
+    {
+      "participant_id": "eval-0035",
+      "source_participant_id": "sub-0356",
+      "ground_truth": 223.0
+    },
+    {
+      "participant_id": "eval-0036",
+      "source_participant_id": "sub-0359",
+      "ground_truth": 174.0
+    },
+    {
+      "participant_id": "eval-0037",
+      "source_participant_id": "sub-0365",
+      "ground_truth": 220.0
+    },
+    {
+      "participant_id": "eval-0038",
+      "source_participant_id": "sub-0367",
+      "ground_truth": 165.0
+    },
+    {
+      "participant_id": "eval-0039",
+      "source_participant_id": "sub-0380",
+      "ground_truth": 177.0
+    },
+    {
+      "participant_id": "eval-0040",
+      "source_participant_id": "sub-0381",
+      "ground_truth": 197.0
+    },
+    {
+      "participant_id": "eval-0041",
+      "source_participant_id": "sub-0386",
+      "ground_truth": 254.0
+    },
+    {
+      "participant_id": "eval-0042",
+      "source_participant_id": "sub-0391",
+      "ground_truth": 192.0
+    },
+    {
+      "participant_id": "eval-0043",
+      "source_participant_id": "sub-0398",
+      "ground_truth": 189.0
+    },
+    {
+      "participant_id": "eval-0044",
+      "source_participant_id": "sub-0401",
+      "ground_truth": 112.0
+    },
+    {
+      "participant_id": "eval-0045",
+      "source_participant_id": "sub-0412",
+      "ground_truth": 159.0
+    },
+    {
+      "participant_id": "eval-0046",
+      "source_participant_id": "sub-0418",
+      "ground_truth": 181.0
+    },
+    {
+      "participant_id": "eval-0047",
+      "source_participant_id": "sub-0422",
+      "ground_truth": 246.0
+    },
+    {
+      "participant_id": "eval-0048",
+      "source_participant_id": "sub-0425",
+      "ground_truth": 230.0
+    },
+    {
+      "participant_id": "eval-0049",
+      "source_participant_id": "sub-0430",
+      "ground_truth": 201.0
+    },
+    {
+      "participant_id": "eval-0050",
+      "source_participant_id": "sub-0434",
+      "ground_truth": 194.0
+    },
+    {
+      "participant_id": "eval-0051",
+      "source_participant_id": "sub-0440",
+      "ground_truth": 216.0
+    },
+    {
+      "participant_id": "eval-0052",
+      "source_participant_id": "sub-0441",
+      "ground_truth": 224.0
+    },
+    {
+      "participant_id": "eval-0053",
+      "source_participant_id": "sub-0468",
+      "ground_truth": 254.0
+    },
+    {
+      "participant_id": "eval-0054",
+      "source_participant_id": "sub-0479",
+      "ground_truth": 248.0
+    },
+    {
+      "participant_id": "eval-0055",
+      "source_participant_id": "sub-0485",
+      "ground_truth": 134.0
+    },
+    {
+      "participant_id": "eval-0056",
+      "source_participant_id": "sub-0513",
+      "ground_truth": 206.0
+    },
+    {
+      "participant_id": "eval-0057",
+      "source_participant_id": "sub-0544",
+      "ground_truth": 157.0
+    },
+    {
+      "participant_id": "eval-0058",
+      "source_participant_id": "sub-0549",
+      "ground_truth": 192.0
+    },
+    {
+      "participant_id": "eval-0059",
+      "source_participant_id": "sub-0550",
+      "ground_truth": 201.0
+    },
+    {
+      "participant_id": "eval-0060",
+      "source_participant_id": "sub-0577",
+      "ground_truth": 108.0
+    },
+    {
+      "participant_id": "eval-0061",
+      "source_participant_id": "sub-0584",
+      "ground_truth": 148.0
+    },
+    {
+      "participant_id": "eval-0062",
+      "source_participant_id": "sub-0592",
+      "ground_truth": 229.0
+    },
+    {
+      "participant_id": "eval-0063",
+      "source_participant_id": "sub-0596",
+      "ground_truth": 197.0
+    },
+    {
+      "participant_id": "eval-0064",
+      "source_participant_id": "sub-0605",
+      "ground_truth": 268.0
+    },
+    {
+      "participant_id": "eval-0065",
+      "source_participant_id": "sub-0608",
+      "ground_truth": 210.0
+    },
+    {
+      "participant_id": "eval-0066",
+      "source_participant_id": "sub-0609",
+      "ground_truth": 280.0
+    },
+    {
+      "participant_id": "eval-0067",
+      "source_participant_id": "sub-0611",
+      "ground_truth": 161.0
+    },
+    {
+      "participant_id": "eval-0068",
+      "source_participant_id": "sub-0619",
+      "ground_truth": 250.0
+    },
+    {
+      "participant_id": "eval-0069",
+      "source_participant_id": "sub-0621",
+      "ground_truth": 160.0
+    },
+    {
+      "participant_id": "eval-0070",
+      "source_participant_id": "sub-0633",
+      "ground_truth": 181.0
+    },
+    {
+      "participant_id": "eval-0071",
+      "source_participant_id": "sub-0641",
+      "ground_truth": 207.0
+    },
+    {
+      "participant_id": "eval-0072",
+      "source_participant_id": "sub-0642",
+      "ground_truth": 241.0
+    },
+    {
+      "participant_id": "eval-0073",
+      "source_participant_id": "sub-0660",
+      "ground_truth": 209.0
+    },
+    {
+      "participant_id": "eval-0074",
+      "source_participant_id": "sub-0667",
+      "ground_truth": 225.0
+    },
+    {
+      "participant_id": "eval-0075",
+      "source_participant_id": "sub-0668",
+      "ground_truth": 225.0
+    },
+    {
+      "participant_id": "eval-0076",
+      "source_participant_id": "sub-0683",
+      "ground_truth": 245.0
+    },
+    {
+      "participant_id": "eval-0077",
+      "source_participant_id": "sub-0704",
+      "ground_truth": 273.0
+    },
+    {
+      "participant_id": "eval-0078",
+      "source_participant_id": "sub-0711",
+      "ground_truth": 236.0
+    },
+    {
+      "participant_id": "eval-0079",
+      "source_participant_id": "sub-0715",
+      "ground_truth": 249.0
+    },
+    {
+      "participant_id": "eval-0080",
+      "source_participant_id": "sub-0716",
+      "ground_truth": 136.0
+    },
+    {
+      "participant_id": "eval-0081",
+      "source_participant_id": "sub-0740",
+      "ground_truth": 261.0
+    },
+    {
+      "participant_id": "eval-0082",
+      "source_participant_id": "sub-0742",
+      "ground_truth": 243.0
+    },
+    {
+      "participant_id": "eval-0083",
+      "source_participant_id": "sub-0760",
+      "ground_truth": 189.0
+    },
+    {
+      "participant_id": "eval-0084",
+      "source_participant_id": "sub-0764",
+      "ground_truth": 219.0
+    },
+    {
+      "participant_id": "eval-0085",
+      "source_participant_id": "sub-0766",
+      "ground_truth": 206.0
+    },
+    {
+      "participant_id": "eval-0086",
+      "source_participant_id": "sub-0775",
+      "ground_truth": 183.0
+    },
+    {
+      "participant_id": "eval-0087",
+      "source_participant_id": "sub-0782",
+      "ground_truth": 279.0
+    },
+    {
+      "participant_id": "eval-0088",
+      "source_participant_id": "sub-0789",
+      "ground_truth": 172.0
+    },
+    {
+      "participant_id": "eval-0089",
+      "source_participant_id": "sub-0811",
+      "ground_truth": 188.0
+    },
+    {
+      "participant_id": "eval-0090",
+      "source_participant_id": "sub-0819",
+      "ground_truth": 261.0
+    },
+    {
+      "participant_id": "eval-0091",
+      "source_participant_id": "sub-0820",
+      "ground_truth": 228.0
+    },
+    {
+      "participant_id": "eval-0092",
+      "source_participant_id": "sub-0830",
+      "ground_truth": 203.0
+    },
+    {
+      "participant_id": "eval-0093",
+      "source_participant_id": "sub-0848",
+      "ground_truth": 258.0
+    },
+    {
+      "participant_id": "eval-0094",
+      "source_participant_id": "sub-0856",
+      "ground_truth": 129.0
+    },
+    {
+      "participant_id": "eval-0095",
+      "source_participant_id": "sub-0864",
+      "ground_truth": 257.0
+    },
+    {
+      "participant_id": "eval-0096",
+      "source_participant_id": "sub-0887",
+      "ground_truth": 178.0
+    },
+    {
+      "participant_id": "eval-0097",
+      "source_participant_id": "sub-0890",
+      "ground_truth": 204.0
+    },
+    {
+      "participant_id": "eval-0098",
+      "source_participant_id": "sub-0899",
+      "ground_truth": 249.0
+    },
+    {
+      "participant_id": "eval-0099",
+      "source_participant_id": "sub-0914",
+      "ground_truth": 158.0
+    },
+    {
+      "participant_id": "eval-0100",
+      "source_participant_id": "sub-0917",
+      "ground_truth": 233.0
     }
   ]
 }

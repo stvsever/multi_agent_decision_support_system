@@ -9,54 +9,914 @@
     "description": "Total intelligence score from the Intelligence Structure Test 2000-R.",
     "units": "points"
   },
+  "execution": {
+    "requested_n": 100,
+    "workers": 12,
+    "retries": 2,
+    "process_isolated": true,
+    "parent_atomic_checkpoints": true,
+    "model_facing_ids_blinded": true
+  },
   "predictions": [
     {
-      "participant_id": "sub-0120",
-      "ground_truth": 296.0,
-      "predicted": 217.48,
-      "abs_error": 78.52,
+      "participant_id": "eval-0001",
+      "ground_truth": 227.0,
+      "predicted": 192.5,
+      "abs_error": 34.5,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 18.7
+      "attempts": 1,
+      "duration_seconds": 18.1
     },
     {
-      "participant_id": "sub-0128",
-      "ground_truth": 235.0,
-      "predicted": 207.21,
-      "abs_error": 27.79,
+      "participant_id": "eval-0002",
+      "ground_truth": 267.0,
+      "predicted": 208.25,
+      "abs_error": 58.75,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 15.2
+      "attempts": 1,
+      "duration_seconds": 16.9
     },
     {
-      "participant_id": "sub-0153",
-      "ground_truth": 193.0,
-      "predicted": 210.56,
-      "abs_error": 17.56,
+      "participant_id": "eval-0003",
+      "ground_truth": 240.0,
+      "predicted": 214.58,
+      "abs_error": 25.42,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 19.8
+      "attempts": 1,
+      "duration_seconds": 24.2
     },
     {
-      "participant_id": "sub-0282",
-      "ground_truth": 68.0,
-      "predicted": 209.11,
-      "abs_error": 141.11,
+      "participant_id": "eval-0004",
+      "ground_truth": 133.0,
+      "predicted": 192.45,
+      "abs_error": 59.45,
       "verdict": "SATISFACTORY",
-      "duration_seconds": 22.5
+      "attempts": 1,
+      "duration_seconds": 20.3
     },
     {
-      "participant_id": "sub-0498",
+      "participant_id": "eval-0005",
+      "ground_truth": 87.0,
+      "predicted": 152.17,
+      "abs_error": 65.17,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.2
+    },
+    {
+      "participant_id": "eval-0006",
       "ground_truth": 166.0,
-      "predicted": 188.0,
-      "abs_error": 22.0,
+      "predicted": 200.5,
+      "abs_error": 34.5,
       "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.6
+    },
+    {
+      "participant_id": "eval-0007",
+      "ground_truth": 227.0,
+      "predicted": 223.49,
+      "abs_error": 3.51,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.0
+    },
+    {
+      "participant_id": "eval-0008",
+      "ground_truth": 239.0,
+      "predicted": 208.79,
+      "abs_error": 30.21,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.8
+    },
+    {
+      "participant_id": "eval-0009",
+      "ground_truth": 226.0,
+      "predicted": 192.5,
+      "abs_error": 33.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.3
+    },
+    {
+      "participant_id": "eval-0010",
+      "ground_truth": 147.0,
+      "predicted": 201.5,
+      "abs_error": 54.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.6
+    },
+    {
+      "participant_id": "eval-0011",
+      "ground_truth": 172.0,
+      "predicted": 199.27,
+      "abs_error": 27.27,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.7
+    },
+    {
+      "participant_id": "eval-0012",
+      "ground_truth": 226.0,
+      "predicted": 158.4,
+      "abs_error": 67.6,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.0
+    },
+    {
+      "participant_id": "eval-0013",
+      "ground_truth": 265.0,
+      "predicted": 207.01,
+      "abs_error": 57.99,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.3
+    },
+    {
+      "participant_id": "eval-0014",
+      "ground_truth": 208.0,
+      "predicted": 188.5,
+      "abs_error": 19.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.2
+    },
+    {
+      "participant_id": "eval-0015",
+      "ground_truth": 135.0,
+      "predicted": 185.5,
+      "abs_error": 50.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 16.0
+    },
+    {
+      "participant_id": "eval-0016",
+      "ground_truth": 216.0,
+      "predicted": 192.45,
+      "abs_error": 23.55,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 17.1
+    },
+    {
+      "participant_id": "eval-0017",
+      "ground_truth": 193.0,
+      "predicted": 208.51,
+      "abs_error": 15.51,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.9
+    },
+    {
+      "participant_id": "eval-0018",
+      "ground_truth": 235.0,
+      "predicted": 210.29,
+      "abs_error": 24.71,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.7
+    },
+    {
+      "participant_id": "eval-0019",
+      "ground_truth": 181.0,
+      "predicted": 178.5,
+      "abs_error": 2.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
       "duration_seconds": 18.3
     },
     {
-      "participant_id": "sub-0673",
-      "ground_truth": 216.0,
-      "predicted": 210.0,
-      "abs_error": 6.0,
+      "participant_id": "eval-0020",
+      "ground_truth": 239.0,
+      "predicted": 212.09,
+      "abs_error": 26.91,
       "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 16.7
+    },
+    {
+      "participant_id": "eval-0021",
+      "ground_truth": 195.0,
+      "predicted": 248.5,
+      "abs_error": 53.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.3
+    },
+    {
+      "participant_id": "eval-0022",
+      "ground_truth": 216.0,
+      "predicted": 205.8,
+      "abs_error": 10.2,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.0
+    },
+    {
+      "participant_id": "eval-0023",
+      "ground_truth": 178.0,
+      "predicted": 196.5,
+      "abs_error": 18.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.2
+    },
+    {
+      "participant_id": "eval-0024",
+      "ground_truth": 172.0,
+      "predicted": 182.5,
+      "abs_error": 10.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.6
+    },
+    {
+      "participant_id": "eval-0025",
+      "ground_truth": 240.0,
+      "predicted": 205.24,
+      "abs_error": 34.76,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.0
+    },
+    {
+      "participant_id": "eval-0026",
+      "ground_truth": 199.0,
+      "predicted": 202.5,
+      "abs_error": 3.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.6
+    },
+    {
+      "participant_id": "eval-0027",
+      "ground_truth": 133.0,
+      "predicted": 210.05,
+      "abs_error": 77.05,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.1
+    },
+    {
+      "participant_id": "eval-0028",
+      "ground_truth": 175.0,
+      "predicted": 196.88,
+      "abs_error": 21.88,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
       "duration_seconds": 22.8
+    },
+    {
+      "participant_id": "eval-0029",
+      "ground_truth": 151.0,
+      "predicted": 211.77,
+      "abs_error": 60.77,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.5
+    },
+    {
+      "participant_id": "eval-0030",
+      "ground_truth": 262.0,
+      "predicted": 208.74,
+      "abs_error": 53.26,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.1
+    },
+    {
+      "participant_id": "eval-0031",
+      "ground_truth": 174.0,
+      "predicted": 225.0,
+      "abs_error": 51.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.6
+    },
+    {
+      "participant_id": "eval-0032",
+      "ground_truth": 208.0,
+      "predicted": 206.53,
+      "abs_error": 1.47,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 14.4
+    },
+    {
+      "participant_id": "eval-0033",
+      "ground_truth": 102.0,
+      "predicted": 166.2,
+      "abs_error": 64.2,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.3
+    },
+    {
+      "participant_id": "eval-0034",
+      "ground_truth": 240.0,
+      "predicted": 222.5,
+      "abs_error": 17.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.8
+    },
+    {
+      "participant_id": "eval-0035",
+      "ground_truth": 223.0,
+      "predicted": 188.45,
+      "abs_error": 34.55,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.3
+    },
+    {
+      "participant_id": "eval-0036",
+      "ground_truth": 174.0,
+      "predicted": 180.23,
+      "abs_error": 6.23,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.2
+    },
+    {
+      "participant_id": "eval-0037",
+      "ground_truth": 220.0,
+      "predicted": 198.5,
+      "abs_error": 21.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.4
+    },
+    {
+      "participant_id": "eval-0038",
+      "ground_truth": 165.0,
+      "predicted": 217.48,
+      "abs_error": 52.48,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.0
+    },
+    {
+      "participant_id": "eval-0039",
+      "ground_truth": 177.0,
+      "predicted": 204.59,
+      "abs_error": 27.59,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.8
+    },
+    {
+      "participant_id": "eval-0040",
+      "ground_truth": 197.0,
+      "predicted": 208.5,
+      "abs_error": 11.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.8
+    },
+    {
+      "participant_id": "eval-0041",
+      "ground_truth": 254.0,
+      "predicted": 185.0,
+      "abs_error": 69.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.8
+    },
+    {
+      "participant_id": "eval-0042",
+      "ground_truth": 192.0,
+      "predicted": 192.5,
+      "abs_error": 0.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.7
+    },
+    {
+      "participant_id": "eval-0043",
+      "ground_truth": 189.0,
+      "predicted": 202.46,
+      "abs_error": 13.46,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.4
+    },
+    {
+      "participant_id": "eval-0044",
+      "ground_truth": 112.0,
+      "predicted": 172.5,
+      "abs_error": 60.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.8
+    },
+    {
+      "participant_id": "eval-0045",
+      "ground_truth": 159.0,
+      "predicted": 208.5,
+      "abs_error": 49.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.0
+    },
+    {
+      "participant_id": "eval-0046",
+      "ground_truth": 181.0,
+      "predicted": 166.2,
+      "abs_error": 14.8,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.8
+    },
+    {
+      "participant_id": "eval-0047",
+      "ground_truth": 246.0,
+      "predicted": 199.31,
+      "abs_error": 46.69,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.7
+    },
+    {
+      "participant_id": "eval-0048",
+      "ground_truth": 230.0,
+      "predicted": 193.0,
+      "abs_error": 37.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.8
+    },
+    {
+      "participant_id": "eval-0049",
+      "ground_truth": 201.0,
+      "predicted": 222.5,
+      "abs_error": 21.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.7
+    },
+    {
+      "participant_id": "eval-0050",
+      "ground_truth": 194.0,
+      "predicted": 213.17,
+      "abs_error": 19.17,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.8
+    },
+    {
+      "participant_id": "eval-0051",
+      "ground_truth": 216.0,
+      "predicted": 192.45,
+      "abs_error": 23.55,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.4
+    },
+    {
+      "participant_id": "eval-0052",
+      "ground_truth": 224.0,
+      "predicted": 232.5,
+      "abs_error": 8.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.4
+    },
+    {
+      "participant_id": "eval-0053",
+      "ground_truth": 254.0,
+      "predicted": 224.32,
+      "abs_error": 29.68,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 17.9
+    },
+    {
+      "participant_id": "eval-0054",
+      "ground_truth": 248.0,
+      "predicted": 205.0,
+      "abs_error": 43.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 16.7
+    },
+    {
+      "participant_id": "eval-0055",
+      "ground_truth": 134.0,
+      "predicted": 208.77,
+      "abs_error": 74.77,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 16.5
+    },
+    {
+      "participant_id": "eval-0056",
+      "ground_truth": 206.0,
+      "predicted": 224.5,
+      "abs_error": 18.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.3
+    },
+    {
+      "participant_id": "eval-0057",
+      "ground_truth": 157.0,
+      "predicted": 204.42,
+      "abs_error": 47.42,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.6
+    },
+    {
+      "participant_id": "eval-0058",
+      "ground_truth": 192.0,
+      "predicted": 217.26,
+      "abs_error": 25.26,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.4
+    },
+    {
+      "participant_id": "eval-0059",
+      "ground_truth": 201.0,
+      "predicted": 200.41,
+      "abs_error": 0.59,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.4
+    },
+    {
+      "participant_id": "eval-0060",
+      "ground_truth": 108.0,
+      "predicted": 182.45,
+      "abs_error": 74.45,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.0
+    },
+    {
+      "participant_id": "eval-0061",
+      "ground_truth": 148.0,
+      "predicted": 208.5,
+      "abs_error": 60.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 17.7
+    },
+    {
+      "participant_id": "eval-0062",
+      "ground_truth": 229.0,
+      "predicted": 209.89,
+      "abs_error": 19.11,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 17.6
+    },
+    {
+      "participant_id": "eval-0063",
+      "ground_truth": 197.0,
+      "predicted": 206.19,
+      "abs_error": 9.19,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.3
+    },
+    {
+      "participant_id": "eval-0064",
+      "ground_truth": 268.0,
+      "predicted": 178.5,
+      "abs_error": 89.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.2
+    },
+    {
+      "participant_id": "eval-0065",
+      "ground_truth": 210.0,
+      "predicted": 217.36,
+      "abs_error": 7.36,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.8
+    },
+    {
+      "participant_id": "eval-0066",
+      "ground_truth": 280.0,
+      "predicted": 216.3,
+      "abs_error": 63.7,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.4
+    },
+    {
+      "participant_id": "eval-0067",
+      "ground_truth": 161.0,
+      "predicted": 202.0,
+      "abs_error": 41.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 17.3
+    },
+    {
+      "participant_id": "eval-0068",
+      "ground_truth": 250.0,
+      "predicted": 235.0,
+      "abs_error": 15.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.0
+    },
+    {
+      "participant_id": "eval-0069",
+      "ground_truth": 160.0,
+      "predicted": 178.5,
+      "abs_error": 18.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.2
+    },
+    {
+      "participant_id": "eval-0070",
+      "ground_truth": 181.0,
+      "predicted": 218.5,
+      "abs_error": 37.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.3
+    },
+    {
+      "participant_id": "eval-0071",
+      "ground_truth": 207.0,
+      "predicted": 219.33,
+      "abs_error": 12.33,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.4
+    },
+    {
+      "participant_id": "eval-0072",
+      "ground_truth": 241.0,
+      "predicted": 192.45,
+      "abs_error": 48.55,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 16.2
+    },
+    {
+      "participant_id": "eval-0073",
+      "ground_truth": 209.0,
+      "predicted": 190.0,
+      "abs_error": 19.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.7
+    },
+    {
+      "participant_id": "eval-0074",
+      "ground_truth": 225.0,
+      "predicted": 218.84,
+      "abs_error": 6.16,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.8
+    },
+    {
+      "participant_id": "eval-0075",
+      "ground_truth": 225.0,
+      "predicted": 207.5,
+      "abs_error": 17.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.9
+    },
+    {
+      "participant_id": "eval-0076",
+      "ground_truth": 245.0,
+      "predicted": 222.5,
+      "abs_error": 22.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.4
+    },
+    {
+      "participant_id": "eval-0077",
+      "ground_truth": 273.0,
+      "predicted": 203.1,
+      "abs_error": 69.9,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.2
+    },
+    {
+      "participant_id": "eval-0078",
+      "ground_truth": 236.0,
+      "predicted": 213.0,
+      "abs_error": 23.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.8
+    },
+    {
+      "participant_id": "eval-0079",
+      "ground_truth": 249.0,
+      "predicted": 216.83,
+      "abs_error": 32.17,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.5
+    },
+    {
+      "participant_id": "eval-0080",
+      "ground_truth": 136.0,
+      "predicted": 210.1,
+      "abs_error": 74.1,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 24.1
+    },
+    {
+      "participant_id": "eval-0081",
+      "ground_truth": 261.0,
+      "predicted": 212.47,
+      "abs_error": 48.53,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.9
+    },
+    {
+      "participant_id": "eval-0082",
+      "ground_truth": 243.0,
+      "predicted": 216.63,
+      "abs_error": 26.37,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 15.8
+    },
+    {
+      "participant_id": "eval-0083",
+      "ground_truth": 189.0,
+      "predicted": 182.5,
+      "abs_error": 6.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 25.9
+    },
+    {
+      "participant_id": "eval-0084",
+      "ground_truth": 219.0,
+      "predicted": 206.27,
+      "abs_error": 12.73,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 21.4
+    },
+    {
+      "participant_id": "eval-0085",
+      "ground_truth": 206.0,
+      "predicted": 209.08,
+      "abs_error": 3.08,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 16.6
+    },
+    {
+      "participant_id": "eval-0086",
+      "ground_truth": 183.0,
+      "predicted": 192.5,
+      "abs_error": 9.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 116.8
+    },
+    {
+      "participant_id": "eval-0087",
+      "ground_truth": 279.0,
+      "predicted": 216.3,
+      "abs_error": 62.7,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.4
+    },
+    {
+      "participant_id": "eval-0088",
+      "ground_truth": 172.0,
+      "predicted": 172.5,
+      "abs_error": 0.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 25.1
+    },
+    {
+      "participant_id": "eval-0089",
+      "ground_truth": 188.0,
+      "predicted": 212.5,
+      "abs_error": 24.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.0
+    },
+    {
+      "participant_id": "eval-0090",
+      "ground_truth": 261.0,
+      "predicted": 195.4,
+      "abs_error": 65.6,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.3
+    },
+    {
+      "participant_id": "eval-0091",
+      "ground_truth": 228.0,
+      "predicted": 170.2,
+      "abs_error": 57.8,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.8
+    },
+    {
+      "participant_id": "eval-0092",
+      "ground_truth": 203.0,
+      "predicted": 220.0,
+      "abs_error": 17.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.0
+    },
+    {
+      "participant_id": "eval-0093",
+      "ground_truth": 258.0,
+      "predicted": 203.51,
+      "abs_error": 54.49,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 20.6
+    },
+    {
+      "participant_id": "eval-0094",
+      "ground_truth": 129.0,
+      "predicted": 220.68,
+      "abs_error": 91.68,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.1
+    },
+    {
+      "participant_id": "eval-0095",
+      "ground_truth": 257.0,
+      "predicted": 178.5,
+      "abs_error": 78.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.2
+    },
+    {
+      "participant_id": "eval-0096",
+      "ground_truth": 178.0,
+      "predicted": 212.0,
+      "abs_error": 34.0,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 23.2
+    },
+    {
+      "participant_id": "eval-0097",
+      "ground_truth": 204.0,
+      "predicted": 208.81,
+      "abs_error": 4.81,
+      "verdict": "SATISFACTORY",
+      "attempts": 2,
+      "duration_seconds": 39.5
+    },
+    {
+      "participant_id": "eval-0098",
+      "ground_truth": 249.0,
+      "predicted": 188.5,
+      "abs_error": 60.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.3
+    },
+    {
+      "participant_id": "eval-0099",
+      "ground_truth": 158.0,
+      "predicted": 188.5,
+      "abs_error": 30.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 18.3
+    },
+    {
+      "participant_id": "eval-0100",
+      "ground_truth": 233.0,
+      "predicted": 204.42,
+      "abs_error": 28.58,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 19.8
     }
   ]
 }

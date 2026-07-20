@@ -35,6 +35,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--live", action="store_true")
     ap.add_argument("--skip-brain", action="store_true")
+    ap.add_argument("--workers", type=int, default=12,
+                    help="bounded process workers for live tier-participant jobs")
     args = ap.parse_args()
 
     if not args.skip_brain:
@@ -43,7 +45,7 @@ def main() -> None:
     for s in ("01_explore_structure.py", "02_build_ontology.py", "03_build_compass_inputs.py"):
         _run(s)
     if args.live:
-        _run("04_run_compass.py")
+        _run("04_run_compass.py", "--workers", str(args.workers))
         _run("05_evaluate.py")
     print("\n[run_tiers] Done.")
 

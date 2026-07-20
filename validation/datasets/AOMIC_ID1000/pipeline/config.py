@@ -45,16 +45,21 @@ TARGET = {
     "units": "points",
 }
 
-# Grounding note passed to all agents so the regressor knows the target scale.
-# This is measurement calibration (scale/units), NOT participant-specific leakage.
-TARGET_SCALE_NOTE = (
-    "Prediction target: IST_intelligence_total, the total score of the Intelligence "
-    "Structure Test 2000-R. In this healthy young-adult cohort the score is "
-    "approximately Normal with mean ~200 and sd ~40 (observed range 68-296). "
-    "Predict the participant's total intelligence as a single number on this scale. "
-    "No IST subscale scores are provided; infer from personality, demographic, "
-    "motivational, affective, identity and lifestyle features only."
-)
+def target_scale_note(reference_mean: float, reference_sd: float) -> str:
+    """Target calibration derived only from the disjoint reference cohort.
+
+    The native IST composite is not an IQ score on a 100 mean, 15 SD scale. The
+    prompt contains only aggregate reference-split calibration, never evaluation
+    labels, participant identifiers, subscales, or an observed test-set range.
+    """
+    return (
+        "Prediction target: IST_intelligence_total, the native total score of the "
+        "Intelligence Structure Test 2000-R. This is not a conventional IQ score. "
+        f"In the disjoint reference split, mean={reference_mean:.2f} and "
+        f"sd={reference_sd:.2f} native IST points. Predict one numeric value on that "
+        "native scale. No IST total or subscale values for this evaluation participant "
+        "are provided. Infer only from the provided non-cognitive multimodal features."
+    )
 
 # --------------------------------------------------------------- excluded
 EXCLUDED_COLUMNS = {
@@ -199,8 +204,11 @@ FREESURFER_DIR = BRAIN_DIR / "freesurfer"
 CONNECTOME_DIR = BRAIN_DIR / "connectome"
 BRAIN_CACHE_DIR = BRAIN_DIR / "_cache"          # raw downloads (gitignored)
 # Reference cohort sizes for brain z-scores (include the run subset).
+# The 100-person evaluation is disjoint from these normalization references. Each
+# extraction target therefore includes the evaluation set plus at least 20 separate
+# reference participants.
 BRAIN_MORPH_REF_SIZE = 120                       # FreeSurfer stats are tiny text files
-BRAIN_CONN_REF_SIZE = 24                         # fMRI is heavy; keep just above MIN_COHORT_N
+BRAIN_CONN_REF_SIZE = 120                        # 100 evaluation + >=20 reference
 
 # Group id -> preferred ontology domain label (hint only; projection is by column).
 GROUP_DOMAIN = {
@@ -301,28 +309,57 @@ ONTOLOGY_CONTEXT = (
 )
 
 # ----------------------------------------------------------- subset run
-# Deterministic subset for the live LLM run (kept small for cost with a tiny model).
-SUBSET_SIZE = 6
+# Deterministic, target-blind evaluation cohort for the live LLM run.
+SUBSET_SIZE = 100
 RANDOM_SEED = 42
-MAX_ITERATIONS = 1  # actor-critic loop depth for the subset smoke run
+MAX_ITERATIONS = 1  # actor-critic loop depth
+EVALUATION_IDS_PATH = RESULTS_DIR / "evaluation_ids.json"
 
 # Core columns required to be present for a subject to be eligible for the subset.
 CORE_COMPLETE = ["NEO_N", "NEO_E", "NEO_O", "NEO_A", "NEO_C",
                  "BAS_drive", "BIS", "STAI_T", "BMI"]
 
 
-def select_subset_ids(df):
-    """Deterministic run subset: complete core, spread across the IQ range."""
+def evaluation_candidate_ids(df):
+    """Return initial and backup candidates in a deterministic target-blind order."""
     import numpy as np
     import pandas as pd
     target = TARGET["column"]
-    ok = df[pd.to_numeric(df[target], errors="coerce").notna()].copy()
-    ok = ok[pd.to_numeric(ok["BMI"], errors="coerce").fillna(0) > 0]
+    ok = df[pd.to_numeric(df["BMI"], errors="coerce").fillna(0) > 0].copy()
     for col in CORE_COMPLETE:
         ok = ok[pd.to_numeric(ok[col], errors="coerce").notna()]
-    ok = ok.assign(_t=pd.to_numeric(ok[target], errors="coerce")).sort_values("_t")
-    idx = np.linspace(0, len(ok) - 1, SUBSET_SIZE).round().astype(int)
-    return sorted(ok.iloc[idx]["participant_id"].tolist())
+    ok = ok[pd.to_numeric(ok[target], errors="coerce").notna()]
+    candidates = np.array(sorted(ok["participant_id"].astype(str).unique()))
+    if len(candidates) < SUBSET_SIZE:
+        raise ValueError(
+            f"Requested {SUBSET_SIZE} evaluation participants but only "
+            f"{len(candidates)} are eligible"
+        )
+    rng = np.random.default_rng(RANDOM_SEED)
+    initial = sorted(rng.choice(candidates, size=SUBSET_SIZE, replace=False).tolist())
+    initial_set = set(initial)
+    backups = [pid for pid in rng.permutation(candidates).tolist() if pid not in initial_set]
+    return initial + backups
+
+
+def select_subset_ids(df, use_lock=True):
+    """Select or load a deterministic evaluation cohort without target values.
+
+    Eligibility uses predictor completeness and the presence, but never the value,
+    of the target. The initial seeded draw may be backfilled only for unavailable
+    imaging. Step 11 writes that final modality-complete set to a lock file.
+    """
+    import json
+    candidates = evaluation_candidate_ids(df)
+    eligible = set(candidates)
+    if use_lock and EVALUATION_IDS_PATH.exists():
+        locked = json.loads(EVALUATION_IDS_PATH.read_text()).get("participant_ids", [])
+        if len(locked) != SUBSET_SIZE or len(set(locked)) != SUBSET_SIZE:
+            raise ValueError(f"Invalid evaluation lock: {EVALUATION_IDS_PATH}")
+        if not set(locked).issubset(eligible):
+            raise ValueError("Evaluation lock contains ineligible participant IDs")
+        return sorted(locked)
+    return sorted(candidates[:SUBSET_SIZE])
 
 
 def brain_reference_ids(df, n, include=None):

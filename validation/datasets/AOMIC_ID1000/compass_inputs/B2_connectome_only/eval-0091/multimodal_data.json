@@ -1,0 +1,180 @@
+{
+  "FUNCTIONAL_BRAIN_CONNECTIVITY": {
+    "within_network_synchrony": {
+      "_leaves": [
+        {
+          "feature": "Visual within-network FC",
+          "z_score": -0.347,
+          "value": "0.3314 Pearson r (Normal)",
+          "ref_range": "cohort mean 0.4, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Somatomotor within-network FC",
+          "z_score": -0.996,
+          "value": "0.3369 Pearson r (Low-Normal)",
+          "ref_range": "cohort mean 0.5, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Dorsal attention within-network FC",
+          "z_score": 0.834,
+          "value": "0.3716 Pearson r (High-Normal)",
+          "ref_range": "cohort mean 0.3, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Salience / ventral attention within-network FC",
+          "z_score": -0.351,
+          "value": "0.3058 Pearson r (Normal)",
+          "ref_range": "cohort mean 0.3, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Limbic within-network FC",
+          "z_score": -0.9,
+          "value": "0.0748 Pearson r (Low-Normal)",
+          "ref_range": "cohort mean 0.2, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Frontoparietal control within-network FC",
+          "z_score": -1.435,
+          "value": "0.1687 Pearson r (Low)",
+          "ref_range": "cohort mean 0.3, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Default mode within-network FC",
+          "z_score": 0.643,
+          "value": "0.2915 Pearson r (High-Normal)",
+          "ref_range": "cohort mean 0.2, sd 0.1 (population-referenced)"
+        }
+      ]
+    },
+    "between_network_synchrony": {
+      "_leaves": [
+        {
+          "feature": "Visual - Somatomotor FC",
+          "z_score": 0.535,
+          "value": "-0.0481 Pearson r (High-Normal)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Visual - Dorsal attention FC",
+          "z_score": 0.784,
+          "value": "0.082 Pearson r (High-Normal)",
+          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Visual - Salience / ventral attention FC",
+          "z_score": 0.728,
+          "value": "-0.0703 Pearson r (High-Normal)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Visual - Limbic FC",
+          "z_score": 0.135,
+          "value": "-0.0806 Pearson r (Normal)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Visual - Frontoparietal control FC",
+          "z_score": -0.162,
+          "value": "-0.1389 Pearson r (Normal)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Visual - Default mode FC",
+          "z_score": -0.592,
+          "value": "-0.1753 Pearson r (Low-Normal)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Somatomotor - Dorsal attention FC",
+          "z_score": -1.101,
+          "value": "0.0512 Pearson r (Low)",
+          "ref_range": "cohort mean 0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Somatomotor - Salience / ventral attention FC",
+          "z_score": -0.963,
+          "value": "0.1473 Pearson r (Low-Normal)",
+          "ref_range": "cohort mean 0.2, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Somatomotor - Limbic FC",
+          "z_score": -0.889,
+          "value": "-0.0675 Pearson r (Low-Normal)",
+          "ref_range": "cohort mean -0.0, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Somatomotor - Frontoparietal control FC",
+          "z_score": 1.185,
+          "value": "0.0168 Pearson r (High)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Somatomotor - Default mode FC",
+          "z_score": 0.047,
+          "value": "-0.0435 Pearson r (Normal)",
+          "ref_range": "cohort mean -0.0, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Dorsal attention - Salience / ventral attention FC",
+          "z_score": -0.57,
+          "value": "0.0726 Pearson r (Low-Normal)",
+          "ref_range": "cohort mean 0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Dorsal attention - Limbic FC",
+          "z_score": -0.262,
+          "value": "-0.1009 Pearson r (Normal)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Dorsal attention - Frontoparietal control FC",
+          "z_score": -0.176,
+          "value": "-0.0321 Pearson r (Normal)",
+          "ref_range": "cohort mean -0.0, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Dorsal attention - Default mode FC",
+          "z_score": -0.869,
+          "value": "-0.1957 Pearson r (Low-Normal)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Salience / ventral attention - Limbic FC",
+          "z_score": -1.054,
+          "value": "-0.1126 Pearson r (Low)",
+          "ref_range": "cohort mean -0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Salience / ventral attention - Frontoparietal control FC",
+          "z_score": -0.146,
+          "value": "0.0445 Pearson r (Normal)",
+          "ref_range": "cohort mean 0.1, sd 0.0 (population-referenced)"
+        },
+        {
+          "feature": "Salience / ventral attention - Default mode FC",
+          "z_score": -0.584,
+          "value": "-0.061 Pearson r (Low-Normal)",
+          "ref_range": "cohort mean -0.0, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Limbic - Frontoparietal control FC",
+          "z_score": -0.322,
+          "value": "-0.0102 Pearson r (Normal)",
+          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
+        },
+        {
+          "feature": "Limbic - Default mode FC",
+          "z_score": -0.296,
+          "value": "0.1299 Pearson r (Normal)",
+          "ref_range": "cohort mean 0.1, sd 0.1 (population-referenced)"
+        },
+        {
+          "feature": "Frontoparietal control - Default mode FC",
+          "z_score": 0.365,
+          "value": "0.1169 Pearson r (Normal)",
+          "ref_range": "cohort mean 0.1, sd 0.1 (population-referenced)"
+        }
+      ]
+    }
+  }
+}

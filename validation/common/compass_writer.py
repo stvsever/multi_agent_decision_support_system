@@ -133,7 +133,10 @@ def _build_narrative(
     }.get(reference_mode, "observed values")
     lines: List[str] = []
     lines.append(f"Participant ID: {participant_id}")
-    lines.append(f"Source: {ontology.get('dataset', 'dataset')} tabular phenotype (self-report questionnaires + demographics).")
+    lines.append(
+        f"Source: blinded evaluation record from {ontology.get('dataset', 'dataset')}; "
+        "provided non-cognitive multimodal features only."
+    )
     lines.append(f"Reference strategy: {reference_mode} ({ref_phrase}).")
     lines.append("")
     lines.append("TARGET MEASUREMENT REFERENCE:")
@@ -163,8 +166,8 @@ def _build_narrative(
     lines.append("")
     lines.append(
         "NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction "
-        "target must be inferred from demographic, personality, motivational, affective, "
-        "identity, and lifestyle features only."
+        "target must be inferred only from the non-cognitive multimodal evidence provided "
+        "in this record."
     )
     return "\n".join(lines)
 

@@ -17,9 +17,11 @@ from validation.common import manifest as manifest_mod
 
 def main() -> None:
     df = config.load_merged_frame()
+    evaluation_ids = set(config.select_subset_ids(df))
+    reference_df = df[~df["participant_id"].isin(evaluation_ids)].copy()
     specs = config.all_feature_specs()
     manifest = manifest_mod.build_manifest(
-        df=df,
+        df=reference_df,
         dataset_name=config.DATASET_LABEL,
         target=config.TARGET,
         feature_specs=specs,
@@ -31,7 +33,8 @@ def main() -> None:
         json.dump(manifest, f, indent=2)
 
     groups = config.feature_groups()
-    print(f"[01] Participants: {manifest['n_participants']}")
+    print(f"[01] Reference participants: {manifest['n_participants']} "
+          f"(excluded {len(evaluation_ids)} locked evaluation participants)")
     print(f"[01] Target: {manifest['target']['label']} "
           f"(mean {manifest['target']['mean']}, sd {manifest['target']['std']}, "
           f"range {manifest['target']['minimum']}-{manifest['target']['maximum']})")

@@ -440,19 +440,25 @@ ax[1].set(title="Rank recovery of intelligence per tier", ylabel="correlation");
 plt.tight_layout(); plt.show()
 """),
         code("""
-fig, ax = plt.subplots(1, 2, figsize=(15, 5))
-ax[0].bar(x, td["normalised_mae"], color=ORG); ax[0].axhline(1.0, color="#333", ls="--", label="sd baseline")
+fig, ax = plt.subplots(1, 3, figsize=(18, 5))
+ax[0].bar(x, td["mae_iq15_equivalent"], color=ORG)
 ax[0].set_xticks(x); ax[0].set_xticklabels(td["tier"], rotation=45, ha="right", fontsize=8)
-ax[0].set(title="Normalised MAE per tier (lower is better)", ylabel="MAE / target sd"); ax[0].legend()
-ax[1].bar(x, td["rank_stability_mean"], yerr=td["rank_stability_sd"], color=GRN, capsize=3)
+ax[0].set(title="MAE on 100/15-equivalent scale", ylabel="IQ-equivalent points")
+ax[1].bar(x, td["rank_mae_positions"], color=IND)
 ax[1].set_xticks(x); ax[1].set_xticklabels(td["tier"], rotation=45, ha="right", fontsize=8)
-ax[1].set(title="Bootstrap rank stability per tier", ylabel="Spearman (mean +/- sd)")
+ax[1].set(title="Mean absolute rank error", ylabel="rank positions")
+ci = np.array(td["spearman_bootstrap_ci95"].tolist(), dtype=float)
+rho = td["spearman_rho"].to_numpy(float)
+yerr = np.vstack([rho-ci[:,0], ci[:,1]-rho])
+ax[2].bar(x, rho, yerr=yerr, color=GRN, capsize=3)
+ax[2].set_xticks(x); ax[2].set_xticklabels(td["tier"], rotation=45, ha="right", fontsize=8)
+ax[2].set(title="Actual vs predicted rank recovery", ylabel="Spearman rho, bootstrap 95% CI")
 plt.tight_layout(); plt.show()
 """),
         md("## 5. One participant as the engine sees it"),
         code("""
 import glob
-tdir = sorted(glob.glob(str(ROOT/"compass_inputs"/"T6_connectome"/"sub-*")))[0]
+tdir = sorted(glob.glob(str(ROOT/"compass_inputs"/"T6_connectome"/"eval-*")))[0]
 mm = json.load(open(Path(tdir)/"multimodal_data.json"))
 rows=[]
 for dom, subs in mm.items():

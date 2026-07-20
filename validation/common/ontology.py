@@ -332,9 +332,14 @@ non-redundant DOMAIN -> SUBDOMAIN -> FEATURE subclass ontology. Keep every featu
 group by shared construct/measurement, and give concise interpretable labels and definitions.
 Return ONLY JSON."""
 
-_VERIFY_SYSTEM = """You are a senior ontology reviewer. Assess a fixed feature ontology for quality:
-mutual exclusivity and collective exhaustiveness (MECE), non-redundancy, and whether each feature
-sits in the most sensible subdomain. Be concise and specific. Return ONLY JSON."""
+_VERIFY_SYSTEM = """You are a senior ontology reviewer assessing a hierarchy over measured dataset
+columns. MECE means every supplied column is assigned exactly once to one semantically appropriate
+subdomain. Non-redundancy means no column is duplicated in the tree; it does NOT require measured
+columns to be statistically independent. Aggregate and component measurements may both be valid
+leaves, directional questionnaire ratings are distinct measurements, and matrix cells such as
+unique network pairs are distinct leaves. Do not propose merging, deleting, or re-encoding source
+columns. Assess semantic placement and structural coverage only. Be concise and specific. Return
+ONLY JSON."""
 
 
 def build_ontology_auto(

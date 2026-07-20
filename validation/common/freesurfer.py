@@ -106,11 +106,16 @@ def _parse_measures(text: str) -> Dict[str, float]:
         # "# Measure BrainSeg, BrainSegVol, ..., 1322462.0, mm^3"
         parts = [p.strip() for p in line[len("# Measure"):].split(",")]
         if len(parts) >= 4:
-            key = parts[1]
             try:
-                out[key] = float(parts[-2])
+                value = float(parts[-2])
             except ValueError:
                 continue
+            # FreeSurfer header rows carry both a measure name and a short key.
+            # eTIV is written as "EstimatedTotalIntraCranialVol, eTIV", while
+            # other consumers may address either form. Preserve both aliases.
+            for key in parts[:2]:
+                if key:
+                    out[key] = value
     return out
 
 
