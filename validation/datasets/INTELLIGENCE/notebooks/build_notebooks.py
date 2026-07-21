@@ -274,6 +274,33 @@ ax[1].plot(lims, lims, color=RED, ls="--"); ax[1].set(title="Left vs right volum
 ax[1].legend(fontsize=7, ncol=2)
 plt.tight_layout(); plt.show()
 """),
+        md("### Subcortical volumes on a glass brain (nilearn)\\n"
+           "Each subcortical structure at its approximate MNI centroid, coloured by its Spearman "
+           "correlation with total intelligence and sized by group-mean volume. A spatial read of "
+           "which deep-brain structures carry morphometric signal."),
+        code("""
+try:
+    from nilearn import plotting
+    from scipy.stats import spearmanr
+    SUB_MNI = {"thalamus":(11,-19,8),"caudate":(13,10,9),"putamen":(25,3,2),"pallidum":(18,-3,1),
+               "hippocampus":(26,-20,-13),"amygdala":(24,-4,-18),"accumbens":(9,11,-7),"ventraldc":(8,-14,-10)}
+    tgt = target.reindex(morph.index)
+    coords, vals, means = [], [], []
+    for s,(x,y,z) in SUB_MNI.items():
+        for hemi,sgn in (("lh",-1),("rh",1)):
+            col=f"fs_vol_{hemi}_{s}"
+            if col in morph:
+                m=morph[col].notna()&tgt.notna()
+                vals.append(spearmanr(morph[col][m], tgt[m]).statistic if m.sum()>20 else 0.0)
+                coords.append((sgn*x,y,z)); means.append(float(morph[col].mean()))
+    means=np.array(means); sizes=(40+180*(means-means.min())/(np.ptp(means)+1e-9)).tolist()
+    plotting.plot_markers(np.array(vals), coords, node_size=sizes, node_cmap="RdBu_r",
+                          node_vmin=-0.25, node_vmax=0.25, display_mode="ortho",
+                          title="Subcortical volume vs intelligence (node colour = Spearman r, size = mean volume)")
+    plt.show()
+except Exception as e:
+    print("subcortical glass brain skipped:", e)
+"""),
         md("## 2. Head-size scaling and per-region cortical thickness map"),
         code("""
 fig, ax = plt.subplots(1, 2, figsize=(15, 5))
@@ -400,8 +427,28 @@ ax[1].barh(rc["f"], rc["r"], color=[RED if v<0 else GRN for v in rc["r"]])
 ax[1].axvline(0,color="#333"); ax[1].set_title("Top connectome-IQ correlations"); ax[1].tick_params(labelsize=7)
 plt.tight_layout(); plt.show()
 """),
-        md("## 6. Network connectome on a glass brain (nilearn)\\n"
-           "The group-average 7-network functional connectivity rendered on a glass brain: each node "
+        md("## 6. High-resolution parcellation and network connectome (nilearn)\\n"
+           "First the cortical atlas underlying the connectome: the 100 Schaefer parcels, coloured by "
+           "their Yeo-7 network, as a mosaic of slices. This is the high-resolution parcellation that "
+           "the 28 network-level features summarise; re-extracting FC at this parcel level (or a finer "
+           "Schaefer-200 / 17-network atlas) is a config knob."),
+        code("""
+try:
+    from nilearn import plotting, image
+    from validation.common import connectome as C
+    atlas = C.load_atlas(100, 7, 2)
+    order = ["Vis","SomMot","DorsAttn","SalVentAttn","Limbic","Cont","Default"]
+    net_idx = {a:i+1 for i,a in enumerate(order)}
+    lut = np.array([0] + [net_idx.get(n, 0) for n in C.atlas_networks(atlas)])
+    maps = image.load_img(atlas.maps)
+    net_img = image.new_img_like(maps, lut[maps.get_fdata().astype(int)])
+    plotting.plot_roi(net_img, display_mode="mosaic", cmap="tab10", colorbar=True,
+                      title="Schaefer-100 parcels coloured by Yeo-7 network (mosaic)")
+    plt.show()
+except Exception as e:
+    print("parcellation mosaic skipped:", e)
+"""),
+        md("The group-average 7-network functional connectivity rendered on a glass brain: each node "
            "is a Yeo network placed at the centroid of its Schaefer parcels, each edge a mean "
            "between-network correlation. Uses only the small Schaefer atlas (no raw BOLD)."),
         code("""
@@ -614,7 +661,7 @@ plt.tight_layout(); plt.show()
            "n=10 is illustrative, not the quantitative benchmark (that is the 100-subject batch in "
            "section 4)."),
         code("""
-from scipy.stats import spearmanr, pearsonr
+from scipy.stats import spearmanr, pearsonr, theilslopes
 h = json.load(open(ROOT/"results"/"hierarchical_10subject"/"predictions.json"))
 outputs = h["outputs"]
 gt = {c["participant_id"]: c["ground_truth_all"] for c in h["cohort"]}
@@ -627,20 +674,28 @@ print(f"{len(rows)} complete hierarchical runs; spend this run: ${h.get('usd_spe
 for c in dfp.columns:
     if c.startswith(("true_","pred_")): dfp[c] = pd.to_numeric(dfp[c], errors="coerce")
 
-# Panel A: full multimodal tier (T6) predicted vs truth for all four IST outputs
+# Panel A: full multimodal tier (T6) predicted vs truth for all four IST outputs.
+# Each scatter carries the identity line plus TWO fitted lines: the Pearson line
+# (ordinary least squares, sensitive to magnitude) and the Spearman line
+# (Theil-Sen, the rank-based robust slope that tracks monotonic association).
 full = dfp[dfp["tier"]=="T6_connectome"]
-fig, axes = plt.subplots(1, 4, figsize=(18, 4.3))
+fig, axes = plt.subplots(1, 4, figsize=(18, 4.6))
 titles = {"IST_intelligence_total":"Total","IST_fluid":"Fluid","IST_memory":"Memory","IST_crystallised":"Crystallised"}
 for ax,o in zip(axes, outputs):
     pair = full[[f"true_{o}", f"pred_{o}"]].dropna()
-    xt, yp = pair[f"true_{o}"], pair[f"pred_{o}"]
-    ax.scatter(xt, yp, color=IND, s=45)
-    if len(pair):
+    xt, yp = pair[f"true_{o}"].values, pair[f"pred_{o}"].values
+    ax.scatter(xt, yp, color=IND, s=45, zorder=3)
+    if len(pair) > 2:
         lims=[min(xt.min(),yp.min()), max(xt.max(),yp.max())]
-        ax.plot(lims, lims, color=RED, ls="--")
-    rr = spearmanr(xt, yp).statistic if len(pair)>2 else float("nan")
-    ax.set(title=f"{titles.get(o,o)}  (rho={rr:.2f})", xlabel="true IST", ylabel="predicted IST")
-plt.suptitle(f"T6 full multimodal: hierarchical predicted vs true ({len(full)} subjects)", y=1.03)
+        ax.plot(lims, lims, color="#999", ls="--", lw=1, label="identity", zorder=1)
+        xs = np.linspace(xt.min(), xt.max(), 50)
+        b1, b0 = np.polyfit(xt, yp, 1)
+        ax.plot(xs, b0 + b1*xs, color=IND, lw=2, label=f"Pearson OLS (r={pearsonr(xt,yp)[0]:.2f})", zorder=2)
+        sl, ic, _, _ = theilslopes(yp, xt)
+        ax.plot(xs, ic + sl*xs, color=GRN, lw=2, label=f"Spearman/Theil-Sen (rho={spearmanr(xt,yp).statistic:.2f})", zorder=2)
+        ax.legend(fontsize=6, loc="upper left")
+    ax.set(title=titles.get(o,o), xlabel="true IST", ylabel="predicted IST")
+plt.suptitle(f"T6 full multimodal: hierarchical predicted vs true ({len(full)} subjects), Pearson (OLS) and Spearman (Theil-Sen) fits", y=1.04)
 plt.tight_layout(); plt.show()
 
 # Panel B: per-tier rank recovery of the total across the 10-subject hierarchical run

@@ -175,6 +175,40 @@ pre-processed feature table into `loaded/subject_NNN/` COMPASS inputs and is wha
 adding a new modality (lesion masks, EEG, ...) a matter of writing a small feature
 adapter, not touching the engine.
 
+## Notebooks and visualizations
+
+Three self-contained notebooks reproduce the exploration and results end to end. They are
+committed with their rendered output, so they read without re-execution; rebuild with
+`python notebooks/build_notebooks.py`.
+
+**`01_tabular_data_exploration.ipynb`** profiles the self-report phenotype: target and
+subscale distributions (subscales shown only to confirm they are held out), feature
+coverage and missingness co-occurrence, every numeric distribution, a clustered Spearman
+correlation matrix that **includes the intelligence target** so it clusters next to its
+strongest correlates (background SES and Openness lead), a feature dendrogram, target
+associations, and a participant PCA coloured by intelligence.
+
+**`02_brain_preprocessing.ipynb`** visualises both brain modalities, leaning on nilearn
+for brain-space and mosaic views:
+
+- Subcortical volumes: distributions, left-right symmetry, and a nilearn **glass-brain
+  marker plot** with each structure coloured by its correlation with intelligence and
+  sized by mean volume.
+- Cortical morphometry: head-size scaling, a per-region thickness map, and a lobe-grouped
+  **mosaic** of the Spearman correlation of thickness, surface area and gray-matter volume
+  with intelligence, one region-by-hemisphere heatmap per measure.
+- Connectome: the group and per-subject Yeo-7 matrices, a nilearn **mosaic of the
+  Schaefer-100 parcellation coloured by network** (the high-resolution atlas the 28
+  network features summarise), and a nilearn **glass brain** of the network connectome
+  with each network at its parcel centroid.
+
+**`03_ontology_and_results.ipynb`** shows the arbitrary-depth ontology graph, data-driven
+cluster agreement, the redundancy scan, the full 100-subject tier ladder (section A of
+Results), and the hierarchical 10-subject run: predicted-vs-true scatters for the total and
+all three subscales, each with the identity line plus a **Pearson (OLS) fit and a Spearman
+(Theil-Sen, rank-based) fit**, and a per-tier bar chart of Pearson r and Spearman rho. See
+the metrics interpretation in [METHODOLOGY.md](METHODOLOGY.md#visualization-and-performance-metrics).
+
 ## Reproduction
 
 ```bash

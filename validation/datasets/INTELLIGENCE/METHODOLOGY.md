@@ -175,6 +175,33 @@ participants. It is not a measure of stochastic stability across repeated LLM ru
 Repeated-run stability would require multiple independent predictions per tier and
 participant.
 
+## Visualization and performance metrics
+
+The result notebook shows each predicted-vs-true relationship with two fitted lines
+because the two correlations answer different questions:
+
+- **Pearson** measures linear, magnitude-sensitive agreement. On the scatter it is drawn
+  as the ordinary-least-squares (OLS) line, `numpy.polyfit` degree 1. It rewards getting
+  the actual scale right, and is pulled by outliers.
+- **Spearman** measures monotonic, rank-based agreement: does the model order participants
+  correctly, regardless of scale. On the scatter it is drawn as the **Theil-Sen** line
+  (`scipy.stats.theilslopes`), the median-of-pairwise-slopes estimator, which is the robust,
+  rank-aligned counterpart of a regression line and is insensitive to a few outliers.
+
+Both lines appear alongside the dashed identity line (perfect prediction). A model can have
+a strong Spearman but a weak Pearson when it ranks people well but compresses or shifts the
+scale (the conservative regression-to-the-mean seen here), so reporting both separates rank
+recovery from magnitude calibration. The per-tier bar chart plots Pearson r and Spearman rho
+side by side for the same reason, and annotates each tier with its usable N.
+
+Brain visualization uses nilearn for brain-space and mosaic views: a glass-brain marker plot
+of subcortical volumes coloured by their correlation with intelligence, a mosaic of the
+Schaefer-100 parcellation coloured by Yeo network (the high-resolution atlas behind the 28
+network features), and a glass-brain rendering of the network connectome. Cortical
+morphometry, which has no shipped surface annotation here, is shown as lobe-grouped
+region-by-hemisphere correlation mosaics. These are descriptive exploration aids; none of
+them feed the engine or the metrics.
+
 ## Leakage boundary
 
 The following controls are enforced:
