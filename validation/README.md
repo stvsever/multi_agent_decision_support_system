@@ -23,7 +23,8 @@ validation/
     deviation.py                 reference strategies (cohort / external / absolute)
     compass_writer.py            emits the four COMPASS participant files (full depth)
     ingest.py                    generic modality-agnostic ingestion CLI: features ->
-                                 loaded/subject_NNN/ (subject detection, free-text)
+                                 loaded/subject_NNN/ (subject detection, free-text, the LLM
+                                 reads all column names + data-dictionary to build the ontology)
     freesurfer.py                high-resolution FreeSurfer morphometry extraction
     connectome.py                movie-fMRI network connectome extraction
     tiers.py                     project the ontology onto a complexity tier

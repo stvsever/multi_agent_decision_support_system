@@ -55,4 +55,8 @@ dist/
 *.egg-info/
 
 # Ignore data
-/Users/stijnvanseveren/PROJECTS/summer_2026/NEUROHACKADEMY/compass_engine/validation/datasets/NUMERACY_STROKE/data
+/Users/stijnvanseveren/PROJECTS/summer_2026/NEUROHACKADEMY/compass_engine/validation/datasets/PSYCHOSIS_FIRST_EPISODE/data/raw
+
+# Engine per-run work dirs under validation results (runtime only)
+validation/**/_compass_work/
+validation/**/_work/

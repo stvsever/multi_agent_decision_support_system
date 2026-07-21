@@ -45,6 +45,29 @@ TARGET = {
     "units": "points",
 }
 
+# IST subscales: components of the total. Used ONLY as hierarchical child
+# prediction OUTPUTS (multivariate under the total). They are never predictors
+# (all three are in EXCLUDED_COLUMNS below), so there is no target leakage.
+SUBSCALES = [
+    {"column": "IST_fluid", "label": "IST fluid reasoning",
+     "description": "Fluid intelligence subscale: reasoning on novel verbal, numerical and figural problems (analogies, number series, matrices)."},
+    {"column": "IST_memory", "label": "IST memory",
+     "description": "Memory subscale: short-term retention and recall of verbal and figural material."},
+    {"column": "IST_crystallised", "label": "IST crystallised knowledge",
+     "description": "Crystallised intelligence subscale: acquired verbal and numerical knowledge."},
+]
+
+# Static context about the instrument, injected into the engine's global
+# instruction so the model interprets the scales correctly.
+IST_CONTEXT = (
+    "The Intelligence Structure Test 2000-R (IST 2000-R) is a standardized German "
+    "psychometric battery of reasoning tasks. All scores here are NATIVE IST points "
+    "(sums of correct items), not a conventional 100/15 IQ scale. The total is the "
+    "overall composite ability; fluid, memory and crystallised are its components, "
+    "so a participant's subscale scores tend to move together with the total."
+)
+
+
 def target_scale_note(reference_mean: float, reference_sd: float) -> str:
     """Target calibration derived only from the disjoint reference cohort.
 

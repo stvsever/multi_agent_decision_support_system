@@ -179,7 +179,10 @@ participant.
 
 The following controls are enforced:
 
-- IST total, fluid, memory, and crystallized scores are excluded from predictors.
+- IST total, fluid, memory, and crystallized scores are excluded from predictors. This
+  holds in hierarchical mode too: the three subscales are prediction OUTPUTS (a
+  multivariate child under the total), never inputs. The ontology contains zero IST
+  leaves and the `test_target_and_subscales_are_not_predictors` test enforces it.
 - Evaluation sampling does not use target values.
 - Feature normalization is fitted only on non-evaluation participants.
 - Target mean and SD shown to agents come only from the disjoint reference split.

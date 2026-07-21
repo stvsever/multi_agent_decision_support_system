@@ -1,0 +1,255 @@
+{
+  "task": "hierarchical_mixed: total intelligence (univariate) -> 3 IST subscales (multivariate)",
+  "model": "google/gemini-3.1-flash-lite",
+  "usd_spent": 2.3868,
+  "n_subjects": 10,
+  "complete_runs": 78,
+  "total_runs": 90,
+  "cohort_total_range": [
+    87.0,
+    280.0
+  ],
+  "outputs": [
+    "IST_intelligence_total",
+    "IST_fluid",
+    "IST_memory",
+    "IST_crystallised"
+  ],
+  "per_tier": {
+    "T1_demographics": {
+      "IST_intelligence_total": {
+        "n": 9,
+        "spearman": 0.817,
+        "pearson": 0.639,
+        "mae_native": 32.98
+      },
+      "IST_fluid": {
+        "n": 9,
+        "spearman": 0.817,
+        "pearson": 0.472,
+        "mae_native": 21.74
+      },
+      "IST_memory": {
+        "n": 9,
+        "spearman": 0.879,
+        "pearson": 0.772,
+        "mae_native": 6.53
+      },
+      "IST_crystallised": {
+        "n": 9,
+        "spearman": 0.735,
+        "pearson": 0.596,
+        "mae_native": 7.88
+      }
+    },
+    "T2_personality": {
+      "IST_intelligence_total": {
+        "n": 8,
+        "spearman": 0.714,
+        "pearson": 0.755,
+        "mae_native": 40.08
+      },
+      "IST_fluid": {
+        "n": 8,
+        "spearman": 0.714,
+        "pearson": 0.725,
+        "mae_native": 22.37
+      },
+      "IST_memory": {
+        "n": 8,
+        "spearman": 0.731,
+        "pearson": 0.619,
+        "mae_native": 8.64
+      },
+      "IST_crystallised": {
+        "n": 8,
+        "spearman": 0.714,
+        "pearson": 0.686,
+        "mae_native": 10.49
+      }
+    },
+    "T3_psychometric": {
+      "IST_intelligence_total": {
+        "n": 9,
+        "spearman": 0.6,
+        "pearson": 0.693,
+        "mae_native": 34.31
+      },
+      "IST_fluid": {
+        "n": 9,
+        "spearman": 0.567,
+        "pearson": 0.651,
+        "mae_native": 22.17
+      },
+      "IST_memory": {
+        "n": 9,
+        "spearman": 0.695,
+        "pearson": 0.692,
+        "mae_native": 7.29
+      },
+      "IST_crystallised": {
+        "n": 9,
+        "spearman": 0.75,
+        "pearson": 0.704,
+        "mae_native": 7.32
+      }
+    },
+    "T4_identity": {
+      "IST_intelligence_total": {
+        "n": 9,
+        "spearman": 0.61,
+        "pearson": 0.766,
+        "mae_native": 34.64
+      },
+      "IST_fluid": {
+        "n": 9,
+        "spearman": 0.471,
+        "pearson": 0.791,
+        "mae_native": 19.62
+      },
+      "IST_memory": {
+        "n": 9,
+        "spearman": 0.468,
+        "pearson": 0.701,
+        "mae_native": 9.13
+      },
+      "IST_crystallised": {
+        "n": 9,
+        "spearman": 0.782,
+        "pearson": 0.753,
+        "mae_native": 6.87
+      }
+    },
+    "T5_morphometry": {
+      "IST_intelligence_total": {
+        "n": 7,
+        "spearman": 0.679,
+        "pearson": 0.642,
+        "mae_native": 42.62
+      },
+      "IST_fluid": {
+        "n": 7,
+        "spearman": 0.679,
+        "pearson": 0.524,
+        "mae_native": 28.29
+      },
+      "IST_memory": {
+        "n": 7,
+        "spearman": 0.414,
+        "pearson": 0.506,
+        "mae_native": 10.26
+      },
+      "IST_crystallised": {
+        "n": 7,
+        "spearman": 0.893,
+        "pearson": 0.776,
+        "mae_native": 7.79
+      }
+    },
+    "T6_connectome": {
+      "IST_intelligence_total": {
+        "n": 9,
+        "spearman": 0.267,
+        "pearson": 0.385,
+        "mae_native": 46.18
+      },
+      "IST_fluid": {
+        "n": 9,
+        "spearman": 0.202,
+        "pearson": 0.303,
+        "mae_native": 28.56
+      },
+      "IST_memory": {
+        "n": 9,
+        "spearman": 0.519,
+        "pearson": 0.489,
+        "mae_native": 8.46
+      },
+      "IST_crystallised": {
+        "n": 9,
+        "spearman": 0.452,
+        "pearson": 0.575,
+        "mae_native": 8.18
+      }
+    },
+    "B1_morphometry_only": {
+      "IST_intelligence_total": {
+        "n": 7,
+        "spearman": 0.214,
+        "pearson": 0.276,
+        "mae_native": 62.05
+      },
+      "IST_fluid": {
+        "n": 7,
+        "spearman": 0.214,
+        "pearson": 0.279,
+        "mae_native": 34.84
+      },
+      "IST_memory": {
+        "n": 7,
+        "spearman": 0.162,
+        "pearson": 0.003,
+        "mae_native": 13.65
+      },
+      "IST_crystallised": {
+        "n": 7,
+        "spearman": 0.36,
+        "pearson": 0.489,
+        "mae_native": 11.71
+      }
+    },
+    "B2_connectome_only": {
+      "IST_intelligence_total": {
+        "n": 10,
+        "spearman": -0.042,
+        "pearson": -0.12,
+        "mae_native": 53.85
+      },
+      "IST_fluid": {
+        "n": 10,
+        "spearman": -0.164,
+        "pearson": -0.198,
+        "mae_native": 33.99
+      },
+      "IST_memory": {
+        "n": 10,
+        "spearman": -0.024,
+        "pearson": -0.098,
+        "mae_native": 11.65
+      },
+      "IST_crystallised": {
+        "n": 10,
+        "spearman": -0.055,
+        "pearson": -0.238,
+        "mae_native": 11.63
+      }
+    },
+    "B3_brain_only": {
+      "IST_intelligence_total": {
+        "n": 10,
+        "spearman": 0.321,
+        "pearson": 0.401,
+        "mae_native": 46.45
+      },
+      "IST_fluid": {
+        "n": 10,
+        "spearman": 0.097,
+        "pearson": 0.327,
+        "mae_native": 29.2
+      },
+      "IST_memory": {
+        "n": 10,
+        "spearman": 0.098,
+        "pearson": 0.273,
+        "mae_native": 10.68
+      },
+      "IST_crystallised": {
+        "n": 10,
+        "spearman": 0.274,
+        "pearson": 0.281,
+        "mae_native": 10.59
+      }
+    }
+  },
+  "interpretation": "Illustrative n=10 hierarchical run across all tiers (total intelligence plus the three IST subscales). Demographics-led tiers rank-recover the total strongly (T1 rho=0.82) and the brain-only tiers moderately (B3 rho=0.32, B1 0.21) while the coarse connectome alone is ~0 (B2), matching the 100-subject batch pattern. The subscales are recovered with usable signal at the full tier (memory rho=0.52, crystallised 0.45). CAVEAT: the 10 subjects were chosen to span the full IST range (87 to 280), which inflates rank correlations relative to a representative sample, so these values are optimistic and NOT comparable to the representative 100-subject batch. This demonstrates the hierarchical output and the pipeline, not a benchmark."
+}

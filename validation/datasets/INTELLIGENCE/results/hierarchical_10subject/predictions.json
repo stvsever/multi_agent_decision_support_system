@@ -1,0 +1,1769 @@
+{
+  "dataset": "AOMIC-ID1000 (OpenNeuro ds003097)",
+  "task": "hierarchical_mixed: total intelligence (univariate) -> 3 IST subscales (multivariate)",
+  "model": "google/gemini-3.1-flash-lite",
+  "outputs": [
+    "IST_intelligence_total",
+    "IST_fluid",
+    "IST_memory",
+    "IST_crystallised"
+  ],
+  "reference_stats": {
+    "IST_intelligence_total": {
+      "mean": 200.27,
+      "sd": 40.08,
+      "n": 826
+    },
+    "IST_fluid": {
+      "mean": 106.49,
+      "sd": 25.73,
+      "n": 826
+    },
+    "IST_memory": {
+      "mean": 54.44,
+      "sd": 9.11,
+      "n": 826
+    },
+    "IST_crystallised": {
+      "mean": 39.35,
+      "sd": 10.12,
+      "n": 826
+    }
+  },
+  "ist_context": "The Intelligence Structure Test 2000-R (IST 2000-R) is a standardized German psychometric battery of reasoning tasks. All scores here are NATIVE IST points (sums of correct items), not a conventional 100/15 IQ scale. The total is the overall composite ability; fluid, memory and crystallised are its components, so a participant's subscale scores tend to move together with the total.",
+  "global_instruction": "The Intelligence Structure Test 2000-R (IST 2000-R) is a standardized German psychometric battery of reasoning tasks. All scores here are NATIVE IST points (sums of correct items), not a conventional 100/15 IQ scale. The total is the overall composite ability; fluid, memory and crystallised are its components, so a participant's subscale scores tend to move together with the total.\n\nPredict the following related scores on their NATIVE IST scales:\n- IST_intelligence_total (Total Intelligence (IST 2000-R composite)): the overall composite. Reference cohort mean=200.27, sd=40.08 native IST points.\n- IST_fluid (IST fluid reasoning): Fluid intelligence subscale: reasoning on novel verbal, numerical and figural problems (analogies, number series, matrices). Reference cohort mean=106.49, sd=25.73 native IST points.\n- IST_memory (IST memory): Memory subscale: short-term retention and recall of verbal and figural material. Reference cohort mean=54.44, sd=9.11 native IST points.\n- IST_crystallised (IST crystallised knowledge): Crystallised intelligence subscale: acquired verbal and numerical knowledge. Reference cohort mean=39.35, sd=10.12 native IST points.\n\nThe three subscales are components of the total and are typically positively correlated with it. No IST total or subscale value for this participant is provided as input; infer every score only from the non-cognitive multimodal evidence in this record. Return one numeric value per output on its native scale.",
+  "cohort": [
+    {
+      "participant_id": "eval-0005",
+      "ground_truth_all": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      }
+    },
+    {
+      "participant_id": "eval-0061",
+      "ground_truth_all": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      }
+    },
+    {
+      "participant_id": "eval-0088",
+      "ground_truth_all": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      }
+    },
+    {
+      "participant_id": "eval-0089",
+      "ground_truth_all": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      }
+    },
+    {
+      "participant_id": "eval-0049",
+      "ground_truth_all": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      }
+    },
+    {
+      "participant_id": "eval-0016",
+      "ground_truth_all": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      }
+    },
+    {
+      "participant_id": "eval-0001",
+      "ground_truth_all": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      }
+    },
+    {
+      "participant_id": "eval-0025",
+      "ground_truth_all": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      }
+    },
+    {
+      "participant_id": "eval-0053",
+      "ground_truth_all": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      }
+    },
+    {
+      "participant_id": "eval-0066",
+      "ground_truth_all": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      }
+    }
+  ],
+  "n_runs": 90,
+  "usd_spent": 2.3868,
+  "predictions": [
+    {
+      "participant_id": "eval-0088",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 218.45,
+        "IST_fluid": 115.82,
+        "IST_memory": 56.54,
+        "IST_crystallised": 41.52
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 12.5,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "T1_demographics",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+      "log_tail": "FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 4,095 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 3 outputs, 6285 tokens used\n============================================================\n\n[Executor] Completed in 4975ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0061\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_ANTHROPOMETRICS']\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 132.13,
+        "IST_fluid": 62.74,
+        "IST_memory": 38.95,
+        "IST_crystallised": 22.15
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 25.4,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 168.45,
+        "IST_fluid": 92.15,
+        "IST_memory": 45.32,
+        "IST_crystallised": 30.98
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 27.6,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 222.84,
+        "IST_fluid": 118.42,
+        "IST_memory": 57.54,
+        "IST_crystallised": 43.12
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 13.0,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 221.75,
+        "IST_fluid": 117.65,
+        "IST_memory": 56.62,
+        "IST_crystallised": 41.52
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 24.7,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 215.5,
+        "IST_fluid": 112.5,
+        "IST_memory": 58.2,
+        "IST_crystallised": 44.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 223.11,
+        "IST_fluid": 121.58,
+        "IST_memory": 57.65,
+        "IST_crystallised": 43.89
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 27.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 240.5,
+        "IST_fluid": 125.2,
+        "IST_memory": 60.1,
+        "IST_crystallised": 48.4
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "T1_demographics",
+      "predicted": {
+        "IST_intelligence_total": 236.42,
+        "IST_fluid": 124.53,
+        "IST_memory": 59.33,
+        "IST_crystallised": 43.61
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 22.6,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0088",
+      "tier": "T2_personality",
+      "predicted": {
+        "IST_intelligence_total": 211.24,
+        "IST_fluid": 110.82,
+        "IST_memory": 55.33,
+        "IST_crystallised": 40.56
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 15.6,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "T2_personality",
+      "predicted": {
+        "IST_intelligence_total": 150.2,
+        "IST_fluid": 80.5,
+        "IST_memory": 48.2,
+        "IST_crystallised": 30.1
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 21.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "T2_personality",
+      "predicted": {
+        "IST_intelligence_total": 212.5,
+        "IST_fluid": 112.0,
+        "IST_memory": 56.5,
+        "IST_crystallised": 41.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 21.3,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "T2_personality",
+      "predicted": {
+        "IST_intelligence_total": 205.5,
+        "IST_fluid": 108.2,
+        "IST_memory": 55.1,
+        "IST_crystallised": 40.2
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 29.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "T2_personality",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "error": "ValueError: Orchestrator response is missing required keys: target_condition",
+      "log_tail": " LLM response in 3252ms (prompt=4936, completion=825, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 1094ms (prompt=0, completion=0, finish=error)\nJSON parsing failed across 1 candidates\n[Orchestrator] Attempt 1 failed: ValueError: JSON parse failed: Invalid JSON in LLM response: Unterminated string starting at: line 2 column 3 (char 4); preview={   \"plan_id\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 3852ms (prompt=5000, completion=1010, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 2 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u2717 Error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\nOrchestrator error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\n"
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "T2_personality",
+      "predicted": {
+        "IST_intelligence_total": 178.5,
+        "IST_fluid": 92.2,
+        "IST_memory": 48.5,
+        "IST_crystallised": 35.4
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 22.0,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "T2_personality",
+      "predicted": {
+        "IST_intelligence_total": 222.84,
+        "IST_fluid": 118.42,
+        "IST_memory": 57.65,
+        "IST_crystallised": 43.62
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 27.7,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "T2_personality",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+      "log_tail": "ROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 7,534 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 4 outputs, 11140 tokens used\n============================================================\n\n[Executor] Completed in 12390ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0025\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'PSYCHOLOGICAL_CONSTRUCTS']\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "T2_personality",
+      "predicted": {
+        "IST_intelligence_total": 222.18,
+        "IST_fluid": 115.82,
+        "IST_memory": 56.51,
+        "IST_crystallised": 42.66
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 15.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "T2_personality",
+      "predicted": {
+        "IST_intelligence_total": 235.0,
+        "IST_fluid": 125.0,
+        "IST_memory": 58.0,
+        "IST_crystallised": 48.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 18.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 152.5,
+        "IST_fluid": 82.0,
+        "IST_memory": 45.5,
+        "IST_crystallised": 25.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0088",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 178.5,
+        "IST_fluid": 94.2,
+        "IST_memory": 51.1,
+        "IST_crystallised": 33.2
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.5,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 198.0,
+        "IST_fluid": 108.0,
+        "IST_memory": 53.0,
+        "IST_crystallised": 37.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 33.0,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 180.5,
+        "IST_fluid": 96.2,
+        "IST_memory": 50.8,
+        "IST_crystallised": 33.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 25.6,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 216.71,
+        "IST_fluid": 114.77,
+        "IST_memory": 56.41,
+        "IST_crystallised": 41.01
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 25.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 211.35,
+        "IST_fluid": 113.59,
+        "IST_memory": 56.55,
+        "IST_crystallised": 41.21
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 19.0,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "T3_psychometric",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+      "log_tail": "OUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 10,649 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 5 outputs, 16558 tokens used\n============================================================\n\n[Executor] Completed in 11938ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0001\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'PSYCHOLOGICAL_CONSTRUCTS']\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 185.0,
+        "IST_fluid": 95.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 35.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 31.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 235.5,
+        "IST_fluid": 125.8,
+        "IST_memory": 61.2,
+        "IST_crystallised": 48.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 21.7,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "T3_psychometric",
+      "predicted": {
+        "IST_intelligence_total": 194.55,
+        "IST_fluid": 103.88,
+        "IST_memory": 53.22,
+        "IST_crystallised": 38.15
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 21.3,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 165.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 48.0,
+        "IST_crystallised": 29.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 32.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0088",
+      "tier": "T4_identity",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+      "log_tail": "ng RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 11,455 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 5 outputs, 18986 tokens used\n============================================================\n\n[Executor] Completed in 16734ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0088\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['PSYCHOLOGICAL_CONSTRUCTS', 'DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'IDENTITY_AND_BELIEF_SYSTEMS']\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 215.5,
+        "IST_fluid": 115.2,
+        "IST_memory": 56.8,
+        "IST_crystallised": 38.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 25.3,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 205.5,
+        "IST_fluid": 108.2,
+        "IST_memory": 55.1,
+        "IST_crystallised": 40.2
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 44.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 230.5,
+        "IST_fluid": 122.0,
+        "IST_memory": 58.5,
+        "IST_crystallised": 45.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 37.4,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 212.5,
+        "IST_fluid": 112.2,
+        "IST_memory": 56.8,
+        "IST_crystallised": 41.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 30.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 215.5,
+        "IST_fluid": 115.2,
+        "IST_memory": 56.8,
+        "IST_crystallised": 43.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 32.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 245.0,
+        "IST_fluid": 130.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 53.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 215.5,
+        "IST_fluid": 112.2,
+        "IST_memory": 56.8,
+        "IST_crystallised": 43.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 27.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0088",
+      "tier": "T5_morphometry",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "error": "ValueError: Orchestrator response is missing required keys: target_condition",
+      "log_tail": " \u2190 LLM response in 3646ms (prompt=4992, completion=960, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 701ms (prompt=0, completion=0, finish=error)\nJSON parsing failed across 1 candidates\n[Orchestrator] Attempt 1 failed: ValueError: JSON parse failed: Invalid JSON in LLM response: Unterminated string starting at: line 2 column 3 (char 4); preview={   \"plan_id\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 3420ms (prompt=5060, completion=813, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 2 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u2717 Error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\nOrchestrator error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\n"
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "T5_morphometry",
+      "predicted": {
+        "IST_intelligence_total": 158.5,
+        "IST_fluid": 88.2,
+        "IST_memory": 45.1,
+        "IST_crystallised": 32.4
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 28.4,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "T5_morphometry",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "error": "ValueError: Orchestrator response is missing required keys: target_condition",
+      "log_tail": "LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 4750ms (prompt=4992, completion=1280, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 2002ms (prompt=0, completion=0, finish=error)\n[Orchestrator] Attempt 1 failed: TypeError: Orchestrator returned list; expected a top-level JSON object\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 4106ms (prompt=5035, completion=1126, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 2 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u2717 Error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\nOrchestrator error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\n"
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "T5_morphometry",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+      "log_tail": "] Predictor payload estimate: 105,365 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 6 outputs, 102795 tokens used\n============================================================\n\n[Executor] Completed in 12604ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0061\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['BRAIN', 'PSYCHOLOGICAL_CONSTRUCTS']\n[Predictor] Prompt exceeded input budget (53119 > 30000 tokens). Truncated with ratio=0.565.\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "T5_morphometry",
+      "predicted": {
+        "IST_intelligence_total": 170.15,
+        "IST_fluid": 88.25,
+        "IST_memory": 48.5,
+        "IST_crystallised": 33.4
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 32.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "T5_morphometry",
+      "predicted": {
+        "IST_intelligence_total": 178.5,
+        "IST_fluid": 92.5,
+        "IST_memory": 48.2,
+        "IST_crystallised": 37.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 30.5,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "T5_morphometry",
+      "predicted": {
+        "IST_intelligence_total": 148.5,
+        "IST_fluid": 78.2,
+        "IST_memory": 42.5,
+        "IST_crystallised": 27.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 35.3,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "T5_morphometry",
+      "predicted": {
+        "IST_intelligence_total": 242.5,
+        "IST_fluid": 132.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 44.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 32.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "T4_identity",
+      "predicted": {
+        "IST_intelligence_total": 209.21,
+        "IST_fluid": 112.23,
+        "IST_memory": 56.47,
+        "IST_crystallised": 41.61
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 132.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "T5_morphometry",
+      "predicted": {
+        "IST_intelligence_total": 215.0,
+        "IST_fluid": 108.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 45.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 32.6,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 160.2,
+        "IST_fluid": 88.5,
+        "IST_memory": 45.2,
+        "IST_crystallised": 26.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 27.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0088",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 218.5,
+        "IST_fluid": 118.2,
+        "IST_memory": 58.4,
+        "IST_crystallised": 41.9
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 33.4,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 212.5,
+        "IST_fluid": 115.2,
+        "IST_memory": 56.8,
+        "IST_crystallised": 40.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 46.6,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 165.0,
+        "IST_fluid": 85.0,
+        "IST_memory": 48.0,
+        "IST_crystallised": 34.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 25.7,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 165.2,
+        "IST_fluid": 88.5,
+        "IST_memory": 48.2,
+        "IST_crystallised": 35.4
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 152.4,
+        "IST_fluid": 81.2,
+        "IST_memory": 47.8,
+        "IST_crystallised": 32.4
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 22.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 155.0,
+        "IST_fluid": 85.0,
+        "IST_memory": 40.0,
+        "IST_crystallised": 32.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 35.4,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "T6_connectome",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "error": "ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition",
+      "log_tail": "_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 9322ms (prompt=4992, completion=1265, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 1168ms (prompt=0, completion=0, finish=error)\n[Orchestrator] Attempt 1 failed: TypeError: Orchestrator returned list; expected a top-level JSON object\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 4256ms (prompt=0, completion=0, finish=error)\nMissing expected keys: ['plan_id', 'steps', 'target_condition']\n[Orchestrator] Attempt 2 failed: ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition\n[Orchestrator] \u2717 Error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition\nOrchestrator error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition\n"
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "T5_morphometry",
+      "predicted": {
+        "IST_intelligence_total": 228.5,
+        "IST_fluid": 125.2,
+        "IST_memory": 58.1,
+        "IST_crystallised": 45.2
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 104.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 242.5,
+        "IST_fluid": 132.0,
+        "IST_memory": 61.5,
+        "IST_crystallised": 49.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 32.0,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "B1_morphometry_only",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "error": "ValueError: Orchestrator response is missing required keys: target_condition",
+      "log_tail": "\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 4170ms (prompt=4910, completion=953, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 4778ms (prompt=0, completion=0, finish=error)\n[Orchestrator] Attempt 1 failed: TypeError: Orchestrator returned list; expected a top-level JSON object\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 5143ms (prompt=4951, completion=903, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 2 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u2717 Error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\nOrchestrator error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\n"
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "T6_connectome",
+      "predicted": {
+        "IST_intelligence_total": 245.5,
+        "IST_fluid": 135.2,
+        "IST_memory": 62.8,
+        "IST_crystallised": 47.5
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "B1_morphometry_only",
+      "predicted": {
+        "IST_intelligence_total": 165.2,
+        "IST_fluid": 85.5,
+        "IST_memory": 48.2,
+        "IST_crystallised": 32.4
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 25.0,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "B1_morphometry_only",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "error": "ValueError: Orchestrator response is missing required keys: target_condition",
+      "log_tail": "[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 3879ms (prompt=4910, completion=1070, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 2167ms (prompt=0, completion=0, finish=error)\n[Orchestrator] Attempt 1 failed: TypeError: Orchestrator returned list; expected a top-level JSON object\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=google/gemini-3.1-flash-lite max_tokens=16000 temp=0.30\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 4795ms (prompt=4953, completion=871, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 2 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u2717 Error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\nOrchestrator error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\n"
+    },
+    {
+      "participant_id": "eval-0088",
+      "tier": "B1_morphometry_only",
+      "predicted": {
+        "IST_intelligence_total": 235.0,
+        "IST_fluid": 125.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 42.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 39.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "B1_morphometry_only",
+      "predicted": {
+        "IST_intelligence_total": 132.5,
+        "IST_fluid": 68.2,
+        "IST_memory": 42.1,
+        "IST_crystallised": 31.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 31.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "B1_morphometry_only",
+      "predicted": {
+        "IST_intelligence_total": 158.2,
+        "IST_fluid": 84.5,
+        "IST_memory": 46.2,
+        "IST_crystallised": 32.1
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 34.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "B1_morphometry_only",
+      "predicted": {
+        "IST_intelligence_total": 140.15,
+        "IST_fluid": 74.54,
+        "IST_memory": 40.77,
+        "IST_crystallised": 27.55
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 36.0,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "B1_morphometry_only",
+      "predicted": {
+        "IST_intelligence_total": 235.5,
+        "IST_fluid": 135.2,
+        "IST_memory": 48.5,
+        "IST_crystallised": 42.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "B1_morphometry_only",
+      "predicted": null,
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+      "log_tail": "tor input ready\n[FusionLayer] Predictor payload estimate: 106,358 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 7 outputs, 108693 tokens used\n============================================================\n\n[Executor] Completed in 23895ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0025\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['BRAIN']\n[Predictor] Prompt exceeded input budget (56995 > 30000 tokens). Truncated with ratio=0.526.\n[LLMClient] Sending request to google/gemini-3.1-flash-lite (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 175.0,
+        "IST_fluid": 95.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 38.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 43.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 265.2,
+        "IST_fluid": 145.8,
+        "IST_memory": 68.3,
+        "IST_crystallised": 51.1
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 31.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 162.5,
+        "IST_fluid": 82.0,
+        "IST_memory": 46.5,
+        "IST_crystallised": 34.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 25.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0088",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 178.0,
+        "IST_fluid": 92.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 37.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 42.3,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 172.5,
+        "IST_fluid": 91.2,
+        "IST_memory": 48.6,
+        "IST_crystallised": 34.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 31.9,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 235.0,
+        "IST_fluid": 125.0,
+        "IST_memory": 58.0,
+        "IST_crystallised": 42.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 27.3,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 196.25,
+        "IST_fluid": 105.12,
+        "IST_memory": 54.08,
+        "IST_crystallised": 39.02
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 36.4,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 160.5,
+        "IST_fluid": 85.2,
+        "IST_memory": 43.5,
+        "IST_crystallised": 31.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 40.7,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "B1_morphometry_only",
+      "predicted": {
+        "IST_intelligence_total": 218.5,
+        "IST_fluid": 118.2,
+        "IST_memory": 55.1,
+        "IST_crystallised": 45.2
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 134.3,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 192.4,
+        "IST_fluid": 101.2,
+        "IST_memory": 52.8,
+        "IST_crystallised": 38.4
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 32.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0005",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 155.0,
+        "IST_fluid": 85.0,
+        "IST_memory": 48.0,
+        "IST_crystallised": 35.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 32.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0061",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 165.0,
+        "IST_fluid": 85.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 35.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 34.6,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0088",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 215.4,
+        "IST_fluid": 115.2,
+        "IST_memory": 48.5,
+        "IST_crystallised": 41.7
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 26.2,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0016",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 158.4,
+        "IST_fluid": 82.3,
+        "IST_memory": 42.1,
+        "IST_crystallised": 34.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 33.5,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0049",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 155.2,
+        "IST_fluid": 82.4,
+        "IST_memory": 42.1,
+        "IST_crystallised": 30.7
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 39.3,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0089",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 182.5,
+        "IST_fluid": 95.2,
+        "IST_memory": 48.8,
+        "IST_crystallised": 37.1
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 54.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "B2_connectome_only",
+      "predicted": {
+        "IST_intelligence_total": 175.5,
+        "IST_fluid": 88.2,
+        "IST_memory": 48.5,
+        "IST_crystallised": 38.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 128.5,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0025",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 228.3,
+        "IST_fluid": 121.8,
+        "IST_memory": 62.5,
+        "IST_crystallised": 44.0
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 34.7,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0001",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 144.2,
+        "IST_fluid": 75.5,
+        "IST_memory": 42.0,
+        "IST_crystallised": 28.2
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 52.1,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0053",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 162.8,
+        "IST_fluid": 82.5,
+        "IST_memory": 48.6,
+        "IST_crystallised": 38.2
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 45.8,
+      "missing_outputs": []
+    },
+    {
+      "participant_id": "eval-0066",
+      "tier": "B3_brain_only",
+      "predicted": {
+        "IST_intelligence_total": 238.5,
+        "IST_fluid": 132.5,
+        "IST_memory": 58.2,
+        "IST_crystallised": 40.8
+      },
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      },
+      "verdict": "SATISFACTORY",
+      "duration_seconds": 34.0,
+      "missing_outputs": []
+    }
+  ]
+}

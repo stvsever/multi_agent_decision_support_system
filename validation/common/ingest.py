@@ -9,8 +9,12 @@ small adapter to a per-subject feature table plus feature specs, and this engine
 then does the rest, identically for every modality:
 
   1. auto-detect the N subjects (one per row of the merged feature matrix),
-  2. build (or load) the arbitrary-depth ontology - deterministic ``path`` hints
-     where a modality provides them, LLM semantic grouping otherwise,
+  2. build (or load) the arbitrary-depth ontology. Every feature COLUMN becomes a
+     leaf (the actual measured value); the hierarchy above the leaves is a purely
+     abstract semantic layer. With ``--build-ontology`` the LLM reads every unique
+     column name and its data-dictionary description and constructs that semantic
+     layer over the flat feature list; a modality may instead supply explicit
+     ``path`` hints for a deterministic deep structure. Both mix freely.
   3. choose a reference strategy (cohort z-scores / external norms / raw absolute),
   4. auto-detect any per-subject free-text note and fold it into the text modality,
   5. write one clean ``loaded/subject_001/ ... /subject_00N/`` folder per subject,
@@ -63,14 +67,46 @@ def load_feature_frame(feature_files: List[Path], id_column: str) -> pd.DataFram
     return frame
 
 
-def auto_specs(df: pd.DataFrame, id_column: str) -> Dict[str, Dict[str, Any]]:
-    """Infer minimal specs (label + stat_type) for every non-id column."""
+def load_data_dictionary(path: Optional[Path]) -> Dict[str, str]:
+    """Load {column: description} from a data dictionary.
+
+    Accepts either a flat ``{"col": "description"}`` map or a BIDS-style
+    ``participants.json`` (``{"col": {"Description": "...", "Levels": {...}}}``).
+    """
+    if not path or not path.exists():
+        return {}
+    raw = json.loads(path.read_text())
+    out: Dict[str, str] = {}
+    for col, val in (raw or {}).items():
+        if isinstance(val, str):
+            out[col] = val
+        elif isinstance(val, dict):
+            desc = val.get("Description") or val.get("description") or ""
+            levels = val.get("Levels") or val.get("levels")
+            if levels and isinstance(levels, dict):
+                desc = (desc + " Levels: " + "; ".join(f"{k}={v}" for k, v in levels.items())).strip()
+            if desc:
+                out[col] = desc
+    return out
+
+
+def auto_specs(df: pd.DataFrame, id_column: str,
+               descriptions: Optional[Dict[str, str]] = None) -> Dict[str, Dict[str, Any]]:
+    """Infer specs for every UNIQUE non-id column, reading the actual column name
+    (and any data-dictionary description) so the LLM can construct the ontology from
+    real feature semantics. Every column becomes a leaf; the LLM builds the abstract
+    parent hierarchy on top of this flat feature list.
+    """
+    descriptions = descriptions or {}
     specs: Dict[str, Dict[str, Any]] = {}
-    for col in df.columns:
+    for col in dict.fromkeys(df.columns):  # preserve order, drop duplicate names
         if col == id_column:
             continue
-        specs[col] = {"label": col.replace("_", " ").strip().title(),
-                      "stat_type": infer_stat_type(df[col])}
+        specs[col] = {
+            "label": str(col).replace("_", " ").strip().title(),
+            "stat_type": infer_stat_type(df[col]),
+            "description": descriptions.get(col, ""),
+        }
     return specs
 
 
@@ -217,10 +253,14 @@ def main() -> None:
     ap.add_argument("--out", required=True, type=Path, help="output dir (writes <out>/loaded/)")
     ap.add_argument("--id-column", default="participant_id")
     ap.add_argument("--specs", type=Path, help="feature specs JSON (label/stat_type/units/path); "
-                                               "auto-profiled if omitted")
+                                               "auto-profiled from the column names if omitted")
+    ap.add_argument("--data-dictionary", type=Path,
+                    help="column descriptions: flat {col: desc} or BIDS participants.json "
+                         "{col: {Description, Levels}}; auto-detected next to the CSV if omitted")
     ap.add_argument("--ontology", type=Path, help="prebuilt subclass_structure.json (skips building)")
     ap.add_argument("--build-ontology", action="store_true",
-                    help="build the ontology with the LLM (semantic grouping of un-pathed features)")
+                    help="let the LLM read every unique column name (+ description) and build the "
+                         "semantic ontology over them; leaves are the actual feature columns")
     ap.add_argument("--text-dir", type=Path, help="dir of per-subject free-text notes (<source_id>.txt)")
     ap.add_argument("--reference-mode", default="auto",
                     choices=["auto", "cohort", "external", "absolute"],
@@ -235,7 +275,21 @@ def main() -> None:
     args = ap.parse_args()
 
     df = load_feature_frame(args.features, args.id_column)
-    specs = json.loads(args.specs.read_text()) if args.specs else auto_specs(df, args.id_column)
+    if args.specs:
+        specs = json.loads(args.specs.read_text())
+    else:
+        # Data dictionary: explicit, else a sidecar (<csv>.json / participants.json).
+        dict_path = args.data_dictionary
+        if dict_path is None:
+            for cand in (args.features[0].with_suffix(".json"),
+                         args.features[0].parent / "participants.json"):
+                if cand.exists():
+                    dict_path = cand
+                    break
+        descriptions = load_data_dictionary(dict_path)
+        if descriptions:
+            print(f"[ingest] read {len(descriptions)} column descriptions from {dict_path.name}")
+        specs = auto_specs(df, args.id_column, descriptions=descriptions)
     ontology = json.loads(args.ontology.read_text()) if args.ontology else None
     external_norms = json.loads(args.external_norms.read_text()) if args.external_norms else None
 
