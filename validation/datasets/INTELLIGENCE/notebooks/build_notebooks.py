@@ -480,18 +480,25 @@ if len(rp):
     ax.axvline(0,color="#333"); ax.set(title="Near-redundant feature pairs (|Spearman r| >= 0.9)", xlabel="r")
     ax.tick_params(labelsize=7); plt.tight_layout(); plt.show()
 """),
-        md("## 4. Complexity tier ladder and per-tier performance"),
+        md("## 4. Complexity tier ladder and per-tier performance\\n"
+           "**This is the headline result: the full 100-subject evaluation batch** (74-person "
+           "common-success intersection across all nine tiers), loaded from "
+           "`results/tiers_summary.json`. It is not the two-subject demo below. The feature "
+           "counts shown are the earlier structure the batch was run on; the upgraded 279-feature "
+           "high-resolution structure (sections 1-2) has not been re-run at full batch scale."),
         code("""
 td = pd.DataFrame(tiers)
+n_common = json.load(open(ROOT/"results"/"tiers_summary.json"))["evaluation"]["common_success_n"]
 fig, ax = plt.subplots(1, 2, figsize=(15, 5))
 ax[0].bar(td["tier"], td["n_features"], color=IND)
 ax[0].set_xticklabels(td["tier"], rotation=45, ha="right", fontsize=8)
-ax[0].set(title="Features per tier", ylabel="#features")
+ax[0].set(title="Features per tier (earlier feature structure)", ylabel="#features")
 x = np.arange(len(td)); w=0.4
 ax[1].bar(x-w/2, td["pearson_r"], w, label="Pearson r", color=IND)
 ax[1].bar(x+w/2, td["spearman_rho"], w, label="Spearman rho", color=GRN)
 ax[1].set_xticks(x); ax[1].set_xticklabels(td["tier"], rotation=45, ha="right", fontsize=8)
 ax[1].set(title="Rank recovery of intelligence per tier", ylabel="correlation"); ax[1].legend()
+fig.suptitle(f"Full evaluation batch: {n_common}-subject common-success across all tiers", y=1.03, fontweight="bold")
 plt.tight_layout(); plt.show()
 """),
         code("""
@@ -535,10 +542,12 @@ plt.tight_layout(); plt.show()
         md("Every tier is a filtered projection of this one ontology, so the engine always "
            "receives a clean, non-redundant hierarchy at full depth; only the set of present leaf "
            "values changes. The full-tier profile above spans 279 leaves (256 brain + 23 self-report)."),
-        md("## 6. Fresh full-engine run on the upgraded high-resolution structure (2 subjects)\\n"
-           "The tier ladder above is the prior 100-subject run on the earlier feature structure "
-           "(kept for reference). Below is a fresh demonstration of two full-tier (T6, 279-feature) "
-           "engine runs on the new high-resolution ontology, blinded to the target."),
+        md("## 6. Pipeline sanity check on the new structure (n=2, illustrative only)\\n"
+           "This is **not** a benchmark and does not replace the 100-subject batch in section 4. "
+           "It is a two-subject smoke test confirming that the upgraded 279-feature high-resolution "
+           "pipeline runs end to end and produces sensibly ranked predictions. Quantitative "
+           "performance is the full-batch tier ladder above; re-running the full 100-subject batch "
+           "on the new structure is future work (about 900 engine calls)."),
         code("""
 fresh = json.load(open(ROOT/"results"/"full_engine_2subject"/"summary.json"))
 preds = fresh["predictions"]
