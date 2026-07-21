@@ -614,7 +614,7 @@ plt.tight_layout(); plt.show()
            "n=10 is illustrative, not the quantitative benchmark (that is the 100-subject batch in "
            "section 4)."),
         code("""
-from scipy.stats import spearmanr
+from scipy.stats import spearmanr, pearsonr
 h = json.load(open(ROOT/"results"/"hierarchical_10subject"/"predictions.json"))
 outputs = h["outputs"]
 gt = {c["participant_id"]: c["ground_truth_all"] for c in h["cohort"]}
@@ -648,15 +648,23 @@ tier_order = [t for t in ["T1_demographics","T2_personality","T3_psychometric","
               "T5_morphometry","T6_connectome","B1_morphometry_only","B2_connectome_only","B3_brain_only"]
               if t in dfp["tier"].unique()]
 tcol = outputs[0]
-rho = []
+pear, spear, ns = [], [], []
 for t in tier_order:
     g = dfp[dfp["tier"]==t][[f"true_{tcol}", f"pred_{tcol}"]].dropna()
-    rho.append(spearmanr(g[f"true_{tcol}"], g[f"pred_{tcol}"]).statistic if len(g)>2 else np.nan)
-fig, ax = plt.subplots(figsize=(11,4.5))
-ax.bar(tier_order, rho, color=[GRN if (v==v and v>=0) else RED for v in rho])
-ax.axhline(0,color="#333"); ax.set_xticklabels(tier_order, rotation=45, ha="right", fontsize=8)
-ax.set(title="Total-intelligence rank recovery per tier (10-subject hierarchical run)",
-       ylabel="Spearman rho (predicted vs true)")
+    ns.append(len(g))
+    if len(g) > 2:
+        pear.append(pearsonr(g[f"true_{tcol}"], g[f"pred_{tcol}"])[0])
+        spear.append(spearmanr(g[f"true_{tcol}"], g[f"pred_{tcol}"]).statistic)
+    else:
+        pear.append(np.nan); spear.append(np.nan)
+x = np.arange(len(tier_order)); w = 0.4
+fig, ax = plt.subplots(figsize=(12, 4.8))
+ax.bar(x-w/2, pear, w, label="Pearson r", color=IND)
+ax.bar(x+w/2, spear, w, label="Spearman rho", color=GRN)
+ax.axhline(0, color="#333")
+ax.set_xticks(x); ax.set_xticklabels([f"{t}\\n(n={n})" for t,n in zip(tier_order,ns)], rotation=45, ha="right", fontsize=7.5)
+ax.set(title="Total-intelligence recovery per tier (10-subject hierarchical run)", ylabel="correlation")
+ax.legend()
 plt.tight_layout(); plt.show()
 """),
     ]
