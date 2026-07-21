@@ -681,6 +681,7 @@ for c in dfp.columns:
 full = dfp[dfp["tier"]=="T6_connectome"]
 fig, axes = plt.subplots(1, 4, figsize=(18, 4.6))
 titles = {"IST_intelligence_total":"Total","IST_fluid":"Fluid","IST_memory":"Memory","IST_crystallised":"Crystallised"}
+_labels = []   # (ax, xe, intercept, slope, colour, text, side) for post-layout rotated labels
 for ax,o in zip(axes, outputs):
     pair = full[[f"true_{o}", f"pred_{o}"]].dropna()
     xt, yp = pair[f"true_{o}"].values, pair[f"pred_{o}"].values
@@ -695,19 +696,25 @@ for ax,o in zip(axes, outputs):
         ax.plot(xs, b0 + b1*xs, color=IND, lw=2, zorder=2, label=f"Pearson OLS (r={r:+.2f})")
         sl, ic, _, _ = theilslopes(yp, xt)
         ax.plot(xs, ic + sl*xs, color=GRN, lw=2, zorder=2, label=f"Spearman Theil-Sen (rho={rho:+.2f})")
-        # Explained variance written ON each line (right end), coloured to match.
-        xe = xt.min() + 0.72*(xt.max()-xt.min())
-        ax.annotate(f"R2={r**2:.2f} ({r**2*100:.0f}% var)", (xe, b0+b1*xe), color=IND,
-                    fontsize=7, fontweight="bold", ha="center", va="bottom",
-                    xytext=(0,4), textcoords="offset points")
-        ax.annotate(f"rho2={rho**2:.2f} ({rho**2*100:.0f}% rank var)", (xe, ic+sl*xe), color=GRN,
-                    fontsize=7, fontweight="bold", ha="center", va="top",
-                    xytext=(0,-4), textcoords="offset points")
         ax.legend(fontsize=6, loc="upper left", framealpha=0.9)
+        xe = xt.min() + 0.66*(xt.max()-xt.min())
+        _labels.append((ax, xe, b0, b1, IND, f"R2={r**2:.2f} ({r**2*100:.0f}% var)", "above"))
+        _labels.append((ax, xe, ic, sl, GRN, f"rho2={rho**2:.2f} ({rho**2*100:.0f}% rank var)", "below"))
     ax.set(title=f"{titles.get(o,o)}   (MAE={mae:.0f} IST)", xlabel="true IST", ylabel="predicted IST")
 plt.suptitle(f"T6 full multimodal: hierarchical predicted vs true ({len(full)} subjects). "
              f"Blue = Pearson OLS line (R2 = variance explained); green = Spearman Theil-Sen line (rho2 = rank variance).", y=1.05)
-plt.tight_layout(); plt.show()
+plt.tight_layout()
+# Write the explained-variance label along each line, rotated to the line's on-screen angle
+# (computed after layout so the axes aspect ratio is final).
+for ax, xe, b0_, b1_, col, txt, side in _labels:
+    dx = 0.08*(ax.get_xlim()[1]-ax.get_xlim()[0])
+    p0 = ax.transData.transform((xe-dx, b0_+b1_*(xe-dx)))
+    p1 = ax.transData.transform((xe+dx, b0_+b1_*(xe+dx)))
+    ang = np.degrees(np.arctan2(p1[1]-p0[1], p1[0]-p0[0]))
+    ax.text(xe, b0_+b1_*xe, txt, color=col, fontsize=7, fontweight="bold",
+            ha="center", va="bottom" if side=="above" else "top",
+            rotation=ang, rotation_mode="anchor")
+plt.show()
 
 # Panel B: per-tier rank recovery of the total across the 10-subject hierarchical run
 tier_order = [t for t in ["T1_demographics","T2_personality","T3_psychometric","T4_identity",
