@@ -188,11 +188,19 @@ because the two correlations answer different questions:
   (`scipy.stats.theilslopes`), the median-of-pairwise-slopes estimator, which is the robust,
   rank-aligned counterpart of a regression line and is insensitive to a few outliers.
 
+Each fitted line is annotated with its **explained variance** so the plot is directly
+interpretable: the Pearson/OLS line reports `R2 = r^2`, the fraction of variance in the
+predictions accounted for by the linear fit, and the Spearman/Theil-Sen line reports
+`rho^2`, the rank-based analogue (the share of rank variance). For example a Pearson r of
+0.38 is R2 = 0.15, i.e. about 15 percent of the variance explained. Each scatter title also
+carries the native IST mean absolute error.
+
 Both lines appear alongside the dashed identity line (perfect prediction). A model can have
 a strong Spearman but a weak Pearson when it ranks people well but compresses or shifts the
 scale (the conservative regression-to-the-mean seen here), so reporting both separates rank
 recovery from magnitude calibration. The per-tier bar chart plots Pearson r and Spearman rho
-side by side for the same reason, and annotates each tier with its usable N.
+side by side (bar height squared is the explained variance), labels each bar with its value,
+and annotates each tier with its usable N.
 
 Brain visualization uses nilearn for brain-space and mosaic views: a glass-brain marker plot
 of subcortical volumes coloured by their correlation with intelligence, a mosaic of the

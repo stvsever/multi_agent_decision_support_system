@@ -685,17 +685,22 @@ for ax,o in zip(axes, outputs):
     pair = full[[f"true_{o}", f"pred_{o}"]].dropna()
     xt, yp = pair[f"true_{o}"].values, pair[f"pred_{o}"].values
     ax.scatter(xt, yp, color=IND, s=45, zorder=3)
+    mae = float(np.mean(np.abs(yp - xt))) if len(pair) else float("nan")
     if len(pair) > 2:
+        r = pearsonr(xt, yp)[0]; rho = spearmanr(xt, yp).statistic
         lims=[min(xt.min(),yp.min()), max(xt.max(),yp.max())]
-        ax.plot(lims, lims, color="#999", ls="--", lw=1, label="identity", zorder=1)
+        ax.plot(lims, lims, color="#999", ls="--", lw=1, label="identity (perfect)", zorder=1)
         xs = np.linspace(xt.min(), xt.max(), 50)
         b1, b0 = np.polyfit(xt, yp, 1)
-        ax.plot(xs, b0 + b1*xs, color=IND, lw=2, label=f"Pearson OLS (r={pearsonr(xt,yp)[0]:.2f})", zorder=2)
+        ax.plot(xs, b0 + b1*xs, color=IND, lw=2, zorder=2,
+                label=f"Pearson r={r:+.2f}, R2={r**2:.2f} ({r**2*100:.0f}% var explained)")
         sl, ic, _, _ = theilslopes(yp, xt)
-        ax.plot(xs, ic + sl*xs, color=GRN, lw=2, label=f"Spearman/Theil-Sen (rho={spearmanr(xt,yp).statistic:.2f})", zorder=2)
-        ax.legend(fontsize=6, loc="upper left")
-    ax.set(title=titles.get(o,o), xlabel="true IST", ylabel="predicted IST")
-plt.suptitle(f"T6 full multimodal: hierarchical predicted vs true ({len(full)} subjects), Pearson (OLS) and Spearman (Theil-Sen) fits", y=1.04)
+        ax.plot(xs, ic + sl*xs, color=GRN, lw=2, zorder=2,
+                label=f"Spearman rho={rho:+.2f}, rho2={rho**2:.2f} ({rho**2*100:.0f}% rank var)")
+        ax.legend(fontsize=6, loc="upper left", framealpha=0.9)
+    ax.set(title=f"{titles.get(o,o)}   (MAE={mae:.0f} IST)", xlabel="true IST", ylabel="predicted IST")
+plt.suptitle(f"T6 full multimodal: hierarchical predicted vs true ({len(full)} subjects). "
+             f"Blue = Pearson OLS line (R2 = variance explained); green = Spearman Theil-Sen line (rho2 = rank variance).", y=1.05)
 plt.tight_layout(); plt.show()
 
 # Panel B: per-tier rank recovery of the total across the 10-subject hierarchical run
@@ -713,13 +718,23 @@ for t in tier_order:
     else:
         pear.append(np.nan); spear.append(np.nan)
 x = np.arange(len(tier_order)); w = 0.4
-fig, ax = plt.subplots(figsize=(12, 4.8))
-ax.bar(x-w/2, pear, w, label="Pearson r", color=IND)
-ax.bar(x+w/2, spear, w, label="Spearman rho", color=GRN)
+fig, ax = plt.subplots(figsize=(12, 5))
+bars = [ax.bar(x-w/2, pear, w, label="Pearson r", color=IND),
+        ax.bar(x+w/2, spear, w, label="Spearman rho", color=GRN)]
+for bset in bars:
+    for b in bset:
+        h = b.get_height()
+        if h == h:
+            ax.text(b.get_x()+b.get_width()/2, h + (0.02 if h >= 0 else -0.02), f"{h:.2f}",
+                    ha="center", va="bottom" if h >= 0 else "top", fontsize=6.5)
 ax.axhline(0, color="#333")
+_v = [v for v in pear+spear if v == v]
+lo = min(-0.15, min(_v)-0.05) if _v else -0.15
+hi = max(0.95, max(_v)+0.1) if _v else 0.95
 ax.set_xticks(x); ax.set_xticklabels([f"{t}\\n(n={n})" for t,n in zip(tier_order,ns)], rotation=45, ha="right", fontsize=7.5)
-ax.set(title="Total-intelligence recovery per tier (10-subject hierarchical run)", ylabel="correlation")
-ax.legend()
+ax.set(title="Total-intelligence recovery per tier (10-subject hierarchical run); bar height squared = variance explained",
+       ylabel="correlation (r, rho)", ylim=(lo, hi))
+ax.legend(loc="upper right")
 plt.tight_layout(); plt.show()
 """),
     ]
