@@ -692,11 +692,17 @@ for ax,o in zip(axes, outputs):
         ax.plot(lims, lims, color="#999", ls="--", lw=1, label="identity (perfect)", zorder=1)
         xs = np.linspace(xt.min(), xt.max(), 50)
         b1, b0 = np.polyfit(xt, yp, 1)
-        ax.plot(xs, b0 + b1*xs, color=IND, lw=2, zorder=2,
-                label=f"Pearson r={r:+.2f}, R2={r**2:.2f} ({r**2*100:.0f}% var explained)")
+        ax.plot(xs, b0 + b1*xs, color=IND, lw=2, zorder=2, label=f"Pearson OLS (r={r:+.2f})")
         sl, ic, _, _ = theilslopes(yp, xt)
-        ax.plot(xs, ic + sl*xs, color=GRN, lw=2, zorder=2,
-                label=f"Spearman rho={rho:+.2f}, rho2={rho**2:.2f} ({rho**2*100:.0f}% rank var)")
+        ax.plot(xs, ic + sl*xs, color=GRN, lw=2, zorder=2, label=f"Spearman Theil-Sen (rho={rho:+.2f})")
+        # Explained variance written ON each line (right end), coloured to match.
+        xe = xt.min() + 0.72*(xt.max()-xt.min())
+        ax.annotate(f"R2={r**2:.2f} ({r**2*100:.0f}% var)", (xe, b0+b1*xe), color=IND,
+                    fontsize=7, fontweight="bold", ha="center", va="bottom",
+                    xytext=(0,4), textcoords="offset points")
+        ax.annotate(f"rho2={rho**2:.2f} ({rho**2*100:.0f}% rank var)", (xe, ic+sl*xe), color=GRN,
+                    fontsize=7, fontweight="bold", ha="center", va="top",
+                    xytext=(0,-4), textcoords="offset points")
         ax.legend(fontsize=6, loc="upper left", framealpha=0.9)
     ax.set(title=f"{titles.get(o,o)}   (MAE={mae:.0f} IST)", xlabel="true IST", ylabel="predicted IST")
 plt.suptitle(f"T6 full multimodal: hierarchical predicted vs true ({len(full)} subjects). "
