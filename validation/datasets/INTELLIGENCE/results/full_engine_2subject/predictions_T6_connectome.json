@@ -1,0 +1,40 @@
+{
+  "dataset": "AOMIC-ID1000 (OpenNeuro ds003097)",
+  "tier": "T6_connectome",
+  "model": "google/gemini-3.1-flash-lite",
+  "max_iterations": 1,
+  "target": {
+    "column": "IST_intelligence_total",
+    "label": "Total Intelligence (IST 2000-R composite)",
+    "description": "Total intelligence score from the Intelligence Structure Test 2000-R.",
+    "units": "points"
+  },
+  "execution": {
+    "requested_n": 2,
+    "workers": 2,
+    "retries": 2,
+    "process_isolated": true,
+    "parent_atomic_checkpoints": true,
+    "model_facing_ids_blinded": true
+  },
+  "predictions": [
+    {
+      "participant_id": "eval-0001",
+      "ground_truth": 227.0,
+      "predicted": 192.45,
+      "abs_error": 34.55,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 22.3
+    },
+    {
+      "participant_id": "eval-0002",
+      "ground_truth": 267.0,
+      "predicted": 232.5,
+      "abs_error": 34.5,
+      "verdict": "SATISFACTORY",
+      "attempts": 1,
+      "duration_seconds": 25.4
+    }
+  ]
+}

@@ -17,17 +17,20 @@ validation/
     explore.py                   automated data understanding (types, correlations,
                                  feature clustering, redundancy, quality flags)
     manifest.py                  deterministic feature-structure profiling
-    ontology.py                  semantic LLM ontology + QA review + OWL/JSON/CSV
+    ontology.py                  arbitrary-depth ontology (path hints + semantic LLM
+                                 grouping) + QA review + OWL/JSON/CSV
     viewer.py                    self-contained interactive ontology explorer (HTML)
     deviation.py                 reference strategies (cohort / external / absolute)
-    compass_writer.py            emits the four COMPASS participant files
-    freesurfer.py                FreeSurfer morphometry feature extraction
+    compass_writer.py            emits the four COMPASS participant files (full depth)
+    ingest.py                    generic modality-agnostic ingestion CLI: features ->
+                                 loaded/subject_NNN/ (subject detection, free-text)
+    freesurfer.py                high-resolution FreeSurfer morphometry extraction
     connectome.py                movie-fMRI network connectome extraction
     tiers.py                     project the ontology onto a complexity tier
     llm.py                       minimal OpenRouter client (reads repo-root .env)
   datasets/
-    AOMIC_ID1000/              OpenNeuro ds003097 validation
-      README.md                  dataset overview, features, tiers, and run status
+    INTELLIGENCE/             OpenNeuro ds003097 (AOMIC-ID1000) validation
+      README.md                  dataset overview, features, tiers, and results
       METHODOLOGY.md             cohort, blinding, leakage, and metrics protocol
       dataset/                   CC0 participant table and data dictionary
       pipeline/                  extraction, ontology, inference, and evaluation
@@ -42,24 +45,36 @@ validation/
 
 1. **Explore**: profile types, distributions, missingness, correlations, feature
    clusters, near-duplicates, target associations, and data-quality flags.
-2. **Ontologize**: organize all features into a strict,
-   non-redundant `DOMAIN -> SUBDOMAIN -> FEATURE` subclass hierarchy by **meaning**,
-   never by statistics (two unrelated measures can correlate by accident). The model
-   is given each feature's label, description, units, source and sample values
-   (as TOON), proposes the domains itself, then organises each domain into subdomains
-   in parallel; code enforces exact, non-redundant coverage. This is general for any
-   dataset and scales via per-domain calls. An optional free-text user-guidance
-   argument is injected into every prompt (the hook for a future UI). The result is
-   quality-assessed (adjusted Rand index against the statistical clusters, plus a
-   compact LLM MECE review). Built **once per dataset** and reused as a fixed base
-   template for every subject, so participants differ only in which leaf values are
-   present, never in structure. Emits Protege-loadable OWL, a subclass JSON, a single
-   hierarchy-encoded benchmark CSV, an interactive HTML explorer, and QA reports.
+2. **Ontologize**: organize all features into a strict, non-redundant, **arbitrary-depth**
+   subclass hierarchy (`Phenotype Feature -> DOMAIN -> ... -> FEATURE`) by **meaning**,
+   never by statistics (two unrelated measures can correlate by accident). Two placement
+   strategies mix freely: high-resolution modalities carry explicit `path` hints for a
+   clean, deep, reproducible structure (e.g. `Brain -> Morphometry -> Cortical Thickness
+   -> Frontal lobe -> region`), while un-pathed features are grouped semantically by the
+   LLM (each feature's label, description, units, source and sample values given as TOON;
+   the model proposes the domains, then organises each into subdomains in parallel). Code
+   enforces exact, non-redundant coverage at any depth. An optional free-text
+   user-guidance argument is injected into every prompt (the UI hook). The result is
+   quality-assessed (adjusted Rand index against the statistical clusters, plus a compact
+   LLM MECE review). Built **once per dataset** and reused as a fixed base template for
+   every subject. Emits Protege-loadable OWL, a subclass JSON, a hierarchy-encoded
+   benchmark CSV, an interactive HTML explorer, and QA reports.
 3. **Encode**: standardize each feature into a deviation score with its label
    preserved. Reference strategy is auto-selected: `cohort` (batch is its own
    reference), `external` (supplied norms), or `absolute` (no reference / single
-   subject, with an optional LLM range estimate).
-4. **Write**: render the four participant input files consumed by COMPASS.
+   subject, with an optional LLM range estimate). Deviation z-scores are meaningful only
+   with a reference; in absolute mode the raw value carries the signal instead.
+4. **Write**: render the four participant files, each mirroring the ontology at full
+   depth. `hierarchical_deviation_map.json` carries the aggregated deviation signal at
+   **every** level of the tree; `multimodal_data.json` holds the actual values at the
+   leaves (so the two files do not duplicate content); `data_overview.json` reports
+   coverage and token budget **per hierarchical group**, not just per domain.
+
+The generic `ingest.py` CLI runs steps 2-4 for any modality-agnostic feature table:
+it auto-detects the N subjects, writes one clean `loaded/subject_001/ ... /subject_00N/`
+folder each, auto-detects a per-subject free-text note and folds it into the text
+modality, and honours the `--reference-mode`, `--ontology`/`--build-ontology`, and
+`--limit` mode switches so ingestion is explicit and bounded.
 
 The engine reasons over the token-efficient TOON representation of the data. Feature
 labels, units, hierarchy, reference deviations, and coverage metadata travel with
@@ -79,7 +94,7 @@ scaffold that makes multi-modal evidence tractable and auditable.
 
 | Dataset | Source | Task | Modalities | Status |
 |---|---|---|---|---|
-| [AOMIC-ID1000](datasets/AOMIC_ID1000/) | OpenNeuro ds003097 (CC0) | Native IST total-score regression | Self-report, FreeSurfer morphometry, fMRI connectome | 874 of 900 valid predictions; 8 tiers complete |
+| [AOMIC-ID1000](datasets/INTELLIGENCE/) | OpenNeuro ds003097 (CC0) | Native IST total-score regression | Self-report, high-resolution FreeSurfer morphometry (228 leaves), fMRI connectome | Prior 100-subject run across 9 tiers; fresh 2-subject full-tier run on the upgraded 279-feature structure |
 
 More datasets plug in by copying a dataset folder and editing its `pipeline/config.py`.
 

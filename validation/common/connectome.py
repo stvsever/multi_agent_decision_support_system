@@ -7,8 +7,14 @@ with the Schaefer-2018 atlas (100 parcels, labelled by the 7 Yeo networks), deno
 with fMRIPrep confounds, and reduced to **network-level functional connectivity**:
 the 7 within-network and 21 between-network mean correlations (28 features total).
 
-These become a BRAIN_CONNECTOME domain in the ontology. The full parcel-level
-correlation matrix is returned too, purely for notebook visualisation.
+These nest under ``BRAIN -> connectomics`` in the ontology (alongside the FreeSurfer
+morphometry branch), split into within-network and between-network connectivity. The
+full parcel-level correlation matrix is returned too, purely for notebook visualisation.
+
+Resolution knob: ``feature_specs`` / ``network_fc`` are parametrised by the network
+set, so re-extracting from BOLD with a finer atlas (e.g. Schaefer-200 labelled by the
+17 Yeo sub-networks -> 17 within + 136 between = 153 features) is a drop-in change. The
+cached derivatives here are 7-network, so 7 networks is the default.
 """
 
 from __future__ import annotations
@@ -137,21 +143,35 @@ def extract_subject_fc(paths, atlas, networks, t_r: float = 2.2):
     return network_fc(ts, networks)
 
 
-def feature_specs() -> Dict[str, Dict[str, Any]]:
-    """Feature specs for network-level FC. Self-explanatory labels, no redundant text."""
+# Ontology path prefixes (shared BRAIN domain with morphometry; deterministic).
+from .freesurfer import _BRAIN  # noqa: E402  (shared brain domain segment)
+_CONN = {"id": "connectomics", "label": "Connectomics",
+         "definition": "Functional connectivity of the brain from movie-watching fMRI (Yeo/Schaefer intrinsic networks)."}
+_WITHIN = {"id": "within_network", "label": "Within-network FC",
+           "definition": "Mean functional connectivity among parcels of the same intrinsic network."}
+_BETWEEN = {"id": "between_network", "label": "Between-network FC",
+            "definition": "Mean functional connectivity between pairs of intrinsic networks."}
+
+
+def feature_specs(networks: List[str] = YEO7, labels: Dict[str, str] = YEO7_LABELS) -> Dict[str, Dict[str, Any]]:
+    """Feature specs (with deep ontology ``path``) for network-level FC.
+
+    Parametrised by the network set so a finer atlas re-extraction reuses this
+    verbatim. Self-explanatory labels, no redundant text.
+    """
     specs: Dict[str, Dict[str, Any]] = {}
-    for i, a in enumerate(YEO7):
-        for j, b in enumerate(YEO7):
+    for i, a in enumerate(networks):
+        for j, b in enumerate(networks):
             if j < i:
                 continue
             if a == b:
                 fid = f"fc_{a.lower()}_within"
-                label = f"{YEO7_LABELS[a]} within-network FC"
-                sub = "within_network_connectivity"
+                label = f"{labels[a]} within-network FC"
+                path = [_BRAIN, _CONN, _WITHIN]
             else:
                 fid = f"fc_{a.lower()}_{b.lower()}"
-                label = f"{YEO7_LABELS[a]} - {YEO7_LABELS[b]} FC"
-                sub = "between_network_connectivity"
+                label = f"{labels[a]} - {labels[b]} FC"
+                path = [_BRAIN, _CONN, _BETWEEN]
             specs[fid] = {"label": label, "stat_type": "numeric", "units": "Pearson r",
-                          "group": "brain_connectome", "subdomain_hint": sub}
+                          "group": "brain_connectome", "path": path}
     return specs

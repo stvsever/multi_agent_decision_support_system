@@ -1,0 +1,1912 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns="https://compass.local/ontology/intelligence#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_rh_caudate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Right caudate volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_caudate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_within_network_fc_default_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_within_network"/>
+    <rdfs:label>Default mode within-network FC</rdfs:label>
+    <sourceColumn>fc_default_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_lh_superiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Left superior parietal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_superiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_dorsattn_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Dorsal attention - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_middletemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right middle temporal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_middletemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_within_network_fc_sommot_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_within_network"/>
+    <rdfs:label>Somatomotor within-network FC</rdfs:label>
+    <sourceColumn>fc_sommot_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_global_volumetrics_fs_cerebral_wm_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_global_volumetrics"/>
+    <rdfs:label>Total cerebral white matter volume</rdfs:label>
+    <sourceColumn>fs_cerebral_wm_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_vis_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Visual - Limbic FC</rdfs:label>
+    <sourceColumn>fc_vis_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_within_network_fc_limbic_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_within_network"/>
+    <rdfs:label>Limbic within-network FC</rdfs:label>
+    <sourceColumn>fc_limbic_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_paracentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right paracentral surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_paracentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_medialorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left medial orbitofrontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_medialorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_occipital_fs_thk_rh_lingual">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital"/>
+    <rdfs:label>Right lingual thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_lingual</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_frontalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right frontal pole gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_frontalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_sommot_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Somatomotor - Limbic FC</rdfs:label>
+    <sourceColumn>fc_sommot_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_insula_fs_area_lh_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_insula"/>
+    <rdfs:label>Left insula surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_insula</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_occipital_fs_area_rh_pericalcarine">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital"/>
+    <rdfs:label>Right pericalcarine surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_pericalcarine</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_cingulate_fs_area_rh_isthmuscingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate"/>
+    <rdfs:label>Right isthmus cingulate surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_isthmuscingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_parsorbitalis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left pars orbitalis thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_parsorbitalis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_cingulate_fs_gmv_rh_caudalanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate"/>
+    <rdfs:label>Right caudal anterior cingulate gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_caudalanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_transversetemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left transverse temporal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_transversetemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_lh_inferiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Left inferior parietal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_inferiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_lh_superiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Left superior parietal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_superiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_insula_fs_thk_lh_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_insula"/>
+    <rdfs:label>Left insula thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_insula</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_rh_postcentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Right postcentral surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_postcentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_salventattn_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Salience / ventral attention - Limbic FC</rdfs:label>
+    <sourceColumn>fc_salventattn_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_superiorfrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left superior frontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_superiorfrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_occipital_fs_gmv_lh_pericalcarine">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital"/>
+    <rdfs:label>Left pericalcarine gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_pericalcarine</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_parahippocampal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right parahippocampal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_parahippocampal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_entorhinal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right entorhinal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_entorhinal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality_NEO_E">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality"/>
+    <rdfs:label>Extraversion (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Extraversion scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_E</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_global_volumetrics_fs_total_gray_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_global_volumetrics"/>
+    <rdfs:label>Total gray matter volume</rdfs:label>
+    <sourceColumn>fs_total_gray_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_precentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left precentral gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_precentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_fusiform">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left fusiform gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_fusiform</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity_sexual_attraction_M">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity"/>
+    <rdfs:label>Sexual attraction to males</rdfs:label>
+    <sourceColumn>sexual_attraction_M</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_fusiform">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right fusiform surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_fusiform</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_cingulate_fs_area_lh_posteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate"/>
+    <rdfs:label>Left posterior cingulate surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_posteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_hemispheric_mean_fs_mean_thickness_lh">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_hemispheric_mean"/>
+    <rdfs:label>Left hemisphere mean cortical thickness</rdfs:label>
+    <sourceColumn>fs_mean_thickness_lh</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_rh_putamen">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Right putamen volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_putamen</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_cingulate_fs_area_lh_isthmuscingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate"/>
+    <rdfs:label>Left isthmus cingulate surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_isthmuscingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_insula_fs_area_rh_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_insula"/>
+    <rdfs:label>Right insula surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_insula</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_superiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left superior temporal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_superiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_parsorbitalis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right pars orbitalis surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_parsorbitalis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_parahippocampal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right parahippocampal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_parahippocampal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_IDENTITY_AND_BELIEF_SYSTEMS_religiosity_religious_importance">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_religiosity"/>
+    <rdfs:label>Importance of religion</rdfs:label>
+    <rdfs:comment>How much religion plays a role in the subject's life (1-5).</rdfs:comment>
+    <sourceColumn>religious_importance</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_rostralmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left rostral middle frontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_rostralmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_within_network_fc_salventattn_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_within_network"/>
+    <rdfs:label>Salience / ventral attention within-network FC</rdfs:label>
+    <sourceColumn>fc_salventattn_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_stai_trait_anxiety_STAI_T">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_stai_trait_anxiety"/>
+    <rdfs:label>Trait anxiety (STAI-T)</rdfs:label>
+    <rdfs:comment>State-Trait Anxiety Inventory, trait subscale.</rdfs:comment>
+    <sourceColumn>STAI_T</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_paracentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right paracentral thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_paracentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_parstriangularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right pars triangularis surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_parstriangularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_entorhinal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left entorhinal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_entorhinal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_vis_sommot">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Visual - Somatomotor FC</rdfs:label>
+    <sourceColumn>fc_vis_sommot</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_rh_supramarginal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Right supramarginal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_supramarginal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality_NEO_A">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality"/>
+    <rdfs:label>Agreeableness (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Agreeableness scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_A</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_rh_precuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Right precuneus thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_precuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_occipital_fs_thk_rh_cuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital"/>
+    <rdfs:label>Right cuneus thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_cuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_vis_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Visual - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_vis_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_cingulate_fs_thk_rh_rostralanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate"/>
+    <rdfs:label>Right rostral anterior cingulate thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_rostralanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_middletemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right middle temporal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_middletemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_parstriangularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left pars triangularis thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_parstriangularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_entorhinal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left entorhinal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_entorhinal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_lateralorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left lateral orbitofrontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_lateralorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_inferiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left inferior temporal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_inferiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_rh_inferiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Right inferior parietal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_inferiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_global_volumetrics_fs_cortex_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_global_volumetrics"/>
+    <rdfs:label>Total cortical gray matter volume</rdfs:label>
+    <sourceColumn>fs_cortex_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_superiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left superior temporal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_superiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_dorsattn_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Dorsal attention - Default mode FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_occipital_fs_thk_lh_lingual">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital"/>
+    <rdfs:label>Left lingual thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_lingual</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_rostralmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left rostral middle frontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_rostralmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_lateralorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right lateral orbitofrontal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_lateralorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_rh_pallidum">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Right pallidum volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_pallidum</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_transversetemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left transverse temporal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_transversetemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_frontalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left frontal pole surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_frontalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_superiorfrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left superior frontal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_superiorfrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_lh_supramarginal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Left supramarginal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_supramarginal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_limbic_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Limbic - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_limbic_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_cingulate_fs_area_rh_caudalanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate"/>
+    <rdfs:label>Right caudal anterior cingulate surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_caudalanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_paracentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left paracentral gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_paracentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity_BAS_fun">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity"/>
+    <rdfs:label>BAS fun-seeking</rdfs:label>
+    <rdfs:comment>Behavioural Activation System fun-seeking subscale.</rdfs:comment>
+    <sourceColumn>BAS_fun</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_socioeconomic_background_education_level">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_socioeconomic_background"/>
+    <rdfs:label>Education level</rdfs:label>
+    <rdfs:comment>Highest completed education level (CBS classification): low/medium/high.</rdfs:comment>
+    <sourceColumn>education_level</sourceColumn>
+    <statType>ordinal</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_rh_superiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Right superior parietal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_superiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_lh_postcentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Left postcentral surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_postcentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_bankssts">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right banks of superior temporal sulcus surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_bankssts</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_cingulate_fs_gmv_lh_isthmuscingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate"/>
+    <rdfs:label>Left isthmus cingulate gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_isthmuscingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_cingulate_fs_thk_rh_posteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate"/>
+    <rdfs:label>Right posterior cingulate thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_posteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_inferiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left inferior temporal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_inferiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_limbic_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Limbic - Default mode FC</rdfs:label>
+    <sourceColumn>fc_limbic_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_cingulate_fs_gmv_lh_rostralanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate"/>
+    <rdfs:label>Left rostral anterior cingulate gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_rostralanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_cingulate_fs_area_lh_caudalanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate"/>
+    <rdfs:label>Left caudal anterior cingulate surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_caudalanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_bankssts">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right banks of superior temporal sulcus gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_bankssts</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_insula_fs_gmv_lh_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_insula"/>
+    <rdfs:label>Left insula gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_insula</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_cingulate_fs_thk_lh_rostralanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate"/>
+    <rdfs:label>Left rostral anterior cingulate thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_rostralanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_superiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right superior temporal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_superiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_caudalmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left caudal middle frontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_caudalmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_temporalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left temporal pole gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_temporalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_rh_precuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Right precuneus surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_precuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_fusiform">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left fusiform surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_fusiform</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_occipital_fs_thk_rh_lateraloccipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital"/>
+    <rdfs:label>Right lateral occipital thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_lateraloccipital</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity_BAS_drive">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity"/>
+    <rdfs:label>BAS drive</rdfs:label>
+    <rdfs:comment>Behavioural Activation System drive subscale.</rdfs:comment>
+    <sourceColumn>BAS_drive</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_global_volumetrics_fs_etiv">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_global_volumetrics"/>
+    <rdfs:label>Estimated total intracranial volume</rdfs:label>
+    <sourceColumn>fs_etiv</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_frontalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left frontal pole gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_frontalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_middletemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left middle temporal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_middletemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_sommot_salventattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Somatomotor - Salience / ventral attention FC</rdfs:label>
+    <sourceColumn>fc_sommot_salventattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_precentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right precentral gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_precentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_parstriangularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right pars triangularis thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_parstriangularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_lh_inferiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Left inferior parietal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_inferiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_bankssts">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left banks of superior temporal sulcus surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_bankssts</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_sommot_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Somatomotor - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_sommot_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_superiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right superior temporal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_superiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_rh_postcentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Right postcentral gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_postcentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_occipital_fs_area_rh_lingual">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital"/>
+    <rdfs:label>Right lingual surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_lingual</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_lh_putamen">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Left putamen volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_putamen</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_cingulate_fs_thk_rh_caudalanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate"/>
+    <rdfs:label>Right caudal anterior cingulate thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_caudalanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_parsorbitalis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left pars orbitalis gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_parsorbitalis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_rh_superiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Right superior parietal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_superiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_lh_inferiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Left inferior parietal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_inferiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity_gender_identity_F">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity"/>
+    <rdfs:label>Gender identity (female)</rdfs:label>
+    <rdfs:comment>Degree to which the subject felt female (1-7).</rdfs:comment>
+    <sourceColumn>gender_identity_F</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_dorsattn_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Dorsal attention - Limbic FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_cingulate_fs_gmv_lh_caudalanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate"/>
+    <rdfs:label>Left caudal anterior cingulate gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_caudalanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_cingulate_fs_area_rh_posteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate"/>
+    <rdfs:label>Right posterior cingulate surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_posteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_lateralorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left lateral orbitofrontal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_lateralorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_global_volumetrics_fs_subcort_gray_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_global_volumetrics"/>
+    <rdfs:label>Total subcortical gray matter volume</rdfs:label>
+    <sourceColumn>fs_subcort_gray_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_rh_hippocampus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Right hippocampus volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_hippocampus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_lh_accumbens">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Left accumbens volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_accumbens</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_occipital_fs_gmv_rh_lateraloccipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital"/>
+    <rdfs:label>Right lateral occipital gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_lateraloccipital</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_IDENTITY_AND_BELIEF_SYSTEMS_religiosity_religious_now">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_religiosity"/>
+    <rdfs:label>Currently religious</rdfs:label>
+    <rdfs:comment>Whether the subject is religious now (yes/no).</rdfs:comment>
+    <sourceColumn>religious_now</sourceColumn>
+    <statType>binary</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_occipital_fs_gmv_lh_cuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital"/>
+    <rdfs:label>Left cuneus gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_cuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_lh_superiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Left superior parietal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_superiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_parsorbitalis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right pars orbitalis thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_parsorbitalis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics_BMI">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics"/>
+    <rdfs:label>Body mass index</rdfs:label>
+    <rdfs:comment>Body mass index (kg/m^2). Zero values are data errors and treated as missing.</rdfs:comment>
+    <sourceColumn>BMI</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_occipital_fs_gmv_rh_lingual">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital"/>
+    <rdfs:label>Right lingual gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_lingual</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_occipital_fs_area_rh_cuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital"/>
+    <rdfs:label>Right cuneus surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_cuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_parsopercularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left pars opercularis thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_parsopercularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity_BIS">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity"/>
+    <rdfs:label>Behavioural inhibition (BIS)</rdfs:label>
+    <rdfs:comment>Behavioural Inhibition System scale.</rdfs:comment>
+    <sourceColumn>BIS</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_medialorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left medial orbitofrontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_medialorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_lateralorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left lateral orbitofrontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_lateralorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_bankssts">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left banks of superior temporal sulcus thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_bankssts</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_lh_postcentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Left postcentral gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_postcentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_inferiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right inferior temporal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_inferiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_cingulate_fs_thk_rh_isthmuscingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate"/>
+    <rdfs:label>Right isthmus cingulate thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_isthmuscingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_precentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right precentral thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_precentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_within_network_fc_cont_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_within_network"/>
+    <rdfs:label>Frontoparietal control within-network FC</rdfs:label>
+    <sourceColumn>fc_cont_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_global_volumetrics_fs_brainseg_vol">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_global_volumetrics"/>
+    <rdfs:label>Total brain segmentation volume</rdfs:label>
+    <sourceColumn>fs_brainseg_vol</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_occipital_fs_area_rh_lateraloccipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital"/>
+    <rdfs:label>Right lateral occipital surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_lateraloccipital</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity_gender_identity_M">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity"/>
+    <rdfs:label>Gender identity (male)</rdfs:label>
+    <rdfs:comment>Degree to which the subject felt male (1-7).</rdfs:comment>
+    <sourceColumn>gender_identity_M</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_within_network_fc_dorsattn_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_within_network"/>
+    <rdfs:label>Dorsal attention within-network FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality_NEO_N">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality"/>
+    <rdfs:label>Neuroticism (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Neuroticism scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_N</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_rh_postcentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Right postcentral thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_postcentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_socioeconomic_background_background_SES">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_socioeconomic_background"/>
+    <rdfs:label>Background socio-economic status</rdfs:label>
+    <rdfs:comment>Background SES from parental income and education (range 2-6).</rdfs:comment>
+    <sourceColumn>background_SES</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_entorhinal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left entorhinal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_entorhinal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_lh_precuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Left precuneus surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_precuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_hemispheric_mean_fs_mean_thickness_rh">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_hemispheric_mean"/>
+    <rdfs:label>Right hemisphere mean cortical thickness</rdfs:label>
+    <sourceColumn>fs_mean_thickness_rh</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_transversetemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right transverse temporal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_transversetemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_caudalmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right caudal middle frontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_caudalmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_superiorfrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right superior frontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_superiorfrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality_NEO_O">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality"/>
+    <rdfs:label>Openness (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Openness to experience scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_O</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_occipital_fs_gmv_rh_pericalcarine">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital"/>
+    <rdfs:label>Right pericalcarine gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_pericalcarine</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_superiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right superior temporal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_superiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_precentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right precentral surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_precentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_transversetemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right transverse temporal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_transversetemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_superiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left superior temporal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_superiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_vis_dorsattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Visual - Dorsal attention FC</rdfs:label>
+    <sourceColumn>fc_vis_dorsattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics_age">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics"/>
+    <rdfs:label>Age</rdfs:label>
+    <rdfs:comment>Age of participant in years.</rdfs:comment>
+    <sourceColumn>age</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_occipital_fs_thk_lh_lateraloccipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital"/>
+    <rdfs:label>Left lateral occipital thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_lateraloccipital</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality_NEO_C">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality"/>
+    <rdfs:label>Conscientiousness (NEO-FFI)</rdfs:label>
+    <rdfs:comment>NEO-FFI Conscientiousness scale (sum of items).</rdfs:comment>
+    <sourceColumn>NEO_C</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_vis_salventattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Visual - Salience / ventral attention FC</rdfs:label>
+    <sourceColumn>fc_vis_salventattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_occipital_fs_thk_lh_pericalcarine">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital"/>
+    <rdfs:label>Left pericalcarine thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_pericalcarine</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_middletemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right middle temporal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_middletemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_parsopercularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left pars opercularis surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_parsopercularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_rh_inferiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Right inferior parietal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_inferiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics_handedness">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics"/>
+    <rdfs:label>Handedness</rdfs:label>
+    <rdfs:comment>Left- or right-handed.</rdfs:comment>
+    <sourceColumn>handedness</sourceColumn>
+    <statType>binary</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_middletemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left middle temporal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_middletemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_occipital_fs_thk_rh_pericalcarine">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital"/>
+    <rdfs:label>Right pericalcarine thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_pericalcarine</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_parsorbitalis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right pars orbitalis gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_parsorbitalis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_cingulate_fs_gmv_rh_posteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate"/>
+    <rdfs:label>Right posterior cingulate gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_posteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_cont_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Frontoparietal control - Default mode FC</rdfs:label>
+    <sourceColumn>fc_cont_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_rh_superiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Right superior parietal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_superiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_lh_precuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Left precuneus gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_precuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_parsorbitalis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left pars orbitalis surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_parsorbitalis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_lh_supramarginal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Left supramarginal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_supramarginal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_inferiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right inferior temporal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_inferiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_rostralmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right rostral middle frontal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_rostralmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_lh_precuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Left precuneus thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_precuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_transversetemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right transverse temporal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_transversetemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_superiorfrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right superior frontal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_superiorfrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_parsopercularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right pars opercularis surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_parsopercularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_lh_pallidum">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Left pallidum volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_pallidum</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_IDENTITY_AND_BELIEF_SYSTEMS_religiosity_religious_upbringing">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_religiosity"/>
+    <rdfs:label>Religious upbringing</rdfs:label>
+    <rdfs:comment>Whether the subject had a religious upbringing (yes/no).</rdfs:comment>
+    <sourceColumn>religious_upbringing</sourceColumn>
+    <statType>binary</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_occipital_fs_area_lh_lingual">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital"/>
+    <rdfs:label>Left lingual surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_lingual</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_inferiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right inferior temporal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_inferiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_temporalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right temporal pole surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_temporalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_cingulate_fs_gmv_lh_posteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate"/>
+    <rdfs:label>Left posterior cingulate gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_posteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity_BAS_reward">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity"/>
+    <rdfs:label>BAS reward responsiveness</rdfs:label>
+    <rdfs:comment>Behavioural Activation System reward responsiveness subscale.</rdfs:comment>
+    <sourceColumn>BAS_reward</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_cingulate_fs_area_rh_rostralanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate"/>
+    <rdfs:label>Right rostral anterior cingulate surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_rostralanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_medialorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left medial orbitofrontal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_medialorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_sommot_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Somatomotor - Default mode FC</rdfs:label>
+    <sourceColumn>fc_sommot_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_parahippocampal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left parahippocampal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_parahippocampal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_rh_inferiorparietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Right inferior parietal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_inferiorparietal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_lh_supramarginal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Left supramarginal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_supramarginal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_frontalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right frontal pole thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_frontalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_fusiform">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right fusiform thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_fusiform</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_bankssts">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right banks of superior temporal sulcus thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_bankssts</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_parsopercularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right pars opercularis gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_parsopercularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_cingulate_fs_thk_lh_posteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate"/>
+    <rdfs:label>Left posterior cingulate thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_posteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_caudalmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right caudal middle frontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_caudalmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Ontology rdf:about="https://compass.local/ontology/intelligence#">
+    <rdfs:label>COMPASS feature ontology: INTELLIGENCE</rdfs:label>
+    <rdfs:comment>AOMIC ID1000: 928 healthy Dutch young adults. The features grouped here are self-report / questionnaire measures: NEO-FFI Big Five personality, BIS/BAS reinforcement sensitivity, STAI trait anxiety, demographics, anthropometrics, socio-economic status, sexual/gender identity ratings and religiosity. Group measures from the same instrument or construct together. (Brain imaging features - FreeSurfer morphometry and the functional connectome - are placed deterministically under a single BRAIN domain via explicit paths and are not part of this semantic grouping step.)</rdfs:comment>
+  </owl:Ontology>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_cingulate_fs_gmv_rh_rostralanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate"/>
+    <rdfs:label>Right rostral anterior cingulate gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_rostralanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_superiorfrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left superior frontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_superiorfrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_salventattn_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Salience / ventral attention - Frontoparietal control FC</rdfs:label>
+    <sourceColumn>fc_salventattn_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_occipital_fs_area_lh_pericalcarine">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital"/>
+    <rdfs:label>Left pericalcarine surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_pericalcarine</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_parahippocampal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left parahippocampal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_parahippocampal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_medialorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right medial orbitofrontal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_medialorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:AnnotationProperty rdf:about="https://compass.local/ontology/intelligence#sourceColumn">
+    <rdfs:label>source column</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_rh_thalamus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Right thalamus volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_thalamus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_cingulate_fs_gmv_rh_isthmuscingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate"/>
+    <rdfs:label>Right isthmus cingulate gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_isthmuscingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_parsopercularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left pars opercularis gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_parsopercularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_temporalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left temporal pole thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_temporalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_occipital_fs_area_lh_cuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital"/>
+    <rdfs:label>Left cuneus surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_cuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_dorsattn_salventattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Dorsal attention - Salience / ventral attention FC</rdfs:label>
+    <sourceColumn>fc_dorsattn_salventattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_paracentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right paracentral gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_paracentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_lh_postcentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Left postcentral thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_postcentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_parietal_fs_thk_rh_supramarginal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal"/>
+    <rdfs:label>Right supramarginal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_supramarginal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_frontalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left frontal pole thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_frontalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_temporalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right temporal pole thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_temporalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_lh_amygdala">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Left amygdala volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_amygdala</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_cingulate_fs_area_lh_rostralanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate"/>
+    <rdfs:label>Left rostral anterior cingulate surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_rostralanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_caudalmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right caudal middle frontal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_caudalmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_fusiform">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left fusiform thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_fusiform</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_parietal_fs_gmv_rh_precuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal"/>
+    <rdfs:label>Right precuneus gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_precuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_parstriangularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right pars triangularis gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_parstriangularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_rostralmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right rostral middle frontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_rostralmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_lh_thalamus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Left thalamus volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_thalamus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_transversetemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left transverse temporal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_transversetemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_rh_frontalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Right frontal pole surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_frontalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_precentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left precentral surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_precentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_salventattn_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Salience / ventral attention - Default mode FC</rdfs:label>
+    <sourceColumn>fc_salventattn_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_lh_hippocampus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Left hippocampus volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_hippocampus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_occipital_fs_thk_lh_cuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital"/>
+    <rdfs:label>Left cuneus thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_cuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_occipital_fs_gmv_lh_lateraloccipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital"/>
+    <rdfs:label>Left lateral occipital gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_lateraloccipital</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_rh_entorhinal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Right entorhinal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_entorhinal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_parahippocampal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left parahippocampal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_parahippocampal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_inferiortemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left inferior temporal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_inferiortemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_rh_amygdala">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Right amygdala volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_amygdala</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_temporal_fs_thk_lh_middletemporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal"/>
+    <rdfs:label>Left middle temporal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_middletemporal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_occipital_fs_gmv_rh_cuneus">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital"/>
+    <rdfs:label>Right cuneus gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_cuneus</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_lateralorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right lateral orbitofrontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_lateralorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_lh_temporalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Left temporal pole surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_temporalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_caudalmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left caudal middle frontal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_caudalmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_insula_fs_thk_rh_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_insula"/>
+    <rdfs:label>Right insula thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_insula</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_precentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left precentral thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_precentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity_sexual_attraction_F">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity"/>
+    <rdfs:label>Sexual attraction to females</rdfs:label>
+    <sourceColumn>sexual_attraction_F</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_occipital_fs_gmv_lh_lingual">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital"/>
+    <rdfs:label>Left lingual gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_lingual</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_insula_fs_gmv_rh_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_insula"/>
+    <rdfs:label>Right insula gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_insula</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_superiorfrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right superior frontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_superiorfrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_medialorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right medial orbitofrontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_medialorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_rh_medialorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Right medial orbitofrontal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_medialorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_fusiform">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right fusiform gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_fusiform</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_lateralorbitofrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right lateral orbitofrontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_lateralorbitofrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_rostralmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right rostral middle frontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_rostralmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_rh_accumbens">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Right accumbens volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_accumbens</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_cingulate_fs_thk_lh_isthmuscingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate"/>
+    <rdfs:label>Left isthmus cingulate thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_isthmuscingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_entorhinal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right entorhinal gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_entorhinal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_rostralmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left rostral middle frontal surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_rostralmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_caudalmiddlefrontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left caudal middle frontal thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_caudalmiddlefrontal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_parstriangularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left pars triangularis surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_parstriangularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_within_network_fc_vis_within">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_within_network"/>
+    <rdfs:label>Visual within-network FC</rdfs:label>
+    <sourceColumn>fc_vis_within</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_lh_ventraldc">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Left ventraldc volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_ventraldc</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_lh_bankssts">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Left banks of superior temporal sulcus gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_bankssts</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_parietal_fs_area_rh_supramarginal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal"/>
+    <rdfs:label>Right supramarginal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_supramarginal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_temporal_fs_gmv_rh_temporalpole">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal"/>
+    <rdfs:label>Right temporal pole gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_rh_temporalpole</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_rh_ventraldc">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Right ventraldc volume</rdfs:label>
+    <sourceColumn>fs_vol_rh_ventraldc</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_occipital_fs_area_lh_lateraloccipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital"/>
+    <rdfs:label>Left lateral occipital surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_lateraloccipital</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_subcortical_volumes_fs_vol_lh_caudate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes"/>
+    <rdfs:label>Left caudate volume</rdfs:label>
+    <sourceColumn>fs_vol_lh_caudate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_lh_paracentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Left paracentral thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_paracentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_volume_frontal_fs_gmv_lh_parstriangularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal"/>
+    <rdfs:label>Left pars triangularis gray-matter volume</rdfs:label>
+    <sourceColumn>fs_gmv_lh_parstriangularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_cingulate_fs_thk_lh_caudalanteriorcingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate"/>
+    <rdfs:label>Left caudal anterior cingulate thickness</rdfs:label>
+    <sourceColumn>fs_thk_lh_caudalanteriorcingulate</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_temporal_fs_area_rh_parahippocampal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal"/>
+    <rdfs:label>Right parahippocampal surface area</rdfs:label>
+    <sourceColumn>fs_area_rh_parahippocampal</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_area_frontal_fs_area_lh_paracentral">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal"/>
+    <rdfs:label>Left paracentral surface area</rdfs:label>
+    <sourceColumn>fs_area_lh_paracentral</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_morphometry_cortical_thickness_frontal_fs_thk_rh_parsopercularis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal"/>
+    <rdfs:label>Right pars opercularis thickness</rdfs:label>
+    <sourceColumn>fs_thk_rh_parsopercularis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_vis_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Visual - Default mode FC</rdfs:label>
+    <sourceColumn>fc_vis_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics_sex">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics"/>
+    <rdfs:label>Biological sex</rdfs:label>
+    <rdfs:comment>Self-reported biological sex (male/female).</rdfs:comment>
+    <sourceColumn>sex</sourceColumn>
+    <statType>binary</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#FEATURE_BRAIN_connectomics_between_network_fc_sommot_dorsattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network"/>
+    <rdfs:label>Somatomotor - Dorsal attention FC</rdfs:label>
+    <sourceColumn>fc_sommot_dorsattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:AnnotationProperty rdf:about="https://compass.local/ontology/intelligence#statType">
+    <rdfs:label>statistical type</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_occipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume"/>
+    <rdfs:label>Occipital lobe</rdfs:label>
+    <rdfs:comment>Occipital lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_socioeconomic_background">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS"/>
+    <rdfs:label>Socioeconomic Background</rdfs:label>
+    <rdfs:comment>Educational attainment and environmental socioeconomic status of the participant.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_frontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume"/>
+    <rdfs:label>Frontal lobe</rdfs:label>
+    <rdfs:comment>Frontal lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_stai_trait_anxiety">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS"/>
+    <rdfs:label>STAI Trait Anxiety</rdfs:label>
+    <rdfs:comment>Psychometric measure assessing stable individual differences in anxiety proneness.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#PhenotypeFeature"/>
+    <rdfs:label>Identity and Belief Systems</rdfs:label>
+    <rdfs:comment>Self-reported measures concerning sexual orientation, gender identity, and religious affiliation or importance.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume"/>
+    <rdfs:label>Insula lobe</rdfs:label>
+    <rdfs:comment>Insula lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_religiosity">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS"/>
+    <rdfs:label>Religiosity</rdfs:label>
+    <rdfs:comment>Self-reported measures concerning religious background, current religious status, and the perceived importance of religion in daily life.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_between_network">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics"/>
+    <rdfs:label>Between-network FC</rdfs:label>
+    <rdfs:comment>Mean functional connectivity between pairs of intrinsic networks.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_parietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area"/>
+    <rdfs:label>Parietal lobe</rdfs:label>
+    <rdfs:comment>Parietal lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_neo_ffi_personality">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS"/>
+    <rdfs:label>NEO-FFI Big Five Personality</rdfs:label>
+    <rdfs:comment>Standardized psychometric measures assessing the five broad dimensions of personality.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#PhenotypeFeature">
+    <rdfs:label>Phenotype Feature</rdfs:label>
+    <rdfs:comment>Root class for all measured participant features.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_temporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume"/>
+    <rdfs:label>Temporal lobe</rdfs:label>
+    <rdfs:comment>Temporal lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#PhenotypeFeature"/>
+    <rdfs:label>Brain</rdfs:label>
+    <rdfs:comment>Features derived from brain imaging: structure (morphometry) and function (connectomics).</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_cingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness"/>
+    <rdfs:label>Cingulate lobe</rdfs:label>
+    <rdfs:comment>Cingulate lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry"/>
+    <rdfs:label>Cortical Thickness</rdfs:label>
+    <rdfs:comment>Mean cortical thickness of Desikan-Killiany regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_occipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area"/>
+    <rdfs:label>Occipital lobe</rdfs:label>
+    <rdfs:comment>Occipital lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS_biological_characteristics">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS"/>
+    <rdfs:label>Biological Characteristics</rdfs:label>
+    <rdfs:comment>Fundamental physical and physiological attributes of the participant.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_frontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness"/>
+    <rdfs:label>Frontal lobe</rdfs:label>
+    <rdfs:comment>Frontal lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_cingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume"/>
+    <rdfs:label>Cingulate lobe</rdfs:label>
+    <rdfs:comment>Cingulate lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics_within_network">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics"/>
+    <rdfs:label>Within-network FC</rdfs:label>
+    <rdfs:comment>Mean functional connectivity among parcels of the same intrinsic network.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_global_volumetrics">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry"/>
+    <rdfs:label>Global Volumetric Summaries</rdfs:label>
+    <rdfs:comment>Whole-brain volumetric summaries.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#PhenotypeFeature"/>
+    <rdfs:label>Psychological Constructs</rdfs:label>
+    <rdfs:comment>Standardized psychometric measures assessing personality traits, reinforcement sensitivity, and trait anxiety.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume_parietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume"/>
+    <rdfs:label>Parietal lobe</rdfs:label>
+    <rdfs:comment>Parietal lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_hemispheric_mean">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness"/>
+    <rdfs:label>Hemispheric mean</rdfs:label>
+    <rdfs:comment>Whole-hemisphere mean cortical thickness.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_cingulate">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area"/>
+    <rdfs:label>Cingulate lobe</rdfs:label>
+    <rdfs:comment>Cingulate lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_DEMOGRAPHICS_AND_ANTHROPOMETRICS">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#PhenotypeFeature"/>
+    <rdfs:label>Demographics and Anthropometrics</rdfs:label>
+    <rdfs:comment>Basic biological and socio-economic characteristics of the participants, including age, sex, physical measurements, and educational background.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_temporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area"/>
+    <rdfs:label>Temporal lobe</rdfs:label>
+    <rdfs:comment>Temporal lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS_sexual_and_gender_identity">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_IDENTITY_AND_BELIEF_SYSTEMS"/>
+    <rdfs:label>Sexual and Gender Identity</rdfs:label>
+    <rdfs:comment>Self-reported measures assessing an individual's sexual attraction patterns and internal sense of gender identity.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN"/>
+    <rdfs:label>Morphometry</rdfs:label>
+    <rdfs:comment>Structural morphometry of the brain from T1-weighted MRI (FreeSurfer): regional volumes, cortical thickness and surface area.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness"/>
+    <rdfs:label>Insula lobe</rdfs:label>
+    <rdfs:comment>Insula lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_volume">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry"/>
+    <rdfs:label>Cortical Gray-Matter Volume</rdfs:label>
+    <rdfs:comment>Gray-matter volume of Desikan-Killiany cortical regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry"/>
+    <rdfs:label>Cortical Surface Area</rdfs:label>
+    <rdfs:comment>White-surface area of Desikan-Killiany cortical regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_temporal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness"/>
+    <rdfs:label>Temporal lobe</rdfs:label>
+    <rdfs:comment>Temporal lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS_bis_bas_sensitivity">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_PSYCHOLOGICAL_CONSTRUCTS"/>
+    <rdfs:label>BIS/BAS Reinforcement Sensitivity</rdfs:label>
+    <rdfs:comment>Psychometric scales measuring behavioral inhibition and activation systems related to reinforcement sensitivity.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_occipital">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness"/>
+    <rdfs:label>Occipital lobe</rdfs:label>
+    <rdfs:comment>Occipital lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness_parietal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_thickness"/>
+    <rdfs:label>Parietal lobe</rdfs:label>
+    <rdfs:comment>Parietal lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_insula">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area"/>
+    <rdfs:label>Insula lobe</rdfs:label>
+    <rdfs:comment>Insula lobe regions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_subcortical_volumes">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry"/>
+    <rdfs:label>Subcortical Volumes</rdfs:label>
+    <rdfs:comment>Volumes of key bilateral subcortical structures.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_connectomics">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN"/>
+    <rdfs:label>Connectomics</rdfs:label>
+    <rdfs:comment>Functional connectivity of the brain from movie-watching fMRI (Yeo/Schaefer intrinsic networks).</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area_frontal">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/intelligence#NODE_BRAIN_morphometry_cortical_area"/>
+    <rdfs:label>Frontal lobe</rdfs:label>
+    <rdfs:comment>Frontal lobe regions.</rdfs:comment>
+  </owl:Class>
+</rdf:RDF>

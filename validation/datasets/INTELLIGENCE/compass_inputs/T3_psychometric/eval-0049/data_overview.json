@@ -1,0 +1,69 @@
+{
+  "participant_id": "eval-0049",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "DEMOGRAPHICS_AND_ANTHROPOMETRICS": {
+      "present_leaves": 6,
+      "total_leaves": 6,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 46,
+      "is_available": true,
+      "structure": {
+        "biological_characteristics": {
+          "label": "Biological Characteristics",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 27
+        },
+        "socioeconomic_background": {
+          "label": "Socioeconomic Background",
+          "present_leaves": 2,
+          "total_leaves": 2,
+          "coverage_percentage": 100.0,
+          "tokens": 19
+        }
+      }
+    },
+    "PSYCHOLOGICAL_CONSTRUCTS": {
+      "present_leaves": 10,
+      "total_leaves": 10,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 80,
+      "is_available": true,
+      "structure": {
+        "neo_ffi_personality": {
+          "label": "NEO-FFI Big Five Personality",
+          "present_leaves": 5,
+          "total_leaves": 5,
+          "coverage_percentage": 100.0,
+          "tokens": 39
+        },
+        "bis_bas_sensitivity": {
+          "label": "BIS/BAS Reinforcement Sensitivity",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 32
+        },
+        "stai_trait_anxiety": {
+          "label": "STAI Trait Anxiety",
+          "present_leaves": 1,
+          "total_leaves": 1,
+          "coverage_percentage": 100.0,
+          "tokens": 9
+        }
+      }
+    }
+  },
+  "total_tokens": 126,
+  "total_leaves": 16,
+  "present_leaves": 16,
+  "available_domains": [
+    "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+    "PSYCHOLOGICAL_CONSTRUCTS"
+  ],
+  "token_budget": 138
+}

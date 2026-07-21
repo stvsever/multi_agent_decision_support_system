@@ -1,0 +1,94 @@
+{
+  "participant_id": "eval-0055",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "DEMOGRAPHICS_AND_ANTHROPOMETRICS": {
+      "present_leaves": 6,
+      "total_leaves": 6,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 45,
+      "is_available": true,
+      "structure": {
+        "biological_characteristics": {
+          "label": "Biological Characteristics",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 26
+        },
+        "socioeconomic_background": {
+          "label": "Socioeconomic Background",
+          "present_leaves": 2,
+          "total_leaves": 2,
+          "coverage_percentage": 100.0,
+          "tokens": 19
+        }
+      }
+    },
+    "PSYCHOLOGICAL_CONSTRUCTS": {
+      "present_leaves": 10,
+      "total_leaves": 10,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 79,
+      "is_available": true,
+      "structure": {
+        "neo_ffi_personality": {
+          "label": "NEO-FFI Big Five Personality",
+          "present_leaves": 5,
+          "total_leaves": 5,
+          "coverage_percentage": 100.0,
+          "tokens": 41
+        },
+        "bis_bas_sensitivity": {
+          "label": "BIS/BAS Reinforcement Sensitivity",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 31
+        },
+        "stai_trait_anxiety": {
+          "label": "STAI Trait Anxiety",
+          "present_leaves": 1,
+          "total_leaves": 1,
+          "coverage_percentage": 100.0,
+          "tokens": 7
+        }
+      }
+    },
+    "IDENTITY_AND_BELIEF_SYSTEMS": {
+      "present_leaves": 3,
+      "total_leaves": 7,
+      "coverage_percentage": 42.9,
+      "missing_count": 4,
+      "total_tokens": 57,
+      "is_available": true,
+      "structure": {
+        "sexual_and_gender_identity": {
+          "label": "Sexual and Gender Identity",
+          "present_leaves": 0,
+          "total_leaves": 4,
+          "coverage_percentage": 0.0,
+          "tokens": 36
+        },
+        "religiosity": {
+          "label": "Religiosity",
+          "present_leaves": 3,
+          "total_leaves": 3,
+          "coverage_percentage": 100.0,
+          "tokens": 21
+        }
+      }
+    }
+  },
+  "total_tokens": 181,
+  "total_leaves": 23,
+  "present_leaves": 19,
+  "available_domains": [
+    "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+    "PSYCHOLOGICAL_CONSTRUCTS",
+    "IDENTITY_AND_BELIEF_SYSTEMS"
+  ],
+  "token_budget": 199
+}

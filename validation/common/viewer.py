@@ -18,29 +18,25 @@ from pathlib import Path
 from typing import Any, Dict
 
 
+def _node_to_d3(node: Dict[str, Any], depth: int) -> Dict[str, Any]:
+    """Recursively convert an arbitrary-depth ontology node to the D3 shape."""
+    children = node.get("children")
+    if not children:  # leaf feature
+        return {"name": node["label"], "id": node["id"], "kind": "feature",
+                "definition": node.get("definition", ""), "units": node.get("units")}
+    kind = "domain" if depth == 1 else "group"
+    return {
+        "name": node["label"], "id": node["id"], "kind": kind,
+        "definition": node.get("definition", ""),
+        "children": [_node_to_d3(c, depth + 1) for c in children],
+    }
+
+
 def _to_d3(ontology: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "name": ontology.get("dataset", "ontology"),
         "kind": "root",
-        "children": [
-            {
-                "name": d["label"], "id": d["id"], "kind": "domain",
-                "definition": d.get("definition", ""),
-                "children": [
-                    {
-                        "name": s["label"], "id": s["id"], "kind": "subdomain",
-                        "definition": s.get("definition", ""),
-                        "children": [
-                            {"name": f["label"], "id": f["id"], "kind": "feature",
-                             "definition": f.get("definition", ""), "units": f.get("units")}
-                            for f in s["features"]
-                        ],
-                    }
-                    for s in d["subdomains"]
-                ],
-            }
-            for d in ontology["domains"]
-        ],
+        "children": [_node_to_d3(d, 1) for d in ontology["domains"]],
     }
 
 

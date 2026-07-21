@@ -1,0 +1,1535 @@
+{
+  "BRAIN": {
+    "morphometry": {
+      "global_volumetrics": {
+        "_leaves": [
+          {
+            "feature": "Estimated total intracranial volume",
+            "value": "1.75793e+06 mm^3 (Normal)",
+            "z_score": 0.301
+          },
+          {
+            "feature": "Total brain segmentation volume",
+            "value": "1.24236e+06 mm^3 (Normal)",
+            "z_score": -0.039
+          },
+          {
+            "feature": "Total gray matter volume",
+            "value": "717605 mm^3 (Normal)",
+            "z_score": 0.304
+          },
+          {
+            "feature": "Total cortical gray matter volume",
+            "value": "525222 mm^3 (Normal)",
+            "z_score": 0.219
+          },
+          {
+            "feature": "Total cerebral white matter volume",
+            "value": "478877 mm^3 (Normal)",
+            "z_score": -0.264
+          },
+          {
+            "feature": "Total subcortical gray matter volume",
+            "value": "66216 mm^3 (High-Normal)",
+            "z_score": 0.667
+          }
+        ]
+      },
+      "subcortical_volumes": {
+        "_leaves": [
+          {
+            "feature": "Left hippocampus volume",
+            "value": "4477 mm^3 (Normal)",
+            "z_score": 0.044
+          },
+          {
+            "feature": "Right hippocampus volume",
+            "value": "4647.3 mm^3 (Normal)",
+            "z_score": 0.399
+          },
+          {
+            "feature": "Left amygdala volume",
+            "value": "1734.6 mm^3 (Normal)",
+            "z_score": 0.342
+          },
+          {
+            "feature": "Right amygdala volume",
+            "value": "1894.9 mm^3 (Normal)",
+            "z_score": 0.049
+          },
+          {
+            "feature": "Left thalamus volume",
+            "value": "8519.2 mm^3 (Normal)",
+            "z_score": -0.083
+          },
+          {
+            "feature": "Right thalamus volume",
+            "value": "7965.2 mm^3 (Normal)",
+            "z_score": 0.345
+          },
+          {
+            "feature": "Left caudate volume",
+            "value": "4324.2 mm^3 (High)",
+            "z_score": 1.113
+          },
+          {
+            "feature": "Right caudate volume",
+            "value": "4279.3 mm^3 (High-Normal)",
+            "z_score": 0.795
+          },
+          {
+            "feature": "Left putamen volume",
+            "value": "6087.4 mm^3 (High)",
+            "z_score": 1.519
+          },
+          {
+            "feature": "Right putamen volume",
+            "value": "6046.1 mm^3 (High)",
+            "z_score": 1.344
+          },
+          {
+            "feature": "Left pallidum volume",
+            "value": "2462.6 mm^3 (High)",
+            "z_score": 1.077
+          },
+          {
+            "feature": "Right pallidum volume",
+            "value": "2393.3 mm^3 (High-Normal)",
+            "z_score": 0.98
+          },
+          {
+            "feature": "Left accumbens volume",
+            "value": "563.9 mm^3 (High)",
+            "z_score": 1.889
+          },
+          {
+            "feature": "Right accumbens volume",
+            "value": "627.2 mm^3 (High)",
+            "z_score": 1.287
+          },
+          {
+            "feature": "Left ventraldc volume",
+            "value": "4631.9 mm^3 (Normal)",
+            "z_score": 0.096
+          },
+          {
+            "feature": "Right ventraldc volume",
+            "value": "4466.6 mm^3 (Normal)",
+            "z_score": 0.034
+          }
+        ]
+      },
+      "cortical_thickness": {
+        "hemispheric_mean": {
+          "_leaves": [
+            {
+              "feature": "Left hemisphere mean cortical thickness",
+              "value": "2.65672 mm (Normal)",
+              "z_score": 0.41
+            },
+            {
+              "feature": "Right hemisphere mean cortical thickness",
+              "value": "2.67527 mm (High-Normal)",
+              "z_score": 0.616
+            }
+          ]
+        },
+        "frontal": {
+          "_leaves": [
+            {
+              "feature": "Left superior frontal thickness",
+              "value": "3.085 mm (High-Normal)",
+              "z_score": 0.681
+            },
+            {
+              "feature": "Left rostral middle frontal thickness",
+              "value": "2.598 mm (High-Normal)",
+              "z_score": 0.621
+            },
+            {
+              "feature": "Left caudal middle frontal thickness",
+              "value": "2.796 mm (Normal)",
+              "z_score": 0.179
+            },
+            {
+              "feature": "Left pars opercularis thickness",
+              "value": "2.755 mm (Normal)",
+              "z_score": -0.113
+            },
+            {
+              "feature": "Left pars triangularis thickness",
+              "value": "2.566 mm (Normal)",
+              "z_score": -0.409
+            },
+            {
+              "feature": "Left pars orbitalis thickness",
+              "value": "2.951 mm (High-Normal)",
+              "z_score": 0.537
+            },
+            {
+              "feature": "Left lateral orbitofrontal thickness",
+              "value": "3.057 mm (High)",
+              "z_score": 1.791
+            },
+            {
+              "feature": "Left medial orbitofrontal thickness",
+              "value": "2.415 mm (Low-Normal)",
+              "z_score": -0.89
+            },
+            {
+              "feature": "Left precentral thickness",
+              "value": "2.695 mm (Normal)",
+              "z_score": -0.165
+            },
+            {
+              "feature": "Left paracentral thickness",
+              "value": "2.666 mm (High-Normal)",
+              "z_score": 0.798
+            },
+            {
+              "feature": "Left frontal pole thickness",
+              "value": "2.923 mm (Normal)",
+              "z_score": 0.04
+            },
+            {
+              "feature": "Right superior frontal thickness",
+              "value": "3.088 mm (High-Normal)",
+              "z_score": 0.793
+            },
+            {
+              "feature": "Right rostral middle frontal thickness",
+              "value": "2.654 mm (High-Normal)",
+              "z_score": 0.751
+            },
+            {
+              "feature": "Right caudal middle frontal thickness",
+              "value": "2.719 mm (Normal)",
+              "z_score": -0.259
+            },
+            {
+              "feature": "Right pars opercularis thickness",
+              "value": "2.743 mm (Normal)",
+              "z_score": -0.465
+            },
+            {
+              "feature": "Right pars triangularis thickness",
+              "value": "2.722 mm (Normal)",
+              "z_score": 0.325
+            },
+            {
+              "feature": "Right pars orbitalis thickness",
+              "value": "2.811 mm (Normal)",
+              "z_score": -0.298
+            },
+            {
+              "feature": "Right lateral orbitofrontal thickness",
+              "value": "2.807 mm (Normal)",
+              "z_score": 0.121
+            },
+            {
+              "feature": "Right medial orbitofrontal thickness",
+              "value": "2.526 mm (Low-Normal)",
+              "z_score": -0.986
+            },
+            {
+              "feature": "Right precentral thickness",
+              "value": "2.67 mm (Normal)",
+              "z_score": -0.0
+            },
+            {
+              "feature": "Right paracentral thickness",
+              "value": "2.596 mm (Normal)",
+              "z_score": 0.317
+            },
+            {
+              "feature": "Right frontal pole thickness",
+              "value": "2.68 mm (Low-Normal)",
+              "z_score": -0.692
+            }
+          ]
+        },
+        "parietal": {
+          "_leaves": [
+            {
+              "feature": "Left superior parietal thickness",
+              "value": "2.391 mm (High-Normal)",
+              "z_score": 0.856
+            },
+            {
+              "feature": "Left inferior parietal thickness",
+              "value": "2.686 mm (High)",
+              "z_score": 1.194
+            },
+            {
+              "feature": "Left supramarginal thickness",
+              "value": "2.712 mm (Normal)",
+              "z_score": 0.097
+            },
+            {
+              "feature": "Left postcentral thickness",
+              "value": "2.158 mm (Normal)",
+              "z_score": -0.077
+            },
+            {
+              "feature": "Left precuneus thickness",
+              "value": "2.597 mm (Normal)",
+              "z_score": 0.355
+            },
+            {
+              "feature": "Right superior parietal thickness",
+              "value": "2.401 mm (High)",
+              "z_score": 1.194
+            },
+            {
+              "feature": "Right inferior parietal thickness",
+              "value": "2.705 mm (High-Normal)",
+              "z_score": 0.955
+            },
+            {
+              "feature": "Right supramarginal thickness",
+              "value": "2.754 mm (High-Normal)",
+              "z_score": 0.601
+            },
+            {
+              "feature": "Right postcentral thickness",
+              "value": "2.161 mm (Normal)",
+              "z_score": 0.305
+            },
+            {
+              "feature": "Right precuneus thickness",
+              "value": "2.599 mm (High-Normal)",
+              "z_score": 0.558
+            }
+          ]
+        },
+        "temporal": {
+          "_leaves": [
+            {
+              "feature": "Left superior temporal thickness",
+              "value": "2.93 mm (Normal)",
+              "z_score": -0.358
+            },
+            {
+              "feature": "Left middle temporal thickness",
+              "value": "3.013 mm (Normal)",
+              "z_score": 0.306
+            },
+            {
+              "feature": "Left inferior temporal thickness",
+              "value": "2.792 mm (Low-Normal)",
+              "z_score": -0.686
+            },
+            {
+              "feature": "Left banks of superior temporal sulcus thickness",
+              "value": "2.553 mm (Low-Normal)",
+              "z_score": -0.796
+            },
+            {
+              "feature": "Left fusiform thickness",
+              "value": "2.869 mm (Normal)",
+              "z_score": 0.218
+            },
+            {
+              "feature": "Left transverse temporal thickness",
+              "value": "2.569 mm (Normal)",
+              "z_score": -0.186
+            },
+            {
+              "feature": "Left entorhinal thickness",
+              "value": "3.459 mm (Normal)",
+              "z_score": -0.367
+            },
+            {
+              "feature": "Left temporal pole thickness",
+              "value": "4.041 mm (High-Normal)",
+              "z_score": 0.632
+            },
+            {
+              "feature": "Left parahippocampal thickness",
+              "value": "3.349 mm (High)",
+              "z_score": 1.357
+            },
+            {
+              "feature": "Right superior temporal thickness",
+              "value": "3.089 mm (Normal)",
+              "z_score": 0.277
+            },
+            {
+              "feature": "Right middle temporal thickness",
+              "value": "3.118 mm (High-Normal)",
+              "z_score": 0.555
+            },
+            {
+              "feature": "Right inferior temporal thickness",
+              "value": "2.926 mm (Normal)",
+              "z_score": 0.366
+            },
+            {
+              "feature": "Right banks of superior temporal sulcus thickness",
+              "value": "2.76 mm (Normal)",
+              "z_score": 0.155
+            },
+            {
+              "feature": "Right fusiform thickness",
+              "value": "2.926 mm (High-Normal)",
+              "z_score": 0.787
+            },
+            {
+              "feature": "Right transverse temporal thickness",
+              "value": "2.552 mm (Normal)",
+              "z_score": -0.142
+            },
+            {
+              "feature": "Right entorhinal thickness",
+              "value": "3.601 mm (Normal)",
+              "z_score": 0.088
+            },
+            {
+              "feature": "Right temporal pole thickness",
+              "value": "4.285 mm (High)",
+              "z_score": 1.18
+            },
+            {
+              "feature": "Right parahippocampal thickness",
+              "value": "2.973 mm (High-Normal)",
+              "z_score": 0.628
+            }
+          ]
+        },
+        "occipital": {
+          "_leaves": [
+            {
+              "feature": "Left lateral occipital thickness",
+              "value": "2.189 mm (High-Normal)",
+              "z_score": 0.769
+            },
+            {
+              "feature": "Left lingual thickness",
+              "value": "2.084 mm (High-Normal)",
+              "z_score": 0.637
+            },
+            {
+              "feature": "Left cuneus thickness",
+              "value": "1.969 mm (Normal)",
+              "z_score": 0.439
+            },
+            {
+              "feature": "Left pericalcarine thickness",
+              "value": "1.54 mm (Normal)",
+              "z_score": 0.11
+            },
+            {
+              "feature": "Right lateral occipital thickness",
+              "value": "2.286 mm (High-Normal)",
+              "z_score": 0.756
+            },
+            {
+              "feature": "Right lingual thickness",
+              "value": "2.073 mm (Normal)",
+              "z_score": 0.389
+            },
+            {
+              "feature": "Right cuneus thickness",
+              "value": "2.025 mm (High)",
+              "z_score": 1.083
+            },
+            {
+              "feature": "Right pericalcarine thickness",
+              "value": "1.653 mm (High)",
+              "z_score": 1.199
+            }
+          ]
+        },
+        "cingulate": {
+          "_leaves": [
+            {
+              "feature": "Left rostral anterior cingulate thickness",
+              "value": "2.899 mm (Normal)",
+              "z_score": -0.438
+            },
+            {
+              "feature": "Left caudal anterior cingulate thickness",
+              "value": "2.863 mm (High-Normal)",
+              "z_score": 0.575
+            },
+            {
+              "feature": "Left posterior cingulate thickness",
+              "value": "2.644 mm (Normal)",
+              "z_score": 0.124
+            },
+            {
+              "feature": "Left isthmus cingulate thickness",
+              "value": "2.584 mm (Normal)",
+              "z_score": 0.448
+            },
+            {
+              "feature": "Right rostral anterior cingulate thickness",
+              "value": "2.985 mm (Low-Normal)",
+              "z_score": -0.668
+            },
+            {
+              "feature": "Right caudal anterior cingulate thickness",
+              "value": "2.742 mm (Normal)",
+              "z_score": 0.353
+            },
+            {
+              "feature": "Right posterior cingulate thickness",
+              "value": "2.791 mm (High)",
+              "z_score": 1.261
+            },
+            {
+              "feature": "Right isthmus cingulate thickness",
+              "value": "2.709 mm (High-Normal)",
+              "z_score": 0.795
+            }
+          ]
+        },
+        "insula": {
+          "_leaves": [
+            {
+              "feature": "Left insula thickness",
+              "value": "3.36 mm (High-Normal)",
+              "z_score": 0.727
+            },
+            {
+              "feature": "Right insula thickness",
+              "value": "3.389 mm (High-Normal)",
+              "z_score": 0.933
+            }
+          ]
+        }
+      },
+      "cortical_area": {
+        "frontal": {
+          "_leaves": [
+            {
+              "feature": "Left superior frontal surface area",
+              "value": "7266 mm^2 (Normal)",
+              "z_score": -0.251
+            },
+            {
+              "feature": "Left rostral middle frontal surface area",
+              "value": "5923 mm^2 (Normal)",
+              "z_score": -0.157
+            },
+            {
+              "feature": "Left caudal middle frontal surface area",
+              "value": "2415 mm^2 (Normal)",
+              "z_score": 0.302
+            },
+            {
+              "feature": "Left pars opercularis surface area",
+              "value": "1668 mm^2 (Normal)",
+              "z_score": -0.215
+            },
+            {
+              "feature": "Left pars triangularis surface area",
+              "value": "1455 mm^2 (Normal)",
+              "z_score": -0.075
+            },
+            {
+              "feature": "Left pars orbitalis surface area",
+              "value": "620 mm^2 (Low)",
+              "z_score": -1.697
+            },
+            {
+              "feature": "Left lateral orbitofrontal surface area",
+              "value": "2305 mm^2 (Low)",
+              "z_score": -1.741
+            },
+            {
+              "feature": "Left medial orbitofrontal surface area",
+              "value": "1989 mm^2 (Normal)",
+              "z_score": 0.103
+            },
+            {
+              "feature": "Left precentral surface area",
+              "value": "5374 mm^2 (High-Normal)",
+              "z_score": 0.82
+            },
+            {
+              "feature": "Left paracentral surface area",
+              "value": "1220 mm^2 (Low)",
+              "z_score": -1.006
+            },
+            {
+              "feature": "Left frontal pole surface area",
+              "value": "267 mm^2 (Normal)",
+              "z_score": 0.262
+            },
+            {
+              "feature": "Right superior frontal surface area",
+              "value": "6624 mm^2 (Low-Normal)",
+              "z_score": -0.697
+            },
+            {
+              "feature": "Right rostral middle frontal surface area",
+              "value": "6491 mm^2 (Normal)",
+              "z_score": 0.365
+            },
+            {
+              "feature": "Right caudal middle frontal surface area",
+              "value": "1945 mm^2 (Low-Normal)",
+              "z_score": -0.726
+            },
+            {
+              "feature": "Right pars opercularis surface area",
+              "value": "1161 mm^2 (Low)",
+              "z_score": -1.08
+            },
+            {
+              "feature": "Right pars triangularis surface area",
+              "value": "1621 mm^2 (Normal)",
+              "z_score": -0.168
+            },
+            {
+              "feature": "Right pars orbitalis surface area",
+              "value": "804 mm^2 (Low-Normal)",
+              "z_score": -0.898
+            },
+            {
+              "feature": "Right lateral orbitofrontal surface area",
+              "value": "2585 mm^2 (Low-Normal)",
+              "z_score": -0.802
+            },
+            {
+              "feature": "Right medial orbitofrontal surface area",
+              "value": "1827 mm^2 (Low)",
+              "z_score": -1.295
+            },
+            {
+              "feature": "Right precentral surface area",
+              "value": "4931 mm^2 (Normal)",
+              "z_score": 0.102
+            },
+            {
+              "feature": "Right paracentral surface area",
+              "value": "1346 mm^2 (Low-Normal)",
+              "z_score": -0.885
+            },
+            {
+              "feature": "Right frontal pole surface area",
+              "value": "293 mm^2 (Low-Normal)",
+              "z_score": -0.765
+            }
+          ]
+        },
+        "parietal": {
+          "_leaves": [
+            {
+              "feature": "Left superior parietal surface area",
+              "value": "6105 mm^2 (High)",
+              "z_score": 1.053
+            },
+            {
+              "feature": "Left inferior parietal surface area",
+              "value": "4323 mm^2 (Normal)",
+              "z_score": -0.378
+            },
+            {
+              "feature": "Left supramarginal surface area",
+              "value": "4375 mm^2 (Normal)",
+              "z_score": 0.143
+            },
+            {
+              "feature": "Left postcentral surface area",
+              "value": "4112 mm^2 (Normal)",
+              "z_score": -0.07
+            },
+            {
+              "feature": "Left precuneus surface area",
+              "value": "3941 mm^2 (Normal)",
+              "z_score": 0.393
+            },
+            {
+              "feature": "Right superior parietal surface area",
+              "value": "5852 mm^2 (High-Normal)",
+              "z_score": 0.942
+            },
+            {
+              "feature": "Right inferior parietal surface area",
+              "value": "5427 mm^2 (Normal)",
+              "z_score": -0.191
+            },
+            {
+              "feature": "Right supramarginal surface area",
+              "value": "3741 mm^2 (Normal)",
+              "z_score": -0.129
+            },
+            {
+              "feature": "Right postcentral surface area",
+              "value": "4024 mm^2 (Normal)",
+              "z_score": 0.057
+            },
+            {
+              "feature": "Right precuneus surface area",
+              "value": "4257 mm^2 (High-Normal)",
+              "z_score": 0.611
+            }
+          ]
+        },
+        "temporal": {
+          "_leaves": [
+            {
+              "feature": "Left superior temporal surface area",
+              "value": "3769 mm^2 (Low-Normal)",
+              "z_score": -0.822
+            },
+            {
+              "feature": "Left middle temporal surface area",
+              "value": "3901 mm^2 (High)",
+              "z_score": 1.56
+            },
+            {
+              "feature": "Left inferior temporal surface area",
+              "value": "3805 mm^2 (High-Normal)",
+              "z_score": 0.557
+            },
+            {
+              "feature": "Left banks of superior temporal sulcus surface area",
+              "value": "779 mm^2 (Low)",
+              "z_score": -1.802
+            },
+            {
+              "feature": "Left fusiform surface area",
+              "value": "3379 mm^2 (Normal)",
+              "z_score": 0.263
+            },
+            {
+              "feature": "Left transverse temporal surface area",
+              "value": "427 mm^2 (Low-Normal)",
+              "z_score": -0.566
+            },
+            {
+              "feature": "Left entorhinal surface area",
+              "value": "535 mm^2 (High-Normal)",
+              "z_score": 0.617
+            },
+            {
+              "feature": "Left temporal pole surface area",
+              "value": "462 mm^2 (Normal)",
+              "z_score": -0.298
+            },
+            {
+              "feature": "Left parahippocampal surface area",
+              "value": "710 mm^2 (High-Normal)",
+              "z_score": 0.696
+            },
+            {
+              "feature": "Right superior temporal surface area",
+              "value": "3724 mm^2 (Normal)",
+              "z_score": -0.29
+            },
+            {
+              "feature": "Right middle temporal surface area",
+              "value": "3758 mm^2 (Normal)",
+              "z_score": 0.392
+            },
+            {
+              "feature": "Right inferior temporal surface area",
+              "value": "3005 mm^2 (Low-Normal)",
+              "z_score": -0.798
+            },
+            {
+              "feature": "Right banks of superior temporal sulcus surface area",
+              "value": "1038 mm^2 (High-Normal)",
+              "z_score": 0.632
+            },
+            {
+              "feature": "Right fusiform surface area",
+              "value": "3242 mm^2 (Normal)",
+              "z_score": 0.477
+            },
+            {
+              "feature": "Right transverse temporal surface area",
+              "value": "378 mm^2 (High-Normal)",
+              "z_score": 0.875
+            },
+            {
+              "feature": "Right entorhinal surface area",
+              "value": "423 mm^2 (Normal)",
+              "z_score": 0.357
+            },
+            {
+              "feature": "Right temporal pole surface area",
+              "value": "405 mm^2 (Low-Normal)",
+              "z_score": -0.876
+            },
+            {
+              "feature": "Right parahippocampal surface area",
+              "value": "696 mm^2 (High)",
+              "z_score": 1.024
+            }
+          ]
+        },
+        "occipital": {
+          "_leaves": [
+            {
+              "feature": "Left lateral occipital surface area",
+              "value": "5033 mm^2 (Low-Normal)",
+              "z_score": -0.541
+            },
+            {
+              "feature": "Left lingual surface area",
+              "value": "3463 mm^2 (High)",
+              "z_score": 1.155
+            },
+            {
+              "feature": "Left cuneus surface area",
+              "value": "1545 mm^2 (Normal)",
+              "z_score": 0.003
+            },
+            {
+              "feature": "Left pericalcarine surface area",
+              "value": "1298 mm^2 (Low-Normal)",
+              "z_score": -0.596
+            },
+            {
+              "feature": "Right lateral occipital surface area",
+              "value": "5892 mm^2 (High-Normal)",
+              "z_score": 0.757
+            },
+            {
+              "feature": "Right lingual surface area",
+              "value": "3378 mm^2 (Normal)",
+              "z_score": 0.387
+            },
+            {
+              "feature": "Right cuneus surface area",
+              "value": "1524 mm^2 (Normal)",
+              "z_score": -0.477
+            },
+            {
+              "feature": "Right pericalcarine surface area",
+              "value": "1425 mm^2 (Low-Normal)",
+              "z_score": -0.525
+            }
+          ]
+        },
+        "cingulate": {
+          "_leaves": [
+            {
+              "feature": "Left rostral anterior cingulate surface area",
+              "value": "893 mm^2 (Normal)",
+              "z_score": 0.15
+            },
+            {
+              "feature": "Left caudal anterior cingulate surface area",
+              "value": "590 mm^2 (Normal)",
+              "z_score": -0.219
+            },
+            {
+              "feature": "Left posterior cingulate surface area",
+              "value": "1147 mm^2 (Normal)",
+              "z_score": -0.359
+            },
+            {
+              "feature": "Left isthmus cingulate surface area",
+              "value": "1036 mm^2 (Normal)",
+              "z_score": 0.006
+            },
+            {
+              "feature": "Right rostral anterior cingulate surface area",
+              "value": "790 mm^2 (High)",
+              "z_score": 1.254
+            },
+            {
+              "feature": "Right caudal anterior cingulate surface area",
+              "value": "842 mm^2 (Normal)",
+              "z_score": 0.331
+            },
+            {
+              "feature": "Right posterior cingulate surface area",
+              "value": "1183 mm^2 (Normal)",
+              "z_score": -0.376
+            },
+            {
+              "feature": "Right isthmus cingulate surface area",
+              "value": "947 mm^2 (Normal)",
+              "z_score": 0.171
+            }
+          ]
+        },
+        "insula": {
+          "_leaves": [
+            {
+              "feature": "Left insula surface area",
+              "value": "2262 mm^2 (Low-Normal)",
+              "z_score": -0.936
+            },
+            {
+              "feature": "Right insula surface area",
+              "value": "2262 mm^2 (Normal)",
+              "z_score": -0.418
+            }
+          ]
+        }
+      },
+      "cortical_volume": {
+        "frontal": {
+          "_leaves": [
+            {
+              "feature": "Left superior frontal gray-matter volume",
+              "value": "25350 mm^3 (Normal)",
+              "z_score": 0.064
+            },
+            {
+              "feature": "Left rostral middle frontal gray-matter volume",
+              "value": "17239 mm^3 (Normal)",
+              "z_score": -0.078
+            },
+            {
+              "feature": "Left caudal middle frontal gray-matter volume",
+              "value": "7608 mm^3 (High-Normal)",
+              "z_score": 0.571
+            },
+            {
+              "feature": "Left pars opercularis gray-matter volume",
+              "value": "5242 mm^3 (Normal)",
+              "z_score": -0.191
+            },
+            {
+              "feature": "Left pars triangularis gray-matter volume",
+              "value": "4151 mm^3 (Normal)",
+              "z_score": -0.245
+            },
+            {
+              "feature": "Left pars orbitalis gray-matter volume",
+              "value": "2415 mm^3 (Low-Normal)",
+              "z_score": -0.954
+            },
+            {
+              "feature": "Left lateral orbitofrontal gray-matter volume",
+              "value": "7873 mm^3 (Low-Normal)",
+              "z_score": -0.89
+            },
+            {
+              "feature": "Left medial orbitofrontal gray-matter volume",
+              "value": "5509 mm^3 (Normal)",
+              "z_score": -0.119
+            },
+            {
+              "feature": "Left precentral gray-matter volume",
+              "value": "15556 mm^3 (Normal)",
+              "z_score": 0.489
+            },
+            {
+              "feature": "Left paracentral gray-matter volume",
+              "value": "3525 mm^3 (Normal)",
+              "z_score": -0.252
+            },
+            {
+              "feature": "Left frontal pole gray-matter volume",
+              "value": "1002 mm^3 (Normal)",
+              "z_score": -0.391
+            },
+            {
+              "feature": "Right superior frontal gray-matter volume",
+              "value": "23328 mm^3 (Normal)",
+              "z_score": -0.367
+            },
+            {
+              "feature": "Right rostral middle frontal gray-matter volume",
+              "value": "19576 mm^3 (High-Normal)",
+              "z_score": 0.601
+            },
+            {
+              "feature": "Right caudal middle frontal gray-matter volume",
+              "value": "5708 mm^3 (Low-Normal)",
+              "z_score": -0.851
+            },
+            {
+              "feature": "Right pars opercularis gray-matter volume",
+              "value": "3424 mm^3 (Low)",
+              "z_score": -1.323
+            },
+            {
+              "feature": "Right pars triangularis gray-matter volume",
+              "value": "5021 mm^3 (Normal)",
+              "z_score": -0.004
+            },
+            {
+              "feature": "Right pars orbitalis gray-matter volume",
+              "value": "2705 mm^3 (Low)",
+              "z_score": -1.272
+            },
+            {
+              "feature": "Right lateral orbitofrontal gray-matter volume",
+              "value": "8105 mm^3 (Normal)",
+              "z_score": -0.408
+            },
+            {
+              "feature": "Right medial orbitofrontal gray-matter volume",
+              "value": "5354 mm^3 (Low)",
+              "z_score": -1.198
+            },
+            {
+              "feature": "Right precentral gray-matter volume",
+              "value": "14173 mm^3 (Normal)",
+              "z_score": -0.027
+            },
+            {
+              "feature": "Right paracentral gray-matter volume",
+              "value": "3894 mm^3 (Normal)",
+              "z_score": -0.425
+            },
+            {
+              "feature": "Right frontal pole gray-matter volume",
+              "value": "1159 mm^3 (Low-Normal)",
+              "z_score": -0.579
+            }
+          ]
+        },
+        "parietal": {
+          "_leaves": [
+            {
+              "feature": "Left superior parietal gray-matter volume",
+              "value": "15963 mm^3 (High)",
+              "z_score": 1.359
+            },
+            {
+              "feature": "Left inferior parietal gray-matter volume",
+              "value": "13172 mm^3 (Normal)",
+              "z_score": 0.251
+            },
+            {
+              "feature": "Left supramarginal gray-matter volume",
+              "value": "12974 mm^3 (Normal)",
+              "z_score": 0.208
+            },
+            {
+              "feature": "Left postcentral gray-matter volume",
+              "value": "9627 mm^3 (Normal)",
+              "z_score": -0.258
+            },
+            {
+              "feature": "Left precuneus gray-matter volume",
+              "value": "10890 mm^3 (High-Normal)",
+              "z_score": 0.538
+            },
+            {
+              "feature": "Right superior parietal gray-matter volume",
+              "value": "15683 mm^3 (High)",
+              "z_score": 1.524
+            },
+            {
+              "feature": "Right inferior parietal gray-matter volume",
+              "value": "16622 mm^3 (Normal)",
+              "z_score": 0.314
+            },
+            {
+              "feature": "Right supramarginal gray-matter volume",
+              "value": "11151 mm^3 (Normal)",
+              "z_score": 0.004
+            },
+            {
+              "feature": "Right postcentral gray-matter volume",
+              "value": "9531 mm^3 (Normal)",
+              "z_score": 0.08
+            },
+            {
+              "feature": "Right precuneus gray-matter volume",
+              "value": "11878 mm^3 (High-Normal)",
+              "z_score": 0.954
+            }
+          ]
+        },
+        "temporal": {
+          "_leaves": [
+            {
+              "feature": "Left superior temporal gray-matter volume",
+              "value": "12198 mm^3 (Low)",
+              "z_score": -1.062
+            },
+            {
+              "feature": "Left middle temporal gray-matter volume",
+              "value": "14613 mm^3 (High)",
+              "z_score": 1.769
+            },
+            {
+              "feature": "Left inferior temporal gray-matter volume",
+              "value": "12445 mm^3 (Normal)",
+              "z_score": 0.17
+            },
+            {
+              "feature": "Left banks of superior temporal sulcus gray-matter volume",
+              "value": "1910 mm^3 (Low)",
+              "z_score": -1.695
+            },
+            {
+              "feature": "Left fusiform gray-matter volume",
+              "value": "11060 mm^3 (Normal)",
+              "z_score": 0.415
+            },
+            {
+              "feature": "Left transverse temporal gray-matter volume",
+              "value": "1219 mm^3 (Normal)",
+              "z_score": -0.361
+            },
+            {
+              "feature": "Left entorhinal gray-matter volume",
+              "value": "2341 mm^3 (Normal)",
+              "z_score": 0.465
+            },
+            {
+              "feature": "Left temporal pole gray-matter volume",
+              "value": "2616 mm^3 (Normal)",
+              "z_score": -0.337
+            },
+            {
+              "feature": "Left parahippocampal gray-matter volume",
+              "value": "2743 mm^3 (High)",
+              "z_score": 1.596
+            },
+            {
+              "feature": "Right superior temporal gray-matter volume",
+              "value": "13182 mm^3 (Normal)",
+              "z_score": 0.125
+            },
+            {
+              "feature": "Right middle temporal gray-matter volume",
+              "value": "13803 mm^3 (High-Normal)",
+              "z_score": 0.555
+            },
+            {
+              "feature": "Right inferior temporal gray-matter volume",
+              "value": "10102 mm^3 (Low-Normal)",
+              "z_score": -0.636
+            },
+            {
+              "feature": "Right banks of superior temporal sulcus gray-matter volume",
+              "value": "2670 mm^3 (Normal)",
+              "z_score": 0.455
+            },
+            {
+              "feature": "Right fusiform gray-matter volume",
+              "value": "11002 mm^3 (High-Normal)",
+              "z_score": 0.971
+            },
+            {
+              "feature": "Right transverse temporal gray-matter volume",
+              "value": "1109 mm^3 (Normal)",
+              "z_score": 0.495
+            },
+            {
+              "feature": "Right entorhinal gray-matter volume",
+              "value": "2116 mm^3 (High-Normal)",
+              "z_score": 0.598
+            },
+            {
+              "feature": "Right temporal pole gray-matter volume",
+              "value": "2597 mm^3 (Low-Normal)",
+              "z_score": -0.62
+            },
+            {
+              "feature": "Right parahippocampal gray-matter volume",
+              "value": "2454 mm^3 (High)",
+              "z_score": 1.655
+            }
+          ]
+        },
+        "occipital": {
+          "_leaves": [
+            {
+              "feature": "Left lateral occipital gray-matter volume",
+              "value": "11692 mm^3 (Normal)",
+              "z_score": -0.284
+            },
+            {
+              "feature": "Left lingual gray-matter volume",
+              "value": "7813 mm^3 (High)",
+              "z_score": 1.247
+            },
+            {
+              "feature": "Left cuneus gray-matter volume",
+              "value": "3375 mm^3 (High-Normal)",
+              "z_score": 0.65
+            },
+            {
+              "feature": "Left pericalcarine gray-matter volume",
+              "value": "1785 mm^3 (Normal)",
+              "z_score": -0.343
+            },
+            {
+              "feature": "Right lateral occipital gray-matter volume",
+              "value": "14488 mm^3 (High-Normal)",
+              "z_score": 0.966
+            },
+            {
+              "feature": "Right lingual gray-matter volume",
+              "value": "7493 mm^3 (High-Normal)",
+              "z_score": 0.637
+            },
+            {
+              "feature": "Right cuneus gray-matter volume",
+              "value": "3299 mm^3 (Normal)",
+              "z_score": 0.023
+            },
+            {
+              "feature": "Right pericalcarine gray-matter volume",
+              "value": "2118 mm^3 (Normal)",
+              "z_score": 0.009
+            }
+          ]
+        },
+        "cingulate": {
+          "_leaves": [
+            {
+              "feature": "Left rostral anterior cingulate gray-matter volume",
+              "value": "2994 mm^3 (Normal)",
+              "z_score": 0.121
+            },
+            {
+              "feature": "Left caudal anterior cingulate gray-matter volume",
+              "value": "1894 mm^3 (Normal)",
+              "z_score": 0.011
+            },
+            {
+              "feature": "Left posterior cingulate gray-matter volume",
+              "value": "3406 mm^3 (Normal)",
+              "z_score": -0.18
+            },
+            {
+              "feature": "Left isthmus cingulate gray-matter volume",
+              "value": "3009 mm^3 (Normal)",
+              "z_score": 0.406
+            },
+            {
+              "feature": "Right rostral anterior cingulate gray-matter volume",
+              "value": "2819 mm^3 (High-Normal)",
+              "z_score": 0.954
+            },
+            {
+              "feature": "Right caudal anterior cingulate gray-matter volume",
+              "value": "2740 mm^3 (Normal)",
+              "z_score": 0.491
+            },
+            {
+              "feature": "Right posterior cingulate gray-matter volume",
+              "value": "3815 mm^3 (Normal)",
+              "z_score": 0.21
+            },
+            {
+              "feature": "Right isthmus cingulate gray-matter volume",
+              "value": "2943 mm^3 (High-Normal)",
+              "z_score": 0.636
+            }
+          ]
+        },
+        "insula": {
+          "_leaves": [
+            {
+              "feature": "Left insula gray-matter volume",
+              "value": "7871 mm^3 (Normal)",
+              "z_score": -0.201
+            },
+            {
+              "feature": "Right insula gray-matter volume",
+              "value": "7681 mm^3 (Normal)",
+              "z_score": -0.188
+            }
+          ]
+        }
+      }
+    },
+    "connectomics": {
+      "within_network": {
+        "_leaves": [
+          {
+            "feature": "Visual within-network FC",
+            "value": "0.3792 Pearson r (Normal)",
+            "z_score": 0.353
+          },
+          {
+            "feature": "Somatomotor within-network FC",
+            "value": "0.7344 Pearson r (High)",
+            "z_score": 1.893
+          },
+          {
+            "feature": "Dorsal attention within-network FC",
+            "value": "0.3577 Pearson r (High-Normal)",
+            "z_score": 0.647
+          },
+          {
+            "feature": "Salience / ventral attention within-network FC",
+            "value": "0.4439 Pearson r (High)",
+            "z_score": 1.35
+          },
+          {
+            "feature": "Limbic within-network FC",
+            "value": "0.1931 Pearson r (Normal)",
+            "z_score": 0.217
+          },
+          {
+            "feature": "Frontoparietal control within-network FC",
+            "value": "0.3054 Pearson r (High-Normal)",
+            "z_score": 0.534
+          },
+          {
+            "feature": "Default mode within-network FC",
+            "value": "0.2339 Pearson r (Normal)",
+            "z_score": -0.1
+          }
+        ]
+      },
+      "between_network": {
+        "_leaves": [
+          {
+            "feature": "Visual - Somatomotor FC",
+            "value": "-0.2149 Pearson r (Low)",
+            "z_score": -1.349
+          },
+          {
+            "feature": "Visual - Dorsal attention FC",
+            "value": "0.038 Pearson r (Normal)",
+            "z_score": 0.114
+          },
+          {
+            "feature": "Visual - Salience / ventral attention FC",
+            "value": "-0.1927 Pearson r (Low)",
+            "z_score": -1.066
+          },
+          {
+            "feature": "Visual - Limbic FC",
+            "value": "-0.1639 Pearson r (Low)",
+            "z_score": -1.089
+          },
+          {
+            "feature": "Visual - Frontoparietal control FC",
+            "value": "-0.1814 Pearson r (Low-Normal)",
+            "z_score": -0.766
+          },
+          {
+            "feature": "Visual - Default mode FC",
+            "value": "-0.1412 Pearson r (Normal)",
+            "z_score": -0.114
+          },
+          {
+            "feature": "Somatomotor - Dorsal attention FC",
+            "value": "0.2154 Pearson r (High)",
+            "z_score": 1.185
+          },
+          {
+            "feature": "Somatomotor - Salience / ventral attention FC",
+            "value": "0.3333 Pearson r (High)",
+            "z_score": 1.077
+          },
+          {
+            "feature": "Somatomotor - Limbic FC",
+            "value": "0.1319 Pearson r (Very High)",
+            "z_score": 2.356
+          },
+          {
+            "feature": "Somatomotor - Frontoparietal control FC",
+            "value": "-0.1137 Pearson r (Normal)",
+            "z_score": -0.435
+          },
+          {
+            "feature": "Somatomotor - Default mode FC",
+            "value": "-0.0093 Pearson r (Normal)",
+            "z_score": 0.462
+          },
+          {
+            "feature": "Dorsal attention - Salience / ventral attention FC",
+            "value": "0.1364 Pearson r (Normal)",
+            "z_score": 0.401
+          },
+          {
+            "feature": "Dorsal attention - Limbic FC",
+            "value": "-0.0941 Pearson r (Normal)",
+            "z_score": -0.161
+          },
+          {
+            "feature": "Dorsal attention - Frontoparietal control FC",
+            "value": "-0.1064 Pearson r (Low)",
+            "z_score": -1.316
+          },
+          {
+            "feature": "Dorsal attention - Default mode FC",
+            "value": "-0.1217 Pearson r (Normal)",
+            "z_score": 0.131
+          },
+          {
+            "feature": "Salience / ventral attention - Limbic FC",
+            "value": "0.0247 Pearson r (High)",
+            "z_score": 1.298
+          },
+          {
+            "feature": "Salience / ventral attention - Frontoparietal control FC",
+            "value": "0.0556 Pearson r (Normal)",
+            "z_score": 0.117
+          },
+          {
+            "feature": "Salience / ventral attention - Default mode FC",
+            "value": "0.0279 Pearson r (High-Normal)",
+            "z_score": 0.734
+          },
+          {
+            "feature": "Limbic - Frontoparietal control FC",
+            "value": "0.0048 Pearson r (Normal)",
+            "z_score": 0.01
+          },
+          {
+            "feature": "Limbic - Default mode FC",
+            "value": "0.1833 Pearson r (High-Normal)",
+            "z_score": 0.673
+          },
+          {
+            "feature": "Frontoparietal control - Default mode FC",
+            "value": "0.1036 Pearson r (Normal)",
+            "z_score": 0.114
+          }
+        ]
+      }
+    }
+  },
+  "DEMOGRAPHICS_AND_ANTHROPOMETRICS": {
+    "biological_characteristics": {
+      "_leaves": [
+        {
+          "feature": "Age",
+          "value": "20.5 years (Low)",
+          "z_score": -1.368
+        },
+        {
+          "feature": "Biological sex",
+          "value": "male (High)",
+          "z_score": 1.039
+        },
+        {
+          "feature": "Handedness",
+          "value": "right (Normal)",
+          "z_score": 0.351
+        },
+        {
+          "feature": "Body mass index",
+          "value": "21 kg/m^2 (Low-Normal)",
+          "z_score": -0.699
+        }
+      ]
+    },
+    "socioeconomic_background": {
+      "_leaves": [
+        {
+          "feature": "Education level",
+          "value": "high (High-Normal)",
+          "z_score": 0.951
+        },
+        {
+          "feature": "Background socio-economic status",
+          "value": "4 (Normal)",
+          "z_score": -0.016
+        }
+      ]
+    }
+  },
+  "PSYCHOLOGICAL_CONSTRUCTS": {
+    "neo_ffi_personality": {
+      "_leaves": [
+        {
+          "feature": "Neuroticism (NEO-FFI)",
+          "value": "31 (Normal)",
+          "z_score": -0.234
+        },
+        {
+          "feature": "Extraversion (NEO-FFI)",
+          "value": "40 (Normal)",
+          "z_score": -0.294
+        },
+        {
+          "feature": "Openness (NEO-FFI)",
+          "value": "43 (Normal)",
+          "z_score": 0.344
+        },
+        {
+          "feature": "Agreeableness (NEO-FFI)",
+          "value": "32 (Low)",
+          "z_score": -1.461
+        },
+        {
+          "feature": "Conscientiousness (NEO-FFI)",
+          "value": "37 (Normal)",
+          "z_score": -0.15
+        }
+      ]
+    },
+    "bis_bas_sensitivity": {
+      "_leaves": [
+        {
+          "feature": "BAS drive",
+          "value": "11 (Normal)",
+          "z_score": 0.062
+        },
+        {
+          "feature": "BAS fun-seeking",
+          "value": "12 (Normal)",
+          "z_score": 0.343
+        },
+        {
+          "feature": "BAS reward responsiveness",
+          "value": "11 (Very Low)",
+          "z_score": -2.6
+        },
+        {
+          "feature": "Behavioural inhibition (BIS)",
+          "value": "14 (Low)",
+          "z_score": -1.45
+        }
+      ]
+    },
+    "stai_trait_anxiety": {
+      "_leaves": [
+        {
+          "feature": "Trait anxiety (STAI-T)",
+          "value": "36 (Normal)",
+          "z_score": -0.216
+        }
+      ]
+    }
+  },
+  "IDENTITY_AND_BELIEF_SYSTEMS": {
+    "sexual_and_gender_identity": {
+      "_leaves": [
+        {
+          "feature": "Sexual attraction to males",
+          "value": "Not measured",
+          "z_score": null
+        },
+        {
+          "feature": "Sexual attraction to females",
+          "value": "Not measured",
+          "z_score": null
+        },
+        {
+          "feature": "Gender identity (male)",
+          "value": "Not measured",
+          "z_score": null
+        },
+        {
+          "feature": "Gender identity (female)",
+          "value": "Not measured",
+          "z_score": null
+        }
+      ]
+    },
+    "religiosity": {
+      "_leaves": [
+        {
+          "feature": "Religious upbringing",
+          "value": "no (Low-Normal)",
+          "z_score": -0.723
+        },
+        {
+          "feature": "Currently religious",
+          "value": "no (Low-Normal)",
+          "z_score": -0.523
+        },
+        {
+          "feature": "Importance of religion",
+          "value": "Not measured",
+          "z_score": null
+        }
+      ]
+    }
+  }
+}

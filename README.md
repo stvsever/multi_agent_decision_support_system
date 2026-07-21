@@ -227,18 +227,18 @@ multi_agent_decision_support_system/
 │   │   └── frontend/               # Flask dashboard, templates, and static assets
 │   └── tests/                      # Backend and frontend unit tests
 ├── validation/
-│   ├── common/                     # Reusable exploration, ontology, MRI, and evaluation code
+│   ├── common/                     # Reusable exploration, ontology, ingestion, MRI, and evaluation code
 │   └── datasets/
-│       └── AOMIC_ID1000/           # OpenNeuro ds003097 IQ inference validation
-│           ├── brain/              # Derived morphometry and connectome features
+│       └── INTELLIGENCE/           # OpenNeuro ds003097 (AOMIC-ID1000) IQ inference validation
+│           ├── brain/              # Derived high-resolution morphometry and connectome features
 │           ├── compass_inputs/     # Blinded inputs for 100 evaluation participants
 │           ├── dataset/            # Source participant table and field metadata
 │           ├── notebooks/          # Exploration and result notebooks
-│           ├── ontology/           # Generated semantic ontology and reports
+│           ├── ontology/           # Generated arbitrary-depth ontology and reports
 │           ├── pipeline/           # Extraction, inference, and evaluation scripts
-│           ├── results/            # Compact predictions, metrics, and rank comparisons
+│           ├── results/            # Per-tier predictions/metrics + full_engine_2subject/ fresh run
 │           ├── METHODOLOGY.md       # Leakage controls and evaluation protocol
-│           └── README.md            # Dataset contents, tier definitions, and run status
+│           └── README.md            # Dataset contents, tier definitions, and results
 ├── COMPASS_demo.ipynb              # End-to-end demonstration notebook
 ├── main.py                         # CLI and UI entry point
 ├── pyproject.toml                  # Package metadata and build configuration

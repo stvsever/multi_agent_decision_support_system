@@ -1,0 +1,229 @@
+{
+  "participant_id": "eval-0010",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "BRAIN": {
+      "present_leaves": 256,
+      "total_leaves": 256,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 3265,
+      "is_available": true,
+      "structure": {
+        "morphometry": {
+          "label": "Morphometry",
+          "present_leaves": 228,
+          "total_leaves": 228,
+          "coverage_percentage": 100.0,
+          "tokens": 2854,
+          "children": {
+            "global_volumetrics": {
+              "label": "Global Volumetric Summaries",
+              "present_leaves": 6,
+              "total_leaves": 6,
+              "coverage_percentage": 100.0,
+              "tokens": 76
+            },
+            "subcortical_volumes": {
+              "label": "Subcortical Volumes",
+              "present_leaves": 16,
+              "total_leaves": 16,
+              "coverage_percentage": 100.0,
+              "tokens": 160
+            },
+            "cortical_thickness": {
+              "label": "Cortical Thickness",
+              "present_leaves": 70,
+              "total_leaves": 70,
+              "coverage_percentage": 100.0,
+              "tokens": 820,
+              "children": {
+                "hemispheric_mean": {
+                  "label": "Hemispheric mean",
+                  "present_leaves": 2,
+                  "total_leaves": 2,
+                  "coverage_percentage": 100.0,
+                  "tokens": 27
+                },
+                "frontal": {
+                  "label": "Frontal lobe",
+                  "present_leaves": 22,
+                  "total_leaves": 22,
+                  "coverage_percentage": 100.0,
+                  "tokens": 261
+                },
+                "parietal": {
+                  "label": "Parietal lobe",
+                  "present_leaves": 10,
+                  "total_leaves": 10,
+                  "coverage_percentage": 100.0,
+                  "tokens": 108
+                },
+                "temporal": {
+                  "label": "Temporal lobe",
+                  "present_leaves": 18,
+                  "total_leaves": 18,
+                  "coverage_percentage": 100.0,
+                  "tokens": 214
+                },
+                "occipital": {
+                  "label": "Occipital lobe",
+                  "present_leaves": 8,
+                  "total_leaves": 8,
+                  "coverage_percentage": 100.0,
+                  "tokens": 86
+                },
+                "cingulate": {
+                  "label": "Cingulate lobe",
+                  "present_leaves": 8,
+                  "total_leaves": 8,
+                  "coverage_percentage": 100.0,
+                  "tokens": 107
+                },
+                "insula": {
+                  "label": "Insula lobe",
+                  "present_leaves": 2,
+                  "total_leaves": 2,
+                  "coverage_percentage": 100.0,
+                  "tokens": 17
+                }
+              }
+            },
+            "cortical_area": {
+              "label": "Cortical Surface Area",
+              "present_leaves": 68,
+              "total_leaves": 68,
+              "coverage_percentage": 100.0,
+              "tokens": 844,
+              "children": {
+                "frontal": {
+                  "label": "Frontal lobe",
+                  "present_leaves": 22,
+                  "total_leaves": 22,
+                  "coverage_percentage": 100.0,
+                  "tokens": 276
+                },
+                "parietal": {
+                  "label": "Parietal lobe",
+                  "present_leaves": 10,
+                  "total_leaves": 10,
+                  "coverage_percentage": 100.0,
+                  "tokens": 121
+                },
+                "temporal": {
+                  "label": "Temporal lobe",
+                  "present_leaves": 18,
+                  "total_leaves": 18,
+                  "coverage_percentage": 100.0,
+                  "tokens": 224
+                },
+                "occipital": {
+                  "label": "Occipital lobe",
+                  "present_leaves": 8,
+                  "total_leaves": 8,
+                  "coverage_percentage": 100.0,
+                  "tokens": 90
+                },
+                "cingulate": {
+                  "label": "Cingulate lobe",
+                  "present_leaves": 8,
+                  "total_leaves": 8,
+                  "coverage_percentage": 100.0,
+                  "tokens": 112
+                },
+                "insula": {
+                  "label": "Insula lobe",
+                  "present_leaves": 2,
+                  "total_leaves": 2,
+                  "coverage_percentage": 100.0,
+                  "tokens": 21
+                }
+              }
+            },
+            "cortical_volume": {
+              "label": "Cortical Gray-Matter Volume",
+              "present_leaves": 68,
+              "total_leaves": 68,
+              "coverage_percentage": 100.0,
+              "tokens": 954,
+              "children": {
+                "frontal": {
+                  "label": "Frontal lobe",
+                  "present_leaves": 22,
+                  "total_leaves": 22,
+                  "coverage_percentage": 100.0,
+                  "tokens": 313
+                },
+                "parietal": {
+                  "label": "Parietal lobe",
+                  "present_leaves": 10,
+                  "total_leaves": 10,
+                  "coverage_percentage": 100.0,
+                  "tokens": 136
+                },
+                "temporal": {
+                  "label": "Temporal lobe",
+                  "present_leaves": 18,
+                  "total_leaves": 18,
+                  "coverage_percentage": 100.0,
+                  "tokens": 257
+                },
+                "occipital": {
+                  "label": "Occipital lobe",
+                  "present_leaves": 8,
+                  "total_leaves": 8,
+                  "coverage_percentage": 100.0,
+                  "tokens": 102
+                },
+                "cingulate": {
+                  "label": "Cingulate lobe",
+                  "present_leaves": 8,
+                  "total_leaves": 8,
+                  "coverage_percentage": 100.0,
+                  "tokens": 123
+                },
+                "insula": {
+                  "label": "Insula lobe",
+                  "present_leaves": 2,
+                  "total_leaves": 2,
+                  "coverage_percentage": 100.0,
+                  "tokens": 23
+                }
+              }
+            }
+          }
+        },
+        "connectomics": {
+          "label": "Connectomics",
+          "present_leaves": 28,
+          "total_leaves": 28,
+          "coverage_percentage": 100.0,
+          "tokens": 411,
+          "children": {
+            "within_network": {
+              "label": "Within-network FC",
+              "present_leaves": 7,
+              "total_leaves": 7,
+              "coverage_percentage": 100.0,
+              "tokens": 98
+            },
+            "between_network": {
+              "label": "Between-network FC",
+              "present_leaves": 21,
+              "total_leaves": 21,
+              "coverage_percentage": 100.0,
+              "tokens": 313
+            }
+          }
+        }
+      }
+    }
+  },
+  "total_tokens": 3265,
+  "total_leaves": 256,
+  "present_leaves": 256,
+  "available_domains": [
+    "BRAIN"
+  ],
+  "token_budget": 3591
+}

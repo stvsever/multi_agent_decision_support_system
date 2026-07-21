@@ -1,16 +1,19 @@
 """
-FreeSurfer morphometry feature extraction (structural brain modality).
+FreeSurfer morphometry feature extraction (brain morphometry modality).
 
-Parses the small per-subject FreeSurfer stats tables (aseg.stats, lh/rh.aparc.stats)
-into a curated, human-labeled morphometric feature set that slots into the ontology
-as a BRAIN_MORPHOMETRY domain. We deliberately reduce the raw ~250 region metrics to
-a clean, interpretable set:
+Parses the per-subject FreeSurfer stats tables (aseg.stats, lh/rh.aparc.stats)
+into a high-resolution, human-labeled morphometric feature set that slots into the
+ontology under ``BRAIN -> morphometry``. Unlike a lobe-level summary, this exposes
+the full Desikan-Killiany atlas resolution that the pre-processing already contains:
 
-* global measures (intracranial volume, gray/white volumes, mean thickness),
+* global volumetric summaries (intracranial volume, gray/white volumes, ...),
 * subcortical volumes for key bilateral structures,
-* cortical thickness aggregated to lobes (surface-area weighted).
+* per-region cortical THICKNESS, SURFACE AREA and GRAY-MATTER VOLUME for all 34
+  Desikan-Killiany regions per hemisphere, each nested under its lobe.
 
-Keeping labels meaningful matters because the engine reasons over feature text.
+Every feature carries an explicit ontology ``path`` so the hierarchy is clean,
+deep and reproducible without depending on an LLM to group brain regions. Keeping
+labels meaningful matters because the engine reasons over feature text.
 """
 
 from __future__ import annotations
@@ -48,6 +51,26 @@ DK_LOBES: Dict[str, str] = {
     "insula": "insula",
 }
 LOBES = ["frontal", "parietal", "temporal", "occipital", "cingulate", "insula"]
+LOBE_LABEL = {l: f"{l.capitalize()} lobe" for l in LOBES}
+
+# Human-readable Desikan-Killiany region labels.
+REGION_LABELS: Dict[str, str] = {
+    "superiorfrontal": "superior frontal", "rostralmiddlefrontal": "rostral middle frontal",
+    "caudalmiddlefrontal": "caudal middle frontal", "parsopercularis": "pars opercularis",
+    "parstriangularis": "pars triangularis", "parsorbitalis": "pars orbitalis",
+    "lateralorbitofrontal": "lateral orbitofrontal", "medialorbitofrontal": "medial orbitofrontal",
+    "precentral": "precentral", "paracentral": "paracentral", "frontalpole": "frontal pole",
+    "superiorparietal": "superior parietal", "inferiorparietal": "inferior parietal",
+    "supramarginal": "supramarginal", "postcentral": "postcentral", "precuneus": "precuneus",
+    "superiortemporal": "superior temporal", "middletemporal": "middle temporal",
+    "inferiortemporal": "inferior temporal", "bankssts": "banks of superior temporal sulcus",
+    "fusiform": "fusiform", "transversetemporal": "transverse temporal", "entorhinal": "entorhinal",
+    "temporalpole": "temporal pole", "parahippocampal": "parahippocampal",
+    "lateraloccipital": "lateral occipital", "lingual": "lingual", "cuneus": "cuneus",
+    "pericalcarine": "pericalcarine", "rostralanteriorcingulate": "rostral anterior cingulate",
+    "caudalanteriorcingulate": "caudal anterior cingulate", "posteriorcingulate": "posterior cingulate",
+    "isthmuscingulate": "isthmus cingulate", "insula": "insula",
+}
 
 # Subcortical structures kept (matched by substring, bilateral).
 SUBCORTICAL = [
@@ -70,6 +93,26 @@ GLOBAL_MEASURES = {
     "CerebralWhiteMatterVol": ("fs_cerebral_wm_vol", "Total cerebral white matter volume", "mm^3"),
     "SubCortGrayVol": ("fs_subcort_gray_vol", "Total subcortical gray matter volume", "mm^3"),
 }
+
+# Ontology path prefixes (deep, deterministic; no LLM needed for brain structure).
+_BRAIN = {"id": "BRAIN", "label": "Brain",
+          "definition": "Features derived from brain imaging: structure (morphometry) and function (connectomics)."}
+_MORPH = {"id": "morphometry", "label": "Morphometry",
+          "definition": "Structural morphometry of the brain from T1-weighted MRI (FreeSurfer): regional volumes, cortical thickness and surface area."}
+_CORT_THK = {"id": "cortical_thickness", "label": "Cortical Thickness",
+             "definition": "Mean cortical thickness of Desikan-Killiany regions."}
+_CORT_AREA = {"id": "cortical_area", "label": "Cortical Surface Area",
+              "definition": "White-surface area of Desikan-Killiany cortical regions."}
+_CORT_VOL = {"id": "cortical_volume", "label": "Cortical Gray-Matter Volume",
+             "definition": "Gray-matter volume of Desikan-Killiany cortical regions."}
+_SUBCORT = {"id": "subcortical_volumes", "label": "Subcortical Volumes",
+            "definition": "Volumes of key bilateral subcortical structures."}
+_GLOBAL = {"id": "global_volumetrics", "label": "Global Volumetric Summaries",
+           "definition": "Whole-brain volumetric summaries."}
+
+
+def _lobe_seg(lobe: str) -> Dict[str, str]:
+    return {"id": lobe, "label": LOBE_LABEL[lobe], "definition": f"{LOBE_LABEL[lobe]} regions."}
 
 
 def download_stats(subject: str, accession: str, dest_dir: Path) -> Dict[str, Optional[Path]]:
@@ -135,9 +178,9 @@ def _parse_aseg_volumes(text: str) -> Dict[str, float]:
     return out
 
 
-def _parse_aparc(text: str) -> List[Tuple[str, float, float]]:
-    """Return [(region, surf_area, thickness_avg)] from an aparc.stats table."""
-    rows: List[Tuple[str, float, float]] = []
+def _parse_aparc(text: str) -> List[Tuple[str, float, float, float]]:
+    """Return [(region, surf_area, gray_vol, thickness_avg)] from an aparc.stats table."""
+    rows: List[Tuple[str, float, float, float]] = []
     for line in text.splitlines():
         if line.startswith("#") or not line.strip():
             continue
@@ -145,14 +188,14 @@ def _parse_aparc(text: str) -> List[Tuple[str, float, float]]:
         # StructName NumVert SurfArea GrayVol ThickAvg ThickStd ...
         if len(cols) >= 5:
             try:
-                rows.append((cols[0], float(cols[2]), float(cols[4])))
+                rows.append((cols[0], float(cols[2]), float(cols[3]), float(cols[4])))
             except ValueError:
                 continue
     return rows
 
 
 def extract_subject_features(paths: Dict[str, Optional[Path]]) -> Dict[str, float]:
-    """Extract the curated morphometry feature dict for one subject."""
+    """Extract the high-resolution morphometry feature dict for one subject."""
     feats: Dict[str, float] = {}
     if not paths.get("aseg"):
         return feats
@@ -173,7 +216,7 @@ def extract_subject_features(paths: Dict[str, Optional[Path]]) -> Dict[str, floa
             if match is not None:
                 feats[f"fs_vol_{hemi}_{slug}"] = match
 
-    # Mean cortical thickness (aparc measures) and lobe-level thickness.
+    # Per-region cortical thickness / surface area / gray-matter volume + mean thickness.
     for hemi, key in [("lh", "lh"), ("rh", "rh")]:
         if not paths.get(key):
             continue
@@ -181,42 +224,48 @@ def extract_subject_features(paths: Dict[str, Optional[Path]]) -> Dict[str, floa
         m = _parse_measures(text)
         if "MeanThickness" in m:
             feats[f"fs_mean_thickness_{hemi}"] = m["MeanThickness"]
-        lobe_area: Dict[str, float] = {l: 0.0 for l in LOBES}
-        lobe_wsum: Dict[str, float] = {l: 0.0 for l in LOBES}
-        for region, area, thick in _parse_aparc(text):
-            lobe = DK_LOBES.get(region.lower())
-            if lobe:
-                lobe_area[lobe] += area
-                lobe_wsum[lobe] += area * thick
-        for lobe in LOBES:
-            if lobe_area[lobe] > 0:
-                feats[f"fs_thk_{hemi}_{lobe}"] = round(lobe_wsum[lobe] / lobe_area[lobe], 4)
+        for region, area, gray_vol, thick in _parse_aparc(text):
+            if region.lower() not in DK_LOBES:
+                continue
+            r = region.lower()
+            feats[f"fs_thk_{hemi}_{r}"] = round(thick, 4)
+            feats[f"fs_area_{hemi}_{r}"] = round(area, 1)
+            feats[f"fs_gmv_{hemi}_{r}"] = round(gray_vol, 1)
     return feats
 
 
 def feature_specs() -> Dict[str, Dict[str, Any]]:
-    """Feature specs for every morphometry feature.
+    """Feature specs (with deep ontology ``path``) for every morphometry feature.
 
     Leaf features carry a self-explanatory label and no redundant description
     (the ontology stores interpretable definitions only at parent nodes).
     """
     specs: Dict[str, Dict[str, Any]] = {}
+
+    def add(fid, label, units, path):
+        specs[fid] = {"label": label, "stat_type": "numeric", "units": units,
+                      "group": "brain_morphometry", "path": path}
+
     for _mkey, (fid, label, unit) in GLOBAL_MEASURES.items():
-        specs[fid] = {"label": label, "stat_type": "numeric", "units": unit,
-                      "group": "brain_morphometry", "subdomain_hint": "global_brain_measures"}
+        add(fid, label, unit, [_BRAIN, _MORPH, _GLOBAL])
+
     for slug, _needle in SUBCORTICAL:
         for hemi in ("lh", "rh"):
             side = "Left" if hemi == "lh" else "Right"
-            specs[f"fs_vol_{hemi}_{slug}"] = {
-                "label": f"{side} {slug} volume", "stat_type": "numeric", "units": "mm^3",
-                "group": "brain_morphometry", "subdomain_hint": "subcortical_volumes"}
+            add(f"fs_vol_{hemi}_{slug}", f"{side} {slug} volume", "mm^3",
+                [_BRAIN, _MORPH, _SUBCORT])
+
     for hemi in ("lh", "rh"):
         side = "Left" if hemi == "lh" else "Right"
-        specs[f"fs_mean_thickness_{hemi}"] = {
-            "label": f"{side} hemisphere mean cortical thickness", "stat_type": "numeric",
-            "units": "mm", "group": "brain_morphometry", "subdomain_hint": "cortical_thickness"}
-        for lobe in LOBES:
-            specs[f"fs_thk_{hemi}_{lobe}"] = {
-                "label": f"{side} {lobe} lobe cortical thickness", "stat_type": "numeric",
-                "units": "mm", "group": "brain_morphometry", "subdomain_hint": "cortical_thickness"}
+        add(f"fs_mean_thickness_{hemi}", f"{side} hemisphere mean cortical thickness", "mm",
+            [_BRAIN, _MORPH, _CORT_THK, {"id": "hemispheric_mean", "label": "Hemispheric mean",
+                                         "definition": "Whole-hemisphere mean cortical thickness."}])
+        for region, lobe in DK_LOBES.items():
+            rlab = REGION_LABELS.get(region, region)
+            add(f"fs_thk_{hemi}_{region}", f"{side} {rlab} thickness", "mm",
+                [_BRAIN, _MORPH, _CORT_THK, _lobe_seg(lobe)])
+            add(f"fs_area_{hemi}_{region}", f"{side} {rlab} surface area", "mm^2",
+                [_BRAIN, _MORPH, _CORT_AREA, _lobe_seg(lobe)])
+            add(f"fs_gmv_{hemi}_{region}", f"{side} {rlab} gray-matter volume", "mm^3",
+                [_BRAIN, _MORPH, _CORT_VOL, _lobe_seg(lobe)])
     return specs

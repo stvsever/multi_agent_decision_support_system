@@ -1,0 +1,973 @@
+{
+  "BRAIN": {
+    "morphometry": {
+      "global_volumetrics": {
+        "fs_etiv": {
+          "score": -0.536
+        },
+        "fs_brainseg_vol": {
+          "score": -0.923
+        },
+        "fs_total_gray_vol": {
+          "score": -1.215
+        },
+        "fs_cortex_vol": {
+          "score": -1.078
+        },
+        "fs_cerebral_wm_vol": {
+          "score": -0.728
+        },
+        "fs_subcort_gray_vol": {
+          "score": -2.091
+        },
+        "_stats": {
+          "mean_abs_score": 1.095,
+          "n_leaves": 6,
+          "present_leaves": 6
+        }
+      },
+      "subcortical_volumes": {
+        "fs_vol_lh_hippocampus": {
+          "score": -2.895
+        },
+        "fs_vol_rh_hippocampus": {
+          "score": -2.564
+        },
+        "fs_vol_lh_amygdala": {
+          "score": -1.115
+        },
+        "fs_vol_rh_amygdala": {
+          "score": -1.145
+        },
+        "fs_vol_lh_thalamus": {
+          "score": -1.921
+        },
+        "fs_vol_rh_thalamus": {
+          "score": -1.388
+        },
+        "fs_vol_lh_caudate": {
+          "score": -2.162
+        },
+        "fs_vol_rh_caudate": {
+          "score": -2.165
+        },
+        "fs_vol_lh_putamen": {
+          "score": -1.184
+        },
+        "fs_vol_rh_putamen": {
+          "score": -1.359
+        },
+        "fs_vol_lh_pallidum": {
+          "score": -1.489
+        },
+        "fs_vol_rh_pallidum": {
+          "score": -1.431
+        },
+        "fs_vol_lh_accumbens": {
+          "score": -1.304
+        },
+        "fs_vol_rh_accumbens": {
+          "score": -1.245
+        },
+        "fs_vol_lh_ventraldc": {
+          "score": -0.891
+        },
+        "fs_vol_rh_ventraldc": {
+          "score": -1.273
+        },
+        "_stats": {
+          "mean_abs_score": 1.596,
+          "n_leaves": 16,
+          "present_leaves": 16
+        }
+      },
+      "cortical_thickness": {
+        "hemispheric_mean": {
+          "fs_mean_thickness_lh": {
+            "score": -1.428
+          },
+          "fs_mean_thickness_rh": {
+            "score": -1.444
+          },
+          "_stats": {
+            "mean_abs_score": 1.436,
+            "n_leaves": 2,
+            "present_leaves": 2
+          }
+        },
+        "frontal": {
+          "fs_thk_lh_superiorfrontal": {
+            "score": -0.856
+          },
+          "fs_thk_lh_rostralmiddlefrontal": {
+            "score": -0.957
+          },
+          "fs_thk_lh_caudalmiddlefrontal": {
+            "score": -0.863
+          },
+          "fs_thk_lh_parsopercularis": {
+            "score": -0.327
+          },
+          "fs_thk_lh_parstriangularis": {
+            "score": 0.016
+          },
+          "fs_thk_lh_parsorbitalis": {
+            "score": -0.072
+          },
+          "fs_thk_lh_lateralorbitofrontal": {
+            "score": -1.598
+          },
+          "fs_thk_lh_medialorbitofrontal": {
+            "score": -0.425
+          },
+          "fs_thk_lh_precentral": {
+            "score": -0.686
+          },
+          "fs_thk_lh_paracentral": {
+            "score": -0.487
+          },
+          "fs_thk_lh_frontalpole": {
+            "score": -0.697
+          },
+          "fs_thk_rh_superiorfrontal": {
+            "score": -0.388
+          },
+          "fs_thk_rh_rostralmiddlefrontal": {
+            "score": -0.643
+          },
+          "fs_thk_rh_caudalmiddlefrontal": {
+            "score": -0.158
+          },
+          "fs_thk_rh_parsopercularis": {
+            "score": 0.577
+          },
+          "fs_thk_rh_parstriangularis": {
+            "score": -0.199
+          },
+          "fs_thk_rh_parsorbitalis": {
+            "score": -1.303
+          },
+          "fs_thk_rh_lateralorbitofrontal": {
+            "score": -2.879
+          },
+          "fs_thk_rh_medialorbitofrontal": {
+            "score": -0.046
+          },
+          "fs_thk_rh_precentral": {
+            "score": -0.992
+          },
+          "fs_thk_rh_paracentral": {
+            "score": -1.68
+          },
+          "fs_thk_rh_frontalpole": {
+            "score": -0.106
+          },
+          "_stats": {
+            "mean_abs_score": 0.725,
+            "n_leaves": 22,
+            "present_leaves": 22
+          }
+        },
+        "parietal": {
+          "fs_thk_lh_superiorparietal": {
+            "score": -1.998
+          },
+          "fs_thk_lh_inferiorparietal": {
+            "score": -1.881
+          },
+          "fs_thk_lh_supramarginal": {
+            "score": -0.995
+          },
+          "fs_thk_lh_postcentral": {
+            "score": -1.744
+          },
+          "fs_thk_lh_precuneus": {
+            "score": -1.742
+          },
+          "fs_thk_rh_superiorparietal": {
+            "score": -1.41
+          },
+          "fs_thk_rh_inferiorparietal": {
+            "score": -1.48
+          },
+          "fs_thk_rh_supramarginal": {
+            "score": -0.079
+          },
+          "fs_thk_rh_postcentral": {
+            "score": -1.301
+          },
+          "fs_thk_rh_precuneus": {
+            "score": -2.056
+          },
+          "_stats": {
+            "mean_abs_score": 1.469,
+            "n_leaves": 10,
+            "present_leaves": 10
+          }
+        },
+        "temporal": {
+          "fs_thk_lh_superiortemporal": {
+            "score": -1.036
+          },
+          "fs_thk_lh_middletemporal": {
+            "score": -0.511
+          },
+          "fs_thk_lh_inferiortemporal": {
+            "score": -1.981
+          },
+          "fs_thk_lh_bankssts": {
+            "score": -1.095
+          },
+          "fs_thk_lh_fusiform": {
+            "score": -1.216
+          },
+          "fs_thk_lh_transversetemporal": {
+            "score": -0.385
+          },
+          "fs_thk_lh_entorhinal": {
+            "score": -0.81
+          },
+          "fs_thk_lh_temporalpole": {
+            "score": -1.584
+          },
+          "fs_thk_lh_parahippocampal": {
+            "score": -0.278
+          },
+          "fs_thk_rh_superiortemporal": {
+            "score": -0.368
+          },
+          "fs_thk_rh_middletemporal": {
+            "score": -1.393
+          },
+          "fs_thk_rh_inferiortemporal": {
+            "score": -1.311
+          },
+          "fs_thk_rh_bankssts": {
+            "score": -0.129
+          },
+          "fs_thk_rh_fusiform": {
+            "score": -1.246
+          },
+          "fs_thk_rh_transversetemporal": {
+            "score": -0.479
+          },
+          "fs_thk_rh_entorhinal": {
+            "score": -0.061
+          },
+          "fs_thk_rh_temporalpole": {
+            "score": 0.281
+          },
+          "fs_thk_rh_parahippocampal": {
+            "score": -0.532
+          },
+          "_stats": {
+            "mean_abs_score": 0.816,
+            "n_leaves": 18,
+            "present_leaves": 18
+          }
+        },
+        "occipital": {
+          "fs_thk_lh_lateraloccipital": {
+            "score": -0.004
+          },
+          "fs_thk_lh_lingual": {
+            "score": -1.194
+          },
+          "fs_thk_lh_cuneus": {
+            "score": -0.481
+          },
+          "fs_thk_lh_pericalcarine": {
+            "score": -0.0
+          },
+          "fs_thk_rh_lateraloccipital": {
+            "score": -0.787
+          },
+          "fs_thk_rh_lingual": {
+            "score": -1.781
+          },
+          "fs_thk_rh_cuneus": {
+            "score": -1.098
+          },
+          "fs_thk_rh_pericalcarine": {
+            "score": -0.407
+          },
+          "_stats": {
+            "mean_abs_score": 0.719,
+            "n_leaves": 8,
+            "present_leaves": 8
+          }
+        },
+        "cingulate": {
+          "fs_thk_lh_rostralanteriorcingulate": {
+            "score": 0.769
+          },
+          "fs_thk_lh_caudalanteriorcingulate": {
+            "score": 0.154
+          },
+          "fs_thk_lh_posteriorcingulate": {
+            "score": 0.43
+          },
+          "fs_thk_lh_isthmuscingulate": {
+            "score": 1.683
+          },
+          "fs_thk_rh_rostralanteriorcingulate": {
+            "score": 0.405
+          },
+          "fs_thk_rh_caudalanteriorcingulate": {
+            "score": -1.07
+          },
+          "fs_thk_rh_posteriorcingulate": {
+            "score": -1.0
+          },
+          "fs_thk_rh_isthmuscingulate": {
+            "score": -0.547
+          },
+          "_stats": {
+            "mean_abs_score": 0.757,
+            "n_leaves": 8,
+            "present_leaves": 8
+          }
+        },
+        "insula": {
+          "fs_thk_lh_insula": {
+            "score": -1.521
+          },
+          "fs_thk_rh_insula": {
+            "score": -0.708
+          },
+          "_stats": {
+            "mean_abs_score": 1.115,
+            "n_leaves": 2,
+            "present_leaves": 2
+          }
+        },
+        "_stats": {
+          "mean_abs_score": 0.889,
+          "n_leaves": 70,
+          "present_leaves": 70
+        }
+      },
+      "cortical_area": {
+        "frontal": {
+          "fs_area_lh_superiorfrontal": {
+            "score": -0.349
+          },
+          "fs_area_lh_rostralmiddlefrontal": {
+            "score": -1.086
+          },
+          "fs_area_lh_caudalmiddlefrontal": {
+            "score": 0.049
+          },
+          "fs_area_lh_parsopercularis": {
+            "score": -0.471
+          },
+          "fs_area_lh_parstriangularis": {
+            "score": -2.462
+          },
+          "fs_area_lh_parsorbitalis": {
+            "score": -2.504
+          },
+          "fs_area_lh_lateralorbitofrontal": {
+            "score": -1.174
+          },
+          "fs_area_lh_medialorbitofrontal": {
+            "score": 0.033
+          },
+          "fs_area_lh_precentral": {
+            "score": 0.132
+          },
+          "fs_area_lh_paracentral": {
+            "score": 1.072
+          },
+          "fs_area_lh_frontalpole": {
+            "score": 0.779
+          },
+          "fs_area_rh_superiorfrontal": {
+            "score": -0.797
+          },
+          "fs_area_rh_rostralmiddlefrontal": {
+            "score": 0.54
+          },
+          "fs_area_rh_caudalmiddlefrontal": {
+            "score": -1.623
+          },
+          "fs_area_rh_parsopercularis": {
+            "score": -0.13
+          },
+          "fs_area_rh_parstriangularis": {
+            "score": 1.555
+          },
+          "fs_area_rh_parsorbitalis": {
+            "score": -0.877
+          },
+          "fs_area_rh_lateralorbitofrontal": {
+            "score": -0.468
+          },
+          "fs_area_rh_medialorbitofrontal": {
+            "score": 0.05
+          },
+          "fs_area_rh_precentral": {
+            "score": -1.342
+          },
+          "fs_area_rh_paracentral": {
+            "score": -0.257
+          },
+          "fs_area_rh_frontalpole": {
+            "score": 0.569
+          },
+          "_stats": {
+            "mean_abs_score": 0.833,
+            "n_leaves": 22,
+            "present_leaves": 22
+          }
+        },
+        "parietal": {
+          "fs_area_lh_superiorparietal": {
+            "score": 0.214
+          },
+          "fs_area_lh_inferiorparietal": {
+            "score": -0.034
+          },
+          "fs_area_lh_supramarginal": {
+            "score": -0.518
+          },
+          "fs_area_lh_postcentral": {
+            "score": -0.193
+          },
+          "fs_area_lh_precuneus": {
+            "score": -0.782
+          },
+          "fs_area_rh_superiorparietal": {
+            "score": 0.141
+          },
+          "fs_area_rh_inferiorparietal": {
+            "score": -1.165
+          },
+          "fs_area_rh_supramarginal": {
+            "score": -0.394
+          },
+          "fs_area_rh_postcentral": {
+            "score": -0.642
+          },
+          "fs_area_rh_precuneus": {
+            "score": -0.167
+          },
+          "_stats": {
+            "mean_abs_score": 0.425,
+            "n_leaves": 10,
+            "present_leaves": 10
+          }
+        },
+        "temporal": {
+          "fs_area_lh_superiortemporal": {
+            "score": -1.508
+          },
+          "fs_area_lh_middletemporal": {
+            "score": -1.831
+          },
+          "fs_area_lh_inferiortemporal": {
+            "score": -0.569
+          },
+          "fs_area_lh_bankssts": {
+            "score": -1.126
+          },
+          "fs_area_lh_fusiform": {
+            "score": -0.658
+          },
+          "fs_area_lh_transversetemporal": {
+            "score": -1.735
+          },
+          "fs_area_lh_entorhinal": {
+            "score": 0.419
+          },
+          "fs_area_lh_temporalpole": {
+            "score": 1.173
+          },
+          "fs_area_lh_parahippocampal": {
+            "score": -1.086
+          },
+          "fs_area_rh_superiortemporal": {
+            "score": -1.764
+          },
+          "fs_area_rh_middletemporal": {
+            "score": -1.269
+          },
+          "fs_area_rh_inferiortemporal": {
+            "score": 0.128
+          },
+          "fs_area_rh_bankssts": {
+            "score": -0.589
+          },
+          "fs_area_rh_fusiform": {
+            "score": -1.013
+          },
+          "fs_area_rh_transversetemporal": {
+            "score": -0.867
+          },
+          "fs_area_rh_entorhinal": {
+            "score": 1.267
+          },
+          "fs_area_rh_temporalpole": {
+            "score": -0.067
+          },
+          "fs_area_rh_parahippocampal": {
+            "score": -2.329
+          },
+          "_stats": {
+            "mean_abs_score": 1.078,
+            "n_leaves": 18,
+            "present_leaves": 18
+          }
+        },
+        "occipital": {
+          "fs_area_lh_lateraloccipital": {
+            "score": 0.396
+          },
+          "fs_area_lh_lingual": {
+            "score": 0.365
+          },
+          "fs_area_lh_cuneus": {
+            "score": 2.481
+          },
+          "fs_area_lh_pericalcarine": {
+            "score": 0.948
+          },
+          "fs_area_rh_lateraloccipital": {
+            "score": 0.403
+          },
+          "fs_area_rh_lingual": {
+            "score": -0.129
+          },
+          "fs_area_rh_cuneus": {
+            "score": 0.868
+          },
+          "fs_area_rh_pericalcarine": {
+            "score": 0.914
+          },
+          "_stats": {
+            "mean_abs_score": 0.813,
+            "n_leaves": 8,
+            "present_leaves": 8
+          }
+        },
+        "cingulate": {
+          "fs_area_lh_rostralanteriorcingulate": {
+            "score": -1.926
+          },
+          "fs_area_lh_caudalanteriorcingulate": {
+            "score": -1.723
+          },
+          "fs_area_lh_posteriorcingulate": {
+            "score": -1.444
+          },
+          "fs_area_lh_isthmuscingulate": {
+            "score": -1.636
+          },
+          "fs_area_rh_rostralanteriorcingulate": {
+            "score": -1.788
+          },
+          "fs_area_rh_caudalanteriorcingulate": {
+            "score": 0.002
+          },
+          "fs_area_rh_posteriorcingulate": {
+            "score": -0.723
+          },
+          "fs_area_rh_isthmuscingulate": {
+            "score": -1.113
+          },
+          "_stats": {
+            "mean_abs_score": 1.294,
+            "n_leaves": 8,
+            "present_leaves": 8
+          }
+        },
+        "insula": {
+          "fs_area_lh_insula": {
+            "score": -0.522
+          },
+          "fs_area_rh_insula": {
+            "score": -0.907
+          },
+          "_stats": {
+            "mean_abs_score": 0.715,
+            "n_leaves": 2,
+            "present_leaves": 2
+          }
+        },
+        "_stats": {
+          "mean_abs_score": 0.886,
+          "n_leaves": 68,
+          "present_leaves": 68
+        }
+      },
+      "cortical_volume": {
+        "frontal": {
+          "fs_gmv_lh_superiorfrontal": {
+            "score": -0.587
+          },
+          "fs_gmv_lh_rostralmiddlefrontal": {
+            "score": -1.447
+          },
+          "fs_gmv_lh_caudalmiddlefrontal": {
+            "score": -0.1
+          },
+          "fs_gmv_lh_parsopercularis": {
+            "score": -0.597
+          },
+          "fs_gmv_lh_parstriangularis": {
+            "score": -2.126
+          },
+          "fs_gmv_lh_parsorbitalis": {
+            "score": -1.792
+          },
+          "fs_gmv_lh_lateralorbitofrontal": {
+            "score": -1.918
+          },
+          "fs_gmv_lh_medialorbitofrontal": {
+            "score": -0.105
+          },
+          "fs_gmv_lh_precentral": {
+            "score": -0.15
+          },
+          "fs_gmv_lh_paracentral": {
+            "score": 0.65
+          },
+          "fs_gmv_lh_frontalpole": {
+            "score": 0.422
+          },
+          "fs_gmv_rh_superiorfrontal": {
+            "score": -1.047
+          },
+          "fs_gmv_rh_rostralmiddlefrontal": {
+            "score": -0.087
+          },
+          "fs_gmv_rh_caudalmiddlefrontal": {
+            "score": -1.517
+          },
+          "fs_gmv_rh_parsopercularis": {
+            "score": 0.319
+          },
+          "fs_gmv_rh_parstriangularis": {
+            "score": 1.24
+          },
+          "fs_gmv_rh_parsorbitalis": {
+            "score": -1.06
+          },
+          "fs_gmv_rh_lateralorbitofrontal": {
+            "score": -1.421
+          },
+          "fs_gmv_rh_medialorbitofrontal": {
+            "score": 0.025
+          },
+          "fs_gmv_rh_precentral": {
+            "score": -1.511
+          },
+          "fs_gmv_rh_paracentral": {
+            "score": -1.052
+          },
+          "fs_gmv_rh_frontalpole": {
+            "score": 0.159
+          },
+          "_stats": {
+            "mean_abs_score": 0.879,
+            "n_leaves": 22,
+            "present_leaves": 22
+          }
+        },
+        "parietal": {
+          "fs_gmv_lh_superiorparietal": {
+            "score": -0.488
+          },
+          "fs_gmv_lh_inferiorparietal": {
+            "score": -0.555
+          },
+          "fs_gmv_lh_supramarginal": {
+            "score": -0.699
+          },
+          "fs_gmv_lh_postcentral": {
+            "score": -0.822
+          },
+          "fs_gmv_lh_precuneus": {
+            "score": -1.46
+          },
+          "fs_gmv_rh_superiorparietal": {
+            "score": -0.395
+          },
+          "fs_gmv_rh_inferiorparietal": {
+            "score": -1.591
+          },
+          "fs_gmv_rh_supramarginal": {
+            "score": -0.36
+          },
+          "fs_gmv_rh_postcentral": {
+            "score": -1.076
+          },
+          "fs_gmv_rh_precuneus": {
+            "score": -0.892
+          },
+          "_stats": {
+            "mean_abs_score": 0.834,
+            "n_leaves": 10,
+            "present_leaves": 10
+          }
+        },
+        "temporal": {
+          "fs_gmv_lh_superiortemporal": {
+            "score": -1.714
+          },
+          "fs_gmv_lh_middletemporal": {
+            "score": -1.766
+          },
+          "fs_gmv_lh_inferiortemporal": {
+            "score": -1.221
+          },
+          "fs_gmv_lh_bankssts": {
+            "score": -1.192
+          },
+          "fs_gmv_lh_fusiform": {
+            "score": -0.929
+          },
+          "fs_gmv_lh_transversetemporal": {
+            "score": -1.378
+          },
+          "fs_gmv_lh_entorhinal": {
+            "score": -0.153
+          },
+          "fs_gmv_lh_temporalpole": {
+            "score": 0.687
+          },
+          "fs_gmv_lh_parahippocampal": {
+            "score": -0.574
+          },
+          "fs_gmv_rh_superiortemporal": {
+            "score": -1.448
+          },
+          "fs_gmv_rh_middletemporal": {
+            "score": -1.445
+          },
+          "fs_gmv_rh_inferiortemporal": {
+            "score": -0.534
+          },
+          "fs_gmv_rh_bankssts": {
+            "score": -0.252
+          },
+          "fs_gmv_rh_fusiform": {
+            "score": -0.962
+          },
+          "fs_gmv_rh_transversetemporal": {
+            "score": -0.945
+          },
+          "fs_gmv_rh_entorhinal": {
+            "score": 0.43
+          },
+          "fs_gmv_rh_temporalpole": {
+            "score": 0.816
+          },
+          "fs_gmv_rh_parahippocampal": {
+            "score": -1.802
+          },
+          "_stats": {
+            "mean_abs_score": 1.014,
+            "n_leaves": 18,
+            "present_leaves": 18
+          }
+        },
+        "occipital": {
+          "fs_gmv_lh_lateraloccipital": {
+            "score": 0.448
+          },
+          "fs_gmv_lh_lingual": {
+            "score": -0.217
+          },
+          "fs_gmv_lh_cuneus": {
+            "score": 1.308
+          },
+          "fs_gmv_lh_pericalcarine": {
+            "score": 0.55
+          },
+          "fs_gmv_rh_lateraloccipital": {
+            "score": -0.087
+          },
+          "fs_gmv_rh_lingual": {
+            "score": -1.163
+          },
+          "fs_gmv_rh_cuneus": {
+            "score": 0.18
+          },
+          "fs_gmv_rh_pericalcarine": {
+            "score": 0.496
+          },
+          "_stats": {
+            "mean_abs_score": 0.556,
+            "n_leaves": 8,
+            "present_leaves": 8
+          }
+        },
+        "cingulate": {
+          "fs_gmv_lh_rostralanteriorcingulate": {
+            "score": -1.745
+          },
+          "fs_gmv_lh_caudalanteriorcingulate": {
+            "score": -1.93
+          },
+          "fs_gmv_lh_posteriorcingulate": {
+            "score": -1.352
+          },
+          "fs_gmv_lh_isthmuscingulate": {
+            "score": -1.694
+          },
+          "fs_gmv_rh_rostralanteriorcingulate": {
+            "score": -1.769
+          },
+          "fs_gmv_rh_caudalanteriorcingulate": {
+            "score": -0.19
+          },
+          "fs_gmv_rh_posteriorcingulate": {
+            "score": -1.225
+          },
+          "fs_gmv_rh_isthmuscingulate": {
+            "score": -1.484
+          },
+          "_stats": {
+            "mean_abs_score": 1.424,
+            "n_leaves": 8,
+            "present_leaves": 8
+          }
+        },
+        "insula": {
+          "fs_gmv_lh_insula": {
+            "score": -1.159
+          },
+          "fs_gmv_rh_insula": {
+            "score": -1.203
+          },
+          "_stats": {
+            "mean_abs_score": 1.181,
+            "n_leaves": 2,
+            "present_leaves": 2
+          }
+        },
+        "_stats": {
+          "mean_abs_score": 0.943,
+          "n_leaves": 68,
+          "present_leaves": 68
+        }
+      },
+      "_stats": {
+        "mean_abs_score": 0.959,
+        "n_leaves": 228,
+        "present_leaves": 228
+      }
+    },
+    "connectomics": {
+      "within_network": {
+        "fc_vis_within": {
+          "score": 0.703
+        },
+        "fc_sommot_within": {
+          "score": -1.174
+        },
+        "fc_dorsattn_within": {
+          "score": -0.408
+        },
+        "fc_salventattn_within": {
+          "score": 0.026
+        },
+        "fc_limbic_within": {
+          "score": -0.451
+        },
+        "fc_cont_within": {
+          "score": 0.839
+        },
+        "fc_default_within": {
+          "score": -0.214
+        },
+        "_stats": {
+          "mean_abs_score": 0.545,
+          "n_leaves": 7,
+          "present_leaves": 7
+        }
+      },
+      "between_network": {
+        "fc_vis_sommot": {
+          "score": 0.158
+        },
+        "fc_vis_dorsattn": {
+          "score": -0.5
+        },
+        "fc_vis_salventattn": {
+          "score": -0.144
+        },
+        "fc_vis_limbic": {
+          "score": 0.372
+        },
+        "fc_vis_cont": {
+          "score": -0.891
+        },
+        "fc_vis_default": {
+          "score": 0.261
+        },
+        "fc_sommot_dorsattn": {
+          "score": -1.149
+        },
+        "fc_sommot_salventattn": {
+          "score": -0.343
+        },
+        "fc_sommot_limbic": {
+          "score": 0.694
+        },
+        "fc_sommot_cont": {
+          "score": 0.534
+        },
+        "fc_sommot_default": {
+          "score": -0.13
+        },
+        "fc_dorsattn_salventattn": {
+          "score": -0.139
+        },
+        "fc_dorsattn_limbic": {
+          "score": -0.18
+        },
+        "fc_dorsattn_cont": {
+          "score": 1.243
+        },
+        "fc_dorsattn_default": {
+          "score": 0.122
+        },
+        "fc_salventattn_limbic": {
+          "score": 0.303
+        },
+        "fc_salventattn_cont": {
+          "score": 1.493
+        },
+        "fc_salventattn_default": {
+          "score": -0.777
+        },
+        "fc_limbic_cont": {
+          "score": -1.244
+        },
+        "fc_limbic_default": {
+          "score": -0.589
+        },
+        "fc_cont_default": {
+          "score": -0.385
+        },
+        "_stats": {
+          "mean_abs_score": 0.555,
+          "n_leaves": 21,
+          "present_leaves": 21
+        }
+      },
+      "_stats": {
+        "mean_abs_score": 0.552,
+        "n_leaves": 28,
+        "present_leaves": 28
+      }
+    },
+    "_stats": {
+      "mean_abs_score": 0.915,
+      "n_leaves": 256,
+      "present_leaves": 256
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "participant_id": "eval-0093",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "DEMOGRAPHICS_AND_ANTHROPOMETRICS": {
+      "present_leaves": 6,
+      "total_leaves": 6,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 44,
+      "is_available": true,
+      "structure": {
+        "biological_characteristics": {
+          "label": "Biological Characteristics",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 25
+        },
+        "socioeconomic_background": {
+          "label": "Socioeconomic Background",
+          "present_leaves": 2,
+          "total_leaves": 2,
+          "coverage_percentage": 100.0,
+          "tokens": 19
+        }
+      }
+    },
+    "PSYCHOLOGICAL_CONSTRUCTS": {
+      "present_leaves": 5,
+      "total_leaves": 5,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 40,
+      "is_available": true,
+      "structure": {
+        "neo_ffi_personality": {
+          "label": "NEO-FFI Big Five Personality",
+          "present_leaves": 5,
+          "total_leaves": 5,
+          "coverage_percentage": 100.0,
+          "tokens": 40
+        }
+      }
+    }
+  },
+  "total_tokens": 84,
+  "total_leaves": 11,
+  "present_leaves": 11,
+  "available_domains": [
+    "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+    "PSYCHOLOGICAL_CONSTRUCTS"
+  ],
+  "token_budget": 92
+}

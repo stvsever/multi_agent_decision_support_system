@@ -1,0 +1,5215 @@
+{
+  "domains": [
+    {
+      "id": "BRAIN",
+      "label": "Brain",
+      "definition": "Features derived from brain imaging: structure (morphometry) and function (connectomics).",
+      "children": [
+        {
+          "id": "morphometry",
+          "label": "Morphometry",
+          "definition": "Structural morphometry of the brain from T1-weighted MRI (FreeSurfer): regional volumes, cortical thickness and surface area.",
+          "children": [
+            {
+              "id": "global_volumetrics",
+              "label": "Global Volumetric Summaries",
+              "definition": "Whole-brain volumetric summaries.",
+              "children": [
+                {
+                  "id": "fs_etiv",
+                  "label": "Estimated total intracranial volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_brainseg_vol",
+                  "label": "Total brain segmentation volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_total_gray_vol",
+                  "label": "Total gray matter volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_cortex_vol",
+                  "label": "Total cortical gray matter volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_cerebral_wm_vol",
+                  "label": "Total cerebral white matter volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_subcort_gray_vol",
+                  "label": "Total subcortical gray matter volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                }
+              ]
+            },
+            {
+              "id": "subcortical_volumes",
+              "label": "Subcortical Volumes",
+              "definition": "Volumes of key bilateral subcortical structures.",
+              "children": [
+                {
+                  "id": "fs_vol_lh_hippocampus",
+                  "label": "Left hippocampus volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_rh_hippocampus",
+                  "label": "Right hippocampus volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_lh_amygdala",
+                  "label": "Left amygdala volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_rh_amygdala",
+                  "label": "Right amygdala volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_lh_thalamus",
+                  "label": "Left thalamus volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_rh_thalamus",
+                  "label": "Right thalamus volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_lh_caudate",
+                  "label": "Left caudate volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_rh_caudate",
+                  "label": "Right caudate volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_lh_putamen",
+                  "label": "Left putamen volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_rh_putamen",
+                  "label": "Right putamen volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_lh_pallidum",
+                  "label": "Left pallidum volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_rh_pallidum",
+                  "label": "Right pallidum volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_lh_accumbens",
+                  "label": "Left accumbens volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_rh_accumbens",
+                  "label": "Right accumbens volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_lh_ventraldc",
+                  "label": "Left ventraldc volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                },
+                {
+                  "id": "fs_vol_rh_ventraldc",
+                  "label": "Right ventraldc volume",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "mm^3"
+                }
+              ]
+            },
+            {
+              "id": "cortical_thickness",
+              "label": "Cortical Thickness",
+              "definition": "Mean cortical thickness of Desikan-Killiany regions.",
+              "children": [
+                {
+                  "id": "hemispheric_mean",
+                  "label": "Hemispheric mean",
+                  "definition": "Whole-hemisphere mean cortical thickness.",
+                  "children": [
+                    {
+                      "id": "fs_mean_thickness_lh",
+                      "label": "Left hemisphere mean cortical thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_mean_thickness_rh",
+                      "label": "Right hemisphere mean cortical thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    }
+                  ]
+                },
+                {
+                  "id": "frontal",
+                  "label": "Frontal lobe",
+                  "definition": "Frontal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_thk_lh_superiorfrontal",
+                      "label": "Left superior frontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_rostralmiddlefrontal",
+                      "label": "Left rostral middle frontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_caudalmiddlefrontal",
+                      "label": "Left caudal middle frontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_parsopercularis",
+                      "label": "Left pars opercularis thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_parstriangularis",
+                      "label": "Left pars triangularis thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_parsorbitalis",
+                      "label": "Left pars orbitalis thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_lateralorbitofrontal",
+                      "label": "Left lateral orbitofrontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_medialorbitofrontal",
+                      "label": "Left medial orbitofrontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_precentral",
+                      "label": "Left precentral thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_paracentral",
+                      "label": "Left paracentral thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_frontalpole",
+                      "label": "Left frontal pole thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_superiorfrontal",
+                      "label": "Right superior frontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_rostralmiddlefrontal",
+                      "label": "Right rostral middle frontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_caudalmiddlefrontal",
+                      "label": "Right caudal middle frontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_parsopercularis",
+                      "label": "Right pars opercularis thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_parstriangularis",
+                      "label": "Right pars triangularis thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_parsorbitalis",
+                      "label": "Right pars orbitalis thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_lateralorbitofrontal",
+                      "label": "Right lateral orbitofrontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_medialorbitofrontal",
+                      "label": "Right medial orbitofrontal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_precentral",
+                      "label": "Right precentral thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_paracentral",
+                      "label": "Right paracentral thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_frontalpole",
+                      "label": "Right frontal pole thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    }
+                  ]
+                },
+                {
+                  "id": "parietal",
+                  "label": "Parietal lobe",
+                  "definition": "Parietal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_thk_lh_superiorparietal",
+                      "label": "Left superior parietal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_inferiorparietal",
+                      "label": "Left inferior parietal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_supramarginal",
+                      "label": "Left supramarginal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_postcentral",
+                      "label": "Left postcentral thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_precuneus",
+                      "label": "Left precuneus thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_superiorparietal",
+                      "label": "Right superior parietal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_inferiorparietal",
+                      "label": "Right inferior parietal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_supramarginal",
+                      "label": "Right supramarginal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_postcentral",
+                      "label": "Right postcentral thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_precuneus",
+                      "label": "Right precuneus thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    }
+                  ]
+                },
+                {
+                  "id": "temporal",
+                  "label": "Temporal lobe",
+                  "definition": "Temporal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_thk_lh_superiortemporal",
+                      "label": "Left superior temporal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_middletemporal",
+                      "label": "Left middle temporal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_inferiortemporal",
+                      "label": "Left inferior temporal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_bankssts",
+                      "label": "Left banks of superior temporal sulcus thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_fusiform",
+                      "label": "Left fusiform thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_transversetemporal",
+                      "label": "Left transverse temporal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_entorhinal",
+                      "label": "Left entorhinal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_temporalpole",
+                      "label": "Left temporal pole thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_parahippocampal",
+                      "label": "Left parahippocampal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_superiortemporal",
+                      "label": "Right superior temporal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_middletemporal",
+                      "label": "Right middle temporal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_inferiortemporal",
+                      "label": "Right inferior temporal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_bankssts",
+                      "label": "Right banks of superior temporal sulcus thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_fusiform",
+                      "label": "Right fusiform thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_transversetemporal",
+                      "label": "Right transverse temporal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_entorhinal",
+                      "label": "Right entorhinal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_temporalpole",
+                      "label": "Right temporal pole thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_parahippocampal",
+                      "label": "Right parahippocampal thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    }
+                  ]
+                },
+                {
+                  "id": "occipital",
+                  "label": "Occipital lobe",
+                  "definition": "Occipital lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_thk_lh_lateraloccipital",
+                      "label": "Left lateral occipital thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_lingual",
+                      "label": "Left lingual thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_cuneus",
+                      "label": "Left cuneus thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_pericalcarine",
+                      "label": "Left pericalcarine thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_lateraloccipital",
+                      "label": "Right lateral occipital thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_lingual",
+                      "label": "Right lingual thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_cuneus",
+                      "label": "Right cuneus thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_pericalcarine",
+                      "label": "Right pericalcarine thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    }
+                  ]
+                },
+                {
+                  "id": "cingulate",
+                  "label": "Cingulate lobe",
+                  "definition": "Cingulate lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_thk_lh_rostralanteriorcingulate",
+                      "label": "Left rostral anterior cingulate thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_caudalanteriorcingulate",
+                      "label": "Left caudal anterior cingulate thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_posteriorcingulate",
+                      "label": "Left posterior cingulate thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_lh_isthmuscingulate",
+                      "label": "Left isthmus cingulate thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_rostralanteriorcingulate",
+                      "label": "Right rostral anterior cingulate thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_caudalanteriorcingulate",
+                      "label": "Right caudal anterior cingulate thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_posteriorcingulate",
+                      "label": "Right posterior cingulate thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_isthmuscingulate",
+                      "label": "Right isthmus cingulate thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    }
+                  ]
+                },
+                {
+                  "id": "insula",
+                  "label": "Insula lobe",
+                  "definition": "Insula lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_thk_lh_insula",
+                      "label": "Left insula thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    },
+                    {
+                      "id": "fs_thk_rh_insula",
+                      "label": "Right insula thickness",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cortical_area",
+              "label": "Cortical Surface Area",
+              "definition": "White-surface area of Desikan-Killiany cortical regions.",
+              "children": [
+                {
+                  "id": "frontal",
+                  "label": "Frontal lobe",
+                  "definition": "Frontal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_area_lh_superiorfrontal",
+                      "label": "Left superior frontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_rostralmiddlefrontal",
+                      "label": "Left rostral middle frontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_caudalmiddlefrontal",
+                      "label": "Left caudal middle frontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_parsopercularis",
+                      "label": "Left pars opercularis surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_parstriangularis",
+                      "label": "Left pars triangularis surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_parsorbitalis",
+                      "label": "Left pars orbitalis surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_lateralorbitofrontal",
+                      "label": "Left lateral orbitofrontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_medialorbitofrontal",
+                      "label": "Left medial orbitofrontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_precentral",
+                      "label": "Left precentral surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_paracentral",
+                      "label": "Left paracentral surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_frontalpole",
+                      "label": "Left frontal pole surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_superiorfrontal",
+                      "label": "Right superior frontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_rostralmiddlefrontal",
+                      "label": "Right rostral middle frontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_caudalmiddlefrontal",
+                      "label": "Right caudal middle frontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_parsopercularis",
+                      "label": "Right pars opercularis surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_parstriangularis",
+                      "label": "Right pars triangularis surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_parsorbitalis",
+                      "label": "Right pars orbitalis surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_lateralorbitofrontal",
+                      "label": "Right lateral orbitofrontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_medialorbitofrontal",
+                      "label": "Right medial orbitofrontal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_precentral",
+                      "label": "Right precentral surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_paracentral",
+                      "label": "Right paracentral surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_frontalpole",
+                      "label": "Right frontal pole surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    }
+                  ]
+                },
+                {
+                  "id": "parietal",
+                  "label": "Parietal lobe",
+                  "definition": "Parietal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_area_lh_superiorparietal",
+                      "label": "Left superior parietal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_inferiorparietal",
+                      "label": "Left inferior parietal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_supramarginal",
+                      "label": "Left supramarginal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_postcentral",
+                      "label": "Left postcentral surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_precuneus",
+                      "label": "Left precuneus surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_superiorparietal",
+                      "label": "Right superior parietal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_inferiorparietal",
+                      "label": "Right inferior parietal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_supramarginal",
+                      "label": "Right supramarginal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_postcentral",
+                      "label": "Right postcentral surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_precuneus",
+                      "label": "Right precuneus surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    }
+                  ]
+                },
+                {
+                  "id": "temporal",
+                  "label": "Temporal lobe",
+                  "definition": "Temporal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_area_lh_superiortemporal",
+                      "label": "Left superior temporal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_middletemporal",
+                      "label": "Left middle temporal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_inferiortemporal",
+                      "label": "Left inferior temporal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_bankssts",
+                      "label": "Left banks of superior temporal sulcus surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_fusiform",
+                      "label": "Left fusiform surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_transversetemporal",
+                      "label": "Left transverse temporal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_entorhinal",
+                      "label": "Left entorhinal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_temporalpole",
+                      "label": "Left temporal pole surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_parahippocampal",
+                      "label": "Left parahippocampal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_superiortemporal",
+                      "label": "Right superior temporal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_middletemporal",
+                      "label": "Right middle temporal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_inferiortemporal",
+                      "label": "Right inferior temporal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_bankssts",
+                      "label": "Right banks of superior temporal sulcus surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_fusiform",
+                      "label": "Right fusiform surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_transversetemporal",
+                      "label": "Right transverse temporal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_entorhinal",
+                      "label": "Right entorhinal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_temporalpole",
+                      "label": "Right temporal pole surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_parahippocampal",
+                      "label": "Right parahippocampal surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    }
+                  ]
+                },
+                {
+                  "id": "occipital",
+                  "label": "Occipital lobe",
+                  "definition": "Occipital lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_area_lh_lateraloccipital",
+                      "label": "Left lateral occipital surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_lingual",
+                      "label": "Left lingual surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_cuneus",
+                      "label": "Left cuneus surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_pericalcarine",
+                      "label": "Left pericalcarine surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_lateraloccipital",
+                      "label": "Right lateral occipital surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_lingual",
+                      "label": "Right lingual surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_cuneus",
+                      "label": "Right cuneus surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_pericalcarine",
+                      "label": "Right pericalcarine surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    }
+                  ]
+                },
+                {
+                  "id": "cingulate",
+                  "label": "Cingulate lobe",
+                  "definition": "Cingulate lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_area_lh_rostralanteriorcingulate",
+                      "label": "Left rostral anterior cingulate surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_caudalanteriorcingulate",
+                      "label": "Left caudal anterior cingulate surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_posteriorcingulate",
+                      "label": "Left posterior cingulate surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_lh_isthmuscingulate",
+                      "label": "Left isthmus cingulate surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_rostralanteriorcingulate",
+                      "label": "Right rostral anterior cingulate surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_caudalanteriorcingulate",
+                      "label": "Right caudal anterior cingulate surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_posteriorcingulate",
+                      "label": "Right posterior cingulate surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_isthmuscingulate",
+                      "label": "Right isthmus cingulate surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    }
+                  ]
+                },
+                {
+                  "id": "insula",
+                  "label": "Insula lobe",
+                  "definition": "Insula lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_area_lh_insula",
+                      "label": "Left insula surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    },
+                    {
+                      "id": "fs_area_rh_insula",
+                      "label": "Right insula surface area",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cortical_volume",
+              "label": "Cortical Gray-Matter Volume",
+              "definition": "Gray-matter volume of Desikan-Killiany cortical regions.",
+              "children": [
+                {
+                  "id": "frontal",
+                  "label": "Frontal lobe",
+                  "definition": "Frontal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_gmv_lh_superiorfrontal",
+                      "label": "Left superior frontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_rostralmiddlefrontal",
+                      "label": "Left rostral middle frontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_caudalmiddlefrontal",
+                      "label": "Left caudal middle frontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_parsopercularis",
+                      "label": "Left pars opercularis gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_parstriangularis",
+                      "label": "Left pars triangularis gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_parsorbitalis",
+                      "label": "Left pars orbitalis gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_lateralorbitofrontal",
+                      "label": "Left lateral orbitofrontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_medialorbitofrontal",
+                      "label": "Left medial orbitofrontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_precentral",
+                      "label": "Left precentral gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_paracentral",
+                      "label": "Left paracentral gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_frontalpole",
+                      "label": "Left frontal pole gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_superiorfrontal",
+                      "label": "Right superior frontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_rostralmiddlefrontal",
+                      "label": "Right rostral middle frontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_caudalmiddlefrontal",
+                      "label": "Right caudal middle frontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_parsopercularis",
+                      "label": "Right pars opercularis gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_parstriangularis",
+                      "label": "Right pars triangularis gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_parsorbitalis",
+                      "label": "Right pars orbitalis gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_lateralorbitofrontal",
+                      "label": "Right lateral orbitofrontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_medialorbitofrontal",
+                      "label": "Right medial orbitofrontal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_precentral",
+                      "label": "Right precentral gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_paracentral",
+                      "label": "Right paracentral gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_frontalpole",
+                      "label": "Right frontal pole gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    }
+                  ]
+                },
+                {
+                  "id": "parietal",
+                  "label": "Parietal lobe",
+                  "definition": "Parietal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_gmv_lh_superiorparietal",
+                      "label": "Left superior parietal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_inferiorparietal",
+                      "label": "Left inferior parietal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_supramarginal",
+                      "label": "Left supramarginal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_postcentral",
+                      "label": "Left postcentral gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_precuneus",
+                      "label": "Left precuneus gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_superiorparietal",
+                      "label": "Right superior parietal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_inferiorparietal",
+                      "label": "Right inferior parietal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_supramarginal",
+                      "label": "Right supramarginal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_postcentral",
+                      "label": "Right postcentral gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_precuneus",
+                      "label": "Right precuneus gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    }
+                  ]
+                },
+                {
+                  "id": "temporal",
+                  "label": "Temporal lobe",
+                  "definition": "Temporal lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_gmv_lh_superiortemporal",
+                      "label": "Left superior temporal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_middletemporal",
+                      "label": "Left middle temporal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_inferiortemporal",
+                      "label": "Left inferior temporal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_bankssts",
+                      "label": "Left banks of superior temporal sulcus gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_fusiform",
+                      "label": "Left fusiform gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_transversetemporal",
+                      "label": "Left transverse temporal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_entorhinal",
+                      "label": "Left entorhinal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_temporalpole",
+                      "label": "Left temporal pole gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_parahippocampal",
+                      "label": "Left parahippocampal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_superiortemporal",
+                      "label": "Right superior temporal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_middletemporal",
+                      "label": "Right middle temporal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_inferiortemporal",
+                      "label": "Right inferior temporal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_bankssts",
+                      "label": "Right banks of superior temporal sulcus gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_fusiform",
+                      "label": "Right fusiform gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_transversetemporal",
+                      "label": "Right transverse temporal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_entorhinal",
+                      "label": "Right entorhinal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_temporalpole",
+                      "label": "Right temporal pole gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_parahippocampal",
+                      "label": "Right parahippocampal gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    }
+                  ]
+                },
+                {
+                  "id": "occipital",
+                  "label": "Occipital lobe",
+                  "definition": "Occipital lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_gmv_lh_lateraloccipital",
+                      "label": "Left lateral occipital gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_lingual",
+                      "label": "Left lingual gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_cuneus",
+                      "label": "Left cuneus gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_pericalcarine",
+                      "label": "Left pericalcarine gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_lateraloccipital",
+                      "label": "Right lateral occipital gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_lingual",
+                      "label": "Right lingual gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_cuneus",
+                      "label": "Right cuneus gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_pericalcarine",
+                      "label": "Right pericalcarine gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    }
+                  ]
+                },
+                {
+                  "id": "cingulate",
+                  "label": "Cingulate lobe",
+                  "definition": "Cingulate lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_gmv_lh_rostralanteriorcingulate",
+                      "label": "Left rostral anterior cingulate gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_caudalanteriorcingulate",
+                      "label": "Left caudal anterior cingulate gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_posteriorcingulate",
+                      "label": "Left posterior cingulate gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_lh_isthmuscingulate",
+                      "label": "Left isthmus cingulate gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_rostralanteriorcingulate",
+                      "label": "Right rostral anterior cingulate gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_caudalanteriorcingulate",
+                      "label": "Right caudal anterior cingulate gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_posteriorcingulate",
+                      "label": "Right posterior cingulate gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_isthmuscingulate",
+                      "label": "Right isthmus cingulate gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    }
+                  ]
+                },
+                {
+                  "id": "insula",
+                  "label": "Insula lobe",
+                  "definition": "Insula lobe regions.",
+                  "children": [
+                    {
+                      "id": "fs_gmv_lh_insula",
+                      "label": "Left insula gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    },
+                    {
+                      "id": "fs_gmv_rh_insula",
+                      "label": "Right insula gray-matter volume",
+                      "definition": "",
+                      "stat_type": "numeric",
+                      "units": "mm^3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "connectomics",
+          "label": "Connectomics",
+          "definition": "Functional connectivity of the brain from movie-watching fMRI (Yeo/Schaefer intrinsic networks).",
+          "children": [
+            {
+              "id": "within_network",
+              "label": "Within-network FC",
+              "definition": "Mean functional connectivity among parcels of the same intrinsic network.",
+              "children": [
+                {
+                  "id": "fc_vis_within",
+                  "label": "Visual within-network FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_sommot_within",
+                  "label": "Somatomotor within-network FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_dorsattn_within",
+                  "label": "Dorsal attention within-network FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_salventattn_within",
+                  "label": "Salience / ventral attention within-network FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_limbic_within",
+                  "label": "Limbic within-network FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_cont_within",
+                  "label": "Frontoparietal control within-network FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_default_within",
+                  "label": "Default mode within-network FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                }
+              ]
+            },
+            {
+              "id": "between_network",
+              "label": "Between-network FC",
+              "definition": "Mean functional connectivity between pairs of intrinsic networks.",
+              "children": [
+                {
+                  "id": "fc_vis_sommot",
+                  "label": "Visual - Somatomotor FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_vis_dorsattn",
+                  "label": "Visual - Dorsal attention FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_vis_salventattn",
+                  "label": "Visual - Salience / ventral attention FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_vis_limbic",
+                  "label": "Visual - Limbic FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_vis_cont",
+                  "label": "Visual - Frontoparietal control FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_vis_default",
+                  "label": "Visual - Default mode FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_sommot_dorsattn",
+                  "label": "Somatomotor - Dorsal attention FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_sommot_salventattn",
+                  "label": "Somatomotor - Salience / ventral attention FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_sommot_limbic",
+                  "label": "Somatomotor - Limbic FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_sommot_cont",
+                  "label": "Somatomotor - Frontoparietal control FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_sommot_default",
+                  "label": "Somatomotor - Default mode FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_dorsattn_salventattn",
+                  "label": "Dorsal attention - Salience / ventral attention FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_dorsattn_limbic",
+                  "label": "Dorsal attention - Limbic FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_dorsattn_cont",
+                  "label": "Dorsal attention - Frontoparietal control FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_dorsattn_default",
+                  "label": "Dorsal attention - Default mode FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_salventattn_limbic",
+                  "label": "Salience / ventral attention - Limbic FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_salventattn_cont",
+                  "label": "Salience / ventral attention - Frontoparietal control FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_salventattn_default",
+                  "label": "Salience / ventral attention - Default mode FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_limbic_cont",
+                  "label": "Limbic - Frontoparietal control FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_limbic_default",
+                  "label": "Limbic - Default mode FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                },
+                {
+                  "id": "fc_cont_default",
+                  "label": "Frontoparietal control - Default mode FC",
+                  "definition": "",
+                  "stat_type": "numeric",
+                  "units": "Pearson r"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "label": "Demographics and Anthropometrics",
+      "definition": "Basic biological and socio-economic characteristics of the participants, including age, sex, physical measurements, and educational background.",
+      "children": [
+        {
+          "id": "biological_characteristics",
+          "label": "Biological Characteristics",
+          "definition": "Fundamental physical and physiological attributes of the participant.",
+          "children": [
+            {
+              "id": "age",
+              "label": "Age",
+              "definition": "Age of participant in years.",
+              "stat_type": "numeric",
+              "units": "years"
+            },
+            {
+              "id": "sex",
+              "label": "Biological sex",
+              "definition": "Self-reported biological sex (male/female).",
+              "stat_type": "binary",
+              "units": null
+            },
+            {
+              "id": "handedness",
+              "label": "Handedness",
+              "definition": "Left- or right-handed.",
+              "stat_type": "binary",
+              "units": null
+            },
+            {
+              "id": "BMI",
+              "label": "Body mass index",
+              "definition": "Body mass index (kg/m^2). Zero values are data errors and treated as missing.",
+              "stat_type": "numeric",
+              "units": "kg/m^2"
+            }
+          ]
+        },
+        {
+          "id": "socioeconomic_background",
+          "label": "Socioeconomic Background",
+          "definition": "Educational attainment and environmental socioeconomic status of the participant.",
+          "children": [
+            {
+              "id": "education_level",
+              "label": "Education level",
+              "definition": "Highest completed education level (CBS classification): low/medium/high.",
+              "stat_type": "ordinal",
+              "units": null
+            },
+            {
+              "id": "background_SES",
+              "label": "Background socio-economic status",
+              "definition": "Background SES from parental income and education (range 2-6).",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PSYCHOLOGICAL_CONSTRUCTS",
+      "label": "Psychological Constructs",
+      "definition": "Standardized psychometric measures assessing personality traits, reinforcement sensitivity, and trait anxiety.",
+      "children": [
+        {
+          "id": "neo_ffi_personality",
+          "label": "NEO-FFI Big Five Personality",
+          "definition": "Standardized psychometric measures assessing the five broad dimensions of personality.",
+          "children": [
+            {
+              "id": "NEO_N",
+              "label": "Neuroticism (NEO-FFI)",
+              "definition": "NEO-FFI Neuroticism scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "NEO_E",
+              "label": "Extraversion (NEO-FFI)",
+              "definition": "NEO-FFI Extraversion scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "NEO_O",
+              "label": "Openness (NEO-FFI)",
+              "definition": "NEO-FFI Openness to experience scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "NEO_A",
+              "label": "Agreeableness (NEO-FFI)",
+              "definition": "NEO-FFI Agreeableness scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "NEO_C",
+              "label": "Conscientiousness (NEO-FFI)",
+              "definition": "NEO-FFI Conscientiousness scale (sum of items).",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        },
+        {
+          "id": "bis_bas_sensitivity",
+          "label": "BIS/BAS Reinforcement Sensitivity",
+          "definition": "Psychometric scales measuring behavioral inhibition and activation systems related to reinforcement sensitivity.",
+          "children": [
+            {
+              "id": "BAS_drive",
+              "label": "BAS drive",
+              "definition": "Behavioural Activation System drive subscale.",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "BAS_fun",
+              "label": "BAS fun-seeking",
+              "definition": "Behavioural Activation System fun-seeking subscale.",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "BAS_reward",
+              "label": "BAS reward responsiveness",
+              "definition": "Behavioural Activation System reward responsiveness subscale.",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "BIS",
+              "label": "Behavioural inhibition (BIS)",
+              "definition": "Behavioural Inhibition System scale.",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        },
+        {
+          "id": "stai_trait_anxiety",
+          "label": "STAI Trait Anxiety",
+          "definition": "Psychometric measure assessing stable individual differences in anxiety proneness.",
+          "children": [
+            {
+              "id": "STAI_T",
+              "label": "Trait anxiety (STAI-T)",
+              "definition": "State-Trait Anxiety Inventory, trait subscale.",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IDENTITY_AND_BELIEF_SYSTEMS",
+      "label": "Identity and Belief Systems",
+      "definition": "Self-reported measures concerning sexual orientation, gender identity, and religious affiliation or importance.",
+      "children": [
+        {
+          "id": "sexual_and_gender_identity",
+          "label": "Sexual and Gender Identity",
+          "definition": "Self-reported measures assessing an individual's sexual attraction patterns and internal sense of gender identity.",
+          "children": [
+            {
+              "id": "sexual_attraction_M",
+              "label": "Sexual attraction to males",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "sexual_attraction_F",
+              "label": "Sexual attraction to females",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "gender_identity_M",
+              "label": "Gender identity (male)",
+              "definition": "Degree to which the subject felt male (1-7).",
+              "stat_type": "numeric",
+              "units": null
+            },
+            {
+              "id": "gender_identity_F",
+              "label": "Gender identity (female)",
+              "definition": "Degree to which the subject felt female (1-7).",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        },
+        {
+          "id": "religiosity",
+          "label": "Religiosity",
+          "definition": "Self-reported measures concerning religious background, current religious status, and the perceived importance of religion in daily life.",
+          "children": [
+            {
+              "id": "religious_upbringing",
+              "label": "Religious upbringing",
+              "definition": "Whether the subject had a religious upbringing (yes/no).",
+              "stat_type": "binary",
+              "units": null
+            },
+            {
+              "id": "religious_now",
+              "label": "Currently religious",
+              "definition": "Whether the subject is religious now (yes/no).",
+              "stat_type": "binary",
+              "units": null
+            },
+            {
+              "id": "religious_importance",
+              "label": "Importance of religion",
+              "definition": "How much religion plays a role in the subject's life (1-5).",
+              "stat_type": "numeric",
+              "units": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "column_index": {
+    "fs_etiv": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "global_volumetrics"
+      ],
+      "feature_label": "Estimated total intracranial volume"
+    },
+    "fs_brainseg_vol": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "global_volumetrics"
+      ],
+      "feature_label": "Total brain segmentation volume"
+    },
+    "fs_total_gray_vol": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "global_volumetrics"
+      ],
+      "feature_label": "Total gray matter volume"
+    },
+    "fs_cortex_vol": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "global_volumetrics"
+      ],
+      "feature_label": "Total cortical gray matter volume"
+    },
+    "fs_cerebral_wm_vol": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "global_volumetrics"
+      ],
+      "feature_label": "Total cerebral white matter volume"
+    },
+    "fs_subcort_gray_vol": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "global_volumetrics"
+      ],
+      "feature_label": "Total subcortical gray matter volume"
+    },
+    "fs_vol_lh_hippocampus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Left hippocampus volume"
+    },
+    "fs_vol_rh_hippocampus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Right hippocampus volume"
+    },
+    "fs_vol_lh_amygdala": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Left amygdala volume"
+    },
+    "fs_vol_rh_amygdala": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Right amygdala volume"
+    },
+    "fs_vol_lh_thalamus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Left thalamus volume"
+    },
+    "fs_vol_rh_thalamus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Right thalamus volume"
+    },
+    "fs_vol_lh_caudate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Left caudate volume"
+    },
+    "fs_vol_rh_caudate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Right caudate volume"
+    },
+    "fs_vol_lh_putamen": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Left putamen volume"
+    },
+    "fs_vol_rh_putamen": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Right putamen volume"
+    },
+    "fs_vol_lh_pallidum": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Left pallidum volume"
+    },
+    "fs_vol_rh_pallidum": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Right pallidum volume"
+    },
+    "fs_vol_lh_accumbens": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Left accumbens volume"
+    },
+    "fs_vol_rh_accumbens": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Right accumbens volume"
+    },
+    "fs_vol_lh_ventraldc": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Left ventraldc volume"
+    },
+    "fs_vol_rh_ventraldc": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "subcortical_volumes"
+      ],
+      "feature_label": "Right ventraldc volume"
+    },
+    "fs_mean_thickness_lh": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "hemispheric_mean"
+      ],
+      "feature_label": "Left hemisphere mean cortical thickness"
+    },
+    "fs_mean_thickness_rh": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "hemispheric_mean"
+      ],
+      "feature_label": "Right hemisphere mean cortical thickness"
+    },
+    "fs_thk_lh_superiorfrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left superior frontal thickness"
+    },
+    "fs_thk_lh_rostralmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left rostral middle frontal thickness"
+    },
+    "fs_thk_lh_caudalmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left caudal middle frontal thickness"
+    },
+    "fs_thk_lh_parsopercularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left pars opercularis thickness"
+    },
+    "fs_thk_lh_parstriangularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left pars triangularis thickness"
+    },
+    "fs_thk_lh_parsorbitalis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left pars orbitalis thickness"
+    },
+    "fs_thk_lh_lateralorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left lateral orbitofrontal thickness"
+    },
+    "fs_thk_lh_medialorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left medial orbitofrontal thickness"
+    },
+    "fs_thk_lh_precentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left precentral thickness"
+    },
+    "fs_thk_lh_paracentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left paracentral thickness"
+    },
+    "fs_thk_lh_frontalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Left frontal pole thickness"
+    },
+    "fs_thk_rh_superiorfrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right superior frontal thickness"
+    },
+    "fs_thk_rh_rostralmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right rostral middle frontal thickness"
+    },
+    "fs_thk_rh_caudalmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right caudal middle frontal thickness"
+    },
+    "fs_thk_rh_parsopercularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right pars opercularis thickness"
+    },
+    "fs_thk_rh_parstriangularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right pars triangularis thickness"
+    },
+    "fs_thk_rh_parsorbitalis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right pars orbitalis thickness"
+    },
+    "fs_thk_rh_lateralorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right lateral orbitofrontal thickness"
+    },
+    "fs_thk_rh_medialorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right medial orbitofrontal thickness"
+    },
+    "fs_thk_rh_precentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right precentral thickness"
+    },
+    "fs_thk_rh_paracentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right paracentral thickness"
+    },
+    "fs_thk_rh_frontalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "frontal"
+      ],
+      "feature_label": "Right frontal pole thickness"
+    },
+    "fs_thk_lh_superiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Left superior parietal thickness"
+    },
+    "fs_thk_lh_inferiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Left inferior parietal thickness"
+    },
+    "fs_thk_lh_supramarginal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Left supramarginal thickness"
+    },
+    "fs_thk_lh_postcentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Left postcentral thickness"
+    },
+    "fs_thk_lh_precuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Left precuneus thickness"
+    },
+    "fs_thk_rh_superiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Right superior parietal thickness"
+    },
+    "fs_thk_rh_inferiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Right inferior parietal thickness"
+    },
+    "fs_thk_rh_supramarginal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Right supramarginal thickness"
+    },
+    "fs_thk_rh_postcentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Right postcentral thickness"
+    },
+    "fs_thk_rh_precuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "parietal"
+      ],
+      "feature_label": "Right precuneus thickness"
+    },
+    "fs_thk_lh_superiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left superior temporal thickness"
+    },
+    "fs_thk_lh_middletemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left middle temporal thickness"
+    },
+    "fs_thk_lh_inferiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left inferior temporal thickness"
+    },
+    "fs_thk_lh_bankssts": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left banks of superior temporal sulcus thickness"
+    },
+    "fs_thk_lh_fusiform": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left fusiform thickness"
+    },
+    "fs_thk_lh_transversetemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left transverse temporal thickness"
+    },
+    "fs_thk_lh_entorhinal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left entorhinal thickness"
+    },
+    "fs_thk_lh_temporalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left temporal pole thickness"
+    },
+    "fs_thk_lh_parahippocampal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Left parahippocampal thickness"
+    },
+    "fs_thk_rh_superiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right superior temporal thickness"
+    },
+    "fs_thk_rh_middletemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right middle temporal thickness"
+    },
+    "fs_thk_rh_inferiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right inferior temporal thickness"
+    },
+    "fs_thk_rh_bankssts": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right banks of superior temporal sulcus thickness"
+    },
+    "fs_thk_rh_fusiform": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right fusiform thickness"
+    },
+    "fs_thk_rh_transversetemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right transverse temporal thickness"
+    },
+    "fs_thk_rh_entorhinal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right entorhinal thickness"
+    },
+    "fs_thk_rh_temporalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right temporal pole thickness"
+    },
+    "fs_thk_rh_parahippocampal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "temporal"
+      ],
+      "feature_label": "Right parahippocampal thickness"
+    },
+    "fs_thk_lh_lateraloccipital": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "occipital"
+      ],
+      "feature_label": "Left lateral occipital thickness"
+    },
+    "fs_thk_lh_lingual": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "occipital"
+      ],
+      "feature_label": "Left lingual thickness"
+    },
+    "fs_thk_lh_cuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "occipital"
+      ],
+      "feature_label": "Left cuneus thickness"
+    },
+    "fs_thk_lh_pericalcarine": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "occipital"
+      ],
+      "feature_label": "Left pericalcarine thickness"
+    },
+    "fs_thk_rh_lateraloccipital": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "occipital"
+      ],
+      "feature_label": "Right lateral occipital thickness"
+    },
+    "fs_thk_rh_lingual": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "occipital"
+      ],
+      "feature_label": "Right lingual thickness"
+    },
+    "fs_thk_rh_cuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "occipital"
+      ],
+      "feature_label": "Right cuneus thickness"
+    },
+    "fs_thk_rh_pericalcarine": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "occipital"
+      ],
+      "feature_label": "Right pericalcarine thickness"
+    },
+    "fs_thk_lh_rostralanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "cingulate"
+      ],
+      "feature_label": "Left rostral anterior cingulate thickness"
+    },
+    "fs_thk_lh_caudalanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "cingulate"
+      ],
+      "feature_label": "Left caudal anterior cingulate thickness"
+    },
+    "fs_thk_lh_posteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "cingulate"
+      ],
+      "feature_label": "Left posterior cingulate thickness"
+    },
+    "fs_thk_lh_isthmuscingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "cingulate"
+      ],
+      "feature_label": "Left isthmus cingulate thickness"
+    },
+    "fs_thk_rh_rostralanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "cingulate"
+      ],
+      "feature_label": "Right rostral anterior cingulate thickness"
+    },
+    "fs_thk_rh_caudalanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "cingulate"
+      ],
+      "feature_label": "Right caudal anterior cingulate thickness"
+    },
+    "fs_thk_rh_posteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "cingulate"
+      ],
+      "feature_label": "Right posterior cingulate thickness"
+    },
+    "fs_thk_rh_isthmuscingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "cingulate"
+      ],
+      "feature_label": "Right isthmus cingulate thickness"
+    },
+    "fs_thk_lh_insula": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "insula"
+      ],
+      "feature_label": "Left insula thickness"
+    },
+    "fs_thk_rh_insula": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_thickness",
+        "insula"
+      ],
+      "feature_label": "Right insula thickness"
+    },
+    "fs_area_lh_superiorfrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left superior frontal surface area"
+    },
+    "fs_area_lh_rostralmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left rostral middle frontal surface area"
+    },
+    "fs_area_lh_caudalmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left caudal middle frontal surface area"
+    },
+    "fs_area_lh_parsopercularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left pars opercularis surface area"
+    },
+    "fs_area_lh_parstriangularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left pars triangularis surface area"
+    },
+    "fs_area_lh_parsorbitalis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left pars orbitalis surface area"
+    },
+    "fs_area_lh_lateralorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left lateral orbitofrontal surface area"
+    },
+    "fs_area_lh_medialorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left medial orbitofrontal surface area"
+    },
+    "fs_area_lh_precentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left precentral surface area"
+    },
+    "fs_area_lh_paracentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left paracentral surface area"
+    },
+    "fs_area_lh_frontalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Left frontal pole surface area"
+    },
+    "fs_area_rh_superiorfrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right superior frontal surface area"
+    },
+    "fs_area_rh_rostralmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right rostral middle frontal surface area"
+    },
+    "fs_area_rh_caudalmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right caudal middle frontal surface area"
+    },
+    "fs_area_rh_parsopercularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right pars opercularis surface area"
+    },
+    "fs_area_rh_parstriangularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right pars triangularis surface area"
+    },
+    "fs_area_rh_parsorbitalis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right pars orbitalis surface area"
+    },
+    "fs_area_rh_lateralorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right lateral orbitofrontal surface area"
+    },
+    "fs_area_rh_medialorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right medial orbitofrontal surface area"
+    },
+    "fs_area_rh_precentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right precentral surface area"
+    },
+    "fs_area_rh_paracentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right paracentral surface area"
+    },
+    "fs_area_rh_frontalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "frontal"
+      ],
+      "feature_label": "Right frontal pole surface area"
+    },
+    "fs_area_lh_superiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Left superior parietal surface area"
+    },
+    "fs_area_lh_inferiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Left inferior parietal surface area"
+    },
+    "fs_area_lh_supramarginal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Left supramarginal surface area"
+    },
+    "fs_area_lh_postcentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Left postcentral surface area"
+    },
+    "fs_area_lh_precuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Left precuneus surface area"
+    },
+    "fs_area_rh_superiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Right superior parietal surface area"
+    },
+    "fs_area_rh_inferiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Right inferior parietal surface area"
+    },
+    "fs_area_rh_supramarginal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Right supramarginal surface area"
+    },
+    "fs_area_rh_postcentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Right postcentral surface area"
+    },
+    "fs_area_rh_precuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "parietal"
+      ],
+      "feature_label": "Right precuneus surface area"
+    },
+    "fs_area_lh_superiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left superior temporal surface area"
+    },
+    "fs_area_lh_middletemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left middle temporal surface area"
+    },
+    "fs_area_lh_inferiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left inferior temporal surface area"
+    },
+    "fs_area_lh_bankssts": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left banks of superior temporal sulcus surface area"
+    },
+    "fs_area_lh_fusiform": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left fusiform surface area"
+    },
+    "fs_area_lh_transversetemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left transverse temporal surface area"
+    },
+    "fs_area_lh_entorhinal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left entorhinal surface area"
+    },
+    "fs_area_lh_temporalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left temporal pole surface area"
+    },
+    "fs_area_lh_parahippocampal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Left parahippocampal surface area"
+    },
+    "fs_area_rh_superiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right superior temporal surface area"
+    },
+    "fs_area_rh_middletemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right middle temporal surface area"
+    },
+    "fs_area_rh_inferiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right inferior temporal surface area"
+    },
+    "fs_area_rh_bankssts": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right banks of superior temporal sulcus surface area"
+    },
+    "fs_area_rh_fusiform": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right fusiform surface area"
+    },
+    "fs_area_rh_transversetemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right transverse temporal surface area"
+    },
+    "fs_area_rh_entorhinal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right entorhinal surface area"
+    },
+    "fs_area_rh_temporalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right temporal pole surface area"
+    },
+    "fs_area_rh_parahippocampal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "temporal"
+      ],
+      "feature_label": "Right parahippocampal surface area"
+    },
+    "fs_area_lh_lateraloccipital": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "occipital"
+      ],
+      "feature_label": "Left lateral occipital surface area"
+    },
+    "fs_area_lh_lingual": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "occipital"
+      ],
+      "feature_label": "Left lingual surface area"
+    },
+    "fs_area_lh_cuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "occipital"
+      ],
+      "feature_label": "Left cuneus surface area"
+    },
+    "fs_area_lh_pericalcarine": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "occipital"
+      ],
+      "feature_label": "Left pericalcarine surface area"
+    },
+    "fs_area_rh_lateraloccipital": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "occipital"
+      ],
+      "feature_label": "Right lateral occipital surface area"
+    },
+    "fs_area_rh_lingual": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "occipital"
+      ],
+      "feature_label": "Right lingual surface area"
+    },
+    "fs_area_rh_cuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "occipital"
+      ],
+      "feature_label": "Right cuneus surface area"
+    },
+    "fs_area_rh_pericalcarine": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "occipital"
+      ],
+      "feature_label": "Right pericalcarine surface area"
+    },
+    "fs_area_lh_rostralanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "cingulate"
+      ],
+      "feature_label": "Left rostral anterior cingulate surface area"
+    },
+    "fs_area_lh_caudalanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "cingulate"
+      ],
+      "feature_label": "Left caudal anterior cingulate surface area"
+    },
+    "fs_area_lh_posteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "cingulate"
+      ],
+      "feature_label": "Left posterior cingulate surface area"
+    },
+    "fs_area_lh_isthmuscingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "cingulate"
+      ],
+      "feature_label": "Left isthmus cingulate surface area"
+    },
+    "fs_area_rh_rostralanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "cingulate"
+      ],
+      "feature_label": "Right rostral anterior cingulate surface area"
+    },
+    "fs_area_rh_caudalanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "cingulate"
+      ],
+      "feature_label": "Right caudal anterior cingulate surface area"
+    },
+    "fs_area_rh_posteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "cingulate"
+      ],
+      "feature_label": "Right posterior cingulate surface area"
+    },
+    "fs_area_rh_isthmuscingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "cingulate"
+      ],
+      "feature_label": "Right isthmus cingulate surface area"
+    },
+    "fs_area_lh_insula": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "insula"
+      ],
+      "feature_label": "Left insula surface area"
+    },
+    "fs_area_rh_insula": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_area",
+        "insula"
+      ],
+      "feature_label": "Right insula surface area"
+    },
+    "fs_gmv_lh_superiorfrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left superior frontal gray-matter volume"
+    },
+    "fs_gmv_lh_rostralmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left rostral middle frontal gray-matter volume"
+    },
+    "fs_gmv_lh_caudalmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left caudal middle frontal gray-matter volume"
+    },
+    "fs_gmv_lh_parsopercularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left pars opercularis gray-matter volume"
+    },
+    "fs_gmv_lh_parstriangularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left pars triangularis gray-matter volume"
+    },
+    "fs_gmv_lh_parsorbitalis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left pars orbitalis gray-matter volume"
+    },
+    "fs_gmv_lh_lateralorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left lateral orbitofrontal gray-matter volume"
+    },
+    "fs_gmv_lh_medialorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left medial orbitofrontal gray-matter volume"
+    },
+    "fs_gmv_lh_precentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left precentral gray-matter volume"
+    },
+    "fs_gmv_lh_paracentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left paracentral gray-matter volume"
+    },
+    "fs_gmv_lh_frontalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Left frontal pole gray-matter volume"
+    },
+    "fs_gmv_rh_superiorfrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right superior frontal gray-matter volume"
+    },
+    "fs_gmv_rh_rostralmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right rostral middle frontal gray-matter volume"
+    },
+    "fs_gmv_rh_caudalmiddlefrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right caudal middle frontal gray-matter volume"
+    },
+    "fs_gmv_rh_parsopercularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right pars opercularis gray-matter volume"
+    },
+    "fs_gmv_rh_parstriangularis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right pars triangularis gray-matter volume"
+    },
+    "fs_gmv_rh_parsorbitalis": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right pars orbitalis gray-matter volume"
+    },
+    "fs_gmv_rh_lateralorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right lateral orbitofrontal gray-matter volume"
+    },
+    "fs_gmv_rh_medialorbitofrontal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right medial orbitofrontal gray-matter volume"
+    },
+    "fs_gmv_rh_precentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right precentral gray-matter volume"
+    },
+    "fs_gmv_rh_paracentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right paracentral gray-matter volume"
+    },
+    "fs_gmv_rh_frontalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "frontal"
+      ],
+      "feature_label": "Right frontal pole gray-matter volume"
+    },
+    "fs_gmv_lh_superiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Left superior parietal gray-matter volume"
+    },
+    "fs_gmv_lh_inferiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Left inferior parietal gray-matter volume"
+    },
+    "fs_gmv_lh_supramarginal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Left supramarginal gray-matter volume"
+    },
+    "fs_gmv_lh_postcentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Left postcentral gray-matter volume"
+    },
+    "fs_gmv_lh_precuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Left precuneus gray-matter volume"
+    },
+    "fs_gmv_rh_superiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Right superior parietal gray-matter volume"
+    },
+    "fs_gmv_rh_inferiorparietal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Right inferior parietal gray-matter volume"
+    },
+    "fs_gmv_rh_supramarginal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Right supramarginal gray-matter volume"
+    },
+    "fs_gmv_rh_postcentral": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Right postcentral gray-matter volume"
+    },
+    "fs_gmv_rh_precuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "parietal"
+      ],
+      "feature_label": "Right precuneus gray-matter volume"
+    },
+    "fs_gmv_lh_superiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left superior temporal gray-matter volume"
+    },
+    "fs_gmv_lh_middletemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left middle temporal gray-matter volume"
+    },
+    "fs_gmv_lh_inferiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left inferior temporal gray-matter volume"
+    },
+    "fs_gmv_lh_bankssts": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left banks of superior temporal sulcus gray-matter volume"
+    },
+    "fs_gmv_lh_fusiform": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left fusiform gray-matter volume"
+    },
+    "fs_gmv_lh_transversetemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left transverse temporal gray-matter volume"
+    },
+    "fs_gmv_lh_entorhinal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left entorhinal gray-matter volume"
+    },
+    "fs_gmv_lh_temporalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left temporal pole gray-matter volume"
+    },
+    "fs_gmv_lh_parahippocampal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Left parahippocampal gray-matter volume"
+    },
+    "fs_gmv_rh_superiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right superior temporal gray-matter volume"
+    },
+    "fs_gmv_rh_middletemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right middle temporal gray-matter volume"
+    },
+    "fs_gmv_rh_inferiortemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right inferior temporal gray-matter volume"
+    },
+    "fs_gmv_rh_bankssts": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right banks of superior temporal sulcus gray-matter volume"
+    },
+    "fs_gmv_rh_fusiform": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right fusiform gray-matter volume"
+    },
+    "fs_gmv_rh_transversetemporal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right transverse temporal gray-matter volume"
+    },
+    "fs_gmv_rh_entorhinal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right entorhinal gray-matter volume"
+    },
+    "fs_gmv_rh_temporalpole": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right temporal pole gray-matter volume"
+    },
+    "fs_gmv_rh_parahippocampal": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "temporal"
+      ],
+      "feature_label": "Right parahippocampal gray-matter volume"
+    },
+    "fs_gmv_lh_lateraloccipital": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "occipital"
+      ],
+      "feature_label": "Left lateral occipital gray-matter volume"
+    },
+    "fs_gmv_lh_lingual": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "occipital"
+      ],
+      "feature_label": "Left lingual gray-matter volume"
+    },
+    "fs_gmv_lh_cuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "occipital"
+      ],
+      "feature_label": "Left cuneus gray-matter volume"
+    },
+    "fs_gmv_lh_pericalcarine": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "occipital"
+      ],
+      "feature_label": "Left pericalcarine gray-matter volume"
+    },
+    "fs_gmv_rh_lateraloccipital": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "occipital"
+      ],
+      "feature_label": "Right lateral occipital gray-matter volume"
+    },
+    "fs_gmv_rh_lingual": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "occipital"
+      ],
+      "feature_label": "Right lingual gray-matter volume"
+    },
+    "fs_gmv_rh_cuneus": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "occipital"
+      ],
+      "feature_label": "Right cuneus gray-matter volume"
+    },
+    "fs_gmv_rh_pericalcarine": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "occipital"
+      ],
+      "feature_label": "Right pericalcarine gray-matter volume"
+    },
+    "fs_gmv_lh_rostralanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "cingulate"
+      ],
+      "feature_label": "Left rostral anterior cingulate gray-matter volume"
+    },
+    "fs_gmv_lh_caudalanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "cingulate"
+      ],
+      "feature_label": "Left caudal anterior cingulate gray-matter volume"
+    },
+    "fs_gmv_lh_posteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "cingulate"
+      ],
+      "feature_label": "Left posterior cingulate gray-matter volume"
+    },
+    "fs_gmv_lh_isthmuscingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "cingulate"
+      ],
+      "feature_label": "Left isthmus cingulate gray-matter volume"
+    },
+    "fs_gmv_rh_rostralanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "cingulate"
+      ],
+      "feature_label": "Right rostral anterior cingulate gray-matter volume"
+    },
+    "fs_gmv_rh_caudalanteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "cingulate"
+      ],
+      "feature_label": "Right caudal anterior cingulate gray-matter volume"
+    },
+    "fs_gmv_rh_posteriorcingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "cingulate"
+      ],
+      "feature_label": "Right posterior cingulate gray-matter volume"
+    },
+    "fs_gmv_rh_isthmuscingulate": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "cingulate"
+      ],
+      "feature_label": "Right isthmus cingulate gray-matter volume"
+    },
+    "fs_gmv_lh_insula": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "insula"
+      ],
+      "feature_label": "Left insula gray-matter volume"
+    },
+    "fs_gmv_rh_insula": {
+      "domain": "BRAIN",
+      "subdomain": "morphometry",
+      "path": [
+        "BRAIN",
+        "morphometry",
+        "cortical_volume",
+        "insula"
+      ],
+      "feature_label": "Right insula gray-matter volume"
+    },
+    "fc_vis_within": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "within_network"
+      ],
+      "feature_label": "Visual within-network FC"
+    },
+    "fc_sommot_within": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "within_network"
+      ],
+      "feature_label": "Somatomotor within-network FC"
+    },
+    "fc_dorsattn_within": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "within_network"
+      ],
+      "feature_label": "Dorsal attention within-network FC"
+    },
+    "fc_salventattn_within": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "within_network"
+      ],
+      "feature_label": "Salience / ventral attention within-network FC"
+    },
+    "fc_limbic_within": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "within_network"
+      ],
+      "feature_label": "Limbic within-network FC"
+    },
+    "fc_cont_within": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "within_network"
+      ],
+      "feature_label": "Frontoparietal control within-network FC"
+    },
+    "fc_default_within": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "within_network"
+      ],
+      "feature_label": "Default mode within-network FC"
+    },
+    "fc_vis_sommot": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Visual - Somatomotor FC"
+    },
+    "fc_vis_dorsattn": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Visual - Dorsal attention FC"
+    },
+    "fc_vis_salventattn": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Visual - Salience / ventral attention FC"
+    },
+    "fc_vis_limbic": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Visual - Limbic FC"
+    },
+    "fc_vis_cont": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Visual - Frontoparietal control FC"
+    },
+    "fc_vis_default": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Visual - Default mode FC"
+    },
+    "fc_sommot_dorsattn": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Somatomotor - Dorsal attention FC"
+    },
+    "fc_sommot_salventattn": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Somatomotor - Salience / ventral attention FC"
+    },
+    "fc_sommot_limbic": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Somatomotor - Limbic FC"
+    },
+    "fc_sommot_cont": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Somatomotor - Frontoparietal control FC"
+    },
+    "fc_sommot_default": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Somatomotor - Default mode FC"
+    },
+    "fc_dorsattn_salventattn": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Dorsal attention - Salience / ventral attention FC"
+    },
+    "fc_dorsattn_limbic": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Dorsal attention - Limbic FC"
+    },
+    "fc_dorsattn_cont": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Dorsal attention - Frontoparietal control FC"
+    },
+    "fc_dorsattn_default": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Dorsal attention - Default mode FC"
+    },
+    "fc_salventattn_limbic": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Salience / ventral attention - Limbic FC"
+    },
+    "fc_salventattn_cont": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Salience / ventral attention - Frontoparietal control FC"
+    },
+    "fc_salventattn_default": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Salience / ventral attention - Default mode FC"
+    },
+    "fc_limbic_cont": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Limbic - Frontoparietal control FC"
+    },
+    "fc_limbic_default": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Limbic - Default mode FC"
+    },
+    "fc_cont_default": {
+      "domain": "BRAIN",
+      "subdomain": "connectomics",
+      "path": [
+        "BRAIN",
+        "connectomics",
+        "between_network"
+      ],
+      "feature_label": "Frontoparietal control - Default mode FC"
+    },
+    "age": {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "biological_characteristics",
+      "path": [
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "biological_characteristics"
+      ],
+      "feature_label": "Age"
+    },
+    "sex": {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "biological_characteristics",
+      "path": [
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "biological_characteristics"
+      ],
+      "feature_label": "Biological sex"
+    },
+    "handedness": {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "biological_characteristics",
+      "path": [
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "biological_characteristics"
+      ],
+      "feature_label": "Handedness"
+    },
+    "BMI": {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "biological_characteristics",
+      "path": [
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "biological_characteristics"
+      ],
+      "feature_label": "Body mass index"
+    },
+    "education_level": {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "socioeconomic_background",
+      "path": [
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "socioeconomic_background"
+      ],
+      "feature_label": "Education level"
+    },
+    "background_SES": {
+      "domain": "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+      "subdomain": "socioeconomic_background",
+      "path": [
+        "DEMOGRAPHICS_AND_ANTHROPOMETRICS",
+        "socioeconomic_background"
+      ],
+      "feature_label": "Background socio-economic status"
+    },
+    "NEO_N": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "neo_ffi_personality",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "neo_ffi_personality"
+      ],
+      "feature_label": "Neuroticism (NEO-FFI)"
+    },
+    "NEO_E": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "neo_ffi_personality",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "neo_ffi_personality"
+      ],
+      "feature_label": "Extraversion (NEO-FFI)"
+    },
+    "NEO_O": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "neo_ffi_personality",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "neo_ffi_personality"
+      ],
+      "feature_label": "Openness (NEO-FFI)"
+    },
+    "NEO_A": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "neo_ffi_personality",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "neo_ffi_personality"
+      ],
+      "feature_label": "Agreeableness (NEO-FFI)"
+    },
+    "NEO_C": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "neo_ffi_personality",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "neo_ffi_personality"
+      ],
+      "feature_label": "Conscientiousness (NEO-FFI)"
+    },
+    "BAS_drive": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "bis_bas_sensitivity",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "bis_bas_sensitivity"
+      ],
+      "feature_label": "BAS drive"
+    },
+    "BAS_fun": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "bis_bas_sensitivity",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "bis_bas_sensitivity"
+      ],
+      "feature_label": "BAS fun-seeking"
+    },
+    "BAS_reward": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "bis_bas_sensitivity",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "bis_bas_sensitivity"
+      ],
+      "feature_label": "BAS reward responsiveness"
+    },
+    "BIS": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "bis_bas_sensitivity",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "bis_bas_sensitivity"
+      ],
+      "feature_label": "Behavioural inhibition (BIS)"
+    },
+    "STAI_T": {
+      "domain": "PSYCHOLOGICAL_CONSTRUCTS",
+      "subdomain": "stai_trait_anxiety",
+      "path": [
+        "PSYCHOLOGICAL_CONSTRUCTS",
+        "stai_trait_anxiety"
+      ],
+      "feature_label": "Trait anxiety (STAI-T)"
+    },
+    "sexual_attraction_M": {
+      "domain": "IDENTITY_AND_BELIEF_SYSTEMS",
+      "subdomain": "sexual_and_gender_identity",
+      "path": [
+        "IDENTITY_AND_BELIEF_SYSTEMS",
+        "sexual_and_gender_identity"
+      ],
+      "feature_label": "Sexual attraction to males"
+    },
+    "sexual_attraction_F": {
+      "domain": "IDENTITY_AND_BELIEF_SYSTEMS",
+      "subdomain": "sexual_and_gender_identity",
+      "path": [
+        "IDENTITY_AND_BELIEF_SYSTEMS",
+        "sexual_and_gender_identity"
+      ],
+      "feature_label": "Sexual attraction to females"
+    },
+    "gender_identity_M": {
+      "domain": "IDENTITY_AND_BELIEF_SYSTEMS",
+      "subdomain": "sexual_and_gender_identity",
+      "path": [
+        "IDENTITY_AND_BELIEF_SYSTEMS",
+        "sexual_and_gender_identity"
+      ],
+      "feature_label": "Gender identity (male)"
+    },
+    "gender_identity_F": {
+      "domain": "IDENTITY_AND_BELIEF_SYSTEMS",
+      "subdomain": "sexual_and_gender_identity",
+      "path": [
+        "IDENTITY_AND_BELIEF_SYSTEMS",
+        "sexual_and_gender_identity"
+      ],
+      "feature_label": "Gender identity (female)"
+    },
+    "religious_upbringing": {
+      "domain": "IDENTITY_AND_BELIEF_SYSTEMS",
+      "subdomain": "religiosity",
+      "path": [
+        "IDENTITY_AND_BELIEF_SYSTEMS",
+        "religiosity"
+      ],
+      "feature_label": "Religious upbringing"
+    },
+    "religious_now": {
+      "domain": "IDENTITY_AND_BELIEF_SYSTEMS",
+      "subdomain": "religiosity",
+      "path": [
+        "IDENTITY_AND_BELIEF_SYSTEMS",
+        "religiosity"
+      ],
+      "feature_label": "Currently religious"
+    },
+    "religious_importance": {
+      "domain": "IDENTITY_AND_BELIEF_SYSTEMS",
+      "subdomain": "religiosity",
+      "path": [
+        "IDENTITY_AND_BELIEF_SYSTEMS",
+        "religiosity"
+      ],
+      "feature_label": "Importance of religion"
+    }
+  },
+  "dataset": "INTELLIGENCE",
+  "context": "AOMIC ID1000: 928 healthy Dutch young adults. The features grouped here are self-report / questionnaire measures: NEO-FFI Big Five personality, BIS/BAS reinforcement sensitivity, STAI trait anxiety, demographics, anthropometrics, socio-economic status, sexual/gender identity ratings and religiosity. Group measures from the same instrument or construct together. (Brain imaging features - FreeSurfer morphometry and the functional connectome - are placed deterministically under a single BRAIN domain via explicit paths and are not part of this semantic grouping step.)",
+  "n_features": 279,
+  "user_guidance": "Organise the self-report features into exactly three top-level domains: (1) 'Demographics and Anthropometrics' - age, sex, handedness, BMI, education and socio-economic background; (2) 'Psychological Constructs' - NEO-FFI Big Five personality, BIS/BAS reinforcement sensitivity, and STAI trait anxiety, each as its own subdomain; (3) 'Identity and Belief Systems' - sexual and gender identity ratings, and religiosity. Keep identity and belief separate from demographics.",
+  "construction": "hierarchical_path_hints_plus_semantic",
+  "repair_stats": {
+    "n_pathed": 256,
+    "n_semantic": 23,
+    "max_depth": 4
+  }
+}

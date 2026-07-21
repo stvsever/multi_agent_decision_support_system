@@ -10,7 +10,7 @@ from validation.common.freesurfer import _parse_measures
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CONFIG_PATH = ROOT / "validation" / "datasets" / "AOMIC_ID1000" / "pipeline" / "config.py"
+CONFIG_PATH = ROOT / "validation" / "datasets" / "INTELLIGENCE" / "pipeline" / "config.py"
 
 
 def _load_config():

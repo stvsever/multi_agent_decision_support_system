@@ -1,0 +1,46 @@
+{
+  "participant_id": "eval-0077",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "BRAIN": {
+      "present_leaves": 28,
+      "total_leaves": 28,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 409,
+      "is_available": true,
+      "structure": {
+        "connectomics": {
+          "label": "Connectomics",
+          "present_leaves": 28,
+          "total_leaves": 28,
+          "coverage_percentage": 100.0,
+          "tokens": 409,
+          "children": {
+            "within_network": {
+              "label": "Within-network FC",
+              "present_leaves": 7,
+              "total_leaves": 7,
+              "coverage_percentage": 100.0,
+              "tokens": 97
+            },
+            "between_network": {
+              "label": "Between-network FC",
+              "present_leaves": 21,
+              "total_leaves": 21,
+              "coverage_percentage": 100.0,
+              "tokens": 312
+            }
+          }
+        }
+      }
+    }
+  },
+  "total_tokens": 409,
+  "total_leaves": 28,
+  "present_leaves": 28,
+  "available_domains": [
+    "BRAIN"
+  ],
+  "token_budget": 449
+}
