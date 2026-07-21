@@ -144,16 +144,36 @@ for ax, c in zip(np.atleast_1d(axes), cats):
     ax.set_title(c, fontsize=9); ax.tick_params(axis="x", labelsize=8, rotation=30)
 plt.suptitle("Categorical features", y=1.03); plt.tight_layout(); plt.show()
 """),
-        md("## 5. Correlation structure (clustered) and dendrogram"),
+        md("## 5. Correlation structure (clustered) and dendrogram\\n"
+           "The intelligence target (`IST_intelligence_total`, highlighted in red) is included in "
+           "the matrix, so the clustering places it next to the self-report features it correlates "
+           "with most. The ranked list below reads off, directly from the data, which features most "
+           "strongly predict intelligence."),
         code("""
-corr = df[tab_num].apply(pd.to_numeric, errors="coerce").corr(method="spearman")
+cols = tab_num + [target]
+corr = df[cols].apply(pd.to_numeric, errors="coerce").corr(method="spearman")
 try:
-    g = sns.clustermap(corr, cmap="RdBu_r", center=0, figsize=(10,10), linewidths=.3,
+    g = sns.clustermap(corr, cmap="RdBu_r", center=0, figsize=(10.5,10.5), linewidths=.3,
                        cbar_pos=(0.02,0.83,0.03,0.12))
-    g.fig.suptitle("Clustered Spearman correlation (self-report)", y=1.02)
+    g.fig.suptitle("Clustered Spearman correlation (self-report + intelligence target)", y=1.02)
+    for tl in g.ax_heatmap.get_xticklabels() + g.ax_heatmap.get_yticklabels():
+        if tl.get_text() == target:
+            tl.set_color(RED); tl.set_fontweight("bold")
     plt.show()
 except Exception as e:
     print("clustermap skipped:", e)
+# Which self-report features most strongly predict intelligence, straight from the data?
+tcorr = corr[target].drop(target).sort_values(key=lambda s: s.abs(), ascending=False)
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.barh(tcorr.index[::-1], tcorr.values[::-1],
+        color=[RED if v < 0 else GRN for v in tcorr.values[::-1]])
+ax.axvline(0, color="#333")
+ax.set(title="Self-report features ranked by |Spearman r| with intelligence (from data)",
+       xlabel="Spearman r with IST_intelligence_total")
+plt.tight_layout(); plt.show()
+print("Spearman correlation with", target, "(strongest first):")
+for f, r in tcorr.items():
+    print(f"  {r:+.3f}  {f}")
 """),
         code("""
 from scipy.cluster.hierarchy import linkage, dendrogram
