@@ -24,7 +24,7 @@ HERE = Path(__file__).resolve().parent
 
 
 def md(t):
-    return nbf.v4.new_markdown_cell(t.strip("\n"))
+    return nbf.v4.new_markdown_cell(t.strip("\n").replace("\\n", "\n"))
 
 
 def code(t):
