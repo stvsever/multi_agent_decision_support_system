@@ -1,68 +1,132 @@
 {
   "tiers": [
     {
-      "id": "approx_fine_allshared",
+      "id": "approx_T1_demographics_allshared",
       "target": "approximate_numeracy",
-      "granularity": "fine",
+      "level": "T1_demographics",
+      "cohort_mode": "all_shared",
+      "n_participants": 105,
+      "n_features": 3
+    },
+    {
+      "id": "approx_T1_demographics_blinded",
+      "target": "approximate_numeracy",
+      "level": "T1_demographics",
+      "cohort_mode": "blinded",
+      "n_participants": 20,
+      "n_features": 3
+    },
+    {
+      "id": "approx_T2_aphasia_allshared",
+      "target": "approximate_numeracy",
+      "level": "T2_aphasia",
+      "cohort_mode": "all_shared",
+      "n_participants": 105,
+      "n_features": 5
+    },
+    {
+      "id": "approx_T2_aphasia_blinded",
+      "target": "approximate_numeracy",
+      "level": "T2_aphasia",
+      "cohort_mode": "blinded",
+      "n_participants": 20,
+      "n_features": 5
+    },
+    {
+      "id": "approx_T3_lesion_fine_allshared",
+      "target": "approximate_numeracy",
+      "level": "T3_lesion_fine",
       "cohort_mode": "all_shared",
       "n_participants": 105,
       "n_features": 194
     },
     {
-      "id": "approx_fine_blinded",
+      "id": "approx_T3_lesion_fine_blinded",
       "target": "approximate_numeracy",
-      "granularity": "fine",
+      "level": "T3_lesion_fine",
       "cohort_mode": "blinded",
       "n_participants": 20,
       "n_features": 194
     },
     {
-      "id": "approx_coarse_allshared",
+      "id": "approx_T3_lesion_coarse_allshared",
       "target": "approximate_numeracy",
-      "granularity": "coarse",
+      "level": "T3_lesion_coarse",
       "cohort_mode": "all_shared",
       "n_participants": 105,
-      "n_features": 40
+      "n_features": 38
     },
     {
-      "id": "approx_coarse_blinded",
+      "id": "approx_T3_lesion_coarse_blinded",
       "target": "approximate_numeracy",
-      "granularity": "coarse",
+      "level": "T3_lesion_coarse",
       "cohort_mode": "blinded",
       "n_participants": 20,
-      "n_features": 40
+      "n_features": 38
     },
     {
-      "id": "precise_fine_allshared",
+      "id": "precise_T1_demographics_allshared",
       "target": "precise_numeracy",
-      "granularity": "fine",
+      "level": "T1_demographics",
+      "cohort_mode": "all_shared",
+      "n_participants": 105,
+      "n_features": 3
+    },
+    {
+      "id": "precise_T1_demographics_blinded",
+      "target": "precise_numeracy",
+      "level": "T1_demographics",
+      "cohort_mode": "blinded",
+      "n_participants": 20,
+      "n_features": 3
+    },
+    {
+      "id": "precise_T2_aphasia_allshared",
+      "target": "precise_numeracy",
+      "level": "T2_aphasia",
+      "cohort_mode": "all_shared",
+      "n_participants": 105,
+      "n_features": 5
+    },
+    {
+      "id": "precise_T2_aphasia_blinded",
+      "target": "precise_numeracy",
+      "level": "T2_aphasia",
+      "cohort_mode": "blinded",
+      "n_participants": 20,
+      "n_features": 5
+    },
+    {
+      "id": "precise_T3_lesion_fine_allshared",
+      "target": "precise_numeracy",
+      "level": "T3_lesion_fine",
       "cohort_mode": "all_shared",
       "n_participants": 105,
       "n_features": 194
     },
     {
-      "id": "precise_fine_blinded",
+      "id": "precise_T3_lesion_fine_blinded",
       "target": "precise_numeracy",
-      "granularity": "fine",
+      "level": "T3_lesion_fine",
       "cohort_mode": "blinded",
       "n_participants": 20,
       "n_features": 194
     },
     {
-      "id": "precise_coarse_allshared",
+      "id": "precise_T3_lesion_coarse_allshared",
       "target": "precise_numeracy",
-      "granularity": "coarse",
+      "level": "T3_lesion_coarse",
       "cohort_mode": "all_shared",
       "n_participants": 105,
-      "n_features": 40
+      "n_features": 38
     },
     {
-      "id": "precise_coarse_blinded",
+      "id": "precise_T3_lesion_coarse_blinded",
       "target": "precise_numeracy",
-      "granularity": "coarse",
+      "level": "T3_lesion_coarse",
       "cohort_mode": "blinded",
       "n_participants": 20,
-      "n_features": 40
+      "n_features": 38
     }
   ]
 }

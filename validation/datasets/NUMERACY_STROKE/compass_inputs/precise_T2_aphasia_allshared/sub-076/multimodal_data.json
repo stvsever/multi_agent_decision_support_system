@@ -1,0 +1,38 @@
+{
+  "DEMOGRAPHICS_AND_CLINICAL": {
+    "general": {
+      "_leaves": [
+        {
+          "feature": "Age",
+          "z_score": -0.047,
+          "value": "61 years (Normal)",
+          "ref_range": "cohort mean 61.6, sd 12.0 (population-referenced)"
+        },
+        {
+          "feature": "Education (years)",
+          "z_score": 0.344,
+          "value": "16 years (Normal)",
+          "ref_range": "cohort mean 15.1, sd 2.7 (population-referenced)"
+        },
+        {
+          "feature": "Imaging modality",
+          "z_score": 0.516,
+          "value": "research_MR (High-Normal)",
+          "ref_range": "cohort distribution research_mr:77%, clinical_mr:20%, clinical_ct:3%"
+        },
+        {
+          "feature": "Aphasia severity (WAB-R quotient)",
+          "z_score": 0.344,
+          "value": "0.328072 score (Normal)",
+          "ref_range": "cohort mean -0.0, sd 1.0 (population-referenced)"
+        },
+        {
+          "feature": "Whole-brain lesion volume",
+          "z_score": -1.169,
+          "value": "-7.31347 proportion (Low)",
+          "ref_range": "cohort mean -4.8, sd 2.1 (population-referenced)"
+        }
+      ]
+    }
+  }
+}

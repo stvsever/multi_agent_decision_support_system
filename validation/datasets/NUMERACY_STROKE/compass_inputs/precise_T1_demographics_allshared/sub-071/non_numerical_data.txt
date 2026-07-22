@@ -1,0 +1,13 @@
+Participant ID: sub-071
+Source: blinded evaluation record from NUMERACY_STROKE; provided non-cognitive multimodal features only.
+Reference strategy: cohort (deviation from the population cohort).
+
+TARGET MEASUREMENT REFERENCE:
+Prediction target: precise_numeracy, a composite Z-score across several precise numeracy tasks (WAB number items, number writing/dictation, calculation). In the reference split, mean=-0.001, sd=0.672 native Z-score units. Predict one numeric value on that native scale. No approximate_numeracy value is a reliable proxy - this dataset's whole point is their differential relationship to language/lesion features.
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Demographics And Clinical: Age = 62 years (Normal); Education (years) = 12 years (Low); Imaging modality = research_MR (High-Normal)
+
+NOTABLE DEVIATIONS: Education (years) is low (z=-1.14).
+
+NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction target must be inferred only from the non-cognitive multimodal evidence provided in this record.

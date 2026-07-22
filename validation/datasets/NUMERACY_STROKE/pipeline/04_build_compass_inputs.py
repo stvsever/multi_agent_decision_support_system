@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
 """
-Step 04 - project each of the 8 tiers onto its ontology and emit COMPASS files.
+Step 04 - project each cumulative tier onto its ontology and emit COMPASS files.
 
-8 tiers = 2 targets (approximate_numeracy, precise_numeracy) x 2 granularities
-(fine = prevalence-filtered per-ROI lesion features, coarse = network/structure-
-level lesion aggregates from step 03) x 2 cohort modes:
+Tiers mirror AOMIC_ID1000's cumulative-feature-group naming (T1_demographics,
+T2_personality, ... in validation/datasets/AOMIC_ID1000/pipeline/config.py):
+
+  T1_demographics   age, education_years, image_modality
+  T2_aphasia        T1 + aphasia_quotient, lesion_volume (single clinical/
+                    behavioral scalars from participants.tsv, not yet the
+                    atlas-derived imaging features)
+  T3_lesion_fine    T2 + prevalence-filtered per-ROI lesion features (step 03)
+  T3_lesion_coarse  T2 + network/structure-level lesion aggregates (step 03)
+
+Each tier is built for both targets (approximate_numeracy, precise_numeracy)
+and both cohort modes:
 
   all_shared  - all 105 subjects, real sub-XXX ids, z-scored against the full
                 cohort (this is the user's own dataset, not a blinded benchmark).
@@ -13,9 +22,9 @@ level lesion aggregates from step 03) x 2 cohort modes:
                 disjoint ~85-subject reference cohort - mirrors AOMIC_ID1000's
                 leakage-safe design, scaled down for this dataset's n=105.
 
-For every tier, every participant gets the four COMPASS files
-(data_overview.json, hierarchical_deviation_map.json, multimodal_data.json,
-non_numerical_data.txt) via the existing, unmodified
+4 tiers x 2 targets x 2 cohort modes = 16 tier directories. Every participant
+gets the four COMPASS files (data_overview.json, hierarchical_deviation_map.json,
+multimodal_data.json, non_numerical_data.txt) via the existing, unmodified
 validation.common.{deviation,compass_writer,tiers} - same mechanism
 AOMIC_ID1000's 03_build_compass_inputs.py already uses.
 
@@ -30,7 +39,7 @@ target).
 Writes:
   compass_inputs/<tier_id>/<participant_id>/{data_overview.json,
     hierarchical_deviation_map.json, multimodal_data.json, non_numerical_data.txt}
-  compass_inputs/tiers.json                 summary of all 8 tiers
+  compass_inputs/tiers.json                 summary of all 16 tiers
   results/subset_<target>.json              blinded-tier ground truth (per target)
 """
 
@@ -57,7 +66,6 @@ TARGET_LABELS = {
     "precise_numeracy": "composite Z-score across several precise numeracy tasks "
                         "(WAB number items, number writing/dictation, calculation)",
 }
-FA_FACTOR_COLUMNS = ["FA1_factor1_score", "FA1_factor2_score", "FA2_factor1_score", "FA2_factor2_score"]
 
 TABULAR_SPECS = {
     "age": {"label": "Age", "stat_type": "numeric", "units": "years"},
@@ -66,44 +74,43 @@ TABULAR_SPECS = {
     "aphasia_quotient": {"label": "Aphasia severity (WAB-R quotient)", "stat_type": "numeric", "units": "score"},
     "lesion_volume": {"label": "Whole-brain lesion volume", "stat_type": "numeric", "units": "proportion"},
 }
+T1_COLS = ["age", "education_years", "image_modality"]
+T2_COLS = T1_COLS + ["aphasia_quotient", "lesion_volume"]
 
 
-def load_predictor_frame(granularity: str):
-    """Return (merged_df, predictor_cols, feature_specs) for a granularity.
-
-    merged_df has participant_id + every tabular predictor (transformed) +
-    both target columns (raw) + the granularity's lesion columns.
-    """
+def load_all_frames():
+    """One merged frame with every column any tier could need, plus per-granularity specs."""
     tabular = pd.read_csv(config.PROCESSED_DIR / "_all_subjects_features_transformed.csv")
-    raw_targets = pd.read_csv(config.PROCESSED_DIR / "_all_subjects_features.csv")[
-        ["participant_id"] + TARGETS
+    raw = pd.read_csv(config.PROCESSED_DIR / "_all_subjects_features.csv")
+    coarse = pd.read_csv(config.PROCESSED_DIR / "_all_subjects_features_coarse.csv")
+
+    lesion_cols_all = [c for c in raw.columns if c.startswith("lesion_ratio_p")]
+    prevalence = (raw[lesion_cols_all] > 0).sum(axis=0)
+    fine_lesion_cols = [c for c in lesion_cols_all if prevalence[c] > PREVALENCE_MIN_SUBJECTS]
+    fine_lesion_cols += ["lesion_total_voxels", "lesion_total_volume_mm3"]
+    # whole-brain totals are identical in both CSVs (carried over verbatim in step 03) -
+    # keep them only via fine_lesion_cols/raw to avoid a merge column collision.
+    coarse_lesion_cols = [
+        c for c in coarse.columns
+        if c not in ["participant_id"] + list(TABULAR_SPECS) + ["lesion_total_voxels", "lesion_total_volume_mm3"]
     ]
 
-    if granularity == "fine":
-        raw = pd.read_csv(config.PROCESSED_DIR / "_all_subjects_features.csv")
-        lesion_cols = [c for c in raw.columns if c.startswith("lesion_ratio_p")]
-        prevalence = (raw[lesion_cols] > 0).sum(axis=0)
-        keep_cols = [c for c in lesion_cols if prevalence[c] > PREVALENCE_MIN_SUBJECTS]
-        keep_cols += ["lesion_total_voxels", "lesion_total_volume_mm3"]
-        lesion_part = raw[["participant_id"] + keep_cols]
-        with open(config.PROCESSED_DIR / "_feature_specs.json") as f:
-            lesion_specs_all = json.load(f)
-    else:
-        lesion_part = pd.read_csv(config.PROCESSED_DIR / "_all_subjects_features_coarse.csv")
-        keep_cols = [c for c in lesion_part.columns if c not in ["participant_id"] + list(TABULAR_SPECS)]
-        lesion_part = lesion_part[["participant_id"] + keep_cols]
-        with open(config.PROCESSED_DIR / "_group_feature_specs.json") as f:
-            lesion_specs_all = json.load(f)
+    with open(config.PROCESSED_DIR / "_feature_specs.json") as f:
+        fine_specs_all = json.load(f)
+    with open(config.PROCESSED_DIR / "_group_feature_specs.json") as f:
+        coarse_specs_all = json.load(f)
 
-    lesion_specs = {c: lesion_specs_all[c] for c in keep_cols if c in lesion_specs_all}
     merged = (
         tabular[["participant_id"] + list(TABULAR_SPECS)]
-        .merge(raw_targets, on="participant_id")
-        .merge(lesion_part, on="participant_id")
+        .merge(raw[["participant_id"] + TARGETS + fine_lesion_cols], on="participant_id")
+        .merge(coarse[["participant_id"] + coarse_lesion_cols], on="participant_id")
     )
-    predictor_cols = list(TABULAR_SPECS) + keep_cols
-    specs = {**TABULAR_SPECS, **lesion_specs}
-    return merged, predictor_cols, specs
+    specs = {
+        **TABULAR_SPECS,
+        **{c: fine_specs_all[c] for c in fine_lesion_cols if c in fine_specs_all},
+        **{c: coarse_specs_all[c] for c in coarse_lesion_cols if c in coarse_specs_all},
+    }
+    return merged, fine_lesion_cols, coarse_lesion_cols, specs
 
 
 def select_blinded_subset(merged_df: pd.DataFrame, target: str) -> list:
@@ -179,24 +186,31 @@ def write_tier(tier_id, target, cohort_mode, ontology, merged_df, predictor_cols
 
 def main() -> None:
     with open(ONTOLOGY_DIR / "subclass_structure_fine.json") as f:
-        ontologies = {"fine": json.load(f)}
+        fine_ontology = json.load(f)
     with open(ONTOLOGY_DIR / "subclass_structure_coarse.json") as f:
-        ontologies["coarse"] = json.load(f)
+        coarse_ontology = json.load(f)
 
-    frames = {g: load_predictor_frame(g) for g in ("fine", "coarse")}
+    merged_df, fine_lesion_cols, coarse_lesion_cols, specs = load_all_frames()
+
+    tier_levels = [
+        ("T1_demographics", T1_COLS, fine_ontology),
+        ("T2_aphasia", T2_COLS, fine_ontology),
+        ("T3_lesion_fine", T2_COLS + fine_lesion_cols, fine_ontology),
+        ("T3_lesion_coarse", T2_COLS + coarse_lesion_cols, coarse_ontology),
+    ]
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     INPUTS_DIR.mkdir(parents=True, exist_ok=True)
 
     tier_meta = []
     for target in TARGETS:
-        for granularity in ("fine", "coarse"):
-            merged_df, predictor_cols, specs = frames[granularity]
+        target_short = "approx" if target == "approximate_numeracy" else "precise"
+        for level_name, predictor_cols, ontology in tier_levels:
             for cohort_mode in ("all_shared", "blinded"):
-                target_short = "approx" if target == "approximate_numeracy" else "precise"
-                tier_id = f"{target_short}_{granularity}_{cohort_mode.replace('_', '')}"
+                tier_id = f"{target_short}_{level_name}_{cohort_mode.replace('_', '')}"
+                level_specs = {c: specs[c] for c in predictor_cols}
                 records = write_tier(
-                    tier_id, target, cohort_mode, ontologies[granularity], merged_df, predictor_cols, specs,
+                    tier_id, target, cohort_mode, ontology, merged_df, predictor_cols, level_specs,
                 )
                 print(f"[04] {tier_id}: {len(records)} participants, {len(predictor_cols)} features "
                       f"-> compass_inputs/{tier_id}/")
@@ -210,7 +224,7 @@ def main() -> None:
                             "participants": records,
                         }, f, indent=2)
                 tier_meta.append({
-                    "id": tier_id, "target": target, "granularity": granularity,
+                    "id": tier_id, "target": target, "level": level_name,
                     "cohort_mode": cohort_mode, "n_participants": len(records),
                     "n_features": len(predictor_cols),
                 })

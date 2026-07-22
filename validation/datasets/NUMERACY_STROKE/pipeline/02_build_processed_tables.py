@@ -32,7 +32,7 @@ import pandas as pd
 
 import config
 from validation.datasets.NUMERACY_STROKE.utils import lesion
-from validation.datasets.NUMERACY_STROKE.utils.transforms import RECOMMENDED_TRANSFORM, apply_recommended_transform
+from validation.common.transforms import RECOMMENDED_TRANSFORM, apply_recommended_transform
 
 
 def _build_transformed_df(combined_df: pd.DataFrame) -> pd.DataFrame:
