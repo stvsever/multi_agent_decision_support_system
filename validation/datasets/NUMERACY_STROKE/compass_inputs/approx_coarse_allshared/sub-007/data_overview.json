@@ -1,0 +1,54 @@
+{
+  "participant_id": "sub-007",
+  "domain_coverage": {
+    "DEMOGRAPHICS_AND_CLINICAL": {
+      "present_leaves": 5,
+      "total_leaves": 5,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 116,
+      "is_available": true
+    },
+    "LESION_CORTEX": {
+      "present_leaves": 8,
+      "total_leaves": 8,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 206,
+      "is_available": true
+    },
+    "LESION_SUBCORTEX": {
+      "present_leaves": 9,
+      "total_leaves": 9,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 222,
+      "is_available": true
+    },
+    "LESION_CEREBELLUM": {
+      "present_leaves": 16,
+      "total_leaves": 16,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 384,
+      "is_available": true
+    },
+    "LESION_SUMMARY": {
+      "present_leaves": 2,
+      "total_leaves": 2,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 47,
+      "is_available": true
+    }
+  },
+  "total_tokens": 975,
+  "available_domains": [
+    "DEMOGRAPHICS_AND_CLINICAL",
+    "LESION_CORTEX",
+    "LESION_SUBCORTEX",
+    "LESION_CEREBELLUM",
+    "LESION_SUMMARY"
+  ],
+  "token_budget": 1072
+}

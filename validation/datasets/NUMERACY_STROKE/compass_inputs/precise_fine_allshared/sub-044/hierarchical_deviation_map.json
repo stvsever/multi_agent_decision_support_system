@@ -1,0 +1,68 @@
+{
+  "DEMOGRAPHICS_AND_CLINICAL": {
+    "general": {
+      "score": -0.65
+    },
+    "_stats": {
+      "mean_abs_score": 0.857,
+      "n_leaves": 5
+    }
+  },
+  "LESION_CORTEX": {
+    "vis": {
+      "score": -0.354
+    },
+    "sommot": {
+      "score": -0.321
+    },
+    "dorsattn": {
+      "score": -0.318
+    },
+    "salventattn": {
+      "score": -0.399
+    },
+    "limbic": {
+      "score": -0.259
+    },
+    "cont": {
+      "score": -0.334
+    },
+    "default": {
+      "score": -0.297
+    },
+    "_stats": {
+      "mean_abs_score": 0.331,
+      "n_leaves": 177
+    }
+  },
+  "LESION_SUBCORTEX": {
+    "tha": {
+      "score": -0.219
+    },
+    "put": {
+      "score": -0.507
+    },
+    "cau": {
+      "score": -0.184
+    },
+    "pgp": {
+      "score": -0.245
+    },
+    "agp": {
+      "score": -0.393
+    },
+    "_stats": {
+      "mean_abs_score": 0.351,
+      "n_leaves": 10
+    }
+  },
+  "LESION_SUMMARY": {
+    "whole_brain": {
+      "score": -0.552
+    },
+    "_stats": {
+      "mean_abs_score": 0.552,
+      "n_leaves": 2
+    }
+  }
+}

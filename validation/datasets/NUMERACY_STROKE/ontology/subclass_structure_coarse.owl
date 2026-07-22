@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns="https://compass.local/ontology/numeracy_stroke#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_s3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s3"/>
+    <rdfs:label>Lesion overlap: S3 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the S3 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_s3</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_d1">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_d1"/>
+    <rdfs:label>Lesion overlap: D1 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the D1 cerebellum group (7 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_d1</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cortex_sommot">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_sommot"/>
+    <rdfs:label>Lesion overlap: SomMot (Cortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the SomMot cortex group (194 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cortex_sommot</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_s4">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s4"/>
+    <rdfs:label>Lesion overlap: S4 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the S4 cerebellum group (7 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_s4</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_image_modality">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_DEMOGRAPHICS_AND_CLINICAL_general"/>
+    <rdfs:label>Imaging modality</rdfs:label>
+    <rdfs:comment>Research-grade MR, clinical MR, or clinical CT acquisition.</rdfs:comment>
+    <sourceColumn>image_modality</sourceColumn>
+    <statType>nominal</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cortex_vis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_vis"/>
+    <rdfs:label>Lesion overlap: Vis (Cortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the Vis cortex group (162 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cortex_vis</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_s1">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s1"/>
+    <rdfs:label>Lesion overlap: S1 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the S1 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_s1</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_d4">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_d4"/>
+    <rdfs:label>Lesion overlap: D4 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the D4 cerebellum group (6 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_d4</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_s5">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s5"/>
+    <rdfs:label>Lesion overlap: S5 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the S5 cerebellum group (5 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_s5</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Ontology rdf:about="https://compass.local/ontology/numeracy_stroke#">
+    <rdfs:label>COMPASS feature ontology: NUMERACY_STROKE</rdfs:label>
+    <rdfs:comment>NUMERACY_STROKE (OpenNeuro ds006533): 105 left-hemisphere chronic stroke survivors assessed on approximate and precise numeracy. Features are demographics, aphasia severity, whole-brain lesion volume, and per-region lesion overlap across a combined cortical (Schaefer-2018/Yeo-7), subcortical (Tian scale-IV), and cerebellar (Nettekoven-2024) parcellation. Keep the three lesion regions (cortex/subcortex/cerebellum) as separate domains from demographics/clinical covariates.</rdfs:comment>
+  </owl:Ontology>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_a2">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_a2"/>
+    <rdfs:label>Lesion overlap: A2 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the A2 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_a2</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_m4">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_m4"/>
+    <rdfs:label>Lesion overlap: M4 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the M4 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_m4</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_mamy">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_mamy"/>
+    <rdfs:label>Lesion overlap: mAMY (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the mAMY subcortex group (2 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_mamy</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_age">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_DEMOGRAPHICS_AND_CLINICAL_general"/>
+    <rdfs:label>Age</rdfs:label>
+    <rdfs:comment>Age of participant in years.</rdfs:comment>
+    <sourceColumn>age</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cortex_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_limbic"/>
+    <rdfs:label>Lesion overlap: Limbic (Cortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the Limbic cortex group (60 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cortex_limbic</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cortex_dorsattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_dorsattn"/>
+    <rdfs:label>Lesion overlap: DorsAttn (Cortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the DorsAttn cortex group (122 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cortex_dorsattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_total_volume_mm3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUMMARY_whole_brain"/>
+    <rdfs:label>Total lesion volume</rdfs:label>
+    <sourceColumn>lesion_total_volume_mm3</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cortex_other">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_other"/>
+    <rdfs:label>Lesion overlap: Other (Cortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the Other cortex group (1 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cortex_other</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_lamy">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_lamy"/>
+    <rdfs:label>Lesion overlap: lAMY (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the lAMY subcortex group (2 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_lamy</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_d2">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_d2"/>
+    <rdfs:label>Lesion overlap: D2 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the D2 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_d2</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_m1">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_m1"/>
+    <rdfs:label>Lesion overlap: M1 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the M1 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_m1</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_volume">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_DEMOGRAPHICS_AND_CLINICAL_general"/>
+    <rdfs:label>Whole-brain lesion volume</rdfs:label>
+    <rdfs:comment>Proportion of the left hemisphere that is lesioned (log-transformed).</rdfs:comment>
+    <sourceColumn>lesion_volume</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_cau">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_cau"/>
+    <rdfs:label>Lesion overlap: CAU (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the CAU subcortex group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_cau</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_aphasia_quotient">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_DEMOGRAPHICS_AND_CLINICAL_general"/>
+    <rdfs:label>Aphasia severity (WAB-R quotient)</rdfs:label>
+    <rdfs:comment>Western Aphasia Battery-Revised severity score (rank-based inverse normal transformed).</rdfs:comment>
+    <sourceColumn>aphasia_quotient</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_pgp">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_pgp"/>
+    <rdfs:label>Lesion overlap: pGP (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the pGP subcortex group (2 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_pgp</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_s2">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s2"/>
+    <rdfs:label>Lesion overlap: S2 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the S2 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_s2</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_m3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_m3"/>
+    <rdfs:label>Lesion overlap: M3 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the M3 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_m3</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_agp">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_agp"/>
+    <rdfs:label>Lesion overlap: aGP (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the aGP subcortex group (2 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_agp</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_d3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_d3"/>
+    <rdfs:label>Lesion overlap: D3 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the D3 cerebellum group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_d3</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_tha">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_tha"/>
+    <rdfs:label>Lesion overlap: THA (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the THA subcortex group (16 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_tha</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_total_voxels">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUMMARY_whole_brain"/>
+    <rdfs:label>Total lesioned voxels</rdfs:label>
+    <sourceColumn>lesion_total_voxels</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_hip">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_hip"/>
+    <rdfs:label>Lesion overlap: HIP (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the HIP subcortex group (10 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_hip</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cortex_salventattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_salventattn"/>
+    <rdfs:label>Lesion overlap: SalVentAttn (Cortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the SalVentAttn cortex group (121 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cortex_salventattn</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_nac">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_nac"/>
+    <rdfs:label>Lesion overlap: NAc (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the NAc subcortex group (4 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_nac</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:AnnotationProperty rdf:about="https://compass.local/ontology/numeracy_stroke#sourceColumn">
+    <rdfs:label>source column</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_subcortex_put">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_put"/>
+    <rdfs:label>Lesion overlap: PUT (Subcortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the PUT subcortex group (8 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_subcortex_put</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_m2">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_m2"/>
+    <rdfs:label>Lesion overlap: M2 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the M2 cerebellum group (7 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_m2</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_education_years">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_DEMOGRAPHICS_AND_CLINICAL_general"/>
+    <rdfs:label>Education (years)</rdfs:label>
+    <rdfs:comment>Years of formal education completed.</rdfs:comment>
+    <sourceColumn>education_years</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cortex_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_cont"/>
+    <rdfs:label>Lesion overlap: Cont (Cortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the Cont cortex group (128 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cortex_cont</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_a3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_a3"/>
+    <rdfs:label>Lesion overlap: A3 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the A3 cerebellum group (6 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_a3</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cortex_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_default"/>
+    <rdfs:label>Lesion overlap: Default (Cortex)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the Default cortex group (212 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cortex_default</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#FEATURE_lesion_ratio_group_lesion_cerebellum_a1">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_a1"/>
+    <rdfs:label>Lesion overlap: A1 (Cerebellum)</rdfs:label>
+    <rdfs:comment>Voxel-weighted lesion overlap ratio aggregated across the A1 cerebellum group (4 ROIs).</rdfs:comment>
+    <sourceColumn>lesion_ratio_group_lesion_cerebellum_a1</sourceColumn>
+    <statType>numeric</statType>
+  </owl:Class>
+  <owl:AnnotationProperty rdf:about="https://compass.local/ontology/numeracy_stroke#statType">
+    <rdfs:label>statistical type</rdfs:label>
+  </owl:AnnotationProperty>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_d4">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>D4</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_m4">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>M4</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_mamy">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Mamy</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_a2">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>A2</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_d2">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>D2</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_d1">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>D1</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s5">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>S5</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_pgp">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Pgp</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_nac">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Nac</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_a3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>A3</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#DOMAIN_DEMOGRAPHICS_AND_CLINICAL">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#PhenotypeFeature"/>
+    <rdfs:label>Demographics And Clinical</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_salventattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX"/>
+    <rdfs:label>Salventattn</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s2">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>S2</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#PhenotypeFeature"/>
+    <rdfs:label>Lesion Cortex</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_tha">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Tha</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUMMARY">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#PhenotypeFeature"/>
+    <rdfs:label>Lesion Summary</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_a1">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>A1</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_sommot">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX"/>
+    <rdfs:label>Sommot</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s1">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>S1</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_agp">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Agp</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_DEMOGRAPHICS_AND_CLINICAL_general">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_DEMOGRAPHICS_AND_CLINICAL"/>
+    <rdfs:label>General</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_put">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Put</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#PhenotypeFeature">
+    <rdfs:label>Phenotype Feature</rdfs:label>
+    <rdfs:comment>Root class for all measured participant features.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_other">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX"/>
+    <rdfs:label>Other</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>S3</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#PhenotypeFeature"/>
+    <rdfs:label>Lesion Cerebellum</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_cont">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX"/>
+    <rdfs:label>Cont</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_vis">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX"/>
+    <rdfs:label>Vis</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#PhenotypeFeature"/>
+    <rdfs:label>Lesion Subcortex</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_lamy">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Lamy</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_default">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX"/>
+    <rdfs:label>Default</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_m2">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>M2</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_cau">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Cau</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_s4">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>S4</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_limbic">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX"/>
+    <rdfs:label>Limbic</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUBCORTEX_hip">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUBCORTEX"/>
+    <rdfs:label>Hip</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_SUMMARY_whole_brain">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_SUMMARY"/>
+    <rdfs:label>Whole Brain</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_m3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>M3</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CORTEX_dorsattn">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CORTEX"/>
+    <rdfs:label>Dorsattn</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_d3">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>D3</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="https://compass.local/ontology/numeracy_stroke#SUB_LESION_CEREBELLUM_m1">
+    <rdfs:subClassOf rdf:resource="https://compass.local/ontology/numeracy_stroke#DOMAIN_LESION_CEREBELLUM"/>
+    <rdfs:label>M1</rdfs:label>
+  </owl:Class>
+</rdf:RDF>

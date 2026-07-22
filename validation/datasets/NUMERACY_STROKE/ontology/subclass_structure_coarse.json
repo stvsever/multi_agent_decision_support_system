@@ -1,0 +1,775 @@
+{
+  "domains": [
+    {
+      "id": "DEMOGRAPHICS_AND_CLINICAL",
+      "label": "Demographics And Clinical",
+      "definition": "",
+      "subdomains": [
+        {
+          "id": "general",
+          "label": "General",
+          "definition": "",
+          "features": [
+            {
+              "id": "age",
+              "label": "Age",
+              "definition": "Age of participant in years.",
+              "stat_type": "numeric",
+              "units": "years"
+            },
+            {
+              "id": "education_years",
+              "label": "Education (years)",
+              "definition": "Years of formal education completed.",
+              "stat_type": "numeric",
+              "units": "years"
+            },
+            {
+              "id": "image_modality",
+              "label": "Imaging modality",
+              "definition": "Research-grade MR, clinical MR, or clinical CT acquisition.",
+              "stat_type": "nominal",
+              "units": null
+            },
+            {
+              "id": "aphasia_quotient",
+              "label": "Aphasia severity (WAB-R quotient)",
+              "definition": "Western Aphasia Battery-Revised severity score (rank-based inverse normal transformed).",
+              "stat_type": "numeric",
+              "units": "score"
+            },
+            {
+              "id": "lesion_volume",
+              "label": "Whole-brain lesion volume",
+              "definition": "Proportion of the left hemisphere that is lesioned (log-transformed).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "LESION_CORTEX",
+      "label": "Lesion Cortex",
+      "definition": "",
+      "subdomains": [
+        {
+          "id": "other",
+          "label": "Other",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cortex_other",
+              "label": "Lesion overlap: Other (Cortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the Other cortex group (1 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "vis",
+          "label": "Vis",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cortex_vis",
+              "label": "Lesion overlap: Vis (Cortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the Vis cortex group (162 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "sommot",
+          "label": "Sommot",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cortex_sommot",
+              "label": "Lesion overlap: SomMot (Cortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the SomMot cortex group (194 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "dorsattn",
+          "label": "Dorsattn",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cortex_dorsattn",
+              "label": "Lesion overlap: DorsAttn (Cortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the DorsAttn cortex group (122 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "salventattn",
+          "label": "Salventattn",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cortex_salventattn",
+              "label": "Lesion overlap: SalVentAttn (Cortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the SalVentAttn cortex group (121 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "limbic",
+          "label": "Limbic",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cortex_limbic",
+              "label": "Lesion overlap: Limbic (Cortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the Limbic cortex group (60 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "cont",
+          "label": "Cont",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cortex_cont",
+              "label": "Lesion overlap: Cont (Cortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the Cont cortex group (128 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "default",
+          "label": "Default",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cortex_default",
+              "label": "Lesion overlap: Default (Cortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the Default cortex group (212 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "LESION_SUBCORTEX",
+      "label": "Lesion Subcortex",
+      "definition": "",
+      "subdomains": [
+        {
+          "id": "hip",
+          "label": "Hip",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_hip",
+              "label": "Lesion overlap: HIP (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the HIP subcortex group (10 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "tha",
+          "label": "Tha",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_tha",
+              "label": "Lesion overlap: THA (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the THA subcortex group (16 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "put",
+          "label": "Put",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_put",
+              "label": "Lesion overlap: PUT (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the PUT subcortex group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "cau",
+          "label": "Cau",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_cau",
+              "label": "Lesion overlap: CAU (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the CAU subcortex group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "lamy",
+          "label": "Lamy",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_lamy",
+              "label": "Lesion overlap: lAMY (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the lAMY subcortex group (2 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "mamy",
+          "label": "Mamy",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_mamy",
+              "label": "Lesion overlap: mAMY (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the mAMY subcortex group (2 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "nac",
+          "label": "Nac",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_nac",
+              "label": "Lesion overlap: NAc (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the NAc subcortex group (4 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "pgp",
+          "label": "Pgp",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_pgp",
+              "label": "Lesion overlap: pGP (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the pGP subcortex group (2 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "agp",
+          "label": "Agp",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_subcortex_agp",
+              "label": "Lesion overlap: aGP (Subcortex)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the aGP subcortex group (2 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "LESION_CEREBELLUM",
+      "label": "Lesion Cerebellum",
+      "definition": "",
+      "subdomains": [
+        {
+          "id": "m1",
+          "label": "M1",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_m1",
+              "label": "Lesion overlap: M1 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the M1 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "m2",
+          "label": "M2",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_m2",
+              "label": "Lesion overlap: M2 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the M2 cerebellum group (7 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "m3",
+          "label": "M3",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_m3",
+              "label": "Lesion overlap: M3 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the M3 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "m4",
+          "label": "M4",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_m4",
+              "label": "Lesion overlap: M4 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the M4 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "a1",
+          "label": "A1",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_a1",
+              "label": "Lesion overlap: A1 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the A1 cerebellum group (4 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "a2",
+          "label": "A2",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_a2",
+              "label": "Lesion overlap: A2 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the A2 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "a3",
+          "label": "A3",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_a3",
+              "label": "Lesion overlap: A3 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the A3 cerebellum group (6 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "d1",
+          "label": "D1",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_d1",
+              "label": "Lesion overlap: D1 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the D1 cerebellum group (7 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "label": "D2",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_d2",
+              "label": "Lesion overlap: D2 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the D2 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "d3",
+          "label": "D3",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_d3",
+              "label": "Lesion overlap: D3 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the D3 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "d4",
+          "label": "D4",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_d4",
+              "label": "Lesion overlap: D4 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the D4 cerebellum group (6 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "s1",
+          "label": "S1",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_s1",
+              "label": "Lesion overlap: S1 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the S1 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "label": "S2",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_s2",
+              "label": "Lesion overlap: S2 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the S2 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "label": "S3",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_s3",
+              "label": "Lesion overlap: S3 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the S3 cerebellum group (8 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "label": "S4",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_s4",
+              "label": "Lesion overlap: S4 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the S4 cerebellum group (7 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "label": "S5",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_ratio_group_lesion_cerebellum_s5",
+              "label": "Lesion overlap: S5 (Cerebellum)",
+              "definition": "Voxel-weighted lesion overlap ratio aggregated across the S5 cerebellum group (5 ROIs).",
+              "stat_type": "numeric",
+              "units": "proportion"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "LESION_SUMMARY",
+      "label": "Lesion Summary",
+      "definition": "",
+      "subdomains": [
+        {
+          "id": "whole_brain",
+          "label": "Whole Brain",
+          "definition": "",
+          "features": [
+            {
+              "id": "lesion_total_voxels",
+              "label": "Total lesioned voxels",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "voxels"
+            },
+            {
+              "id": "lesion_total_volume_mm3",
+              "label": "Total lesion volume",
+              "definition": "",
+              "stat_type": "numeric",
+              "units": "mm^3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "repair_stats": {
+    "duplicates_removed": 0,
+    "unknown_removed": 0,
+    "unassigned_added": 0
+  },
+  "column_index": {
+    "age": {
+      "domain": "DEMOGRAPHICS_AND_CLINICAL",
+      "subdomain": "general",
+      "feature_label": "Age"
+    },
+    "education_years": {
+      "domain": "DEMOGRAPHICS_AND_CLINICAL",
+      "subdomain": "general",
+      "feature_label": "Education (years)"
+    },
+    "image_modality": {
+      "domain": "DEMOGRAPHICS_AND_CLINICAL",
+      "subdomain": "general",
+      "feature_label": "Imaging modality"
+    },
+    "aphasia_quotient": {
+      "domain": "DEMOGRAPHICS_AND_CLINICAL",
+      "subdomain": "general",
+      "feature_label": "Aphasia severity (WAB-R quotient)"
+    },
+    "lesion_volume": {
+      "domain": "DEMOGRAPHICS_AND_CLINICAL",
+      "subdomain": "general",
+      "feature_label": "Whole-brain lesion volume"
+    },
+    "lesion_ratio_group_lesion_cortex_other": {
+      "domain": "LESION_CORTEX",
+      "subdomain": "other",
+      "feature_label": "Lesion overlap: Other (Cortex)"
+    },
+    "lesion_ratio_group_lesion_cortex_vis": {
+      "domain": "LESION_CORTEX",
+      "subdomain": "vis",
+      "feature_label": "Lesion overlap: Vis (Cortex)"
+    },
+    "lesion_ratio_group_lesion_cortex_sommot": {
+      "domain": "LESION_CORTEX",
+      "subdomain": "sommot",
+      "feature_label": "Lesion overlap: SomMot (Cortex)"
+    },
+    "lesion_ratio_group_lesion_cortex_dorsattn": {
+      "domain": "LESION_CORTEX",
+      "subdomain": "dorsattn",
+      "feature_label": "Lesion overlap: DorsAttn (Cortex)"
+    },
+    "lesion_ratio_group_lesion_cortex_salventattn": {
+      "domain": "LESION_CORTEX",
+      "subdomain": "salventattn",
+      "feature_label": "Lesion overlap: SalVentAttn (Cortex)"
+    },
+    "lesion_ratio_group_lesion_cortex_limbic": {
+      "domain": "LESION_CORTEX",
+      "subdomain": "limbic",
+      "feature_label": "Lesion overlap: Limbic (Cortex)"
+    },
+    "lesion_ratio_group_lesion_cortex_cont": {
+      "domain": "LESION_CORTEX",
+      "subdomain": "cont",
+      "feature_label": "Lesion overlap: Cont (Cortex)"
+    },
+    "lesion_ratio_group_lesion_cortex_default": {
+      "domain": "LESION_CORTEX",
+      "subdomain": "default",
+      "feature_label": "Lesion overlap: Default (Cortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_hip": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "hip",
+      "feature_label": "Lesion overlap: HIP (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_tha": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "tha",
+      "feature_label": "Lesion overlap: THA (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_put": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "put",
+      "feature_label": "Lesion overlap: PUT (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_cau": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "cau",
+      "feature_label": "Lesion overlap: CAU (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_lamy": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "lamy",
+      "feature_label": "Lesion overlap: lAMY (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_mamy": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "mamy",
+      "feature_label": "Lesion overlap: mAMY (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_nac": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "nac",
+      "feature_label": "Lesion overlap: NAc (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_pgp": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "pgp",
+      "feature_label": "Lesion overlap: pGP (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_subcortex_agp": {
+      "domain": "LESION_SUBCORTEX",
+      "subdomain": "agp",
+      "feature_label": "Lesion overlap: aGP (Subcortex)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_m1": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "m1",
+      "feature_label": "Lesion overlap: M1 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_m2": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "m2",
+      "feature_label": "Lesion overlap: M2 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_m3": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "m3",
+      "feature_label": "Lesion overlap: M3 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_m4": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "m4",
+      "feature_label": "Lesion overlap: M4 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_a1": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "a1",
+      "feature_label": "Lesion overlap: A1 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_a2": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "a2",
+      "feature_label": "Lesion overlap: A2 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_a3": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "a3",
+      "feature_label": "Lesion overlap: A3 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_d1": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "d1",
+      "feature_label": "Lesion overlap: D1 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_d2": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "d2",
+      "feature_label": "Lesion overlap: D2 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_d3": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "d3",
+      "feature_label": "Lesion overlap: D3 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_d4": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "d4",
+      "feature_label": "Lesion overlap: D4 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_s1": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "s1",
+      "feature_label": "Lesion overlap: S1 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_s2": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "s2",
+      "feature_label": "Lesion overlap: S2 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_s3": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "s3",
+      "feature_label": "Lesion overlap: S3 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_s4": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "s4",
+      "feature_label": "Lesion overlap: S4 (Cerebellum)"
+    },
+    "lesion_ratio_group_lesion_cerebellum_s5": {
+      "domain": "LESION_CEREBELLUM",
+      "subdomain": "s5",
+      "feature_label": "Lesion overlap: S5 (Cerebellum)"
+    },
+    "lesion_total_voxels": {
+      "domain": "LESION_SUMMARY",
+      "subdomain": "whole_brain",
+      "feature_label": "Total lesioned voxels"
+    },
+    "lesion_total_volume_mm3": {
+      "domain": "LESION_SUMMARY",
+      "subdomain": "whole_brain",
+      "feature_label": "Total lesion volume"
+    }
+  },
+  "dataset": "NUMERACY_STROKE",
+  "context": "NUMERACY_STROKE (OpenNeuro ds006533): 105 left-hemisphere chronic stroke survivors assessed on approximate and precise numeracy. Features are demographics, aphasia severity, whole-brain lesion volume, and per-region lesion overlap across a combined cortical (Schaefer-2018/Yeo-7), subcortical (Tian scale-IV), and cerebellar (Nettekoven-2024) parcellation. Keep the three lesion regions (cortex/subcortex/cerebellum) as separate domains from demographics/clinical covariates.",
+  "n_features": 40,
+  "construction": "hint_structured_llm_labeled"
+}

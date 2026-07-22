@@ -37,6 +37,10 @@ validation/**/__pycache__/
 validation/**/_cache/
 .ipynb_checkpoints/
 
+# Raw downloaded source imaging data (re-fetched by the dataset's own download
+# step in seconds; not worth tracking). Extracted/derived outputs are kept.
+validation/datasets/NUMERACY_STROKE/data/raw/
+
 # Local manuscript and generated report material
 report/
 !report/

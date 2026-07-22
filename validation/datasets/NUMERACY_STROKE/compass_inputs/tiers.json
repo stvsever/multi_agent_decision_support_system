@@ -1,0 +1,68 @@
+{
+  "tiers": [
+    {
+      "id": "approx_fine_allshared",
+      "target": "approximate_numeracy",
+      "granularity": "fine",
+      "cohort_mode": "all_shared",
+      "n_participants": 105,
+      "n_features": 194
+    },
+    {
+      "id": "approx_fine_blinded",
+      "target": "approximate_numeracy",
+      "granularity": "fine",
+      "cohort_mode": "blinded",
+      "n_participants": 20,
+      "n_features": 194
+    },
+    {
+      "id": "approx_coarse_allshared",
+      "target": "approximate_numeracy",
+      "granularity": "coarse",
+      "cohort_mode": "all_shared",
+      "n_participants": 105,
+      "n_features": 40
+    },
+    {
+      "id": "approx_coarse_blinded",
+      "target": "approximate_numeracy",
+      "granularity": "coarse",
+      "cohort_mode": "blinded",
+      "n_participants": 20,
+      "n_features": 40
+    },
+    {
+      "id": "precise_fine_allshared",
+      "target": "precise_numeracy",
+      "granularity": "fine",
+      "cohort_mode": "all_shared",
+      "n_participants": 105,
+      "n_features": 194
+    },
+    {
+      "id": "precise_fine_blinded",
+      "target": "precise_numeracy",
+      "granularity": "fine",
+      "cohort_mode": "blinded",
+      "n_participants": 20,
+      "n_features": 194
+    },
+    {
+      "id": "precise_coarse_allshared",
+      "target": "precise_numeracy",
+      "granularity": "coarse",
+      "cohort_mode": "all_shared",
+      "n_participants": 105,
+      "n_features": 40
+    },
+    {
+      "id": "precise_coarse_blinded",
+      "target": "precise_numeracy",
+      "granularity": "coarse",
+      "cohort_mode": "blinded",
+      "n_participants": 20,
+      "n_features": 40
+    }
+  ]
+}
