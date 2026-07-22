@@ -1,0 +1,27 @@
+Participant ID: ds003944_sub-2009
+Source: blinded evaluation record from PSYCHOSIS_FEP; non-cognitive multimodal features only.
+Reference strategy: cohort (deviation from the population cohort).
+
+TARGET MEASUREMENT REFERENCE:
+Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, then predict their psychiatric symptom severity on the native clinical scales below.
+
+Symptom scales (predict on these native ranges; no symptom value for this participant is given):
+- target__bprs__total_q01_to_q19: Brief Psychiatric Rating Scale, sum of 19 items (each 1-7; total 19-133). Reference mean=46.77, sd=8.64.
+- target__saps__q07_global_rating_of_hallucinations: SAPS hallucinations, global rating 0-5. Reference mean=1.76, sd=1.4.
+- target__saps__q20_global_rating_of_delusions: SAPS delusions, global rating 0-5. Reference mean=2.61, sd=1.14.
+- target__saps__q25_global_rating_of_bizzare_behavior: SAPS bizarre behavior, global rating 0-5. Reference mean=0.97, sd=1.11.
+- target__saps__q34_global_rating_of_positive_formal_thought_disorder: SAPS positive formal thought disorder, global rating 0-5. Reference mean=1.04, sd=1.18.
+- target__sans__q07_global_rating_of_affective_flattening: SANS affective flattening, global rating 0-5. Reference mean=1.58, sd=1.09.
+- target__sans__q13_global_rating_of_alogia: SANS alogia, global rating 0-5. Reference mean=1.05, sd=1.04.
+- target__sans__q17_global_rating_of_avolition: SANS avolition apathy, global rating 0-5. Reference mean=2.28, sd=1.29.
+- target__sans__q22_anhedonia: SANS anhedonia asociality, global rating 0-5. Reference mean=2.27, sd=1.36.
+- target__sans__q25_global_rating_of_attention: SANS attention, global rating 0-5. Reference mean=1.39, sd=1.18.
+
+Controls are expected to have low or absent symptoms; cases vary widely. Infer diagnosis and severity only from the provided evidence (demographics, socio-economic status, cognition, observed functioning, and EEG features, depending on the tier).
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Resting-State EEG [29 measured]: Alpha peak: Center frequency hz Occipital right = 11.3216 (High); Alpha peak: Center frequency hz Global = 11.1192 (High-Normal); Alpha peak: Center frequency hz Parietal right = 11.0475 (High-Normal); Spectral power: Relative power fraction of 1 45 hz Alpha (8-13 hz) Parietal left = 0.21972 (Low-Normal); Alpha peak: Center frequency hz Occipital left = 11.2066 (High-Normal); Spectral power: Relative power fraction of 1 45 hz Alpha (8-13 hz) Occipital left = 0.229079 (Low-Normal) (+23 more)
+
+NOTABLE DEVIATIONS: Alpha peak: Center frequency hz Occipital right is high (z=+1.19).
+
+NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction target must be inferred only from the non-cognitive multimodal evidence provided in this record.

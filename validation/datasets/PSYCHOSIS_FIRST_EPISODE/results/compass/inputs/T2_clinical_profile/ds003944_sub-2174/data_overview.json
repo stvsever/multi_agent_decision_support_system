@@ -1,0 +1,87 @@
+{
+  "participant_id": "ds003944_sub-2174",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "DEMOGRAPHICS_AND_SOCIOECONOMIC": {
+      "present_leaves": 8,
+      "total_leaves": 8,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 70,
+      "is_available": true,
+      "structure": {
+        "participant_demographics": {
+          "label": "Participant Demographics",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 33
+        },
+        "socioeconomic_status": {
+          "label": "Socio-economic Status",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 37
+        }
+      }
+    },
+    "OBSERVED_FUNCTIONING": {
+      "present_leaves": 6,
+      "total_leaves": 80,
+      "coverage_percentage": 7.5,
+      "missing_count": 74,
+      "total_tokens": 959,
+      "is_available": true,
+      "structure": {
+        "gaf_ratings": {
+          "label": "Global Assessment of Functioning Ratings",
+          "present_leaves": 6,
+          "total_leaves": 6,
+          "coverage_percentage": 100.0,
+          "tokens": 82
+        },
+        "sfs_social_functioning": {
+          "label": "Social Functioning Scale Assessments",
+          "present_leaves": 0,
+          "total_leaves": 74,
+          "coverage_percentage": 0.0,
+          "tokens": 877
+        }
+      }
+    },
+    "COGNITION_AND_INTELLIGENCE": {
+      "present_leaves": 11,
+      "total_leaves": 11,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 166,
+      "is_available": true,
+      "structure": {
+        "matrics_cognitive_domains": {
+          "label": "MATRICS Cognitive Domains",
+          "present_leaves": 8,
+          "total_leaves": 8,
+          "coverage_percentage": 100.0,
+          "tokens": 141
+        },
+        "wasi_intelligence_estimates": {
+          "label": "WASI Intelligence Estimates",
+          "present_leaves": 3,
+          "total_leaves": 3,
+          "coverage_percentage": 100.0,
+          "tokens": 25
+        }
+      }
+    }
+  },
+  "total_tokens": 1195,
+  "total_leaves": 99,
+  "present_leaves": 25,
+  "available_domains": [
+    "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+    "OBSERVED_FUNCTIONING",
+    "COGNITION_AND_INTELLIGENCE"
+  ],
+  "token_budget": 1314
+}

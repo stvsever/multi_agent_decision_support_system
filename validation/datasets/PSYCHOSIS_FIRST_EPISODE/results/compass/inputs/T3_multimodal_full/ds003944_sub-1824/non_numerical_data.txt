@@ -1,0 +1,30 @@
+Participant ID: ds003944_sub-1824
+Source: blinded evaluation record from PSYCHOSIS_FEP; non-cognitive multimodal features only.
+Reference strategy: cohort (deviation from the population cohort).
+
+TARGET MEASUREMENT REFERENCE:
+Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, then predict their psychiatric symptom severity on the native clinical scales below.
+
+Symptom scales (predict on these native ranges; no symptom value for this participant is given):
+- target__bprs__total_q01_to_q19: Brief Psychiatric Rating Scale, sum of 19 items (each 1-7; total 19-133). Reference mean=46.65, sd=9.23.
+- target__saps__q07_global_rating_of_hallucinations: SAPS hallucinations, global rating 0-5. Reference mean=1.73, sd=1.39.
+- target__saps__q20_global_rating_of_delusions: SAPS delusions, global rating 0-5. Reference mean=2.6, sd=1.2.
+- target__saps__q25_global_rating_of_bizzare_behavior: SAPS bizarre behavior, global rating 0-5. Reference mean=1.01, sd=1.18.
+- target__saps__q34_global_rating_of_positive_formal_thought_disorder: SAPS positive formal thought disorder, global rating 0-5. Reference mean=1.05, sd=1.19.
+- target__sans__q07_global_rating_of_affective_flattening: SANS affective flattening, global rating 0-5. Reference mean=1.58, sd=1.09.
+- target__sans__q13_global_rating_of_alogia: SANS alogia, global rating 0-5. Reference mean=1.05, sd=1.05.
+- target__sans__q17_global_rating_of_avolition: SANS avolition apathy, global rating 0-5. Reference mean=2.29, sd=1.29.
+- target__sans__q22_anhedonia: SANS anhedonia asociality, global rating 0-5. Reference mean=2.19, sd=1.38.
+- target__sans__q25_global_rating_of_attention: SANS attention, global rating 0-5. Reference mean=1.4, sd=1.22.
+
+Controls are expected to have low or absent symptoms; cases vary widely. Infer diagnosis and severity only from the provided evidence (demographics, socio-economic status, cognition, observed functioning, and EEG features, depending on the tier).
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Resting EEG [836 measured]: Functional connectivity: Wpli2 debiased Theta (4-8 hz) Frontal left to temporal left = 0.460734 (Very High); Functional connectivity: Wpli2 debiased Alpha (8-13 hz) Frontal left to central right = 0.443262 (Very High); Functional connectivity: Wpli2 debiased Alpha (8-13 hz) Frontal left to temporal left = 0.617951 (Very High); Functional connectivity: Wpli2 debiased Theta (4-8 hz) Frontal left to central right = 0.305657 (Very High); Functional connectivity: Wpli2 debiased Alpha (8-13 hz) Central right to parietal left = 0.502344 (Very High); Graph theory: Node Local efficiency auc density 20 50 percent Beta (13-30 hz) Parietal left = 0.218472 (Very High) (+830 more)
+- Demographics and Socio-economic Status [8 measured]: Sex Source Reported = F (Low); Race Source Reported = White (High-Normal); Participant Hollingshead Index = 40 (Normal); Age Years = 21.4976 (Normal); Parental Mean Hollingshead Index = 49.5 (Normal); Ethnicity Source Reported = Not Hispanic (Normal) (+2 more)
+- Observed Functioning [80 measured]: Sfs Q12 15 Sewing Knitting = 2 (Very High); Sfs Q5 Start How Often Will You Start A Conversation At Home = 0 (Very Low); Sfs Q11 Talk How Easy Or Difficult Do You Find It Talking To People At The Moment = 3 (High); Gaf Social Current 0 To 10 Higher Better = 4 (Low); Gaf Social Lifetime Low 0 To 10 Higher Better = 4 (Low); Sfs Q12 21 D I Y Activities E G Putting Up Shelves = 2 (High) (+74 more)
+- Cognition and Intelligence [11 measured]: Two Subtest Full Iq Estimate = 128 (High); Vocabulary T Score = 66 (High); Verbtscr Verbal Learning Age And Gender Corrected T Score = 32 (Low); Matrix Reasoning T Score = 65 (High); Vistscr Visual Learning Age And Gender Corrected T Score = 53 (High-Normal); Rpstscr Reasoning And Problem Solving Age And Gender Corrected T Score = 56 (High-Normal) (+5 more)
+
+NOTABLE DEVIATIONS: Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Central left is high (z=+1.03); Spectral power: Log10 absolute power uv2 Delta (1-4 hz) Central left is high (z=+1.03); Spectral power: Log10 absolute power uv2 Delta (1-4 hz) Central right is high (z=+1.03); Spectral power: Log10 absolute power uv2 Delta (1-4 hz) Global is high (z=+1.10); Spectral power: Log10 absolute power uv2 Delta (1-4 hz) Parietal left is high (z=+1.00); Spectral power: Log10 power asymmetry right minus left Alpha (8-13 hz) Central is low (z=-1.08); Alpha peak: Bandwidth hz Frontal right is high (z=+1.94); Alpha peak: Bandwidth hz Occipital left is high (z=+1.67); Alpha peak: Bandwidth hz Occipital right is high (z=+1.62); Alpha peak: Bandwidth hz Parietal left is high (z=+1.28); Aperiodic 1/f: Exponent Frontal right is high (z=+1.12); Aperiodic 1/f: Exponent Occipital left is high (z=+1.34); Aperiodic 1/f: Exponent Occipital right is high (z=+1.10); Aperiodic 1/f: Offset log10 uv2 Central left is high (z=+1.03); Aperiodic 1/f: Offset log10 uv2 Central right is high (z=+1.62); Aperiodic 1/f: Offset log10 uv2 Frontal left is high (z=+1.17); Aperiodic 1/f: Offset log10 uv2 Frontal right is high (z=+1.47); Aperiodic 1/f: Offset log10 uv2 Global is high (z=+1.26); Aperiodic 1/f: Offset log10 uv2 Occipital left is high (z=+1.29); Aperiodic 1/f: Offset log10 uv2 Occipital right is high (z=+1.10); (+182 more).
+
+NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction target must be inferred only from the non-cognitive multimodal evidence provided in this record.

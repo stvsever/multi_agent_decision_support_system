@@ -96,8 +96,14 @@ scaffold that makes multi-modal evidence tractable and auditable.
 | Dataset | Source | Task | Modalities | Status |
 |---|---|---|---|---|
 | [AOMIC-ID1000](datasets/INTELLIGENCE/) | OpenNeuro ds003097 (CC0) | Native IST total-score regression | Self-report, high-resolution FreeSurfer morphometry (228 leaves), fMRI connectome | Prior 100-subject run across 9 tiers; fresh 2-subject full-tier run on the upgraded 279-feature structure |
+| [First-Episode Psychosis](datasets/PSYCHOSIS_FIRST_EPISODE/) | OpenNeuro ds003944 + ds003947 | Diagnosis (binary) -> BPRS total -> SAPS/SANS symptom globals (mixed-type hierarchy) | Resting EEG (836 features in 8 families) plus demographics, socio-economic status, cognition/IQ, and observed functioning | 143 recordings extracted on one harmonized 49-channel montage; 10-subject 5-tier ladder run |
 
-More datasets plug in by copying a dataset folder and editing its `pipeline/config.py`.
+More datasets plug in by copying a dataset folder and editing its config. The two datasets show the two
+supported layouts: `INTELLIGENCE/` uses a `pipeline/` of numbered scripts, while
+`PSYCHOSIS_FIRST_EPISODE/` uses an importable `utils/` package with three pre-run notebooks (loading and
+preprocessing, feature extraction and visualization, and ontology plus the COMPASS tier ladder). Both
+reuse `common/` and the same four-file COMPASS contract. Large raw and processed EEG/MRI data stay local
+(git-ignored); the derived feature tables, figures and COMPASS inputs are tracked.
 
 ## Requirements
 

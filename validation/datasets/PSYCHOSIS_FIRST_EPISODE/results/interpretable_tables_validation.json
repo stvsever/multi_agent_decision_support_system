@@ -1,0 +1,26 @@
+{
+  "recording_count": 143,
+  "covariate_columns": 9,
+  "target_columns": 235,
+  "non_eeg_columns": 247,
+  "eeg_zscore_columns": 836,
+  "reference": "dataset-specific control group, centred age + sex, control residual SD",
+  "outputs": {
+    "non_eeg_features.csv": {
+      "sha256": "968de254fad2a99e86abc3385b9f136f2b7fbc4bdf1aecb173c621a52aa2a564",
+      "bytes": 155003
+    },
+    "non_eeg_feature_dictionary.csv": {
+      "sha256": "be538543f597c67a7a5e7f50bea12e486b4b83a2a76bfed6ce235231a99c1668",
+      "bytes": 115425
+    },
+    "eeg_features_zscores.csv": {
+      "sha256": "6039c3f2bb7c49f597017485f90ed7d713bc747e0e4ca4c480cf57187a6bc4fb",
+      "bytes": 2255344
+    },
+    "eeg_zscore_reference_parameters.csv": {
+      "sha256": "12d08fbcdac9972240b1710b366fbcdedbbaeca135c90c8f1287efb7f5612af6",
+      "bytes": 314805
+    }
+  }
+}

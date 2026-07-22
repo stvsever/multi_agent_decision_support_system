@@ -54,8 +54,9 @@ build/
 dist/
 *.egg-info/
 
-# Ignore data
-/Users/stijnvanseveren/PROJECTS/summer_2026/NEUROHACKADEMY/compass_engine/validation/datasets/PSYCHOSIS_FIRST_EPISODE/data/raw
+# Per-dataset raw and processed EEG/MRI data are large; kept local, never pushed.
+# The derived feature tables, figures and COMPASS inputs under results/ are tracked.
+validation/datasets/*/data/
 
 # Engine per-run work dirs under validation results (runtime only)
 validation/**/_compass_work/

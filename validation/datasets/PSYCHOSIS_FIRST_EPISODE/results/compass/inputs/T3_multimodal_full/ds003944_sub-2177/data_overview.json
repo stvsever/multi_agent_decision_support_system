@@ -1,0 +1,789 @@
+{
+  "participant_id": "ds003944_sub-2177",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "Resting_EEG": {
+      "present_leaves": 662,
+      "total_leaves": 836,
+      "coverage_percentage": 79.2,
+      "missing_count": 174,
+      "total_tokens": 19595,
+      "is_available": true,
+      "structure": {
+        "Resting_EEG__Spectral_power": {
+          "label": "Spectral Power",
+          "present_leaves": 168,
+          "total_leaves": 168,
+          "coverage_percentage": 100.0,
+          "tokens": 3834,
+          "children": {
+            "Resting_EEG__Spectral_power__Log10_absolute_power_uv2": {
+              "label": "Log10 Absolute Power",
+              "present_leaves": 55,
+              "total_leaves": 55,
+              "coverage_percentage": 100.0,
+              "tokens": 1196,
+              "children": {
+                "Resting_EEG__Spectral_power__Log10_absolute_power_uv2__Alpha_8_13_hz": {
+                  "label": "Alpha (8-13 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 242
+                },
+                "Resting_EEG__Spectral_power__Log10_absolute_power_uv2__Beta_13_30_hz": {
+                  "label": "Beta (13-30 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 237
+                },
+                "Resting_EEG__Spectral_power__Log10_absolute_power_uv2__Delta_1_4_hz": {
+                  "label": "Delta (1-4 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 235
+                },
+                "Resting_EEG__Spectral_power__Log10_absolute_power_uv2__Low_gamma_30_45_hz": {
+                  "label": "Low gamma (30-45 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 252
+                },
+                "Resting_EEG__Spectral_power__Log10_absolute_power_uv2__Theta_4_8_hz": {
+                  "label": "Theta (4-8 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 230
+                }
+              }
+            },
+            "Resting_EEG__Spectral_power__Log10_power_asymmetry_right_minus_left": {
+              "label": "Log10 Power Asymmetry",
+              "present_leaves": 25,
+              "total_leaves": 25,
+              "coverage_percentage": 100.0,
+              "tokens": 611,
+              "children": {
+                "Resting_EEG__Spectral_power__Log10_power_asymmetry_right_minus_left__Alpha_8_13_hz": {
+                  "label": "Alpha (8-13 hz)",
+                  "present_leaves": 5,
+                  "total_leaves": 5,
+                  "coverage_percentage": 100.0,
+                  "tokens": 121
+                },
+                "Resting_EEG__Spectral_power__Log10_power_asymmetry_right_minus_left__Beta_13_30_hz": {
+                  "label": "Beta (13-30 hz)",
+                  "present_leaves": 5,
+                  "total_leaves": 5,
+                  "coverage_percentage": 100.0,
+                  "tokens": 122
+                },
+                "Resting_EEG__Spectral_power__Log10_power_asymmetry_right_minus_left__Delta_1_4_hz": {
+                  "label": "Delta (1-4 hz)",
+                  "present_leaves": 5,
+                  "total_leaves": 5,
+                  "coverage_percentage": 100.0,
+                  "tokens": 121
+                },
+                "Resting_EEG__Spectral_power__Log10_power_asymmetry_right_minus_left__Low_gamma_30_45_hz": {
+                  "label": "Low gamma (30-45 hz)",
+                  "present_leaves": 5,
+                  "total_leaves": 5,
+                  "coverage_percentage": 100.0,
+                  "tokens": 127
+                },
+                "Resting_EEG__Spectral_power__Log10_power_asymmetry_right_minus_left__Theta_4_8_hz": {
+                  "label": "Theta (4-8 hz)",
+                  "present_leaves": 5,
+                  "total_leaves": 5,
+                  "coverage_percentage": 100.0,
+                  "tokens": 120
+                }
+              }
+            },
+            "Resting_EEG__Spectral_power__Natural_log_power_ratio": {
+              "label": "Natural Log Power Ratio",
+              "present_leaves": 33,
+              "total_leaves": 33,
+              "coverage_percentage": 100.0,
+              "tokens": 709,
+              "children": {
+                "Resting_EEG__Spectral_power__Natural_log_power_ratio__Alpha_over_delta": {
+                  "label": "Alpha over delta",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 227
+                },
+                "Resting_EEG__Spectral_power__Natural_log_power_ratio__Theta_over_alpha": {
+                  "label": "Theta over alpha",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 247
+                },
+                "Resting_EEG__Spectral_power__Natural_log_power_ratio__Theta_over_beta": {
+                  "label": "Theta over beta",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 235
+                }
+              }
+            },
+            "Resting_EEG__Spectral_power__Relative_power_fraction_of_1_45_hz": {
+              "label": "Relative Power Fraction",
+              "present_leaves": 55,
+              "total_leaves": 55,
+              "coverage_percentage": 100.0,
+              "tokens": 1318,
+              "children": {
+                "Resting_EEG__Spectral_power__Relative_power_fraction_of_1_45_hz__Alpha_8_13_hz": {
+                  "label": "Alpha (8-13 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 258
+                },
+                "Resting_EEG__Spectral_power__Relative_power_fraction_of_1_45_hz__Beta_13_30_hz": {
+                  "label": "Beta (13-30 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 262
+                },
+                "Resting_EEG__Spectral_power__Relative_power_fraction_of_1_45_hz__Delta_1_4_hz": {
+                  "label": "Delta (1-4 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 253
+                },
+                "Resting_EEG__Spectral_power__Relative_power_fraction_of_1_45_hz__Low_gamma_30_45_hz": {
+                  "label": "Low gamma (30-45 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 283
+                },
+                "Resting_EEG__Spectral_power__Relative_power_fraction_of_1_45_hz__Theta_4_8_hz": {
+                  "label": "Theta (4-8 hz)",
+                  "present_leaves": 11,
+                  "total_leaves": 11,
+                  "coverage_percentage": 100.0,
+                  "tokens": 262
+                }
+              }
+            }
+          }
+        },
+        "Resting_EEG__Alpha_peak": {
+          "label": "Alpha Peak Characteristics",
+          "present_leaves": 33,
+          "total_leaves": 33,
+          "coverage_percentage": 100.0,
+          "tokens": 503,
+          "children": {
+            "Resting_EEG__Alpha_peak__Bandwidth_hz": {
+              "label": "Bandwidth hz",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 149
+            },
+            "Resting_EEG__Alpha_peak__Center_frequency_hz": {
+              "label": "Center frequency hz",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 160
+            },
+            "Resting_EEG__Alpha_peak__Power_log10_uv2_above_aperiodic": {
+              "label": "Power log10 uv2 above aperiodic",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 194
+            }
+          }
+        },
+        "Resting_EEG__Aperiodic_1_f": {
+          "label": "Aperiodic 1/f Activity",
+          "present_leaves": 22,
+          "total_leaves": 22,
+          "coverage_percentage": 100.0,
+          "tokens": 324,
+          "children": {
+            "Resting_EEG__Aperiodic_1_f__Exponent": {
+              "label": "Exponent",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 146
+            },
+            "Resting_EEG__Aperiodic_1_f__Offset_log10_uv2": {
+              "label": "Offset log10 uv2",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 178
+            }
+          }
+        },
+        "Resting_EEG__Entropy_and_complexity": {
+          "label": "Entropy and Complexity",
+          "present_leaves": 44,
+          "total_leaves": 44,
+          "coverage_percentage": 100.0,
+          "tokens": 876,
+          "children": {
+            "Resting_EEG__Entropy_and_complexity__Lempel_ziv_complexity_normalized": {
+              "label": "Lempel ziv complexity normalized",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 233
+            },
+            "Resting_EEG__Entropy_and_complexity__Permutation_entropy_normalized": {
+              "label": "Permutation entropy normalized",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 229
+            },
+            "Resting_EEG__Entropy_and_complexity__Sample_entropy": {
+              "label": "Sample entropy",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 195
+            },
+            "Resting_EEG__Entropy_and_complexity__Spectral_entropy_normalized": {
+              "label": "Spectral entropy normalized",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 219
+            }
+          }
+        },
+        "Resting_EEG__Fractal": {
+          "label": "Fractal Dimension",
+          "present_leaves": 22,
+          "total_leaves": 22,
+          "coverage_percentage": 100.0,
+          "tokens": 362,
+          "children": {
+            "Resting_EEG__Fractal__Detrended_fluctuation_exponent": {
+              "label": "Detrended fluctuation exponent",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 190
+            },
+            "Resting_EEG__Fractal__Higuchi_fractal_dimension": {
+              "label": "Higuchi fractal dimension",
+              "present_leaves": 11,
+              "total_leaves": 11,
+              "coverage_percentage": 100.0,
+              "tokens": 172
+            }
+          }
+        },
+        "Resting_EEG__Microstates": {
+          "label": "EEG Microstates",
+          "present_leaves": 32,
+          "total_leaves": 32,
+          "coverage_percentage": 100.0,
+          "tokens": 506,
+          "children": {
+            "Resting_EEG__Microstates__Class_a": {
+              "label": "Class a",
+              "present_leaves": 4,
+              "total_leaves": 4,
+              "coverage_percentage": 100.0,
+              "tokens": 57
+            },
+            "Resting_EEG__Microstates__Class_b": {
+              "label": "Class b",
+              "present_leaves": 4,
+              "total_leaves": 4,
+              "coverage_percentage": 100.0,
+              "tokens": 57
+            },
+            "Resting_EEG__Microstates__Class_c": {
+              "label": "Class c",
+              "present_leaves": 4,
+              "total_leaves": 4,
+              "coverage_percentage": 100.0,
+              "tokens": 60
+            },
+            "Resting_EEG__Microstates__Class_d": {
+              "label": "Class d",
+              "present_leaves": 4,
+              "total_leaves": 4,
+              "coverage_percentage": 100.0,
+              "tokens": 58
+            },
+            "Resting_EEG__Microstates__Global": {
+              "label": "Global",
+              "present_leaves": 4,
+              "total_leaves": 4,
+              "coverage_percentage": 100.0,
+              "tokens": 67
+            },
+            "Resting_EEG__Microstates__Transition_probability": {
+              "label": "Transition probability",
+              "present_leaves": 12,
+              "total_leaves": 12,
+              "coverage_percentage": 100.0,
+              "tokens": 207
+            }
+          }
+        },
+        "Resting_EEG__Functional_connectivity": {
+          "label": "Functional Connectivity",
+          "present_leaves": 225,
+          "total_leaves": 225,
+          "coverage_percentage": 100.0,
+          "tokens": 5757,
+          "children": {
+            "Resting_EEG__Functional_connectivity__Wpli2_debiased": {
+              "label": "Wpli2 debiased",
+              "present_leaves": 225,
+              "total_leaves": 225,
+              "coverage_percentage": 100.0,
+              "tokens": 5757,
+              "children": {
+                "Resting_EEG__Functional_connectivity__Wpli2_debiased__Alpha_8_13_hz": {
+                  "label": "Alpha (8-13 hz)",
+                  "present_leaves": 45,
+                  "total_leaves": 45,
+                  "coverage_percentage": 100.0,
+                  "tokens": 1154
+                },
+                "Resting_EEG__Functional_connectivity__Wpli2_debiased__Beta_13_30_hz": {
+                  "label": "Beta (13-30 hz)",
+                  "present_leaves": 45,
+                  "total_leaves": 45,
+                  "coverage_percentage": 100.0,
+                  "tokens": 1165
+                },
+                "Resting_EEG__Functional_connectivity__Wpli2_debiased__Delta_1_4_hz": {
+                  "label": "Delta (1-4 hz)",
+                  "present_leaves": 45,
+                  "total_leaves": 45,
+                  "coverage_percentage": 100.0,
+                  "tokens": 1130
+                },
+                "Resting_EEG__Functional_connectivity__Wpli2_debiased__Low_gamma_30_45_hz": {
+                  "label": "Low gamma (30-45 hz)",
+                  "present_leaves": 45,
+                  "total_leaves": 45,
+                  "coverage_percentage": 100.0,
+                  "tokens": 1182
+                },
+                "Resting_EEG__Functional_connectivity__Wpli2_debiased__Theta_4_8_hz": {
+                  "label": "Theta (4-8 hz)",
+                  "present_leaves": 45,
+                  "total_leaves": 45,
+                  "coverage_percentage": 100.0,
+                  "tokens": 1126
+                }
+              }
+            }
+          }
+        },
+        "Resting_EEG__Graph_theory": {
+          "label": "Graph Theory Metrics",
+          "present_leaves": 116,
+          "total_leaves": 290,
+          "coverage_percentage": 40.0,
+          "tokens": 7433,
+          "children": {
+            "Resting_EEG__Graph_theory__Global": {
+              "label": "Global Network Metrics",
+              "present_leaves": 16,
+              "total_leaves": 40,
+              "coverage_percentage": 40.0,
+              "tokens": 914,
+              "children": {
+                "Resting_EEG__Graph_theory__Global__Assortativity_auc_density_20_50_percent": {
+                  "label": "Assortativity auc density 20 50 percent",
+                  "present_leaves": 2,
+                  "total_leaves": 5,
+                  "coverage_percentage": 40.0,
+                  "tokens": 112
+                },
+                "Resting_EEG__Graph_theory__Global__Characteristic_path_length_auc_density_20_50_percent": {
+                  "label": "Characteristic path length auc density 20 50 percent",
+                  "present_leaves": 2,
+                  "total_leaves": 5,
+                  "coverage_percentage": 40.0,
+                  "tokens": 128
+                },
+                "Resting_EEG__Graph_theory__Global__Global_efficiency_auc_density_20_50_percent": {
+                  "label": "Global efficiency auc density 20 50 percent",
+                  "present_leaves": 2,
+                  "total_leaves": 5,
+                  "coverage_percentage": 40.0,
+                  "tokens": 116
+                },
+                "Resting_EEG__Graph_theory__Global__Mean_clustering_coefficient_auc_density_20_50_percent": {
+                  "label": "Mean clustering coefficient auc density 20 50 percent",
+                  "present_leaves": 2,
+                  "total_leaves": 5,
+                  "coverage_percentage": 40.0,
+                  "tokens": 129
+                },
+                "Resting_EEG__Graph_theory__Global__Mean_edge_weight": {
+                  "label": "Mean edge weight",
+                  "present_leaves": 2,
+                  "total_leaves": 5,
+                  "coverage_percentage": 40.0,
+                  "tokens": 83
+                },
+                "Resting_EEG__Graph_theory__Global__Modularity_q_auc_density_20_50_percent": {
+                  "label": "Modularity q auc density 20 50 percent",
+                  "present_leaves": 2,
+                  "total_leaves": 5,
+                  "coverage_percentage": 40.0,
+                  "tokens": 110
+                },
+                "Resting_EEG__Graph_theory__Global__Small_world_propensity_auc_density_20_50_percent": {
+                  "label": "Small world propensity auc density 20 50 percent",
+                  "present_leaves": 2,
+                  "total_leaves": 5,
+                  "coverage_percentage": 40.0,
+                  "tokens": 124
+                },
+                "Resting_EEG__Graph_theory__Global__Transitivity_auc_density_20_50_percent": {
+                  "label": "Transitivity auc density 20 50 percent",
+                  "present_leaves": 2,
+                  "total_leaves": 5,
+                  "coverage_percentage": 40.0,
+                  "tokens": 112
+                }
+              }
+            },
+            "Resting_EEG__Graph_theory__Node": {
+              "label": "Nodal Network Metrics",
+              "present_leaves": 100,
+              "total_leaves": 250,
+              "coverage_percentage": 40.0,
+              "tokens": 6519,
+              "children": {
+                "Resting_EEG__Graph_theory__Node__Betweenness_centrality_auc_density_20_50_percent": {
+                  "label": "Betweenness centrality auc density 20 50 percent",
+                  "present_leaves": 20,
+                  "total_leaves": 50,
+                  "coverage_percentage": 40.0,
+                  "tokens": 1376,
+                  "children": {
+                    "Resting_EEG__Graph_theory__Node__Betweenness_centrality_auc_density_20_50_percent__Alpha_8_13_hz": {
+                      "label": "Alpha (8-13 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 279
+                    },
+                    "Resting_EEG__Graph_theory__Node__Betweenness_centrality_auc_density_20_50_percent__Beta_13_30_hz": {
+                      "label": "Beta (13-30 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 280
+                    },
+                    "Resting_EEG__Graph_theory__Node__Betweenness_centrality_auc_density_20_50_percent__Delta_1_4_hz": {
+                      "label": "Delta (1-4 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 268
+                    },
+                    "Resting_EEG__Graph_theory__Node__Betweenness_centrality_auc_density_20_50_percent__Low_gamma_30_45_hz": {
+                      "label": "Low gamma (30-45 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 281
+                    },
+                    "Resting_EEG__Graph_theory__Node__Betweenness_centrality_auc_density_20_50_percent__Theta_4_8_hz": {
+                      "label": "Theta (4-8 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 268
+                    }
+                  }
+                },
+                "Resting_EEG__Graph_theory__Node__Eigenvector_centrality_auc_density_20_50_percent": {
+                  "label": "Eigenvector centrality auc density 20 50 percent",
+                  "present_leaves": 20,
+                  "total_leaves": 50,
+                  "coverage_percentage": 40.0,
+                  "tokens": 1385,
+                  "children": {
+                    "Resting_EEG__Graph_theory__Node__Eigenvector_centrality_auc_density_20_50_percent__Alpha_8_13_hz": {
+                      "label": "Alpha (8-13 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 285
+                    },
+                    "Resting_EEG__Graph_theory__Node__Eigenvector_centrality_auc_density_20_50_percent__Beta_13_30_hz": {
+                      "label": "Beta (13-30 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 283
+                    },
+                    "Resting_EEG__Graph_theory__Node__Eigenvector_centrality_auc_density_20_50_percent__Delta_1_4_hz": {
+                      "label": "Delta (1-4 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 268
+                    },
+                    "Resting_EEG__Graph_theory__Node__Eigenvector_centrality_auc_density_20_50_percent__Low_gamma_30_45_hz": {
+                      "label": "Low gamma (30-45 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 281
+                    },
+                    "Resting_EEG__Graph_theory__Node__Eigenvector_centrality_auc_density_20_50_percent__Theta_4_8_hz": {
+                      "label": "Theta (4-8 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 268
+                    }
+                  }
+                },
+                "Resting_EEG__Graph_theory__Node__Local_efficiency_auc_density_20_50_percent": {
+                  "label": "Local efficiency auc density 20 50 percent",
+                  "present_leaves": 20,
+                  "total_leaves": 50,
+                  "coverage_percentage": 40.0,
+                  "tokens": 1314,
+                  "children": {
+                    "Resting_EEG__Graph_theory__Node__Local_efficiency_auc_density_20_50_percent__Alpha_8_13_hz": {
+                      "label": "Alpha (8-13 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 268
+                    },
+                    "Resting_EEG__Graph_theory__Node__Local_efficiency_auc_density_20_50_percent__Beta_13_30_hz": {
+                      "label": "Beta (13-30 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 276
+                    },
+                    "Resting_EEG__Graph_theory__Node__Local_efficiency_auc_density_20_50_percent__Delta_1_4_hz": {
+                      "label": "Delta (1-4 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 251
+                    },
+                    "Resting_EEG__Graph_theory__Node__Local_efficiency_auc_density_20_50_percent__Low_gamma_30_45_hz": {
+                      "label": "Low gamma (30-45 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 268
+                    },
+                    "Resting_EEG__Graph_theory__Node__Local_efficiency_auc_density_20_50_percent__Theta_4_8_hz": {
+                      "label": "Theta (4-8 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 251
+                    }
+                  }
+                },
+                "Resting_EEG__Graph_theory__Node__Participation_coefficient_auc_density_20_50_percent": {
+                  "label": "Participation coefficient auc density 20 50 percent",
+                  "present_leaves": 20,
+                  "total_leaves": 50,
+                  "coverage_percentage": 40.0,
+                  "tokens": 1416,
+                  "children": {
+                    "Resting_EEG__Graph_theory__Node__Participation_coefficient_auc_density_20_50_percent__Alpha_8_13_hz": {
+                      "label": "Alpha (8-13 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 288
+                    },
+                    "Resting_EEG__Graph_theory__Node__Participation_coefficient_auc_density_20_50_percent__Beta_13_30_hz": {
+                      "label": "Beta (13-30 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 290
+                    },
+                    "Resting_EEG__Graph_theory__Node__Participation_coefficient_auc_density_20_50_percent__Delta_1_4_hz": {
+                      "label": "Delta (1-4 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 274
+                    },
+                    "Resting_EEG__Graph_theory__Node__Participation_coefficient_auc_density_20_50_percent__Low_gamma_30_45_hz": {
+                      "label": "Low gamma (30-45 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 290
+                    },
+                    "Resting_EEG__Graph_theory__Node__Participation_coefficient_auc_density_20_50_percent__Theta_4_8_hz": {
+                      "label": "Theta (4-8 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 274
+                    }
+                  }
+                },
+                "Resting_EEG__Graph_theory__Node__Strength_normalized": {
+                  "label": "Strength normalized",
+                  "present_leaves": 20,
+                  "total_leaves": 50,
+                  "coverage_percentage": 40.0,
+                  "tokens": 1028,
+                  "children": {
+                    "Resting_EEG__Graph_theory__Node__Strength_normalized__Alpha_8_13_hz": {
+                      "label": "Alpha (8-13 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 215
+                    },
+                    "Resting_EEG__Graph_theory__Node__Strength_normalized__Beta_13_30_hz": {
+                      "label": "Beta (13-30 hz)",
+                      "present_leaves": 10,
+                      "total_leaves": 10,
+                      "coverage_percentage": 100.0,
+                      "tokens": 215
+                    },
+                    "Resting_EEG__Graph_theory__Node__Strength_normalized__Delta_1_4_hz": {
+                      "label": "Delta (1-4 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 194
+                    },
+                    "Resting_EEG__Graph_theory__Node__Strength_normalized__Low_gamma_30_45_hz": {
+                      "label": "Low gamma (30-45 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 210
+                    },
+                    "Resting_EEG__Graph_theory__Node__Strength_normalized__Theta_4_8_hz": {
+                      "label": "Theta (4-8 hz)",
+                      "present_leaves": 0,
+                      "total_leaves": 10,
+                      "coverage_percentage": 0.0,
+                      "tokens": 194
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "DEMOGRAPHICS_AND_SOCIOECONOMIC": {
+      "present_leaves": 8,
+      "total_leaves": 8,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 70,
+      "is_available": true,
+      "structure": {
+        "participant_demographics": {
+          "label": "Participant Demographics",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 32
+        },
+        "socioeconomic_status": {
+          "label": "Socio-economic Status",
+          "present_leaves": 4,
+          "total_leaves": 4,
+          "coverage_percentage": 100.0,
+          "tokens": 38
+        }
+      }
+    },
+    "OBSERVED_FUNCTIONING": {
+      "present_leaves": 80,
+      "total_leaves": 80,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 937,
+      "is_available": true,
+      "structure": {
+        "gaf_ratings": {
+          "label": "Global Assessment of Functioning Ratings",
+          "present_leaves": 6,
+          "total_leaves": 6,
+          "coverage_percentage": 100.0,
+          "tokens": 78
+        },
+        "sfs_social_functioning": {
+          "label": "Social Functioning Scale Assessments",
+          "present_leaves": 74,
+          "total_leaves": 74,
+          "coverage_percentage": 100.0,
+          "tokens": 859
+        }
+      }
+    },
+    "COGNITION_AND_INTELLIGENCE": {
+      "present_leaves": 11,
+      "total_leaves": 11,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 168,
+      "is_available": true,
+      "structure": {
+        "matrics_cognitive_domains": {
+          "label": "MATRICS Cognitive Domains",
+          "present_leaves": 8,
+          "total_leaves": 8,
+          "coverage_percentage": 100.0,
+          "tokens": 142
+        },
+        "wasi_intelligence_estimates": {
+          "label": "WASI Intelligence Estimates",
+          "present_leaves": 3,
+          "total_leaves": 3,
+          "coverage_percentage": 100.0,
+          "tokens": 26
+        }
+      }
+    }
+  },
+  "total_tokens": 20770,
+  "total_leaves": 935,
+  "present_leaves": 761,
+  "available_domains": [
+    "Resting_EEG",
+    "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+    "OBSERVED_FUNCTIONING",
+    "COGNITION_AND_INTELLIGENCE"
+  ],
+  "token_budget": 22847
+}
