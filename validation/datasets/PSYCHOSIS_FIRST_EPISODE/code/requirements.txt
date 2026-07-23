@@ -1,0 +1,14 @@
+# eeg_fep_rest_v1 pipeline dependencies (pinned to the versions used for the released feature matrix).
+# Python 3.12. Install into a fresh virtualenv:  python -m venv .venv && .venv/Scripts/pip install -r requirements.txt
+mne==1.12.1
+mne-connectivity==0.8.1
+numpy==2.4.6
+scipy==1.18.0
+pandas==3.0.3
+scikit-learn==1.9.0
+specparam==2.0.0rc7
+antropy==0.2.2
+networkx==3.6.1
+pyprep==0.7.1
+autoreject==0.4.4
+pyarrow==25.0.0
