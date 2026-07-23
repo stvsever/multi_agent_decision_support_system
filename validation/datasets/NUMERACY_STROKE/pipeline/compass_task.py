@@ -47,11 +47,12 @@ TARGET_LABEL = {
     "approximate_numeracy": "Approximate (non-symbolic) numeracy",
     "precise_numeracy": "Precise (symbolic) numeracy",
 }
-# Cumulative data-complexity levels (subset of the 16 built tiers, blinded cohort).
-# The lesion tier keeps only the high-resolution per-parcel map: the coarse network-level
-# tier was the same modality at lower resolution (the fine parcels aggregate to those
-# networks), so it was redundant. Ladder is now demographics -> aphasia -> lesion (fine).
-LEVELS = ["T1_demographics", "T2_aphasia", "T3_lesion_fine"]
+# Data-complexity levels (blinded cohort). The ladder builds up to everything together
+# (T3_lesion_fine = demographics + aphasia + per-parcel lesion overlap), then ends with a
+# brain-only lesion tier (T4_lesion_brain_only = per-parcel lesion overlap only, no
+# demographics/clinical), mirroring the brain-only tail of the other datasets. The coarse
+# network-level lesion tier was redundant with the fine map (parcels aggregate to networks).
+LEVELS = ["T1_demographics", "T2_aphasia", "T3_lesion_fine", "T4_lesion_brain_only"]
 
 DATASET_CONTEXT = (
     "NUMERACY_STROKE (OpenNeuro ds006533): 105 left-hemisphere chronic stroke survivors. "

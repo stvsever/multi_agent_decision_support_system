@@ -216,8 +216,10 @@ def main() -> None:
         ("T1_demographics", T1_COLS, fine_ontology),
         ("T2_aphasia", T2_COLS, fine_ontology),
         ("T3_lesion_fine", T2_COLS + fine_lesion_cols, fine_ontology),
-        ("T3_lesion_coarse", T2_COLS + coarse_lesion_cols, coarse_ontology),
+        # brain-only lesion tier at the end: per-parcel lesion overlap only, no demographics/clinical.
+        ("T4_lesion_brain_only", fine_lesion_cols, fine_ontology),
     ]
+    _ = (coarse_lesion_cols, coarse_ontology)  # loaded for parity; coarse tier is no longer built
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     INPUTS_DIR.mkdir(parents=True, exist_ok=True)

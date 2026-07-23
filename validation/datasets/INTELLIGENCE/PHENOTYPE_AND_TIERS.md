@@ -34,13 +34,14 @@ ontology. A tier is usable only if every group it names has extracted features.
 | Tier id | Adds | Modalities in the tier |
 |---|---|---|
 | `T1_demographics` | demographics | age, sex, handedness, BMI, education, background SES |
-| `T2_personality_psychometric` | + personality and psychometrics (all self-report) | T1 + NEO-FFI Big Five, BIS/BAS reinforcement sensitivity, STAI trait anxiety |
-| `T3_identity` | + identity and belief (all self-report) | T2 + sexual/gender identity ratings, religiosity |
-| `T4_morphometry` | + brain structure | T3 + FreeSurfer cortical/subcortical morphometry |
-| `T5_connectome` | + brain function (full multimodal) | T4 + movie-fMRI functional connectome (Yeo networks) |
+| `T2_psychological` | + psychological factors (all self-report) | T1 + NEO-FFI Big Five, BIS/BAS reinforcement sensitivity, STAI trait anxiety, sexual/gender identity ratings, religiosity |
+| `T3_morphometry` | + brain structure | T2 + FreeSurfer cortical/subcortical morphometry |
+| `T4_multimodal_full` | + brain function (everything together) | T3 + movie-fMRI functional connectome (Yeo networks) |
+| `T5_brain_only` | brain only (morphometry + connectome) | FreeSurfer morphometry + movie-fMRI connectome, no self-report |
 
-The two self-report questionnaire tiers (NEO Big Five and the BIS/BAS + STAI psychometrics) are merged
-into one, since both are self-report; the two brain tiers stay separate (structural vs functional).
+The self-report questionnaires and identity/belief are merged into one psychological tier; the ladder
+builds to everything together (T4), then a brain-only tier (T5) isolates the neural contribution. The
+single-modality brain probes `B1_morphometry_only` and `B2_connectome_only` are also built.
 
 Brain-only probes (no self-report) are also built: `B1_morphometry_only`,
 `B2_connectome_only`, `B3_brain_only`. The cumulative ladder T1 to T6 is the primary

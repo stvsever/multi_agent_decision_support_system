@@ -38,13 +38,13 @@ participant's `non_numerical_data.txt` and in the run-time global instruction.
 |---|---|---|
 | `T1_demographics` | demographics | age, education years, imaging modality |
 | `T2_aphasia` | + clinical severity | T1 + standardized WAB-R aphasia quotient, standardized whole-brain lesion volume |
-| `T3_lesion_fine` | + per-parcel lesion load | T2 + prevalence-filtered per-ROI lesion overlap (194 features) |
+| `T3_lesion_fine` | + per-parcel lesion load (everything together) | T2 + prevalence-filtered per-ROI lesion overlap (194 features) |
+| `T4_lesion_brain_only` | brain only: lesion topography | per-parcel lesion overlap only (189 features), no demographics or aphasia |
 
-The ladder keeps only the high-resolution per-parcel lesion tier. The coarse network-level
-tier (voxel-weighted overlap per Yeo network / Tian structure / cerebellar domain, 38 features)
-was the same modality at lower resolution, and the fine parcels aggregate to those networks, so
-it was redundant and dropped. The ladder axis is now T1 -> T2 -> T3-fine: how much clinical and
-per-parcel anatomical evidence is needed before each numeracy phenotype is recovered.
+The ladder builds to everything together (T3), then a brain-only lesion tier (T4) isolates the anatomical
+contribution (per-parcel lesion overlap only, no demographics or clinical severity). The coarse
+network-level lesion tier was dropped as redundant with the fine per-parcel map (the fine parcels
+aggregate to those networks).
 
 ## Ontology note (abstract structure)
 
