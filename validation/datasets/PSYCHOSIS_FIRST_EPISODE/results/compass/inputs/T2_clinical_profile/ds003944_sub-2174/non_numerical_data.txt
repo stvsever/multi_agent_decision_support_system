@@ -4,6 +4,8 @@ Reference strategy: cohort (deviation from the population cohort).
 Feature values below are shown on their native measured scale; the parenthetical qualifier (e.g. High, Low, Very High) is this participant's signed deviation (z-score) from the reference cohort for that feature.
 
 TARGET MEASUREMENT REFERENCE:
+Cohort: First-Episode Psychosis resting-state EEG study (OpenNeuro ds003944 + ds003947). Participants are adults early in a psychotic illness plus matched healthy controls; each has a resting-state EEG recording and a clinical phenotype. Controls have no psychotic disorder and typically minimal symptoms; cases vary widely in severity.
+
 Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, then predict their psychiatric symptom severity on the native clinical scales below.
 
 Symptom scales (predict on these native ranges; no symptom value for this participant is given):
@@ -22,8 +24,7 @@ Controls are expected to have low or absent symptoms; cases vary widely. Infer d
 
 OBSERVED FEATURE PROFILE (deviation from the population cohort):
 - Demographics and Socio-economic Status [8 measured]: Mother Hollingshead Index = 22 (Low); Participant Hollingshead Index = 11 (Low); Sex Source Reported = F (Low); Parental Mean Hollingshead Index = 29.5 (Low); Race Source Reported = White (High-Normal); Father Hollingshead Index = 37 (Low-Normal) (+2 more)
-- Observed Functioning [6 measured]: Gaf Role Current 0 To 10 Higher Better = 5 (Low-Normal); Gaf Role Lifetime Low 0 To 10 Higher Better = 5 (Low-Normal); Gaf Role Lifetime High 0 To 10 Higher Better = 7 (Low-Normal); Gaf Social Lifetime High 0 To 10 Higher Better = 7 (Low-Normal); Gaf Social Current 0 To 10 Higher Better = 6 (Low-Normal); Gaf Social Lifetime Low 0 To 10 Higher Better = 6 (Normal)
-- Cognition and Intelligence [11 measured]: Matrix Reasoning T Score = 35 (Very Low); Two Subtest Full Iq Estimate = 79 (Very Low); Vocabulary T Score = 38 (Low); Verbtscr Verbal Learning Age And Gender Corrected T Score = 32 (Low); Att Vigtscr Attention Vigilance Age And Gender Corrected T Score = 26 (Low); Overalltscr Overall Composite Age And Gender Corrected T Score = 28 (Low) (+5 more)
+- Global Functioning [17 measured]: Matrix Reasoning T Score = 35 (Very Low); Two Subtest Full Iq Estimate = 79 (Very Low); Vocabulary T Score = 38 (Low); Verbtscr Verbal Learning Age And Gender Corrected T Score = 32 (Low); Att Vigtscr Attention Vigilance Age And Gender Corrected T Score = 26 (Low); Overalltscr Overall Composite Age And Gender Corrected T Score = 28 (Low) (+11 more)
 
 NOTABLE DEVIATIONS: Sex Source Reported is low (z=-1.40); Mother Hollingshead Index is low (z=-1.75); Parental Mean Hollingshead Index is low (z=-1.35); Participant Hollingshead Index is low (z=-1.64); Att Vigtscr Attention Vigilance Age And Gender Corrected T Score is low (z=-1.44); Overalltscr Overall Composite Age And Gender Corrected T Score is low (z=-1.04); Verbtscr Verbal Learning Age And Gender Corrected T Score is low (z=-1.50); Matrix Reasoning T Score is very low (z=-2.77); Two Subtest Full Iq Estimate is very low (z=-2.32); Vocabulary T Score is low (z=-1.58).
 

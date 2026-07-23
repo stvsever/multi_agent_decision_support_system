@@ -53,9 +53,21 @@ T2 vs T3 asks what the EEG adds on top of the clinical profile.
 ## Ontology note (abstract structure)
 
 All 935 predictors carry explicit ontology paths, so the hierarchy is deterministic
-and deep (max depth 5). The 836 EEG features nest under Resting-State EEG by family
-(spectral, alpha peak, aperiodic, entropy, fractal, microstates, connectivity,
-graph). The Social Functioning Scale is broken out of a single flat 74-item list
-into the instrument's own question blocks (withdrawal and engagement, interpersonal
-and communication, activities and recreation, independence and competence,
-employment), so the engine can prioritise and attribute evidence by named branch.
+and deep (max depth 5). It has three primary domains:
+
+1. **Resting EEG** (836 leaves): the EEG features nest by family (spectral, alpha
+   peak, aperiodic, entropy, fractal, microstates, connectivity, graph).
+2. **Demographics and Socio-economic Status** (8 leaves): participant demographics
+   and Hollingshead socio-economic status.
+3. **Global Functioning** (91 leaves): the psychiatric superordinate construct,
+   gathering at one secondary level both the cognitive/intelligence measures (MATRICS
+   cognitive domains, WASI IQ) and the observed/social functioning measures (Global
+   Assessment of Functioning ratings, Social Functioning Scale). This merges what
+   were previously two separate domains (Cognition and Intelligence, Observed
+   Functioning) into one, so the two social nodes now sit alongside the two
+   intelligence nodes.
+
+The Social Functioning Scale is broken out of a single flat 74-item list into the
+instrument's own question blocks (withdrawal and engagement, interpersonal and
+communication, activities and recreation, independence and competence, employment),
+so the engine can prioritise and attribute evidence by named branch.

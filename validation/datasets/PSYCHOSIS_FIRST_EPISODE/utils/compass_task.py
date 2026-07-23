@@ -272,9 +272,19 @@ def _seg(sid: str, label: str, definition: str = "") -> dict[str, str]:
 # ``path`` hints (instead of leaving them to the LLM) gives a clean, deep, fully
 # reproducible hierarchy and, in particular, breaks the 74-item Social Functioning
 # Scale out of one flat list into the instrument's own question blocks.
+#
+# Ontology structure (2026-07-23): the non-neural clinical predictors sit under two
+# primary domains only, Demographics and Socio-economic Status and a single Global
+# Functioning umbrella. Global Functioning is the psychiatric superordinate construct
+# that gathers, at one secondary level, both the cognitive/intelligence measures
+# (MATRICS cognitive domains, WASI IQ) and the social/observed-functioning measures
+# (GAF ratings, Social Functioning Scale). Together with the Resting EEG domain that
+# leaves three primary nodes: Resting EEG, Demographics + SES, and Global Functioning.
 _DEMO_DOM = _seg("DEMOGRAPHICS_AND_SES", "Demographics and Socio-economic Status")
-_COG_DOM = _seg("COGNITION_AND_INTELLIGENCE", "Cognition and Intelligence")
-_FUNC_DOM = _seg("OBSERVED_FUNCTIONING", "Observed Functioning")
+_GLOBAL_FUNC_DOM = _seg(
+    "GLOBAL_FUNCTIONING", "Global Functioning",
+    "Overall functioning of the participant: cognition and intelligence together with "
+    "observed role and social functioning.")
 
 _SFS_BLOCK = [
     (r"sfs_q0?[3-7](_|$)", "sfs_withdrawal_engagement", "Withdrawal and engagement",
@@ -295,18 +305,20 @@ def clinical_ontology_path(col: str) -> list[dict[str, str]]:
         return [_DEMO_DOM, _seg("participant_demographics", "Participant demographics")]
     if col.startswith("covariate__socioeconomic__"):
         return [_DEMO_DOM, _seg("socioeconomic_status", "Socio-economic status (Hollingshead)")]
+    # Cognition/intelligence and observed/social functioning both live under the single
+    # Global Functioning primary node, as secondary siblings.
     if col.startswith("target__matrics__"):
-        return [_COG_DOM, _seg("matrics_cognitive_domains", "MATRICS cognitive domains")]
+        return [_GLOBAL_FUNC_DOM, _seg("matrics_cognitive_domains", "MATRICS cognitive domains")]
     if col.startswith("target__wasi__"):
-        return [_COG_DOM, _seg("wasi_intelligence", "WASI intelligence estimates")]
+        return [_GLOBAL_FUNC_DOM, _seg("wasi_intelligence", "WASI intelligence estimates")]
     if "global_assessment_of_functioning" in col or col.startswith("target__functioning__gaf"):
-        return [_FUNC_DOM, _seg("gaf_ratings", "Global Assessment of Functioning")]
+        return [_GLOBAL_FUNC_DOM, _seg("gaf_ratings", "Global Assessment of Functioning")]
     if col.startswith("target__social_functioning_scale__"):
         sfs = _seg("social_functioning_scale", "Social Functioning Scale (SFS)")
         for pattern, sid, label, defn in _SFS_BLOCK:
             if re.search(pattern, col):
-                return [_FUNC_DOM, sfs, _seg(sid, label, defn)]
-        return [_FUNC_DOM, sfs, _seg("sfs_other", "Other SFS items")]
+                return [_GLOBAL_FUNC_DOM, sfs, _seg(sid, label, defn)]
+        return [_GLOBAL_FUNC_DOM, sfs, _seg("sfs_other", "Other SFS items")]
     return [_seg("CLINICAL_OTHER", "Other clinical measures")]
 
 
@@ -354,6 +366,11 @@ def reference_target_stats(frame: pd.DataFrame, reference_ids: set[str]) -> dict
 
 def build_global_instruction(stats: dict[str, dict[str, float]]) -> str:
     lines = [
+        "Cohort: First-Episode Psychosis resting-state EEG study (OpenNeuro ds003944 + ds003947). "
+        "Participants are adults early in a psychotic illness plus matched healthy controls; each has a "
+        "resting-state EEG recording and a clinical phenotype. Controls have no psychotic disorder and "
+        "typically minimal symptoms; cases vary widely in severity.",
+        "",
         "Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, "
         "then predict their psychiatric symptom severity on the native clinical scales below.",
         "",
@@ -383,15 +400,18 @@ def build_global_instruction(stats: dict[str, dict[str, float]]) -> str:
 ONTOLOGY_CONTEXT = (
     "First-episode-psychosis resting-state EEG cohort. Predictors span demographics and socio-economic "
     "status, standardized cognition (MATRICS domains, WASI IQ), observed role and social functioning "
-    "(GAF and SFS), and 836 resting-EEG features. Group the non-neural clinical predictors by the "
-    "construct they measure. The EEG features are placed deterministically under a Resting EEG domain by "
-    "explicit path and are not part of the semantic grouping."
+    "(GAF and SFS), and 836 resting-EEG features. The non-neural clinical predictors sit under two "
+    "primary domains: Demographics and Socio-economic Status, and a single Global Functioning umbrella "
+    "that holds cognition, intelligence, and observed/social functioning together. The EEG features are "
+    "placed deterministically under a Resting EEG domain by explicit path and are not part of the "
+    "semantic grouping."
 )
 ONTOLOGY_GUIDANCE = (
-    "Organise the non-neural predictors into clear domains: (1) Demographics and socio-economic status; "
-    "(2) Cognition and intelligence (MATRICS cognitive domains and WASI IQ); (3) Observed functioning "
-    "(GAF role and social ratings, and SFS social-functioning blocks). Keep cognition separate from "
-    "observed functioning."
+    "Organise the non-neural predictors into two domains: (1) Demographics and socio-economic status; "
+    "(2) Global functioning, a single umbrella whose secondary nodes are cognition (MATRICS cognitive "
+    "domains), intelligence (WASI IQ), Global Assessment of Functioning ratings, and the Social "
+    "Functioning Scale blocks. Cognition/intelligence and social/observed functioning are secondary "
+    "siblings under Global Functioning, not separate primary domains."
 )
 
 

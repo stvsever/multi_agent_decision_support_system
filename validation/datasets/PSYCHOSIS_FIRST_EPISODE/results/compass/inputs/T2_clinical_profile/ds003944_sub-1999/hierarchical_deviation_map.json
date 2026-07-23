@@ -44,7 +44,7 @@
       "present_leaves": 8
     }
   },
-  "OBSERVED_FUNCTIONING": {
+  "GLOBAL_FUNCTIONING": {
     "gaf_ratings": {
       "target__functioning__gaf_role_current_0_to_10_higher_better": {
         "score": 1.033
@@ -68,6 +68,37 @@
         "mean_abs_score": 0.889,
         "n_leaves": 6,
         "present_leaves": 6
+      }
+    },
+    "matrics_cognitive_domains": {
+      "target__matrics__att_vigtscr_attention_vigilance_age_and_gender_corrected_t_score": {
+        "score": 0.656
+      },
+      "target__matrics__overalltscr_overall_composite_age_and_gender_corrected_t_score": {
+        "score": 0.32
+      },
+      "target__matrics__rpstscr_reasoning_and_problem_solving_age_and_gender_corrected_t_score": {
+        "score": -0.863
+      },
+      "target__matrics__soccogtscr_social_cognition_age_and_gender_corrected_t_score": {
+        "score": 1.392
+      },
+      "target__matrics__speedtscr_speed_of_processing_age_and_gender_corrected_t_score": {
+        "score": 0.121
+      },
+      "target__matrics__verbtscr_verbal_learning_age_and_gender_corrected_t_score": {
+        "score": 0.522
+      },
+      "target__matrics__vistscr_visual_learning_age_and_gender_corrected_t_score": {
+        "score": -0.469
+      },
+      "target__matrics__wmtscr_working_memory_age_and_gender_corrected_t_score": {
+        "score": 0.308
+      },
+      "_stats": {
+        "mean_abs_score": 0.581,
+        "n_leaves": 8,
+        "present_leaves": 8
       }
     },
     "social_functioning_scale": {
@@ -341,44 +372,6 @@
         "present_leaves": 74
       }
     },
-    "_stats": {
-      "mean_abs_score": 1.135,
-      "n_leaves": 80,
-      "present_leaves": 80
-    }
-  },
-  "COGNITION_AND_INTELLIGENCE": {
-    "matrics_cognitive_domains": {
-      "target__matrics__att_vigtscr_attention_vigilance_age_and_gender_corrected_t_score": {
-        "score": 0.656
-      },
-      "target__matrics__overalltscr_overall_composite_age_and_gender_corrected_t_score": {
-        "score": 0.32
-      },
-      "target__matrics__rpstscr_reasoning_and_problem_solving_age_and_gender_corrected_t_score": {
-        "score": -0.863
-      },
-      "target__matrics__soccogtscr_social_cognition_age_and_gender_corrected_t_score": {
-        "score": 1.392
-      },
-      "target__matrics__speedtscr_speed_of_processing_age_and_gender_corrected_t_score": {
-        "score": 0.121
-      },
-      "target__matrics__verbtscr_verbal_learning_age_and_gender_corrected_t_score": {
-        "score": 0.522
-      },
-      "target__matrics__vistscr_visual_learning_age_and_gender_corrected_t_score": {
-        "score": -0.469
-      },
-      "target__matrics__wmtscr_working_memory_age_and_gender_corrected_t_score": {
-        "score": 0.308
-      },
-      "_stats": {
-        "mean_abs_score": 0.581,
-        "n_leaves": 8,
-        "present_leaves": 8
-      }
-    },
     "wasi_intelligence": {
       "target__wasi__matrix_reasoning_t_score": {
         "score": -0.68
@@ -396,9 +389,9 @@
       }
     },
     "_stats": {
-      "mean_abs_score": 0.53,
-      "n_leaves": 11,
-      "present_leaves": 11
+      "mean_abs_score": 1.062,
+      "n_leaves": 91,
+      "present_leaves": 91
     }
   }
 }

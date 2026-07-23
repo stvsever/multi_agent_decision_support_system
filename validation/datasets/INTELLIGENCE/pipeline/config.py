@@ -67,6 +67,14 @@ IST_CONTEXT = (
     "so a participant's subscale scores tend to move together with the total."
 )
 
+# Cohort context, injected into the engine's global instruction so the model knows the
+# population it is predicting for (a healthy general-population sample, not a clinical group).
+DATASET_CONTEXT = (
+    "Cohort: AOMIC ID1000 (OpenNeuro ds003097), 928 healthy Dutch young adults from the "
+    "general population, with no clinical or psychiatric group. Intelligence therefore spans "
+    "the normal range; predict within that healthy-population distribution."
+)
+
 
 def target_scale_note(reference_mean: float, reference_sd: float) -> str:
     """Target calibration derived only from the disjoint reference cohort.

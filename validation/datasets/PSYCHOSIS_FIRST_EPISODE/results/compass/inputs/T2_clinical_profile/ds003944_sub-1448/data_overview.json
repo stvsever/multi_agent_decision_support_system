@@ -26,12 +26,12 @@
         }
       }
     },
-    "OBSERVED_FUNCTIONING": {
-      "present_leaves": 80,
-      "total_leaves": 80,
+    "GLOBAL_FUNCTIONING": {
+      "present_leaves": 91,
+      "total_leaves": 91,
       "coverage_percentage": 100.0,
       "missing_count": 0,
-      "total_tokens": 948,
+      "total_tokens": 1115,
       "is_available": true,
       "structure": {
         "gaf_ratings": {
@@ -40,6 +40,13 @@
           "total_leaves": 6,
           "coverage_percentage": 100.0,
           "tokens": 79
+        },
+        "matrics_cognitive_domains": {
+          "label": "MATRICS cognitive domains",
+          "present_leaves": 8,
+          "total_leaves": 8,
+          "coverage_percentage": 100.0,
+          "tokens": 142
         },
         "social_functioning_scale": {
           "label": "Social Functioning Scale (SFS)",
@@ -91,23 +98,6 @@
               "tokens": 77
             }
           }
-        }
-      }
-    },
-    "COGNITION_AND_INTELLIGENCE": {
-      "present_leaves": 11,
-      "total_leaves": 11,
-      "coverage_percentage": 100.0,
-      "missing_count": 0,
-      "total_tokens": 167,
-      "is_available": true,
-      "structure": {
-        "matrics_cognitive_domains": {
-          "label": "MATRICS cognitive domains",
-          "present_leaves": 8,
-          "total_leaves": 8,
-          "coverage_percentage": 100.0,
-          "tokens": 142
         },
         "wasi_intelligence": {
           "label": "WASI intelligence estimates",
@@ -124,8 +114,7 @@
   "present_leaves": 99,
   "available_domains": [
     "DEMOGRAPHICS_AND_SES",
-    "OBSERVED_FUNCTIONING",
-    "COGNITION_AND_INTELLIGENCE"
+    "GLOBAL_FUNCTIONING"
   ],
   "token_budget": 1303
 }

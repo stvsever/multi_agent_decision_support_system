@@ -49,7 +49,7 @@
       ]
     }
   },
-  "OBSERVED_FUNCTIONING": {
+  "GLOBAL_FUNCTIONING": {
     "gaf_ratings": {
       "_leaves": [
         {
@@ -81,6 +81,50 @@
           "feature": "Gaf Social Lifetime Low 0 To 10 Higher Better",
           "value": "9 (High-Normal)",
           "z_score": 0.91
+        }
+      ]
+    },
+    "matrics_cognitive_domains": {
+      "_leaves": [
+        {
+          "feature": "Att Vigtscr Attention Vigilance Age And Gender Corrected T Score",
+          "value": "45 (Normal)",
+          "z_score": 0.219
+        },
+        {
+          "feature": "Overalltscr Overall Composite Age And Gender Corrected T Score",
+          "value": "51 (High-Normal)",
+          "z_score": 0.607
+        },
+        {
+          "feature": "Rpstscr Reasoning And Problem Solving Age And Gender Corrected T Score",
+          "value": "61 (High)",
+          "z_score": 1.325
+        },
+        {
+          "feature": "Soccogtscr Social Cognition Age And Gender Corrected T Score",
+          "value": "64 (High)",
+          "z_score": 1.392
+        },
+        {
+          "feature": "Speedtscr Speed Of Processing Age And Gender Corrected T Score",
+          "value": "69 (High)",
+          "z_score": 1.782
+        },
+        {
+          "feature": "Verbtscr Verbal Learning Age And Gender Corrected T Score",
+          "value": "42 (Low-Normal)",
+          "z_score": -0.581
+        },
+        {
+          "feature": "Vistscr Visual Learning Age And Gender Corrected T Score",
+          "value": "28 (Low)",
+          "z_score": -1.251
+        },
+        {
+          "feature": "Wmtscr Working Memory Age And Gender Corrected T Score",
+          "value": "43 (Normal)",
+          "z_score": -0.125
         }
       ]
     },
@@ -479,52 +523,6 @@
           }
         ]
       }
-    }
-  },
-  "COGNITION_AND_INTELLIGENCE": {
-    "matrics_cognitive_domains": {
-      "_leaves": [
-        {
-          "feature": "Att Vigtscr Attention Vigilance Age And Gender Corrected T Score",
-          "value": "45 (Normal)",
-          "z_score": 0.219
-        },
-        {
-          "feature": "Overalltscr Overall Composite Age And Gender Corrected T Score",
-          "value": "51 (High-Normal)",
-          "z_score": 0.607
-        },
-        {
-          "feature": "Rpstscr Reasoning And Problem Solving Age And Gender Corrected T Score",
-          "value": "61 (High)",
-          "z_score": 1.325
-        },
-        {
-          "feature": "Soccogtscr Social Cognition Age And Gender Corrected T Score",
-          "value": "64 (High)",
-          "z_score": 1.392
-        },
-        {
-          "feature": "Speedtscr Speed Of Processing Age And Gender Corrected T Score",
-          "value": "69 (High)",
-          "z_score": 1.782
-        },
-        {
-          "feature": "Verbtscr Verbal Learning Age And Gender Corrected T Score",
-          "value": "42 (Low-Normal)",
-          "z_score": -0.581
-        },
-        {
-          "feature": "Vistscr Visual Learning Age And Gender Corrected T Score",
-          "value": "28 (Low)",
-          "z_score": -1.251
-        },
-        {
-          "feature": "Wmtscr Working Memory Age And Gender Corrected T Score",
-          "value": "43 (Normal)",
-          "z_score": -0.125
-        }
-      ]
     },
     "wasi_intelligence": {
       "_leaves": [
