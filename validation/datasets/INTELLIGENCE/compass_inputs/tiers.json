@@ -117,21 +117,8 @@
       "evaluation_reference_disjoint": true
     },
     {
-      "id": "T2_personality",
-      "label": "Tier 2: + Personality (Big Five)",
-      "n_features": 11,
-      "n_domains": 2,
-      "groups": [
-        "demographics",
-        "personality"
-      ],
-      "reference_mode": "cohort",
-      "reference_feature_n_min": 827,
-      "evaluation_reference_disjoint": true
-    },
-    {
-      "id": "T3_psychometric",
-      "label": "Tier 3: + Motivation & Affect",
+      "id": "T2_personality_psychometric",
+      "label": "Tier 2: + Personality and psychometrics (Big Five, BIS/BAS, STAI)",
       "n_features": 16,
       "n_domains": 2,
       "groups": [
@@ -144,8 +131,8 @@
       "evaluation_reference_disjoint": true
     },
     {
-      "id": "T4_identity",
-      "label": "Tier 4: + Identity & Belief (all self-report)",
+      "id": "T3_identity",
+      "label": "Tier 3: + Identity & Belief (all self-report)",
       "n_features": 23,
       "n_domains": 3,
       "groups": [
@@ -159,8 +146,8 @@
       "evaluation_reference_disjoint": true
     },
     {
-      "id": "T5_morphometry",
-      "label": "Tier 5: + Brain morphometry",
+      "id": "T4_morphometry",
+      "label": "Tier 4: + Brain morphometry",
       "n_features": 251,
       "n_domains": 4,
       "groups": [
@@ -175,8 +162,8 @@
       "evaluation_reference_disjoint": true
     },
     {
-      "id": "T6_connectome",
-      "label": "Tier 6: + Brain connectome (full multimodal)",
+      "id": "T5_connectome",
+      "label": "Tier 5: + Brain connectome (full multimodal)",
       "n_features": 279,
       "n_domains": 4,
       "groups": [

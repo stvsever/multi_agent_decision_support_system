@@ -42,13 +42,16 @@ missingness), and chlorpromazine-equivalent dose (psychosis-only). See
 | `T1_demographic_socioeconomic` | demographics + Hollingshead socio-economic status | non-clinical floor |
 | `T2_clinical_profile` | + MATRICS cognition, WASI IQ, GAF and SFS observed functioning | full non-neural clinical profile |
 | `T3_multimodal_full` | + all 836 resting-EEG features | full multimodal ceiling |
-| `T4_eeg_lean` | 29 psychosis-implicated EEG features only | neural floor (targeted) |
-| `T5_eeg_rich` | all 836 resting-EEG features only | neural ceiling (unguided) |
+| `T4_eeg_brain_only` | 79-feature psychosis-signature resting EEG only | brain-only (curated) |
 
-The lean EEG set (T4) is the psychosis-implicated subset: posterior alpha deficit,
-frontal/global slow-wave excess, slowing ratios, and alpha-peak slowing. T4 vs T5
-asks whether a small, theory-driven neural bundle matches the full 836-feature set;
-T2 vs T3 asks what the EEG adds on top of the clinical profile.
+The brain-only tier (T4) is a curated 79-feature psychosis signature across six well-replicated
+families: posterior alpha deficit and frontal/global slow-wave excess with slowing ratios (spectral),
+alpha-peak slowing, aperiodic 1/f exponent/offset (excitation-inhibition balance), reduced signal
+complexity (Lempel-Ziv, sample and permutation entropy), microstate C excess and D deficit with C-D
+transitions, and compact alpha-band connectivity/graph summaries. It replaces the former two EEG-only
+tiers (a 29-feature lean and the full 836 rich): the full 836-only tier was about 95% redundant with the
+multimodal ceiling T3, so it was dropped, and the lean was enriched into this signature. T2 vs T3 asks
+what the EEG adds on top of the clinical profile; T4 asks what the neural signature carries on its own.
 
 ## Ontology note (abstract structure)
 

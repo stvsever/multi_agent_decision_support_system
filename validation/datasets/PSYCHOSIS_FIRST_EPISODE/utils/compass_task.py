@@ -14,8 +14,7 @@ Tiers (evidence bundles fed to the engine):
     T1 demographics + socio-economic status
     T2 + full non-neural clinical profile (cognition, IQ, observed functioning)
     T3 + all 836 EEG features (full multimodal ceiling)
-    T4 psychosis-implicated lean EEG only (neural floor)
-    T5 all 836 EEG only (neural ceiling)
+    T4 psychosis-signature resting EEG only (brain-only, ~79 curated features)
 
 Leakage control: the label, every BPRS/SANS/SAPS item (targets, psychosis-only),
 GAS and SFS employment items (control-sparse), and chlorpromazine equivalent
@@ -175,30 +174,72 @@ def resolve_predictor_groups(non_eeg: pd.DataFrame, eeg_names: list[str]) -> dic
             social.append(c)
     return {"demographics": demographics, "ses": ses, "cognition": cognition,
             "functioning": functioning, "social": social,
-            "eeg_rich": list(eeg_names), "eeg_lean": lean_eeg_columns(eeg_names)}
+            "eeg_rich": list(eeg_names), "eeg_brain": psychosis_signature_eeg_columns(eeg_names)}
 
 
-def lean_eeg_columns(eeg_names: list[str]) -> list[str]:
-    """Psychosis-implicated EEG subset: posterior alpha deficit, frontal/global
-    slow-wave excess, slowing ratios, and alpha peak slowing (families A and B)."""
+def psychosis_signature_eeg_columns(eeg_names: list[str]) -> list[str]:
+    """Curated resting-EEG features implicated in first-episode psychosis (the brain-only tier).
+
+    Richer than a minimal probe but far below the full 836, so the brain-only tier is a
+    genuine psychosis signature rather than either a tiny probe or the whole feature bank.
+    Six well-replicated families:
+      1. Spectral: posterior alpha deficit and frontal/global slow-wave (delta, theta) excess,
+         plus theta/alpha and alpha/delta slowing ratios (family A).
+      2. Alpha-peak slowing: posterior alpha centre frequency (family B).
+      3. Aperiodic 1/f exponent and offset, an excitation-inhibition balance proxy (family C).
+      4. Reduced signal complexity: Lempel-Ziv, sample and permutation entropy (family D).
+      5. Microstates: class C excess and class D deficit (coverage, occurrence, duration),
+         with C<->D transitions and transition entropy (family F).
+      6. Compact global connectivity and graph summaries by band (families G/H).
+    """
     names = set(eeg_names)
-    lean: list[str] = []
     posterior = ["global", "occipital_left", "occipital_right", "parietal_left", "parietal_right"]
     anterior = ["global", "frontal_left", "frontal_right"]
+    key = ["global", "frontal_left", "frontal_right", "occipital_left", "occipital_right",
+           "parietal_left", "parietal_right"]
+    sig: list[str] = []
+    # 1. spectral: alpha deficit (posterior) + slow-wave excess (anterior), absolute + relative
     for measure in ["log10_absolute_power_uv2", "relative_power_fraction_of_1_45_hz"]:
         for scope in posterior:
-            lean.append(f"A_spectral__{measure}__alpha_8_13_hz__{scope}")
+            sig.append(f"A_spectral__{measure}__alpha_8_13_hz__{scope}")
         for band in ["delta_1_4_hz", "theta_4_8_hz"]:
             for scope in anterior:
-                lean.append(f"A_spectral__{measure}__{band}__{scope}")
+                sig.append(f"A_spectral__{measure}__{band}__{scope}")
     for ratio in ["theta_over_alpha", "alpha_over_delta"]:
-        lean.append(f"A_spectral__natural_log_power_ratio__{ratio}__global")
+        sig.append(f"A_spectral__natural_log_power_ratio__{ratio}__global")
+    # 2. alpha-peak slowing (posterior)
     for scope in posterior:
-        lean.append(f"B_alpha_peak__center_frequency_hz__{scope}")
-    return [c for c in lean if c in names]
+        sig.append(f"B_alpha_peak__center_frequency_hz__{scope}")
+    # 3. aperiodic 1/f (excitation-inhibition balance proxy)
+    for measure in ["exponent", "offset_log10_uv2"]:
+        for scope in key:
+            sig.append(f"C_aperiodic__{measure}__{scope}")
+    # 4. signal complexity (reduced in psychosis)
+    for measure in ["lempel_ziv_complexity_normalized", "sample_entropy", "permutation_entropy_normalized"]:
+        for scope in key:
+            sig.append(f"D_entropy__{measure}__{scope}")
+    # 5. microstates: class C (excess) and D (deficit) plus C<->D transitions
+    for cls in ["class_c", "class_d"]:
+        for metric in ["coverage_fraction", "occurrence_per_second", "mean_duration_ms"]:
+            sig.append(f"F_microstates__{cls}__{metric}")
+    sig += ["F_microstates__transition_probability__class_c_to_class_d",
+            "F_microstates__transition_probability__class_d_to_class_c",
+            "F_microstates__global__transition_entropy_normalized"]
+    # 6. compact global connectivity + graph summaries (alpha-band network integration)
+    for band in ["delta_1_4_hz", "theta_4_8_hz", "alpha_8_13_hz"]:
+        sig.append(f"H_graph__global__mean_edge_weight__{band}")
+    for metric in ["global_efficiency", "small_world_propensity", "mean_clustering_coefficient"]:
+        sig.append(f"H_graph__global__{metric}_auc_density_20_50_percent__alpha_8_13_hz")
+    return [c for c in sig if c in names]
 
 
 def build_tiers(groups: dict[str, list[str]]) -> list[dict[str, Any]]:
+    """Four-tier evidence ladder.
+
+    The two former EEG-only tiers (29-feature lean and full 836 rich) are collapsed into one
+    brain-only tier carrying the curated psychosis signature (~79 features): richer than the old
+    lean, but not the full bank, which was ~95% redundant with the multimodal ceiling T3.
+    """
     base = groups["demographics"] + groups["ses"]
     clinical = base + groups["cognition"] + groups["functioning"] + groups["social"]
     return [
@@ -207,12 +248,11 @@ def build_tiers(groups: dict[str, list[str]]) -> list[dict[str, Any]]:
         {"id": "T2_clinical_profile",
          "label": "T2: + cognition, IQ, observed functioning", "columns": clinical},
         {"id": "T3_multimodal_full",
-         "label": "T3: + all 836 EEG features (full multimodal)",
+         "label": "T3: + all 836 EEG features (full multimodal ceiling)",
          "columns": clinical + groups["eeg_rich"]},
-        {"id": "T4_eeg_lean",
-         "label": "T4: psychosis-implicated lean EEG only", "columns": groups["eeg_lean"]},
-        {"id": "T5_eeg_rich",
-         "label": "T5: all 836 EEG only", "columns": groups["eeg_rich"]},
+        {"id": "T4_eeg_brain_only",
+         "label": "T4: psychosis-signature resting EEG only (brain-only, curated)",
+         "columns": groups["eeg_brain"]},
     ]
 
 

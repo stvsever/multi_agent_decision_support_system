@@ -1,6 +1,7 @@
 Participant ID: eval-0020
-Source: blinded evaluation record from INTELLIGENCE; non-cognitive multimodal features only.
+Source: evaluation record from INTELLIGENCE. Only the multimodal predictor features listed below are provided; the prediction target is never included as an input.
 Reference strategy: cohort (deviation from the population cohort).
+Feature values below are shown on their native measured scale; the parenthetical qualifier (e.g. High, Low, Very High) is this participant's signed deviation (z-score) from the reference cohort for that feature.
 
 TARGET MEASUREMENT REFERENCE:
 Prediction target: IST_intelligence_total, the native total score of the Intelligence Structure Test 2000-R. This is not a conventional IQ score. In the disjoint reference split, mean=200.27 and sd=40.08 native IST points. Predict one numeric value on that native scale. No IST total or subscale values for this evaluation participant are provided. Infer only from the provided non-cognitive multimodal features.
@@ -10,4 +11,4 @@ OBSERVED FEATURE PROFILE (deviation from the population cohort):
 
 NOTABLE DEVIATIONS: Visual within-network FC is high (z=+1.34); Somatomotor within-network FC is low (z=-1.05); Visual - Default mode FC is low (z=-1.12); Somatomotor - Limbic FC is low (z=-1.54); Salience / ventral attention - Frontoparietal control FC is high (z=+1.99).
 
-NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction target must be inferred only from the non-cognitive multimodal evidence provided in this record.
+NOTE: The prediction target and any of its own components are never provided as inputs. Infer the target only from the multimodal predictor evidence in this record, reading each value on the native scale described in the target reference above.

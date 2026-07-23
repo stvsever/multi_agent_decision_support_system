@@ -48,7 +48,10 @@ TARGET_LABEL = {
     "precise_numeracy": "Precise (symbolic) numeracy",
 }
 # Cumulative data-complexity levels (subset of the 16 built tiers, blinded cohort).
-LEVELS = ["T1_demographics", "T2_aphasia", "T3_lesion_coarse", "T3_lesion_fine"]
+# The lesion tier keeps only the high-resolution per-parcel map: the coarse network-level
+# tier was the same modality at lower resolution (the fine parcels aggregate to those
+# networks), so it was redundant. Ladder is now demographics -> aphasia -> lesion (fine).
+LEVELS = ["T1_demographics", "T2_aphasia", "T3_lesion_fine"]
 
 DATASET_CONTEXT = (
     "NUMERACY_STROKE (OpenNeuro ds006533): 105 left-hemisphere chronic stroke survivors. "
