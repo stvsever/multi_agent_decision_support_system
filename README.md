@@ -227,9 +227,9 @@ multi_agent_decision_support_system/
 │   │   └── frontend/               # Flask dashboard, templates, and static assets
 │   └── tests/                      # Backend and frontend unit tests
 ├── validation/
+│   ├── validation_with_openneuro_datasets.ipynb  # Master notebook: runs all 3 datasets end to end (resumable)
 │   ├── common/                     # Reusable exploration, ontology, ingestion, MRI, and evaluation code
 │   └── datasets/
-│       ├── validation_with_openneuro_datasets.ipynb  # Master notebook: runs all 3 datasets end to end
 │       ├── INTELLIGENCE/           # OpenNeuro ds003097 (AOMIC-ID1000): hierarchical IQ inference
 │       │   ├── brain/              # Derived high-resolution morphometry and connectome features
 │       │   ├── compass_inputs/     # Blinded inputs per tier and participant

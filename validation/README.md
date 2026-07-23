@@ -114,9 +114,11 @@ phenotype output structure and tier ladder for each are in its `PHENOTYPE_AND_TI
   univariate regression on a population Z-score, predicted separately so their differential relationship to
   language/lesion features is the readout. Ladder T1 demographics -> T3 per-parcel lesion overlap.
 
-The master notebook `datasets/validation_with_openneuro_datasets.ipynb` runs all three end to end: it
-load-checks every record, runs a 2-subjects-per-dataset subset over the full tier, visualizes recovered
-phenotypes against ground truth, and estimates the full-cohort API cost per dataset.
+The master notebook `validation_with_openneuro_datasets.ipynb` runs all three end to end: it load-checks
+every record, runs a 2-subjects-per-dataset subset on a substantial tier, visualizes recovered phenotypes
+against ground truth, and estimates the full-cohort API cost and wall time per dataset. It is resumable:
+each run caches the moment it finishes and a re-run continues from where it stopped, so an interrupted or
+quit batch never re-spends on completed runs.
 
 More datasets plug in by copying a dataset folder and editing its config. The three show two supported
 layouts: `INTELLIGENCE/` and `NUMERACY_STROKE/` use a `pipeline/` of numbered scripts, while
