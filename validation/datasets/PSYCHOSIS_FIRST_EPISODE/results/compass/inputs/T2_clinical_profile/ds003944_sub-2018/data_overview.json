@@ -2,7 +2,7 @@
   "participant_id": "ds003944_sub-2018",
   "reference_mode": "cohort",
   "domain_coverage": {
-    "DEMOGRAPHICS_AND_SOCIOECONOMIC": {
+    "DEMOGRAPHICS_AND_SES": {
       "present_leaves": 5,
       "total_leaves": 8,
       "coverage_percentage": 62.5,
@@ -11,14 +11,14 @@
       "is_available": true,
       "structure": {
         "participant_demographics": {
-          "label": "Participant Demographics",
+          "label": "Participant demographics",
           "present_leaves": 4,
           "total_leaves": 4,
           "coverage_percentage": 100.0,
           "tokens": 35
         },
         "socioeconomic_status": {
-          "label": "Socio-economic Status",
+          "label": "Socio-economic status (Hollingshead)",
           "present_leaves": 1,
           "total_leaves": 4,
           "coverage_percentage": 25.0,
@@ -35,18 +35,62 @@
       "is_available": true,
       "structure": {
         "gaf_ratings": {
-          "label": "Global Assessment of Functioning Ratings",
+          "label": "Global Assessment of Functioning",
           "present_leaves": 6,
           "total_leaves": 6,
           "coverage_percentage": 100.0,
           "tokens": 78
         },
-        "sfs_social_functioning": {
-          "label": "Social Functioning Scale Assessments",
+        "social_functioning_scale": {
+          "label": "Social Functioning Scale (SFS)",
           "present_leaves": 74,
           "total_leaves": 74,
           "coverage_percentage": 100.0,
-          "tokens": 854
+          "tokens": 854,
+          "children": {
+            "sfs_interpersonal": {
+              "label": "Interpersonal and communication",
+              "present_leaves": 4,
+              "total_leaves": 4,
+              "coverage_percentage": 100.0,
+              "tokens": 74
+            },
+            "sfs_activities_recreation": {
+              "label": "Activities and recreation",
+              "present_leaves": 50,
+              "total_leaves": 50,
+              "coverage_percentage": 100.0,
+              "tokens": 536
+            },
+            "sfs_independence_competence": {
+              "label": "Independence and competence",
+              "present_leaves": 13,
+              "total_leaves": 13,
+              "coverage_percentage": 100.0,
+              "tokens": 124
+            },
+            "sfs_employment": {
+              "label": "Employment",
+              "present_leaves": 1,
+              "total_leaves": 1,
+              "coverage_percentage": 100.0,
+              "tokens": 10
+            },
+            "sfs_other": {
+              "label": "Other SFS items",
+              "present_leaves": 2,
+              "total_leaves": 2,
+              "coverage_percentage": 100.0,
+              "tokens": 34
+            },
+            "sfs_withdrawal_engagement": {
+              "label": "Withdrawal and engagement",
+              "present_leaves": 4,
+              "total_leaves": 4,
+              "coverage_percentage": 100.0,
+              "tokens": 76
+            }
+          }
         }
       }
     },
@@ -59,14 +103,14 @@
       "is_available": true,
       "structure": {
         "matrics_cognitive_domains": {
-          "label": "MATRICS Cognitive Domains",
+          "label": "MATRICS cognitive domains",
           "present_leaves": 8,
           "total_leaves": 8,
           "coverage_percentage": 100.0,
           "tokens": 144
         },
-        "wasi_intelligence_estimates": {
-          "label": "WASI Intelligence Estimates",
+        "wasi_intelligence": {
+          "label": "WASI intelligence estimates",
           "present_leaves": 3,
           "total_leaves": 3,
           "coverage_percentage": 100.0,
@@ -79,7 +123,7 @@
   "total_leaves": 99,
   "present_leaves": 96,
   "available_domains": [
-    "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+    "DEMOGRAPHICS_AND_SES",
     "OBSERVED_FUNCTIONING",
     "COGNITION_AND_INTELLIGENCE"
   ],

@@ -1,11 +1,32 @@
 {
-  "DEMOGRAPHICS_AND_CLINICAL": {
-    "general": {
-      "score": 0.328
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
+      "age": {
+        "score": 0.869
+      },
+      "education_years": {
+        "score": -0.4
+      },
+      "_stats": {
+        "mean_abs_score": 0.635,
+        "n_leaves": 2,
+        "present_leaves": 2
+      }
+    },
+    "imaging_acquisition": {
+      "image_modality": {
+        "score": 0.516
+      },
+      "_stats": {
+        "mean_abs_score": 0.516,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
     },
     "_stats": {
       "mean_abs_score": 0.595,
-      "n_leaves": 3
+      "n_leaves": 3,
+      "present_leaves": 3
     }
   }
 }

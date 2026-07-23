@@ -2,18 +2,18 @@
   "domains": [
     {
       "id": "Resting_EEG",
-      "label": "Resting-State EEG",
-      "definition": "A collection of quantitative electroencephalography features derived from resting-state brain activity.",
+      "label": "Resting EEG",
+      "definition": "",
       "children": [
         {
           "id": "Resting_EEG__Spectral_power",
-          "label": "Spectral Power",
-          "definition": "Measures of the distribution of signal energy across specific frequency bands.",
+          "label": "Spectral power",
+          "definition": "",
           "children": [
             {
               "id": "Resting_EEG__Spectral_power__Log10_absolute_power_uv2",
-              "label": "Log10 Absolute Power",
-              "definition": "The base-10 logarithm of the absolute power in microvolts squared for distinct frequency bands.",
+              "label": "Log10 absolute power uv2",
+              "definition": "",
               "children": [
                 {
                   "id": "Resting_EEG__Spectral_power__Log10_absolute_power_uv2__Alpha_8_13_hz",
@@ -439,8 +439,8 @@
             },
             {
               "id": "Resting_EEG__Spectral_power__Log10_power_asymmetry_right_minus_left",
-              "label": "Log10 Power Asymmetry",
-              "definition": "The difference in log-transformed power between corresponding right and left hemispheric electrode sites.",
+              "label": "Log10 power asymmetry right minus left",
+              "definition": "",
               "children": [
                 {
                   "id": "Resting_EEG__Spectral_power__Log10_power_asymmetry_right_minus_left__Alpha_8_13_hz",
@@ -656,8 +656,8 @@
             },
             {
               "id": "Resting_EEG__Spectral_power__Natural_log_power_ratio",
-              "label": "Natural Log Power Ratio",
-              "definition": "The natural logarithm of the ratio of power between two specific frequency bands.",
+              "label": "Natural log power ratio",
+              "definition": "",
               "children": [
                 {
                   "id": "Resting_EEG__Spectral_power__Natural_log_power_ratio__Alpha_over_delta",
@@ -915,8 +915,8 @@
             },
             {
               "id": "Resting_EEG__Spectral_power__Relative_power_fraction_of_1_45_hz",
-              "label": "Relative Power Fraction",
-              "definition": "The proportion of total power within a specific band relative to the total power across the 1-45 Hz range.",
+              "label": "Relative power fraction of 1 45 hz",
+              "definition": "",
               "children": [
                 {
                   "id": "Resting_EEG__Spectral_power__Relative_power_fraction_of_1_45_hz__Alpha_8_13_hz",
@@ -1344,8 +1344,8 @@
         },
         {
           "id": "Resting_EEG__Alpha_peak",
-          "label": "Alpha Peak Characteristics",
-          "definition": "Parameters describing the morphology and frequency of the dominant alpha rhythm.",
+          "label": "Alpha peak",
+          "definition": "",
           "children": [
             {
               "id": "Resting_EEG__Alpha_peak__Bandwidth_hz",
@@ -1603,8 +1603,8 @@
         },
         {
           "id": "Resting_EEG__Aperiodic_1_f",
-          "label": "Aperiodic 1/f Activity",
-          "definition": "Features characterizing the non-oscillatory background component of the EEG power spectrum.",
+          "label": "Aperiodic 1/f",
+          "definition": "",
           "children": [
             {
               "id": "Resting_EEG__Aperiodic_1_f__Exponent",
@@ -1778,8 +1778,8 @@
         },
         {
           "id": "Resting_EEG__Entropy_and_complexity",
-          "label": "Entropy and Complexity",
-          "definition": "Metrics quantifying the irregularity, unpredictability, or structural complexity of the EEG signal.",
+          "label": "Entropy and complexity",
+          "definition": "",
           "children": [
             {
               "id": "Resting_EEG__Entropy_and_complexity__Lempel_ziv_complexity_normalized",
@@ -2121,8 +2121,8 @@
         },
         {
           "id": "Resting_EEG__Fractal",
-          "label": "Fractal Dimension",
-          "definition": "Measures of the self-similarity and scaling properties of the EEG signal over time.",
+          "label": "Fractal",
+          "definition": "",
           "children": [
             {
               "id": "Resting_EEG__Fractal__Detrended_fluctuation_exponent",
@@ -2296,8 +2296,8 @@
         },
         {
           "id": "Resting_EEG__Microstates",
-          "label": "EEG Microstates",
-          "definition": "Temporal segments of quasi-stable scalp potential topographies representing transient functional brain states.",
+          "label": "Microstates",
+          "definition": "",
           "children": [
             {
               "id": "Resting_EEG__Microstates__Class_a",
@@ -2569,8 +2569,8 @@
         },
         {
           "id": "Resting_EEG__Functional_connectivity",
-          "label": "Functional Connectivity",
-          "definition": "Statistical dependencies between spatially separated brain regions based on EEG signal synchronization.",
+          "label": "Functional connectivity",
+          "definition": "",
           "children": [
             {
               "id": "Resting_EEG__Functional_connectivity__Wpli2_debiased",
@@ -4193,13 +4193,13 @@
         },
         {
           "id": "Resting_EEG__Graph_theory",
-          "label": "Graph Theory Metrics",
-          "definition": "Network-based measures describing the topological organization of functional brain connectivity.",
+          "label": "Graph theory",
+          "definition": "",
           "children": [
             {
               "id": "Resting_EEG__Graph_theory__Global",
-              "label": "Global Network Metrics",
-              "definition": "Whole-brain topological properties describing the integration and segregation of the functional network.",
+              "label": "Global",
+              "definition": "",
               "children": [
                 {
                   "id": "Resting_EEG__Graph_theory__Global__Assortativity_auc_density_20_50_percent",
@@ -4541,8 +4541,8 @@
             },
             {
               "id": "Resting_EEG__Graph_theory__Node",
-              "label": "Nodal Network Metrics",
-              "definition": "Local topological properties describing the importance or efficiency of individual nodes within the functional network.",
+              "label": "Node",
+              "definition": "",
               "children": [
                 {
                   "id": "Resting_EEG__Graph_theory__Node__Betweenness_centrality_auc_density_20_50_percent",
@@ -6511,14 +6511,14 @@
       ]
     },
     {
-      "id": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "id": "DEMOGRAPHICS_AND_SES",
       "label": "Demographics and Socio-economic Status",
-      "definition": "Basic participant identifiers, biological characteristics, and indices of parental or personal socio-economic standing.",
+      "definition": "",
       "children": [
         {
           "id": "participant_demographics",
-          "label": "Participant Demographics",
-          "definition": "Basic biological and identity characteristics of the study participant.",
+          "label": "Participant demographics",
+          "definition": "",
           "children": [
             {
               "id": "covariate__demographics__age_years",
@@ -6552,8 +6552,8 @@
         },
         {
           "id": "socioeconomic_status",
-          "label": "Socio-economic Status",
-          "definition": "Indices of personal and parental socio-economic standing based on education and occupation.",
+          "label": "Socio-economic status (Hollingshead)",
+          "definition": "",
           "children": [
             {
               "id": "covariate__socioeconomic__father_hollingshead_index",
@@ -6590,12 +6590,12 @@
     {
       "id": "OBSERVED_FUNCTIONING",
       "label": "Observed Functioning",
-      "definition": "Clinical and self-reported assessments of role and social functioning, including GAF ratings and Social Functioning Scale (SFS) items.",
+      "definition": "",
       "children": [
         {
           "id": "gaf_ratings",
-          "label": "Global Assessment of Functioning Ratings",
-          "definition": "Clinical ratings of role and social functioning across current and lifetime timeframes.",
+          "label": "Global Assessment of Functioning",
+          "definition": "",
           "children": [
             {
               "id": "target__functioning__gaf_role_current_0_to_10_higher_better",
@@ -6642,527 +6642,569 @@
           ]
         },
         {
-          "id": "sfs_social_functioning",
-          "label": "Social Functioning Scale Assessments",
-          "definition": "Self-reported items measuring daily living skills, social engagement, and interpersonal interactions.",
+          "id": "social_functioning_scale",
+          "label": "Social Functioning Scale (SFS)",
+          "definition": "",
           "children": [
             {
-              "id": "target__social_functioning_scale__sfs_q10_rational_how_often_are_you_able_to_carry_out_a_sensible_or_rational_conversat",
-              "label": "Sfs Q10 Rational How Often Are You Able To Carry Out A Sensible Or Rational Conversat",
-              "definition": "How often are you able to carry out a sensible or rational conversation?",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q11_talk_how_easy_or_difficult_do_you_find_it_talking_to_people_at_the_moment",
-              "label": "Sfs Q11 Talk How Easy Or Difficult Do You Find It Talking To People At The Moment",
-              "definition": "How easy or difficult do you find it talking to people at the moment?",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_01_buying_items_from_the_store_without_help",
-              "label": "Sfs Q12 01 Buying Items From The Store Without Help",
-              "definition": "How often have you done the following over the past 3 months: (1) Buying items from the store (without help)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_02_washing_pots_tidying_up_etc",
-              "label": "Sfs Q12 02 Washing Pots Tidying Up Etc",
-              "definition": "How often have you done the following over the past 3 months: (2) Washing pots, tidying up etc.",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_03_regular_washing_bathing_etc",
-              "label": "Sfs Q12 03 Regular Washing Bathing Etc",
-              "definition": "How often have you done the following over the past 3 months: (3) Regular washing, bathing etc.",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_04_washing_own_clothes",
-              "label": "Sfs Q12 04 Washing Own Clothes",
-              "definition": "How often have you done the following over the past 3 months: (4) Washing own clothes",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_05_looking_for_a_job_working",
-              "label": "Sfs Q12 05 Looking For A Job Working",
-              "definition": "How often have you done the following over the past 3 months: (5) Looking for a job/working",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_06_doing_the_food_shopping",
-              "label": "Sfs Q12 06 Doing The Food Shopping",
-              "definition": "How often have you done the following over the past 3 months: (6) Doing the food shopping",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_07_prepare_and_cook_a_meal",
-              "label": "Sfs Q12 07 Prepare And Cook A Meal",
-              "definition": "How often have you done the following over the past 3 months: (7) Prepare and cook a meal",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_08_leaving_the_house_alone",
-              "label": "Sfs Q12 08 Leaving The House Alone",
-              "definition": "How often have you done the following over the past 3 months: (8) Leaving the house alone",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_09_using_buses_trains_etc",
-              "label": "Sfs Q12 09 Using Buses Trains Etc",
-              "definition": "How often have you done the following over the past 3 months: (9) Using buses, trains etc.",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_10_using_money",
-              "label": "Sfs Q12 10 Using Money",
-              "definition": "How often have you done the following over the past 3 months: (10) Using money",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_11_budgeting",
-              "label": "Sfs Q12 11 Budgeting",
-              "definition": "How often have you done the following over the past 3 months: (11) Budgeting",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_12_choosing_and_buying_clothes_for_self",
-              "label": "Sfs Q12 12 Choosing And Buying Clothes For Self",
-              "definition": "How often have you done the following over the past 3 months: (12) Choosing and buying clothes for self",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_13_taking_care_of_personal_appearance",
-              "label": "Sfs Q12 13 Taking Care Of Personal Appearance",
-              "definition": "How often have you done the following over the past 3 months: (13) Taking care of personal appearance",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_14_playing_musical_instruments",
-              "label": "Sfs Q12 14 Playing Musical Instruments",
-              "definition": "How often have you done the following over the past 3 months: (14) Playing musical instruments",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_15_sewing_knitting",
-              "label": "Sfs Q12 15 Sewing Knitting",
-              "definition": "How often have you done the following over the past 3 months: (15) Sewing, knitting",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_16_gardening",
-              "label": "Sfs Q12 16 Gardening",
-              "definition": "How often have you done the following over the past 3 months: (16) Gardening",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_17_reading_things",
-              "label": "Sfs Q12 17 Reading Things",
-              "definition": "How often have you done the following over the past 3 months: (17) Reading things",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_18_watching_television",
-              "label": "Sfs Q12 18 Watching Television",
-              "definition": "How often have you done the following over the past 3 months: (18) Watching television",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_19_listening_to_music_radio_cds",
-              "label": "Sfs Q12 19 Listening To Music Radio Cds",
-              "definition": "How often have you done the following over the past 3 months: (19) Listening to music (radio, CDs)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_20_cooking",
-              "label": "Sfs Q12 20 Cooking",
-              "definition": "How often have you done the following over the past 3 months: (20) Cooking",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_21_d_i_y_activities_e_g_putting_up_shelves",
-              "label": "Sfs Q12 21 D I Y Activities E G Putting Up Shelves",
-              "definition": "How often have you done the following over the past 3 months: (21) D.I.Y. activities (e.g. putting up shelves)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_22_fixing_things_car_bike_household_etc",
-              "label": "Sfs Q12 22 Fixing Things Car Bike Household Etc",
-              "definition": "How often have you done the following over the past 3 months: (22) Fixing things (car, bike, household, etc.)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_23_walking",
-              "label": "Sfs Q12 23 Walking",
-              "definition": "How often have you done the following over the past 3 months: (23) Walking",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_24_driving_riding_a_bike_as_a_recreation",
-              "label": "Sfs Q12 24 Driving Riding A Bike As A Recreation",
-              "definition": "How often have you done the following over the past 3 months: (24) Driving/riding a bike (as a recreation)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_25_swimming",
-              "label": "Sfs Q12 25 Swimming",
-              "definition": "How often have you done the following over the past 3 months: (25) Swimming",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_26_hobby_e_g_collecting_things",
-              "label": "Sfs Q12 26 Hobby E G Collecting Things",
-              "definition": "How often have you done the following over the past 3 months: (26) Hobby (e.g. collecting things)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_27_shopping",
-              "label": "Sfs Q12 27 Shopping",
-              "definition": "How often have you done the following over the past 3 months: (27) Shopping",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_28_artistic_activity_painting_crafts_etc",
-              "label": "Sfs Q12 28 Artistic Activity Painting Crafts Etc",
-              "definition": "How often have you done the following over the past 3 months: (28) Artistic activity (painting, crafts, etc.)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_29_going_to_the_movies",
-              "label": "Sfs Q12 29 Going To The Movies",
-              "definition": "How often have you done the following over the past 3 months: (29) Going to the movies",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_30_theater_concert",
-              "label": "Sfs Q12 30 Theater Concert",
-              "definition": "How often have you done the following over the past 3 months: (30) Theater/Concert",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_31_watching_an_indoor_sport_ice_hockey_basketball",
-              "label": "Sfs Q12 31 Watching An Indoor Sport Ice Hockey Basketball",
-              "definition": "How often have you done the following over the past 3 months: (31) Watching an indoor sport (ice hockey, basketball)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_32_watching_an_outdoor_sport_football_baseball",
-              "label": "Sfs Q12 32 Watching An Outdoor Sport Football Baseball",
-              "definition": "How often have you done the following over the past 3 months: (32) Watching an outdoor sport (football, baseball)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_33_art_gallery_museum",
-              "label": "Sfs Q12 33 Art Gallery Museum",
-              "definition": "How often have you done the following over the past 3 months: (33) Art gallery/museum",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_34_exhibition",
-              "label": "Sfs Q12 34 Exhibition",
-              "definition": "How often have you done the following over the past 3 months: (34) Exhibition",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_35_visiting_other_places_of_interest",
-              "label": "Sfs Q12 35 Visiting Other Places Of Interest",
-              "definition": "How often have you done the following over the past 3 months: (35) Visiting other places of interest",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_36_meetings_talks_etc",
-              "label": "Sfs Q12 36 Meetings Talks Etc",
-              "definition": "How often have you done the following over the past 3 months: (36) Meetings, talks, etc.",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_37_evening_informal_class",
-              "label": "Sfs Q12 37 Evening Informal Class",
-              "definition": "How often have you done the following over the past 3 months: (37) Evening (informal) class",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_38_visiting_relatives_in_their_homes",
-              "label": "Sfs Q12 38 Visiting Relatives In Their Homes",
-              "definition": "How often have you done the following over the past 3 months: (38) Visiting relatives in their homes",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_39_being_visited_by_relatives",
-              "label": "Sfs Q12 39 Being Visited By Relatives",
-              "definition": "How often have you done the following over the past 3 months: (39) Being visited by relatives",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_40_visiting_friends_including_boy_girlfriends",
-              "label": "Sfs Q12 40 Visiting Friends Including Boy Girlfriends",
-              "definition": "How often have you done the following over the past 3 months: (40) Visiting friends (including boy/girlfriends)",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_41_parties",
-              "label": "Sfs Q12 41 Parties",
-              "definition": "How often have you done the following over the past 3 months: (41) Parties",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_42_formal_occasions",
-              "label": "Sfs Q12 42 Formal Occasions",
-              "definition": "How often have you done the following over the past 3 months: (42) Formal occasions",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_43_disco_dance_club_etc",
-              "label": "Sfs Q12 43 Disco Dance Club Etc",
-              "definition": "How often have you done the following over the past 3 months: (43) Disco/Dance club, etc.",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_44_nightclub_social_club",
-              "label": "Sfs Q12 44 Nightclub Social Club",
-              "definition": "How often have you done the following over the past 3 months: (44) Nightclub/Social club",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_45_playing_an_indoor_sport",
-              "label": "Sfs Q12 45 Playing An Indoor Sport",
-              "definition": "How often have you done the following over the past 3 months: (45) Playing an indoor sport",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_46_playing_an_outdoor_sport",
-              "label": "Sfs Q12 46 Playing An Outdoor Sport",
-              "definition": "How often have you done the following over the past 3 months: (46) Playing an outdoor sport",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_47_club_society_meeting",
-              "label": "Sfs Q12 47 Club Society Meeting",
-              "definition": "How often have you done the following over the past 3 months: (47) Club/Society meeting",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_48_bar",
-              "label": "Sfs Q12 48 Bar",
-              "definition": "How often have you done the following over the past 3 months: (48) Bar",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_49_eating_out",
-              "label": "Sfs Q12 49 Eating Out",
-              "definition": "How often have you done the following over the past 3 months: (49) Eating out",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q12_50_church_activity",
-              "label": "Sfs Q12 50 Church Activity",
-              "definition": "How often have you done the following over the past 3 months: (50) Church activity",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_01_public_transport",
-              "label": "Sfs Q13 01 Public Transport",
-              "definition": "How able you are at doing or using the following: (1) Public transport",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_02_handling_money",
-              "label": "Sfs Q13 02 Handling Money",
-              "definition": "How able you are at doing or using the following: (2) Handling money",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_03_budgeting",
-              "label": "Sfs Q13 03 Budgeting",
-              "definition": "How able you are at doing or using the following: (3) Budgeting",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_04_cooking",
-              "label": "Sfs Q13 04 Cooking",
-              "definition": "How able you are at doing or using the following: (4) Cooking",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_05_weekly_shopping",
-              "label": "Sfs Q13 05 Weekly Shopping",
-              "definition": "How able you are at doing or using the following: (5) Weekly shopping",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_06_looking_for_a_job_working",
-              "label": "Sfs Q13 06 Looking For A Job Working",
-              "definition": "How able you are at doing or using the following: (6) Looking for a job/working",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_07_washing_own_clothes",
-              "label": "Sfs Q13 07 Washing Own Clothes",
-              "definition": "How able you are at doing or using the following: (7) Washing own clothes",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_08_personal_hygiene",
-              "label": "Sfs Q13 08 Personal Hygiene",
-              "definition": "How able you are at doing or using the following: (8) Personal hygiene",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_09_washing_tidying_etc",
-              "label": "Sfs Q13 09 Washing Tidying Etc",
-              "definition": "How able you are at doing or using the following: (9) Washing, tidying, etc.",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_10_purchasing_from_stores",
-              "label": "Sfs Q13 10 Purchasing From Stores",
-              "definition": "How able you are at doing or using the following: (10) Purchasing from stores",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_11_leaving_the_house_alone",
-              "label": "Sfs Q13 11 Leaving The House Alone",
-              "definition": "How able you are at doing or using the following: (11) Leaving the house alone",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_12_choosing_and_buying_clothes",
-              "label": "Sfs Q13 12 Choosing And Buying Clothes",
-              "definition": "How able you are at doing or using the following: (12) Choosing and buying clothes",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q13_13_caring_for_personal_appearance",
-              "label": "Sfs Q13 13 Caring For Personal Appearance",
-              "definition": "How able you are at doing or using the following: (13) Caring for personal appearance",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q14_level_of_employment",
-              "label": "Sfs Q14 Level Of Employment",
-              "definition": "Level of employment",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q3a_code_what_time_do_you_get_up_each_day_average_weekday",
-              "label": "Sfs Q3A Code What Time Do You Get Up Each Day Average Weekday",
-              "definition": "What time do you get up each day? Average weekday",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q3b_code_what_time_do_you_get_up_each_day_average_weekend",
-              "label": "Sfs Q3B Code What Time Do You Get Up Each Day Average Weekend",
-              "definition": "What time do you get up each day? Average weekend",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q4_alone_on_average_how_many_waking_hours_do_you_spend_alone_in_one_day",
-              "label": "Sfs Q4 Alone On Average How Many Waking Hours Do You Spend Alone In One Day",
-              "definition": "On average, how many waking hours do you spend alone in one day?",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q5_start_how_often_will_you_start_a_conversation_at_home",
-              "label": "Sfs Q5 Start How Often Will You Start A Conversation At Home",
-              "definition": "How often will you start a conversation at home?",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q6_leave_how_often_do_you_leave_the_house_for_any_reason",
-              "label": "Sfs Q6 Leave How Often Do You Leave The House For Any Reason",
-              "definition": "How often do you leave the house (for any reason)?",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q7_react_how_do_you_react_to_the_presence_of_strangers_people_you_dont_know",
-              "label": "Sfs Q7 React How Do You React To The Presence Of Strangers People You Dont Know",
-              "definition": "How do you react to the presence of strangers/people you don\u2019t know?",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q8_friends_how_many_friends_do_you_have_at_the_moment",
-              "label": "Sfs Q8 Friends How Many Friends Do You Have At The Moment",
-              "definition": "How many friends do you have at the moment?",
-              "stat_type": "numeric",
-              "units": null
-            },
-            {
-              "id": "target__social_functioning_scale__sfs_q9_partner_do_you_have_a_partner",
-              "label": "Sfs Q9 Partner Do You Have A Partner",
-              "definition": "Do you have a partner?",
-              "stat_type": "numeric",
-              "units": null
+              "id": "sfs_interpersonal",
+              "label": "Interpersonal and communication",
+              "definition": "SFS items on friendships, partnership and the ease of conversation.",
+              "children": [
+                {
+                  "id": "target__social_functioning_scale__sfs_q10_rational_how_often_are_you_able_to_carry_out_a_sensible_or_rational_conversat",
+                  "label": "Sfs Q10 Rational How Often Are You Able To Carry Out A Sensible Or Rational Conversat",
+                  "definition": "How often are you able to carry out a sensible or rational conversation?",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q11_talk_how_easy_or_difficult_do_you_find_it_talking_to_people_at_the_moment",
+                  "label": "Sfs Q11 Talk How Easy Or Difficult Do You Find It Talking To People At The Moment",
+                  "definition": "How easy or difficult do you find it talking to people at the moment?",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q8_friends_how_many_friends_do_you_have_at_the_moment",
+                  "label": "Sfs Q8 Friends How Many Friends Do You Have At The Moment",
+                  "definition": "How many friends do you have at the moment?",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q9_partner_do_you_have_a_partner",
+                  "label": "Sfs Q9 Partner Do You Have A Partner",
+                  "definition": "Do you have a partner?",
+                  "stat_type": "numeric",
+                  "units": null
+                }
+              ]
+            },
+            {
+              "id": "sfs_activities_recreation",
+              "label": "Activities and recreation",
+              "definition": "SFS block 12: independent activities, hobbies, and recreational or social outings.",
+              "children": [
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_01_buying_items_from_the_store_without_help",
+                  "label": "Sfs Q12 01 Buying Items From The Store Without Help",
+                  "definition": "How often have you done the following over the past 3 months: (1) Buying items from the store (without help)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_02_washing_pots_tidying_up_etc",
+                  "label": "Sfs Q12 02 Washing Pots Tidying Up Etc",
+                  "definition": "How often have you done the following over the past 3 months: (2) Washing pots, tidying up etc.",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_03_regular_washing_bathing_etc",
+                  "label": "Sfs Q12 03 Regular Washing Bathing Etc",
+                  "definition": "How often have you done the following over the past 3 months: (3) Regular washing, bathing etc.",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_04_washing_own_clothes",
+                  "label": "Sfs Q12 04 Washing Own Clothes",
+                  "definition": "How often have you done the following over the past 3 months: (4) Washing own clothes",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_05_looking_for_a_job_working",
+                  "label": "Sfs Q12 05 Looking For A Job Working",
+                  "definition": "How often have you done the following over the past 3 months: (5) Looking for a job/working",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_06_doing_the_food_shopping",
+                  "label": "Sfs Q12 06 Doing The Food Shopping",
+                  "definition": "How often have you done the following over the past 3 months: (6) Doing the food shopping",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_07_prepare_and_cook_a_meal",
+                  "label": "Sfs Q12 07 Prepare And Cook A Meal",
+                  "definition": "How often have you done the following over the past 3 months: (7) Prepare and cook a meal",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_08_leaving_the_house_alone",
+                  "label": "Sfs Q12 08 Leaving The House Alone",
+                  "definition": "How often have you done the following over the past 3 months: (8) Leaving the house alone",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_09_using_buses_trains_etc",
+                  "label": "Sfs Q12 09 Using Buses Trains Etc",
+                  "definition": "How often have you done the following over the past 3 months: (9) Using buses, trains etc.",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_10_using_money",
+                  "label": "Sfs Q12 10 Using Money",
+                  "definition": "How often have you done the following over the past 3 months: (10) Using money",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_11_budgeting",
+                  "label": "Sfs Q12 11 Budgeting",
+                  "definition": "How often have you done the following over the past 3 months: (11) Budgeting",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_12_choosing_and_buying_clothes_for_self",
+                  "label": "Sfs Q12 12 Choosing And Buying Clothes For Self",
+                  "definition": "How often have you done the following over the past 3 months: (12) Choosing and buying clothes for self",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_13_taking_care_of_personal_appearance",
+                  "label": "Sfs Q12 13 Taking Care Of Personal Appearance",
+                  "definition": "How often have you done the following over the past 3 months: (13) Taking care of personal appearance",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_14_playing_musical_instruments",
+                  "label": "Sfs Q12 14 Playing Musical Instruments",
+                  "definition": "How often have you done the following over the past 3 months: (14) Playing musical instruments",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_15_sewing_knitting",
+                  "label": "Sfs Q12 15 Sewing Knitting",
+                  "definition": "How often have you done the following over the past 3 months: (15) Sewing, knitting",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_16_gardening",
+                  "label": "Sfs Q12 16 Gardening",
+                  "definition": "How often have you done the following over the past 3 months: (16) Gardening",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_17_reading_things",
+                  "label": "Sfs Q12 17 Reading Things",
+                  "definition": "How often have you done the following over the past 3 months: (17) Reading things",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_18_watching_television",
+                  "label": "Sfs Q12 18 Watching Television",
+                  "definition": "How often have you done the following over the past 3 months: (18) Watching television",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_19_listening_to_music_radio_cds",
+                  "label": "Sfs Q12 19 Listening To Music Radio Cds",
+                  "definition": "How often have you done the following over the past 3 months: (19) Listening to music (radio, CDs)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_20_cooking",
+                  "label": "Sfs Q12 20 Cooking",
+                  "definition": "How often have you done the following over the past 3 months: (20) Cooking",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_21_d_i_y_activities_e_g_putting_up_shelves",
+                  "label": "Sfs Q12 21 D I Y Activities E G Putting Up Shelves",
+                  "definition": "How often have you done the following over the past 3 months: (21) D.I.Y. activities (e.g. putting up shelves)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_22_fixing_things_car_bike_household_etc",
+                  "label": "Sfs Q12 22 Fixing Things Car Bike Household Etc",
+                  "definition": "How often have you done the following over the past 3 months: (22) Fixing things (car, bike, household, etc.)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_23_walking",
+                  "label": "Sfs Q12 23 Walking",
+                  "definition": "How often have you done the following over the past 3 months: (23) Walking",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_24_driving_riding_a_bike_as_a_recreation",
+                  "label": "Sfs Q12 24 Driving Riding A Bike As A Recreation",
+                  "definition": "How often have you done the following over the past 3 months: (24) Driving/riding a bike (as a recreation)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_25_swimming",
+                  "label": "Sfs Q12 25 Swimming",
+                  "definition": "How often have you done the following over the past 3 months: (25) Swimming",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_26_hobby_e_g_collecting_things",
+                  "label": "Sfs Q12 26 Hobby E G Collecting Things",
+                  "definition": "How often have you done the following over the past 3 months: (26) Hobby (e.g. collecting things)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_27_shopping",
+                  "label": "Sfs Q12 27 Shopping",
+                  "definition": "How often have you done the following over the past 3 months: (27) Shopping",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_28_artistic_activity_painting_crafts_etc",
+                  "label": "Sfs Q12 28 Artistic Activity Painting Crafts Etc",
+                  "definition": "How often have you done the following over the past 3 months: (28) Artistic activity (painting, crafts, etc.)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_29_going_to_the_movies",
+                  "label": "Sfs Q12 29 Going To The Movies",
+                  "definition": "How often have you done the following over the past 3 months: (29) Going to the movies",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_30_theater_concert",
+                  "label": "Sfs Q12 30 Theater Concert",
+                  "definition": "How often have you done the following over the past 3 months: (30) Theater/Concert",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_31_watching_an_indoor_sport_ice_hockey_basketball",
+                  "label": "Sfs Q12 31 Watching An Indoor Sport Ice Hockey Basketball",
+                  "definition": "How often have you done the following over the past 3 months: (31) Watching an indoor sport (ice hockey, basketball)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_32_watching_an_outdoor_sport_football_baseball",
+                  "label": "Sfs Q12 32 Watching An Outdoor Sport Football Baseball",
+                  "definition": "How often have you done the following over the past 3 months: (32) Watching an outdoor sport (football, baseball)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_33_art_gallery_museum",
+                  "label": "Sfs Q12 33 Art Gallery Museum",
+                  "definition": "How often have you done the following over the past 3 months: (33) Art gallery/museum",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_34_exhibition",
+                  "label": "Sfs Q12 34 Exhibition",
+                  "definition": "How often have you done the following over the past 3 months: (34) Exhibition",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_35_visiting_other_places_of_interest",
+                  "label": "Sfs Q12 35 Visiting Other Places Of Interest",
+                  "definition": "How often have you done the following over the past 3 months: (35) Visiting other places of interest",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_36_meetings_talks_etc",
+                  "label": "Sfs Q12 36 Meetings Talks Etc",
+                  "definition": "How often have you done the following over the past 3 months: (36) Meetings, talks, etc.",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_37_evening_informal_class",
+                  "label": "Sfs Q12 37 Evening Informal Class",
+                  "definition": "How often have you done the following over the past 3 months: (37) Evening (informal) class",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_38_visiting_relatives_in_their_homes",
+                  "label": "Sfs Q12 38 Visiting Relatives In Their Homes",
+                  "definition": "How often have you done the following over the past 3 months: (38) Visiting relatives in their homes",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_39_being_visited_by_relatives",
+                  "label": "Sfs Q12 39 Being Visited By Relatives",
+                  "definition": "How often have you done the following over the past 3 months: (39) Being visited by relatives",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_40_visiting_friends_including_boy_girlfriends",
+                  "label": "Sfs Q12 40 Visiting Friends Including Boy Girlfriends",
+                  "definition": "How often have you done the following over the past 3 months: (40) Visiting friends (including boy/girlfriends)",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_41_parties",
+                  "label": "Sfs Q12 41 Parties",
+                  "definition": "How often have you done the following over the past 3 months: (41) Parties",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_42_formal_occasions",
+                  "label": "Sfs Q12 42 Formal Occasions",
+                  "definition": "How often have you done the following over the past 3 months: (42) Formal occasions",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_43_disco_dance_club_etc",
+                  "label": "Sfs Q12 43 Disco Dance Club Etc",
+                  "definition": "How often have you done the following over the past 3 months: (43) Disco/Dance club, etc.",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_44_nightclub_social_club",
+                  "label": "Sfs Q12 44 Nightclub Social Club",
+                  "definition": "How often have you done the following over the past 3 months: (44) Nightclub/Social club",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_45_playing_an_indoor_sport",
+                  "label": "Sfs Q12 45 Playing An Indoor Sport",
+                  "definition": "How often have you done the following over the past 3 months: (45) Playing an indoor sport",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_46_playing_an_outdoor_sport",
+                  "label": "Sfs Q12 46 Playing An Outdoor Sport",
+                  "definition": "How often have you done the following over the past 3 months: (46) Playing an outdoor sport",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_47_club_society_meeting",
+                  "label": "Sfs Q12 47 Club Society Meeting",
+                  "definition": "How often have you done the following over the past 3 months: (47) Club/Society meeting",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_48_bar",
+                  "label": "Sfs Q12 48 Bar",
+                  "definition": "How often have you done the following over the past 3 months: (48) Bar",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_49_eating_out",
+                  "label": "Sfs Q12 49 Eating Out",
+                  "definition": "How often have you done the following over the past 3 months: (49) Eating out",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q12_50_church_activity",
+                  "label": "Sfs Q12 50 Church Activity",
+                  "definition": "How often have you done the following over the past 3 months: (50) Church activity",
+                  "stat_type": "numeric",
+                  "units": null
+                }
+              ]
+            },
+            {
+              "id": "sfs_independence_competence",
+              "label": "Independence and competence",
+              "definition": "SFS block 13: rated competence at independent-living skills.",
+              "children": [
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_01_public_transport",
+                  "label": "Sfs Q13 01 Public Transport",
+                  "definition": "How able you are at doing or using the following: (1) Public transport",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_02_handling_money",
+                  "label": "Sfs Q13 02 Handling Money",
+                  "definition": "How able you are at doing or using the following: (2) Handling money",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_03_budgeting",
+                  "label": "Sfs Q13 03 Budgeting",
+                  "definition": "How able you are at doing or using the following: (3) Budgeting",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_04_cooking",
+                  "label": "Sfs Q13 04 Cooking",
+                  "definition": "How able you are at doing or using the following: (4) Cooking",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_05_weekly_shopping",
+                  "label": "Sfs Q13 05 Weekly Shopping",
+                  "definition": "How able you are at doing or using the following: (5) Weekly shopping",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_06_looking_for_a_job_working",
+                  "label": "Sfs Q13 06 Looking For A Job Working",
+                  "definition": "How able you are at doing or using the following: (6) Looking for a job/working",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_07_washing_own_clothes",
+                  "label": "Sfs Q13 07 Washing Own Clothes",
+                  "definition": "How able you are at doing or using the following: (7) Washing own clothes",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_08_personal_hygiene",
+                  "label": "Sfs Q13 08 Personal Hygiene",
+                  "definition": "How able you are at doing or using the following: (8) Personal hygiene",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_09_washing_tidying_etc",
+                  "label": "Sfs Q13 09 Washing Tidying Etc",
+                  "definition": "How able you are at doing or using the following: (9) Washing, tidying, etc.",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_10_purchasing_from_stores",
+                  "label": "Sfs Q13 10 Purchasing From Stores",
+                  "definition": "How able you are at doing or using the following: (10) Purchasing from stores",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_11_leaving_the_house_alone",
+                  "label": "Sfs Q13 11 Leaving The House Alone",
+                  "definition": "How able you are at doing or using the following: (11) Leaving the house alone",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_12_choosing_and_buying_clothes",
+                  "label": "Sfs Q13 12 Choosing And Buying Clothes",
+                  "definition": "How able you are at doing or using the following: (12) Choosing and buying clothes",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q13_13_caring_for_personal_appearance",
+                  "label": "Sfs Q13 13 Caring For Personal Appearance",
+                  "definition": "How able you are at doing or using the following: (13) Caring for personal appearance",
+                  "stat_type": "numeric",
+                  "units": null
+                }
+              ]
+            },
+            {
+              "id": "sfs_employment",
+              "label": "Employment",
+              "definition": "SFS employment / occupation item.",
+              "children": [
+                {
+                  "id": "target__social_functioning_scale__sfs_q14_level_of_employment",
+                  "label": "Sfs Q14 Level Of Employment",
+                  "definition": "Level of employment",
+                  "stat_type": "numeric",
+                  "units": null
+                }
+              ]
+            },
+            {
+              "id": "sfs_other",
+              "label": "Other SFS items",
+              "definition": "",
+              "children": [
+                {
+                  "id": "target__social_functioning_scale__sfs_q3a_code_what_time_do_you_get_up_each_day_average_weekday",
+                  "label": "Sfs Q3A Code What Time Do You Get Up Each Day Average Weekday",
+                  "definition": "What time do you get up each day? Average weekday",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q3b_code_what_time_do_you_get_up_each_day_average_weekend",
+                  "label": "Sfs Q3B Code What Time Do You Get Up Each Day Average Weekend",
+                  "definition": "What time do you get up each day? Average weekend",
+                  "stat_type": "numeric",
+                  "units": null
+                }
+              ]
+            },
+            {
+              "id": "sfs_withdrawal_engagement",
+              "label": "Withdrawal and engagement",
+              "definition": "SFS items on daily routine, time spent alone, initiating contact and leaving home.",
+              "children": [
+                {
+                  "id": "target__social_functioning_scale__sfs_q4_alone_on_average_how_many_waking_hours_do_you_spend_alone_in_one_day",
+                  "label": "Sfs Q4 Alone On Average How Many Waking Hours Do You Spend Alone In One Day",
+                  "definition": "On average, how many waking hours do you spend alone in one day?",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q5_start_how_often_will_you_start_a_conversation_at_home",
+                  "label": "Sfs Q5 Start How Often Will You Start A Conversation At Home",
+                  "definition": "How often will you start a conversation at home?",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q6_leave_how_often_do_you_leave_the_house_for_any_reason",
+                  "label": "Sfs Q6 Leave How Often Do You Leave The House For Any Reason",
+                  "definition": "How often do you leave the house (for any reason)?",
+                  "stat_type": "numeric",
+                  "units": null
+                },
+                {
+                  "id": "target__social_functioning_scale__sfs_q7_react_how_do_you_react_to_the_presence_of_strangers_people_you_dont_know",
+                  "label": "Sfs Q7 React How Do You React To The Presence Of Strangers People You Dont Know",
+                  "definition": "How do you react to the presence of strangers/people you don\u2019t know?",
+                  "stat_type": "numeric",
+                  "units": null
+                }
+              ]
             }
           ]
         }
@@ -7171,12 +7213,12 @@
     {
       "id": "COGNITION_AND_INTELLIGENCE",
       "label": "Cognition and Intelligence",
-      "definition": "Standardized measures of cognitive performance, including MATRICS cognitive domains and WASI-based IQ estimates.",
+      "definition": "",
       "children": [
         {
           "id": "matrics_cognitive_domains",
-          "label": "MATRICS Cognitive Domains",
-          "definition": "Standardized T-scores representing performance across specific cognitive domains as measured by the MATRICS battery.",
+          "label": "MATRICS cognitive domains",
+          "definition": "",
           "children": [
             {
               "id": "target__matrics__att_vigtscr_attention_vigilance_age_and_gender_corrected_t_score",
@@ -7237,9 +7279,9 @@
           ]
         },
         {
-          "id": "wasi_intelligence_estimates",
-          "label": "WASI Intelligence Estimates",
-          "definition": "Estimates of general intelligence and subtest performance derived from the Wechsler Abbreviated Scale of Intelligence.",
+          "id": "wasi_intelligence",
+          "label": "WASI intelligence estimates",
+          "definition": "",
           "children": [
             {
               "id": "target__wasi__matrix_reasoning_t_score",
@@ -16562,73 +16604,73 @@
       "feature_label": "Graph theory: Node Strength normalized Theta (4-8 hz) Temporal right"
     },
     "covariate__demographics__age_years": {
-      "domain": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "domain": "DEMOGRAPHICS_AND_SES",
       "subdomain": "participant_demographics",
       "path": [
-        "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+        "DEMOGRAPHICS_AND_SES",
         "participant_demographics"
       ],
       "feature_label": "Age Years"
     },
     "covariate__demographics__ethnicity_source_reported": {
-      "domain": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "domain": "DEMOGRAPHICS_AND_SES",
       "subdomain": "participant_demographics",
       "path": [
-        "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+        "DEMOGRAPHICS_AND_SES",
         "participant_demographics"
       ],
       "feature_label": "Ethnicity Source Reported"
     },
     "covariate__demographics__race_source_reported": {
-      "domain": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "domain": "DEMOGRAPHICS_AND_SES",
       "subdomain": "participant_demographics",
       "path": [
-        "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+        "DEMOGRAPHICS_AND_SES",
         "participant_demographics"
       ],
       "feature_label": "Race Source Reported"
     },
     "covariate__demographics__sex_source_reported": {
-      "domain": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "domain": "DEMOGRAPHICS_AND_SES",
       "subdomain": "participant_demographics",
       "path": [
-        "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+        "DEMOGRAPHICS_AND_SES",
         "participant_demographics"
       ],
       "feature_label": "Sex Source Reported"
     },
     "covariate__socioeconomic__father_hollingshead_index": {
-      "domain": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "domain": "DEMOGRAPHICS_AND_SES",
       "subdomain": "socioeconomic_status",
       "path": [
-        "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+        "DEMOGRAPHICS_AND_SES",
         "socioeconomic_status"
       ],
       "feature_label": "Father Hollingshead Index"
     },
     "covariate__socioeconomic__mother_hollingshead_index": {
-      "domain": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "domain": "DEMOGRAPHICS_AND_SES",
       "subdomain": "socioeconomic_status",
       "path": [
-        "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+        "DEMOGRAPHICS_AND_SES",
         "socioeconomic_status"
       ],
       "feature_label": "Mother Hollingshead Index"
     },
     "covariate__socioeconomic__parental_mean_hollingshead_index": {
-      "domain": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "domain": "DEMOGRAPHICS_AND_SES",
       "subdomain": "socioeconomic_status",
       "path": [
-        "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+        "DEMOGRAPHICS_AND_SES",
         "socioeconomic_status"
       ],
       "feature_label": "Parental Mean Hollingshead Index"
     },
     "covariate__socioeconomic__participant_hollingshead_index": {
-      "domain": "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+      "domain": "DEMOGRAPHICS_AND_SES",
       "subdomain": "socioeconomic_status",
       "path": [
-        "DEMOGRAPHICS_AND_SOCIOECONOMIC",
+        "DEMOGRAPHICS_AND_SES",
         "socioeconomic_status"
       ],
       "feature_label": "Participant Hollingshead Index"
@@ -16689,669 +16731,743 @@
     },
     "target__social_functioning_scale__sfs_q10_rational_how_often_are_you_able_to_carry_out_a_sensible_or_rational_conversat": {
       "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
+      "subdomain": "social_functioning_scale",
       "path": [
         "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
+        "social_functioning_scale",
+        "sfs_interpersonal"
       ],
       "feature_label": "Sfs Q10 Rational How Often Are You Able To Carry Out A Sensible Or Rational Conversat"
     },
     "target__social_functioning_scale__sfs_q11_talk_how_easy_or_difficult_do_you_find_it_talking_to_people_at_the_moment": {
       "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
+      "subdomain": "social_functioning_scale",
       "path": [
         "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
+        "social_functioning_scale",
+        "sfs_interpersonal"
       ],
       "feature_label": "Sfs Q11 Talk How Easy Or Difficult Do You Find It Talking To People At The Moment"
     },
-    "target__social_functioning_scale__sfs_q12_01_buying_items_from_the_store_without_help": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 01 Buying Items From The Store Without Help"
-    },
-    "target__social_functioning_scale__sfs_q12_02_washing_pots_tidying_up_etc": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 02 Washing Pots Tidying Up Etc"
-    },
-    "target__social_functioning_scale__sfs_q12_03_regular_washing_bathing_etc": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 03 Regular Washing Bathing Etc"
-    },
-    "target__social_functioning_scale__sfs_q12_04_washing_own_clothes": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 04 Washing Own Clothes"
-    },
-    "target__social_functioning_scale__sfs_q12_05_looking_for_a_job_working": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 05 Looking For A Job Working"
-    },
-    "target__social_functioning_scale__sfs_q12_06_doing_the_food_shopping": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 06 Doing The Food Shopping"
-    },
-    "target__social_functioning_scale__sfs_q12_07_prepare_and_cook_a_meal": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 07 Prepare And Cook A Meal"
-    },
-    "target__social_functioning_scale__sfs_q12_08_leaving_the_house_alone": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 08 Leaving The House Alone"
-    },
-    "target__social_functioning_scale__sfs_q12_09_using_buses_trains_etc": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 09 Using Buses Trains Etc"
-    },
-    "target__social_functioning_scale__sfs_q12_10_using_money": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 10 Using Money"
-    },
-    "target__social_functioning_scale__sfs_q12_11_budgeting": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 11 Budgeting"
-    },
-    "target__social_functioning_scale__sfs_q12_12_choosing_and_buying_clothes_for_self": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 12 Choosing And Buying Clothes For Self"
-    },
-    "target__social_functioning_scale__sfs_q12_13_taking_care_of_personal_appearance": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 13 Taking Care Of Personal Appearance"
-    },
-    "target__social_functioning_scale__sfs_q12_14_playing_musical_instruments": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 14 Playing Musical Instruments"
-    },
-    "target__social_functioning_scale__sfs_q12_15_sewing_knitting": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 15 Sewing Knitting"
-    },
-    "target__social_functioning_scale__sfs_q12_16_gardening": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 16 Gardening"
-    },
-    "target__social_functioning_scale__sfs_q12_17_reading_things": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 17 Reading Things"
-    },
-    "target__social_functioning_scale__sfs_q12_18_watching_television": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 18 Watching Television"
-    },
-    "target__social_functioning_scale__sfs_q12_19_listening_to_music_radio_cds": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 19 Listening To Music Radio Cds"
-    },
-    "target__social_functioning_scale__sfs_q12_20_cooking": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 20 Cooking"
-    },
-    "target__social_functioning_scale__sfs_q12_21_d_i_y_activities_e_g_putting_up_shelves": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 21 D I Y Activities E G Putting Up Shelves"
-    },
-    "target__social_functioning_scale__sfs_q12_22_fixing_things_car_bike_household_etc": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 22 Fixing Things Car Bike Household Etc"
-    },
-    "target__social_functioning_scale__sfs_q12_23_walking": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 23 Walking"
-    },
-    "target__social_functioning_scale__sfs_q12_24_driving_riding_a_bike_as_a_recreation": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 24 Driving Riding A Bike As A Recreation"
-    },
-    "target__social_functioning_scale__sfs_q12_25_swimming": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 25 Swimming"
-    },
-    "target__social_functioning_scale__sfs_q12_26_hobby_e_g_collecting_things": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 26 Hobby E G Collecting Things"
-    },
-    "target__social_functioning_scale__sfs_q12_27_shopping": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 27 Shopping"
-    },
-    "target__social_functioning_scale__sfs_q12_28_artistic_activity_painting_crafts_etc": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 28 Artistic Activity Painting Crafts Etc"
-    },
-    "target__social_functioning_scale__sfs_q12_29_going_to_the_movies": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 29 Going To The Movies"
-    },
-    "target__social_functioning_scale__sfs_q12_30_theater_concert": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 30 Theater Concert"
-    },
-    "target__social_functioning_scale__sfs_q12_31_watching_an_indoor_sport_ice_hockey_basketball": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 31 Watching An Indoor Sport Ice Hockey Basketball"
-    },
-    "target__social_functioning_scale__sfs_q12_32_watching_an_outdoor_sport_football_baseball": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 32 Watching An Outdoor Sport Football Baseball"
-    },
-    "target__social_functioning_scale__sfs_q12_33_art_gallery_museum": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 33 Art Gallery Museum"
-    },
-    "target__social_functioning_scale__sfs_q12_34_exhibition": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 34 Exhibition"
-    },
-    "target__social_functioning_scale__sfs_q12_35_visiting_other_places_of_interest": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 35 Visiting Other Places Of Interest"
-    },
-    "target__social_functioning_scale__sfs_q12_36_meetings_talks_etc": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 36 Meetings Talks Etc"
-    },
-    "target__social_functioning_scale__sfs_q12_37_evening_informal_class": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 37 Evening Informal Class"
-    },
-    "target__social_functioning_scale__sfs_q12_38_visiting_relatives_in_their_homes": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 38 Visiting Relatives In Their Homes"
-    },
-    "target__social_functioning_scale__sfs_q12_39_being_visited_by_relatives": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 39 Being Visited By Relatives"
-    },
-    "target__social_functioning_scale__sfs_q12_40_visiting_friends_including_boy_girlfriends": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 40 Visiting Friends Including Boy Girlfriends"
-    },
-    "target__social_functioning_scale__sfs_q12_41_parties": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 41 Parties"
-    },
-    "target__social_functioning_scale__sfs_q12_42_formal_occasions": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 42 Formal Occasions"
-    },
-    "target__social_functioning_scale__sfs_q12_43_disco_dance_club_etc": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 43 Disco Dance Club Etc"
-    },
-    "target__social_functioning_scale__sfs_q12_44_nightclub_social_club": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 44 Nightclub Social Club"
-    },
-    "target__social_functioning_scale__sfs_q12_45_playing_an_indoor_sport": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 45 Playing An Indoor Sport"
-    },
-    "target__social_functioning_scale__sfs_q12_46_playing_an_outdoor_sport": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 46 Playing An Outdoor Sport"
-    },
-    "target__social_functioning_scale__sfs_q12_47_club_society_meeting": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 47 Club Society Meeting"
-    },
-    "target__social_functioning_scale__sfs_q12_48_bar": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 48 Bar"
-    },
-    "target__social_functioning_scale__sfs_q12_49_eating_out": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 49 Eating Out"
-    },
-    "target__social_functioning_scale__sfs_q12_50_church_activity": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q12 50 Church Activity"
-    },
-    "target__social_functioning_scale__sfs_q13_01_public_transport": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 01 Public Transport"
-    },
-    "target__social_functioning_scale__sfs_q13_02_handling_money": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 02 Handling Money"
-    },
-    "target__social_functioning_scale__sfs_q13_03_budgeting": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 03 Budgeting"
-    },
-    "target__social_functioning_scale__sfs_q13_04_cooking": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 04 Cooking"
-    },
-    "target__social_functioning_scale__sfs_q13_05_weekly_shopping": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 05 Weekly Shopping"
-    },
-    "target__social_functioning_scale__sfs_q13_06_looking_for_a_job_working": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 06 Looking For A Job Working"
-    },
-    "target__social_functioning_scale__sfs_q13_07_washing_own_clothes": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 07 Washing Own Clothes"
-    },
-    "target__social_functioning_scale__sfs_q13_08_personal_hygiene": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 08 Personal Hygiene"
-    },
-    "target__social_functioning_scale__sfs_q13_09_washing_tidying_etc": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 09 Washing Tidying Etc"
-    },
-    "target__social_functioning_scale__sfs_q13_10_purchasing_from_stores": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 10 Purchasing From Stores"
-    },
-    "target__social_functioning_scale__sfs_q13_11_leaving_the_house_alone": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 11 Leaving The House Alone"
-    },
-    "target__social_functioning_scale__sfs_q13_12_choosing_and_buying_clothes": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 12 Choosing And Buying Clothes"
-    },
-    "target__social_functioning_scale__sfs_q13_13_caring_for_personal_appearance": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q13 13 Caring For Personal Appearance"
-    },
-    "target__social_functioning_scale__sfs_q14_level_of_employment": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q14 Level Of Employment"
-    },
-    "target__social_functioning_scale__sfs_q3a_code_what_time_do_you_get_up_each_day_average_weekday": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q3A Code What Time Do You Get Up Each Day Average Weekday"
-    },
-    "target__social_functioning_scale__sfs_q3b_code_what_time_do_you_get_up_each_day_average_weekend": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q3B Code What Time Do You Get Up Each Day Average Weekend"
-    },
-    "target__social_functioning_scale__sfs_q4_alone_on_average_how_many_waking_hours_do_you_spend_alone_in_one_day": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q4 Alone On Average How Many Waking Hours Do You Spend Alone In One Day"
-    },
-    "target__social_functioning_scale__sfs_q5_start_how_often_will_you_start_a_conversation_at_home": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q5 Start How Often Will You Start A Conversation At Home"
-    },
-    "target__social_functioning_scale__sfs_q6_leave_how_often_do_you_leave_the_house_for_any_reason": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q6 Leave How Often Do You Leave The House For Any Reason"
-    },
-    "target__social_functioning_scale__sfs_q7_react_how_do_you_react_to_the_presence_of_strangers_people_you_dont_know": {
-      "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
-      "path": [
-        "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
-      ],
-      "feature_label": "Sfs Q7 React How Do You React To The Presence Of Strangers People You Dont Know"
-    },
     "target__social_functioning_scale__sfs_q8_friends_how_many_friends_do_you_have_at_the_moment": {
       "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
+      "subdomain": "social_functioning_scale",
       "path": [
         "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
+        "social_functioning_scale",
+        "sfs_interpersonal"
       ],
       "feature_label": "Sfs Q8 Friends How Many Friends Do You Have At The Moment"
     },
     "target__social_functioning_scale__sfs_q9_partner_do_you_have_a_partner": {
       "domain": "OBSERVED_FUNCTIONING",
-      "subdomain": "sfs_social_functioning",
+      "subdomain": "social_functioning_scale",
       "path": [
         "OBSERVED_FUNCTIONING",
-        "sfs_social_functioning"
+        "social_functioning_scale",
+        "sfs_interpersonal"
       ],
       "feature_label": "Sfs Q9 Partner Do You Have A Partner"
+    },
+    "target__social_functioning_scale__sfs_q12_01_buying_items_from_the_store_without_help": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 01 Buying Items From The Store Without Help"
+    },
+    "target__social_functioning_scale__sfs_q12_02_washing_pots_tidying_up_etc": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 02 Washing Pots Tidying Up Etc"
+    },
+    "target__social_functioning_scale__sfs_q12_03_regular_washing_bathing_etc": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 03 Regular Washing Bathing Etc"
+    },
+    "target__social_functioning_scale__sfs_q12_04_washing_own_clothes": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 04 Washing Own Clothes"
+    },
+    "target__social_functioning_scale__sfs_q12_05_looking_for_a_job_working": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 05 Looking For A Job Working"
+    },
+    "target__social_functioning_scale__sfs_q12_06_doing_the_food_shopping": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 06 Doing The Food Shopping"
+    },
+    "target__social_functioning_scale__sfs_q12_07_prepare_and_cook_a_meal": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 07 Prepare And Cook A Meal"
+    },
+    "target__social_functioning_scale__sfs_q12_08_leaving_the_house_alone": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 08 Leaving The House Alone"
+    },
+    "target__social_functioning_scale__sfs_q12_09_using_buses_trains_etc": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 09 Using Buses Trains Etc"
+    },
+    "target__social_functioning_scale__sfs_q12_10_using_money": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 10 Using Money"
+    },
+    "target__social_functioning_scale__sfs_q12_11_budgeting": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 11 Budgeting"
+    },
+    "target__social_functioning_scale__sfs_q12_12_choosing_and_buying_clothes_for_self": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 12 Choosing And Buying Clothes For Self"
+    },
+    "target__social_functioning_scale__sfs_q12_13_taking_care_of_personal_appearance": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 13 Taking Care Of Personal Appearance"
+    },
+    "target__social_functioning_scale__sfs_q12_14_playing_musical_instruments": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 14 Playing Musical Instruments"
+    },
+    "target__social_functioning_scale__sfs_q12_15_sewing_knitting": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 15 Sewing Knitting"
+    },
+    "target__social_functioning_scale__sfs_q12_16_gardening": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 16 Gardening"
+    },
+    "target__social_functioning_scale__sfs_q12_17_reading_things": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 17 Reading Things"
+    },
+    "target__social_functioning_scale__sfs_q12_18_watching_television": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 18 Watching Television"
+    },
+    "target__social_functioning_scale__sfs_q12_19_listening_to_music_radio_cds": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 19 Listening To Music Radio Cds"
+    },
+    "target__social_functioning_scale__sfs_q12_20_cooking": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 20 Cooking"
+    },
+    "target__social_functioning_scale__sfs_q12_21_d_i_y_activities_e_g_putting_up_shelves": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 21 D I Y Activities E G Putting Up Shelves"
+    },
+    "target__social_functioning_scale__sfs_q12_22_fixing_things_car_bike_household_etc": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 22 Fixing Things Car Bike Household Etc"
+    },
+    "target__social_functioning_scale__sfs_q12_23_walking": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 23 Walking"
+    },
+    "target__social_functioning_scale__sfs_q12_24_driving_riding_a_bike_as_a_recreation": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 24 Driving Riding A Bike As A Recreation"
+    },
+    "target__social_functioning_scale__sfs_q12_25_swimming": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 25 Swimming"
+    },
+    "target__social_functioning_scale__sfs_q12_26_hobby_e_g_collecting_things": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 26 Hobby E G Collecting Things"
+    },
+    "target__social_functioning_scale__sfs_q12_27_shopping": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 27 Shopping"
+    },
+    "target__social_functioning_scale__sfs_q12_28_artistic_activity_painting_crafts_etc": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 28 Artistic Activity Painting Crafts Etc"
+    },
+    "target__social_functioning_scale__sfs_q12_29_going_to_the_movies": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 29 Going To The Movies"
+    },
+    "target__social_functioning_scale__sfs_q12_30_theater_concert": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 30 Theater Concert"
+    },
+    "target__social_functioning_scale__sfs_q12_31_watching_an_indoor_sport_ice_hockey_basketball": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 31 Watching An Indoor Sport Ice Hockey Basketball"
+    },
+    "target__social_functioning_scale__sfs_q12_32_watching_an_outdoor_sport_football_baseball": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 32 Watching An Outdoor Sport Football Baseball"
+    },
+    "target__social_functioning_scale__sfs_q12_33_art_gallery_museum": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 33 Art Gallery Museum"
+    },
+    "target__social_functioning_scale__sfs_q12_34_exhibition": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 34 Exhibition"
+    },
+    "target__social_functioning_scale__sfs_q12_35_visiting_other_places_of_interest": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 35 Visiting Other Places Of Interest"
+    },
+    "target__social_functioning_scale__sfs_q12_36_meetings_talks_etc": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 36 Meetings Talks Etc"
+    },
+    "target__social_functioning_scale__sfs_q12_37_evening_informal_class": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 37 Evening Informal Class"
+    },
+    "target__social_functioning_scale__sfs_q12_38_visiting_relatives_in_their_homes": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 38 Visiting Relatives In Their Homes"
+    },
+    "target__social_functioning_scale__sfs_q12_39_being_visited_by_relatives": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 39 Being Visited By Relatives"
+    },
+    "target__social_functioning_scale__sfs_q12_40_visiting_friends_including_boy_girlfriends": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 40 Visiting Friends Including Boy Girlfriends"
+    },
+    "target__social_functioning_scale__sfs_q12_41_parties": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 41 Parties"
+    },
+    "target__social_functioning_scale__sfs_q12_42_formal_occasions": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 42 Formal Occasions"
+    },
+    "target__social_functioning_scale__sfs_q12_43_disco_dance_club_etc": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 43 Disco Dance Club Etc"
+    },
+    "target__social_functioning_scale__sfs_q12_44_nightclub_social_club": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 44 Nightclub Social Club"
+    },
+    "target__social_functioning_scale__sfs_q12_45_playing_an_indoor_sport": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 45 Playing An Indoor Sport"
+    },
+    "target__social_functioning_scale__sfs_q12_46_playing_an_outdoor_sport": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 46 Playing An Outdoor Sport"
+    },
+    "target__social_functioning_scale__sfs_q12_47_club_society_meeting": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 47 Club Society Meeting"
+    },
+    "target__social_functioning_scale__sfs_q12_48_bar": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 48 Bar"
+    },
+    "target__social_functioning_scale__sfs_q12_49_eating_out": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 49 Eating Out"
+    },
+    "target__social_functioning_scale__sfs_q12_50_church_activity": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_activities_recreation"
+      ],
+      "feature_label": "Sfs Q12 50 Church Activity"
+    },
+    "target__social_functioning_scale__sfs_q13_01_public_transport": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 01 Public Transport"
+    },
+    "target__social_functioning_scale__sfs_q13_02_handling_money": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 02 Handling Money"
+    },
+    "target__social_functioning_scale__sfs_q13_03_budgeting": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 03 Budgeting"
+    },
+    "target__social_functioning_scale__sfs_q13_04_cooking": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 04 Cooking"
+    },
+    "target__social_functioning_scale__sfs_q13_05_weekly_shopping": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 05 Weekly Shopping"
+    },
+    "target__social_functioning_scale__sfs_q13_06_looking_for_a_job_working": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 06 Looking For A Job Working"
+    },
+    "target__social_functioning_scale__sfs_q13_07_washing_own_clothes": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 07 Washing Own Clothes"
+    },
+    "target__social_functioning_scale__sfs_q13_08_personal_hygiene": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 08 Personal Hygiene"
+    },
+    "target__social_functioning_scale__sfs_q13_09_washing_tidying_etc": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 09 Washing Tidying Etc"
+    },
+    "target__social_functioning_scale__sfs_q13_10_purchasing_from_stores": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 10 Purchasing From Stores"
+    },
+    "target__social_functioning_scale__sfs_q13_11_leaving_the_house_alone": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 11 Leaving The House Alone"
+    },
+    "target__social_functioning_scale__sfs_q13_12_choosing_and_buying_clothes": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 12 Choosing And Buying Clothes"
+    },
+    "target__social_functioning_scale__sfs_q13_13_caring_for_personal_appearance": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_independence_competence"
+      ],
+      "feature_label": "Sfs Q13 13 Caring For Personal Appearance"
+    },
+    "target__social_functioning_scale__sfs_q14_level_of_employment": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_employment"
+      ],
+      "feature_label": "Sfs Q14 Level Of Employment"
+    },
+    "target__social_functioning_scale__sfs_q3a_code_what_time_do_you_get_up_each_day_average_weekday": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_other"
+      ],
+      "feature_label": "Sfs Q3A Code What Time Do You Get Up Each Day Average Weekday"
+    },
+    "target__social_functioning_scale__sfs_q3b_code_what_time_do_you_get_up_each_day_average_weekend": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_other"
+      ],
+      "feature_label": "Sfs Q3B Code What Time Do You Get Up Each Day Average Weekend"
+    },
+    "target__social_functioning_scale__sfs_q4_alone_on_average_how_many_waking_hours_do_you_spend_alone_in_one_day": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_withdrawal_engagement"
+      ],
+      "feature_label": "Sfs Q4 Alone On Average How Many Waking Hours Do You Spend Alone In One Day"
+    },
+    "target__social_functioning_scale__sfs_q5_start_how_often_will_you_start_a_conversation_at_home": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_withdrawal_engagement"
+      ],
+      "feature_label": "Sfs Q5 Start How Often Will You Start A Conversation At Home"
+    },
+    "target__social_functioning_scale__sfs_q6_leave_how_often_do_you_leave_the_house_for_any_reason": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_withdrawal_engagement"
+      ],
+      "feature_label": "Sfs Q6 Leave How Often Do You Leave The House For Any Reason"
+    },
+    "target__social_functioning_scale__sfs_q7_react_how_do_you_react_to_the_presence_of_strangers_people_you_dont_know": {
+      "domain": "OBSERVED_FUNCTIONING",
+      "subdomain": "social_functioning_scale",
+      "path": [
+        "OBSERVED_FUNCTIONING",
+        "social_functioning_scale",
+        "sfs_withdrawal_engagement"
+      ],
+      "feature_label": "Sfs Q7 React How Do You React To The Presence Of Strangers People You Dont Know"
     },
     "target__matrics__att_vigtscr_attention_vigilance_age_and_gender_corrected_t_score": {
       "domain": "COGNITION_AND_INTELLIGENCE",
@@ -17427,28 +17543,28 @@
     },
     "target__wasi__matrix_reasoning_t_score": {
       "domain": "COGNITION_AND_INTELLIGENCE",
-      "subdomain": "wasi_intelligence_estimates",
+      "subdomain": "wasi_intelligence",
       "path": [
         "COGNITION_AND_INTELLIGENCE",
-        "wasi_intelligence_estimates"
+        "wasi_intelligence"
       ],
       "feature_label": "Matrix Reasoning T Score"
     },
     "target__wasi__two_subtest_full_iq_estimate": {
       "domain": "COGNITION_AND_INTELLIGENCE",
-      "subdomain": "wasi_intelligence_estimates",
+      "subdomain": "wasi_intelligence",
       "path": [
         "COGNITION_AND_INTELLIGENCE",
-        "wasi_intelligence_estimates"
+        "wasi_intelligence"
       ],
       "feature_label": "Two Subtest Full Iq Estimate"
     },
     "target__wasi__vocabulary_t_score": {
       "domain": "COGNITION_AND_INTELLIGENCE",
-      "subdomain": "wasi_intelligence_estimates",
+      "subdomain": "wasi_intelligence",
       "path": [
         "COGNITION_AND_INTELLIGENCE",
-        "wasi_intelligence_estimates"
+        "wasi_intelligence"
       ],
       "feature_label": "Vocabulary T Score"
     }
@@ -17459,8 +17575,8 @@
   "user_guidance": "Organise the non-neural predictors into clear domains: (1) Demographics and socio-economic status; (2) Cognition and intelligence (MATRICS cognitive domains and WASI IQ); (3) Observed functioning (GAF role and social ratings, and SFS social-functioning blocks). Keep cognition separate from observed functioning.",
   "construction": "hierarchical_path_hints_plus_semantic",
   "repair_stats": {
-    "n_pathed": 836,
-    "n_semantic": 99,
+    "n_pathed": 935,
+    "n_semantic": 0,
     "max_depth": 5
   }
 }

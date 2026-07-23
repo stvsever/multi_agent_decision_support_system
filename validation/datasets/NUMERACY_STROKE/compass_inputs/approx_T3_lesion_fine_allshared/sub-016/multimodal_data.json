@@ -1,1230 +1,1046 @@
 {
-  "DEMOGRAPHICS_AND_CLINICAL": {
-    "general": {
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
       "_leaves": [
         {
           "feature": "Age",
-          "z_score": 0.036,
           "value": "62 years (Normal)",
-          "ref_range": "cohort mean 61.6, sd 12.0 (population-referenced)"
+          "z_score": 0.036
         },
         {
           "feature": "Education (years)",
-          "z_score": 0.344,
           "value": "16 years (Normal)",
-          "ref_range": "cohort mean 15.1, sd 2.7 (population-referenced)"
-        },
+          "z_score": 0.344
+        }
+      ]
+    },
+    "imaging_acquisition": {
+      "_leaves": [
         {
           "feature": "Imaging modality",
-          "z_score": 0.516,
           "value": "research_MR (High-Normal)",
-          "ref_range": "cohort distribution research_mr:77%, clinical_mr:20%, clinical_ct:3%"
-        },
+          "z_score": 0.516
+        }
+      ]
+    }
+  },
+  "CLINICAL_PROFILE": {
+    "language_function": {
+      "_leaves": [
         {
           "feature": "Aphasia severity (WAB-R quotient)",
-          "z_score": -1.656,
-          "value": "-1.62219 score (Low)",
-          "ref_range": "cohort mean -0.0, sd 1.0 (population-referenced)"
-        },
+          "value": "-1.62219 standardized units (rank inverse-normal; higher = less aphasia) (Low)",
+          "z_score": -1.656
+        }
+      ]
+    },
+    "whole_brain_lesion_load": {
+      "_leaves": [
         {
           "feature": "Whole-brain lesion volume",
-          "z_score": 1.5,
-          "value": "-1.64068 proportion (High)",
-          "ref_range": "cohort mean -4.8, sd 2.1 (population-referenced)"
-        }
-      ]
-    }
-  },
-  "LESION_CORTEX": {
-    "vis": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Vis_81",
-          "z_score": -0.166,
-          "value": "0.042099 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        }
-      ]
-    },
-    "sommot": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_1",
-          "z_score": 0.278,
-          "value": "0.131792 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
+          "value": "-1.64068 standardized units (log lesion fraction of the left hemisphere) (High)",
+          "z_score": 1.5
         },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_2",
-          "z_score": 0.897,
-          "value": "0.200758 proportion (High-Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_3",
-          "z_score": 0.622,
-          "value": "0.13181 proportion (High-Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_4",
-          "z_score": 1.775,
-          "value": "0.522727 proportion (High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_5",
-          "z_score": -0.342,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_7",
-          "z_score": 0.169,
-          "value": "0.111399 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_8",
-          "z_score": -0.069,
-          "value": "0.046955 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_9",
-          "z_score": 1.36,
-          "value": "0.409369 proportion (High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_10",
-          "z_score": -0.133,
-          "value": "0.053834 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_11",
-          "z_score": 2.292,
-          "value": "0.872114 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_12",
-          "z_score": -0.3,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_13",
-          "z_score": -0.037,
-          "value": "0.055649 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_14",
-          "z_score": 0.064,
-          "value": "0.097416 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_15",
-          "z_score": 2.058,
-          "value": "0.735593 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_16",
-          "z_score": 2.393,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_17",
-          "z_score": -0.232,
-          "value": "0.017928 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_19",
-          "z_score": -0.276,
-          "value": "0.004268 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_20",
-          "z_score": 2.753,
-          "value": "0.976369 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_21",
-          "z_score": 2.813,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_23",
-          "z_score": 2.598,
-          "value": "0.907384 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_24",
-          "z_score": 0.152,
-          "value": "0.118545 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_25",
-          "z_score": 3.098,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_26",
-          "z_score": 3.504,
-          "value": "0.892377 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_27",
-          "z_score": 2.908,
-          "value": "0.990863 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_28",
-          "z_score": 4.23,
-          "value": "0.625899 proportion (Very High)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_29",
-          "z_score": 2.077,
-          "value": "0.678449 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_30",
-          "z_score": 3.804,
-          "value": "0.924779 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_31",
-          "z_score": 3.655,
-          "value": "0.787115 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_32",
-          "z_score": 3.742,
-          "value": "0.951948 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_33",
-          "z_score": 4.967,
-          "value": "0.608595 proportion (Very High)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_34",
-          "z_score": 3.475,
-          "value": "0.910931 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_35",
-          "z_score": 3.849,
-          "value": "0.990009 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_37",
-          "z_score": 3.609,
-          "value": "0.874867 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_38",
-          "z_score": 0.685,
-          "value": "0.163882 proportion (High-Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_39",
-          "z_score": 2.713,
-          "value": "0.546803 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_40",
-          "z_score": 3.721,
-          "value": "0.953416 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_42",
-          "z_score": 2.547,
-          "value": "0.40068 proportion (Very High)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_44",
-          "z_score": -0.205,
-          "value": "0.015175 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_45",
-          "z_score": 3.307,
-          "value": "0.82266 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_48",
-          "z_score": 0.092,
-          "value": "0.069286 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_49",
-          "z_score": -0.12,
-          "value": "0.016092 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_51",
-          "z_score": 0.607,
-          "value": "0.200743 proportion (High-Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_52",
-          "z_score": 0.198,
-          "value": "0.061977 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_55",
-          "z_score": -0.268,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_56",
-          "z_score": -0.179,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_57",
-          "z_score": -0.201,
-          "value": "0.0103 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_58",
-          "z_score": -0.23,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_60",
-          "z_score": -0.194,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_62",
-          "z_score": -0.116,
-          "value": "0.030267 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_65",
-          "z_score": -0.152,
-          "value": "0.013364 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_66",
-          "z_score": -0.244,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_68",
-          "z_score": -0.205,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SomMot_73",
-          "z_score": -0.037,
-          "value": "0.048327 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        }
-      ]
-    },
-    "dorsattn": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_9",
-          "z_score": -0.282,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_11",
-          "z_score": -0.319,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_12",
-          "z_score": -0.267,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_18",
-          "z_score": 0.741,
-          "value": "0.213307 proportion (High-Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_21",
-          "z_score": -0.0,
-          "value": "0.04126 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_22",
-          "z_score": 0.528,
-          "value": "0.165673 proportion (High-Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_23",
-          "z_score": -0.181,
-          "value": "0.017528 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_24",
-          "z_score": -0.337,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_27",
-          "z_score": -0.31,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_29",
-          "z_score": -0.366,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_31",
-          "z_score": -0.265,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_34",
-          "z_score": -0.252,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_38",
-          "z_score": -0.254,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_50",
-          "z_score": 2.786,
-          "value": "0.663805 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_1",
-          "z_score": -0.043,
-          "value": "0.034357 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_2",
-          "z_score": 2.698,
-          "value": "0.561865 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_3",
-          "z_score": 0.915,
-          "value": "0.228947 proportion (High-Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_4",
-          "z_score": -0.056,
-          "value": "0.015152 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_7",
-          "z_score": 2.856,
-          "value": "0.963685 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_PrCv_1",
-          "z_score": 3.047,
-          "value": "0.774194 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_PrCv_2",
-          "z_score": 2.43,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_PrCv_3",
-          "z_score": 3.122,
-          "value": "0.961051 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_DorsAttn_PrCv_4",
-          "z_score": -0.054,
-          "value": "0.07489 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        }
-      ]
-    },
-    "salventattn": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_1",
-          "z_score": -0.292,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_2",
-          "z_score": 3.239,
-          "value": "0.882777 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_3",
-          "z_score": -0.34,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_4",
-          "z_score": 1.111,
-          "value": "0.341607 proportion (High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_5",
-          "z_score": -0.315,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_6",
-          "z_score": 3.167,
-          "value": "0.84973 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_7",
-          "z_score": -0.205,
-          "value": "0.020214 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_8",
-          "z_score": 1.257,
-          "value": "0.210203 proportion (High)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_TempOcc_1",
-          "z_score": -0.3,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_TempOcc_2",
-          "z_score": 2.036,
-          "value": "0.541284 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_1",
-          "z_score": 1.858,
-          "value": "0.604776 proportion (High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_2",
-          "z_score": 2.445,
-          "value": "0.995276 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_3",
-          "z_score": -0.206,
-          "value": "0.036538 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_4",
-          "z_score": 2.982,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_5",
-          "z_score": -0.056,
-          "value": "0.080858 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_6",
-          "z_score": 2.735,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_7",
-          "z_score": 2.198,
-          "value": "0.833333 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_8",
-          "z_score": 0.407,
-          "value": "0.219478 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_9",
-          "z_score": 2.662,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_10",
-          "z_score": 2.279,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.4 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_11",
-          "z_score": 2.132,
-          "value": "0.909317 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_12",
-          "z_score": 2.53,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_13",
-          "z_score": 2.358,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.4 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_14",
-          "z_score": 2.225,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.4 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_15",
-          "z_score": 2.502,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_16",
-          "z_score": 2.286,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.4 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_17",
-          "z_score": 2.123,
-          "value": "0.832447 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_18",
-          "z_score": 1.981,
-          "value": "0.795429 proportion (High)",
-          "ref_range": "cohort mean 0.2, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_19",
-          "z_score": 2.34,
-          "value": "0.769542 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_20",
-          "z_score": 3.111,
-          "value": "0.923345 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_21",
-          "z_score": 3.038,
-          "value": "0.987167 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_22",
-          "z_score": 3.42,
-          "value": "0.792381 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_23",
-          "z_score": -0.075,
-          "value": "0.016434 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        }
-      ]
-    },
-    "limbic": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Limbic_OFC_4",
-          "z_score": 1.644,
-          "value": "0.220174 proportion (High)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Limbic_TempPole_13",
-          "z_score": -0.199,
-          "value": "0.002096 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Limbic_TempPole_14",
-          "z_score": -0.003,
-          "value": "0.073879 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        }
-      ]
-    },
-    "cont": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_Par_1",
-          "z_score": -0.287,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_Par_4",
-          "z_score": -0.21,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_Par_8",
-          "z_score": -0.285,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_Par_9",
-          "z_score": -0.265,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_Par_10",
-          "z_score": -0.302,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_Par_13",
-          "z_score": -0.325,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_Par_14",
-          "z_score": -0.279,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_Temp_4",
-          "z_score": 0.386,
-          "value": "0.091768 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_3",
-          "z_score": 4.204,
-          "value": "0.853265 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_5",
-          "z_score": 1.794,
-          "value": "0.405168 proportion (High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_6",
-          "z_score": 2.705,
-          "value": "0.999267 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_7",
-          "z_score": 3.039,
-          "value": "0.996163 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_8",
-          "z_score": -0.24,
-          "value": "0.003407 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_9",
-          "z_score": 2.943,
-          "value": "0.981532 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_10",
-          "z_score": 2.735,
-          "value": "0.99656 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_12",
-          "z_score": 1.543,
-          "value": "0.387427 proportion (High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_13",
-          "z_score": 3.409,
-          "value": "0.929044 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_14",
-          "z_score": 0.412,
-          "value": "0.067288 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_15",
-          "z_score": 2.487,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_16",
-          "z_score": 3.345,
-          "value": "0.636054 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_17",
-          "z_score": 2.735,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_18",
-          "z_score": 0.329,
-          "value": "0.071399 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_19",
-          "z_score": 2.692,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_OFC_1",
-          "z_score": 3.067,
-          "value": "0.993997 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCv_1",
-          "z_score": 3.02,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Cont_PFCmp_2",
-          "z_score": -0.3,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        }
-      ]
-    },
-    "default": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_1",
-          "z_score": -0.274,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_3",
-          "z_score": -0.319,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_4",
-          "z_score": -0.337,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_5",
-          "z_score": -0.304,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_6",
-          "z_score": -0.264,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_7",
-          "z_score": -0.256,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_8",
-          "z_score": -0.281,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_9",
-          "z_score": -0.276,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_10",
-          "z_score": -0.297,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_12",
-          "z_score": -0.314,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_14",
-          "z_score": -0.214,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Par_17",
-          "z_score": -0.304,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_4",
-          "z_score": -0.165,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_6",
-          "z_score": -0.288,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_8",
-          "z_score": -0.275,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_10",
-          "z_score": -0.313,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_12",
-          "z_score": -0.282,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_14",
-          "z_score": -0.285,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_15",
-          "z_score": -0.298,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_16",
-          "z_score": -0.303,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_17",
-          "z_score": -0.304,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_18",
-          "z_score": -0.32,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_20",
-          "z_score": -0.301,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_21",
-          "z_score": -0.302,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_Temp_22",
-          "z_score": 3.53,
-          "value": "0.918197 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_1",
-          "z_score": 3.418,
-          "value": "0.992063 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_3",
-          "z_score": 2.621,
-          "value": "0.568742 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_7",
-          "z_score": 2.609,
-          "value": "0.541867 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_14",
-          "z_score": 3.34,
-          "value": "0.971197 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_16",
-          "z_score": 3.424,
-          "value": "0.718057 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_17",
-          "z_score": 2.79,
-          "value": "1 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_20",
-          "z_score": 3.228,
-          "value": "0.829581 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_35",
-          "z_score": 3.547,
-          "value": "0.7443 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_36",
-          "z_score": 0.506,
-          "value": "0.063472 proportion (High-Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_37",
-          "z_score": -0.188,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_41",
-          "z_score": 2.738,
-          "value": "0.637139 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_42",
-          "z_score": -0.126,
-          "value": "0.009534 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: 7Networks_LH_Default_PFC_44",
-          "z_score": -0.126,
-          "value": "0.014085 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        }
-      ]
-    }
-  },
-  "LESION_SUBCORTEX": {
-    "tha": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: THA-VAip-lh",
-          "z_score": -0.189,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: THA-VPl-lh",
-          "z_score": -0.268,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: THA-DAl-lh",
-          "z_score": -0.2,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        }
-      ]
-    },
-    "put": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: PUT-VA-lh",
-          "z_score": 3.618,
-          "value": "0.544903 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.1 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: PUT-DA-lh",
-          "z_score": 3.134,
-          "value": "0.952295 proportion (Very High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: PUT-VP-lh",
-          "z_score": 1.978,
-          "value": "0.664796 proportion (High)",
-          "ref_range": "cohort mean 0.1, sd 0.3 (population-referenced)"
-        },
-        {
-          "feature": "Lesion overlap: PUT-DP-lh",
-          "z_score": 2.781,
-          "value": "0.983854 proportion (Very High)",
-          "ref_range": "cohort mean 0.2, sd 0.3 (population-referenced)"
-        }
-      ]
-    },
-    "cau": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: CAU-DA-lh",
-          "z_score": -0.165,
-          "value": "0.001515 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        }
-      ]
-    },
-    "pgp": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: pGP-lh",
-          "z_score": -0.174,
-          "value": "0.0375 proportion (Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.2 (population-referenced)"
-        }
-      ]
-    },
-    "agp": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: aGP-lh",
-          "z_score": 1.279,
-          "value": "0.091435 proportion (High)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        }
-      ]
-    }
-  },
-  "LESION_SUMMARY": {
-    "whole_brain": {
-      "_leaves": [
         {
           "feature": "Total lesioned voxels",
-          "z_score": 1.952,
           "value": "137487 voxels (High)",
-          "ref_range": "cohort mean 31645.9, sd 54217.0 (population-referenced)"
+          "z_score": 1.952
         },
         {
           "feature": "Total lesion volume",
-          "z_score": 1.952,
           "value": "137487 mm^3 (High)",
-          "ref_range": "cohort mean 31645.9, sd 54217.0 (population-referenced)"
+          "z_score": 1.952
         }
       ]
+    }
+  },
+  "LESION_TOPOGRAPHY": {
+    "cerebral_cortex": {
+      "net_vis": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Vis_81",
+            "value": "0.042099 proportion (Normal)",
+            "z_score": -0.166
+          }
+        ]
+      },
+      "net_sommot": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_1",
+            "value": "0.131792 proportion (Normal)",
+            "z_score": 0.278
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_2",
+            "value": "0.200758 proportion (High-Normal)",
+            "z_score": 0.897
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_3",
+            "value": "0.13181 proportion (High-Normal)",
+            "z_score": 0.622
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_4",
+            "value": "0.522727 proportion (High)",
+            "z_score": 1.775
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_5",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.342
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_7",
+            "value": "0.111399 proportion (Normal)",
+            "z_score": 0.169
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_8",
+            "value": "0.046955 proportion (Normal)",
+            "z_score": -0.069
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_9",
+            "value": "0.409369 proportion (High)",
+            "z_score": 1.36
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_10",
+            "value": "0.053834 proportion (Normal)",
+            "z_score": -0.133
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_11",
+            "value": "0.872114 proportion (Very High)",
+            "z_score": 2.292
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_12",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.3
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_13",
+            "value": "0.055649 proportion (Normal)",
+            "z_score": -0.037
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_14",
+            "value": "0.097416 proportion (Normal)",
+            "z_score": 0.064
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_15",
+            "value": "0.735593 proportion (Very High)",
+            "z_score": 2.058
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_16",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.393
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_17",
+            "value": "0.017928 proportion (Normal)",
+            "z_score": -0.232
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_19",
+            "value": "0.004268 proportion (Normal)",
+            "z_score": -0.276
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_20",
+            "value": "0.976369 proportion (Very High)",
+            "z_score": 2.753
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_21",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.813
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_23",
+            "value": "0.907384 proportion (Very High)",
+            "z_score": 2.598
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_24",
+            "value": "0.118545 proportion (Normal)",
+            "z_score": 0.152
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_25",
+            "value": "1 proportion (Very High)",
+            "z_score": 3.098
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_26",
+            "value": "0.892377 proportion (Very High)",
+            "z_score": 3.504
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_27",
+            "value": "0.990863 proportion (Very High)",
+            "z_score": 2.908
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_28",
+            "value": "0.625899 proportion (Very High)",
+            "z_score": 4.23
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_29",
+            "value": "0.678449 proportion (Very High)",
+            "z_score": 2.077
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_30",
+            "value": "0.924779 proportion (Very High)",
+            "z_score": 3.804
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_31",
+            "value": "0.787115 proportion (Very High)",
+            "z_score": 3.655
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_32",
+            "value": "0.951948 proportion (Very High)",
+            "z_score": 3.742
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_33",
+            "value": "0.608595 proportion (Very High)",
+            "z_score": 4.967
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_34",
+            "value": "0.910931 proportion (Very High)",
+            "z_score": 3.475
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_35",
+            "value": "0.990009 proportion (Very High)",
+            "z_score": 3.849
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_37",
+            "value": "0.874867 proportion (Very High)",
+            "z_score": 3.609
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_38",
+            "value": "0.163882 proportion (High-Normal)",
+            "z_score": 0.685
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_39",
+            "value": "0.546803 proportion (Very High)",
+            "z_score": 2.713
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_40",
+            "value": "0.953416 proportion (Very High)",
+            "z_score": 3.721
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_42",
+            "value": "0.40068 proportion (Very High)",
+            "z_score": 2.547
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_44",
+            "value": "0.015175 proportion (Normal)",
+            "z_score": -0.205
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_45",
+            "value": "0.82266 proportion (Very High)",
+            "z_score": 3.307
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_48",
+            "value": "0.069286 proportion (Normal)",
+            "z_score": 0.092
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_49",
+            "value": "0.016092 proportion (Normal)",
+            "z_score": -0.12
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_51",
+            "value": "0.200743 proportion (High-Normal)",
+            "z_score": 0.607
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_52",
+            "value": "0.061977 proportion (Normal)",
+            "z_score": 0.198
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_55",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.268
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_56",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.179
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_57",
+            "value": "0.0103 proportion (Normal)",
+            "z_score": -0.201
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_58",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.23
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_60",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.194
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_62",
+            "value": "0.030267 proportion (Normal)",
+            "z_score": -0.116
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_65",
+            "value": "0.013364 proportion (Normal)",
+            "z_score": -0.152
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_66",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.244
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_68",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.205
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SomMot_73",
+            "value": "0.048327 proportion (Normal)",
+            "z_score": -0.037
+          }
+        ]
+      },
+      "net_dorsattn": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_9",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.282
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_11",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.319
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_12",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.267
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_18",
+            "value": "0.213307 proportion (High-Normal)",
+            "z_score": 0.741
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_21",
+            "value": "0.04126 proportion (Normal)",
+            "z_score": -0.0
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_22",
+            "value": "0.165673 proportion (High-Normal)",
+            "z_score": 0.528
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_23",
+            "value": "0.017528 proportion (Normal)",
+            "z_score": -0.181
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_24",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.337
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_27",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.31
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_29",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.366
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_31",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.265
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_34",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.252
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_38",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.254
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_Post_50",
+            "value": "0.663805 proportion (Very High)",
+            "z_score": 2.786
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_1",
+            "value": "0.034357 proportion (Normal)",
+            "z_score": -0.043
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_2",
+            "value": "0.561865 proportion (Very High)",
+            "z_score": 2.698
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_3",
+            "value": "0.228947 proportion (High-Normal)",
+            "z_score": 0.915
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_4",
+            "value": "0.015152 proportion (Normal)",
+            "z_score": -0.056
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_FEF_7",
+            "value": "0.963685 proportion (Very High)",
+            "z_score": 2.856
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_PrCv_1",
+            "value": "0.774194 proportion (Very High)",
+            "z_score": 3.047
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_PrCv_2",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.43
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_PrCv_3",
+            "value": "0.961051 proportion (Very High)",
+            "z_score": 3.122
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_DorsAttn_PrCv_4",
+            "value": "0.07489 proportion (Normal)",
+            "z_score": -0.054
+          }
+        ]
+      },
+      "net_salventattn": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_1",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.292
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_2",
+            "value": "0.882777 proportion (Very High)",
+            "z_score": 3.239
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_3",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.34
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_4",
+            "value": "0.341607 proportion (High)",
+            "z_score": 1.111
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_5",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.315
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_6",
+            "value": "0.84973 proportion (Very High)",
+            "z_score": 3.167
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_7",
+            "value": "0.020214 proportion (Normal)",
+            "z_score": -0.205
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_ParOper_8",
+            "value": "0.210203 proportion (High)",
+            "z_score": 1.257
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_TempOcc_1",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.3
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_TempOcc_2",
+            "value": "0.541284 proportion (Very High)",
+            "z_score": 2.036
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_1",
+            "value": "0.604776 proportion (High)",
+            "z_score": 1.858
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_2",
+            "value": "0.995276 proportion (Very High)",
+            "z_score": 2.445
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_3",
+            "value": "0.036538 proportion (Normal)",
+            "z_score": -0.206
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_4",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.982
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_5",
+            "value": "0.080858 proportion (Normal)",
+            "z_score": -0.056
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_6",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.735
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_7",
+            "value": "0.833333 proportion (Very High)",
+            "z_score": 2.198
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_8",
+            "value": "0.219478 proportion (Normal)",
+            "z_score": 0.407
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_9",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.662
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_10",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.279
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_11",
+            "value": "0.909317 proportion (Very High)",
+            "z_score": 2.132
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_12",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.53
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_13",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.358
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_14",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.225
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_15",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.502
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_16",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.286
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_17",
+            "value": "0.832447 proportion (Very High)",
+            "z_score": 2.123
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_18",
+            "value": "0.795429 proportion (High)",
+            "z_score": 1.981
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_19",
+            "value": "0.769542 proportion (Very High)",
+            "z_score": 2.34
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_20",
+            "value": "0.923345 proportion (Very High)",
+            "z_score": 3.111
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_21",
+            "value": "0.987167 proportion (Very High)",
+            "z_score": 3.038
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_22",
+            "value": "0.792381 proportion (Very High)",
+            "z_score": 3.42
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_SalVentAttn_FrOperIns_23",
+            "value": "0.016434 proportion (Normal)",
+            "z_score": -0.075
+          }
+        ]
+      },
+      "net_limbic": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Limbic_OFC_4",
+            "value": "0.220174 proportion (High)",
+            "z_score": 1.644
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Limbic_TempPole_13",
+            "value": "0.002096 proportion (Normal)",
+            "z_score": -0.199
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Limbic_TempPole_14",
+            "value": "0.073879 proportion (Normal)",
+            "z_score": -0.003
+          }
+        ]
+      },
+      "net_cont": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_Par_1",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.287
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_Par_4",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.21
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_Par_8",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.285
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_Par_9",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.265
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_Par_10",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.302
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_Par_13",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.325
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_Par_14",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.279
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_Temp_4",
+            "value": "0.091768 proportion (Normal)",
+            "z_score": 0.386
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_3",
+            "value": "0.853265 proportion (Very High)",
+            "z_score": 4.204
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_5",
+            "value": "0.405168 proportion (High)",
+            "z_score": 1.794
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_6",
+            "value": "0.999267 proportion (Very High)",
+            "z_score": 2.705
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_7",
+            "value": "0.996163 proportion (Very High)",
+            "z_score": 3.039
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_8",
+            "value": "0.003407 proportion (Normal)",
+            "z_score": -0.24
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_9",
+            "value": "0.981532 proportion (Very High)",
+            "z_score": 2.943
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_10",
+            "value": "0.99656 proportion (Very High)",
+            "z_score": 2.735
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_12",
+            "value": "0.387427 proportion (High)",
+            "z_score": 1.543
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_13",
+            "value": "0.929044 proportion (Very High)",
+            "z_score": 3.409
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_14",
+            "value": "0.067288 proportion (Normal)",
+            "z_score": 0.412
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_15",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.487
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_16",
+            "value": "0.636054 proportion (Very High)",
+            "z_score": 3.345
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_17",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.735
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_18",
+            "value": "0.071399 proportion (Normal)",
+            "z_score": 0.329
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCl_19",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.692
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_OFC_1",
+            "value": "0.993997 proportion (Very High)",
+            "z_score": 3.067
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCv_1",
+            "value": "1 proportion (Very High)",
+            "z_score": 3.02
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Cont_PFCmp_2",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.3
+          }
+        ]
+      },
+      "net_default": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_1",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.274
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_3",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.319
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_4",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.337
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_5",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.304
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_6",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.264
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_7",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.256
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_8",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.281
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_9",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.276
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_10",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.297
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_12",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.314
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_14",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.214
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Par_17",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.304
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_4",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.165
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_6",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.288
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_8",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.275
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_10",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.313
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_12",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.282
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_14",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.285
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_15",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.298
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_16",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.303
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_17",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.304
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_18",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.32
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_20",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.301
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_21",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.302
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_Temp_22",
+            "value": "0.918197 proportion (Very High)",
+            "z_score": 3.53
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_1",
+            "value": "0.992063 proportion (Very High)",
+            "z_score": 3.418
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_3",
+            "value": "0.568742 proportion (Very High)",
+            "z_score": 2.621
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_7",
+            "value": "0.541867 proportion (Very High)",
+            "z_score": 2.609
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_14",
+            "value": "0.971197 proportion (Very High)",
+            "z_score": 3.34
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_16",
+            "value": "0.718057 proportion (Very High)",
+            "z_score": 3.424
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_17",
+            "value": "1 proportion (Very High)",
+            "z_score": 2.79
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_20",
+            "value": "0.829581 proportion (Very High)",
+            "z_score": 3.228
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_35",
+            "value": "0.7443 proportion (Very High)",
+            "z_score": 3.547
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_36",
+            "value": "0.063472 proportion (High-Normal)",
+            "z_score": 0.506
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_37",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.188
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_41",
+            "value": "0.637139 proportion (Very High)",
+            "z_score": 2.738
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_42",
+            "value": "0.009534 proportion (Normal)",
+            "z_score": -0.126
+          },
+          {
+            "feature": "Lesion overlap: 7Networks_LH_Default_PFC_44",
+            "value": "0.014085 proportion (Normal)",
+            "z_score": -0.126
+          }
+        ]
+      }
+    },
+    "subcortical_nuclei": {
+      "struct_tha": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: THA-VAip-lh",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.189
+          },
+          {
+            "feature": "Lesion overlap: THA-VPl-lh",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.268
+          },
+          {
+            "feature": "Lesion overlap: THA-DAl-lh",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.2
+          }
+        ]
+      },
+      "struct_put": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: PUT-VA-lh",
+            "value": "0.544903 proportion (Very High)",
+            "z_score": 3.618
+          },
+          {
+            "feature": "Lesion overlap: PUT-DA-lh",
+            "value": "0.952295 proportion (Very High)",
+            "z_score": 3.134
+          },
+          {
+            "feature": "Lesion overlap: PUT-VP-lh",
+            "value": "0.664796 proportion (High)",
+            "z_score": 1.978
+          },
+          {
+            "feature": "Lesion overlap: PUT-DP-lh",
+            "value": "0.983854 proportion (Very High)",
+            "z_score": 2.781
+          }
+        ]
+      },
+      "struct_cau": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: CAU-DA-lh",
+            "value": "0.001515 proportion (Normal)",
+            "z_score": -0.165
+          }
+        ]
+      },
+      "struct_pgp": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: pGP-lh",
+            "value": "0.0375 proportion (Normal)",
+            "z_score": -0.174
+          }
+        ]
+      },
+      "struct_agp": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: aGP-lh",
+            "value": "0.091435 proportion (High)",
+            "z_score": 1.279
+          }
+        ]
+      }
     }
   }
 }

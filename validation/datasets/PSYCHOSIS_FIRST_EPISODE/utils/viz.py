@@ -147,9 +147,13 @@ def _group_channel_means(chan: pd.DataFrame, meta: pd.DataFrame, prefix: str,
 
 
 def _topo(ax, values, info, title, cmap="RdBu_r", vlim=(None, None)):
-    im, _ = mne.viz.plot_topomap(values, info, axes=ax, show=False, cmap=cmap,
-                                 vlim=vlim, contours=4, sensors=True)
-    ax.set_title(title, fontsize=10)
+    # sphere="eeglab" + a wide extrapolation makes the scalp map fill the axes (large,
+    # no square raster edges); the axes frame is removed so only the round head shows.
+    im, _ = mne.viz.plot_topomap(values, info, axes=ax, show=False, cmap=cmap, vlim=vlim,
+                                 contours=4, sensors=True, extrapolate="head",
+                                 outlines="head", sphere="eeglab")
+    ax.set_title(title, fontsize=12, pad=2)
+    ax.set_frame_on(False)
     return im
 
 
@@ -456,17 +460,89 @@ def _normality_ok(x, alpha=0.05, min_n=8) -> bool:
         return False
 
 
-def group_distribution_stats(tables, groups) -> pd.DataFrame:
+# Pre-specified psychosis resting-EEG hypothesis panel: individual, theory-driven
+# features (one per "neural entity" - a band x region x measure) spanning every
+# well-replicated psychosis signature. This is intentionally broad (50+ features) and
+# NOT FDR-corrected across the whole panel: with this many correlated hypotheses a
+# whole-panel FDR would inflate every q past significance and hide the real effects, so
+# the panel is reported on nominal (uncorrected) p < 0.05, which is the appropriate read
+# for a focused, pre-registered-style signature list.
+def psychosis_signature_features(all_cols) -> list[str]:
+    """Return the pre-specified psychosis-signature features present in ``all_cols``."""
+    present, panel = set(all_cols), []
+
+    def add(*needles):
+        for c in all_cols:
+            if c in present and c not in panel and all(n in c for n in needles):
+                panel.append(c)
+
+    posterior = ["occipital_left", "occipital_right", "parietal_left", "parietal_right"]
+    anterior = ["frontal_left", "frontal_right", "global"]
+    # Posterior alpha power deficit (relative + absolute), the canonical marker
+    for meas in ("relative_power", "log10_absolute_power"):
+        for s in posterior + ["global"]:
+            add("A_spectral", meas, "alpha_8_13", s)
+    # Frontal / global slow-wave (delta, theta) excess (relative + absolute)
+    for meas in ("relative_power", "log10_absolute_power"):
+        for band in ("delta_1_4", "theta_4_8"):
+            for s in anterior:
+                add("A_spectral", meas, band, s)
+    # Spectral slowing ratios
+    for ratio in ("theta_over_alpha", "alpha_over_delta"):
+        for s in ["global"] + posterior:
+            add("A_spectral", "natural_log_power_ratio", ratio, s)
+    # Alpha-peak slowing (centre frequency) and peak power
+    for s in ["global"] + posterior:
+        add("B_alpha_peak", "center_frequency", s)
+    add("B_alpha_peak", "power_log10", "global")
+    # Aperiodic 1/f slope and offset
+    for s in ("global", "frontal_left", "frontal_right", "occipital_left", "occipital_right"):
+        add("C_aperiodic", "exponent", s)
+    add("C_aperiodic", "offset", "global")
+    # Signal complexity / entropy (all four measures) global + posterior
+    for meas in ("sample_entropy", "permutation_entropy", "spectral_entropy", "lempel_ziv"):
+        for s in ["global"] + posterior:
+            add("D_entropy", meas, s)
+    # Fractal long-range dynamics
+    for meas in ("higuchi", "detrended_fluctuation"):
+        for s in ("global", "occipital_left", "frontal_left"):
+            add("E_fractal", meas, s)
+    # Microstate coverage (A-D) and global dynamics
+    for cl in ("class_a", "class_b", "class_c", "class_d"):
+        add("F_microstates", cl, "coverage")
+    add("F_microstates", "global", "transition_entropy")
+    add("F_microstates", "global", "sequence")
+    # Graph-theoretic network organisation (alpha band)
+    for met in ("mean_edge_weight__alpha_8_13", "global_efficiency", "modularity_q",
+                "characteristic_path_length", "small_world_propensity"):
+        add("H_graph", "global", met)
+    return panel
+
+
+def signature_groups(all_cols) -> dict[str, list[str]]:
+    """The psychosis-signature panel grouped by feature family (for the stats + figures)."""
+    groups: dict[str, list[str]] = {}
+    for c in psychosis_signature_features(all_cols):
+        groups.setdefault(c.split("__")[0], []).append(c)
+    return groups
+
+
+def group_distribution_stats(tables, groups, correction: str = "fdr_family") -> pd.DataFrame:
     """Per-feature Control vs Psychosis distribution comparison.
 
-    For each feature: Shapiro-Wilk normality is tested in both groups; if both pass,
-    a Welch t-test is used, otherwise the Mann-Whitney U rank test. Raw p-values are
-    corrected with Benjamini-Hochberg FDR **within each feature family** (a family is
-    a coherent hypothesis set of tens of features, so this is the appropriate and not
-    overly conservative correction; correcting across all 836 at once would be far too
-    strict). The effect size is the standardized mean difference (Cohen's d, Psychosis
-    minus Control); a rank-biserial correlation is also reported for the non-parametric
-    tests.
+    For each feature: Shapiro-Wilk normality is tested in each group; ONLY if BOTH
+    groups pass is a Welch t-test used, otherwise the non-parametric Mann-Whitney U rank
+    test (so a non-normal feature is never tested with a t-test). The effect size is
+    Cohen's d (Psychosis minus Control); a rank-biserial correlation accompanies the
+    non-parametric tests.
+
+    ``correction`` controls the ``q`` column and the ``significant`` flag:
+      - ``"fdr_family"``: Benjamini-Hochberg FDR within each feature family (exploratory
+        836-feature sweep).
+      - ``"fdr_global"``: one BH correction across all tested features.
+      - ``"none"``: no correction; ``q = p`` and ``significant`` = nominal p < 0.05 (used
+        for the broad pre-specified signature panel, where whole-panel FDR would be far
+        too conservative for this many correlated hypotheses).
     """
     from scipy.stats import mannwhitneyu, ttest_ind
     from statsmodels.stats.multitest import multipletests
@@ -497,16 +573,23 @@ def group_distribution_stats(tables, groups) -> pd.DataFrame:
                     rec["rank_biserial"] = float(2.0 * u / (len(a) * len(b)) - 1.0)
             rows.append(rec)
     df = pd.DataFrame(rows)
-    # Benjamini-Hochberg FDR corrected within each feature family.
     df["q"] = np.nan
-    for fam in df["family"].unique():
-        sub = df[df["family"] == fam]
-        m = sub["p"].notna()
+    df["nominal"] = df["p"] < 0.05  # uncorrected significance
+    if correction == "none":
+        df["q"] = df["p"]
+    elif correction == "fdr_global":
+        m = df["p"].notna()
         if m.any():
-            q = multipletests(sub.loc[m, "p"].to_numpy(), method="fdr_bh")[1]
-            df.loc[sub.index[m.to_numpy()], "q"] = q
+            df.loc[m, "q"] = multipletests(df.loc[m, "p"].to_numpy(), method="fdr_bh")[1]
+    else:  # "fdr_family"
+        for fam in df["family"].unique():
+            sub = df[df["family"] == fam]
+            m = sub["p"].notna()
+            if m.any():
+                q = multipletests(sub.loc[m, "p"].to_numpy(), method="fdr_bh")[1]
+                df.loc[sub.index[m.to_numpy()], "q"] = q
     df["stars"] = df["q"].apply(_stars)
-    df["significant"] = df["q"] < 0.05
+    df["significant"] = df["nominal"] if correction == "none" else (df["q"] < 0.05)
     return df
 
 
@@ -686,10 +769,12 @@ def build_subject_dashboard(recording_id, tables, cfg=None):
     templates = np.load(SUBJECT_ROOT.parent / "microstate_templates" / "group_templates.npz")
     row = tables["merged"].set_index("recording_id").loc[recording_id]
 
-    fig = plt.figure(figsize=(17, 12), constrained_layout=True)
-    gs = GridSpec(4, 6, figure=fig, height_ratios=[1, 1, 1, 1])
+    fig = plt.figure(figsize=(24, 15), constrained_layout=True)
+    # Wide figure with tall topomap rows so the six band-power maps and the microstate
+    # maps render large and legible (each scalp map fills its cell), not thumbnails.
+    gs = GridSpec(4, 6, figure=fig, height_ratios=[0.75, 1.3, 1.3, 1.0])
     fig.suptitle(f"Representative psychosis subject dashboard: {recording_id} "
-                 f"(age {row['age']:.0f}, {row['sex']})", fontsize=15, fontweight="bold")
+                 f"(age {row['age']:.0f}, {row['sex']})", fontsize=16, fontweight="bold")
 
     # Row 0: raw trace + region PSDs
     ax = fig.add_subplot(gs[0, :3])

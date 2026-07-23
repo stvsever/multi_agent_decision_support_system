@@ -198,12 +198,24 @@ def _build_narrative(
         "external": "deviation from external normative reference",
         "absolute": "absolute pre-processed values, no normative reference",
     }.get(reference_mode, "observed values")
+    # How each leaf value is scaled, so the engine reads the numbers correctly.
+    value_scale_note = {
+        "cohort": "Feature values below are shown on their native measured scale; the "
+                  "parenthetical qualifier (e.g. High, Low, Very High) is this participant's "
+                  "signed deviation (z-score) from the reference cohort for that feature.",
+        "external": "Feature values are on their native measured scale; the qualifier is the "
+                    "signed deviation from an external normative reference.",
+        "absolute": "Feature values are absolute pre-processed measurements; no normative "
+                    "reference is available, so no deviation qualifier is given.",
+    }.get(reference_mode, "Feature values are shown on their native measured scale.")
 
+    dataset = ontology.get("dataset", "dataset")
     lines: List[str] = [
         f"Participant ID: {participant_id}",
-        f"Source: blinded evaluation record from {ontology.get('dataset', 'dataset')}; "
-        "non-cognitive multimodal features only.",
+        f"Source: evaluation record from {dataset}. Only the multimodal predictor features "
+        "listed below are provided; the prediction target is never included as an input.",
         f"Reference strategy: {reference_mode} ({ref_phrase}).",
+        value_scale_note,
         "",
         "TARGET MEASUREMENT REFERENCE:",
         target_note,
@@ -229,9 +241,9 @@ def _build_narrative(
         lines.append("NOTABLE DEVIATIONS: none beyond one standard deviation.")
     lines.append("")
     lines.append(
-        "NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction "
-        "target must be inferred only from the non-cognitive multimodal evidence provided "
-        "in this record."
+        "NOTE: The prediction target and any of its own components are never provided as "
+        "inputs. Infer the target only from the multimodal predictor evidence in this record, "
+        "reading each value on the native scale described in the target reference above."
     )
     return "\n".join(lines)
 

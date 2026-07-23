@@ -1,0 +1,2311 @@
+{
+  "dataset": "First-Episode Psychosis resting EEG (OpenNeuro ds003944 + ds003947)",
+  "task": "diagnosis (binary) -> BPRS total -> SAPS/SANS symptom globals",
+  "class_labels": [
+    "Control",
+    "First-Episode Psychosis"
+  ],
+  "outputs": [
+    "target__bprs__total_q01_to_q19",
+    "target__saps__q07_global_rating_of_hallucinations",
+    "target__saps__q20_global_rating_of_delusions",
+    "target__saps__q25_global_rating_of_bizzare_behavior",
+    "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+    "target__sans__q07_global_rating_of_affective_flattening",
+    "target__sans__q13_global_rating_of_alogia",
+    "target__sans__q17_global_rating_of_avolition",
+    "target__sans__q22_anhedonia",
+    "target__sans__q25_global_rating_of_attention"
+  ],
+  "n_recordings": 143,
+  "annotations": [
+    {
+      "recording_id": "ds003944_sub-1448",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-1824",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-1971",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-1983",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 41.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-1989",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-1990",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 46.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-1998",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 37.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 4.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-1999",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2000",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 40.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2002",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2009",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2015",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2017",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2018",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2020",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2025",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2028",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 49.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2034",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 38.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2038",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2041",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2044",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2054",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 44.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2067",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 43.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2070",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 32.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2071",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2072",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 56.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2073",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2081",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 49.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2082",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2086",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 52.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 5.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2089",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 55.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2092",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 56.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2093",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 52.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2095",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 42.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2096",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2105",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 55.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2109",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2110",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2117",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 70.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 5.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2122",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2124",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2125",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2128",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2129",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2131",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 51.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2133",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 43.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2134",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 46.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2135",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 40.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2136",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2137",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2138",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2140A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2141",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 37.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2142",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2143",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 33.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2149",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 31.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2170A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 52.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2171",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 57.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2174",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2174A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2176",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2176A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2177",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2177A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2178",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2179",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 42.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2184A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2187",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 52.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2193",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2193A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2195",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 61.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 4.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 4.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2196",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2197",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 48.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2199",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2213",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2214A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2217A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 57.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 4.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2218",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 38.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2221",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2221A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2222",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003944_sub-2223",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2235A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2237A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 38.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2238A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2240A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2245A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 57.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2246A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 38.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2249A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 43.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2252A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2259A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2262A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2266A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2267A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2268A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2269A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2276A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 68.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2279A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 52.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2290A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2318A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 42.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2320A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2336A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 49.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2342A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2350A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2351A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 51.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2355A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2356A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2367A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 56.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2372A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2379A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 58.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 4.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2384A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2387A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2389A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2392A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 57.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2397A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 51.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 4.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2403A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 57.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 2.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2406A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2418A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 55.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2419A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 27.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2426A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2430A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2431A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 41.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2442A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2448A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 32.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2456A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2476A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 65.0,
+        "target__saps__q07_global_rating_of_hallucinations": 4.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 4.0,
+        "target__sans__q13_global_rating_of_alogia": 4.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2477A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 24.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 0.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2479A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2480A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2494A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2496A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2498A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 36.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 0.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2503A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 35.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2505A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 54.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 3.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2512A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2514A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 51.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2518A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2526A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 60.0,
+        "target__saps__q07_global_rating_of_hallucinations": 2.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 4.0,
+        "target__sans__q13_global_rating_of_alogia": 2.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 4.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2530A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2538A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2574A",
+      "diagnosis": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2578A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 49.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 3.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    },
+    {
+      "recording_id": "ds003947_sub-2581A",
+      "diagnosis": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 34.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 3.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      }
+    }
+  ]
+}

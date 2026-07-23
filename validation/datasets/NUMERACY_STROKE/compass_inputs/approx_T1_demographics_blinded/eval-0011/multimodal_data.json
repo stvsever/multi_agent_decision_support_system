@@ -1,24 +1,25 @@
 {
-  "DEMOGRAPHICS_AND_CLINICAL": {
-    "general": {
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
       "_leaves": [
         {
           "feature": "Age",
-          "z_score": 0.059,
           "value": "62 years (Normal)",
-          "ref_range": "cohort mean 61.3, sd 11.9 (population-referenced)"
+          "z_score": 0.059
         },
         {
           "feature": "Education (years)",
-          "z_score": 0.403,
           "value": "16 years (Normal)",
-          "ref_range": "cohort mean 14.9, sd 2.7 (population-referenced)"
-        },
+          "z_score": 0.403
+        }
+      ]
+    },
+    "imaging_acquisition": {
+      "_leaves": [
         {
           "feature": "Imaging modality",
-          "z_score": 0.488,
           "value": "research_MR (Normal)",
-          "ref_range": "cohort distribution research_mr:79%, clinical_mr:18%, clinical_ct:4%"
+          "z_score": 0.488
         }
       ]
     }

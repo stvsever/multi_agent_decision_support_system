@@ -65,3 +65,7 @@ validation/datasets/*/data/
 # Engine per-run work dirs under validation results (runtime only)
 validation/**/_compass_work/
 validation/**/_work/
+
+# Master-notebook engine scratch (system temp is used; this is a defensive guard)
+validation/datasets/_run_scratch/
+validation/datasets/_smoke/

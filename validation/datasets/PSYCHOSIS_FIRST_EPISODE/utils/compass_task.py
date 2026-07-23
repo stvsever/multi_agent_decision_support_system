@@ -264,6 +264,52 @@ def eeg_ontology_path(col: str) -> list[dict[str, str]]:
     return segs
 
 
+def _seg(sid: str, label: str, definition: str = "") -> dict[str, str]:
+    return {"id": sid, "label": label, "definition": definition}
+
+
+# Abstract domains for the non-neural clinical predictors. Making these explicit
+# ``path`` hints (instead of leaving them to the LLM) gives a clean, deep, fully
+# reproducible hierarchy and, in particular, breaks the 74-item Social Functioning
+# Scale out of one flat list into the instrument's own question blocks.
+_DEMO_DOM = _seg("DEMOGRAPHICS_AND_SES", "Demographics and Socio-economic Status")
+_COG_DOM = _seg("COGNITION_AND_INTELLIGENCE", "Cognition and Intelligence")
+_FUNC_DOM = _seg("OBSERVED_FUNCTIONING", "Observed Functioning")
+
+_SFS_BLOCK = [
+    (r"sfs_q0?[3-7](_|$)", "sfs_withdrawal_engagement", "Withdrawal and engagement",
+     "SFS items on daily routine, time spent alone, initiating contact and leaving home."),
+    (r"sfs_q0?[89](_|$)|sfs_q1[01](_|$)", "sfs_interpersonal", "Interpersonal and communication",
+     "SFS items on friendships, partnership and the ease of conversation."),
+    (r"sfs_q12", "sfs_activities_recreation", "Activities and recreation",
+     "SFS block 12: independent activities, hobbies, and recreational or social outings."),
+    (r"sfs_q13", "sfs_independence_competence", "Independence and competence",
+     "SFS block 13: rated competence at independent-living skills."),
+    (r"sfs_q14", "sfs_employment", "Employment", "SFS employment / occupation item."),
+]
+
+
+def clinical_ontology_path(col: str) -> list[dict[str, str]]:
+    """Deterministic abstract path for a non-EEG clinical predictor column."""
+    if col.startswith("covariate__demographics__"):
+        return [_DEMO_DOM, _seg("participant_demographics", "Participant demographics")]
+    if col.startswith("covariate__socioeconomic__"):
+        return [_DEMO_DOM, _seg("socioeconomic_status", "Socio-economic status (Hollingshead)")]
+    if col.startswith("target__matrics__"):
+        return [_COG_DOM, _seg("matrics_cognitive_domains", "MATRICS cognitive domains")]
+    if col.startswith("target__wasi__"):
+        return [_COG_DOM, _seg("wasi_intelligence", "WASI intelligence estimates")]
+    if "global_assessment_of_functioning" in col or col.startswith("target__functioning__gaf"):
+        return [_FUNC_DOM, _seg("gaf_ratings", "Global Assessment of Functioning")]
+    if col.startswith("target__social_functioning_scale__"):
+        sfs = _seg("social_functioning_scale", "Social Functioning Scale (SFS)")
+        for pattern, sid, label, defn in _SFS_BLOCK:
+            if re.search(pattern, col):
+                return [_FUNC_DOM, sfs, _seg(sid, label, defn)]
+        return [_FUNC_DOM, sfs, _seg("sfs_other", "Other SFS items")]
+    return [_seg("CLINICAL_OTHER", "Other clinical measures")]
+
+
 def build_specs(columns: list[str], non_eeg_dict: dict[str, dict[str, Any]],
                 eeg_names: set[str]) -> dict[str, dict[str, Any]]:
     """Feature specs for ingestion/ontology: label, stat_type, description, path."""
@@ -285,6 +331,7 @@ def build_specs(columns: list[str], non_eeg_dict: dict[str, dict[str, Any]],
                 "stat_type": "nominal" if col in nominal else "numeric",
                 "description": meta.get("description", ""),
                 "source": meta.get("source_table", "clinical phenotype"),
+                "path": clinical_ontology_path(col),
             }
     return specs
 

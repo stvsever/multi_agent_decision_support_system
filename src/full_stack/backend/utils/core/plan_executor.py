@@ -4,6 +4,7 @@ COMPASS Plan Executor
 Executes orchestrator-generated plans step by step.
 """
 
+import os
 import time
 import logging
 import json
@@ -111,8 +112,14 @@ class PlanExecutor:
             from concurrent.futures import ThreadPoolExecutor, as_completed
             from ...config.settings import LLMBackend
             
-            # Use max_workers=12 as requested, BUT force 1 for Local LLM to save VRAM
-            active_workers = 12
+            # Parallel step fan-out. Defaults to 12, but is configurable via
+            # COMPASS_EXECUTOR_MAX_WORKERS so batch/validation runs can bound the number of
+            # concurrent provider calls (large-tier prompts otherwise exhaust the rate limit).
+            # Forced to 1 for a Local LLM to save VRAM.
+            try:
+                active_workers = max(1, int(os.getenv("COMPASS_EXECUTOR_MAX_WORKERS", "12")))
+            except ValueError:
+                active_workers = 12
             if self.settings.models.backend == LLMBackend.LOCAL:
                 print("[PlanExecutor] Local Backend detected: Forcing sequential execution (max_workers=1)")
                 active_workers = 1

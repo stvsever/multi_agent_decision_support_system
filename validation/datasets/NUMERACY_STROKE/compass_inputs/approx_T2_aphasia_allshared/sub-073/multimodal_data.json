@@ -1,36 +1,45 @@
 {
-  "DEMOGRAPHICS_AND_CLINICAL": {
-    "general": {
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
       "_leaves": [
         {
           "feature": "Age",
-          "z_score": -0.796,
           "value": "52 years (Low-Normal)",
-          "ref_range": "cohort mean 61.6, sd 12.0 (population-referenced)"
+          "z_score": -0.796
         },
         {
           "feature": "Education (years)",
-          "z_score": -1.144,
           "value": "12 years (Low)",
-          "ref_range": "cohort mean 15.1, sd 2.7 (population-referenced)"
-        },
+          "z_score": -1.144
+        }
+      ]
+    },
+    "imaging_acquisition": {
+      "_leaves": [
         {
           "feature": "Imaging modality",
-          "z_score": -1.491,
           "value": "clinical_MR (Low)",
-          "ref_range": "cohort distribution research_mr:77%, clinical_mr:20%, clinical_ct:3%"
-        },
+          "z_score": -1.491
+        }
+      ]
+    }
+  },
+  "CLINICAL_PROFILE": {
+    "language_function": {
+      "_leaves": [
         {
           "feature": "Aphasia severity (WAB-R quotient)",
-          "z_score": -0.676,
-          "value": "-0.667016 score (Low-Normal)",
-          "ref_range": "cohort mean -0.0, sd 1.0 (population-referenced)"
-        },
+          "value": "-0.667016 standardized units (rank inverse-normal; higher = less aphasia) (Low-Normal)",
+          "z_score": -0.676
+        }
+      ]
+    },
+    "whole_brain_lesion_load": {
+      "_leaves": [
         {
           "feature": "Whole-brain lesion volume",
-          "z_score": -0.39,
-          "value": "-5.65743 proportion (Normal)",
-          "ref_range": "cohort mean -4.8, sd 2.1 (population-referenced)"
+          "value": "-5.65743 standardized units (log lesion fraction of the left hemisphere) (Normal)",
+          "z_score": -0.39
         }
       ]
     }

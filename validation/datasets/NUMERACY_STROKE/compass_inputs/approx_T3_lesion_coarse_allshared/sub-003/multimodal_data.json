@@ -1,374 +1,240 @@
 {
-  "DEMOGRAPHICS_AND_CLINICAL": {
-    "general": {
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
       "_leaves": [
         {
           "feature": "Age",
-          "z_score": 1.535,
           "value": "80 years (High)",
-          "ref_range": "cohort mean 61.6, sd 12.0 (population-referenced)"
+          "z_score": 1.535
         },
         {
           "feature": "Education (years)",
-          "z_score": 2.203,
           "value": "21 years (Very High)",
-          "ref_range": "cohort mean 15.1, sd 2.7 (population-referenced)"
-        },
+          "z_score": 2.203
+        }
+      ]
+    },
+    "imaging_acquisition": {
+      "_leaves": [
         {
           "feature": "Imaging modality",
-          "z_score": 0.516,
           "value": "research_MR (High-Normal)",
-          "ref_range": "cohort distribution research_mr:77%, clinical_mr:20%, clinical_ct:3%"
-        },
-        {
-          "feature": "Aphasia severity (WAB-R quotient)",
-          "z_score": -0.804,
-          "value": "-0.791639 score (Low-Normal)",
-          "ref_range": "cohort mean -0.0, sd 1.0 (population-referenced)"
-        },
-        {
-          "feature": "Whole-brain lesion volume",
-          "z_score": 0.977,
-          "value": "-2.75294 proportion (High-Normal)",
-          "ref_range": "cohort mean -4.8, sd 2.1 (population-referenced)"
+          "z_score": 0.516
         }
       ]
     }
   },
-  "LESION_CORTEX": {
-    "other": {
+  "CLINICAL_PROFILE": {
+    "language_function": {
+      "_leaves": [
+        {
+          "feature": "Aphasia severity (WAB-R quotient)",
+          "value": "-0.791639 standardized units (rank inverse-normal; higher = less aphasia) (Low-Normal)",
+          "z_score": -0.804
+        }
+      ]
+    },
+    "whole_brain_lesion_load": {
+      "_leaves": [
+        {
+          "feature": "Whole-brain lesion volume",
+          "value": "-2.75294 standardized units (log lesion fraction of the left hemisphere) (High-Normal)",
+          "z_score": 0.977
+        }
+      ]
+    }
+  },
+  "LESION_TOPOGRAPHY": {
+    "cerebral_cortex": {
       "_leaves": [
         {
           "feature": "Lesion overlap: Other (Cortex)",
-          "z_score": -0.149,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "vis": {
-      "_leaves": [
+          "z_score": -0.149
+        },
         {
           "feature": "Lesion overlap: Vis (Cortex)",
-          "z_score": -0.355,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "sommot": {
-      "_leaves": [
+          "z_score": -0.355
+        },
         {
           "feature": "Lesion overlap: SomMot (Cortex)",
-          "z_score": 0.019,
           "value": "0.0257185 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        }
-      ]
-    },
-    "dorsattn": {
-      "_leaves": [
+          "z_score": 0.019
+        },
         {
           "feature": "Lesion overlap: DorsAttn (Cortex)",
-          "z_score": 1.271,
           "value": "0.0612994 proportion (High)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "salventattn": {
-      "_leaves": [
+          "z_score": 1.271
+        },
         {
           "feature": "Lesion overlap: SalVentAttn (Cortex)",
-          "z_score": 0.209,
           "value": "0.0430925 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        }
-      ]
-    },
-    "limbic": {
-      "_leaves": [
+          "z_score": 0.209
+        },
         {
           "feature": "Lesion overlap: Limbic (Cortex)",
-          "z_score": -0.355,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "cont": {
-      "_leaves": [
+          "z_score": -0.355
+        },
         {
           "feature": "Lesion overlap: Cont (Cortex)",
-          "z_score": 0.063,
           "value": "0.0218144 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
+          "z_score": 0.063
+        },
+        {
+          "feature": "Lesion overlap: Default (Cortex)",
+          "value": "0.00214247 proportion (Normal)",
+          "z_score": -0.398
         }
       ]
     },
-    "default": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: Default (Cortex)",
-          "z_score": -0.398,
-          "value": "0.00214247 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    }
-  },
-  "LESION_SUBCORTEX": {
-    "hip": {
+    "subcortical_nuclei": {
       "_leaves": [
         {
           "feature": "Lesion overlap: HIP (Subcortex)",
-          "z_score": -0.208,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "tha": {
-      "_leaves": [
+          "z_score": -0.208
+        },
         {
           "feature": "Lesion overlap: THA (Subcortex)",
-          "z_score": -0.236,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "put": {
-      "_leaves": [
+          "z_score": -0.236
+        },
         {
           "feature": "Lesion overlap: PUT (Subcortex)",
-          "z_score": -0.588,
           "value": "0 proportion (Low-Normal)",
-          "ref_range": "cohort mean 0.1, sd 0.1 (population-referenced)"
-        }
-      ]
-    },
-    "cau": {
-      "_leaves": [
+          "z_score": -0.588
+        },
         {
           "feature": "Lesion overlap: CAU (Subcortex)",
-          "z_score": -0.217,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "lamy": {
-      "_leaves": [
+          "z_score": -0.217
+        },
         {
           "feature": "Lesion overlap: lAMY (Subcortex)",
-          "z_score": -0.177,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "mamy": {
-      "_leaves": [
+          "z_score": -0.177
+        },
         {
           "feature": "Lesion overlap: mAMY (Subcortex)",
-          "z_score": -0.195,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "nac": {
-      "_leaves": [
+          "z_score": -0.195
+        },
         {
           "feature": "Lesion overlap: NAc (Subcortex)",
-          "z_score": -0.163,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "pgp": {
-      "_leaves": [
+          "z_score": -0.163
+        },
         {
           "feature": "Lesion overlap: pGP (Subcortex)",
-          "z_score": -0.365,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.1 (population-referenced)"
-        }
-      ]
-    },
-    "agp": {
-      "_leaves": [
+          "z_score": -0.365
+        },
         {
           "feature": "Lesion overlap: aGP (Subcortex)",
-          "z_score": -0.393,
           "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    }
-  },
-  "LESION_CEREBELLUM": {
-    "m1": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: M1 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
+          "z_score": -0.393
         }
       ]
     },
-    "m2": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: M2 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "m3": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: M3 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "m4": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: M4 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "a1": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: A1 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "a2": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: A2 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "a3": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: A3 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "d1": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: D1 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "d2": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: D2 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "d3": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: D3 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "d4": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: D4 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "s1": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: S1 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "s2": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: S2 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "s3": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: S3 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
-    },
-    "s4": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: S4 (Cerebellum)",
-          "z_score": 0.0,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 1.0 (population-referenced)"
-        }
-      ]
-    },
-    "s5": {
-      "_leaves": [
-        {
-          "feature": "Lesion overlap: S5 (Cerebellum)",
-          "z_score": -0.098,
-          "value": "0 proportion (Normal)",
-          "ref_range": "cohort mean 0.0, sd 0.0 (population-referenced)"
-        }
-      ]
+    "cerebellum": {
+      "cbdom_m": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: M1 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: M2 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: M3 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: M4 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          }
+        ]
+      },
+      "cbdom_a": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: A1 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: A2 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: A3 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          }
+        ]
+      },
+      "cbdom_d": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: D1 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: D2 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: D3 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: D4 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          }
+        ]
+      },
+      "cbdom_s": {
+        "_leaves": [
+          {
+            "feature": "Lesion overlap: S1 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: S2 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: S3 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          },
+          {
+            "feature": "Lesion overlap: S4 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": 0.0
+          },
+          {
+            "feature": "Lesion overlap: S5 (Cerebellum)",
+            "value": "0 proportion (Normal)",
+            "z_score": -0.098
+          }
+        ]
+      }
     }
   }
 }

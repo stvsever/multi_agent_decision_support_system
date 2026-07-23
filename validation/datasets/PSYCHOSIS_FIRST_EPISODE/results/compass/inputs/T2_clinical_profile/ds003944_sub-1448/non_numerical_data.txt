@@ -1,6 +1,7 @@
 Participant ID: ds003944_sub-1448
-Source: blinded evaluation record from PSYCHOSIS_FEP; non-cognitive multimodal features only.
+Source: evaluation record from PSYCHOSIS_FEP. Only the multimodal predictor features listed below are provided; the prediction target is never included as an input.
 Reference strategy: cohort (deviation from the population cohort).
+Feature values below are shown on their native measured scale; the parenthetical qualifier (e.g. High, Low, Very High) is this participant's signed deviation (z-score) from the reference cohort for that feature.
 
 TARGET MEASUREMENT REFERENCE:
 Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, then predict their psychiatric symptom severity on the native clinical scales below.
@@ -26,4 +27,4 @@ OBSERVED FEATURE PROFILE (deviation from the population cohort):
 
 NOTABLE DEVIATIONS: Age Years is low (z=-1.47); Mother Hollingshead Index is high (z=+1.09); Parental Mean Hollingshead Index is high (z=+1.14); Participant Hollingshead Index is low (z=-1.64); Gaf Role Current 0 To 10 Higher Better is high (z=+1.03); Gaf Role Lifetime Low 0 To 10 Higher Better is high (z=+1.05); Gaf Social Current 0 To 10 Higher Better is high (z=+1.09); Gaf Social Lifetime High 0 To 10 Higher Better is high (z=+1.08); Gaf Social Lifetime Low 0 To 10 Higher Better is high (z=+1.13); Sfs Q12 01 Buying Items From The Store Without Help is low (z=-1.32); Sfs Q12 02 Washing Pots Tidying Up Etc is low (z=-1.43); Sfs Q12 04 Washing Own Clothes is low (z=-1.26); Sfs Q12 06 Doing The Food Shopping is low (z=-1.75); Sfs Q12 08 Leaving The House Alone is very low (z=-2.77); Sfs Q12 09 Using Buses Trains Etc is low (z=-1.22); Sfs Q12 21 D I Y Activities E G Putting Up Shelves is high (z=+1.37); Sfs Q12 25 Swimming is high (z=+1.07); Sfs Q12 27 Shopping is very low (z=-2.12); Sfs Q12 31 Watching An Indoor Sport Ice Hockey Basketball is high (z=+1.54); Sfs Q12 32 Watching An Outdoor Sport Football Baseball is high (z=+1.31); (+13 more).
 
-NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction target must be inferred only from the non-cognitive multimodal evidence provided in this record.
+NOTE: The prediction target and any of its own components are never provided as inputs. Infer the target only from the multimodal predictor evidence in this record, reading each value on the native scale described in the target reference above.

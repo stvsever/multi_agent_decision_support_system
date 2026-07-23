@@ -1,6 +1,7 @@
 Participant ID: ds003944_sub-1999
-Source: blinded evaluation record from PSYCHOSIS_FEP; non-cognitive multimodal features only.
+Source: evaluation record from PSYCHOSIS_FEP. Only the multimodal predictor features listed below are provided; the prediction target is never included as an input.
 Reference strategy: cohort (deviation from the population cohort).
+Feature values below are shown on their native measured scale; the parenthetical qualifier (e.g. High, Low, Very High) is this participant's signed deviation (z-score) from the reference cohort for that feature.
 
 TARGET MEASUREMENT REFERENCE:
 Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, then predict their psychiatric symptom severity on the native clinical scales below.
@@ -20,8 +21,8 @@ Symptom scales (predict on these native ranges; no symptom value for this partic
 Controls are expected to have low or absent symptoms; cases vary widely. Infer diagnosis and severity only from the provided evidence (demographics, socio-economic status, cognition, observed functioning, and EEG features, depending on the tier).
 
 OBSERVED FEATURE PROFILE (deviation from the population cohort):
-- Resting-State EEG [29 measured]: Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Frontal right = 0.0644686 (Low); Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Frontal left = 0.0713373 (Low); Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Global = 0.091747 (Low); Spectral power: Natural log power ratio Theta over alpha Global = -1.08976 (Low-Normal); Spectral power: Relative power fraction of 1 45 hz Delta (1-4 hz) Frontal right = 0.204895 (Low-Normal); Spectral power: Relative power fraction of 1 45 hz Delta (1-4 hz) Frontal left = 0.20495 (Low-Normal) (+23 more)
+- Resting EEG [29 measured]: Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Frontal right = 0.0644686 (Low); Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Frontal left = 0.0713373 (Low); Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Global = 0.091747 (Low); Spectral power: Natural log power ratio Theta over alpha Global = -1.08976 (Low-Normal); Spectral power: Relative power fraction of 1 45 hz Delta (1-4 hz) Frontal right = 0.204895 (Low-Normal); Spectral power: Relative power fraction of 1 45 hz Delta (1-4 hz) Frontal left = 0.20495 (Low-Normal) (+23 more)
 
 NOTABLE DEVIATIONS: Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Frontal left is low (z=-1.11); Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Frontal right is low (z=-1.19); Spectral power: Relative power fraction of 1 45 hz Theta (4-8 hz) Global is low (z=-1.02).
 
-NOTE: No cognitive/IST subscale scores are provided as inputs. The prediction target must be inferred only from the non-cognitive multimodal evidence provided in this record.
+NOTE: The prediction target and any of its own components are never provided as inputs. Infer the target only from the multimodal predictor evidence in this record, reading each value on the native scale described in the target reference above.

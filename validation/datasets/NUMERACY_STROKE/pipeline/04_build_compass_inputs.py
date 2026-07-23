@@ -62,17 +62,25 @@ PREVALENCE_MIN_SUBJECTS = 10  # must match 03_build_ontology.py's fine-tier filt
 
 TARGETS = ["approximate_numeracy", "precise_numeracy"]
 TARGET_LABELS = {
-    "approximate_numeracy": "Z-score of performance on a computer-based dot comparison task",
-    "precise_numeracy": "composite Z-score across several precise numeracy tasks "
+    "approximate_numeracy": "Z-score of performance on a computer-based dot-comparison task "
+                            "(the non-symbolic Approximate Number System)",
+    "precise_numeracy": "composite Z-score across several precise, symbolic numeracy tasks "
                         "(WAB number items, number writing/dictation, calculation)",
 }
 
+# Only the TRANSFORMED feature tier is ingested (see the dataset README): the two
+# scalar clinical covariates below are already standardized on disk, so their units
+# are labelled honestly as standardized transforms rather than their raw native
+# scale. The per-region lesion-overlap features remain raw proportions (0-1).
 TABULAR_SPECS = {
     "age": {"label": "Age", "stat_type": "numeric", "units": "years"},
     "education_years": {"label": "Education (years)", "stat_type": "numeric", "units": "years"},
     "image_modality": {"label": "Imaging modality", "stat_type": "nominal", "units": None},
-    "aphasia_quotient": {"label": "Aphasia severity (WAB-R quotient)", "stat_type": "numeric", "units": "score"},
-    "lesion_volume": {"label": "Whole-brain lesion volume", "stat_type": "numeric", "units": "proportion"},
+    "aphasia_quotient": {"label": "Aphasia severity (WAB-R quotient, standardized)",
+                          "stat_type": "numeric",
+                          "units": "standardized units (rank inverse-normal; higher = less aphasia)"},
+    "lesion_volume": {"label": "Whole-brain lesion volume (standardized)", "stat_type": "numeric",
+                       "units": "standardized units (log lesion fraction of the left hemisphere)"},
 }
 T1_COLS = ["age", "education_years", "image_modality"]
 T2_COLS = T1_COLS + ["aphasia_quotient", "lesion_volume"]
@@ -121,6 +129,18 @@ def select_blinded_subset(merged_df: pd.DataFrame, target: str) -> list:
     return sorted(rng.choice(ids, size=n, replace=False).tolist())
 
 
+SCALE_NOTE = (
+    "SCALE GUIDE (how to read this record): the two numeracy phenotypes are already "
+    "population Z-scores (0 = the stroke-cohort average, +/-1 = one SD; higher = better "
+    "numeracy). Predictors are the standardized TRANSFORMED tier only: age and education "
+    "are raw years; aphasia_quotient is a standardized WAB-R quotient (higher = less "
+    "aphasia); whole-brain lesion volume is a standardized log lesion fraction; every "
+    "per-region 'lesion overlap' feature is a raw proportion from 0 (spared) to 1 (fully "
+    "lesioned). The (High/Low/...) qualifier on each feature is this participant's cohort "
+    "deviation, not part of the raw value."
+)
+
+
 def build_target_note(target: str, reference_df: pd.DataFrame) -> str:
     ref_target = pd.to_numeric(reference_df[target], errors="coerce").dropna()
     mean, sd = float(ref_target.mean()), float(ref_target.std(ddof=0))
@@ -129,7 +149,7 @@ def build_target_note(target: str, reference_df: pd.DataFrame) -> str:
         f"mean={mean:.3f}, sd={sd:.3f} native Z-score units. Predict one numeric value on "
         f"that native scale. No {'/'.join(t for t in TARGETS if t != target)} value is a "
         f"reliable proxy - this dataset's whole point is their differential relationship to "
-        f"language/lesion features."
+        f"language/lesion features.\n\n" + SCALE_NOTE
     )
 
 

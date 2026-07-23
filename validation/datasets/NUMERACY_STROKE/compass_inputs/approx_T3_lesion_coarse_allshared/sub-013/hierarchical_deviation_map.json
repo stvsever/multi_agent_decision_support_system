@@ -1,128 +1,214 @@
 {
-  "DEMOGRAPHICS_AND_CLINICAL": {
-    "general": {
-      "score": 0.786
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
+      "age": {
+        "score": 0.869
+      },
+      "education_years": {
+        "score": 2.575
+      },
+      "_stats": {
+        "mean_abs_score": 1.722,
+        "n_leaves": 2,
+        "present_leaves": 2
+      }
+    },
+    "imaging_acquisition": {
+      "image_modality": {
+        "score": 0.516
+      },
+      "_stats": {
+        "mean_abs_score": 0.516,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
     },
     "_stats": {
-      "mean_abs_score": 1.309,
-      "n_leaves": 5
+      "mean_abs_score": 1.32,
+      "n_leaves": 3,
+      "present_leaves": 3
     }
   },
-  "LESION_CORTEX": {
-    "other": {
-      "score": -0.149
+  "CLINICAL_PROFILE": {
+    "language_function": {
+      "aphasia_quotient": {
+        "score": -1.306
+      },
+      "_stats": {
+        "mean_abs_score": 1.306,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
     },
-    "vis": {
-      "score": 2.513
-    },
-    "sommot": {
-      "score": 1.438
-    },
-    "dorsattn": {
-      "score": 2.757
-    },
-    "salventattn": {
-      "score": 1.297
-    },
-    "limbic": {
-      "score": 0.246
-    },
-    "cont": {
-      "score": 0.805
-    },
-    "default": {
-      "score": 1.39
+    "whole_brain_lesion_load": {
+      "lesion_volume": {
+        "score": 1.278
+      },
+      "_stats": {
+        "mean_abs_score": 1.278,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
     },
     "_stats": {
-      "mean_abs_score": 1.324,
-      "n_leaves": 8
+      "mean_abs_score": 1.292,
+      "n_leaves": 2,
+      "present_leaves": 2
     }
   },
-  "LESION_SUBCORTEX": {
-    "hip": {
-      "score": -0.208
+  "LESION_TOPOGRAPHY": {
+    "cerebral_cortex": {
+      "lesion_ratio_group_lesion_cortex_other": {
+        "score": -0.149
+      },
+      "lesion_ratio_group_lesion_cortex_vis": {
+        "score": 2.513
+      },
+      "lesion_ratio_group_lesion_cortex_sommot": {
+        "score": 1.438
+      },
+      "lesion_ratio_group_lesion_cortex_dorsattn": {
+        "score": 2.757
+      },
+      "lesion_ratio_group_lesion_cortex_salventattn": {
+        "score": 1.297
+      },
+      "lesion_ratio_group_lesion_cortex_limbic": {
+        "score": 0.246
+      },
+      "lesion_ratio_group_lesion_cortex_cont": {
+        "score": 0.805
+      },
+      "lesion_ratio_group_lesion_cortex_default": {
+        "score": 1.39
+      },
+      "_stats": {
+        "mean_abs_score": 1.324,
+        "n_leaves": 8,
+        "present_leaves": 8
+      }
     },
-    "tha": {
-      "score": -0.236
+    "subcortical_nuclei": {
+      "lesion_ratio_group_lesion_subcortex_hip": {
+        "score": -0.208
+      },
+      "lesion_ratio_group_lesion_subcortex_tha": {
+        "score": -0.236
+      },
+      "lesion_ratio_group_lesion_subcortex_put": {
+        "score": -0.586
+      },
+      "lesion_ratio_group_lesion_subcortex_cau": {
+        "score": -0.217
+      },
+      "lesion_ratio_group_lesion_subcortex_lamy": {
+        "score": -0.177
+      },
+      "lesion_ratio_group_lesion_subcortex_mamy": {
+        "score": -0.195
+      },
+      "lesion_ratio_group_lesion_subcortex_nac": {
+        "score": -0.163
+      },
+      "lesion_ratio_group_lesion_subcortex_pgp": {
+        "score": -0.365
+      },
+      "lesion_ratio_group_lesion_subcortex_agp": {
+        "score": -0.393
+      },
+      "_stats": {
+        "mean_abs_score": 0.282,
+        "n_leaves": 9,
+        "present_leaves": 9
+      }
     },
-    "put": {
-      "score": -0.586
-    },
-    "cau": {
-      "score": -0.217
-    },
-    "lamy": {
-      "score": -0.177
-    },
-    "mamy": {
-      "score": -0.195
-    },
-    "nac": {
-      "score": -0.163
-    },
-    "pgp": {
-      "score": -0.365
-    },
-    "agp": {
-      "score": -0.393
+    "cerebellum": {
+      "cbdom_m": {
+        "lesion_ratio_group_lesion_cerebellum_m1": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_m2": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_m3": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_m4": {
+          "score": -0.098
+        },
+        "_stats": {
+          "mean_abs_score": 0.098,
+          "n_leaves": 4,
+          "present_leaves": 4
+        }
+      },
+      "cbdom_a": {
+        "lesion_ratio_group_lesion_cerebellum_a1": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_a2": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_a3": {
+          "score": -0.098
+        },
+        "_stats": {
+          "mean_abs_score": 0.098,
+          "n_leaves": 3,
+          "present_leaves": 3
+        }
+      },
+      "cbdom_d": {
+        "lesion_ratio_group_lesion_cerebellum_d1": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_d2": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_d3": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_d4": {
+          "score": -0.098
+        },
+        "_stats": {
+          "mean_abs_score": 0.098,
+          "n_leaves": 4,
+          "present_leaves": 4
+        }
+      },
+      "cbdom_s": {
+        "lesion_ratio_group_lesion_cerebellum_s1": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_s2": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_s3": {
+          "score": -0.098
+        },
+        "lesion_ratio_group_lesion_cerebellum_s4": {
+          "score": 0.0
+        },
+        "lesion_ratio_group_lesion_cerebellum_s5": {
+          "score": -0.098
+        },
+        "_stats": {
+          "mean_abs_score": 0.078,
+          "n_leaves": 5,
+          "present_leaves": 5
+        }
+      },
+      "_stats": {
+        "mean_abs_score": 0.092,
+        "n_leaves": 16,
+        "present_leaves": 16
+      }
     },
     "_stats": {
-      "mean_abs_score": 0.282,
-      "n_leaves": 9
-    }
-  },
-  "LESION_CEREBELLUM": {
-    "m1": {
-      "score": -0.098
-    },
-    "m2": {
-      "score": -0.098
-    },
-    "m3": {
-      "score": -0.098
-    },
-    "m4": {
-      "score": -0.098
-    },
-    "a1": {
-      "score": -0.098
-    },
-    "a2": {
-      "score": -0.098
-    },
-    "a3": {
-      "score": -0.098
-    },
-    "d1": {
-      "score": -0.098
-    },
-    "d2": {
-      "score": -0.098
-    },
-    "d3": {
-      "score": -0.098
-    },
-    "d4": {
-      "score": -0.098
-    },
-    "s1": {
-      "score": -0.098
-    },
-    "s2": {
-      "score": -0.098
-    },
-    "s3": {
-      "score": -0.098
-    },
-    "s4": {
-      "score": 0.0
-    },
-    "s5": {
-      "score": -0.098
-    },
-    "_stats": {
-      "mean_abs_score": 0.092,
-      "n_leaves": 16
+      "mean_abs_score": 0.443,
+      "n_leaves": 33,
+      "present_leaves": 33
     }
   }
 }

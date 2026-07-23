@@ -1,18 +1,37 @@
 {
   "participant_id": "sub-030",
+  "reference_mode": "cohort",
   "domain_coverage": {
-    "DEMOGRAPHICS_AND_CLINICAL": {
+    "DEMOGRAPHICS_AND_BACKGROUND": {
       "present_leaves": 3,
       "total_leaves": 3,
       "coverage_percentage": 100.0,
       "missing_count": 0,
-      "total_tokens": 63,
-      "is_available": true
+      "total_tokens": 22,
+      "is_available": true,
+      "structure": {
+        "participant_characteristics": {
+          "label": "Participant characteristics",
+          "present_leaves": 2,
+          "total_leaves": 2,
+          "coverage_percentage": 100.0,
+          "tokens": 12
+        },
+        "imaging_acquisition": {
+          "label": "Imaging acquisition",
+          "present_leaves": 1,
+          "total_leaves": 1,
+          "coverage_percentage": 100.0,
+          "tokens": 10
+        }
+      }
     }
   },
-  "total_tokens": 63,
+  "total_tokens": 22,
+  "total_leaves": 3,
+  "present_leaves": 3,
   "available_domains": [
-    "DEMOGRAPHICS_AND_CLINICAL"
+    "DEMOGRAPHICS_AND_BACKGROUND"
   ],
-  "token_budget": 69
+  "token_budget": 24
 }

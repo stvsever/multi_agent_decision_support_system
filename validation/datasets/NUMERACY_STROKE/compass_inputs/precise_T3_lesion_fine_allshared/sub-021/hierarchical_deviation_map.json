@@ -1,68 +1,731 @@
 {
-  "DEMOGRAPHICS_AND_CLINICAL": {
-    "general": {
-      "score": -0.107
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
+      "age": {
+        "score": -0.629
+      },
+      "education_years": {
+        "score": -1.144
+      },
+      "_stats": {
+        "mean_abs_score": 0.886,
+        "n_leaves": 2,
+        "present_leaves": 2
+      }
+    },
+    "imaging_acquisition": {
+      "image_modality": {
+        "score": 0.516
+      },
+      "_stats": {
+        "mean_abs_score": 0.516,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
     },
     "_stats": {
-      "mean_abs_score": 0.981,
-      "n_leaves": 5
+      "mean_abs_score": 0.763,
+      "n_leaves": 3,
+      "present_leaves": 3
     }
   },
-  "LESION_CORTEX": {
-    "vis": {
-      "score": 0.12
+  "CLINICAL_PROFILE": {
+    "language_function": {
+      "aphasia_quotient": {
+        "score": -0.946
+      },
+      "_stats": {
+        "mean_abs_score": 0.946,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
     },
-    "sommot": {
-      "score": 1.668
-    },
-    "dorsattn": {
-      "score": 1.649
-    },
-    "salventattn": {
-      "score": 1.72
-    },
-    "limbic": {
-      "score": 0.672
-    },
-    "cont": {
-      "score": 2.513
-    },
-    "default": {
-      "score": 1.429
+    "whole_brain_lesion_load": {
+      "lesion_volume": {
+        "score": 1.67
+      },
+      "lesion_total_voxels": {
+        "score": 2.811
+      },
+      "lesion_total_volume_mm3": {
+        "score": 2.811
+      },
+      "_stats": {
+        "mean_abs_score": 2.431,
+        "n_leaves": 3,
+        "present_leaves": 3
+      }
     },
     "_stats": {
-      "mean_abs_score": 1.946,
-      "n_leaves": 177
+      "mean_abs_score": 2.059,
+      "n_leaves": 4,
+      "present_leaves": 4
     }
   },
-  "LESION_SUBCORTEX": {
-    "tha": {
-      "score": -0.219
+  "LESION_TOPOGRAPHY": {
+    "cerebral_cortex": {
+      "net_vis": {
+        "lesion_ratio_p82": {
+          "score": 0.12
+        },
+        "_stats": {
+          "mean_abs_score": 0.12,
+          "n_leaves": 1,
+          "present_leaves": 1
+        }
+      },
+      "net_sommot": {
+        "lesion_ratio_p83": {
+          "score": 0.384
+        },
+        "lesion_ratio_p84": {
+          "score": 1.243
+        },
+        "lesion_ratio_p85": {
+          "score": 0.135
+        },
+        "lesion_ratio_p86": {
+          "score": 0.853
+        },
+        "lesion_ratio_p87": {
+          "score": -0.282
+        },
+        "lesion_ratio_p89": {
+          "score": -0.251
+        },
+        "lesion_ratio_p90": {
+          "score": -0.305
+        },
+        "lesion_ratio_p91": {
+          "score": -0.337
+        },
+        "lesion_ratio_p92": {
+          "score": -0.238
+        },
+        "lesion_ratio_p93": {
+          "score": 2.135
+        },
+        "lesion_ratio_p94": {
+          "score": -0.3
+        },
+        "lesion_ratio_p95": {
+          "score": -0.285
+        },
+        "lesion_ratio_p96": {
+          "score": -0.355
+        },
+        "lesion_ratio_p97": {
+          "score": -0.192
+        },
+        "lesion_ratio_p98": {
+          "score": 2.288
+        },
+        "lesion_ratio_p99": {
+          "score": -0.306
+        },
+        "lesion_ratio_p101": {
+          "score": -0.296
+        },
+        "lesion_ratio_p102": {
+          "score": 2.448
+        },
+        "lesion_ratio_p103": {
+          "score": 2.813
+        },
+        "lesion_ratio_p105": {
+          "score": -0.335
+        },
+        "lesion_ratio_p106": {
+          "score": -0.343
+        },
+        "lesion_ratio_p107": {
+          "score": 2.792
+        },
+        "lesion_ratio_p108": {
+          "score": 2.864
+        },
+        "lesion_ratio_p109": {
+          "score": 0.564
+        },
+        "lesion_ratio_p110": {
+          "score": 3.022
+        },
+        "lesion_ratio_p111": {
+          "score": -0.383
+        },
+        "lesion_ratio_p112": {
+          "score": 2.479
+        },
+        "lesion_ratio_p113": {
+          "score": 2.172
+        },
+        "lesion_ratio_p114": {
+          "score": 3.569
+        },
+        "lesion_ratio_p115": {
+          "score": 2.613
+        },
+        "lesion_ratio_p116": {
+          "score": 2.859
+        },
+        "lesion_ratio_p117": {
+          "score": 3.718
+        },
+        "lesion_ratio_p119": {
+          "score": 3.027
+        },
+        "lesion_ratio_p120": {
+          "score": 3.739
+        },
+        "lesion_ratio_p121": {
+          "score": 4.744
+        },
+        "lesion_ratio_p122": {
+          "score": 3.886
+        },
+        "lesion_ratio_p124": {
+          "score": 2.72
+        },
+        "lesion_ratio_p126": {
+          "score": 2.67
+        },
+        "lesion_ratio_p127": {
+          "score": 4.087
+        },
+        "lesion_ratio_p130": {
+          "score": 4.505
+        },
+        "lesion_ratio_p131": {
+          "score": 3.916
+        },
+        "lesion_ratio_p133": {
+          "score": 4.19
+        },
+        "lesion_ratio_p134": {
+          "score": 5.114
+        },
+        "lesion_ratio_p137": {
+          "score": 4.603
+        },
+        "lesion_ratio_p138": {
+          "score": -0.172
+        },
+        "lesion_ratio_p139": {
+          "score": 3.485
+        },
+        "lesion_ratio_p140": {
+          "score": -0.23
+        },
+        "lesion_ratio_p142": {
+          "score": -0.194
+        },
+        "lesion_ratio_p144": {
+          "score": 2.825
+        },
+        "lesion_ratio_p147": {
+          "score": 0.011
+        },
+        "lesion_ratio_p148": {
+          "score": 0.931
+        },
+        "lesion_ratio_p150": {
+          "score": -0.205
+        },
+        "lesion_ratio_p155": {
+          "score": 0.017
+        },
+        "_stats": {
+          "mean_abs_score": 1.857,
+          "n_leaves": 53,
+          "present_leaves": 53
+        }
+      },
+      "net_dorsattn": {
+        "lesion_ratio_p182": {
+          "score": -0.282
+        },
+        "lesion_ratio_p184": {
+          "score": -0.319
+        },
+        "lesion_ratio_p185": {
+          "score": -0.267
+        },
+        "lesion_ratio_p191": {
+          "score": 2.844
+        },
+        "lesion_ratio_p194": {
+          "score": 0.015
+        },
+        "lesion_ratio_p195": {
+          "score": 2.494
+        },
+        "lesion_ratio_p196": {
+          "score": -0.252
+        },
+        "lesion_ratio_p197": {
+          "score": -0.337
+        },
+        "lesion_ratio_p200": {
+          "score": -0.124
+        },
+        "lesion_ratio_p202": {
+          "score": -0.366
+        },
+        "lesion_ratio_p204": {
+          "score": -0.265
+        },
+        "lesion_ratio_p207": {
+          "score": -0.07
+        },
+        "lesion_ratio_p211": {
+          "score": -0.254
+        },
+        "lesion_ratio_p223": {
+          "score": 3.945
+        },
+        "lesion_ratio_p224": {
+          "score": 5.22
+        },
+        "lesion_ratio_p225": {
+          "score": 5.009
+        },
+        "lesion_ratio_p226": {
+          "score": 5.057
+        },
+        "lesion_ratio_p227": {
+          "score": 6.037
+        },
+        "lesion_ratio_p230": {
+          "score": 2.594
+        },
+        "lesion_ratio_p231": {
+          "score": 2.263
+        },
+        "lesion_ratio_p232": {
+          "score": 2.43
+        },
+        "lesion_ratio_p233": {
+          "score": 2.894
+        },
+        "lesion_ratio_p234": {
+          "score": -0.336
+        },
+        "_stats": {
+          "mean_abs_score": 1.899,
+          "n_leaves": 23,
+          "present_leaves": 23
+        }
+      },
+      "net_salventattn": {
+        "lesion_ratio_p235": {
+          "score": -0.292
+        },
+        "lesion_ratio_p236": {
+          "score": -0.324
+        },
+        "lesion_ratio_p237": {
+          "score": -0.34
+        },
+        "lesion_ratio_p238": {
+          "score": -0.342
+        },
+        "lesion_ratio_p239": {
+          "score": -0.315
+        },
+        "lesion_ratio_p240": {
+          "score": 2.59
+        },
+        "lesion_ratio_p241": {
+          "score": -0.321
+        },
+        "lesion_ratio_p242": {
+          "score": 0.106
+        },
+        "lesion_ratio_p244": {
+          "score": -0.3
+        },
+        "lesion_ratio_p245": {
+          "score": 3.212
+        },
+        "lesion_ratio_p246": {
+          "score": 1.879
+        },
+        "lesion_ratio_p247": {
+          "score": 2.459
+        },
+        "lesion_ratio_p248": {
+          "score": -0.262
+        },
+        "lesion_ratio_p249": {
+          "score": 2.982
+        },
+        "lesion_ratio_p250": {
+          "score": -0.355
+        },
+        "lesion_ratio_p251": {
+          "score": 2.735
+        },
+        "lesion_ratio_p252": {
+          "score": 2.28
+        },
+        "lesion_ratio_p253": {
+          "score": 0.487
+        },
+        "lesion_ratio_p254": {
+          "score": 2.662
+        },
+        "lesion_ratio_p255": {
+          "score": 2.279
+        },
+        "lesion_ratio_p256": {
+          "score": 2.394
+        },
+        "lesion_ratio_p257": {
+          "score": 2.53
+        },
+        "lesion_ratio_p258": {
+          "score": 2.358
+        },
+        "lesion_ratio_p259": {
+          "score": 2.225
+        },
+        "lesion_ratio_p260": {
+          "score": 2.502
+        },
+        "lesion_ratio_p261": {
+          "score": 2.286
+        },
+        "lesion_ratio_p262": {
+          "score": 2.621
+        },
+        "lesion_ratio_p263": {
+          "score": 2.586
+        },
+        "lesion_ratio_p264": {
+          "score": 2.485
+        },
+        "lesion_ratio_p265": {
+          "score": 2.297
+        },
+        "lesion_ratio_p266": {
+          "score": 2.514
+        },
+        "lesion_ratio_p267": {
+          "score": 1.713
+        },
+        "lesion_ratio_p268": {
+          "score": 7.425
+        },
+        "_stats": {
+          "mean_abs_score": 1.893,
+          "n_leaves": 33,
+          "present_leaves": 33
+        }
+      },
+      "net_limbic": {
+        "lesion_ratio_p293": {
+          "score": 1.662
+        },
+        "lesion_ratio_p316": {
+          "score": 0.445
+        },
+        "lesion_ratio_p317": {
+          "score": -0.092
+        },
+        "_stats": {
+          "mean_abs_score": 0.733,
+          "n_leaves": 3,
+          "present_leaves": 3
+        }
+      },
+      "net_cont": {
+        "lesion_ratio_p319": {
+          "score": -0.287
+        },
+        "lesion_ratio_p322": {
+          "score": -0.21
+        },
+        "lesion_ratio_p326": {
+          "score": -0.285
+        },
+        "lesion_ratio_p327": {
+          "score": -0.265
+        },
+        "lesion_ratio_p328": {
+          "score": -0.302
+        },
+        "lesion_ratio_p331": {
+          "score": -0.325
+        },
+        "lesion_ratio_p332": {
+          "score": -0.279
+        },
+        "lesion_ratio_p337": {
+          "score": 6.355
+        },
+        "lesion_ratio_p341": {
+          "score": 3.943
+        },
+        "lesion_ratio_p343": {
+          "score": 4.281
+        },
+        "lesion_ratio_p344": {
+          "score": 2.686
+        },
+        "lesion_ratio_p345": {
+          "score": 2.95
+        },
+        "lesion_ratio_p346": {
+          "score": 5.101
+        },
+        "lesion_ratio_p347": {
+          "score": 2.826
+        },
+        "lesion_ratio_p348": {
+          "score": 2.698
+        },
+        "lesion_ratio_p350": {
+          "score": 4.061
+        },
+        "lesion_ratio_p351": {
+          "score": 3.272
+        },
+        "lesion_ratio_p352": {
+          "score": 5.205
+        },
+        "lesion_ratio_p353": {
+          "score": 2.487
+        },
+        "lesion_ratio_p354": {
+          "score": 4.094
+        },
+        "lesion_ratio_p355": {
+          "score": 2.735
+        },
+        "lesion_ratio_p356": {
+          "score": 6.089
+        },
+        "lesion_ratio_p357": {
+          "score": 2.692
+        },
+        "lesion_ratio_p359": {
+          "score": 3.088
+        },
+        "lesion_ratio_p360": {
+          "score": 3.02
+        },
+        "lesion_ratio_p375": {
+          "score": -0.3
+        },
+        "_stats": {
+          "mean_abs_score": 2.686,
+          "n_leaves": 26,
+          "present_leaves": 26
+        }
+      },
+      "net_default": {
+        "lesion_ratio_p376": {
+          "score": -0.274
+        },
+        "lesion_ratio_p378": {
+          "score": -0.319
+        },
+        "lesion_ratio_p379": {
+          "score": -0.337
+        },
+        "lesion_ratio_p380": {
+          "score": -0.304
+        },
+        "lesion_ratio_p381": {
+          "score": -0.264
+        },
+        "lesion_ratio_p382": {
+          "score": -0.256
+        },
+        "lesion_ratio_p383": {
+          "score": -0.281
+        },
+        "lesion_ratio_p384": {
+          "score": -0.276
+        },
+        "lesion_ratio_p385": {
+          "score": -0.297
+        },
+        "lesion_ratio_p387": {
+          "score": -0.314
+        },
+        "lesion_ratio_p389": {
+          "score": -0.214
+        },
+        "lesion_ratio_p392": {
+          "score": -0.304
+        },
+        "lesion_ratio_p398": {
+          "score": 0.054
+        },
+        "lesion_ratio_p400": {
+          "score": -0.288
+        },
+        "lesion_ratio_p402": {
+          "score": -0.275
+        },
+        "lesion_ratio_p404": {
+          "score": -0.313
+        },
+        "lesion_ratio_p406": {
+          "score": -0.282
+        },
+        "lesion_ratio_p408": {
+          "score": -0.285
+        },
+        "lesion_ratio_p409": {
+          "score": -0.298
+        },
+        "lesion_ratio_p410": {
+          "score": -0.303
+        },
+        "lesion_ratio_p411": {
+          "score": -0.304
+        },
+        "lesion_ratio_p412": {
+          "score": -0.32
+        },
+        "lesion_ratio_p414": {
+          "score": -0.301
+        },
+        "lesion_ratio_p415": {
+          "score": -0.302
+        },
+        "lesion_ratio_p416": {
+          "score": 3.789
+        },
+        "lesion_ratio_p417": {
+          "score": 3.449
+        },
+        "lesion_ratio_p419": {
+          "score": 4.106
+        },
+        "lesion_ratio_p423": {
+          "score": 4.101
+        },
+        "lesion_ratio_p430": {
+          "score": 3.347
+        },
+        "lesion_ratio_p432": {
+          "score": 3.562
+        },
+        "lesion_ratio_p433": {
+          "score": 2.79
+        },
+        "lesion_ratio_p436": {
+          "score": 2.851
+        },
+        "lesion_ratio_p451": {
+          "score": 3.962
+        },
+        "lesion_ratio_p452": {
+          "score": 6.645
+        },
+        "lesion_ratio_p453": {
+          "score": 6.67
+        },
+        "lesion_ratio_p457": {
+          "score": 3.689
+        },
+        "lesion_ratio_p458": {
+          "score": 5.371
+        },
+        "lesion_ratio_p460": {
+          "score": 6.643
+        },
+        "_stats": {
+          "mean_abs_score": 1.783,
+          "n_leaves": 38,
+          "present_leaves": 38
+        }
+      },
+      "_stats": {
+        "mean_abs_score": 1.946,
+        "n_leaves": 177,
+        "present_leaves": 177
+      }
     },
-    "put": {
-      "score": 3.163
-    },
-    "cau": {
-      "score": -0.184
-    },
-    "pgp": {
-      "score": 1.481
-    },
-    "agp": {
-      "score": 1.723
+    "subcortical_nuclei": {
+      "struct_tha": {
+        "lesion_ratio_p1030": {
+          "score": -0.189
+        },
+        "lesion_ratio_p1036": {
+          "score": -0.268
+        },
+        "lesion_ratio_p1039": {
+          "score": -0.2
+        },
+        "_stats": {
+          "mean_abs_score": 0.219,
+          "n_leaves": 3,
+          "present_leaves": 3
+        }
+      },
+      "struct_put": {
+        "lesion_ratio_p1040": {
+          "score": 4.065
+        },
+        "lesion_ratio_p1041": {
+          "score": 3.254
+        },
+        "lesion_ratio_p1042": {
+          "score": 2.513
+        },
+        "lesion_ratio_p1043": {
+          "score": 2.82
+        },
+        "_stats": {
+          "mean_abs_score": 3.163,
+          "n_leaves": 4,
+          "present_leaves": 4
+        }
+      },
+      "struct_cau": {
+        "lesion_ratio_p1045": {
+          "score": -0.184
+        },
+        "_stats": {
+          "mean_abs_score": 0.184,
+          "n_leaves": 1,
+          "present_leaves": 1
+        }
+      },
+      "struct_pgp": {
+        "lesion_ratio_p1053": {
+          "score": 1.481
+        },
+        "_stats": {
+          "mean_abs_score": 1.481,
+          "n_leaves": 1,
+          "present_leaves": 1
+        }
+      },
+      "struct_agp": {
+        "lesion_ratio_p1054": {
+          "score": 1.723
+        },
+        "_stats": {
+          "mean_abs_score": 1.723,
+          "n_leaves": 1,
+          "present_leaves": 1
+        }
+      },
+      "_stats": {
+        "mean_abs_score": 1.67,
+        "n_leaves": 10,
+        "present_leaves": 10
+      }
     },
     "_stats": {
-      "mean_abs_score": 1.67,
-      "n_leaves": 10
-    }
-  },
-  "LESION_SUMMARY": {
-    "whole_brain": {
-      "score": 2.811
-    },
-    "_stats": {
-      "mean_abs_score": 2.811,
-      "n_leaves": 2
+      "mean_abs_score": 1.931,
+      "n_leaves": 187,
+      "present_leaves": 187
     }
   }
 }

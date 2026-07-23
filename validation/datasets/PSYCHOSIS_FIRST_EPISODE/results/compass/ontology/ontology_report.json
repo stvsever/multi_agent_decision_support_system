@@ -1,6 +1,6 @@
 {
   "n_domains": 4,
-  "n_internal_nodes": 103,
+  "n_internal_nodes": 109,
   "n_features": 935,
   "max_depth": 5,
   "leaf_paths_example": [
@@ -12,7 +12,7 @@
     "Resting_EEG|Resting_EEG__Spectral_power|Resting_EEG__Spectral_power__Log10_absolute_power_uv2|Resting_EEG__Spectral_power__Log10_absolute_power_uv2__Alpha_8_13_hz|A_spectral__log10_absolute_power_uv2__alpha_8_13_hz__occipital_left"
   ],
   "cluster_agreement": {
-    "adjusted_rand_index": 0.161,
+    "adjusted_rand_index": 0.17,
     "n_features_compared": 932,
     "interpretation": "1.0 = ontology groups match data-driven clusters exactly"
   },
@@ -292,15 +292,5 @@
       "target__social_functioning_scale__sfs_q13_13_caring_for_personal_appearance",
       "target__social_functioning_scale__sfs_q8_friends_how_many_friends_do_you_have_at_the_moment"
     ]
-  },
-  "llm_review": {
-    "mece_ok": true,
-    "coherence_1to5": 5,
-    "issues": [
-      "The ontology is highly structured and logically partitioned.",
-      "The 'Sfs Q12' and 'Sfs Q13' items are granular but correctly placed within the Social Functioning Scale hierarchy.",
-      "The distinction between global and nodal graph metrics is well-maintained."
-    ],
-    "misplaced_features": []
   }
 }
