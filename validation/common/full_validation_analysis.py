@@ -3,8 +3,8 @@
 This module reads ONLY the already-saved canonical artifacts of the completed
 seeded validation run (``predictions.json`` and ``summary.json`` under a results
 directory). It never launches the engine and never contacts a provider. Its job
-is to turn the 453 accepted job records into publication-style figures and rich
-metric tables so the notebook can present, per dataset and per target phenotype:
+is to turn the 453 accepted job records into rich metric tables and figures so
+the notebook can present, per dataset and per target phenotype:
 
   - association metrics that survive differing native scales: Pearson r (with a
     Fisher 95% interval), Spearman rho, and Kendall tau,
@@ -19,6 +19,28 @@ metric tables so the notebook can present, per dataset and per target phenotype:
     self-correction/recovery loop that made every job structurally valid), and
   - the supplementary question of whether run cost (time, attempts) predicts
     accuracy, answered by correlating per-subject effort with per-subject error.
+
+Design choices worth stating up front:
+
+  - Figures never draw their own main title. A baked-in title duplicates the
+    notebook markdown that already introduces each figure, and it survives
+    stale in a saved PNG if the surrounding prose changes. Every subplot still
+    carries its own descriptive title.
+  - Bar charts over tiers or providers color each bar with that tier's or
+    provider's own, figure-to-figure-consistent color (the same color used for
+    that tier/provider everywhere else), instead of one flat color for every
+    bar with only the metric distinguished by hue.
+  - The ten psychosis symptom outputs are noisy, low-n (79 subjects with ground
+    truth) and inconsistent in sign, so their tier/provider heatmaps and macro
+    bars use absolute Pearson r (how much association exists at all) rather
+    than signed r (which direction). Sign is never discarded outright: the
+    headline per-output table keeps signed r with its 95% interval, and the
+    forest plot (section 9.4) marks each output's sign with a +/- prefix.
+  - Multiplot complexity is scaled to how much there is to show: intelligence
+    (4 outputs) and numeracy (2 outputs) get a full predicted-vs-truth grid;
+    psychosis (10 outputs, most individually non-significant) gets a compact
+    forest plot of all ten plus full scatter detail only for the outputs whose
+    95% interval excludes zero, instead of ten mostly-uninformative panels.
 
 The provider axis is a supplementary cross-provider check: because the seeded
 design balances the five providers within every tier, a provider difference is
@@ -36,13 +58,13 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence, Tuple
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
-from scipy.stats import kendalltau, pearsonr, spearmanr
+from scipy.stats import kendalltau, mannwhitneyu, pearsonr, spearmanr
 
 from . import batch_report as BR
 
@@ -62,6 +84,7 @@ PROVIDER_COLORS = {
     "gpt-oss-120b": "#b07aa1",
 }
 TIER_COLORS = ["#4e79a7", "#59a14f", "#e15759", "#f28e2b", "#b07aa1", "#76b7b2"]
+FAMILY_COLORS = {"BPRS": "#b07aa1", "SAPS": "#e15759", "SANS": "#4e79a7", "other": "#888888"}
 _POS = "#2a7fff"   # calibrated / good direction
 _NEG = "#e15759"   # miscalibrated / bad direction
 
@@ -105,6 +128,17 @@ def pretty_tier(name: str) -> str:
     return stub.replace("_", " ")
 
 
+def _instrument_family(output: str) -> str:
+    stub = str(output).lower()
+    if "bprs" in stub:
+        return "BPRS"
+    if "saps" in stub:
+        return "SAPS"
+    if "sans" in stub:
+        return "SANS"
+    return "other"
+
+
 def provider_color(short_model: str) -> str:
     return PROVIDER_COLORS.get(short_model, "#8c8c8c")
 
@@ -115,6 +149,11 @@ def ordered_providers(present: Sequence[str]) -> List[str]:
     ordered = [_short(m) for m in PROVIDER_ORDER if _short(m) in short_present]
     ordered += [m for m in short_present if m not in ordered]
     return ordered
+
+
+def _tier_color_map(tiers: Sequence[str]) -> Dict[str, str]:
+    """Position-based tier color, stable across every figure for a given dataset."""
+    return {t: TIER_COLORS[i % len(TIER_COLORS)] for i, t in enumerate(sorted(tiers))}
 
 
 # ---------------------------------------------------------------------------
@@ -240,6 +279,16 @@ def regression_by(long: pd.DataFrame, by: Sequence[str]) -> pd.DataFrame:
     return out.round(3)
 
 
+def _macro_r_by(reg: pd.DataFrame, by: str, order: Sequence[str], use_abs: bool = False) -> np.ndarray:
+    """Mean Pearson r (or |r|) over outputs, one value per tier/provider, in `order`."""
+    tab = regression_by(reg, [by, "output"])
+    if tab.empty:
+        return np.full(len(order), np.nan)
+    col = tab["pearson_r"].abs() if use_abs else tab["pearson_r"]
+    macro = col.groupby(level=0).mean().reindex(order)
+    return macro.to_numpy()
+
+
 def diagnosis_metrics(dx: pd.DataFrame) -> Dict[str, Any]:
     """Binary-diagnosis quality plus the 2x2 confusion counts."""
     valid = dx.dropna(subset=["true_case", "pred_case"])
@@ -292,114 +341,103 @@ def _heatmap(ax, mat: pd.DataFrame, title: str, vmin=-1, vmax=1, cmap="RdBu_r",
     ax.set_xticklabels(mat.columns, rotation=40, ha="right", fontsize=7)
     ax.set_yticks(range(mat.shape[0]))
     ax.set_yticklabels(list(mat.index) if show_ylabels else [], fontsize=7)
+    mid = vmin + 0.55 * (vmax - vmin)
     for i in range(mat.shape[0]):
         for j in range(mat.shape[1]):
             v = data[i, j]
             if np.isfinite(v):
+                dark = (v > mid) if vmin >= 0 else (abs(v) > 0.55)
                 ax.text(j, i, fmt.format(v), ha="center", va="center", fontsize=6.5,
-                        color="white" if abs(v) > 0.55 else "black")
+                        color="white" if dark else "black")
     ax.set_title(title, fontsize=9)
     return im
 
 
-# ---------------------------------------------------------------------------
-# Per-dataset performance composite
-# ---------------------------------------------------------------------------
-def fig_dataset_performance(
-    dkey: str, long: pd.DataFrame, out_dir: Optional[Path] = None, show: bool = True
-) -> plt.Figure:
-    """One rich composite per dataset: predicted-vs-truth panels, r heatmaps, macro bars."""
-    reg = long[long.kind == "reg"].dropna(subset=["predicted", "truth"]).copy()
-    outputs = [o for o in _output_order(dkey, reg)]
-    k = len(outputs)
-    tiers = sorted(reg["tier"].unique())
-    providers = ordered_providers(reg["model"].unique())
-
-    scat_cols = min(k, 4)
-    scat_rows = int(np.ceil(k / scat_cols))
-    fig = plt.figure(figsize=(4.7 * scat_cols, 3.5 * scat_rows + 6.6))
-    gs = GridSpec(
-        scat_rows + 2, max(scat_cols, 2), figure=fig,
-        height_ratios=[3.4] * scat_rows + [4.0, 3.0], hspace=0.62, wspace=0.32,
-    )
-
-    tier_color = {t: TIER_COLORS[i % len(TIER_COLORS)] for i, t in enumerate(tiers)}
-    for idx, out in enumerate(outputs):
-        ax = fig.add_subplot(gs[idx // scat_cols, idx % scat_cols])
-        s = reg[reg.output == out]
-        for t in tiers:
-            st = s[s.tier == t]
-            ax.scatter(st["truth"], st["predicted"], s=26, alpha=0.78,
-                       color=tier_color[t], edgecolor="none", label=pretty_tier(t))
-        xv = s["truth"].to_numpy(float)
-        yv = s["predicted"].to_numpy(float)
-        lo = float(np.nanmin([xv.min(), yv.min()]))
-        hi = float(np.nanmax([xv.max(), yv.max()]))
-        pad = 0.05 * (hi - lo or 1)
-        ax.plot([lo - pad, hi + pad], [lo - pad, hi + pad], "k--", lw=0.8, alpha=0.6)
-        if np.unique(xv).size > 1:
-            b, a = np.polyfit(xv, yv, 1)
-            xs = np.array([lo - pad, hi + pad])
-            ax.plot(xs, b * xs + a, color="#d1495b", lw=1.6, alpha=0.9)
-        m = rich_regression_metrics(s)
-        ax.set_title(pretty_output(out), fontsize=9.5)
-        ax.set_xlabel("true", fontsize=8)
-        ax.set_ylabel("predicted", fontsize=8)
-        ax.tick_params(labelsize=7)
-        txt = (f"r = {m['pearson_r']:.2f}  [{m['r_lo']:.2f}, {m['r_hi']:.2f}]\n"
-               f"rho = {m['spearman_rho']:.2f}   tau = {m['kendall_tau']:.2f}\n"
-               f"R2 = {m['R2']:.2f}   slope = {m['slope']:.2f}\n"
-               f"n = {int(m['n'])}")
-        ax.text(0.03, 0.97, txt, transform=ax.transAxes, fontsize=7.2, va="top", ha="left",
-                bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#cccccc", alpha=0.85))
-    # single shared tier legend, framed, in the first scatter's upper-right corner
-    # (the metrics annotation box sits in the upper-left, so they never collide)
-    first = fig.axes[0]
-    first.legend(fontsize=6.6, frameon=True, framealpha=0.9, edgecolor="#cccccc",
-                 loc="upper right", title="tier", title_fontsize=6.8)
-
-    # r heatmaps: output x tier and output x provider (the provider heatmap reuses
-    # the tier heatmap's output rows, so its y-labels are suppressed to avoid overlap)
-    r_tier = _pivot_metric(reg, "tier", "pearson_r", outputs, tiers)
-    r_prov = _pivot_metric(reg, "model", "pearson_r", outputs, providers)
-    ax_ht = fig.add_subplot(gs[scat_rows, 0])
-    _heatmap(ax_ht, r_tier.rename(index=pretty_output, columns=pretty_tier),
-             "Pearson r by output x tier")
-    ax_hp = fig.add_subplot(gs[scat_rows, 1] if max(scat_cols, 2) > 1 else gs[scat_rows, 0])
-    im = _heatmap(ax_hp, r_prov, "Pearson r by output x provider", show_ylabels=False)
-    fig.colorbar(im, ax=ax_hp, fraction=0.046, pad=0.02).ax.tick_params(labelsize=6)
-
-    # macro association by tier and provider (mean over outputs of r and rho)
-    ax_bt = fig.add_subplot(gs[scat_rows + 1, 0])
-    _macro_assoc_bars(ax_bt, reg, "tier", tiers, pretty_tier, "macro association by tier")
-    ax_bp = fig.add_subplot(gs[scat_rows + 1, 1] if max(scat_cols, 2) > 1 else gs[scat_rows + 1, 0])
-    _macro_assoc_bars(ax_bp, reg, "model", providers, lambda s: s, "macro association by provider")
-
-    fig.suptitle(f"{DATASET_TITLE.get(dkey, dkey)} - predictive performance across phenotype outputs, "
-                 f"tiers and providers", fontsize=12.5, y=0.997)
-    if out_dir is not None:
-        out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
-        fig.savefig(out_dir / f"{dkey.lower()}_performance.png", dpi=130, bbox_inches="tight")
-    if show:
-        plt.show()
-    return fig
-
-
-def _macro_assoc_bars(ax, reg, by, order, labeler, title):
-    tab = regression_by(reg, [by, "output"])
-    if tab.empty:
-        ax.axis("off"); ax.set_title(title, fontsize=9); return
-    macro = tab.groupby(level=0)[["pearson_r", "spearman_rho"]].mean().reindex(order)
-    xs = np.arange(len(macro))
-    ax.bar(xs - 0.19, macro["pearson_r"].values, width=0.36, color="#4e79a7", label="mean r")
-    ax.bar(xs + 0.19, macro["spearman_rho"].values, width=0.36, color="#f28e2b", label="mean rho")
-    ax.axhline(0, color="#888", lw=0.8)
+def _category_bar_single(ax, categories: Sequence[str], values: np.ndarray,
+                         color_of: Callable[[str], str], labeler: Callable[[str], str],
+                         title: str, ylabel: str, use_abs: bool = False):
+    """One bar per tier/provider, colored with that category's own established color."""
+    colors = [color_of(c) for c in categories]
+    xs = np.arange(len(categories))
+    ax.bar(xs, values, color=colors, alpha=0.88)
+    _annotate_bars(ax, values, fmt="{:.2f}")
+    if use_abs:
+        ax.set_ylim(0, 1)
+    else:
+        ax.axhline(0, color="#888", lw=0.8)
     ax.set_xticks(xs)
-    ax.set_xticklabels([labeler(o) for o in macro.index], rotation=40, ha="right", fontsize=7)
-    ax.set_ylabel("mean over outputs", fontsize=8)
+    ax.set_xticklabels([labeler(c) for c in categories], rotation=40, ha="right", fontsize=7)
+    ax.set_ylabel(ylabel, fontsize=8)
     ax.set_title(title, fontsize=9)
-    ax.legend(fontsize=6.8, frameon=False, ncol=2)
     ax.tick_params(labelsize=7)
+
+
+def _scatter_with_fit(ax, s: pd.DataFrame, tiers: Sequence[str],
+                      tier_color_of: Callable[[str], str], title: str) -> pd.Series:
+    """Predicted-vs-truth scatter (colored by tier) with identity + OLS lines and a stats box."""
+    for t in tiers:
+        st = s[s.tier == t]
+        if st.empty:
+            continue
+        ax.scatter(st["truth"], st["predicted"], s=26, alpha=0.78,
+                   color=tier_color_of(t), edgecolor="none", label=pretty_tier(t))
+    xv = s["truth"].to_numpy(float)
+    yv = s["predicted"].to_numpy(float)
+    lo = float(np.nanmin([xv.min(), yv.min()]))
+    hi = float(np.nanmax([xv.max(), yv.max()]))
+    pad = 0.05 * (hi - lo or 1)
+    ax.plot([lo - pad, hi + pad], [lo - pad, hi + pad], "k--", lw=0.8, alpha=0.6)
+    if np.unique(xv).size > 1:
+        b, a = np.polyfit(xv, yv, 1)
+        xs = np.array([lo - pad, hi + pad])
+        ax.plot(xs, b * xs + a, color="#d1495b", lw=1.6, alpha=0.9)
+    m = rich_regression_metrics(s)
+    ax.set_title(title, fontsize=9.5)
+    ax.set_xlabel("true", fontsize=8)
+    ax.set_ylabel("predicted", fontsize=8)
+    ax.tick_params(labelsize=7)
+    txt = (f"r = {m['pearson_r']:.2f}  [{m['r_lo']:.2f}, {m['r_hi']:.2f}]\n"
+           f"rho = {m['spearman_rho']:.2f}   tau = {m['kendall_tau']:.2f}\n"
+           f"R2 = {m['R2']:.2f}   slope = {m['slope']:.2f}\n"
+           f"n = {int(m['n'])}")
+    ax.text(0.03, 0.97, txt, transform=ax.transAxes, fontsize=7.2, va="top", ha="left",
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#cccccc", alpha=0.85))
+    return m
+
+
+def _forest_plot(ax, tab: pd.DataFrame, order: Sequence[str], title: str):
+    """Horizontal bars of |Pearson r| per output, colored by clinical-instrument family.
+
+    Bar length is absolute magnitude because many of these per-output correlations
+    are noisy and inconsistent in sign at this sample size; a +/- prefix on each
+    label and a solid outline (95% CI on the SIGNED r excludes zero) keep direction
+    and statistical reliability visible without cluttering the geometry with sign.
+    """
+    tab = tab.reindex(order)
+    abs_r = tab["pearson_r"].abs()
+    plot_order = abs_r.sort_values(ascending=True).index
+    y = np.arange(len(plot_order))
+    vals = abs_r.reindex(plot_order).to_numpy()
+    families = [_instrument_family(o) for o in plot_order]
+    colors = [FAMILY_COLORS[f] for f in families]
+    signif = [(tab.loc[o, "r_lo"] > 0) or (tab.loc[o, "r_hi"] < 0) for o in plot_order]
+    edgecolors = ["black" if sig else "none" for sig in signif]
+    linewidths = [1.3 if sig else 0.0 for sig in signif]
+    ax.barh(y, vals, color=colors, edgecolor=edgecolors, linewidth=linewidths, alpha=0.9)
+    for i, o in enumerate(plot_order):
+        r = tab.loc[o, "pearson_r"]
+        sign = "+" if r >= 0 else "-"
+        star = " *" if signif[i] else ""
+        ax.text(vals[i] + 0.015, i, f"{sign}{vals[i]:.2f}{star}", va="center", fontsize=7.5)
+    ax.set_yticks(y)
+    ax.set_yticklabels([pretty_output(o) for o in plot_order], fontsize=8)
+    ax.set_xlim(0, 1.0)
+    ax.set_xlabel("|Pearson r|   (sign shown as +/-,  * = 95% CI excludes 0)", fontsize=7.5)
+    ax.set_title(title, fontsize=9.5)
+    present = [f for f in FAMILY_COLORS if f in set(families)]
+    handles = [plt.Rectangle((0, 0), 1, 1, color=FAMILY_COLORS[f]) for f in present]
+    ax.legend(handles, present, fontsize=6.8, frameon=False, loc="lower right", title="instrument",
+              title_fontsize=7)
 
 
 def _pivot_metric(reg, by, metric, outputs, order) -> pd.DataFrame:
@@ -422,6 +460,130 @@ def _output_order(dkey: str, reg: pd.DataFrame) -> List[str]:
 
 
 # ---------------------------------------------------------------------------
+# Per-dataset performance composite: dispatches on how many outputs there are
+# ---------------------------------------------------------------------------
+def fig_dataset_performance(
+    dkey: str, long: pd.DataFrame, out_dir: Optional[Path] = None, show: bool = True
+) -> plt.Figure:
+    """Predictive-performance composite for one dataset.
+
+    Few outputs (intelligence: 4, numeracy: 2) get a full predicted-vs-truth grid,
+    one panel per output. Many outputs (psychosis: 10 symptom scores, mostly weak
+    and individually non-significant) get a compact forest plot of all of them
+    plus full scatter detail only for the ones whose 95% interval excludes zero,
+    so panel count tracks how much there is to show rather than the raw output
+    count.
+    """
+    reg = long[long.kind == "reg"].dropna(subset=["predicted", "truth"]).copy()
+    outputs = _output_order(dkey, reg)
+    tiers = sorted(reg["tier"].unique())
+    providers = ordered_providers(reg["model"].unique())
+    if len(outputs) <= 4:
+        return _scatter_grid_composite(dkey, reg, outputs, tiers, providers, out_dir, show)
+    return _forest_composite(dkey, reg, outputs, tiers, providers, out_dir, show)
+
+
+def _scatter_grid_composite(dkey, reg, outputs, tiers, providers, out_dir, show) -> plt.Figure:
+    k = len(outputs)
+    scat_cols = min(k, 4)
+    scat_rows = int(np.ceil(k / scat_cols))
+    fig = plt.figure(figsize=(4.7 * scat_cols, 3.5 * scat_rows + 6.6))
+    gs = GridSpec(
+        scat_rows + 2, max(scat_cols, 2), figure=fig,
+        height_ratios=[3.4] * scat_rows + [4.0, 3.0], hspace=0.62, wspace=0.32,
+    )
+
+    tier_color = _tier_color_map(tiers)
+    for idx, out in enumerate(outputs):
+        ax = fig.add_subplot(gs[idx // scat_cols, idx % scat_cols])
+        s = reg[reg.output == out]
+        _scatter_with_fit(ax, s, tiers, lambda t: tier_color[t], pretty_output(out))
+    # single shared tier legend, framed, in the first scatter's upper-right corner
+    # (the metrics annotation box sits in the upper-left, so they never collide)
+    first = fig.axes[0]
+    first.legend(fontsize=6.6, frameon=True, framealpha=0.9, edgecolor="#cccccc",
+                 loc="upper right", title="tier", title_fontsize=6.8)
+
+    # r heatmaps: output x tier and output x provider (the provider heatmap reuses
+    # the tier heatmap's output rows, so its y-labels are suppressed to avoid overlap)
+    r_tier = _pivot_metric(reg, "tier", "pearson_r", outputs, tiers)
+    r_prov = _pivot_metric(reg, "model", "pearson_r", outputs, providers)
+    ax_ht = fig.add_subplot(gs[scat_rows, 0])
+    _heatmap(ax_ht, r_tier.rename(index=pretty_output, columns=pretty_tier),
+             "Pearson r by output x tier")
+    ax_hp = fig.add_subplot(gs[scat_rows, 1] if max(scat_cols, 2) > 1 else gs[scat_rows, 0])
+    im = _heatmap(ax_hp, r_prov, "Pearson r by output x provider", show_ylabels=False)
+    fig.colorbar(im, ax=ax_hp, fraction=0.046, pad=0.02).ax.tick_params(labelsize=6)
+
+    # macro association by tier and provider: one bar per category, in that
+    # category's own established color (not one flat color for every bar)
+    ax_bt = fig.add_subplot(gs[scat_rows + 1, 0])
+    _category_bar_single(ax_bt, tiers, _macro_r_by(reg, "tier", tiers), lambda t: tier_color[t],
+                          pretty_tier, "macro association by tier", "mean Pearson r over outputs")
+    ax_bp = fig.add_subplot(gs[scat_rows + 1, 1] if max(scat_cols, 2) > 1 else gs[scat_rows + 1, 0])
+    _category_bar_single(ax_bp, providers, _macro_r_by(reg, "model", providers), provider_color,
+                          lambda p: p, "macro association by provider", "mean Pearson r over outputs")
+
+    if out_dir is not None:
+        out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
+        fig.savefig(out_dir / f"{dkey.lower()}_performance.png", dpi=130, bbox_inches="tight")
+    if show:
+        plt.show()
+    return fig
+
+
+def _forest_composite(dkey, reg, outputs, tiers, providers, out_dir, show) -> plt.Figure:
+    tab = regression_by(reg, ["output"]).reindex(outputs)
+    sig = tab[(tab.r_lo > 0) | (tab.r_hi < 0)].copy()
+    sig["abs_r"] = sig["pearson_r"].abs()
+    examples = sig.sort_values("abs_r", ascending=False).index.tolist()[:2]
+    n_ex = len(examples)
+
+    fig = plt.figure(figsize=(15.5, 11.6))
+    gs = GridSpec(3, 3, figure=fig, height_ratios=[3.4, 2.6, 2.6], hspace=0.58, wspace=0.36)
+
+    ax_forest = fig.add_subplot(gs[0, 0:2] if n_ex == 0 else gs[0, 0])
+    _forest_plot(ax_forest, tab, outputs,
+                 f"Association with truth, all {len(outputs)} outputs")
+
+    tier_color = _tier_color_map(tiers)
+    for j, out in enumerate(examples):
+        ax = fig.add_subplot(gs[0, 1 + j])
+        s = reg[reg.output == out]
+        _scatter_with_fit(ax, s, tiers, lambda t: tier_color[t], pretty_output(out))
+        if j == 0:
+            ax.legend(fontsize=6.2, frameon=True, framealpha=0.9, edgecolor="#ccc",
+                      loc="lower right", title="tier", title_fontsize=6.4)
+
+    # r heatmaps use ABSOLUTE magnitude for this many-output, noisy-sign setting
+    r_tier_abs = _pivot_metric(reg, "tier", "pearson_r", outputs, tiers).abs()
+    r_prov_abs = _pivot_metric(reg, "model", "pearson_r", outputs, providers).abs()
+    ax_ht = fig.add_subplot(gs[1, 0])
+    _heatmap(ax_ht, r_tier_abs.rename(index=pretty_output, columns=pretty_tier),
+             "|Pearson r| by output x tier", vmin=0, vmax=1, cmap="Reds")
+    ax_hp = fig.add_subplot(gs[1, 1])
+    im = _heatmap(ax_hp, r_prov_abs, "|Pearson r| by output x provider",
+                  vmin=0, vmax=1, cmap="Reds", show_ylabels=False)
+    fig.colorbar(im, ax=ax_hp, fraction=0.046, pad=0.02).ax.tick_params(labelsize=6)
+
+    ax_bt = fig.add_subplot(gs[2, 0])
+    _category_bar_single(ax_bt, tiers, _macro_r_by(reg, "tier", tiers, use_abs=True),
+                          lambda t: tier_color[t], pretty_tier,
+                          "macro |r| by tier", "mean |Pearson r| over outputs", use_abs=True)
+    ax_bp = fig.add_subplot(gs[2, 1])
+    _category_bar_single(ax_bp, providers, _macro_r_by(reg, "model", providers, use_abs=True),
+                          provider_color, lambda p: p,
+                          "macro |r| by provider", "mean |Pearson r| over outputs", use_abs=True)
+
+    if out_dir is not None:
+        out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
+        fig.savefig(out_dir / f"{dkey.lower()}_performance.png", dpi=130, bbox_inches="tight")
+    if show:
+        plt.show()
+    return fig
+
+
+# ---------------------------------------------------------------------------
 # Diagnosis composite (psychosis)
 # ---------------------------------------------------------------------------
 def fig_diagnosis(dkey: str, long: pd.DataFrame, out_dir: Optional[Path] = None,
@@ -433,7 +595,7 @@ def fig_diagnosis(dkey: str, long: pd.DataFrame, out_dir: Optional[Path] = None,
     providers = ordered_providers(dx["model"].unique())
     tiers = sorted(dx["tier"].unique())
 
-    fig = plt.figure(figsize=(16, 4.4))
+    fig = plt.figure(figsize=(16, 4.6))
     gs = GridSpec(1, 4, figure=fig, wspace=0.42, width_ratios=[1.0, 1.25, 1.35, 1.35])
 
     # confusion matrix
@@ -444,20 +606,20 @@ def fig_diagnosis(dkey: str, long: pd.DataFrame, out_dir: Optional[Path] = None,
         for j in range(2):
             ax0.text(j, i, int(cm[i, j]), ha="center", va="center", fontsize=13,
                      color="white" if cm[i, j] > cm.max() * 0.6 else "black")
-    ax0.set_xticks([0, 1]); ax0.set_xticklabels(["pred control", "pred case"], fontsize=8)
+    ax0.set_xticks([0, 1]); ax0.set_xticklabels(["pred control", "pred case"], fontsize=8, rotation=20, ha="right")
     ax0.set_yticks([0, 1]); ax0.set_yticklabels(["true control", "true case"], fontsize=8)
     ax0.set_title(f"Confusion (n={overall['n']})", fontsize=9)
 
     # headline metrics
     ax1 = fig.add_subplot(gs[0, 1])
-    names = ["accuracy", "balanced\naccuracy", "sensitivity", "specificity", "AUROC", "MCC", "F1"]
+    names = ["accuracy", "balanced accuracy", "sensitivity", "specificity", "AUROC", "MCC", "F1"]
     vals = [overall["accuracy"], overall["balanced_accuracy"], overall["sensitivity"],
             overall["specificity"], overall["auroc"], overall["mcc"], overall["f1"]]
     colors = [_POS if (np.isfinite(v) and v >= 0.5) else _NEG for v in vals]
     ax1.bar(range(len(vals)), vals, color=colors, alpha=0.85)
     ax1.axhline(0.5, color="#888", ls=":", lw=0.9)
     ax1.set_xticks(range(len(names)))
-    ax1.set_xticklabels(names, fontsize=7, rotation=30, ha="right")
+    ax1.set_xticklabels(names, fontsize=7.5, rotation=35, ha="right")
     ax1.set_ylim(min(0, np.nanmin(vals)) - 0.05, 1.0)
     _annotate_bars(ax1, vals, fmt="{:.2f}", fontsize=7)
     ax1.set_title("Diagnosis quality (overall)", fontsize=9)
@@ -482,7 +644,6 @@ def fig_diagnosis(dkey: str, long: pd.DataFrame, out_dir: Optional[Path] = None,
     ax3.set_xticks(xs); ax3.set_xticklabels(bp.index, rotation=35, ha="right", fontsize=7)
     ax3.set_ylim(0, 1); ax3.legend(fontsize=7, frameon=False); ax3.set_title("Diagnosis by provider", fontsize=9)
 
-    fig.suptitle(f"{DATASET_TITLE.get(dkey, dkey)} - binary diagnosis discrimination", fontsize=12, y=1.03)
     if out_dir is not None:
         out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
         fig.savefig(out_dir / f"{dkey.lower()}_diagnosis.png", dpi=130, bbox_inches="tight")
@@ -588,7 +749,6 @@ def fig_run_procedure(rows, summary: Dict[str, Any], out_dir: Optional[Path] = N
     ax.set_xticks(range(4)); ax.set_xticklabels(labels, fontsize=8)
     ax.set_title(f"Validity funnel ({n_jobs}/{n_jobs} valid; {discarded} off-scale discarded+rerun)", fontsize=9.5)
 
-    fig.suptitle("Run procedure and self-correction (critic-actor recovery) loop", fontsize=13, y=0.98)
     if out_dir is not None:
         out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
         fig.savefig(out_dir / "run_procedure.png", dpi=130, bbox_inches="tight")
@@ -597,7 +757,7 @@ def fig_run_procedure(rows, summary: Dict[str, Any], out_dir: Optional[Path] = N
     return fig
 
 
-def _subject_effort_error(rows) -> pd.DataFrame:
+def _subject_effort_error(rows) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Per (dataset, subject, task) effort (seconds, attempts) vs normalized abs error / correctness."""
     long = long_frame(rows)
     reg = long[long.kind == "reg"].dropna(subset=["error", "truth"]).copy()
@@ -615,15 +775,57 @@ def _subject_effort_error(rows) -> pd.DataFrame:
     return reg_g, dx_g
 
 
+def procedure_vs_performance_stats(rows) -> pd.DataFrame:
+    """Per-dataset effort/accuracy correlations plus the pooled first-try-vs-recovered test.
+
+    Returned as a table so the notebook can print the exact numbers the figure
+    only shows visually (Pearson r and Spearman rho of seconds vs error, and the
+    Mann-Whitney U p-value comparing first-try to recovered-job error).
+    """
+    reg_g, _ = _subject_effort_error(rows)
+    rows_out = []
+    for d, s in reg_g.groupby("dataset"):
+        s = s.dropna(subset=["seconds", "abs_z_error"])
+        if len(s) >= 4 and s["seconds"].nunique() > 1:
+            r, p_r = pearsonr(s["seconds"], s["abs_z_error"])
+            rho, p_rho = spearmanr(s["seconds"], s["abs_z_error"])
+        else:
+            r = p_r = rho = p_rho = np.nan
+        first = s.loc[s["attempts"] == 1, "abs_z_error"]
+        recovered = s.loc[s["attempts"] > 1, "abs_z_error"]
+        if len(first) >= 3 and len(recovered) >= 3:
+            u_p = float(mannwhitneyu(first, recovered, alternative="two-sided").pvalue)
+        else:
+            u_p = np.nan
+        rows_out.append(dict(
+            dataset=d, n=len(s), n_first_try=len(first), n_recovered=len(recovered),
+            pearson_r_seconds_vs_error=round(r, 3) if np.isfinite(r) else np.nan,
+            p_pearson=round(p_r, 3) if np.isfinite(p_r) else np.nan,
+            spearman_rho_seconds_vs_error=round(rho, 3) if np.isfinite(rho) else np.nan,
+            p_spearman=round(p_rho, 3) if np.isfinite(p_rho) else np.nan,
+            mean_error_first_try=round(float(first.mean()), 3) if len(first) else np.nan,
+            mean_error_recovered=round(float(recovered.mean()), 3) if len(recovered) else np.nan,
+            mannwhitney_p=round(u_p, 3) if np.isfinite(u_p) else np.nan,
+        ))
+    return pd.DataFrame(rows_out).set_index("dataset")
+
+
 def fig_procedure_vs_performance(rows, out_dir: Optional[Path] = None, show: bool = True) -> plt.Figure:
-    """Supplementary: does run cost (time / attempts) predict accuracy?"""
-    reg_g, dx_g = _subject_effort_error(rows)
+    """Supplementary: does run cost (time / attempts) predict accuracy?
+
+    Top row: one effort-vs-error scatter per dataset (own provider colors), with
+    Pearson r/p and Spearman rho/p annotated. Bottom: a single panel pooling all
+    three datasets' normalized error (comparable because each is already scaled
+    by its own output's population SD) to compare first-try vs recovered jobs,
+    with a Mann-Whitney U test, instead of three near-duplicate per-dataset
+    boxplots -- one pooled comparison already answers the question.
+    """
+    reg_g, _ = _subject_effort_error(rows)
     datasets = [d for d in ("INTELLIGENCE", "PSYCHOSIS", "NUMERACY") if d in set(reg_g.dataset)]
 
-    fig = plt.figure(figsize=(16, 8.4))
-    gs = GridSpec(2, 3, figure=fig, hspace=0.4, wspace=0.32)
+    fig = plt.figure(figsize=(16, 8.0))
+    gs = GridSpec(2, 3, figure=fig, hspace=0.42, wspace=0.32, height_ratios=[1.0, 0.85])
 
-    # top row: seconds vs mean |z error| per subject, one panel per dataset
     for di, d in enumerate(datasets):
         ax = fig.add_subplot(gs[0, di])
         s = reg_g[reg_g.dataset == d].dropna(subset=["seconds", "abs_z_error"])
@@ -632,38 +834,40 @@ def fig_procedure_vs_performance(rows, out_dir: Optional[Path] = None, show: boo
             ax.scatter(sp["seconds"], sp["abs_z_error"], s=24, alpha=0.75,
                        color=provider_color(p), label=p, edgecolor="none")
         if len(s) >= 4 and s["seconds"].nunique() > 1:
-            r, pval = pearsonr(s["seconds"], s["abs_z_error"])
+            r, p_r = pearsonr(s["seconds"], s["abs_z_error"])
+            rho, p_rho = spearmanr(s["seconds"], s["abs_z_error"])
             b, a = np.polyfit(s["seconds"], s["abs_z_error"], 1)
             xs = np.array([s["seconds"].min(), s["seconds"].max()])
             ax.plot(xs, b * xs + a, color="#d1495b", lw=1.5)
-            ax.text(0.03, 0.97, f"r = {r:.2f}\np = {pval:.2f}\nn = {len(s)}", transform=ax.transAxes,
-                    va="top", fontsize=8, bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#ccc", alpha=0.85))
+            ax.text(0.03, 0.97, f"r = {r:.2f} (p={p_r:.2f})\nrho = {rho:.2f} (p={p_rho:.2f})\nn = {len(s)}",
+                    transform=ax.transAxes, va="top", fontsize=7.6,
+                    bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#ccc", alpha=0.85))
         ax.set_title(f"{d.title()}: effort vs error", fontsize=9.5)
         ax.set_xlabel("seconds / job"); ax.set_ylabel("mean |z error| per subject", fontsize=8)
         if di == 0:
             ax.legend(fontsize=6.2, frameon=False, loc="upper right")
 
-    # bottom row: error (or accuracy) by attempts group, per dataset
-    for di, d in enumerate(datasets):
-        ax = fig.add_subplot(gs[1, di])
-        s = reg_g[reg_g.dataset == d].dropna(subset=["abs_z_error"]).copy()
-        s["attempt_grp"] = np.where(s["attempts"] > 1, "recovered\n(>=2 attempts)", "first try")
-        groups = ["first try", "recovered\n(>=2 attempts)"]
-        data = [s[s.attempt_grp == g]["abs_z_error"].to_numpy() for g in groups]
-        ns = [len(x) for x in data]
-        if any(ns):
-            bp = ax.boxplot([x for x in data if len(x)], labels=[g for g, x in zip(groups, data) if len(x)],
-                            showfliers=False, patch_artist=True, widths=0.55)
-            for patch in bp["boxes"]:
-                patch.set_facecolor("#4e79a7"); patch.set_alpha(0.6)
-            means = [np.nanmean(x) if len(x) else np.nan for x in data if len(x)]
-            for i, mv in enumerate(means):
-                ax.scatter(i + 1, mv, color="#d1495b", zorder=5, s=30)
-        ax.set_title(f"{d.title()}: error by attempt count", fontsize=9.5)
-        ax.set_ylabel("mean |z error| per subject", fontsize=8)
-        ax.tick_params(labelsize=7.5)
+    # single pooled panel: first try vs recovered, all datasets combined
+    ax = fig.add_subplot(gs[1, :])
+    pooled = reg_g.dropna(subset=["abs_z_error"]).copy()
+    pooled["group"] = np.where(pooled["attempts"] > 1, "recovered (>=2 attempts)", "first try")
+    groups = ["first try", "recovered (>=2 attempts)"]
+    data = [pooled.loc[pooled.group == g, "abs_z_error"].to_numpy() for g in groups]
+    bp = ax.boxplot(data, labels=groups, showfliers=False, patch_artist=True, widths=0.5,
+                    vert=False)
+    for patch, c in zip(bp["boxes"], ["#9c9c9c", "#f28e2b"]):
+        patch.set_facecolor(c); patch.set_alpha(0.75)
+    for i, d in enumerate(data, start=1):
+        if len(d):
+            ax.scatter(np.mean(d), i, color="#d1495b", zorder=5, s=40, label="mean" if i == 1 else None)
+    if all(len(d) >= 3 for d in data):
+        u_p = float(mannwhitneyu(data[0], data[1], alternative="two-sided").pvalue)
+        ax.text(0.98, 0.06, f"Mann-Whitney U, p = {u_p:.2f}  (n={len(data[0])} vs n={len(data[1])})",
+                transform=ax.transAxes, ha="right", fontsize=8.5,
+                bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#ccc", alpha=0.9))
+    ax.set_xlabel("mean |z error| per subject (pooled across all three datasets)", fontsize=8.5)
+    ax.set_title("Does needing the recovery loop change accuracy? (pooled across datasets)", fontsize=10)
 
-    fig.suptitle("Supplementary: does run cost (execution time, retries) predict accuracy?", fontsize=12.5, y=0.98)
     if out_dir is not None:
         out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
         fig.savefig(out_dir / "procedure_vs_performance.png", dpi=130, bbox_inches="tight")
@@ -683,23 +887,18 @@ def fig_cross_provider(rows, out_dir: Optional[Path] = None, show: bool = True) 
     providers = ordered_providers(jobs["model"].unique())
 
     fig = plt.figure(figsize=(16, 8.6))
-    gs = GridSpec(2, 3, figure=fig, hspace=0.46, wspace=0.32)
+    gs = GridSpec(2, 3, figure=fig, hspace=0.5, wspace=0.32)
 
-    # top: macro Pearson r by provider, one panel per dataset (regression outputs)
+    # top: macro association by provider, one panel per dataset (own provider colors;
+    # psychosis uses |r| since its per-output correlations are noisy in sign)
     for di, d in enumerate(datasets):
         ax = fig.add_subplot(gs[0, di])
         reg = long[(long.kind == "reg") & (long.dataset == d)]
-        tab = regression_by(reg, ["model", "output"])
-        if not tab.empty:
-            macro = tab.groupby(level=0)[["pearson_r", "spearman_rho"]].mean().reindex(providers)
-            xs = np.arange(len(macro))
-            ax.bar(xs - 0.19, macro["pearson_r"].values, width=0.36, color="#4e79a7", label="mean r")
-            ax.bar(xs + 0.19, macro["spearman_rho"].values, width=0.36, color="#f28e2b", label="mean rho")
-            ax.axhline(0, color="#888", lw=0.8)
-            ax.set_xticks(xs); ax.set_xticklabels(macro.index, rotation=40, ha="right", fontsize=7)
-            ax.legend(fontsize=6.6, frameon=False, ncol=2)
-        ax.set_title(f"{d.title()}: macro association by provider", fontsize=9.5)
-        ax.set_ylabel("mean over outputs", fontsize=8)
+        use_abs = d == "PSYCHOSIS"
+        vals = _macro_r_by(reg, "model", providers, use_abs=use_abs)
+        _category_bar_single(ax, providers, vals, provider_color, lambda p: p,
+                             f"{d.title()}: macro association by provider",
+                             "mean |Pearson r|" if use_abs else "mean Pearson r", use_abs=use_abs)
 
     # bottom-left: diagnosis balanced accuracy + AUROC by provider (psychosis)
     ax = fig.add_subplot(gs[1, 0])
@@ -730,8 +929,6 @@ def fig_cross_provider(rows, out_dir: Optional[Path] = None, show: bool = True) 
     ax.set_xticklabels(providers, rotation=40, ha="right", fontsize=7)
     ax.set_ylabel("percent of jobs recovered"); ax.set_title("Recovery-loop rate by provider", fontsize=9.5)
 
-    fig.suptitle("Cross-provider comparison at matched data complexity (providers balanced within every tier)",
-                 fontsize=12.5, y=0.98)
     if out_dir is not None:
         out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
         fig.savefig(out_dir / "cross_provider.png", dpi=130, bbox_inches="tight")
@@ -744,6 +941,10 @@ def fig_cross_provider(rows, out_dir: Optional[Path] = None, show: bool = True) 
 # Table helpers for inline display
 # ---------------------------------------------------------------------------
 def overall_regression_table(long: pd.DataFrame) -> pd.DataFrame:
+    """Full signed per-output metrics (direction is scientifically meaningful here,
+    e.g. a negative bias means the model underestimates truth), pooled over tiers
+    and providers. Heatmaps and macro bars elsewhere may switch to |r| for
+    high-output, noisy-sign settings (psychosis); this table never does."""
     reg = long[long.kind == "reg"]
     tab = regression_by(reg, ["dataset", "output"])
     if tab.empty:
@@ -757,12 +958,24 @@ def macro_association(long: pd.DataFrame, by: str) -> pd.DataFrame:
 
     Correlation-based metrics (r, rho, tau) and the coefficient of determination
     are scale-free, so averaging them across differently scaled phenotype outputs
-    is well defined; that is what makes this a fair macro summary.
+    is well defined. Both the signed mean and the mean absolute magnitude are
+    returned; use the absolute columns where sign is noisy across many outputs
+    (as in psychosis) and the signed columns where direction matters and there
+    are few, individually reliable outputs (intelligence, numeracy).
     """
     reg = long[long.kind == "reg"]
     tab = regression_by(reg, [by, "output"])
     if tab.empty:
         return tab
-    macro = tab.groupby(level=0)[["pearson_r", "spearman_rho", "kendall_tau", "R2"]].mean()
-    macro["n_outputs"] = tab.groupby(level=0).size()
+    g = tab.groupby(level=0)
+    macro = pd.DataFrame({
+        "pearson_r": g["pearson_r"].mean(),
+        "abs_pearson_r": tab["pearson_r"].abs().groupby(level=0).mean(),
+        "spearman_rho": g["spearman_rho"].mean(),
+        "abs_spearman_rho": tab["spearman_rho"].abs().groupby(level=0).mean(),
+        "kendall_tau": g["kendall_tau"].mean(),
+        "R2": g["R2"].mean(),
+        "r_squared": g["r_squared"].mean(),
+        "n_outputs": g.size(),
+    })
     return macro.round(3)
