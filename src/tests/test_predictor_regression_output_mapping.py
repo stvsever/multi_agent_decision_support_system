@@ -7,7 +7,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.full_stack.backend.agents.predictor import Predictor
 from src.full_stack.backend.data.models.prediction_result import ConfidenceLevel, NodePrediction, RegressionPrediction
-from src.full_stack.backend.data.models.prediction_task import PredictionMode, PredictionTaskNode
+from src.full_stack.backend.data.models.prediction_task import (
+    PredictionMode,
+    PredictionTaskNode,
+    PredictionTaskSpec,
+)
 
 
 def test_regression_output_normalized_key_mapping():
@@ -74,6 +78,63 @@ def test_multivariate_missing_output_raises():
     }
     with pytest.raises(ValueError, match="Missing regression output"):
         predictor._parse_node_prediction(node_payload=payload, node_spec=node_spec, path="root")
+
+
+def test_multivariate_missing_output_is_retried_with_schema_error():
+    class _Response:
+        def __init__(self, content):
+            self.content = content
+            self.prompt_tokens = 10
+            self.completion_tokens = 10
+
+    class _Client:
+        def __init__(self):
+            self.calls = []
+
+        def call(self, **kwargs):
+            self.calls.append(kwargs)
+            values = {"trait_a": 0.2}
+            if len(self.calls) > 1:
+                values["trait_b"] = -0.1
+            return _Response(
+                __import__("json").dumps(
+                    {
+                        "prediction_id": "pred-1",
+                        "root_prediction": {
+                            "node_id": "root",
+                            "regression": {"values": values},
+                            "children": [],
+                        },
+                        "confidence_level": "MEDIUM",
+                        "key_findings": [],
+                        "reasoning_chain": [],
+                        "clinical_summary": "summary",
+                        "uncertainty_factors": [],
+                    }
+                )
+            )
+
+    node_spec = PredictionTaskNode(
+        node_id="root",
+        display_name="Traits",
+        mode=PredictionMode.MULTIVARIATE_REGRESSION,
+        regression_outputs=["trait_a", "trait_b"],
+    )
+    predictor = Predictor(llm_client=_Client())
+    predictor._active_prediction_task_spec = PredictionTaskSpec(root=node_spec)
+    predictor._record_tokens = lambda *_args, **_kwargs: None
+    predictor._is_local_backend = lambda: False
+
+    out = predictor._call_predictor_json(
+        system_prompt="system",
+        user_prompt="predict both traits",
+        max_retries=2,
+    )
+
+    assert out["root_prediction"]["regression"]["values"]["trait_b"] == pytest.approx(-0.1)
+    assert len(predictor.llm_client.calls) == 2
+    retry_prompt = predictor.llm_client.calls[1]["messages"][1]["content"]
+    assert "Missing regression output 'trait_b'" in retry_prompt
 
 
 def test_univariate_zero_can_be_recovered_from_age_narrative():

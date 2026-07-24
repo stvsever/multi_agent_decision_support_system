@@ -117,35 +117,8 @@
       "evaluation_reference_disjoint": true
     },
     {
-      "id": "T2_personality",
-      "label": "Tier 2: + Personality (Big Five)",
-      "n_features": 11,
-      "n_domains": 2,
-      "groups": [
-        "demographics",
-        "personality"
-      ],
-      "reference_mode": "cohort",
-      "reference_feature_n_min": 827,
-      "evaluation_reference_disjoint": true
-    },
-    {
-      "id": "T3_psychometric",
-      "label": "Tier 3: + Motivation & Affect",
-      "n_features": 16,
-      "n_domains": 2,
-      "groups": [
-        "demographics",
-        "personality",
-        "motivation_affect"
-      ],
-      "reference_mode": "cohort",
-      "reference_feature_n_min": 827,
-      "evaluation_reference_disjoint": true
-    },
-    {
-      "id": "T4_identity",
-      "label": "Tier 4: + Identity & Belief (all self-report)",
+      "id": "T2_psychological",
+      "label": "Tier 2: + Psychological factors (Big Five, BIS/BAS, STAI, identity, religiosity)",
       "n_features": 23,
       "n_domains": 3,
       "groups": [
@@ -159,8 +132,8 @@
       "evaluation_reference_disjoint": true
     },
     {
-      "id": "T5_morphometry",
-      "label": "Tier 5: + Brain morphometry",
+      "id": "T3_morphometry",
+      "label": "Tier 3: + Brain morphometry",
       "n_features": 251,
       "n_domains": 4,
       "groups": [
@@ -175,8 +148,8 @@
       "evaluation_reference_disjoint": true
     },
     {
-      "id": "T6_connectome",
-      "label": "Tier 6: + Brain connectome (full multimodal)",
+      "id": "T4_multimodal_full",
+      "label": "Tier 4: + Brain connectome (everything together)",
       "n_features": 279,
       "n_domains": 4,
       "groups": [
@@ -192,8 +165,21 @@
       "evaluation_reference_disjoint": true
     },
     {
+      "id": "T5_brain_only",
+      "label": "Tier 5: Brain only (morphometry + connectome)",
+      "n_features": 256,
+      "n_domains": 1,
+      "groups": [
+        "brain_morphometry",
+        "brain_connectome"
+      ],
+      "reference_mode": "cohort",
+      "reference_feature_n_min": 20,
+      "evaluation_reference_disjoint": true
+    },
+    {
       "id": "B1_morphometry_only",
-      "label": "Brain-only: morphometry",
+      "label": "Brain-only probe: morphometry",
       "n_features": 228,
       "n_domains": 1,
       "groups": [
@@ -205,23 +191,10 @@
     },
     {
       "id": "B2_connectome_only",
-      "label": "Brain-only: connectome",
+      "label": "Brain-only probe: connectome",
       "n_features": 28,
       "n_domains": 1,
       "groups": [
-        "brain_connectome"
-      ],
-      "reference_mode": "cohort",
-      "reference_feature_n_min": 20,
-      "evaluation_reference_disjoint": true
-    },
-    {
-      "id": "B3_brain_only",
-      "label": "Brain-only: morphometry + connectome",
-      "n_features": 256,
-      "n_domains": 1,
-      "groups": [
-        "brain_morphometry",
         "brain_connectome"
       ],
       "reference_mode": "cohort",

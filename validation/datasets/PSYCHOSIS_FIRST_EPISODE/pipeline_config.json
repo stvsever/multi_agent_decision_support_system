@@ -1,0 +1,68 @@
+{
+  "schema_version": "eeg_fep_rest_v2",
+  "random_seed": 20260722,
+  "datasets": {
+    "ds003944": {
+      "snapshot": "1.0.1",
+      "git_revision": "dcee4de6ada80b018ef8fe4f75463ee4b22cdcd4",
+      "task_token": "Rest"
+    },
+    "ds003947": {
+      "snapshot": "1.0.1",
+      "git_revision": "8cbb08a80ccc1be499f2c435a8b04d43678dadc6",
+      "task_token": "rest"
+    }
+  },
+  "preprocessing": {
+    "common_source_duration_s": 300.0,
+    "trim_start_s": 3.0,
+    "trim_end_s": 3.0,
+    "main_highpass_hz": 0.5,
+    "main_lowpass_hz": 45.0,
+    "ica_highpass_hz": 1.0,
+    "analysis_sampling_hz": 250.0,
+    "epoch_duration_s": 4.0,
+    "minimum_clean_duration_s": 120.0,
+    "minimum_retained_epochs": 30,
+    "maximum_bad_channel_fraction": 0.20,
+    "maximum_bad_epoch_fraction": 0.60,
+    "flat_channel_std_uv": 0.10,
+    "bad_channel_robust_z": 5.0,
+    "bad_channel_min_median_correlation": 0.40,
+    "bad_channel_min_line_noise_fraction": 0.01,
+    "epoch_peak_to_peak_uv": 500.0,
+    "epoch_robust_z": 6.0,
+    "ica_method": "picard",
+    "ica_variance_fraction": 0.99,
+    "ica_decimation": 4,
+    "ica_max_components_removed": 8
+  },
+  "harmonization": {
+    "common_reference": "average_over_shared_49_cortical_channels",
+    "bad_channel_interpolation": "spherical_spline_accurate",
+    "interpolation_note": "Bad channels are interpolated on the native montage before the recording is restricted to the shared 49-channel set, so every subject contributes the same electrodes to every feature."
+  },
+  "features": {
+    "multitaper_bandwidth_hz": 1.5,
+    "fooof_fit_range_hz": [1.0, 45.0],
+    "fooof_peak_width_limits_hz": [1.0, 12.0],
+    "fooof_max_n_peaks": 6,
+    "fooof_min_peak_height": 0.05,
+    "fooof_peak_threshold_sd": 2.0,
+    "fooof_aperiodic_mode": "fixed",
+    "alpha_peak_search_hz": [7.0, 14.0],
+    "entropy_sample_entropy_order": 2,
+    "entropy_sample_entropy_tolerance_sd": 0.2,
+    "entropy_permutation_order": 5,
+    "microstate_n_states": 4,
+    "microstate_filter_hz": [2.0, 20.0],
+    "microstate_gfp_peaks_per_subject": 1000,
+    "microstate_min_segment_ms": 30.0,
+    "connectivity_method": "wpli2_debiased",
+    "connectivity_node_reduction": "region_first_principal_component",
+    "graph_densities": [0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50],
+    "small_world_random_replicates": 100,
+    "dfa_window_seconds": [1.0, 1.4, 2.0, 2.8, 4.0, 5.7, 8.0, 11.3, 16.0, 20.0],
+    "dfa_minimum_contiguous_seconds": 80.0
+  }
+}

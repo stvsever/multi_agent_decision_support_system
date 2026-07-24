@@ -45,6 +45,37 @@ TARGET = {
     "units": "points",
 }
 
+# IST subscales: components of the total. Used ONLY as hierarchical child
+# prediction OUTPUTS (multivariate under the total). They are never predictors
+# (all three are in EXCLUDED_COLUMNS below), so there is no target leakage.
+SUBSCALES = [
+    {"column": "IST_fluid", "label": "IST fluid reasoning",
+     "description": "Fluid intelligence subscale: reasoning on novel verbal, numerical and figural problems (analogies, number series, matrices)."},
+    {"column": "IST_memory", "label": "IST memory",
+     "description": "Memory subscale: short-term retention and recall of verbal and figural material."},
+    {"column": "IST_crystallised", "label": "IST crystallised knowledge",
+     "description": "Crystallised intelligence subscale: acquired verbal and numerical knowledge."},
+]
+
+# Static context about the instrument, injected into the engine's global
+# instruction so the model interprets the scales correctly.
+IST_CONTEXT = (
+    "The Intelligence Structure Test 2000-R (IST 2000-R) is a standardized German "
+    "psychometric battery of reasoning tasks. All scores here are NATIVE IST points "
+    "(sums of correct items), not a conventional 100/15 IQ scale. The total is the "
+    "overall composite ability; fluid, memory and crystallised are its components, "
+    "so a participant's subscale scores tend to move together with the total."
+)
+
+# Cohort context, injected into the engine's global instruction so the model knows the
+# population it is predicting for (a healthy general-population sample, not a clinical group).
+DATASET_CONTEXT = (
+    "Cohort: AOMIC ID1000 (OpenNeuro ds003097), 928 healthy Dutch young adults from the "
+    "general population, with no clinical or psychiatric group. Intelligence therefore spans "
+    "the normal range; predict within that healthy-population distribution."
+)
+
+
 def target_scale_note(reference_mean: float, reference_sd: float) -> str:
     """Target calibration derived only from the disjoint reference cohort.
 
@@ -288,24 +319,21 @@ FEATURE_SPECS = TABULAR_FEATURE_SPECS
 TIERS = [
     {"id": "T1_demographics", "label": "Tier 1: Demographics",
      "groups": ["demographics"]},
-    {"id": "T2_personality", "label": "Tier 2: + Personality (Big Five)",
-     "groups": ["demographics", "personality"]},
-    {"id": "T3_psychometric", "label": "Tier 3: + Motivation & Affect",
-     "groups": ["demographics", "personality", "motivation_affect"]},
-    {"id": "T4_identity", "label": "Tier 4: + Identity & Belief (all self-report)",
+    {"id": "T2_psychological",
+     "label": "Tier 2: + Psychological factors (Big Five, BIS/BAS, STAI, identity, religiosity)",
      "groups": ["demographics", "personality", "motivation_affect", "identity_belief"]},
-    {"id": "T5_morphometry", "label": "Tier 5: + Brain morphometry",
+    {"id": "T3_morphometry", "label": "Tier 3: + Brain morphometry",
      "groups": ["demographics", "personality", "motivation_affect", "identity_belief",
                 "brain_morphometry"]},
-    {"id": "T6_connectome", "label": "Tier 6: + Brain connectome (full multimodal)",
+    {"id": "T4_multimodal_full", "label": "Tier 4: + Brain connectome (everything together)",
      "groups": ["demographics", "personality", "motivation_affect", "identity_belief",
                 "brain_morphometry", "brain_connectome"]},
-    {"id": "B1_morphometry_only", "label": "Brain-only: morphometry",
-     "groups": ["brain_morphometry"]},
-    {"id": "B2_connectome_only", "label": "Brain-only: connectome",
-     "groups": ["brain_connectome"]},
-    {"id": "B3_brain_only", "label": "Brain-only: morphometry + connectome",
+    {"id": "T5_brain_only", "label": "Tier 5: Brain only (morphometry + connectome)",
      "groups": ["brain_morphometry", "brain_connectome"]},
+    {"id": "B1_morphometry_only", "label": "Brain-only probe: morphometry",
+     "groups": ["brain_morphometry"]},
+    {"id": "B2_connectome_only", "label": "Brain-only probe: connectome",
+     "groups": ["brain_connectome"]},
 ]
 
 ONTOLOGY_CONTEXT = (

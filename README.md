@@ -227,18 +227,33 @@ multi_agent_decision_support_system/
 │   │   └── frontend/               # Flask dashboard, templates, and static assets
 │   └── tests/                      # Backend and frontend unit tests
 ├── validation/
+│   ├── validation_with_openneuro_datasets.ipynb  # Master notebook: runs all 3 datasets end to end (resumable)
 │   ├── common/                     # Reusable exploration, ontology, ingestion, MRI, and evaluation code
 │   └── datasets/
-│       └── INTELLIGENCE/           # OpenNeuro ds003097 (AOMIC-ID1000) IQ inference validation
-│           ├── brain/              # Derived high-resolution morphometry and connectome features
-│           ├── compass_inputs/     # Blinded inputs for 100 evaluation participants
-│           ├── dataset/            # Source participant table and field metadata
-│           ├── notebooks/          # Exploration and result notebooks
-│           ├── ontology/           # Generated arbitrary-depth ontology and reports
-│           ├── pipeline/           # Extraction, inference, and evaluation scripts
-│           ├── results/            # Per-tier predictions/metrics + full_engine_2subject/ fresh run
-│           ├── METHODOLOGY.md       # Leakage controls and evaluation protocol
-│           └── README.md            # Dataset contents, tier definitions, and results
+│       ├── INTELLIGENCE/           # OpenNeuro ds003097 (AOMIC-ID1000): hierarchical IQ inference
+│       │   ├── brain/              # Derived high-resolution morphometry and connectome features
+│       │   ├── compass_inputs/     # Blinded inputs per tier and participant
+│       │   ├── dataset/            # Source participant table and field metadata
+│       │   ├── ontology/           # Generated arbitrary-depth ontology and reports
+│       │   ├── pipeline/           # Extraction, inference, and evaluation scripts
+│       │   ├── results/            # Per-tier predictions/metrics + annotations.json
+│       │   ├── PHENOTYPE_AND_TIERS.md  # Phenotype output structure and tier ladder
+│       │   ├── METHODOLOGY.md       # Leakage controls and evaluation protocol
+│       │   └── README.md
+│       ├── PSYCHOSIS_FIRST_EPISODE/  # OpenNeuro ds003944 + ds003947: diagnosis + symptom profile from EEG
+│       │   ├── data/               # Raw/processed EEG (git-ignored) + derived feature tables
+│       │   ├── notebooks/          # Load/preprocess, feature extraction/viz, ontology + COMPASS ladder
+│       │   ├── utils/              # Importable pipeline: features, viz, ontology, task spec, run helpers
+│       │   ├── results/compass/    # Ontology (OWL), per-tier inputs, annotations, ladder predictions
+│       │   └── PHENOTYPE_AND_TIERS.md
+│       └── NUMERACY_STROKE/        # OpenNeuro ds006533: approximate vs precise numeracy from lesion overlap
+│           ├── data/              # Lesion masks (git-ignored) + processed feature tables
+│           ├── ontology/          # Fine/coarse abstract lesion ontology (OWL + JSON)
+│           ├── pipeline/          # Lesion extraction, ontology, COMPASS inputs, task spec
+│           ├── compass_inputs/    # Blinded + all-shared inputs per tier and participant
+│           ├── results/           # subset + annotations.json ground truth
+│           ├── PHENOTYPE_AND_TIERS.md
+│           └── README.md
 ├── COMPASS_demo.ipynb              # End-to-end demonstration notebook
 ├── main.py                         # CLI and UI entry point
 ├── pyproject.toml                  # Package metadata and build configuration

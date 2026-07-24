@@ -1,0 +1,18 @@
+Participant ID: sub-043
+Source: evaluation record from NUMERACY_STROKE. Only the multimodal predictor features listed below are provided; the prediction target is never included as an input.
+Reference strategy: cohort (deviation from the population cohort).
+Feature values below are shown on their native measured scale; the parenthetical qualifier (e.g. High, Low, Very High) is this participant's signed deviation (z-score) from the reference cohort for that feature.
+
+TARGET MEASUREMENT REFERENCE:
+Prediction target: precise_numeracy, a composite Z-score across several precise, symbolic numeracy tasks (WAB number items, number writing/dictation, calculation). In the reference split, mean=-0.001, sd=0.672 native Z-score units. Predict one numeric value on that native scale. No approximate_numeracy value is a reliable proxy - this dataset's whole point is their differential relationship to language/lesion features.
+
+SCALE GUIDE (how to read this record): the two numeracy phenotypes are already population Z-scores (0 = the stroke-cohort average, +/-1 = one SD; higher = better numeracy). Predictors are the standardized TRANSFORMED tier only: age and education are raw years; aphasia_quotient is a standardized WAB-R quotient (higher = less aphasia); whole-brain lesion volume is a standardized log lesion fraction; every per-region 'lesion overlap' feature is a raw proportion from 0 (spared) to 1 (fully lesioned). The (High/Low/...) qualifier on each feature is this participant's cohort deviation, not part of the raw value.
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Demographics and Background [3 measured]: Imaging modality = research_MR (High-Normal); Age = 56 years (Normal); Education (years) = 14 years (Normal)
+- Clinical Profile [4 measured]: Aphasia severity (WAB-R quotient) = -0.667016 standardized units (rank inverse-normal; higher = less aphasia) (Low-Normal); Total lesioned voxels = 9401 voxels (Normal); Total lesion volume = 9401 mm^3 (Normal); Whole-brain lesion volume = -4.37453 standardized units (log lesion fraction of the left hemisphere) (Normal)
+- Brain Lesion Topography [187 measured]: Lesion overlap: THA-DAl-lh = 0.611742 proportion (Very High); Lesion overlap: THA-VAip-lh = 0.409548 proportion (Very High); Lesion overlap: THA-VPl-lh = 0.239796 proportion (Very High); Lesion overlap: aGP-lh = 0.162037 proportion (Very High); Lesion overlap: pGP-lh = 0.181944 proportion (High-Normal); Lesion overlap: PUT-VP-lh = 0.003061 proportion (Low-Normal) (+181 more)
+
+NOTABLE DEVIATIONS: Lesion overlap: THA-VAip-lh is very high (z=+4.99); Lesion overlap: THA-VPl-lh is very high (z=+2.73); Lesion overlap: THA-DAl-lh is very high (z=+8.75); Lesion overlap: aGP-lh is very high (z=+2.57).
+
+NOTE: The prediction target and any of its own components are never provided as inputs. Infer the target only from the multimodal predictor evidence in this record, reading each value on the native scale described in the target reference above.

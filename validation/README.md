@@ -23,7 +23,8 @@ validation/
     deviation.py                 reference strategies (cohort / external / absolute)
     compass_writer.py            emits the four COMPASS participant files (full depth)
     ingest.py                    generic modality-agnostic ingestion CLI: features ->
-                                 loaded/subject_NNN/ (subject detection, free-text)
+                                 loaded/subject_NNN/ (subject detection, free-text, the LLM
+                                 reads all column names + data-dictionary to build the ontology)
     freesurfer.py                high-resolution FreeSurfer morphometry extraction
     connectome.py                movie-fMRI network connectome extraction
     tiers.py                     project the ontology onto a complexity tier
@@ -92,11 +93,39 @@ scaffold that makes multi-modal evidence tractable and auditable.
 
 ## Datasets
 
-| Dataset | Source | Task | Modalities | Status |
-|---|---|---|---|---|
-| [AOMIC-ID1000](datasets/INTELLIGENCE/) | OpenNeuro ds003097 (CC0) | Native IST total-score regression | Self-report, high-resolution FreeSurfer morphometry (228 leaves), fMRI connectome | Prior 100-subject run across 9 tiers; fresh 2-subject full-tier run on the upgraded 279-feature structure |
+Three OpenNeuro datasets, each with its own clinical phenotype and data-complexity ladder. The exact
+phenotype output structure and tier ladder for each are in its `PHENOTYPE_AND_TIERS.md`.
 
-More datasets plug in by copying a dataset folder and editing its `pipeline/config.py`.
+| Dataset | Source | Clinical phenotype (prediction structure) | Modalities | Status |
+|---|---|---|---|---|
+| [AOMIC-ID1000](datasets/INTELLIGENCE/) | OpenNeuro ds003097 (CC0) | Total intelligence (univariate) then 3 IST subscales (multivariate) | Self-report, high-resolution FreeSurfer morphometry, fMRI connectome (279-feature structure) | 100-subject 9-tier run; fresh 2-subject full-ladder run |
+| [First-Episode Psychosis](datasets/PSYCHOSIS_FIRST_EPISODE/) | OpenNeuro ds003944 + ds003947 | Diagnosis (binary) then BPRS total (univariate) then SAPS/SANS globals (multivariate) | Resting EEG (836 features, 8 families) plus demographics, socio-economic status, cognition/IQ, observed functioning | 143 recordings on one harmonized 49-channel montage; 5-tier ladder |
+| [Numeracy after Stroke](datasets/NUMERACY_STROKE/) | OpenNeuro ds006533 (CC0) | Approximate and precise numeracy (two dissociable univariate phenotypes) | Demographics, aphasia severity, whole-brain and per-region lesion overlap (cortex/subcortex/cerebellum) | 105 left-hemisphere stroke survivors; 4-level lesion-resolution ladder |
+
+**Short summary of the phenotype prediction structures and ladders**
+
+- **INTELLIGENCE**: a two-level hierarchy - the root regresses total IST intelligence, and a child node
+  jointly regresses the three IST subscales (fluid, memory, crystallised). Ladder T1 demographics -> T6
+  brain connectome (six cumulative tiers plus brain-only probes).
+- **PSYCHOSIS**: a mixed three-level hierarchy - a binary diagnosis at the root, BPRS total severity beneath
+  it, then the SAPS positive-symptom and SANS negative-symptom globals beneath that. Ladder T1 demographics/SES
+  -> T5 full 836-feature resting EEG.
+- **NUMERACY**: two dissociable numeracy phenotypes (approximate non-symbolic vs precise symbolic), each a
+  univariate regression on a population Z-score, predicted separately so their differential relationship to
+  language/lesion features is the readout. Ladder T1 demographics -> T3 per-parcel lesion overlap.
+
+The master notebook `validation_with_openneuro_datasets.ipynb` runs all three end to end: it load-checks
+every record, runs a 2-subjects-per-dataset subset on a substantial tier, visualizes recovered phenotypes
+against ground truth, and estimates the full-cohort API cost and wall time per dataset. It is resumable:
+each run caches the moment it finishes and a re-run continues from where it stopped, so an interrupted or
+quit batch never re-spends on completed runs.
+
+More datasets plug in by copying a dataset folder and editing its config. The three show two supported
+layouts: `INTELLIGENCE/` and `NUMERACY_STROKE/` use a `pipeline/` of numbered scripts, while
+`PSYCHOSIS_FIRST_EPISODE/` uses an importable `utils/` package with three pre-run notebooks (loading and
+preprocessing, feature extraction and visualization, and ontology plus the COMPASS tier ladder). All
+reuse `common/` and the same four-file COMPASS contract. Large raw and processed EEG/MRI data stay local
+(git-ignored); the derived feature tables, figures and COMPASS inputs are tracked.
 
 ## Requirements
 

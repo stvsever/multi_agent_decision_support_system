@@ -1,0 +1,747 @@
+{
+  "dataset": "NUMERACY_STROKE (OpenNeuro ds006533)",
+  "task": "two dissociable numeracy phenotypes (univariate regression each): approximate vs precise numeracy",
+  "outputs": [
+    "approximate_numeracy",
+    "precise_numeracy"
+  ],
+  "scale": "population Z-scores centred on the stroke cohort",
+  "n_subjects": 105,
+  "annotations": [
+    {
+      "participant_id": "sub-001",
+      "ground_truth": {
+        "approximate_numeracy": -1.5628,
+        "precise_numeracy": -1.0297
+      }
+    },
+    {
+      "participant_id": "sub-002",
+      "ground_truth": {
+        "approximate_numeracy": -1.0521,
+        "precise_numeracy": -0.1797
+      }
+    },
+    {
+      "participant_id": "sub-003",
+      "ground_truth": {
+        "approximate_numeracy": -1.6905,
+        "precise_numeracy": -0.6981
+      }
+    },
+    {
+      "participant_id": "sub-004",
+      "ground_truth": {
+        "approximate_numeracy": 0.3522,
+        "precise_numeracy": 0.1527
+      }
+    },
+    {
+      "participant_id": "sub-005",
+      "ground_truth": {
+        "approximate_numeracy": 0.3522,
+        "precise_numeracy": 0.1117
+      }
+    },
+    {
+      "participant_id": "sub-006",
+      "ground_truth": {
+        "approximate_numeracy": -0.6691,
+        "precise_numeracy": -2.0793
+      }
+    },
+    {
+      "participant_id": "sub-007",
+      "ground_truth": {
+        "approximate_numeracy": 0.2246,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-008",
+      "ground_truth": {
+        "approximate_numeracy": 0.9906,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-009",
+      "ground_truth": {
+        "approximate_numeracy": -0.4138,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-010",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-011",
+      "ground_truth": {
+        "approximate_numeracy": -0.1584,
+        "precise_numeracy": -0.3462
+      }
+    },
+    {
+      "participant_id": "sub-012",
+      "ground_truth": {
+        "approximate_numeracy": -3.3501,
+        "precise_numeracy": -0.9472
+      }
+    },
+    {
+      "participant_id": "sub-013",
+      "ground_truth": {
+        "approximate_numeracy": -1.3075,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-014",
+      "ground_truth": {
+        "approximate_numeracy": 0.4799,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-015",
+      "ground_truth": {
+        "approximate_numeracy": -2.5841,
+        "precise_numeracy": -1.0786
+      }
+    },
+    {
+      "participant_id": "sub-016",
+      "ground_truth": {
+        "approximate_numeracy": -1.1798,
+        "precise_numeracy": 0.3038
+      }
+    },
+    {
+      "participant_id": "sub-017",
+      "ground_truth": {
+        "approximate_numeracy": -0.2861,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-018",
+      "ground_truth": {
+        "approximate_numeracy": 0.9906,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-019",
+      "ground_truth": {
+        "approximate_numeracy": 0.4799,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-020",
+      "ground_truth": {
+        "approximate_numeracy": 0.6076,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-021",
+      "ground_truth": {
+        "approximate_numeracy": 1.2459,
+        "precise_numeracy": 0.1148
+      }
+    },
+    {
+      "participant_id": "sub-022",
+      "ground_truth": {
+        "approximate_numeracy": -2.0735,
+        "precise_numeracy": -0.8387
+      }
+    },
+    {
+      "participant_id": "sub-023",
+      "ground_truth": {
+        "approximate_numeracy": -0.1584,
+        "precise_numeracy": -1.949
+      }
+    },
+    {
+      "participant_id": "sub-024",
+      "ground_truth": {
+        "approximate_numeracy": 1.1182,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-025",
+      "ground_truth": {
+        "approximate_numeracy": 0.9906,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-026",
+      "ground_truth": {
+        "approximate_numeracy": 0.6076,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-027",
+      "ground_truth": {
+        "approximate_numeracy": -0.1584,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-028",
+      "ground_truth": {
+        "approximate_numeracy": 0.7352,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-029",
+      "ground_truth": {
+        "approximate_numeracy": 1.3736,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-030",
+      "ground_truth": {
+        "approximate_numeracy": 0.8629,
+        "precise_numeracy": 0.0533
+      }
+    },
+    {
+      "participant_id": "sub-031",
+      "ground_truth": {
+        "approximate_numeracy": 1.2459,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-032",
+      "ground_truth": {
+        "approximate_numeracy": -0.1584,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-033",
+      "ground_truth": {
+        "approximate_numeracy": 0.7352,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-034",
+      "ground_truth": {
+        "approximate_numeracy": -0.5414,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-035",
+      "ground_truth": {
+        "approximate_numeracy": -1.8181,
+        "precise_numeracy": -0.3384
+      }
+    },
+    {
+      "participant_id": "sub-036",
+      "ground_truth": {
+        "approximate_numeracy": -0.2861,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-037",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-038",
+      "ground_truth": {
+        "approximate_numeracy": -0.7968,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-039",
+      "ground_truth": {
+        "approximate_numeracy": -0.2861,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-040",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": -0.1958
+      }
+    },
+    {
+      "participant_id": "sub-041",
+      "ground_truth": {
+        "approximate_numeracy": -1.0521,
+        "precise_numeracy": -0.3751
+      }
+    },
+    {
+      "participant_id": "sub-042",
+      "ground_truth": {
+        "approximate_numeracy": 0.3607,
+        "precise_numeracy": -0.3469
+      }
+    },
+    {
+      "participant_id": "sub-043",
+      "ground_truth": {
+        "approximate_numeracy": 0.7352,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-044",
+      "ground_truth": {
+        "approximate_numeracy": -3.6055,
+        "precise_numeracy": -1.0983
+      }
+    },
+    {
+      "participant_id": "sub-045",
+      "ground_truth": {
+        "approximate_numeracy": 1.1182,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-046",
+      "ground_truth": {
+        "approximate_numeracy": 0.8629,
+        "precise_numeracy": 0.1117
+      }
+    },
+    {
+      "participant_id": "sub-047",
+      "ground_truth": {
+        "approximate_numeracy": 1.3736,
+        "precise_numeracy": -0.1797
+      }
+    },
+    {
+      "participant_id": "sub-048",
+      "ground_truth": {
+        "approximate_numeracy": -1.3075,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-049",
+      "ground_truth": {
+        "approximate_numeracy": -1.0521,
+        "precise_numeracy": -0.4301
+      }
+    },
+    {
+      "participant_id": "sub-050",
+      "ground_truth": {
+        "approximate_numeracy": -0.2861,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-051",
+      "ground_truth": {
+        "approximate_numeracy": -0.7968,
+        "precise_numeracy": 0.1117
+      }
+    },
+    {
+      "participant_id": "sub-052",
+      "ground_truth": {
+        "approximate_numeracy": 0.0969,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-053",
+      "ground_truth": {
+        "approximate_numeracy": 0.4799,
+        "precise_numeracy": -3.8468
+      }
+    },
+    {
+      "participant_id": "sub-054",
+      "ground_truth": {
+        "approximate_numeracy": 0.2246,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-055",
+      "ground_truth": {
+        "approximate_numeracy": 0.7352,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-056",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": -0.0964
+      }
+    },
+    {
+      "participant_id": "sub-057",
+      "ground_truth": {
+        "approximate_numeracy": 1.3736,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-058",
+      "ground_truth": {
+        "approximate_numeracy": -0.5414,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-059",
+      "ground_truth": {
+        "approximate_numeracy": 0.4799,
+        "precise_numeracy": 0.054
+      }
+    },
+    {
+      "participant_id": "sub-060",
+      "ground_truth": {
+        "approximate_numeracy": 0.6076,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-061",
+      "ground_truth": {
+        "approximate_numeracy": 0.4799,
+        "precise_numeracy": -0.0964
+      }
+    },
+    {
+      "participant_id": "sub-062",
+      "ground_truth": {
+        "approximate_numeracy": -0.2861,
+        "precise_numeracy": -1.1431
+      }
+    },
+    {
+      "participant_id": "sub-063",
+      "ground_truth": {
+        "approximate_numeracy": -1.9458,
+        "precise_numeracy": -0.0964
+      }
+    },
+    {
+      "participant_id": "sub-064",
+      "ground_truth": {
+        "approximate_numeracy": 0.4799,
+        "precise_numeracy": -0.3469
+      }
+    },
+    {
+      "participant_id": "sub-065",
+      "ground_truth": {
+        "approximate_numeracy": 0.3522,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-066",
+      "ground_truth": {
+        "approximate_numeracy": 0.9906,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-067",
+      "ground_truth": {
+        "approximate_numeracy": 0.0969,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-068",
+      "ground_truth": {
+        "approximate_numeracy": 1.2459,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-069",
+      "ground_truth": {
+        "approximate_numeracy": 1.1182,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-070",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-071",
+      "ground_truth": {
+        "approximate_numeracy": 0.3522,
+        "precise_numeracy": 0.054
+      }
+    },
+    {
+      "participant_id": "sub-072",
+      "ground_truth": {
+        "approximate_numeracy": 0.0969,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-073",
+      "ground_truth": {
+        "approximate_numeracy": 0.7352,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-074",
+      "ground_truth": {
+        "approximate_numeracy": 1.3736,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-075",
+      "ground_truth": {
+        "approximate_numeracy": 0.0969,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-076",
+      "ground_truth": {
+        "approximate_numeracy": 0.6076,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-077",
+      "ground_truth": {
+        "approximate_numeracy": 1.1182,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-078",
+      "ground_truth": {
+        "approximate_numeracy": 0.3522,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-079",
+      "ground_truth": {
+        "approximate_numeracy": 0.3522,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-080",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-081",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": -0.3462
+      }
+    },
+    {
+      "participant_id": "sub-082",
+      "ground_truth": {
+        "approximate_numeracy": 0.2246,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-083",
+      "ground_truth": {
+        "approximate_numeracy": 0.2246,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-084",
+      "ground_truth": {
+        "approximate_numeracy": -0.2861,
+        "precise_numeracy": -1.6322
+      }
+    },
+    {
+      "participant_id": "sub-085",
+      "ground_truth": {
+        "approximate_numeracy": -0.2861,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-086",
+      "ground_truth": {
+        "approximate_numeracy": -0.7968,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-087",
+      "ground_truth": {
+        "approximate_numeracy": 0.9906,
+        "precise_numeracy": -0.0971
+      }
+    },
+    {
+      "participant_id": "sub-088",
+      "ground_truth": {
+        "approximate_numeracy": -0.6691,
+        "precise_numeracy": -0.0964
+      }
+    },
+    {
+      "participant_id": "sub-089",
+      "ground_truth": {
+        "approximate_numeracy": 1.3736,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-090",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-091",
+      "ground_truth": {
+        "approximate_numeracy": -0.0308,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-092",
+      "ground_truth": {
+        "approximate_numeracy": 0.3522,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-093",
+      "ground_truth": {
+        "approximate_numeracy": -2.3288,
+        "precise_numeracy": -0.2454
+      }
+    },
+    {
+      "participant_id": "sub-094",
+      "ground_truth": {
+        "approximate_numeracy": 0.0969,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-095",
+      "ground_truth": {
+        "approximate_numeracy": -0.5414,
+        "precise_numeracy": 0.1527
+      }
+    },
+    {
+      "participant_id": "sub-096",
+      "ground_truth": {
+        "approximate_numeracy": 1.1182,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-097",
+      "ground_truth": {
+        "approximate_numeracy": 0.4799,
+        "precise_numeracy": 0.1527
+      }
+    },
+    {
+      "participant_id": "sub-098",
+      "ground_truth": {
+        "approximate_numeracy": -0.4138,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-099",
+      "ground_truth": {
+        "approximate_numeracy": 1.1182,
+        "precise_numeracy": 0.1534
+      }
+    },
+    {
+      "participant_id": "sub-100",
+      "ground_truth": {
+        "approximate_numeracy": 0.2246,
+        "precise_numeracy": -0.3476
+      }
+    },
+    {
+      "participant_id": "sub-101",
+      "ground_truth": {
+        "approximate_numeracy": -0.2861,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-102",
+      "ground_truth": {
+        "approximate_numeracy": -1.3075,
+        "precise_numeracy": -2.2402
+      }
+    },
+    {
+      "participant_id": "sub-103",
+      "ground_truth": {
+        "approximate_numeracy": 0.2246,
+        "precise_numeracy": 0.4031
+      }
+    },
+    {
+      "participant_id": "sub-104",
+      "ground_truth": {
+        "approximate_numeracy": 0.4799,
+        "precise_numeracy": -0.0971
+      }
+    },
+    {
+      "participant_id": "sub-105",
+      "ground_truth": {
+        "approximate_numeracy": null,
+        "precise_numeracy": null
+      }
+    }
+  ]
+}

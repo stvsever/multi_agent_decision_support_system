@@ -1,0 +1,59 @@
+{
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
+      "age": {
+        "score": -0.13
+      },
+      "education_years": {
+        "score": -2.259
+      },
+      "_stats": {
+        "mean_abs_score": 1.194,
+        "n_leaves": 2,
+        "present_leaves": 2
+      }
+    },
+    "imaging_acquisition": {
+      "image_modality": {
+        "score": 0.516
+      },
+      "_stats": {
+        "mean_abs_score": 0.516,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
+    },
+    "_stats": {
+      "mean_abs_score": 0.968,
+      "n_leaves": 3,
+      "present_leaves": 3
+    }
+  },
+  "CLINICAL_PROFILE": {
+    "language_function": {
+      "aphasia_quotient": {
+        "score": -0.771
+      },
+      "_stats": {
+        "mean_abs_score": 0.771,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
+    },
+    "whole_brain_lesion_load": {
+      "lesion_volume": {
+        "score": -0.607
+      },
+      "_stats": {
+        "mean_abs_score": 0.607,
+        "n_leaves": 1,
+        "present_leaves": 1
+      }
+    },
+    "_stats": {
+      "mean_abs_score": 0.689,
+      "n_leaves": 2,
+      "present_leaves": 2
+    }
+  }
+}

@@ -1,0 +1,32 @@
+Participant ID: ds003944_sub-1971
+Source: evaluation record from PSYCHOSIS_FEP. Only the multimodal predictor features listed below are provided; the prediction target is never included as an input.
+Reference strategy: cohort (deviation from the population cohort).
+Feature values below are shown on their native measured scale; the parenthetical qualifier (e.g. High, Low, Very High) is this participant's signed deviation (z-score) from the reference cohort for that feature.
+
+TARGET MEASUREMENT REFERENCE:
+Cohort: First-Episode Psychosis resting-state EEG study (OpenNeuro ds003944 + ds003947). Participants are adults early in a psychotic illness plus matched healthy controls; each has a resting-state EEG recording and a clinical phenotype. Controls have no psychotic disorder and typically minimal symptoms; cases vary widely in severity.
+
+Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, then predict their psychiatric symptom severity on the native clinical scales below.
+
+Symptom scales (predict on these native ranges; no symptom value for this participant is given):
+- target__bprs__total_q01_to_q19: Brief Psychiatric Rating Scale, sum of 19 items (each 1-7; total 19-133). Reference mean=46.77, sd=8.64.
+- target__saps__q07_global_rating_of_hallucinations: SAPS hallucinations, global rating 0-5. Reference mean=1.76, sd=1.4.
+- target__saps__q20_global_rating_of_delusions: SAPS delusions, global rating 0-5. Reference mean=2.61, sd=1.14.
+- target__saps__q25_global_rating_of_bizzare_behavior: SAPS bizarre behavior, global rating 0-5. Reference mean=0.97, sd=1.11.
+- target__saps__q34_global_rating_of_positive_formal_thought_disorder: SAPS positive formal thought disorder, global rating 0-5. Reference mean=1.04, sd=1.18.
+- target__sans__q07_global_rating_of_affective_flattening: SANS affective flattening, global rating 0-5. Reference mean=1.58, sd=1.09.
+- target__sans__q13_global_rating_of_alogia: SANS alogia, global rating 0-5. Reference mean=1.05, sd=1.04.
+- target__sans__q17_global_rating_of_avolition: SANS avolition apathy, global rating 0-5. Reference mean=2.28, sd=1.29.
+- target__sans__q22_anhedonia: SANS anhedonia asociality, global rating 0-5. Reference mean=2.27, sd=1.36.
+- target__sans__q25_global_rating_of_attention: SANS attention, global rating 0-5. Reference mean=1.39, sd=1.18.
+
+Controls are expected to have low or absent symptoms; cases vary widely. Infer diagnosis and severity only from the provided evidence (demographics, socio-economic status, cognition, observed functioning, and EEG features, depending on the tier).
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Resting EEG [836 measured]: Spectral power: Log10 power asymmetry right minus left Delta (1-4 hz) Occipital = 0.568344 (Very High); Spectral power: Log10 power asymmetry right minus left Theta (4-8 hz) Occipital = 0.49468 (Very High); Spectral power: Log10 power asymmetry right minus left Beta (13-30 hz) Occipital = 0.535574 (Very High); Spectral power: Log10 power asymmetry right minus left Alpha (8-13 hz) Occipital = 0.599287 (Very High); Graph theory: Node Betweenness centrality auc density 20 50 percent Theta (4-8 hz) Temporal left = 0.819444 (Very High); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Occipital left = -0.270683 (Very Low) (+830 more)
+- Demographics and Socio-economic Status [8 measured]: Participant Hollingshead Index = 63 (High); Sex Source Reported = F (Low); Race Source Reported = Black (Low); Mother Hollingshead Index = 58 (High-Normal); Parental Mean Hollingshead Index = 54.5 (High-Normal); Ethnicity Source Reported = Not Hispanic (Normal) (+2 more)
+- Global Functioning [91 measured]: Sfs Q12 37 Evening Informal Class = 2 (High); Speedtscr Speed Of Processing Age And Gender Corrected T Score = 69 (High); Sfs Q12 50 Church Activity = 2 (High); Sfs Q12 40 Visiting Friends Including Boy Girlfriends = 3 (High); Sfs Q12 21 D I Y Activities E G Putting Up Shelves = 0 (Low); Soccogtscr Social Cognition Age And Gender Corrected T Score = 64 (High) (+85 more)
+
+NOTABLE DEVIATIONS: Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Central left is very low (z=-2.28); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Central right is very low (z=-2.07); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Frontal left is low (z=-1.81); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Frontal right is low (z=-1.64); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Global is low (z=-1.88); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Occipital left is very low (z=-2.63); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Occipital right is low (z=-1.52); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Parietal left is very low (z=-2.35); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Parietal right is low (z=-1.90); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Temporal left is very low (z=-2.12); Spectral power: Log10 absolute power uv2 Alpha (8-13 hz) Temporal right is low (z=-1.85); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Central left is very low (z=-2.56); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Central right is very low (z=-2.00); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Frontal left is low (z=-1.21); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Frontal right is low (z=-1.18); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Global is low (z=-1.57); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Occipital left is very low (z=-3.21); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Occipital right is low (z=-1.61); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Parietal left is very low (z=-2.64); Spectral power: Log10 absolute power uv2 Beta (13-30 hz) Parietal right is low (z=-1.59); (+249 more).
+
+NOTE: The prediction target and any of its own components are never provided as inputs. Infer the target only from the multimodal predictor evidence in this record, reading each value on the native scale described in the target reference above.

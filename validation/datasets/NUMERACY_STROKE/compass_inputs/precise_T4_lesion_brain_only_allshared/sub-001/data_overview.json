@@ -1,0 +1,143 @@
+{
+  "participant_id": "sub-001",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "CLINICAL_PROFILE": {
+      "present_leaves": 2,
+      "total_leaves": 2,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 21,
+      "is_available": true,
+      "structure": {
+        "whole_brain_lesion_load": {
+          "label": "Whole-brain lesion load",
+          "present_leaves": 2,
+          "total_leaves": 2,
+          "coverage_percentage": 100.0,
+          "tokens": 21
+        }
+      }
+    },
+    "LESION_TOPOGRAPHY": {
+      "present_leaves": 187,
+      "total_leaves": 187,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 3168,
+      "is_available": true,
+      "structure": {
+        "cerebral_cortex": {
+          "label": "Cerebral cortex (Schaefer 2018, Yeo 7 networks)",
+          "present_leaves": 177,
+          "total_leaves": 177,
+          "coverage_percentage": 100.0,
+          "tokens": 3053,
+          "children": {
+            "net_vis": {
+              "label": "Visual network",
+              "present_leaves": 1,
+              "total_leaves": 1,
+              "coverage_percentage": 100.0,
+              "tokens": 16
+            },
+            "net_sommot": {
+              "label": "Somatomotor network",
+              "present_leaves": 53,
+              "total_leaves": 53,
+              "coverage_percentage": 100.0,
+              "tokens": 832
+            },
+            "net_dorsattn": {
+              "label": "Dorsal attention network",
+              "present_leaves": 23,
+              "total_leaves": 23,
+              "coverage_percentage": 100.0,
+              "tokens": 402
+            },
+            "net_salventattn": {
+              "label": "Salience / ventral attention network",
+              "present_leaves": 33,
+              "total_leaves": 33,
+              "coverage_percentage": 100.0,
+              "tokens": 648
+            },
+            "net_limbic": {
+              "label": "Limbic network",
+              "present_leaves": 3,
+              "total_leaves": 3,
+              "coverage_percentage": 100.0,
+              "tokens": 54
+            },
+            "net_cont": {
+              "label": "Frontoparietal control network",
+              "present_leaves": 26,
+              "total_leaves": 26,
+              "coverage_percentage": 100.0,
+              "tokens": 439
+            },
+            "net_default": {
+              "label": "Default mode network",
+              "present_leaves": 38,
+              "total_leaves": 38,
+              "coverage_percentage": 100.0,
+              "tokens": 662
+            }
+          }
+        },
+        "subcortical_nuclei": {
+          "label": "Subcortical nuclei (Tian scale-IV)",
+          "present_leaves": 10,
+          "total_leaves": 10,
+          "coverage_percentage": 100.0,
+          "tokens": 115,
+          "children": {
+            "struct_tha": {
+              "label": "Thalamus",
+              "present_leaves": 3,
+              "total_leaves": 3,
+              "coverage_percentage": 100.0,
+              "tokens": 34
+            },
+            "struct_put": {
+              "label": "Putamen",
+              "present_leaves": 4,
+              "total_leaves": 4,
+              "coverage_percentage": 100.0,
+              "tokens": 50
+            },
+            "struct_cau": {
+              "label": "Caudate nucleus",
+              "present_leaves": 1,
+              "total_leaves": 1,
+              "coverage_percentage": 100.0,
+              "tokens": 11
+            },
+            "struct_pgp": {
+              "label": "Globus pallidus (posterior)",
+              "present_leaves": 1,
+              "total_leaves": 1,
+              "coverage_percentage": 100.0,
+              "tokens": 10
+            },
+            "struct_agp": {
+              "label": "Globus pallidus (anterior)",
+              "present_leaves": 1,
+              "total_leaves": 1,
+              "coverage_percentage": 100.0,
+              "tokens": 10
+            }
+          }
+        }
+      }
+    }
+  },
+  "total_tokens": 3189,
+  "total_leaves": 189,
+  "present_leaves": 189,
+  "available_domains": [
+    "CLINICAL_PROFILE",
+    "LESION_TOPOGRAPHY"
+  ],
+  "token_budget": 3507
+}

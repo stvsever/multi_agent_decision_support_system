@@ -6,9 +6,13 @@ version 1.2.1, DOI `10.18112/openneuro.ds003097.v1.2.1`, released under CC0.
 The accompanying data descriptor is [Snoek et al., 2021](https://doi.org/10.1038/s41597-021-00870-6).
 
 The prediction task is zero-shot, participant-level regression of the native
-`IST_intelligence_total` composite. The detailed protocol, leakage controls,
-target transformation, tier definitions, metrics, and reproduction commands are in
-[METHODOLOGY.md](METHODOLOGY.md).
+`IST_intelligence_total` composite. It also runs as a **hierarchical mixed-task**:
+the root predicts total intelligence (univariate regression) and a child predicts the
+three IST subscales, fluid / memory / crystallised, as a multivariate regression under
+it. Those three subscales are prediction **outputs only**; like the total, they are in
+`EXCLUDED_COLUMNS` and never appear as predictors, so there is no target leakage. The
+detailed protocol, leakage controls, target transformation, tier definitions, metrics,
+and reproduction commands are in [METHODOLOGY.md](METHODOLOGY.md).
 
 ## What ID1000 contains
 
@@ -122,23 +126,35 @@ no individual-differences signal** (B2 ~0), consistent with the literature that 
 prediction from functional connectivity needs finer, edge-level parcellation - which is
 exactly why the connectome atlas resolution is now a config knob.
 
-### B. Fresh full-engine run on the upgraded high-resolution structure (2 subjects)
+### B. Hierarchical demo on the upgraded high-resolution structure (10 subjects, all tiers)
 
-To keep cost low while confirming the upgraded 279-feature pipeline runs end to end, two
-blinded subjects were pushed through the full multimodal tier (T6). Results in
-`results/full_engine_2subject/`:
+The engine now runs as a **hierarchical mixed-task**: the root predicts total intelligence
+(univariate regression) and a child predicts the three IST subscales fluid / memory /
+crystallised (multivariate regression) together. Ten blinded subjects spanning the full
+IST range (total 87 to 280) were run across all nine tiers with a rich global instruction
+that gives the model the IST scale and the meaning of every output. Cost: $2.39 on
+`google/gemini-3.1-flash-lite`; 78 of 90 runs returned all four outputs. Results in
+`results/hierarchical_10subject/`.
 
-| Subject | Ground truth (IST) | Predicted | ~True IQ | ~Pred IQ |
-|---|---:|---:|---:|---:|
-| eval-0001 | 227 | 192.5 | 110 | 97 |
-| eval-0002 | 267 | 232.5 | 125 | 112 |
+Total-intelligence rank recovery per tier (Spearman, n = 7 to 10 per tier):
 
-The two subjects were **ranked correctly** (eval-0002 > eval-0001) and the predicted gap
-(40.1 IST) almost exactly matched the true gap (40.0 IST). Both were underestimated by
-about 13 IQ-equivalent points, the conservative regression-to-the-mean bias expected when
-inferring two above-average subjects blind from non-cognitive evidence only. This is a
-two-subject demonstration, not a statistical result; the prior 100-subject run above is
-the quantitative benchmark.
+| Tier | rho (total) | Tier | rho (total) |
+|---|---:|---|---:|
+| T1 demographics | 0.82 | T6 full multimodal | 0.27 |
+| T2 + personality | 0.71 | B1 morphometry-only | 0.21 |
+| T3 + motivation/affect | 0.60 | B2 connectome-only | -0.04 |
+| T4 + identity/belief | 0.61 | B3 brain-only | 0.32 |
+| T5 + morphometry | 0.68 | | |
+
+At the full tier the subscales are recovered with usable signal (Spearman: memory 0.52,
+crystallised 0.45, fluid 0.20, total 0.27). The brain-only pattern matches the 100-subject
+batch (B3 brain 0.32, B2 connectome ~0). **Caveat:** these 10 subjects were deliberately
+chosen to span the full IST range, which makes ranking easier and inflates the correlations
+relative to a representative sample, so the lower-tier values (e.g. T1 = 0.82) read higher
+than the representative 100-subject batch (T1 = 0.49). This is an illustrative demonstration
+of the hierarchical output and the pipeline, not a benchmark; section A remains the
+quantitative result. An earlier two-subject univariate demo is kept in
+`results/full_engine_2subject/`.
 
 ## Folder contents
 
@@ -158,6 +174,40 @@ generic, modality-agnostic ingestion engine (`validation/common/ingest.py`) turn
 pre-processed feature table into `loaded/subject_NNN/` COMPASS inputs and is what makes
 adding a new modality (lesion masks, EEG, ...) a matter of writing a small feature
 adapter, not touching the engine.
+
+## Notebooks and visualizations
+
+Three self-contained notebooks reproduce the exploration and results end to end. They are
+committed with their rendered output, so they read without re-execution; rebuild with
+`python notebooks/build_notebooks.py`.
+
+**`01_tabular_data_exploration.ipynb`** profiles the self-report phenotype: target and
+subscale distributions (subscales shown only to confirm they are held out), feature
+coverage and missingness co-occurrence, every numeric distribution, a clustered Spearman
+correlation matrix that **includes the intelligence target** so it clusters next to its
+strongest correlates (background SES and Openness lead), a feature dendrogram, target
+associations, and a participant PCA coloured by intelligence.
+
+**`02_brain_preprocessing.ipynb`** visualises both brain modalities, leaning on nilearn
+for brain-space and mosaic views:
+
+- Subcortical volumes: distributions, left-right symmetry, and a nilearn **glass-brain
+  marker plot** with each structure coloured by its correlation with intelligence and
+  sized by mean volume.
+- Cortical morphometry: head-size scaling, a per-region thickness map, and a lobe-grouped
+  **mosaic** of the Spearman correlation of thickness, surface area and gray-matter volume
+  with intelligence, one region-by-hemisphere heatmap per measure.
+- Connectome: the group and per-subject Yeo-7 matrices, a nilearn **mosaic of the
+  Schaefer-100 parcellation coloured by network** (the high-resolution atlas the 28
+  network features summarise), and a nilearn **glass brain** of the network connectome
+  with each network at its parcel centroid.
+
+**`03_ontology_and_results.ipynb`** shows the arbitrary-depth ontology graph, data-driven
+cluster agreement, the redundancy scan, the full 100-subject tier ladder (section A of
+Results), and the hierarchical 10-subject run: predicted-vs-true scatters for the total and
+all three subscales, each with the identity line plus a **Pearson (OLS) fit and a Spearman
+(Theil-Sen, rank-based) fit**, and a per-tier bar chart of Pearson r and Spearman rho. See
+the metrics interpretation in [METHODOLOGY.md](METHODOLOGY.md#visualization-and-performance-metrics).
 
 ## Reproduction
 

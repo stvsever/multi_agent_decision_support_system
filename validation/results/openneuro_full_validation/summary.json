@@ -1,0 +1,2901 @@
+{
+  "generated_at": "2026-07-24T06:58:36-07:00",
+  "design_seed": 20260723,
+  "temperature": 0.0,
+  "spend_cap_usd": null,
+  "usage_start_usd": 151.08,
+  "usage_end_usd": 158.332657,
+  "full_run_cost_usd": 7.252657,
+  "counts": {
+    "INTELLIGENCE": {
+      "jobs": 100,
+      "subjects": 100,
+      "tasks": {
+        "ist": 100
+      },
+      "tiers": {
+        "T1_demographics": 20,
+        "T2_psychological": 20,
+        "T3_morphometry": 20,
+        "T4_multimodal_full": 20,
+        "T5_brain_only": 20
+      },
+      "models": {
+        "deepseek/deepseek-v4-flash": 20,
+        "nex-agi/nex-n2-mini": 20,
+        "openai/gpt-oss-120b": 20,
+        "poolside/laguna-xs-2.1": 20,
+        "qwen/qwen3.5-9b": 20
+      }
+    },
+    "PSYCHOSIS": {
+      "jobs": 143,
+      "subjects": 143,
+      "tasks": {
+        "psy": 143
+      },
+      "tiers": {
+        "T1_demographic_socioeconomic": 36,
+        "T2_clinical_profile": 36,
+        "T3_multimodal_full": 36,
+        "T4_eeg_brain_only": 35
+      },
+      "models": {
+        "deepseek/deepseek-v4-flash": 29,
+        "nex-agi/nex-n2-mini": 29,
+        "openai/gpt-oss-120b": 28,
+        "poolside/laguna-xs-2.1": 29,
+        "qwen/qwen3.5-9b": 28
+      }
+    },
+    "NUMERACY": {
+      "jobs": 210,
+      "subjects": 105,
+      "tasks": {
+        "approximate_numeracy": 105,
+        "precise_numeracy": 105
+      },
+      "tiers": {
+        "T1_demographics": 54,
+        "T2_aphasia": 52,
+        "T3_lesion_fine": 52,
+        "T4_lesion_brain_only": 52
+      },
+      "models": {
+        "deepseek/deepseek-v4-flash": 42,
+        "nex-agi/nex-n2-mini": 42,
+        "openai/gpt-oss-120b": 40,
+        "poolside/laguna-xs-2.1": 44,
+        "qwen/qwen3.5-9b": 42
+      }
+    }
+  },
+  "total_jobs": 453,
+  "discarded_invalid_predictions": [
+    {
+      "dataset": "NUMERACY",
+      "subject": "sub-048",
+      "task": "approximate_numeracy",
+      "model": "openai/gpt-oss-120b",
+      "discarded_prediction": -22.0,
+      "reason": "outside declared population-Z range [-5, 5]",
+      "replacement_cached": true
+    }
+  ],
+  "recovery_audit": {
+    "successful_rows_with_attached_failures": [
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0099",
+        "task": "ist",
+        "tier": "T1_demographics",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 934.9,
+            "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "      \"Education level z=0.951 (moderate positive deviation) is a well-established proxy for cognitive ability and cognitive reserve\",\\n      \"Socioeconomic backg'\n  [Tool:DifferentialDiagnosis] \u2713 Complete (5591 tokens, 583544ms)\n[PlanExecutor] \u2713 Step 6 completed (5591 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 6/6\n[PlanExecutor] Total tokens: 22126\n[PlanExecutor] Total time: 680703ms\n============================================================\n\n[Executor] Steps completed: 6\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 6 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 9,545 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 6 outputs, 22126 tokens used\n============================================================\n\n[Executor] Completed in 680724ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0099\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_ANTHROPOMETRICS']\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0083",
+        "task": "ist",
+        "tier": "T1_demographics",
+        "model": "openai/gpt-oss-120b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 275.5,
+            "error": "ValueError: Non-numeric regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "low, and wh'\n  [Tool:HypothesisGenerator] \u2713 Complete (2601 tokens, 16762ms)\n[PlanExecutor] \u2713 Step 6 completed (2601 tokens)\nStuck with 1 pending steps\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 6/8\n[PlanExecutor] Total tokens: 20178\n[PlanExecutor] Total time: 180975ms\n============================================================\n\n[Executor] Steps completed: 6\n[Executor] Steps failed: 2\n[Executor] Errors encountered:\n  - Step 7: Input validation failed: No code provided to execute\n  - Step 8: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 6 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 8,656 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 6 outputs, 20178 tokens used\n============================================================\n\n[Executor] Completed in 180995ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0083\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_ANTHROPOMETRICS']\n[LLMClient] Sending request to openai/gpt-oss-120b (max_completion_tokens=16000)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0018",
+        "task": "ist",
+        "tier": "T2_psychological",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 471.8,
+            "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "utor] \u2713 Step 10 completed (7328 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 10/10\n[PlanExecutor] Total tokens: 56756\n[PlanExecutor] Total time: 326821ms\n============================================================\n\n[Executor] Steps completed: 10\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 10 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): {'DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'IDENTITY_AND_BELIEF_SYSTEMS', 'PSYCHOLOGICAL_CONSTRUCTS'}\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 20,629 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 10 outputs, 56756 tokens used\n============================================================\n\n[Executor] Completed in 326894ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0018\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['PSYCHOLOGICAL_CONSTRUCTS', 'IDENTITY_AND_BELIEF_SYSTEMS', 'DEMOGRAPHICS_AND_ANTHROPOMETRICS']\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0016",
+        "task": "ist",
+        "tier": "T2_psychological",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 707.7,
+            "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "s: 26157\n[PlanExecutor] Total time: 479489ms\n============================================================\n\n[Executor] Steps completed: 3\n[Executor] Steps failed: 4\n[Executor] Errors encountered:\n  - Step 1: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 5: Unresolvable dependencies\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 3 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 12,717 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 3 outputs, 26157 tokens used\n============================================================\n\n[Executor] Completed in 479536ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0016\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['PSYCHOLOGICAL_CONSTRUCTS', 'DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'IDENTITY_AND_BELIEF_SYSTEMS']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0025",
+        "task": "ist",
+        "tier": "T2_psychological",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 597.5,
+            "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "=======\n\n[Executor] Steps completed: 8\n[Executor] Steps failed: 2\n[Executor] Errors encountered:\n  - Step 1: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 10: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 8 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): {'IDENTITY_AND_BELIEF_SYSTEMS', 'DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'PSYCHOLOGICAL_CONSTRUCTS'}\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 17,102 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 8 outputs, 75301 tokens used\n============================================================\n\n[Executor] Completed in 445814ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0025\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['PSYCHOLOGICAL_CONSTRUCTS', 'DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'IDENTITY_AND_BELIEF_SYSTEMS']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0058",
+        "task": "ist",
+        "tier": "T2_psychological",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 717.9,
+            "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "==============================\n\n[Executor] Steps completed: 3\n[Executor] Steps failed: 4\n[Executor] Errors encountered:\n  - Step 1: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 5: MultimodalNarrativeCreator response is missing required keys: cross_modal_patterns, integrated_narra\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 3 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 12,820 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 3 outputs, 22219 tokens used\n============================================================\n\n[Executor] Completed in 567629ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0058\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['PSYCHOLOGICAL_CONSTRUCTS', 'DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'IDENTITY_AND_BELIEF_SYSTEMS']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0062",
+        "task": "ist",
+        "tier": "T4_multimodal_full",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0013",
+        "task": "ist",
+        "tier": "T4_multimodal_full",
+        "model": "openai/gpt-oss-120b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 460.6,
+            "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "d: 11/11\n[PlanExecutor] Total tokens: 140454\n[PlanExecutor] Total time: 258961ms\n============================================================\n\n[Executor] Steps completed: 11\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 11 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): {'BRAIN'}\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 122,491 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 11 outputs, 140454 tokens used\n============================================================\n\n[Executor] Completed in 259251ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0013\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['BRAIN', 'DEMOGRAPHICS_AND_ANTHROPOMETRICS', 'PSYCHOLOGICAL_CONSTRUCTS', 'IDENTITY_AND_BELIEF_SYSTEMS']\n[Predictor] Prompt exceeded input budget (71040 > 30000 tokens). Truncated with ratio=0.422.\n[LLMClient] Sending request to openai/gpt-oss-120b (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0096",
+        "task": "ist",
+        "tier": "T5_brain_only",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 3,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1217.7,
+            "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "=============\n\n[Executor] Steps completed: 2\n[Executor] Steps failed: 5\n[Executor] Errors encountered:\n  - Step 1: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 2: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 4: Unresolvable dependencies\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 2 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 86,080 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 18204 tokens used\n============================================================\n\n[Executor] Completed in 968929ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0096\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['BRAIN']\n[Predictor] Prompt exceeded input budget (37268 > 30000 tokens). Truncated with ratio=0.805.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          },
+          {
+            "attempt": 2,
+            "seconds": 936.5,
+            "error": "ValueError: Missing regression output 'IST_fluid' for node 'ist_subscales'",
+            "log_tail": "ted: 1\n[Executor] Steps failed: 6\n[Executor] Errors encountered:\n  - Step 1: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 2: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 4: Unresolvable dependencies\n  - Step 5: Unresolvable dependencies\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 1 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 80,526 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 1 outputs, 11562 tokens used\n============================================================\n\n[Executor] Completed in 666645ms\n\n============================================================\n[Predictor] Starting generating Total Intelligence (IST 2000-R composite) prediction\n============================================================\n[Predictor] Participant: eval-0096\n[Predictor] Target condition: Total Intelligence (IST 2000-R composite)\n[Predictor] Domains analyzed: ['BRAIN']\n[Predictor] Prompt exceeded input budget (31461 > 30000 tokens). Truncated with ratio=0.954.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0053",
+        "task": "ist",
+        "tier": "T5_brain_only",
+        "model": "qwen/qwen3.5-9b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "INTELLIGENCE",
+        "subject": "eval-0080",
+        "task": "ist",
+        "tier": "T5_brain_only",
+        "model": "qwen/qwen3.5-9b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2170A",
+        "task": "psy",
+        "tier": "T1_demographic_socioeconomic",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 866.3,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": " mean absolute z-score = 0.913 (normal range)\",\\n      \"Only one feature (parental mean Hollingshead index) shows a mild deviation (z = -1.566), which is isolated and within expe'\n  [Tool:DifferentialDiagnosis] \u2713 Complete (5609 tokens, 19826ms)\n[PlanExecutor] \u2713 Step 6 completed (5609 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 6/6\n[PlanExecutor] Total tokens: 24515\n[PlanExecutor] Total time: 660970ms\n============================================================\n\n[Executor] Steps completed: 6\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 6 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 10,396 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 6 outputs, 24515 tokens used\n============================================================\n\n[Executor] Completed in 661006ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2170A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2177",
+        "task": "psy",
+        "tier": "T1_demographic_socioeconomic",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 56.8,
+            "error": "ValueError: Orchestrator plan validation failed: ['Execution plan has no steps']",
+            "log_tail": "Started\n00:24:09 | INFO     | Participant: ds003944_sub-2177\n00:24:09 | INFO     | Target: Control\n00:24:09 | INFO     | Prediction Mode: binary_classification\n00:24:09 | INFO     | Control: First-Episode Psychosis\n00:24:09 | INFO     | ============================================================\n[TokenManager] Total budget: 1,500,000 tokens\n\n[2/5] Initializing COMPASS agents...\n[PlanExecutor] Initialized with auto-repair enabled\n\n======================================================================\n  ITERATION 1/1\n======================================================================\n\n[3/5] Orchestrator creating execution plan...\n[Orchestrator] Runtime config: model=deepseek/deepseek-v4-flash, max_tokens=16000, temp=0.0, agent_in=30000, agent_out=16000, tool_in=30000, tool_out=8000\n\n============================================================\n[Orchestrator] Starting planning for Control prediction\n============================================================\n[Orchestrator] Participant: ds003944_sub-2177\n[Orchestrator] \u2192 LLM attempt 1/3 backend=openrouter model=deepseek/deepseek-v4-flash max_tokens=16000 temp=0.00\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 28101ms (prompt=5128, completion=2517, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=deepseek/deepseek-v4-flash max_tokens=16000 temp=0.00\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 28624ms (prompt=5170, completion=813, finish=stop)\n[Orchestrator] \u2713 Parsed JSON keys: ['plan_id', 'target_condition', 'total_estimated_tokens', 'priority_domains', 'fusion_strategy', 'user_facing_explanation', 'reasoning', 'steps']\nDropping malformed orchestrator step 0 (str); valid plan steps remain.\nDropping malformed orchestrator step 1 (str); valid plan steps remain.\nDropping malformed orchestrator step 2 (str); valid plan steps remain.\nDropping malformed orchestrator step 3 (str); valid plan steps remain.\nDropping malformed orchestrator step 4 (str); valid plan steps remain.\nDropping malformed orchestrator step 5 (str); valid plan steps remain.\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2252A",
+        "task": "psy",
+        "tier": "T1_demographic_socioeconomic",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 893.5,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "nding step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 4 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 8,281 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 4 outputs, 25626 tokens used\n============================================================\n\n[Executor] Completed in 509729ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2252A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2372A",
+        "task": "psy",
+        "tier": "T1_demographic_socioeconomic",
+        "model": "openai/gpt-oss-120b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 191.6,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": ". Epidemiologic data show each SD increase in age reduces incident FEP risk by ~15\\u202f% (OR\u22480.85).\",\\n      \"Participant Hollingshead SES index z\u2011score = +1.17. Higher SES confers ~10'\n  [Tool:DifferentialDiagnosis] \u2713 Complete (5873 tokens, 40387ms)\n[PlanExecutor] \u2713 Step 7 completed (5873 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 7/7\n[PlanExecutor] Total tokens: 26594\n[PlanExecutor] Total time: 127218ms\n============================================================\n\n[Executor] Steps completed: 7\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 7 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 10,822 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 7 outputs, 26594 tokens used\n============================================================\n\n[Executor] Completed in 127257ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2372A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to openai/gpt-oss-120b (max_completion_tokens=16000)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2477A",
+        "task": "psy",
+        "tier": "T1_demographic_socioeconomic",
+        "model": "openai/gpt-oss-120b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 155.8,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "tes (race, sex, age, parenta'\n  [Tool:DifferentialDiagnosis] \u2713 Complete (5860 tokens, 25975ms)\n[PlanExecutor] \u2713 Step 6 completed (5860 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 6/6\n[PlanExecutor] Total tokens: 24079\n[PlanExecutor] Total time: 104181ms\n============================================================\n\n[Executor] Steps completed: 6\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 6 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 9,488 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 6 outputs, 24079 tokens used\n============================================================\n\n[Executor] Completed in 104221ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2477A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to openai/gpt-oss-120b (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2082",
+        "task": "psy",
+        "tier": "T1_demographic_socioeconomic",
+        "model": "qwen/qwen3.5-9b",
+        "recorded_attempts": 3,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 414.0,
+            "error": "ValueError: off-scale prediction: target__bprs__total_q01_to_q19=18.5 outside [19, 133]",
+            "log_tail": "ess: 1.00\n  - Relevance: 1.00\n\nChecklist (10/10):\n  \u2713 Required outputs present\n  \u2713 Output schema valid\n  \u2713 Classification probabilities valid\n  \u2713 Regression values valid\n  \u2713 Hierarchy consistent\n  \u2713 Sufficient coverage\n  \u2713 Evidence-based reasoning\n  \u2713 Clinically relevant\n  \u2713 Logically coherent\n  \u2713 Critical domains processed\n\nStrengths:\n  + Prediction output structure matches requested task modes....\n  + Available data domains were sufficiently processed....\n  + Reasoning includes evidence-backed findings....\n============================================================\n\n[Critic] Verdict=SATISFACTORY confidence=0.95\n02:39:05 | INFO     | Critic verdict: SATISFACTORY\n\n\u2713 Prediction deemed SATISFACTORY by Critic\n\n======================================================================\n  GENERATING FINAL REPORT\n======================================================================\n[Report] Saved to: /var/folders/42/qcysl1wn14g15sx_3ktf2zhh0000gn/T/compass_openneuro_validation/outputs/participant_ds003944_sub-2082/report_ds003944_sub-2082.json\n[Report] Markdown saved to: /var/folders/42/qcysl1wn14g15sx_3ktf2zhh0000gn/T/compass_openneuro_validation/outputs/participant_ds003944_sub-2082/report_ds003944_sub-2082.md\n02:39:05 | INFO     | Structured log saved to: /var/folders/42/qcysl1wn14g15sx_3ktf2zhh0000gn/T/compass_openneuro_validation/outputs/participant_ds003944_sub-2082/execution_log_ds003944_sub-2082.json\n02:39:05 | INFO     | ============================================================\n02:39:05 | INFO     | COMPASS Pipeline Completed\n02:39:05 | INFO     | Result: Control\n02:39:05 | INFO     | Probability / Root Confidence: 0.520\n02:39:05 | INFO     | Iterations: 1\n02:39:05 | INFO     | ============================================================\n\n======================================================================\n  COMPASS PIPELINE COMPLETE\n======================================================================\n  Participant: ds003944_sub-2082\n  Prediction: Control\n  Probability: 52.0%\n  Iterations: 1 (selected iteration 1)\n  Selection reason: Satisfactory verdict available; chose strongest satisfactory attempt (iteration 1).\n  Duration: 414.0s\n  Total Tokens: 52526\n  Output: /var/folders/42/qcysl1wn14g15sx_3ktf2zhh0000gn/T/compass_openneuro_validation/outputs/participant_ds003944_sub-2082\n======================================================================\n\n"
+          },
+          {
+            "attempt": 2,
+            "seconds": 286.0,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "kers available - absence of neurophysiological abnormalities\",\\n      \"Demographic mean absolute deviation 0.902 across 8 features - within normal r'\n  [Tool:DifferentialDiagnosis] \u2713 Complete (5779 tokens, 39813ms)\n[PlanExecutor] \u2713 Step 6 completed (5779 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 6/6\n[PlanExecutor] Total tokens: 27892\n[PlanExecutor] Total time: 139054ms\n============================================================\n\n[Executor] Steps completed: 6\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 6 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 9,713 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 6 outputs, 27892 tokens used\n============================================================\n\n[Executor] Completed in 139085ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2082\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to qwen/qwen3.5-9b (max_completion_tokens=16000)...\nMissing expected keys: ['root_prediction']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2138",
+        "task": "psy",
+        "tier": "T2_clinical_profile",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2117",
+        "task": "psy",
+        "tier": "T2_clinical_profile",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 3,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 918.5,
+            "error": "ValueError: Generalized predictor output missing root_prediction object",
+            "log_tail": "usionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 25779 tokens used\n============================================================\n\n[Executor] Completed in 415644ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2117\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 116.1% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 116.1% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          },
+          {
+            "attempt": 2,
+            "seconds": 884.0,
+            "error": "ValueError: Generalized predictor output missing root_prediction object",
+            "log_tail": "==================================================\n[Integrator] Starting processing 2 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 40,864 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 18532 tokens used\n============================================================\n\n[Executor] Completed in 465029ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2117\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 115.3% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 115.3% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2134",
+        "task": "psy",
+        "tier": "T2_clinical_profile",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1154.6,
+            "error": "ValueError: Generalized predictor output missing root_prediction object",
+            "log_tail": "mat\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 1 outputs, 14513 tokens used\n============================================================\n\n[Executor] Completed in 518112ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2134\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 107.4% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 107.4% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2218",
+        "task": "psy",
+        "tier": "T2_clinical_profile",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 5,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 799.0,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "r] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 38,821 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 25302 tokens used\n============================================================\n\n[Executor] Completed in 375261ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2218\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 108.0% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 108.0% of budget\n"
+          },
+          {
+            "attempt": 2,
+            "seconds": 880.6,
+            "error": "ValueError: Invalid JSON in LLM response: Unterminated string starting at: line 23 column 32 (char 1445)",
+            "log_tail": "[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 38,412 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 20625 tokens used\n============================================================\n\n[Executor] Completed in 405689ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2218\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['root_prediction', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 109.6% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 109.6% of budget\nJSON parsing failed across 2 candidates\n"
+          },
+          {
+            "attempt": 3,
+            "seconds": 941.1,
+            "error": "ValueError: Generalized predictor output missing root_prediction object",
+            "log_tail": "r] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 40,222 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 3 outputs, 24869 tokens used\n============================================================\n\n[Executor] Completed in 530365ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2218\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 110.9% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 110.9% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          },
+          {
+            "attempt": 4,
+            "seconds": 764.3,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "usionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 37,379 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 1 outputs, 12971 tokens used\n============================================================\n\n[Executor] Completed in 383486ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2218\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 103.9% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 103.9% of budget\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2448A",
+        "task": "psy",
+        "tier": "T2_clinical_profile",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 863.5,
+            "error": "ValueError: Generalized predictor output missing root_prediction object",
+            "log_tail": "] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 41,084 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 22876 tokens used\n============================================================\n\n[Executor] Completed in 410045ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2448A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 111.9% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 111.9% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2214A",
+        "task": "psy",
+        "tier": "T3_multimodal_full",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 4,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1228.0,
+            "error": "ValueError: Generalized predictor output missing root_prediction object",
+            "log_tail": "or] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2214A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG', 'GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[Predictor] Prompt exceeded input budget (186571 > 30000 tokens). Truncated with ratio=0.250.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nCRITICAL: predictor token usage at 132.5% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 132.5% of budget\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 189.6% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 189.6% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          },
+          {
+            "attempt": 2,
+            "seconds": 1167.4,
+            "error": "ValueError: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)",
+            "log_tail": "ad estimate: 480,566 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 1 outputs, 14365 tokens used\n============================================================\n\n[Executor] Completed in 708144ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2214A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG', 'GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[Predictor] Prompt exceeded input budget (168022 > 30000 tokens). Truncated with ratio=0.250.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nCRITICAL: predictor token usage at 125.2% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 125.2% of budget\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n"
+          },
+          {
+            "attempt": 3,
+            "seconds": 1449.5,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "r input ready\n[FusionLayer] Predictor payload estimate: 480,725 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 1 outputs, 17370 tokens used\n============================================================\n\n[Executor] Completed in 874482ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2214A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG', 'GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[Predictor] Prompt exceeded input budget (168172 > 30000 tokens). Truncated with ratio=0.250.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nCRITICAL: predictor token usage at 125.3% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 125.3% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 177.8% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 177.8% of budget\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2581A",
+        "task": "psy",
+        "tier": "T3_multimodal_full",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 5,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1060.0,
+            "error": "ValueError: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)",
+            "log_tail": "r] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG', 'GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[Predictor] Prompt exceeded input budget (167891 > 30000 tokens). Truncated with ratio=0.250.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=9000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=9000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=9000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n"
+          },
+          {
+            "attempt": 2,
+            "seconds": 619.5,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "gi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 2: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 4: Unresolvable dependencies\n  - Step 5: Unresolvable dependencies\n  - Step 6: Unresolvable dependencies\n  - Step 8: Unresolvable dependencies\n  - Step 9: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 2 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 480,663 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 23562 tokens used\n============================================================\n\n[Executor] Completed in 458386ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2581A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG', 'GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[Predictor] Prompt exceeded input budget (168949 > 30000 tokens). Truncated with ratio=0.250.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          },
+          {
+            "attempt": 3,
+            "seconds": 424.6,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "\n[PlanExecutor] Steps completed: 3/8\n[PlanExecutor] Total tokens: 40064\n[PlanExecutor] Total time: 291104ms\n============================================================\n\n[Executor] Steps completed: 3\n[Executor] Steps failed: 5\n[Executor] Errors encountered:\n  - Step 1: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 4: Unresolvable dependencies\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n  - Step 8: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 3 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 482,667 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 3 outputs, 40064 tokens used\n============================================================\n\n[Executor] Completed in 291994ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2581A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG', 'GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[Predictor] Prompt exceeded input budget (171266 > 30000 tokens). Truncated with ratio=0.250.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\n"
+          },
+          {
+            "attempt": 4,
+            "seconds": 632.0,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "s encountered:\n  - Step 1: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 2: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 4: Unresolvable dependencies\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n  - Step 8: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 2 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 485,619 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 26696 tokens used\n============================================================\n\n[Executor] Completed in 389354ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2581A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG', 'GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[Predictor] Prompt exceeded input budget (174133 > 30000 tokens). Truncated with ratio=0.250.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2389A",
+        "task": "psy",
+        "tier": "T3_multimodal_full",
+        "model": "openai/gpt-oss-120b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 327.9,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "anExecutor] \u2713 Step 10 completed (6113 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 10/10\n[PlanExecutor] Total tokens: 176667\n[PlanExecutor] Total time: 292485ms\n============================================================\n\n[Executor] Steps completed: 10\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 10 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): {'GLOBAL_FUNCTIONING', 'Resting_EEG'}\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 137,078 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 10 outputs, 176667 tokens used\n============================================================\n\n[Executor] Completed in 293169ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2389A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG', 'GLOBAL_FUNCTIONING', 'DEMOGRAPHICS_AND_SES']\n[Predictor] Prompt exceeded input budget (194460 > 30000 tokens). Truncated with ratio=0.250.\n[LLMClient] Sending request to openai/gpt-oss-120b (max_completion_tokens=16000)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2259A",
+        "task": "psy",
+        "tier": "T4_eeg_brain_only",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 657.8,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "w'\n  [Tool:DifferentialDiagnosis] \u2713 Complete (7953 tokens, 33548ms)\n[PlanExecutor] \u2713 Step 7 completed (7953 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 7/7\n[PlanExecutor] Total tokens: 65216\n[PlanExecutor] Total time: 554080ms\n============================================================\n\n[Executor] Steps completed: 7\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 7 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): {'Resting_EEG'}\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 37,116 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 7 outputs, 65216 tokens used\n============================================================\n\n[Executor] Completed in 554184ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2259A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG']\n[Predictor] Prompt exceeded input budget (39496 > 30000 tokens). Truncated with ratio=0.760.\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2092",
+        "task": "psy",
+        "tier": "T4_eeg_brain_only",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 758.5,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "Step 4: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 3 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 45,328 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 3 outputs, 34436 tokens used\n============================================================\n\n[Executor] Completed in 493777ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2092\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nMissing expected keys: ['confidence_level']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 108.9% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 108.9% of budget\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2142",
+        "task": "psy",
+        "tier": "T4_eeg_brain_only",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 3,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 991.1,
+            "error": "ValueError: Generalized predictor output missing root_prediction object",
+            "log_tail": " Final predictor input ready\n[FusionLayer] Predictor payload estimate: 40,946 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 1 outputs, 17252 tokens used\n============================================================\n\n[Executor] Completed in 549474ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2142\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 105.1% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 105.1% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          },
+          {
+            "attempt": 2,
+            "seconds": 761.5,
+            "error": "ValueError: Generalized predictor output missing root_prediction object",
+            "log_tail": "nitiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): {'Resting_EEG'}\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 29,547 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 4 outputs, 51486 tokens used\n============================================================\n\n[Executor] Completed in 459405ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003944_sub-2142\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG']\n[Predictor] Prompt exceeded input budget (31959 > 30000 tokens). Truncated with ratio=0.939.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\nCRITICAL: predictor token usage at 96.1% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 96.1% of budget\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 138.2% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 138.2% of budget\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2505A",
+        "task": "psy",
+        "tier": "T4_eeg_brain_only",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 522.0,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "] Steps completed: 3\n[Executor] Steps failed: 4\n[Executor] Errors encountered:\n  - Step 1: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 5: Unresolvable dependencies\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 3 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 39,284 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 3 outputs, 16922 tokens used\n============================================================\n\n[Executor] Completed in 289883ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2505A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['available participant-level data', 'hierarchical_deviation_map.json', 'non_numerical_data.txt']\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=14400)...\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=12960)...\nCRITICAL: predictor token usage at 99.2% of budget\n[TokenManager] \u26a0\ufe0f CRITICAL: predictor at 99.2% of budget\n"
+          }
+        ]
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2578A",
+        "task": "psy",
+        "tier": "T4_eeg_brain_only",
+        "model": "openai/gpt-oss-120b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 252.5,
+            "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+            "log_tail": "t z\u2248+1.2'\n  [Tool:DifferentialDiagnosis] \u2713 Complete (6210 tokens, 23471ms)\n[PlanExecutor] \u2713 Step 8 completed (6210 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 8/8\n[PlanExecutor] Total tokens: 61581\n[PlanExecutor] Total time: 188804ms\n============================================================\n\n[Executor] Steps completed: 8\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 8 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): {'Resting_EEG'}\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 25,078 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 8 outputs, 61581 tokens used\n============================================================\n\n[Executor] Completed in 188910ms\n\n============================================================\n[Predictor] Starting generating Control prediction\n============================================================\n[Predictor] Participant: ds003947_sub-2578A\n[Predictor] Target condition: Control\n[Predictor] Control condition: First-Episode Psychosis\n[Predictor] Domains analyzed: ['Resting_EEG']\n[Predictor] Prompt exceeded input budget (30099 > 30000 tokens). Truncated with ratio=0.997.\n[LLMClient] Sending request to openai/gpt-oss-120b (max_completion_tokens=16000)...\n"
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-032",
+        "task": "precise_numeracy",
+        "tier": "T2_aphasia",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 2700.0,
+            "error": "timeout after 2700s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-078",
+        "task": "precise_numeracy",
+        "tier": "T2_aphasia",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-090",
+        "task": "precise_numeracy",
+        "tier": "T2_aphasia",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 497.3,
+            "error": "ValueError: Orchestrator response is missing required keys: target_condition",
+            "log_tail": "=======================================================\n[TokenManager] Total budget: 1,500,000 tokens\n\n[2/5] Initializing COMPASS agents...\n[PlanExecutor] Initialized with auto-repair enabled\n\n======================================================================\n  ITERATION 1/1\n======================================================================\n\n[3/5] Orchestrator creating execution plan...\n[Orchestrator] Runtime config: model=deepseek/deepseek-v4-flash, max_tokens=16000, temp=0.0, agent_in=30000, agent_out=16000, tool_in=30000, tool_out=8000\n\n============================================================\n[Orchestrator] Starting planning for Precise (symbolic) numeracy prediction\n============================================================\n[Orchestrator] Participant: sub-090\n[Orchestrator] \u2192 LLM attempt 1/3 backend=openrouter model=deepseek/deepseek-v4-flash max_tokens=16000 temp=0.00\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 74768ms (prompt=4845, completion=1132, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=deepseek/deepseek-v4-flash max_tokens=16000 temp=0.00\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 61879ms (prompt=4887, completion=399, finish=error)\n[Orchestrator] Attempt 1 failed: TypeError: Orchestrator returned list; expected a top-level JSON object\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=deepseek/deepseek-v4-flash max_tokens=16000 temp=0.00\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 360536ms (prompt=4887, completion=2691, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 2 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u2717 Error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\nOrchestrator error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: target_condition\n"
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-018",
+        "task": "precise_numeracy",
+        "tier": "T3_lesion_fine",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 562.9,
+            "error": "ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition",
+            "log_tail": "utor] Initialized with auto-repair enabled\n\n======================================================================\n  ITERATION 1/1\n======================================================================\n\n[3/5] Orchestrator creating execution plan...\n[Orchestrator] Runtime config: model=deepseek/deepseek-v4-flash, max_tokens=16000, temp=0.0, agent_in=30000, agent_out=16000, tool_in=30000, tool_out=8000\n\n============================================================\n[Orchestrator] Starting planning for Precise (symbolic) numeracy prediction\n============================================================\n[Orchestrator] Participant: sub-018\n[Orchestrator] \u2192 LLM attempt 1/3 backend=openrouter model=deepseek/deepseek-v4-flash max_tokens=16000 temp=0.00\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 34593ms (prompt=4889, completion=1456, finish=stop)\nMissing expected keys: ['target_condition']\n[Orchestrator] Attempt 0 failed: ValueError: Orchestrator response is missing required keys: target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 1/2...\n[Orchestrator] \u2192 LLM attempt 2/3 backend=openrouter model=deepseek/deepseek-v4-flash max_tokens=16000 temp=0.00\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 527576ms (prompt=5163, completion=2027, finish=error)\nMissing expected keys: ['plan_id', 'steps', 'target_condition']\n[Orchestrator] Attempt 1 failed: ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition\n[Orchestrator] \u26a0 Auto-repair attempt 2/2...\n[Orchestrator] \u2192 LLM attempt 3/3 backend=openrouter model=deepseek/deepseek-v4-flash max_tokens=16000 temp=0.00\n[LLMClient] Sending request to deepseek/deepseek-v4-flash (max_completion_tokens=16000)...\n[Orchestrator] \u2190 LLM response in 689ms (prompt=4914, completion=3, finish=stop)\nMissing expected keys: ['plan_id', 'steps', 'target_condition']\n[Orchestrator] Attempt 2 failed: ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition\n[Orchestrator] \u2717 Error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition\nOrchestrator error: Failed after 2 retries: ValueError: Orchestrator response is missing required keys: plan_id, steps, target_condition\n"
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-099",
+        "task": "approximate_numeracy",
+        "tier": "T3_lesion_fine",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 3,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 673.8,
+            "error": "ValueError: Missing regression output 'approximate_numeracy' for node 'approximate_numeracy'",
+            "log_tail": "nresolvable dependencies\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 2 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 78,191 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 2 outputs, 16992 tokens used\n============================================================\n\n[Executor] Completed in 357537ms\n\n============================================================\n[Predictor] Starting generating Approximate (non-symbolic) numeracy prediction\n============================================================\n[Predictor] Participant: sub-099\n[Predictor] Target condition: Approximate (non-symbolic) numeracy\n[Predictor] Domains analyzed: ['LESION_TOPOGRAPHY', 'CLINICAL_PROFILE', 'DEMOGRAPHICS_AND_BACKGROUND']\n[Predictor] Prompt exceeded input budget (35209 > 30000 tokens). Truncated with ratio=0.852.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nEmpty response from nex-agi/nex-n2-mini. Finish reason: length\nLLM call failed: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          },
+          {
+            "attempt": 2,
+            "seconds": 498.4,
+            "error": "ValueError: Missing regression output 'approximate_numeracy' for node 'approximate_numeracy'",
+            "log_tail": "=================================================\n\n[Executor] Steps completed: 4\n[Executor] Steps failed: 4\n[Executor] Errors encountered:\n  - Step 4: Model nex-agi/nex-n2-mini returned empty response (finish_reason=length)\n  - Step 6: Unresolvable dependencies\n  - Step 7: Unresolvable dependencies\n  - Step 8: Unresolvable dependencies\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 4 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 92,718 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 4 outputs, 34722 tokens used\n============================================================\n\n[Executor] Completed in 327680ms\n\n============================================================\n[Predictor] Starting generating Approximate (non-symbolic) numeracy prediction\n============================================================\n[Predictor] Participant: sub-099\n[Predictor] Target condition: Approximate (non-symbolic) numeracy\n[Predictor] Domains analyzed: ['LESION_TOPOGRAPHY', 'CLINICAL_PROFILE', 'DEMOGRAPHICS_AND_BACKGROUND']\n[Predictor] Prompt exceeded input budget (45889 > 30000 tokens). Truncated with ratio=0.654.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-002",
+        "task": "approximate_numeracy",
+        "tier": "T3_lesion_fine",
+        "model": "openai/gpt-oss-120b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-081",
+        "task": "approximate_numeracy",
+        "tier": "T3_lesion_fine",
+        "model": "openai/gpt-oss-120b",
+        "recorded_attempts": 3,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          },
+          {
+            "attempt": 2,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-068",
+        "task": "precise_numeracy",
+        "tier": "T3_lesion_fine",
+        "model": "qwen/qwen3.5-9b",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 1500.0,
+            "error": "timeout after 1500s",
+            "log_tail": ""
+          }
+        ]
+      },
+      {
+        "dataset": "NUMERACY",
+        "subject": "sub-016",
+        "task": "approximate_numeracy",
+        "tier": "T4_lesion_brain_only",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "prior_failures": [
+          {
+            "attempt": 1,
+            "seconds": 404.5,
+            "error": "ValueError: Missing regression output 'approximate_numeracy' for node 'approximate_numeracy'",
+            "log_tail": "xecutor] \u2713 Step 3 completed (4136 tokens)\n\n============================================================\n[PlanExecutor] Plan execution complete\n[PlanExecutor] Steps completed: 3/3\n[PlanExecutor] Total tokens: 14959\n[PlanExecutor] Total time: 168426ms\n============================================================\n\n[Executor] Steps completed: 3\n[Executor] Steps failed: 0\n\n[Executor] Handing step outputs to Integrator Agent...\n\n============================================================\n[Integrator] Starting processing 3 outputs\n============================================================\n\n[FusionLayer] Smart Fusion initiated. Threshold: 943,718 tokens\n[FusionLayer] Runtime instruction applied for integration behavior.\n[FusionLayer] Processed domains (subtree-aware): set()\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload estimate: 83,745 tokens (single-chunk limit: 30,000, fusion threshold: 943,718)\n  > RAG: No candidates provided for backfill.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[FusionLayer] Predictor payload fits threshold; direct non-core pass-through is allowed.\n[FusionLayer] Preparing for Predictor...\n[FusionLayer] using RAW PASS-THROUGH format\n[FusionLayer] \u2713 Final predictor input ready\n[Integrator] \u2713 Complete: integration strategy: RAW PASS-THROUGH\n============================================================\n\n[Executor] \u2713 Complete: fused 3 outputs, 14959 tokens used\n============================================================\n\n[Executor] Completed in 168592ms\n\n============================================================\n[Predictor] Starting generating Approximate (non-symbolic) numeracy prediction\n============================================================\n[Predictor] Participant: sub-016\n[Predictor] Target condition: Approximate (non-symbolic) numeracy\n[Predictor] Domains analyzed: ['LESION_TOPOGRAPHY', 'CLINICAL_PROFILE']\n[Predictor] Prompt exceeded input budget (42066 > 30000 tokens). Truncated with ratio=0.713.\n[LLMClient] Sending request to nex-agi/nex-n2-mini (max_completion_tokens=16000)...\nMissing expected keys: ['prediction_id', 'root_prediction', 'confidence_level', 'key_findings', 'reasoning_chain', 'clinical_summary', 'uncertainty_factors']\n"
+          }
+        ]
+      }
+    ],
+    "isolated_failure_rows": [
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003947_sub-2476A",
+        "task": "psy",
+        "tier": "T2_clinical_profile",
+        "model": "deepseek/deepseek-v4-flash",
+        "recorded_attempts": 2,
+        "error": "ValueError: Orchestrator plan validation failed: ['Execution plan has no steps']",
+        "timed_out": false,
+        "recovered_in_another_cache": true,
+        "source_cache": "results_PSYCHOSIS_full_deepseek__deepseek-v4-flash.json"
+      },
+      {
+        "dataset": "PSYCHOSIS",
+        "subject": "ds003944_sub-2086",
+        "task": "psy",
+        "tier": "T2_clinical_profile",
+        "model": "nex-agi/nex-n2-mini",
+        "recorded_attempts": 2,
+        "error": "ValueError: Missing regression output 'target__saps__q07_global_rating_of_hallucinations' for node 'positive_symptoms'",
+        "timed_out": false,
+        "recovered_in_another_cache": true,
+        "source_cache": "results_PSYCHOSIS_full_nex-agi__nex-n2-mini_psyshard1.json"
+      }
+    ]
+  },
+  "metrics": {
+    "INTELLIGENCE": {
+      "regression_by_output": [
+        {
+          "output": "IST_crystallised",
+          "n": 100.0,
+          "MAE": 8.777,
+          "RMSE": 10.754,
+          "bias": 0.396,
+          "pearson_r": 0.381,
+          "spearman_rho": 0.392
+        },
+        {
+          "output": "IST_fluid",
+          "n": 100.0,
+          "MAE": 22.389,
+          "RMSE": 27.413,
+          "bias": -3.956,
+          "pearson_r": 0.342,
+          "spearman_rho": 0.318
+        },
+        {
+          "output": "IST_intelligence_total",
+          "n": 100.0,
+          "MAE": 34.812,
+          "RMSE": 42.824,
+          "bias": -4.201,
+          "pearson_r": 0.42,
+          "spearman_rho": 0.378
+        },
+        {
+          "output": "IST_memory",
+          "n": 100.0,
+          "MAE": 7.479,
+          "RMSE": 9.588,
+          "bias": -0.553,
+          "pearson_r": 0.323,
+          "spearman_rho": 0.299
+        }
+      ],
+      "regression_by_output_tier": [
+        {
+          "output": "IST_crystallised",
+          "tier": "T1_demographics",
+          "n": 20.0,
+          "MAE": 9.097,
+          "RMSE": 12.252,
+          "bias": 1.237,
+          "pearson_r": 0.048,
+          "spearman_rho": 0.083
+        },
+        {
+          "output": "IST_crystallised",
+          "tier": "T2_psychological",
+          "n": 20.0,
+          "MAE": 8.232,
+          "RMSE": 10.432,
+          "bias": 0.167,
+          "pearson_r": 0.578,
+          "spearman_rho": 0.489
+        },
+        {
+          "output": "IST_crystallised",
+          "tier": "T3_morphometry",
+          "n": 20.0,
+          "MAE": 9.664,
+          "RMSE": 10.347,
+          "bias": -0.164,
+          "pearson_r": 0.381,
+          "spearman_rho": 0.375
+        },
+        {
+          "output": "IST_crystallised",
+          "tier": "T4_multimodal_full",
+          "n": 20.0,
+          "MAE": 8.245,
+          "RMSE": 9.739,
+          "bias": -2.055,
+          "pearson_r": 0.529,
+          "spearman_rho": 0.565
+        },
+        {
+          "output": "IST_crystallised",
+          "tier": "T5_brain_only",
+          "n": 20.0,
+          "MAE": 8.645,
+          "RMSE": 10.836,
+          "bias": 2.795,
+          "pearson_r": 0.394,
+          "spearman_rho": 0.453
+        },
+        {
+          "output": "IST_fluid",
+          "tier": "T1_demographics",
+          "n": 20.0,
+          "MAE": 17.879,
+          "RMSE": 20.909,
+          "bias": -3.581,
+          "pearson_r": 0.264,
+          "spearman_rho": 0.269
+        },
+        {
+          "output": "IST_fluid",
+          "tier": "T2_psychological",
+          "n": 20.0,
+          "MAE": 18.644,
+          "RMSE": 22.651,
+          "bias": 1.886,
+          "pearson_r": 0.607,
+          "spearman_rho": 0.47
+        },
+        {
+          "output": "IST_fluid",
+          "tier": "T3_morphometry",
+          "n": 20.0,
+          "MAE": 23.018,
+          "RMSE": 27.094,
+          "bias": -15.838,
+          "pearson_r": 0.521,
+          "spearman_rho": 0.451
+        },
+        {
+          "output": "IST_fluid",
+          "tier": "T4_multimodal_full",
+          "n": 20.0,
+          "MAE": 29.77,
+          "RMSE": 36.645,
+          "bias": -3.4,
+          "pearson_r": 0.084,
+          "spearman_rho": 0.122
+        },
+        {
+          "output": "IST_fluid",
+          "tier": "T5_brain_only",
+          "n": 20.0,
+          "MAE": 22.635,
+          "RMSE": 27.02,
+          "bias": 1.155,
+          "pearson_r": 0.083,
+          "spearman_rho": 0.158
+        },
+        {
+          "output": "IST_intelligence_total",
+          "tier": "T1_demographics",
+          "n": 20.0,
+          "MAE": 30.547,
+          "RMSE": 36.159,
+          "bias": -0.423,
+          "pearson_r": 0.252,
+          "spearman_rho": 0.187
+        },
+        {
+          "output": "IST_intelligence_total",
+          "tier": "T2_psychological",
+          "n": 20.0,
+          "MAE": 29.879,
+          "RMSE": 36.297,
+          "bias": 1.711,
+          "pearson_r": 0.662,
+          "spearman_rho": 0.534
+        },
+        {
+          "output": "IST_intelligence_total",
+          "tier": "T3_morphometry",
+          "n": 20.0,
+          "MAE": 34.689,
+          "RMSE": 41.351,
+          "bias": -25.059,
+          "pearson_r": 0.662,
+          "spearman_rho": 0.515
+        },
+        {
+          "output": "IST_intelligence_total",
+          "tier": "T4_multimodal_full",
+          "n": 20.0,
+          "MAE": 42.29,
+          "RMSE": 53.572,
+          "bias": -5.14,
+          "pearson_r": 0.191,
+          "spearman_rho": 0.287
+        },
+        {
+          "output": "IST_intelligence_total",
+          "tier": "T5_brain_only",
+          "n": 20.0,
+          "MAE": 36.655,
+          "RMSE": 44.324,
+          "bias": 7.905,
+          "pearson_r": 0.28,
+          "spearman_rho": 0.321
+        },
+        {
+          "output": "IST_memory",
+          "tier": "T1_demographics",
+          "n": 20.0,
+          "MAE": 6.537,
+          "RMSE": 7.798,
+          "bias": 2.404,
+          "pearson_r": 0.394,
+          "spearman_rho": 0.292
+        },
+        {
+          "output": "IST_memory",
+          "tier": "T2_psychological",
+          "n": 20.0,
+          "MAE": 7.207,
+          "RMSE": 8.186,
+          "bias": 0.233,
+          "pearson_r": 0.694,
+          "spearman_rho": 0.52
+        },
+        {
+          "output": "IST_memory",
+          "tier": "T3_morphometry",
+          "n": 20.0,
+          "MAE": 7.332,
+          "RMSE": 9.198,
+          "bias": -5.472,
+          "pearson_r": 0.609,
+          "spearman_rho": 0.568
+        },
+        {
+          "output": "IST_memory",
+          "tier": "T4_multimodal_full",
+          "n": 20.0,
+          "MAE": 9.145,
+          "RMSE": 12.313,
+          "bias": -1.595,
+          "pearson_r": -0.095,
+          "spearman_rho": -0.023
+        },
+        {
+          "output": "IST_memory",
+          "tier": "T5_brain_only",
+          "n": 20.0,
+          "MAE": 7.175,
+          "RMSE": 9.777,
+          "bias": 1.665,
+          "pearson_r": 0.256,
+          "spearman_rho": 0.275
+        }
+      ],
+      "regression_by_output_provider": [
+        {
+          "output": "IST_crystallised",
+          "model": "deepseek-v4-flash",
+          "n": 20.0,
+          "MAE": 10.181,
+          "RMSE": 12.931,
+          "bias": -1.279,
+          "pearson_r": 0.061,
+          "spearman_rho": 0.227
+        },
+        {
+          "output": "IST_crystallised",
+          "model": "gpt-oss-120b",
+          "n": 20.0,
+          "MAE": 6.835,
+          "RMSE": 8.496,
+          "bias": 1.515,
+          "pearson_r": 0.673,
+          "spearman_rho": 0.639
+        },
+        {
+          "output": "IST_crystallised",
+          "model": "laguna-xs-2.1",
+          "n": 20.0,
+          "MAE": 7.781,
+          "RMSE": 9.416,
+          "bias": 2.981,
+          "pearson_r": 0.632,
+          "spearman_rho": 0.576
+        },
+        {
+          "output": "IST_crystallised",
+          "model": "nex-n2-mini",
+          "n": 20.0,
+          "MAE": 8.413,
+          "RMSE": 10.248,
+          "bias": -1.673,
+          "pearson_r": -0.314,
+          "spearman_rho": -0.233
+        },
+        {
+          "output": "IST_crystallised",
+          "model": "qwen3.5-9b",
+          "n": 20.0,
+          "MAE": 10.674,
+          "RMSE": 12.049,
+          "bias": 0.436,
+          "pearson_r": 0.541,
+          "spearman_rho": 0.545
+        },
+        {
+          "output": "IST_fluid",
+          "model": "deepseek-v4-flash",
+          "n": 20.0,
+          "MAE": 17.64,
+          "RMSE": 24.94,
+          "bias": 3.14,
+          "pearson_r": 0.207,
+          "spearman_rho": 0.183
+        },
+        {
+          "output": "IST_fluid",
+          "model": "gpt-oss-120b",
+          "n": 20.0,
+          "MAE": 23.435,
+          "RMSE": 29.339,
+          "bias": -7.015,
+          "pearson_r": 0.41,
+          "spearman_rho": 0.447
+        },
+        {
+          "output": "IST_fluid",
+          "model": "laguna-xs-2.1",
+          "n": 20.0,
+          "MAE": 22.094,
+          "RMSE": 26.473,
+          "bias": -1.706,
+          "pearson_r": 0.592,
+          "spearman_rho": 0.494
+        },
+        {
+          "output": "IST_fluid",
+          "model": "nex-n2-mini",
+          "n": 20.0,
+          "MAE": 25.282,
+          "RMSE": 29.308,
+          "bias": -6.112,
+          "pearson_r": -0.166,
+          "spearman_rho": -0.279
+        },
+        {
+          "output": "IST_fluid",
+          "model": "qwen3.5-9b",
+          "n": 20.0,
+          "MAE": 23.495,
+          "RMSE": 26.735,
+          "bias": -8.085,
+          "pearson_r": 0.339,
+          "spearman_rho": 0.29
+        },
+        {
+          "output": "IST_intelligence_total",
+          "model": "deepseek-v4-flash",
+          "n": 20.0,
+          "MAE": 30.232,
+          "RMSE": 42.87,
+          "bias": 4.932,
+          "pearson_r": 0.091,
+          "spearman_rho": 0.2
+        },
+        {
+          "output": "IST_intelligence_total",
+          "model": "gpt-oss-120b",
+          "n": 20.0,
+          "MAE": 29.395,
+          "RMSE": 37.906,
+          "bias": -6.455,
+          "pearson_r": 0.649,
+          "spearman_rho": 0.615
+        },
+        {
+          "output": "IST_intelligence_total",
+          "model": "laguna-xs-2.1",
+          "n": 20.0,
+          "MAE": 38.021,
+          "RMSE": 44.776,
+          "bias": 3.321,
+          "pearson_r": 0.637,
+          "spearman_rho": 0.584
+        },
+        {
+          "output": "IST_intelligence_total",
+          "model": "nex-n2-mini",
+          "n": 20.0,
+          "MAE": 39.044,
+          "RMSE": 44.456,
+          "bias": -10.385,
+          "pearson_r": -0.166,
+          "spearman_rho": -0.157
+        },
+        {
+          "output": "IST_intelligence_total",
+          "model": "qwen3.5-9b",
+          "n": 20.0,
+          "MAE": 37.368,
+          "RMSE": 43.744,
+          "bias": -12.418,
+          "pearson_r": 0.404,
+          "spearman_rho": 0.406
+        },
+        {
+          "output": "IST_memory",
+          "model": "deepseek-v4-flash",
+          "n": 20.0,
+          "MAE": 7.095,
+          "RMSE": 9.223,
+          "bias": 0.645,
+          "pearson_r": 0.083,
+          "spearman_rho": 0.089
+        },
+        {
+          "output": "IST_memory",
+          "model": "gpt-oss-120b",
+          "n": 20.0,
+          "MAE": 7.05,
+          "RMSE": 8.961,
+          "bias": -0.61,
+          "pearson_r": 0.552,
+          "spearman_rho": 0.524
+        },
+        {
+          "output": "IST_memory",
+          "model": "laguna-xs-2.1",
+          "n": 20.0,
+          "MAE": 10.256,
+          "RMSE": 12.749,
+          "bias": 1.494,
+          "pearson_r": 0.3,
+          "spearman_rho": 0.243
+        },
+        {
+          "output": "IST_memory",
+          "model": "nex-n2-mini",
+          "n": 20.0,
+          "MAE": 6.924,
+          "RMSE": 9.044,
+          "bias": -2.594,
+          "pearson_r": -0.11,
+          "spearman_rho": -0.148
+        },
+        {
+          "output": "IST_memory",
+          "model": "qwen3.5-9b",
+          "n": 20.0,
+          "MAE": 6.07,
+          "RMSE": 7.067,
+          "bias": -1.7,
+          "pearson_r": 0.578,
+          "spearman_rho": 0.586
+        }
+      ],
+      "regression_macro_nmae_by_tier": [
+        {
+          "tier": "T1_demographics",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.724
+        },
+        {
+          "tier": "T2_psychological",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.726
+        },
+        {
+          "tier": "T3_morphometry",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.83
+        },
+        {
+          "tier": "T4_multimodal_full",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.954
+        },
+        {
+          "tier": "T5_brain_only",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.811
+        }
+      ],
+      "regression_macro_nmae_by_provider": [
+        {
+          "model": "deepseek-v4-flash",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.759
+        },
+        {
+          "model": "gpt-oss-120b",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.732
+        },
+        {
+          "model": "laguna-xs-2.1",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.877
+        },
+        {
+          "model": "nex-n2-mini",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.838
+        },
+        {
+          "model": "qwen3.5-9b",
+          "n": 80,
+          "n_outputs": 4,
+          "macro_NMAE": 0.839
+        }
+      ]
+    },
+    "PSYCHOSIS": {
+      "regression_by_output": [
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "n": 79.0,
+          "MAE": 17.319,
+          "RMSE": 20.548,
+          "bias": -9.009,
+          "pearson_r": -0.092,
+          "spearman_rho": -0.122
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "n": 79.0,
+          "MAE": 1.089,
+          "RMSE": 1.441,
+          "bias": -0.618,
+          "pearson_r": 0.13,
+          "spearman_rho": 0.129
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "n": 79.0,
+          "MAE": 0.981,
+          "RMSE": 1.267,
+          "bias": -0.31,
+          "pearson_r": 0.061,
+          "spearman_rho": 0.096
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "n": 79.0,
+          "MAE": 1.679,
+          "RMSE": 1.963,
+          "bias": -0.974,
+          "pearson_r": -0.006,
+          "spearman_rho": 0.019
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "n": 79.0,
+          "MAE": 1.669,
+          "RMSE": 1.987,
+          "bias": -0.935,
+          "pearson_r": -0.002,
+          "spearman_rho": -0.013
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "n": 79.0,
+          "MAE": 1.059,
+          "RMSE": 1.369,
+          "bias": -0.475,
+          "pearson_r": 0.246,
+          "spearman_rho": 0.272
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "n": 79.0,
+          "MAE": 1.706,
+          "RMSE": 2.081,
+          "bias": -0.76,
+          "pearson_r": -0.259,
+          "spearman_rho": -0.29
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "n": 79.0,
+          "MAE": 1.912,
+          "RMSE": 2.341,
+          "bias": -1.403,
+          "pearson_r": -0.197,
+          "spearman_rho": -0.195
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "n": 79.0,
+          "MAE": 1.107,
+          "RMSE": 1.434,
+          "bias": -0.392,
+          "pearson_r": -0.002,
+          "spearman_rho": -0.022
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "n": 79.0,
+          "MAE": 1.093,
+          "RMSE": 1.475,
+          "bias": -0.298,
+          "pearson_r": -0.051,
+          "spearman_rho": 0.013
+        }
+      ],
+      "regression_by_output_tier": [
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 17.54,
+          "RMSE": 20.706,
+          "bias": -13.233,
+          "pearson_r": -0.258,
+          "spearman_rho": -0.39
+        },
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 16.782,
+          "RMSE": 20.147,
+          "bias": -11.442,
+          "pearson_r": -0.003,
+          "spearman_rho": -0.035
+        },
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 17.703,
+          "RMSE": 21.043,
+          "bias": 0.656,
+          "pearson_r": -0.178,
+          "spearman_rho": -0.149
+        },
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 17.224,
+          "RMSE": 20.227,
+          "bias": -12.891,
+          "pearson_r": -0.043,
+          "spearman_rho": -0.07
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 0.958,
+          "RMSE": 1.275,
+          "bias": -0.748,
+          "pearson_r": 0.274,
+          "spearman_rho": 0.319
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 0.951,
+          "RMSE": 1.204,
+          "bias": -0.671,
+          "pearson_r": 0.441,
+          "spearman_rho": 0.422
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.099,
+          "RMSE": 1.443,
+          "bias": -0.272,
+          "pearson_r": 0.022,
+          "spearman_rho": -0.021
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 1.375,
+          "RMSE": 1.808,
+          "bias": -0.819,
+          "pearson_r": -0.233,
+          "spearman_rho": -0.248
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 0.838,
+          "RMSE": 1.126,
+          "bias": -0.602,
+          "pearson_r": 0.217,
+          "spearman_rho": 0.246
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 1.042,
+          "RMSE": 1.235,
+          "bias": -0.482,
+          "pearson_r": 0.256,
+          "spearman_rho": 0.243
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.112,
+          "RMSE": 1.447,
+          "bias": 0.15,
+          "pearson_r": -0.073,
+          "spearman_rho": -0.028
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 0.919,
+          "RMSE": 1.227,
+          "bias": -0.331,
+          "pearson_r": -0.034,
+          "spearman_rho": -0.067
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 1.681,
+          "RMSE": 1.918,
+          "bias": -1.393,
+          "pearson_r": 0.096,
+          "spearman_rho": 0.179
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 1.691,
+          "RMSE": 2.023,
+          "bias": -1.251,
+          "pearson_r": 0.129,
+          "spearman_rho": 0.055
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.547,
+          "RMSE": 1.863,
+          "bias": -0.11,
+          "pearson_r": -0.052,
+          "spearman_rho": -0.114
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 1.819,
+          "RMSE": 2.057,
+          "bias": -1.208,
+          "pearson_r": -0.147,
+          "spearman_rho": -0.003
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 1.43,
+          "RMSE": 1.835,
+          "bias": -1.36,
+          "pearson_r": 0.387,
+          "spearman_rho": 0.49
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 1.622,
+          "RMSE": 1.945,
+          "bias": -1.082,
+          "pearson_r": 0.15,
+          "spearman_rho": 0.11
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.465,
+          "RMSE": 1.652,
+          "bias": -0.049,
+          "pearson_r": 0.077,
+          "spearman_rho": 0.038
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 2.225,
+          "RMSE": 2.491,
+          "bias": -1.336,
+          "pearson_r": -0.439,
+          "spearman_rho": -0.431
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 0.89,
+          "RMSE": 1.291,
+          "bias": -0.752,
+          "pearson_r": 0.453,
+          "spearman_rho": 0.53
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 1.37,
+          "RMSE": 1.631,
+          "bias": -0.91,
+          "pearson_r": 0.275,
+          "spearman_rho": 0.236
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.023,
+          "RMSE": 1.278,
+          "bias": 0.157,
+          "pearson_r": 0.209,
+          "spearman_rho": 0.247
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 0.942,
+          "RMSE": 1.228,
+          "bias": -0.419,
+          "pearson_r": 0.219,
+          "spearman_rho": 0.288
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 1.588,
+          "RMSE": 2.017,
+          "bias": -1.076,
+          "pearson_r": -0.331,
+          "spearman_rho": -0.354
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 2.052,
+          "RMSE": 2.39,
+          "bias": -1.112,
+          "pearson_r": -0.376,
+          "spearman_rho": -0.382
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.727,
+          "RMSE": 2.141,
+          "bias": -0.226,
+          "pearson_r": -0.255,
+          "spearman_rho": -0.324
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 1.431,
+          "RMSE": 1.672,
+          "bias": -0.642,
+          "pearson_r": -0.26,
+          "spearman_rho": -0.142
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 2.156,
+          "RMSE": 2.592,
+          "bias": -1.734,
+          "pearson_r": -0.385,
+          "spearman_rho": -0.43
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 1.896,
+          "RMSE": 2.338,
+          "bias": -1.514,
+          "pearson_r": -0.081,
+          "spearman_rho": -0.1
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.829,
+          "RMSE": 2.256,
+          "bias": -0.914,
+          "pearson_r": -0.283,
+          "spearman_rho": -0.273
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 1.758,
+          "RMSE": 2.14,
+          "bias": -1.481,
+          "pearson_r": -0.173,
+          "spearman_rho": -0.107
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 0.963,
+          "RMSE": 1.299,
+          "bias": -0.72,
+          "pearson_r": 0.16,
+          "spearman_rho": 0.158
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 1.168,
+          "RMSE": 1.484,
+          "bias": -0.431,
+          "pearson_r": -0.142,
+          "spearman_rho": -0.189
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.156,
+          "RMSE": 1.432,
+          "bias": 0.08,
+          "pearson_r": 0.069,
+          "spearman_rho": 0.135
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 1.142,
+          "RMSE": 1.518,
+          "bias": -0.536,
+          "pearson_r": -0.019,
+          "spearman_rho": -0.101
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "tier": "T1_demographic_socioeconomic",
+          "n": 20.0,
+          "MAE": 0.662,
+          "RMSE": 1.014,
+          "bias": -0.354,
+          "pearson_r": 0.205,
+          "spearman_rho": 0.182
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "tier": "T2_clinical_profile",
+          "n": 20.0,
+          "MAE": 1.257,
+          "RMSE": 1.569,
+          "bias": -0.503,
+          "pearson_r": -0.145,
+          "spearman_rho": -0.126
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "tier": "T3_multimodal_full",
+          "n": 21.0,
+          "MAE": 1.507,
+          "RMSE": 1.793,
+          "bias": 0.059,
+          "pearson_r": -0.347,
+          "spearman_rho": -0.398
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "tier": "T4_eeg_brain_only",
+          "n": 18.0,
+          "MAE": 0.908,
+          "RMSE": 1.387,
+          "bias": -0.425,
+          "pearson_r": 0.18,
+          "spearman_rho": 0.291
+        }
+      ],
+      "regression_by_output_provider": [
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 23.425,
+          "RMSE": 25.972,
+          "bias": -21.099,
+          "pearson_r": 0.056,
+          "spearman_rho": -0.017
+        },
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 17.6,
+          "RMSE": 19.558,
+          "bias": 0.533,
+          "pearson_r": -0.01,
+          "spearman_rho": -0.078
+        },
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 15.189,
+          "RMSE": 18.744,
+          "bias": -6.561,
+          "pearson_r": -0.624,
+          "spearman_rho": -0.687
+        },
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 19.925,
+          "RMSE": 22.657,
+          "bias": -17.423,
+          "pearson_r": 0.158,
+          "spearman_rho": 0.194
+        },
+        {
+          "output": "target__bprs__total_q01_to_q19",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 9.073,
+          "RMSE": 11.678,
+          "bias": 3.044,
+          "pearson_r": 0.265,
+          "spearman_rho": 0.175
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 1.525,
+          "RMSE": 1.942,
+          "bias": -1.398,
+          "pearson_r": 0.352,
+          "spearman_rho": 0.231
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 1.087,
+          "RMSE": 1.485,
+          "bias": -0.18,
+          "pearson_r": 0.277,
+          "spearman_rho": 0.31
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 0.935,
+          "RMSE": 1.167,
+          "bias": -0.652,
+          "pearson_r": 0.11,
+          "spearman_rho": 0.023
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 1.109,
+          "RMSE": 1.404,
+          "bias": -0.951,
+          "pearson_r": 0.031,
+          "spearman_rho": -0.038
+        },
+        {
+          "output": "target__sans__q07_global_rating_of_affective_flattening",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 0.719,
+          "RMSE": 0.903,
+          "bias": 0.219,
+          "pearson_r": 0.313,
+          "spearman_rho": 0.299
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 1.168,
+          "RMSE": 1.494,
+          "bias": -1.044,
+          "pearson_r": 0.433,
+          "spearman_rho": 0.321
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 1.027,
+          "RMSE": 1.402,
+          "bias": 0.333,
+          "pearson_r": 0.061,
+          "spearman_rho": 0.124
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 0.838,
+          "RMSE": 0.892,
+          "bias": -0.162,
+          "pearson_r": -0.182,
+          "spearman_rho": -0.276
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 0.942,
+          "RMSE": 1.268,
+          "bias": -0.626,
+          "pearson_r": 0.188,
+          "spearman_rho": 0.164
+        },
+        {
+          "output": "target__sans__q13_global_rating_of_alogia",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 0.894,
+          "RMSE": 1.101,
+          "bias": 0.131,
+          "pearson_r": 0.249,
+          "spearman_rho": 0.366
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 1.613,
+          "RMSE": 1.944,
+          "bias": -1.462,
+          "pearson_r": 0.348,
+          "spearman_rho": 0.193
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 1.633,
+          "RMSE": 1.91,
+          "bias": -0.633,
+          "pearson_r": 0.193,
+          "spearman_rho": 0.255
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 2.21,
+          "RMSE": 2.428,
+          "bias": -1.243,
+          "pearson_r": -0.479,
+          "spearman_rho": -0.501
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 1.681,
+          "RMSE": 1.994,
+          "bias": -1.483,
+          "pearson_r": -0.23,
+          "spearman_rho": -0.176
+        },
+        {
+          "output": "target__sans__q17_global_rating_of_avolition",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 1.394,
+          "RMSE": 1.567,
+          "bias": 0.031,
+          "pearson_r": 0.054,
+          "spearman_rho": 0.138
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 1.866,
+          "RMSE": 2.212,
+          "bias": -1.599,
+          "pearson_r": 0.202,
+          "spearman_rho": 0.186
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 1.52,
+          "RMSE": 1.868,
+          "bias": -0.387,
+          "pearson_r": 0.176,
+          "spearman_rho": 0.093
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 2.002,
+          "RMSE": 2.272,
+          "bias": -1.586,
+          "pearson_r": -0.112,
+          "spearman_rho": -0.343
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 1.688,
+          "RMSE": 2.056,
+          "bias": -1.394,
+          "pearson_r": -0.13,
+          "spearman_rho": -0.184
+        },
+        {
+          "output": "target__sans__q22_anhedonia",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 1.325,
+          "RMSE": 1.463,
+          "bias": 0.288,
+          "pearson_r": 0.363,
+          "spearman_rho": 0.33
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 0.894,
+          "RMSE": 1.266,
+          "bias": -0.649,
+          "pearson_r": 0.556,
+          "spearman_rho": 0.332
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 0.987,
+          "RMSE": 1.274,
+          "bias": 0.187,
+          "pearson_r": 0.372,
+          "spearman_rho": 0.369
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 1.041,
+          "RMSE": 1.325,
+          "bias": -0.592,
+          "pearson_r": -0.108,
+          "spearman_rho": -0.137
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 1.372,
+          "RMSE": 1.676,
+          "bias": -1.308,
+          "pearson_r": 0.499,
+          "spearman_rho": 0.46
+        },
+        {
+          "output": "target__sans__q25_global_rating_of_attention",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 0.944,
+          "RMSE": 1.172,
+          "bias": 0.169,
+          "pearson_r": -0.011,
+          "spearman_rho": 0.069
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 2.133,
+          "RMSE": 2.479,
+          "bias": -1.66,
+          "pearson_r": -0.235,
+          "spearman_rho": -0.144
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 2.433,
+          "RMSE": 2.717,
+          "bias": -0.233,
+          "pearson_r": -0.467,
+          "spearman_rho": -0.504
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 1.528,
+          "RMSE": 1.857,
+          "bias": -1.145,
+          "pearson_r": -0.052,
+          "spearman_rho": -0.096
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 1.411,
+          "RMSE": 1.796,
+          "bias": -0.878,
+          "pearson_r": -0.136,
+          "spearman_rho": 0.079
+        },
+        {
+          "output": "target__saps__q07_global_rating_of_hallucinations",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 1.056,
+          "RMSE": 1.234,
+          "bias": 0.131,
+          "pearson_r": 0.161,
+          "spearman_rho": 0.248
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 2.33,
+          "RMSE": 2.619,
+          "bias": -2.069,
+          "pearson_r": -0.132,
+          "spearman_rho": -0.144
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 2.2,
+          "RMSE": 2.582,
+          "bias": -0.533,
+          "pearson_r": -0.275,
+          "spearman_rho": -0.212
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 1.776,
+          "RMSE": 2.286,
+          "bias": -1.341,
+          "pearson_r": -0.275,
+          "spearman_rho": -0.453
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 2.135,
+          "RMSE": 2.591,
+          "bias": -1.965,
+          "pearson_r": -0.118,
+          "spearman_rho": -0.102
+        },
+        {
+          "output": "target__saps__q20_global_rating_of_delusions",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 1.038,
+          "RMSE": 1.279,
+          "bias": -0.888,
+          "pearson_r": 0.135,
+          "spearman_rho": 0.098
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 1.289,
+          "RMSE": 1.684,
+          "bias": -0.77,
+          "pearson_r": -0.484,
+          "spearman_rho": -0.521
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 0.9,
+          "RMSE": 1.153,
+          "bias": 0.26,
+          "pearson_r": 0.37,
+          "spearman_rho": 0.417
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 0.811,
+          "RMSE": 1.047,
+          "bias": -0.261,
+          "pearson_r": 0.154,
+          "spearman_rho": 0.255
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 1.359,
+          "RMSE": 1.781,
+          "bias": -0.767,
+          "pearson_r": -0.346,
+          "spearman_rho": -0.315
+        },
+        {
+          "output": "target__saps__q25_global_rating_of_bizzare_behavior",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 1.031,
+          "RMSE": 1.142,
+          "bias": -0.256,
+          "pearson_r": 0.345,
+          "spearman_rho": 0.175
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "model": "deepseek-v4-flash",
+          "n": 17.0,
+          "MAE": 1.026,
+          "RMSE": 1.42,
+          "bias": -0.758,
+          "pearson_r": 0.028,
+          "spearman_rho": 0.0
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "model": "gpt-oss-120b",
+          "n": 15.0,
+          "MAE": 0.96,
+          "RMSE": 1.501,
+          "bias": 0.6,
+          "pearson_r": -0.013,
+          "spearman_rho": 0.056
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "model": "laguna-xs-2.1",
+          "n": 12.0,
+          "MAE": 1.012,
+          "RMSE": 1.336,
+          "bias": -0.188,
+          "pearson_r": -0.124,
+          "spearman_rho": -0.367
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "model": "nex-n2-mini",
+          "n": 19.0,
+          "MAE": 1.373,
+          "RMSE": 1.711,
+          "bias": -0.616,
+          "pearson_r": -0.331,
+          "spearman_rho": -0.219
+        },
+        {
+          "output": "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+          "model": "qwen3.5-9b",
+          "n": 16.0,
+          "MAE": 1.019,
+          "RMSE": 1.296,
+          "bias": -0.356,
+          "pearson_r": 0.171,
+          "spearman_rho": 0.249
+        }
+      ],
+      "regression_macro_nmae_by_tier": [
+        {
+          "tier": "T1_demographic_socioeconomic",
+          "n": 200,
+          "n_outputs": 10,
+          "macro_NMAE": 1.099
+        },
+        {
+          "tier": "T2_clinical_profile",
+          "n": 200,
+          "n_outputs": 10,
+          "macro_NMAE": 1.244
+        },
+        {
+          "tier": "T3_multimodal_full",
+          "n": 210,
+          "n_outputs": 10,
+          "macro_NMAE": 1.214
+        },
+        {
+          "tier": "T4_eeg_brain_only",
+          "n": 180,
+          "n_outputs": 10,
+          "macro_NMAE": 1.207
+        }
+      ],
+      "regression_macro_nmae_by_provider": [
+        {
+          "model": "deepseek-v4-flash",
+          "n": 170,
+          "n_outputs": 10,
+          "macro_NMAE": 1.386
+        },
+        {
+          "model": "gpt-oss-120b",
+          "n": 150,
+          "n_outputs": 10,
+          "macro_NMAE": 1.225
+        },
+        {
+          "model": "laguna-xs-2.1",
+          "n": 120,
+          "n_outputs": 10,
+          "macro_NMAE": 1.148
+        },
+        {
+          "model": "nex-n2-mini",
+          "n": 190,
+          "n_outputs": 10,
+          "macro_NMAE": 1.287
+        },
+        {
+          "model": "qwen3.5-9b",
+          "n": 160,
+          "n_outputs": 10,
+          "macro_NMAE": 0.869
+        }
+      ],
+      "diagnosis_overall": [
+        {
+          "index": 0,
+          "n": 143.0,
+          "accuracy": 0.517,
+          "balanced_accuracy": 0.559,
+          "sensitivity": 0.247,
+          "specificity": 0.871,
+          "AUROC": 0.612
+        }
+      ],
+      "diagnosis_by_tier": [
+        {
+          "tier": "T1_demographic_socioeconomic",
+          "n": 36.0,
+          "accuracy": 0.472,
+          "balanced_accuracy": 0.525,
+          "sensitivity": 0.05,
+          "specificity": 1.0,
+          "AUROC": 0.52
+        },
+        {
+          "tier": "T2_clinical_profile",
+          "n": 36.0,
+          "accuracy": 0.583,
+          "balanced_accuracy": 0.643,
+          "sensitivity": 0.286,
+          "specificity": 1.0,
+          "AUROC": 0.798
+        },
+        {
+          "tier": "T3_multimodal_full",
+          "n": 36.0,
+          "accuracy": 0.556,
+          "balanced_accuracy": 0.584,
+          "sensitivity": 0.455,
+          "specificity": 0.714,
+          "AUROC": 0.56
+        },
+        {
+          "tier": "T4_eeg_brain_only",
+          "n": 35.0,
+          "accuracy": 0.457,
+          "balanced_accuracy": 0.466,
+          "sensitivity": 0.167,
+          "specificity": 0.765,
+          "AUROC": 0.611
+        }
+      ],
+      "diagnosis_by_provider": [
+        {
+          "model": "deepseek-v4-flash",
+          "n": 29.0,
+          "accuracy": 0.448,
+          "balanced_accuracy": 0.538,
+          "sensitivity": 0.167,
+          "specificity": 0.909,
+          "AUROC": 0.583
+        },
+        {
+          "model": "gpt-oss-120b",
+          "n": 28.0,
+          "accuracy": 0.536,
+          "balanced_accuracy": 0.552,
+          "sensitivity": 0.438,
+          "specificity": 0.667,
+          "AUROC": 0.597
+        },
+        {
+          "model": "laguna-xs-2.1",
+          "n": 29.0,
+          "accuracy": 0.655,
+          "balanced_accuracy": 0.583,
+          "sensitivity": 0.167,
+          "specificity": 1.0,
+          "AUROC": 0.63
+        },
+        {
+          "model": "nex-n2-mini",
+          "n": 29.0,
+          "accuracy": 0.414,
+          "balanced_accuracy": 0.505,
+          "sensitivity": 0.211,
+          "specificity": 0.8,
+          "AUROC": 0.395
+        },
+        {
+          "model": "qwen3.5-9b",
+          "n": 28.0,
+          "accuracy": 0.536,
+          "balanced_accuracy": 0.583,
+          "sensitivity": 0.25,
+          "specificity": 0.917,
+          "AUROC": 0.622
+        }
+      ]
+    },
+    "NUMERACY": {
+      "regression_by_output": [
+        {
+          "output": "approximate_numeracy",
+          "n": 104.0,
+          "MAE": 0.734,
+          "RMSE": 0.965,
+          "bias": -0.095,
+          "pearson_r": 0.344,
+          "spearman_rho": 0.222
+        },
+        {
+          "output": "precise_numeracy",
+          "n": 104.0,
+          "MAE": 0.729,
+          "RMSE": 1.042,
+          "bias": -0.404,
+          "pearson_r": 0.335,
+          "spearman_rho": 0.403
+        }
+      ],
+      "regression_by_output_tier": [
+        {
+          "output": "approximate_numeracy",
+          "tier": "T1_demographics",
+          "n": 26.0,
+          "MAE": 0.516,
+          "RMSE": 0.671,
+          "bias": -0.185,
+          "pearson_r": 0.113,
+          "spearman_rho": -0.085
+        },
+        {
+          "output": "approximate_numeracy",
+          "tier": "T2_aphasia",
+          "n": 26.0,
+          "MAE": 0.769,
+          "RMSE": 0.973,
+          "bias": 0.13,
+          "pearson_r": 0.15,
+          "spearman_rho": 0.003
+        },
+        {
+          "output": "approximate_numeracy",
+          "tier": "T3_lesion_fine",
+          "n": 26.0,
+          "MAE": 0.816,
+          "RMSE": 1.02,
+          "bias": -0.103,
+          "pearson_r": 0.537,
+          "spearman_rho": 0.463
+        },
+        {
+          "output": "approximate_numeracy",
+          "tier": "T4_lesion_brain_only",
+          "n": 26.0,
+          "MAE": 0.835,
+          "RMSE": 1.133,
+          "bias": -0.223,
+          "pearson_r": 0.309,
+          "spearman_rho": 0.336
+        },
+        {
+          "output": "precise_numeracy",
+          "tier": "T1_demographics",
+          "n": 26.0,
+          "MAE": 0.472,
+          "RMSE": 0.874,
+          "bias": -0.04,
+          "pearson_r": 0.195,
+          "spearman_rho": 0.394
+        },
+        {
+          "output": "precise_numeracy",
+          "tier": "T2_aphasia",
+          "n": 26.0,
+          "MAE": 0.466,
+          "RMSE": 0.556,
+          "bias": -0.017,
+          "pearson_r": 0.407,
+          "spearman_rho": 0.171
+        },
+        {
+          "output": "precise_numeracy",
+          "tier": "T3_lesion_fine",
+          "n": 26.0,
+          "MAE": 1.152,
+          "RMSE": 1.471,
+          "bias": -0.954,
+          "pearson_r": 0.575,
+          "spearman_rho": 0.611
+        },
+        {
+          "output": "precise_numeracy",
+          "tier": "T4_lesion_brain_only",
+          "n": 26.0,
+          "MAE": 0.824,
+          "RMSE": 1.05,
+          "bias": -0.605,
+          "pearson_r": 0.341,
+          "spearman_rho": 0.403
+        }
+      ],
+      "regression_by_output_provider": [
+        {
+          "output": "approximate_numeracy",
+          "model": "deepseek-v4-flash",
+          "n": 21.0,
+          "MAE": 0.889,
+          "RMSE": 1.12,
+          "bias": -0.249,
+          "pearson_r": 0.331,
+          "spearman_rho": 0.097
+        },
+        {
+          "output": "approximate_numeracy",
+          "model": "gpt-oss-120b",
+          "n": 20.0,
+          "MAE": 0.732,
+          "RMSE": 0.936,
+          "bias": -0.013,
+          "pearson_r": 0.096,
+          "spearman_rho": 0.084
+        },
+        {
+          "output": "approximate_numeracy",
+          "model": "laguna-xs-2.1",
+          "n": 22.0,
+          "MAE": 0.63,
+          "RMSE": 0.818,
+          "bias": 0.144,
+          "pearson_r": 0.611,
+          "spearman_rho": 0.448
+        },
+        {
+          "output": "approximate_numeracy",
+          "model": "nex-n2-mini",
+          "n": 20.0,
+          "MAE": 0.77,
+          "RMSE": 0.94,
+          "bias": -0.347,
+          "pearson_r": 0.389,
+          "spearman_rho": 0.308
+        },
+        {
+          "output": "approximate_numeracy",
+          "model": "qwen3.5-9b",
+          "n": 21.0,
+          "MAE": 0.654,
+          "RMSE": 0.987,
+          "bias": -0.031,
+          "pearson_r": 0.259,
+          "spearman_rho": 0.154
+        },
+        {
+          "output": "precise_numeracy",
+          "model": "deepseek-v4-flash",
+          "n": 21.0,
+          "MAE": 0.693,
+          "RMSE": 0.948,
+          "bias": -0.455,
+          "pearson_r": 0.352,
+          "spearman_rho": 0.489
+        },
+        {
+          "output": "precise_numeracy",
+          "model": "gpt-oss-120b",
+          "n": 20.0,
+          "MAE": 0.724,
+          "RMSE": 1.0,
+          "bias": -0.567,
+          "pearson_r": 0.32,
+          "spearman_rho": 0.038
+        },
+        {
+          "output": "precise_numeracy",
+          "model": "laguna-xs-2.1",
+          "n": 22.0,
+          "MAE": 0.866,
+          "RMSE": 1.256,
+          "bias": -0.464,
+          "pearson_r": 0.556,
+          "spearman_rho": 0.578
+        },
+        {
+          "output": "precise_numeracy",
+          "model": "nex-n2-mini",
+          "n": 20.0,
+          "MAE": 0.65,
+          "RMSE": 0.886,
+          "bias": -0.519,
+          "pearson_r": 0.572,
+          "spearman_rho": 0.326
+        },
+        {
+          "output": "precise_numeracy",
+          "model": "qwen3.5-9b",
+          "n": 21.0,
+          "MAE": 0.699,
+          "RMSE": 1.059,
+          "bias": -0.025,
+          "pearson_r": 0.215,
+          "spearman_rho": 0.512
+        }
+      ],
+      "regression_macro_nmae_by_tier": [
+        {
+          "tier": "T1_demographics",
+          "n": 52,
+          "n_outputs": 2,
+          "macro_NMAE": 0.61
+        },
+        {
+          "tier": "T2_aphasia",
+          "n": 52,
+          "n_outputs": 2,
+          "macro_NMAE": 0.733
+        },
+        {
+          "tier": "T3_lesion_fine",
+          "n": 52,
+          "n_outputs": 2,
+          "macro_NMAE": 1.268
+        },
+        {
+          "tier": "T4_lesion_brain_only",
+          "n": 52,
+          "n_outputs": 2,
+          "macro_NMAE": 1.033
+        }
+      ],
+      "regression_macro_nmae_by_provider": [
+        {
+          "model": "deepseek-v4-flash",
+          "n": 42,
+          "n_outputs": 2,
+          "macro_NMAE": 0.963
+        },
+        {
+          "model": "gpt-oss-120b",
+          "n": 40,
+          "n_outputs": 2,
+          "macro_NMAE": 0.907
+        },
+        {
+          "model": "laguna-xs-2.1",
+          "n": 44,
+          "n_outputs": 2,
+          "macro_NMAE": 0.961
+        },
+        {
+          "model": "nex-n2-mini",
+          "n": 40,
+          "n_outputs": 2,
+          "macro_NMAE": 0.871
+        },
+        {
+          "model": "qwen3.5-9b",
+          "n": 42,
+          "n_outputs": 2,
+          "macro_NMAE": 0.849
+        }
+      ]
+    }
+  },
+  "execution": [
+    {
+      "dataset": "INTELLIGENCE",
+      "model": "deepseek/deepseek-v4-flash",
+      "n_jobs": 20,
+      "mean_seconds": 758.12,
+      "median_seconds": 681.15,
+      "p95_seconds": 1290.86,
+      "recovered_jobs": 2,
+      "recorded_attempts": 22
+    },
+    {
+      "dataset": "INTELLIGENCE",
+      "model": "nex-agi/nex-n2-mini",
+      "n_jobs": 20,
+      "mean_seconds": 954.5,
+      "median_seconds": 732.05,
+      "p95_seconds": 2366.05,
+      "recovered_jobs": 5,
+      "recorded_attempts": 26
+    },
+    {
+      "dataset": "INTELLIGENCE",
+      "model": "openai/gpt-oss-120b",
+      "n_jobs": 20,
+      "mean_seconds": 386.67,
+      "median_seconds": 326.15,
+      "p95_seconds": 746.33,
+      "recovered_jobs": 2,
+      "recorded_attempts": 22
+    },
+    {
+      "dataset": "INTELLIGENCE",
+      "model": "poolside/laguna-xs-2.1",
+      "n_jobs": 20,
+      "mean_seconds": 191.56,
+      "median_seconds": 172.8,
+      "p95_seconds": 350.31,
+      "recovered_jobs": 0,
+      "recorded_attempts": 20
+    },
+    {
+      "dataset": "INTELLIGENCE",
+      "model": "qwen/qwen3.5-9b",
+      "n_jobs": 20,
+      "mean_seconds": 975.7,
+      "median_seconds": 748.95,
+      "p95_seconds": 1966.99,
+      "recovered_jobs": 2,
+      "recorded_attempts": 22
+    },
+    {
+      "dataset": "PSYCHOSIS",
+      "model": "deepseek/deepseek-v4-flash",
+      "n_jobs": 29,
+      "mean_seconds": 693.98,
+      "median_seconds": 494.6,
+      "p95_seconds": 1677.46,
+      "recovered_jobs": 4,
+      "recorded_attempts": 33
+    },
+    {
+      "dataset": "PSYCHOSIS",
+      "model": "nex-agi/nex-n2-mini",
+      "n_jobs": 29,
+      "mean_seconds": 1251.7,
+      "median_seconds": 714.9,
+      "p95_seconds": 3661.9,
+      "recovered_jobs": 10,
+      "recorded_attempts": 49
+    },
+    {
+      "dataset": "PSYCHOSIS",
+      "model": "openai/gpt-oss-120b",
+      "n_jobs": 28,
+      "mean_seconds": 347.25,
+      "median_seconds": 299.0,
+      "p95_seconds": 575.85,
+      "recovered_jobs": 4,
+      "recorded_attempts": 32
+    },
+    {
+      "dataset": "PSYCHOSIS",
+      "model": "poolside/laguna-xs-2.1",
+      "n_jobs": 29,
+      "mean_seconds": 177.07,
+      "median_seconds": 144.3,
+      "p95_seconds": 339.9,
+      "recovered_jobs": 0,
+      "recorded_attempts": 29
+    },
+    {
+      "dataset": "PSYCHOSIS",
+      "model": "qwen/qwen3.5-9b",
+      "n_jobs": 28,
+      "mean_seconds": 744.11,
+      "median_seconds": 650.8,
+      "p95_seconds": 1683.88,
+      "recovered_jobs": 1,
+      "recorded_attempts": 30
+    },
+    {
+      "dataset": "NUMERACY",
+      "model": "deepseek/deepseek-v4-flash",
+      "n_jobs": 42,
+      "mean_seconds": 672.27,
+      "median_seconds": 493.1,
+      "p95_seconds": 1484.16,
+      "recovered_jobs": 4,
+      "recorded_attempts": 46
+    },
+    {
+      "dataset": "NUMERACY",
+      "model": "nex-agi/nex-n2-mini",
+      "n_jobs": 42,
+      "mean_seconds": 653.92,
+      "median_seconds": 549.8,
+      "p95_seconds": 1257.56,
+      "recovered_jobs": 2,
+      "recorded_attempts": 45
+    },
+    {
+      "dataset": "NUMERACY",
+      "model": "openai/gpt-oss-120b",
+      "n_jobs": 40,
+      "mean_seconds": 356.94,
+      "median_seconds": 231.5,
+      "p95_seconds": 724.08,
+      "recovered_jobs": 2,
+      "recorded_attempts": 43
+    },
+    {
+      "dataset": "NUMERACY",
+      "model": "poolside/laguna-xs-2.1",
+      "n_jobs": 44,
+      "mean_seconds": 196.64,
+      "median_seconds": 167.45,
+      "p95_seconds": 396.18,
+      "recovered_jobs": 0,
+      "recorded_attempts": 44
+    },
+    {
+      "dataset": "NUMERACY",
+      "model": "qwen/qwen3.5-9b",
+      "n_jobs": 42,
+      "mean_seconds": 666.73,
+      "median_seconds": 535.2,
+      "p95_seconds": 1258.16,
+      "recovered_jobs": 1,
+      "recorded_attempts": 43
+    }
+  ]
+}

@@ -274,6 +274,33 @@ ax[1].plot(lims, lims, color=RED, ls="--"); ax[1].set(title="Left vs right volum
 ax[1].legend(fontsize=7, ncol=2)
 plt.tight_layout(); plt.show()
 """),
+        md("### Subcortical volumes on a glass brain (nilearn)\\n"
+           "Each subcortical structure at its approximate MNI centroid, coloured by its Spearman "
+           "correlation with total intelligence and sized by group-mean volume. A spatial read of "
+           "which deep-brain structures carry morphometric signal."),
+        code("""
+try:
+    from nilearn import plotting
+    from scipy.stats import spearmanr
+    SUB_MNI = {"thalamus":(11,-19,8),"caudate":(13,10,9),"putamen":(25,3,2),"pallidum":(18,-3,1),
+               "hippocampus":(26,-20,-13),"amygdala":(24,-4,-18),"accumbens":(9,11,-7),"ventraldc":(8,-14,-10)}
+    tgt = target.reindex(morph.index)
+    coords, vals, means = [], [], []
+    for s,(x,y,z) in SUB_MNI.items():
+        for hemi,sgn in (("lh",-1),("rh",1)):
+            col=f"fs_vol_{hemi}_{s}"
+            if col in morph:
+                m=morph[col].notna()&tgt.notna()
+                vals.append(spearmanr(morph[col][m], tgt[m]).statistic if m.sum()>20 else 0.0)
+                coords.append((sgn*x,y,z)); means.append(float(morph[col].mean()))
+    means=np.array(means); sizes=(40+180*(means-means.min())/(np.ptp(means)+1e-9)).tolist()
+    plotting.plot_markers(np.array(vals), coords, node_size=sizes, node_cmap="RdBu_r",
+                          node_vmin=-0.25, node_vmax=0.25, display_mode="ortho",
+                          title="Subcortical volume vs intelligence (node colour = Spearman r, size = mean volume)")
+    plt.show()
+except Exception as e:
+    print("subcortical glass brain skipped:", e)
+"""),
         md("## 2. Head-size scaling and per-region cortical thickness map"),
         code("""
 fig, ax = plt.subplots(1, 2, figsize=(15, 5))
@@ -324,7 +351,45 @@ if len(Mp) > 10:
     plt.colorbar(sc, label="IST total"); axp.set(title="Morphometry PCA, coloured by IQ", xlabel="PC1", ylabel="PC2")
     plt.tight_layout(); plt.show()
 """),
-        md("## 4. Functional connectome: network matrices"),
+        md("## 4. Per-region morphometry mosaic: where each measure tracks intelligence\\n"
+           "The high-resolution branch gives thickness, surface area and gray-matter volume for "
+           "every Desikan-Killiany region. These lobe-grouped mosaics show, per region and "
+           "hemisphere, the Spearman correlation of each morphometric measure with total "
+           "intelligence, so spatial patterns are visible at a glance."),
+        code("""
+repo = next(p for p in [ROOT,*ROOT.parents] if (p/"src"/"full_stack").is_dir())
+sys.path.insert(0, str(repo))
+from validation.common.freesurfer import DK_LOBES, LOBES, REGION_LABELS
+from scipy.stats import spearmanr
+regions = [r for lobe in LOBES for r in DK_LOBES if DK_LOBES[r]==lobe]
+lobe_of = [DK_LOBES[r] for r in regions]
+measures = [("fs_thk","Cortical thickness"),("fs_area","Surface area"),("fs_gmv","Gray-matter volume")]
+tgt = target.reindex(morph.index)
+fig, axes = plt.subplots(1, 3, figsize=(15, 9))
+for ax,(pref,mtitle) in zip(axes, measures):
+    M=[]
+    for r in regions:
+        row=[]
+        for hemi in ("lh","rh"):
+            col=f"{pref}_{hemi}_{r}"
+            if col in morph:
+                m=morph[col].notna()&tgt.notna()
+                row.append(spearmanr(morph[col][m], tgt[m]).statistic if m.sum()>20 else np.nan)
+            else: row.append(np.nan)
+        M.append(row)
+    M=np.array(M)
+    im=ax.imshow(M, cmap="RdBu_r", vmin=-0.3, vmax=0.3, aspect="auto")
+    ax.set_xticks([0,1]); ax.set_xticklabels(["L","R"])
+    ax.set_yticks(range(len(regions))); ax.set_yticklabels([REGION_LABELS.get(r,r) for r in regions], fontsize=6)
+    # lobe separators
+    for i in range(1,len(regions)):
+        if lobe_of[i]!=lobe_of[i-1]: ax.axhline(i-0.5, color="#111", lw=1.2)
+    ax.set_title(f"{mtitle}\\nSpearman r with IST total", fontsize=10)
+fig.colorbar(im, ax=axes, shrink=0.5, label="Spearman r")
+plt.suptitle("Per-region morphometry correlation with intelligence (lobe-grouped)", y=1.01)
+plt.show()
+"""),
+        md("## 5. Functional connectome: network matrices"),
         code("""
 YEO7 = ["Vis","SomMot","DorsAttn","SalVentAttn","Limbic","Cont","Default"]
 LBL = ["Visual","SomMot","DorsAttn","Sal/VentAttn","Limbic","Frontopar","Default"]
@@ -362,7 +427,52 @@ ax[1].barh(rc["f"], rc["r"], color=[RED if v<0 else GRN for v in rc["r"]])
 ax[1].axvline(0,color="#333"); ax[1].set_title("Top connectome-IQ correlations"); ax[1].tick_params(labelsize=7)
 plt.tight_layout(); plt.show()
 """),
-        md("## 5. Parcel-level connectome and glass brain (one subject)\\n"
+        md("## 6. High-resolution parcellation and network connectome (nilearn)\\n"
+           "First the cortical atlas underlying the connectome: the 100 Schaefer parcels, coloured by "
+           "their Yeo-7 network, as a mosaic of slices. This is the high-resolution parcellation that "
+           "the 28 network-level features summarise; re-extracting FC at this parcel level (or a finer "
+           "Schaefer-200 / 17-network atlas) is a config knob."),
+        code("""
+try:
+    from nilearn import plotting, image
+    from validation.common import connectome as C
+    atlas = C.load_atlas(100, 7, 2)
+    order = ["Vis","SomMot","DorsAttn","SalVentAttn","Limbic","Cont","Default"]
+    net_idx = {a:i+1 for i,a in enumerate(order)}
+    lut = np.array([0] + [net_idx.get(n, 0) for n in C.atlas_networks(atlas)])
+    maps = image.load_img(atlas.maps)
+    net_img = image.new_img_like(maps, lut[maps.get_fdata().astype(int)])
+    plotting.plot_roi(net_img, display_mode="mosaic", cmap="tab10", colorbar=True,
+                      title="Schaefer-100 parcels coloured by Yeo-7 network (mosaic)")
+    plt.show()
+except Exception as e:
+    print("parcellation mosaic skipped:", e)
+"""),
+        md("The group-average 7-network functional connectivity rendered on a glass brain: each node "
+           "is a Yeo network placed at the centroid of its Schaefer parcels, each edge a mean "
+           "between-network correlation. Uses only the small Schaefer atlas (no raw BOLD)."),
+        code("""
+try:
+    from nilearn import plotting
+    from validation.common import connectome as C
+    atlas = C.load_atlas(100, 7, 2)
+    nets = np.array(C.atlas_networks(atlas))
+    pcoords = np.array(plotting.find_parcellation_cut_coords(atlas.maps))
+    order = ["Vis","SomMot","DorsAttn","SalVentAttn","Limbic","Cont","Default"]
+    ncoords = np.array([pcoords[nets==a].mean(axis=0) for a in order])
+    node_labels = ["Visual","SomMot","DorsAttn","Sal/Vent","Limbic","Frontopar","Default"]
+    fig = plt.figure(figsize=(13,5))
+    disp = plotting.plot_connectome(group, ncoords, node_size=90, edge_threshold="60%",
+                                    edge_vmin=-0.6, edge_vmax=0.6, edge_cmap="RdBu_r",
+                                    title="Group Yeo-7 network FC (glass brain, strongest 40% edges)",
+                                    figure=fig)
+    for (x,y,z), lab in zip(ncoords, node_labels):
+        disp.axes['z'].ax.text(x, y, lab, fontsize=7, color="#111")
+    plt.show()
+except Exception as e:
+    print("network glass brain skipped:", e)
+"""),
+        md("## 7. Parcel-level connectome and glass brain (one subject)\\n"
            "This optional view reconstructs the full 100x100 parcel FC from the raw movie-watching "
            "BOLD. The BOLD is not cached (only the reduced 7x7 network matrices are), so it runs only "
            "if the file is already present locally; otherwise it is skipped with a note. Re-extracting "
@@ -542,28 +652,103 @@ plt.tight_layout(); plt.show()
         md("Every tier is a filtered projection of this one ontology, so the engine always "
            "receives a clean, non-redundant hierarchy at full depth; only the set of present leaf "
            "values changes. The full-tier profile above spans 279 leaves (256 brain + 23 self-report)."),
-        md("## 6. Pipeline sanity check on the new structure (n=2, illustrative only)\\n"
-           "This is **not** a benchmark and does not replace the 100-subject batch in section 4. "
-           "It is a two-subject smoke test confirming that the upgraded 279-feature high-resolution "
-           "pipeline runs end to end and produces sensibly ranked predictions. Quantitative "
-           "performance is the full-batch tier ladder above; re-running the full 100-subject batch "
-           "on the new structure is future work (about 900 engine calls)."),
+        md("## 6. Hierarchical IST prediction on a diverse 10-subject cohort (all tiers)\\n"
+           "The engine now runs in **hierarchical mixed-task** mode: it predicts total intelligence "
+           "(root, univariate regression) and the three IST subscales fluid / memory / crystallised "
+           "(child, multivariate regression) together, on the upgraded 279-feature structure. The "
+           "three subscales are outputs only, never predictors, so there is no leakage. This is a "
+           "diverse 10-subject cohort (total IST spanning about 87 to 280) run across every tier. "
+           "n=10 is illustrative, not the quantitative benchmark (that is the 100-subject batch in "
+           "section 4)."),
         code("""
-fresh = json.load(open(ROOT/"results"/"full_engine_2subject"/"summary.json"))
-preds = fresh["predictions"]
-labels = [p["participant_id"] for p in preds]
-xp = np.arange(len(preds)); w=0.38
-fig, ax = plt.subplots(1, 2, figsize=(14, 4.6))
-ax[0].bar(xp-w/2, [p["ground_truth"] for p in preds], w, label="ground truth", color=IND)
-ax[0].bar(xp+w/2, [p["predicted"] for p in preds], w, label="predicted", color=GRN)
-ax[0].set_xticks(xp); ax[0].set_xticklabels(labels)
-ax[0].set(title="Native IST: predicted vs ground truth", ylabel="IST total"); ax[0].legend()
-ax[1].bar(xp-w/2, [p["true_iq_equiv"] for p in preds], w, label="true IQ-equiv", color=IND)
-ax[1].bar(xp+w/2, [p["pred_iq_equiv"] for p in preds], w, label="pred IQ-equiv", color=GRN)
-ax[1].axhline(100,color="#999",ls=":"); ax[1].set_xticks(xp); ax[1].set_xticklabels(labels)
-ax[1].set(title=f"IQ-equivalent (rank recovered={fresh['rank_recovered']})", ylabel="IQ (100/15 scale)"); ax[1].legend()
+from scipy.stats import spearmanr, pearsonr, theilslopes
+h = json.load(open(ROOT/"results"/"hierarchical_10subject"/"predictions.json"))
+outputs = h["outputs"]
+gt = {c["participant_id"]: c["ground_truth_all"] for c in h["cohort"]}
+rows = [r for r in h["predictions"] if r.get("predicted") and not r.get("missing_outputs")]
+dfp = pd.DataFrame([dict(tier=r["tier"], pid=r["participant_id"],
+                         **{f"pred_{o}": r["predicted"][o] for o in outputs},
+                         **{f"true_{o}": gt[r["participant_id"]][o] for o in outputs}) for r in rows])
+print(f"{len(rows)} complete hierarchical runs; spend this run: ${h.get('usd_spent')}")
+
+for c in dfp.columns:
+    if c.startswith(("true_","pred_")): dfp[c] = pd.to_numeric(dfp[c], errors="coerce")
+
+# Panel A: full multimodal tier (T6) predicted vs truth for all four IST outputs.
+# Each scatter carries the identity line plus TWO fitted lines: the Pearson line
+# (ordinary least squares, sensitive to magnitude) and the Spearman line
+# (Theil-Sen, the rank-based robust slope that tracks monotonic association).
+full = dfp[dfp["tier"]=="T6_connectome"]
+fig, axes = plt.subplots(1, 4, figsize=(18, 4.6))
+titles = {"IST_intelligence_total":"Total","IST_fluid":"Fluid","IST_memory":"Memory","IST_crystallised":"Crystallised"}
+_labels = []   # (ax, xe, intercept, slope, colour, text, side) for post-layout rotated labels
+for ax,o in zip(axes, outputs):
+    pair = full[[f"true_{o}", f"pred_{o}"]].dropna()
+    xt, yp = pair[f"true_{o}"].values, pair[f"pred_{o}"].values
+    ax.scatter(xt, yp, color=IND, s=45, zorder=3)
+    mae = float(np.mean(np.abs(yp - xt))) if len(pair) else float("nan")
+    if len(pair) > 2:
+        r = pearsonr(xt, yp)[0]; rho = spearmanr(xt, yp).statistic
+        lims=[min(xt.min(),yp.min()), max(xt.max(),yp.max())]
+        ax.plot(lims, lims, color="#999", ls="--", lw=1, label="identity (perfect)", zorder=1)
+        xs = np.linspace(xt.min(), xt.max(), 50)
+        b1, b0 = np.polyfit(xt, yp, 1)
+        ax.plot(xs, b0 + b1*xs, color=IND, lw=2, zorder=2, label=f"Pearson OLS (r={r:+.2f})")
+        sl, ic, _, _ = theilslopes(yp, xt)
+        ax.plot(xs, ic + sl*xs, color=GRN, lw=2, zorder=2, label=f"Spearman Theil-Sen (rho={rho:+.2f})")
+        ax.legend(fontsize=6, loc="upper left", framealpha=0.9)
+        xe = xt.min() + 0.66*(xt.max()-xt.min())
+        _labels.append((ax, xe, b0, b1, IND, f"R2={r**2:.2f} ({r**2*100:.0f}% var)", "above"))
+        _labels.append((ax, xe, ic, sl, GRN, f"rho2={rho**2:.2f} ({rho**2*100:.0f}% rank var)", "below"))
+    ax.set(title=f"{titles.get(o,o)}   (MAE={mae:.0f} IST)", xlabel="true IST", ylabel="predicted IST")
+plt.suptitle(f"T6 full multimodal: hierarchical predicted vs true ({len(full)} subjects). "
+             f"Blue = Pearson OLS line (R2 = variance explained); green = Spearman Theil-Sen line (rho2 = rank variance).", y=1.05)
+plt.tight_layout()
+# Write the explained-variance label along each line, rotated to the line's on-screen angle
+# (computed after layout so the axes aspect ratio is final).
+for ax, xe, b0_, b1_, col, txt, side in _labels:
+    dx = 0.08*(ax.get_xlim()[1]-ax.get_xlim()[0])
+    p0 = ax.transData.transform((xe-dx, b0_+b1_*(xe-dx)))
+    p1 = ax.transData.transform((xe+dx, b0_+b1_*(xe+dx)))
+    ang = np.degrees(np.arctan2(p1[1]-p0[1], p1[0]-p0[0]))
+    ax.text(xe, b0_+b1_*xe, txt, color=col, fontsize=7, fontweight="bold",
+            ha="center", va="bottom" if side=="above" else "top",
+            rotation=ang, rotation_mode="anchor")
+plt.show()
+
+# Panel B: per-tier rank recovery of the total across the 10-subject hierarchical run
+tier_order = [t for t in ["T1_demographics","T2_personality","T3_psychometric","T4_identity",
+              "T5_morphometry","T6_connectome","B1_morphometry_only","B2_connectome_only","B3_brain_only"]
+              if t in dfp["tier"].unique()]
+tcol = outputs[0]
+pear, spear, ns = [], [], []
+for t in tier_order:
+    g = dfp[dfp["tier"]==t][[f"true_{tcol}", f"pred_{tcol}"]].dropna()
+    ns.append(len(g))
+    if len(g) > 2:
+        pear.append(pearsonr(g[f"true_{tcol}"], g[f"pred_{tcol}"])[0])
+        spear.append(spearmanr(g[f"true_{tcol}"], g[f"pred_{tcol}"]).statistic)
+    else:
+        pear.append(np.nan); spear.append(np.nan)
+x = np.arange(len(tier_order)); w = 0.4
+fig, ax = plt.subplots(figsize=(12, 5))
+bars = [ax.bar(x-w/2, pear, w, label="Pearson r", color=IND),
+        ax.bar(x+w/2, spear, w, label="Spearman rho", color=GRN)]
+for bset in bars:
+    for b in bset:
+        h = b.get_height()
+        if h == h:
+            ax.text(b.get_x()+b.get_width()/2, h + (0.02 if h >= 0 else -0.02), f"{h:.2f}",
+                    ha="center", va="bottom" if h >= 0 else "top", fontsize=6.5)
+ax.axhline(0, color="#333")
+_v = [v for v in pear+spear if v == v]
+lo = min(-0.15, min(_v)-0.05) if _v else -0.15
+hi = max(0.95, max(_v)+0.1) if _v else 0.95
+ax.set_xticks(x); ax.set_xticklabels([f"{t}\\n(n={n})" for t,n in zip(tier_order,ns)], rotation=45, ha="right", fontsize=7.5)
+ax.set(title="Total-intelligence recovery per tier (10-subject hierarchical run); bar height squared = variance explained",
+       ylabel="correlation (r, rho)", ylim=(lo, hi))
+ax.legend(loc="upper right")
 plt.tight_layout(); plt.show()
-print("Interpretation:", fresh["interpretation"])
 """),
     ]
     return nb

@@ -1,0 +1,1951 @@
+{
+  "dataset": "First-Episode Psychosis resting EEG (OpenNeuro ds003944 + ds003947)",
+  "model": "google/gemini-3.1-flash-lite",
+  "task": "diagnosis (binary) -> BPRS total -> SAPS/SANS globals",
+  "outputs": [
+    "target__bprs__total_q01_to_q19",
+    "target__saps__q07_global_rating_of_hallucinations",
+    "target__saps__q20_global_rating_of_delusions",
+    "target__saps__q25_global_rating_of_bizzare_behavior",
+    "target__saps__q34_global_rating_of_positive_formal_thought_disorder",
+    "target__sans__q07_global_rating_of_affective_flattening",
+    "target__sans__q13_global_rating_of_alogia",
+    "target__sans__q17_global_rating_of_avolition",
+    "target__sans__q22_anhedonia",
+    "target__sans__q25_global_rating_of_attention"
+  ],
+  "class_labels": [
+    "Control",
+    "First-Episode Psychosis"
+  ],
+  "tiers": [
+    "T1_demographic_socioeconomic",
+    "T2_clinical_profile",
+    "T3_multimodal_full",
+    "T4_eeg_lean",
+    "T5_eeg_rich"
+  ],
+  "cohort": {
+    "psychosis": [
+      "ds003947_sub-2477A",
+      "ds003944_sub-2174",
+      "ds003944_sub-2018",
+      "ds003944_sub-2177",
+      "ds003944_sub-2117"
+    ],
+    "control": [
+      "ds003944_sub-1448",
+      "ds003944_sub-1971",
+      "ds003944_sub-1989",
+      "ds003944_sub-1999",
+      "ds003944_sub-2009"
+    ]
+  },
+  "reference_stats": {
+    "target__bprs__total_q01_to_q19": {
+      "mean": 46.77,
+      "sd": 8.64,
+      "n": 74
+    },
+    "target__saps__q07_global_rating_of_hallucinations": {
+      "mean": 1.76,
+      "sd": 1.4,
+      "n": 74
+    },
+    "target__saps__q20_global_rating_of_delusions": {
+      "mean": 2.61,
+      "sd": 1.14,
+      "n": 74
+    },
+    "target__saps__q25_global_rating_of_bizzare_behavior": {
+      "mean": 0.97,
+      "sd": 1.11,
+      "n": 74
+    },
+    "target__saps__q34_global_rating_of_positive_formal_thought_disorder": {
+      "mean": 1.04,
+      "sd": 1.18,
+      "n": 74
+    },
+    "target__sans__q07_global_rating_of_affective_flattening": {
+      "mean": 1.58,
+      "sd": 1.09,
+      "n": 74
+    },
+    "target__sans__q13_global_rating_of_alogia": {
+      "mean": 1.05,
+      "sd": 1.04,
+      "n": 74
+    },
+    "target__sans__q17_global_rating_of_avolition": {
+      "mean": 2.28,
+      "sd": 1.29,
+      "n": 74
+    },
+    "target__sans__q22_anhedonia": {
+      "mean": 2.27,
+      "sd": 1.36,
+      "n": 74
+    },
+    "target__sans__q25_global_rating_of_attention": {
+      "mean": 1.39,
+      "sd": 1.18,
+      "n": 74
+    }
+  },
+  "global_instruction": "Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, then predict their psychiatric symptom severity on the native clinical scales below.\n\nSymptom scales (predict on these native ranges; no symptom value for this participant is given):\n- target__bprs__total_q01_to_q19: Brief Psychiatric Rating Scale, sum of 19 items (each 1-7; total 19-133). Reference mean=46.77, sd=8.64.\n- target__saps__q07_global_rating_of_hallucinations: SAPS hallucinations, global rating 0-5. Reference mean=1.76, sd=1.4.\n- target__saps__q20_global_rating_of_delusions: SAPS delusions, global rating 0-5. Reference mean=2.61, sd=1.14.\n- target__saps__q25_global_rating_of_bizzare_behavior: SAPS bizarre behavior, global rating 0-5. Reference mean=0.97, sd=1.11.\n- target__saps__q34_global_rating_of_positive_formal_thought_disorder: SAPS positive formal thought disorder, global rating 0-5. Reference mean=1.04, sd=1.18.\n- target__sans__q07_global_rating_of_affective_flattening: SANS affective flattening, global rating 0-5. Reference mean=1.58, sd=1.09.\n- target__sans__q13_global_rating_of_alogia: SANS alogia, global rating 0-5. Reference mean=1.05, sd=1.04.\n- target__sans__q17_global_rating_of_avolition: SANS avolition apathy, global rating 0-5. Reference mean=2.28, sd=1.29.\n- target__sans__q22_anhedonia: SANS anhedonia asociality, global rating 0-5. Reference mean=2.27, sd=1.36.\n- target__sans__q25_global_rating_of_attention: SANS attention, global rating 0-5. Reference mean=1.39, sd=1.18.\n\nControls are expected to have low or absent symptoms; cases vary widely. Infer diagnosis and severity only from the provided evidence (demographics, socio-economic status, cognition, observed functioning, and EEG features, depending on the tier).",
+  "usd_spent": 1.8975,
+  "n_runs": 50,
+  "predictions": [
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-2018",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.5,
+          "First-Episode Psychosis": 0.5
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 46.77,
+          "target__saps__q07_global_rating_of_hallucinations": 1.76,
+          "target__saps__q20_global_rating_of_delusions": 2.61,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.97,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.04,
+          "target__sans__q07_global_rating_of_affective_flattening": 1.58,
+          "target__sans__q13_global_rating_of_alogia": 1.05,
+          "target__sans__q17_global_rating_of_avolition": 2.28,
+          "target__sans__q22_anhedonia": 2.27,
+          "target__sans__q25_global_rating_of_attention": 1.39
+        }
+      },
+      "duration_s": 18.6
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-2174",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.1,
+          "target__saps__q20_global_rating_of_delusions": 0.1,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.1,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.1,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.2,
+          "target__sans__q13_global_rating_of_alogia": 0.1,
+          "target__sans__q17_global_rating_of_avolition": 0.2,
+          "target__sans__q22_anhedonia": 0.2,
+          "target__sans__q25_global_rating_of_attention": 0.1
+        }
+      },
+      "duration_s": 20.4
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003947_sub-2477A",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 24.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 0.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.65,
+          "First-Episode Psychosis": 0.35
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.1,
+          "target__saps__q20_global_rating_of_delusions": 0.1,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.1,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.1,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.1,
+          "target__sans__q13_global_rating_of_alogia": 0.1,
+          "target__sans__q17_global_rating_of_avolition": 0.1,
+          "target__sans__q22_anhedonia": 0.1,
+          "target__sans__q25_global_rating_of_attention": 0.1
+        }
+      },
+      "duration_s": 22.7
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-2177",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.5,
+          "First-Episode Psychosis": 0.5
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 22.8
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-2117",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 70.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 5.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 17.3
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-1448",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 15.6
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-1971",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 19.0
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-1989",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 19.7
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-1999",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.5,
+          "First-Episode Psychosis": 0.5
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 20.0
+    },
+    {
+      "tier": "T1_demographic_socioeconomic",
+      "recording_id": "ds003944_sub-2009",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.5,
+          "First-Episode Psychosis": 0.5
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 20.2
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003947_sub-2477A",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 24.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 0.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.92,
+          "First-Episode Psychosis": 0.08
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 26.0
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-2174",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 32.9
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-2177",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 25.1
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-2018",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 25.6
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-2117",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 70.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 5.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      },
+      "prediction": {
+        "diagnosis_label": "First-Episode Psychosis",
+        "diagnosis_probability": {
+          "Control": 0.15,
+          "First-Episode Psychosis": 0.85
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 58.0,
+          "target__saps__q07_global_rating_of_hallucinations": 2.0,
+          "target__saps__q20_global_rating_of_delusions": 3.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 1.5,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.5,
+          "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+          "target__sans__q13_global_rating_of_alogia": 1.5,
+          "target__sans__q17_global_rating_of_avolition": 3.0,
+          "target__sans__q22_anhedonia": 2.5,
+          "target__sans__q25_global_rating_of_attention": 2.5
+        }
+      },
+      "duration_s": 26.5
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-1448",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 22.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 1.0,
+          "target__sans__q22_anhedonia": 1.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 30.4
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-1971",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.92,
+          "First-Episode Psychosis": 0.08
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 24.7
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-1989",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.92,
+          "First-Episode Psychosis": 0.08
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 24.7
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-1999",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.92,
+          "First-Episode Psychosis": 0.08
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 22.8
+    },
+    {
+      "tier": "T2_clinical_profile",
+      "recording_id": "ds003944_sub-2009",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 26.6
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003947_sub-2477A",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 24.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 0.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 37.8
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-2018",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 22.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.1,
+          "target__sans__q13_global_rating_of_alogia": 0.1,
+          "target__sans__q17_global_rating_of_avolition": 0.2,
+          "target__sans__q22_anhedonia": 0.2,
+          "target__sans__q25_global_rating_of_attention": 0.1
+        }
+      },
+      "duration_s": 29.7
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-2174",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 41.1
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-2177",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 22.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.1,
+          "target__saps__q20_global_rating_of_delusions": 0.1,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.1,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.1,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.2,
+          "target__sans__q13_global_rating_of_alogia": 0.1,
+          "target__sans__q17_global_rating_of_avolition": 0.2,
+          "target__sans__q22_anhedonia": 0.2,
+          "target__sans__q25_global_rating_of_attention": 0.2
+        }
+      },
+      "duration_s": 29.2
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-2117",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 70.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 5.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      },
+      "prediction": {
+        "diagnosis_label": "First-Episode Psychosis",
+        "diagnosis_probability": {
+          "Control": 0.35,
+          "First-Episode Psychosis": 0.65
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 58.0,
+          "target__saps__q07_global_rating_of_hallucinations": 2.0,
+          "target__saps__q20_global_rating_of_delusions": 3.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 1.5,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.5,
+          "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+          "target__sans__q13_global_rating_of_alogia": 1.5,
+          "target__sans__q17_global_rating_of_avolition": 2.5,
+          "target__sans__q22_anhedonia": 2.5,
+          "target__sans__q25_global_rating_of_attention": 2.0
+        }
+      },
+      "duration_s": 29.8
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-1971",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 32.0
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-1448",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "First-Episode Psychosis",
+        "diagnosis_probability": {
+          "Control": 0.12,
+          "First-Episode Psychosis": 0.88
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 65.0,
+          "target__saps__q07_global_rating_of_hallucinations": 2.5,
+          "target__saps__q20_global_rating_of_delusions": 3.2,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 1.5,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.8,
+          "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+          "target__sans__q13_global_rating_of_alogia": 1.5,
+          "target__sans__q17_global_rating_of_avolition": 2.8,
+          "target__sans__q22_anhedonia": 2.5,
+          "target__sans__q25_global_rating_of_attention": 2.2
+        }
+      },
+      "duration_s": 34.1
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-1989",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 30.4
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-1999",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 28.2
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003947_sub-2477A",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 24.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 0.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 24.1
+    },
+    {
+      "tier": "T3_multimodal_full",
+      "recording_id": "ds003944_sub-2009",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 33.7
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-2174",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.1,
+          "target__saps__q20_global_rating_of_delusions": 0.1,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.1,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.1,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.1,
+          "target__sans__q13_global_rating_of_alogia": 0.1,
+          "target__sans__q17_global_rating_of_avolition": 0.1,
+          "target__sans__q22_anhedonia": 0.1,
+          "target__sans__q25_global_rating_of_attention": 0.1
+        }
+      },
+      "duration_s": 22.5
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-2018",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.85,
+          "First-Episode Psychosis": 0.15
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 22.5,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.2,
+          "target__sans__q13_global_rating_of_alogia": 0.1,
+          "target__sans__q17_global_rating_of_avolition": 0.3,
+          "target__sans__q22_anhedonia": 0.2,
+          "target__sans__q25_global_rating_of_attention": 0.1
+        }
+      },
+      "duration_s": 23.3
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-2117",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 70.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 5.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 17.4
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-1448",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "First-Episode Psychosis",
+        "diagnosis_probability": {
+          "Control": 0.08,
+          "First-Episode Psychosis": 0.92
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 58.0,
+          "target__saps__q07_global_rating_of_hallucinations": 3.0,
+          "target__saps__q20_global_rating_of_delusions": 3.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 2.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+          "target__sans__q13_global_rating_of_alogia": 1.0,
+          "target__sans__q17_global_rating_of_avolition": 2.0,
+          "target__sans__q22_anhedonia": 2.0,
+          "target__sans__q25_global_rating_of_attention": 3.0
+        }
+      },
+      "duration_s": 20.3
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-2177",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 30.2
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-1989",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 19.6
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-1971",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "First-Episode Psychosis",
+        "diagnosis_probability": {
+          "Control": 0.15,
+          "First-Episode Psychosis": 0.85
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 58.0,
+          "target__saps__q07_global_rating_of_hallucinations": 3.0,
+          "target__saps__q20_global_rating_of_delusions": 3.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+          "target__sans__q13_global_rating_of_alogia": 1.0,
+          "target__sans__q17_global_rating_of_avolition": 2.0,
+          "target__sans__q22_anhedonia": 2.0,
+          "target__sans__q25_global_rating_of_attention": 2.0
+        }
+      },
+      "duration_s": 31.0
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-1999",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.92,
+          "First-Episode Psychosis": 0.08
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 27.2
+    },
+    {
+      "tier": "T4_eeg_lean",
+      "recording_id": "ds003944_sub-2009",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 28.2
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003947_sub-2477A",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 24.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 0.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 1.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.95,
+          "First-Episode Psychosis": 0.05
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 27.0
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-2174",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 39.0,
+        "target__saps__q07_global_rating_of_hallucinations": 0.0,
+        "target__saps__q20_global_rating_of_delusions": 1.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 2.0,
+        "target__sans__q25_global_rating_of_attention": 1.0
+      },
+      "prediction": {
+        "diagnosis_label": "First-Episode Psychosis",
+        "diagnosis_probability": {
+          "Control": 0.08,
+          "First-Episode Psychosis": 0.92
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 58.5,
+          "target__saps__q07_global_rating_of_hallucinations": 2.5,
+          "target__saps__q20_global_rating_of_delusions": 3.2,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 1.5,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.8,
+          "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+          "target__sans__q13_global_rating_of_alogia": 1.5,
+          "target__sans__q17_global_rating_of_avolition": 2.8,
+          "target__sans__q22_anhedonia": 2.8,
+          "target__sans__q25_global_rating_of_attention": 2.2
+        }
+      },
+      "duration_s": 29.5
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-2177",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 53.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 4.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 2.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+        "target__sans__q13_global_rating_of_alogia": 0.0,
+        "target__sans__q17_global_rating_of_avolition": 1.0,
+        "target__sans__q22_anhedonia": 0.0,
+        "target__sans__q25_global_rating_of_attention": 3.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.92,
+          "First-Episode Psychosis": 0.08
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 29.9
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-2117",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 70.0,
+        "target__saps__q07_global_rating_of_hallucinations": 3.0,
+        "target__saps__q20_global_rating_of_delusions": 5.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 5.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 3.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 2.0,
+        "target__sans__q13_global_rating_of_alogia": 3.0,
+        "target__sans__q17_global_rating_of_avolition": 4.0,
+        "target__sans__q22_anhedonia": 1.0,
+        "target__sans__q25_global_rating_of_attention": 4.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 35.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 29.3
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-2018",
+      "true_group": "Psychosis",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": 45.0,
+        "target__saps__q07_global_rating_of_hallucinations": 1.0,
+        "target__saps__q20_global_rating_of_delusions": 2.0,
+        "target__saps__q25_global_rating_of_bizzare_behavior": 1.0,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+        "target__sans__q07_global_rating_of_affective_flattening": 3.0,
+        "target__sans__q13_global_rating_of_alogia": 1.0,
+        "target__sans__q17_global_rating_of_avolition": 2.0,
+        "target__sans__q22_anhedonia": 3.0,
+        "target__sans__q25_global_rating_of_attention": 0.0
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.92,
+          "First-Episode Psychosis": 0.08
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 44.7
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-1448",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "First-Episode Psychosis",
+        "diagnosis_probability": {
+          "Control": 0.08,
+          "First-Episode Psychosis": 0.92
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 58.5,
+          "target__saps__q07_global_rating_of_hallucinations": 2.8,
+          "target__saps__q20_global_rating_of_delusions": 3.5,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 1.5,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.8,
+          "target__sans__q07_global_rating_of_affective_flattening": 2.2,
+          "target__sans__q13_global_rating_of_alogia": 1.5,
+          "target__sans__q17_global_rating_of_avolition": 3.1,
+          "target__sans__q22_anhedonia": 3.0,
+          "target__sans__q25_global_rating_of_attention": 2.0
+        }
+      },
+      "duration_s": 29.7
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-1971",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 20.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.1,
+          "target__saps__q20_global_rating_of_delusions": 0.1,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.1,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.1,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.1,
+          "target__sans__q13_global_rating_of_alogia": 0.1,
+          "target__sans__q17_global_rating_of_avolition": 0.1,
+          "target__sans__q22_anhedonia": 0.1,
+          "target__sans__q25_global_rating_of_attention": 0.1
+        }
+      },
+      "duration_s": 26.3
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-1989",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "First-Episode Psychosis",
+        "diagnosis_probability": {
+          "Control": 0.15,
+          "First-Episode Psychosis": 0.85
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 46.77,
+          "target__saps__q07_global_rating_of_hallucinations": 1.76,
+          "target__saps__q20_global_rating_of_delusions": 2.61,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.97,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 1.04,
+          "target__sans__q07_global_rating_of_affective_flattening": 1.58,
+          "target__sans__q13_global_rating_of_alogia": 1.05,
+          "target__sans__q17_global_rating_of_avolition": 2.28,
+          "target__sans__q22_anhedonia": 2.27,
+          "target__sans__q25_global_rating_of_attention": 1.39
+        }
+      },
+      "duration_s": 32.8
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-1999",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.88,
+          "First-Episode Psychosis": 0.12
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 22.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.1,
+          "target__saps__q20_global_rating_of_delusions": 0.1,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.2,
+          "target__sans__q13_global_rating_of_alogia": 0.1,
+          "target__sans__q17_global_rating_of_avolition": 0.2,
+          "target__sans__q22_anhedonia": 0.2,
+          "target__sans__q25_global_rating_of_attention": 0.1
+        }
+      },
+      "duration_s": 35.2
+    },
+    {
+      "tier": "T5_eeg_rich",
+      "recording_id": "ds003944_sub-2009",
+      "true_group": "Control",
+      "ground_truth": {
+        "target__bprs__total_q01_to_q19": null,
+        "target__saps__q07_global_rating_of_hallucinations": null,
+        "target__saps__q20_global_rating_of_delusions": null,
+        "target__saps__q25_global_rating_of_bizzare_behavior": null,
+        "target__saps__q34_global_rating_of_positive_formal_thought_disorder": null,
+        "target__sans__q07_global_rating_of_affective_flattening": null,
+        "target__sans__q13_global_rating_of_alogia": null,
+        "target__sans__q17_global_rating_of_avolition": null,
+        "target__sans__q22_anhedonia": null,
+        "target__sans__q25_global_rating_of_attention": null
+      },
+      "prediction": {
+        "diagnosis_label": "Control",
+        "diagnosis_probability": {
+          "Control": 0.9,
+          "First-Episode Psychosis": 0.1
+        },
+        "regression": {
+          "target__bprs__total_q01_to_q19": 19.0,
+          "target__saps__q07_global_rating_of_hallucinations": 0.0,
+          "target__saps__q20_global_rating_of_delusions": 0.0,
+          "target__saps__q25_global_rating_of_bizzare_behavior": 0.0,
+          "target__saps__q34_global_rating_of_positive_formal_thought_disorder": 0.0,
+          "target__sans__q07_global_rating_of_affective_flattening": 0.0,
+          "target__sans__q13_global_rating_of_alogia": 0.0,
+          "target__sans__q17_global_rating_of_avolition": 0.0,
+          "target__sans__q22_anhedonia": 0.0,
+          "target__sans__q25_global_rating_of_attention": 0.0
+        }
+      },
+      "duration_s": 36.1
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+Participant ID: sub-068
+Source: evaluation record from NUMERACY_STROKE. Only the multimodal predictor features listed below are provided; the prediction target is never included as an input.
+Reference strategy: cohort (deviation from the population cohort).
+Feature values below are shown on their native measured scale; the parenthetical qualifier (e.g. High, Low, Very High) is this participant's signed deviation (z-score) from the reference cohort for that feature.
+
+TARGET MEASUREMENT REFERENCE:
+Prediction target: approximate_numeracy, a Z-score of performance on a computer-based dot-comparison task (the non-symbolic Approximate Number System). In the reference split, mean=-0.000, sd=0.995 native Z-score units. Predict one numeric value on that native scale. No precise_numeracy value is a reliable proxy - this dataset's whole point is their differential relationship to language/lesion features.
+
+SCALE GUIDE (how to read this record): the two numeracy phenotypes are already population Z-scores (0 = the stroke-cohort average, +/-1 = one SD; higher = better numeracy). Predictors are the standardized TRANSFORMED tier only: age and education are raw years; aphasia_quotient is a standardized WAB-R quotient (higher = less aphasia); whole-brain lesion volume is a standardized log lesion fraction; every per-region 'lesion overlap' feature is a raw proportion from 0 (spared) to 1 (fully lesioned). The (High/Low/...) qualifier on each feature is this participant's cohort deviation, not part of the raw value.
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Demographics and Background [3 measured]: Education (years) = 21 years (Very High); Age = 80 years (High); Imaging modality = research_MR (High-Normal)
+- Clinical Profile [2 measured]: Whole-brain lesion volume = -8.35602 standardized units (log lesion fraction of the left hemisphere) (Low); Aphasia severity (WAB-R quotient) = 1.36763 standardized units (rank inverse-normal; higher = less aphasia) (High)
+
+NOTABLE DEVIATIONS: Age is high (z=+1.53); Education (years) is very high (z=+2.20); Aphasia severity (WAB-R quotient) is high (z=+1.41); Whole-brain lesion volume is low (z=-1.66).
+
+NOTE: The prediction target and any of its own components are never provided as inputs. Infer the target only from the multimodal predictor evidence in this record, reading each value on the native scale described in the target reference above.

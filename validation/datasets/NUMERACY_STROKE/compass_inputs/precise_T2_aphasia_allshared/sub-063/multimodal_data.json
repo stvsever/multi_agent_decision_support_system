@@ -1,0 +1,47 @@
+{
+  "DEMOGRAPHICS_AND_BACKGROUND": {
+    "participant_characteristics": {
+      "_leaves": [
+        {
+          "feature": "Age",
+          "value": "78 years (High)",
+          "z_score": 1.368
+        },
+        {
+          "feature": "Education (years)",
+          "value": "14 years (Normal)",
+          "z_score": -0.4
+        }
+      ]
+    },
+    "imaging_acquisition": {
+      "_leaves": [
+        {
+          "feature": "Imaging modality",
+          "value": "clinical_MR (Low)",
+          "z_score": -1.491
+        }
+      ]
+    }
+  },
+  "CLINICAL_PROFILE": {
+    "language_function": {
+      "_leaves": [
+        {
+          "feature": "Aphasia severity (WAB-R quotient)",
+          "value": "-0.0238749 standardized units (rank inverse-normal; higher = less aphasia) (Normal)",
+          "z_score": -0.017
+        }
+      ]
+    },
+    "whole_brain_lesion_load": {
+      "_leaves": [
+        {
+          "feature": "Whole-brain lesion volume",
+          "value": "-5.95814 standardized units (log lesion fraction of the left hemisphere) (Low-Normal)",
+          "z_score": -0.532
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1014 @@
+{
+  "dataset": "AOMIC-ID1000 (OpenNeuro ds003097)",
+  "task": "hierarchical: total intelligence (univariate) -> 3 IST subscales (multivariate)",
+  "outputs": [
+    "IST_intelligence_total",
+    "IST_fluid",
+    "IST_memory",
+    "IST_crystallised"
+  ],
+  "scale": "native IST 2000-R points (not a 100/15 IQ scale)",
+  "n_subjects": 100,
+  "annotations": [
+    {
+      "participant_id": "eval-0001",
+      "source_participant_id": "sub-0003",
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 38.0
+      }
+    },
+    {
+      "participant_id": "eval-0002",
+      "source_participant_id": "sub-0011",
+      "ground_truth": {
+        "IST_intelligence_total": 267.0,
+        "IST_fluid": 151.0,
+        "IST_memory": 60.0,
+        "IST_crystallised": 56.0
+      }
+    },
+    {
+      "participant_id": "eval-0003",
+      "source_participant_id": "sub-0039",
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 58.0,
+        "IST_crystallised": 49.0
+      }
+    },
+    {
+      "participant_id": "eval-0004",
+      "source_participant_id": "sub-0055",
+      "ground_truth": {
+        "IST_intelligence_total": 133.0,
+        "IST_fluid": 65.0,
+        "IST_memory": 39.0,
+        "IST_crystallised": 29.0
+      }
+    },
+    {
+      "participant_id": "eval-0005",
+      "source_participant_id": "sub-0059",
+      "ground_truth": {
+        "IST_intelligence_total": 87.0,
+        "IST_fluid": 37.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 20.0
+      }
+    },
+    {
+      "participant_id": "eval-0006",
+      "source_participant_id": "sub-0068",
+      "ground_truth": {
+        "IST_intelligence_total": 166.0,
+        "IST_fluid": 90.0,
+        "IST_memory": 53.0,
+        "IST_crystallised": 23.0
+      }
+    },
+    {
+      "participant_id": "eval-0007",
+      "source_participant_id": "sub-0071",
+      "ground_truth": {
+        "IST_intelligence_total": 227.0,
+        "IST_fluid": 102.0,
+        "IST_memory": 65.0,
+        "IST_crystallised": 60.0
+      }
+    },
+    {
+      "participant_id": "eval-0008",
+      "source_participant_id": "sub-0074",
+      "ground_truth": {
+        "IST_intelligence_total": 239.0,
+        "IST_fluid": 134.0,
+        "IST_memory": 61.0,
+        "IST_crystallised": 44.0
+      }
+    },
+    {
+      "participant_id": "eval-0009",
+      "source_participant_id": "sub-0078",
+      "ground_truth": {
+        "IST_intelligence_total": 226.0,
+        "IST_fluid": 131.0,
+        "IST_memory": 64.0,
+        "IST_crystallised": 31.0
+      }
+    },
+    {
+      "participant_id": "eval-0010",
+      "source_participant_id": "sub-0079",
+      "ground_truth": {
+        "IST_intelligence_total": 147.0,
+        "IST_fluid": 67.0,
+        "IST_memory": 49.0,
+        "IST_crystallised": 31.0
+      }
+    },
+    {
+      "participant_id": "eval-0011",
+      "source_participant_id": "sub-0088",
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 94.0,
+        "IST_memory": 55.0,
+        "IST_crystallised": 23.0
+      }
+    },
+    {
+      "participant_id": "eval-0012",
+      "source_participant_id": "sub-0107",
+      "ground_truth": {
+        "IST_intelligence_total": 226.0,
+        "IST_fluid": 126.0,
+        "IST_memory": 54.0,
+        "IST_crystallised": 46.0
+      }
+    },
+    {
+      "participant_id": "eval-0013",
+      "source_participant_id": "sub-0116",
+      "ground_truth": {
+        "IST_intelligence_total": 265.0,
+        "IST_fluid": 150.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 53.0
+      }
+    },
+    {
+      "participant_id": "eval-0014",
+      "source_participant_id": "sub-0131",
+      "ground_truth": {
+        "IST_intelligence_total": 208.0,
+        "IST_fluid": 102.0,
+        "IST_memory": 66.0,
+        "IST_crystallised": 40.0
+      }
+    },
+    {
+      "participant_id": "eval-0015",
+      "source_participant_id": "sub-0138",
+      "ground_truth": {
+        "IST_intelligence_total": 135.0,
+        "IST_fluid": 60.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 25.0
+      }
+    },
+    {
+      "participant_id": "eval-0016",
+      "source_participant_id": "sub-0147",
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      }
+    },
+    {
+      "participant_id": "eval-0017",
+      "source_participant_id": "sub-0153",
+      "ground_truth": {
+        "IST_intelligence_total": 193.0,
+        "IST_fluid": 97.0,
+        "IST_memory": 59.0,
+        "IST_crystallised": 37.0
+      }
+    },
+    {
+      "participant_id": "eval-0018",
+      "source_participant_id": "sub-0156",
+      "ground_truth": {
+        "IST_intelligence_total": 235.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 66.0,
+        "IST_crystallised": 58.0
+      }
+    },
+    {
+      "participant_id": "eval-0019",
+      "source_participant_id": "sub-0169",
+      "ground_truth": {
+        "IST_intelligence_total": 181.0,
+        "IST_fluid": 96.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 33.0
+      }
+    },
+    {
+      "participant_id": "eval-0020",
+      "source_participant_id": "sub-0171",
+      "ground_truth": {
+        "IST_intelligence_total": 239.0,
+        "IST_fluid": 130.0,
+        "IST_memory": 53.0,
+        "IST_crystallised": 56.0
+      }
+    },
+    {
+      "participant_id": "eval-0021",
+      "source_participant_id": "sub-0172",
+      "ground_truth": {
+        "IST_intelligence_total": 195.0,
+        "IST_fluid": 102.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 49.0
+      }
+    },
+    {
+      "participant_id": "eval-0022",
+      "source_participant_id": "sub-0195",
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 121.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 43.0
+      }
+    },
+    {
+      "participant_id": "eval-0023",
+      "source_participant_id": "sub-0206",
+      "ground_truth": {
+        "IST_intelligence_total": 178.0,
+        "IST_fluid": 99.0,
+        "IST_memory": 55.0,
+        "IST_crystallised": 24.0
+      }
+    },
+    {
+      "participant_id": "eval-0024",
+      "source_participant_id": "sub-0221",
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 99.0,
+        "IST_memory": 46.0,
+        "IST_crystallised": 27.0
+      }
+    },
+    {
+      "participant_id": "eval-0025",
+      "source_participant_id": "sub-0239",
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 45.0
+      }
+    },
+    {
+      "participant_id": "eval-0026",
+      "source_participant_id": "sub-0267",
+      "ground_truth": {
+        "IST_intelligence_total": 199.0,
+        "IST_fluid": 119.0,
+        "IST_memory": 46.0,
+        "IST_crystallised": 34.0
+      }
+    },
+    {
+      "participant_id": "eval-0027",
+      "source_participant_id": "sub-0286",
+      "ground_truth": {
+        "IST_intelligence_total": 133.0,
+        "IST_fluid": 75.0,
+        "IST_memory": 30.0,
+        "IST_crystallised": 28.0
+      }
+    },
+    {
+      "participant_id": "eval-0028",
+      "source_participant_id": "sub-0291",
+      "ground_truth": {
+        "IST_intelligence_total": 175.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 48.0,
+        "IST_crystallised": 39.0
+      }
+    },
+    {
+      "participant_id": "eval-0029",
+      "source_participant_id": "sub-0309",
+      "ground_truth": {
+        "IST_intelligence_total": 151.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 29.0
+      }
+    },
+    {
+      "participant_id": "eval-0030",
+      "source_participant_id": "sub-0315",
+      "ground_truth": {
+        "IST_intelligence_total": 262.0,
+        "IST_fluid": 145.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      }
+    },
+    {
+      "participant_id": "eval-0031",
+      "source_participant_id": "sub-0320",
+      "ground_truth": {
+        "IST_intelligence_total": 174.0,
+        "IST_fluid": 87.0,
+        "IST_memory": 53.0,
+        "IST_crystallised": 34.0
+      }
+    },
+    {
+      "participant_id": "eval-0032",
+      "source_participant_id": "sub-0326",
+      "ground_truth": {
+        "IST_intelligence_total": 208.0,
+        "IST_fluid": 106.0,
+        "IST_memory": 64.0,
+        "IST_crystallised": 38.0
+      }
+    },
+    {
+      "participant_id": "eval-0033",
+      "source_participant_id": "sub-0331",
+      "ground_truth": {
+        "IST_intelligence_total": 102.0,
+        "IST_fluid": 48.0,
+        "IST_memory": 36.0,
+        "IST_crystallised": 18.0
+      }
+    },
+    {
+      "participant_id": "eval-0034",
+      "source_participant_id": "sub-0343",
+      "ground_truth": {
+        "IST_intelligence_total": 240.0,
+        "IST_fluid": 136.0,
+        "IST_memory": 58.0,
+        "IST_crystallised": 46.0
+      }
+    },
+    {
+      "participant_id": "eval-0035",
+      "source_participant_id": "sub-0356",
+      "ground_truth": {
+        "IST_intelligence_total": 223.0,
+        "IST_fluid": 122.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 45.0
+      }
+    },
+    {
+      "participant_id": "eval-0036",
+      "source_participant_id": "sub-0359",
+      "ground_truth": {
+        "IST_intelligence_total": 174.0,
+        "IST_fluid": 101.0,
+        "IST_memory": 47.0,
+        "IST_crystallised": 26.0
+      }
+    },
+    {
+      "participant_id": "eval-0037",
+      "source_participant_id": "sub-0365",
+      "ground_truth": {
+        "IST_intelligence_total": 220.0,
+        "IST_fluid": 119.0,
+        "IST_memory": 60.0,
+        "IST_crystallised": 41.0
+      }
+    },
+    {
+      "participant_id": "eval-0038",
+      "source_participant_id": "sub-0367",
+      "ground_truth": {
+        "IST_intelligence_total": 165.0,
+        "IST_fluid": 73.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 42.0
+      }
+    },
+    {
+      "participant_id": "eval-0039",
+      "source_participant_id": "sub-0380",
+      "ground_truth": {
+        "IST_intelligence_total": 177.0,
+        "IST_fluid": 97.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 30.0
+      }
+    },
+    {
+      "participant_id": "eval-0040",
+      "source_participant_id": "sub-0381",
+      "ground_truth": {
+        "IST_intelligence_total": 197.0,
+        "IST_fluid": 115.0,
+        "IST_memory": 51.0,
+        "IST_crystallised": 31.0
+      }
+    },
+    {
+      "participant_id": "eval-0041",
+      "source_participant_id": "sub-0386",
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 143.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 48.0
+      }
+    },
+    {
+      "participant_id": "eval-0042",
+      "source_participant_id": "sub-0391",
+      "ground_truth": {
+        "IST_intelligence_total": 192.0,
+        "IST_fluid": 109.0,
+        "IST_memory": 46.0,
+        "IST_crystallised": 37.0
+      }
+    },
+    {
+      "participant_id": "eval-0043",
+      "source_participant_id": "sub-0398",
+      "ground_truth": {
+        "IST_intelligence_total": 189.0,
+        "IST_fluid": 106.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 31.0
+      }
+    },
+    {
+      "participant_id": "eval-0044",
+      "source_participant_id": "sub-0401",
+      "ground_truth": {
+        "IST_intelligence_total": 112.0,
+        "IST_fluid": 54.0,
+        "IST_memory": 41.0,
+        "IST_crystallised": 17.0
+      }
+    },
+    {
+      "participant_id": "eval-0045",
+      "source_participant_id": "sub-0412",
+      "ground_truth": {
+        "IST_intelligence_total": 159.0,
+        "IST_fluid": 67.0,
+        "IST_memory": 47.0,
+        "IST_crystallised": 45.0
+      }
+    },
+    {
+      "participant_id": "eval-0046",
+      "source_participant_id": "sub-0418",
+      "ground_truth": {
+        "IST_intelligence_total": 181.0,
+        "IST_fluid": 91.0,
+        "IST_memory": 59.0,
+        "IST_crystallised": 31.0
+      }
+    },
+    {
+      "participant_id": "eval-0047",
+      "source_participant_id": "sub-0422",
+      "ground_truth": {
+        "IST_intelligence_total": 246.0,
+        "IST_fluid": 143.0,
+        "IST_memory": 62.0,
+        "IST_crystallised": 41.0
+      }
+    },
+    {
+      "participant_id": "eval-0048",
+      "source_participant_id": "sub-0425",
+      "ground_truth": {
+        "IST_intelligence_total": 230.0,
+        "IST_fluid": 126.0,
+        "IST_memory": 57.0,
+        "IST_crystallised": 47.0
+      }
+    },
+    {
+      "participant_id": "eval-0049",
+      "source_participant_id": "sub-0430",
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 38.0
+      }
+    },
+    {
+      "participant_id": "eval-0050",
+      "source_participant_id": "sub-0434",
+      "ground_truth": {
+        "IST_intelligence_total": 194.0,
+        "IST_fluid": 117.0,
+        "IST_memory": 51.0,
+        "IST_crystallised": 26.0
+      }
+    },
+    {
+      "participant_id": "eval-0051",
+      "source_participant_id": "sub-0440",
+      "ground_truth": {
+        "IST_intelligence_total": 216.0,
+        "IST_fluid": 123.0,
+        "IST_memory": 61.0,
+        "IST_crystallised": 32.0
+      }
+    },
+    {
+      "participant_id": "eval-0052",
+      "source_participant_id": "sub-0441",
+      "ground_truth": {
+        "IST_intelligence_total": 224.0,
+        "IST_fluid": 116.0,
+        "IST_memory": 67.0,
+        "IST_crystallised": 41.0
+      }
+    },
+    {
+      "participant_id": "eval-0053",
+      "source_participant_id": "sub-0468",
+      "ground_truth": {
+        "IST_intelligence_total": 254.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 54.0
+      }
+    },
+    {
+      "participant_id": "eval-0054",
+      "source_participant_id": "sub-0479",
+      "ground_truth": {
+        "IST_intelligence_total": 248.0,
+        "IST_fluid": 138.0,
+        "IST_memory": 65.0,
+        "IST_crystallised": 45.0
+      }
+    },
+    {
+      "participant_id": "eval-0055",
+      "source_participant_id": "sub-0485",
+      "ground_truth": {
+        "IST_intelligence_total": 134.0,
+        "IST_fluid": 61.0,
+        "IST_memory": 50.0,
+        "IST_crystallised": 23.0
+      }
+    },
+    {
+      "participant_id": "eval-0056",
+      "source_participant_id": "sub-0513",
+      "ground_truth": {
+        "IST_intelligence_total": 206.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 48.0,
+        "IST_crystallised": 48.0
+      }
+    },
+    {
+      "participant_id": "eval-0057",
+      "source_participant_id": "sub-0544",
+      "ground_truth": {
+        "IST_intelligence_total": 157.0,
+        "IST_fluid": 79.0,
+        "IST_memory": 48.0,
+        "IST_crystallised": 30.0
+      }
+    },
+    {
+      "participant_id": "eval-0058",
+      "source_participant_id": "sub-0549",
+      "ground_truth": {
+        "IST_intelligence_total": 192.0,
+        "IST_fluid": 99.0,
+        "IST_memory": 58.0,
+        "IST_crystallised": 35.0
+      }
+    },
+    {
+      "participant_id": "eval-0059",
+      "source_participant_id": "sub-0550",
+      "ground_truth": {
+        "IST_intelligence_total": 201.0,
+        "IST_fluid": 108.0,
+        "IST_memory": 49.0,
+        "IST_crystallised": 44.0
+      }
+    },
+    {
+      "participant_id": "eval-0060",
+      "source_participant_id": "sub-0577",
+      "ground_truth": {
+        "IST_intelligence_total": 108.0,
+        "IST_fluid": 57.0,
+        "IST_memory": 33.0,
+        "IST_crystallised": 18.0
+      }
+    },
+    {
+      "participant_id": "eval-0061",
+      "source_participant_id": "sub-0584",
+      "ground_truth": {
+        "IST_intelligence_total": 148.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 44.0,
+        "IST_crystallised": 26.0
+      }
+    },
+    {
+      "participant_id": "eval-0062",
+      "source_participant_id": "sub-0592",
+      "ground_truth": {
+        "IST_intelligence_total": 229.0,
+        "IST_fluid": 127.0,
+        "IST_memory": 57.0,
+        "IST_crystallised": 45.0
+      }
+    },
+    {
+      "participant_id": "eval-0063",
+      "source_participant_id": "sub-0596",
+      "ground_truth": {
+        "IST_intelligence_total": 197.0,
+        "IST_fluid": 114.0,
+        "IST_memory": 47.0,
+        "IST_crystallised": 36.0
+      }
+    },
+    {
+      "participant_id": "eval-0064",
+      "source_participant_id": "sub-0605",
+      "ground_truth": {
+        "IST_intelligence_total": 268.0,
+        "IST_fluid": 139.0,
+        "IST_memory": 74.0,
+        "IST_crystallised": 55.0
+      }
+    },
+    {
+      "participant_id": "eval-0065",
+      "source_participant_id": "sub-0608",
+      "ground_truth": {
+        "IST_intelligence_total": 210.0,
+        "IST_fluid": 129.0,
+        "IST_memory": 58.0,
+        "IST_crystallised": 23.0
+      }
+    },
+    {
+      "participant_id": "eval-0066",
+      "source_participant_id": "sub-0609",
+      "ground_truth": {
+        "IST_intelligence_total": 280.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 62.0
+      }
+    },
+    {
+      "participant_id": "eval-0067",
+      "source_participant_id": "sub-0611",
+      "ground_truth": {
+        "IST_intelligence_total": 161.0,
+        "IST_fluid": 78.0,
+        "IST_memory": 49.0,
+        "IST_crystallised": 34.0
+      }
+    },
+    {
+      "participant_id": "eval-0068",
+      "source_participant_id": "sub-0619",
+      "ground_truth": {
+        "IST_intelligence_total": 250.0,
+        "IST_fluid": 137.0,
+        "IST_memory": 65.0,
+        "IST_crystallised": 48.0
+      }
+    },
+    {
+      "participant_id": "eval-0069",
+      "source_participant_id": "sub-0621",
+      "ground_truth": {
+        "IST_intelligence_total": 160.0,
+        "IST_fluid": 87.0,
+        "IST_memory": 51.0,
+        "IST_crystallised": 22.0
+      }
+    },
+    {
+      "participant_id": "eval-0070",
+      "source_participant_id": "sub-0633",
+      "ground_truth": {
+        "IST_intelligence_total": 181.0,
+        "IST_fluid": 95.0,
+        "IST_memory": 41.0,
+        "IST_crystallised": 45.0
+      }
+    },
+    {
+      "participant_id": "eval-0071",
+      "source_participant_id": "sub-0641",
+      "ground_truth": {
+        "IST_intelligence_total": 207.0,
+        "IST_fluid": 117.0,
+        "IST_memory": 46.0,
+        "IST_crystallised": 44.0
+      }
+    },
+    {
+      "participant_id": "eval-0072",
+      "source_participant_id": "sub-0642",
+      "ground_truth": {
+        "IST_intelligence_total": 241.0,
+        "IST_fluid": 135.0,
+        "IST_memory": 61.0,
+        "IST_crystallised": 45.0
+      }
+    },
+    {
+      "participant_id": "eval-0073",
+      "source_participant_id": "sub-0660",
+      "ground_truth": {
+        "IST_intelligence_total": 209.0,
+        "IST_fluid": 113.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 40.0
+      }
+    },
+    {
+      "participant_id": "eval-0074",
+      "source_participant_id": "sub-0667",
+      "ground_truth": {
+        "IST_intelligence_total": 225.0,
+        "IST_fluid": 126.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 47.0
+      }
+    },
+    {
+      "participant_id": "eval-0075",
+      "source_participant_id": "sub-0668",
+      "ground_truth": {
+        "IST_intelligence_total": 225.0,
+        "IST_fluid": 131.0,
+        "IST_memory": 54.0,
+        "IST_crystallised": 40.0
+      }
+    },
+    {
+      "participant_id": "eval-0076",
+      "source_participant_id": "sub-0683",
+      "ground_truth": {
+        "IST_intelligence_total": 245.0,
+        "IST_fluid": 127.0,
+        "IST_memory": 66.0,
+        "IST_crystallised": 52.0
+      }
+    },
+    {
+      "participant_id": "eval-0077",
+      "source_participant_id": "sub-0704",
+      "ground_truth": {
+        "IST_intelligence_total": 273.0,
+        "IST_fluid": 153.0,
+        "IST_memory": 73.0,
+        "IST_crystallised": 47.0
+      }
+    },
+    {
+      "participant_id": "eval-0078",
+      "source_participant_id": "sub-0711",
+      "ground_truth": {
+        "IST_intelligence_total": 236.0,
+        "IST_fluid": 131.0,
+        "IST_memory": 63.0,
+        "IST_crystallised": 42.0
+      }
+    },
+    {
+      "participant_id": "eval-0079",
+      "source_participant_id": "sub-0715",
+      "ground_truth": {
+        "IST_intelligence_total": 249.0,
+        "IST_fluid": 145.0,
+        "IST_memory": 65.0,
+        "IST_crystallised": 39.0
+      }
+    },
+    {
+      "participant_id": "eval-0080",
+      "source_participant_id": "sub-0716",
+      "ground_truth": {
+        "IST_intelligence_total": 136.0,
+        "IST_fluid": 82.0,
+        "IST_memory": 41.0,
+        "IST_crystallised": 13.0
+      }
+    },
+    {
+      "participant_id": "eval-0081",
+      "source_participant_id": "sub-0740",
+      "ground_truth": {
+        "IST_intelligence_total": 261.0,
+        "IST_fluid": 148.0,
+        "IST_memory": 64.0,
+        "IST_crystallised": 49.0
+      }
+    },
+    {
+      "participant_id": "eval-0082",
+      "source_participant_id": "sub-0742",
+      "ground_truth": {
+        "IST_intelligence_total": 243.0,
+        "IST_fluid": 134.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 53.0
+      }
+    },
+    {
+      "participant_id": "eval-0083",
+      "source_participant_id": "sub-0760",
+      "ground_truth": {
+        "IST_intelligence_total": 189.0,
+        "IST_fluid": 111.0,
+        "IST_memory": 38.0,
+        "IST_crystallised": 40.0
+      }
+    },
+    {
+      "participant_id": "eval-0084",
+      "source_participant_id": "sub-0764",
+      "ground_truth": {
+        "IST_intelligence_total": 219.0,
+        "IST_fluid": 115.0,
+        "IST_memory": 66.0,
+        "IST_crystallised": 38.0
+      }
+    },
+    {
+      "participant_id": "eval-0085",
+      "source_participant_id": "sub-0766",
+      "ground_truth": {
+        "IST_intelligence_total": 206.0,
+        "IST_fluid": 117.0,
+        "IST_memory": 46.0,
+        "IST_crystallised": 43.0
+      }
+    },
+    {
+      "participant_id": "eval-0086",
+      "source_participant_id": "sub-0775",
+      "ground_truth": {
+        "IST_intelligence_total": 183.0,
+        "IST_fluid": 102.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 36.0
+      }
+    },
+    {
+      "participant_id": "eval-0087",
+      "source_participant_id": "sub-0782",
+      "ground_truth": {
+        "IST_intelligence_total": 279.0,
+        "IST_fluid": 156.0,
+        "IST_memory": 70.0,
+        "IST_crystallised": 53.0
+      }
+    },
+    {
+      "participant_id": "eval-0088",
+      "source_participant_id": "sub-0789",
+      "ground_truth": {
+        "IST_intelligence_total": 172.0,
+        "IST_fluid": 88.0,
+        "IST_memory": 56.0,
+        "IST_crystallised": 28.0
+      }
+    },
+    {
+      "participant_id": "eval-0089",
+      "source_participant_id": "sub-0811",
+      "ground_truth": {
+        "IST_intelligence_total": 188.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 33.0
+      }
+    },
+    {
+      "participant_id": "eval-0090",
+      "source_participant_id": "sub-0819",
+      "ground_truth": {
+        "IST_intelligence_total": 261.0,
+        "IST_fluid": 144.0,
+        "IST_memory": 61.0,
+        "IST_crystallised": 56.0
+      }
+    },
+    {
+      "participant_id": "eval-0091",
+      "source_participant_id": "sub-0820",
+      "ground_truth": {
+        "IST_intelligence_total": 228.0,
+        "IST_fluid": 130.0,
+        "IST_memory": 61.0,
+        "IST_crystallised": 37.0
+      }
+    },
+    {
+      "participant_id": "eval-0092",
+      "source_participant_id": "sub-0830",
+      "ground_truth": {
+        "IST_intelligence_total": 203.0,
+        "IST_fluid": 110.0,
+        "IST_memory": 52.0,
+        "IST_crystallised": 41.0
+      }
+    },
+    {
+      "participant_id": "eval-0093",
+      "source_participant_id": "sub-0848",
+      "ground_truth": {
+        "IST_intelligence_total": 258.0,
+        "IST_fluid": 142.0,
+        "IST_memory": 65.0,
+        "IST_crystallised": 51.0
+      }
+    },
+    {
+      "participant_id": "eval-0094",
+      "source_participant_id": "sub-0856",
+      "ground_truth": {
+        "IST_intelligence_total": 129.0,
+        "IST_fluid": 55.0,
+        "IST_memory": 36.0,
+        "IST_crystallised": 38.0
+      }
+    },
+    {
+      "participant_id": "eval-0095",
+      "source_participant_id": "sub-0864",
+      "ground_truth": {
+        "IST_intelligence_total": 257.0,
+        "IST_fluid": 147.0,
+        "IST_memory": 57.0,
+        "IST_crystallised": 53.0
+      }
+    },
+    {
+      "participant_id": "eval-0096",
+      "source_participant_id": "sub-0887",
+      "ground_truth": {
+        "IST_intelligence_total": 178.0,
+        "IST_fluid": 101.0,
+        "IST_memory": 45.0,
+        "IST_crystallised": 32.0
+      }
+    },
+    {
+      "participant_id": "eval-0097",
+      "source_participant_id": "sub-0890",
+      "ground_truth": {
+        "IST_intelligence_total": 204.0,
+        "IST_fluid": 102.0,
+        "IST_memory": 61.0,
+        "IST_crystallised": 41.0
+      }
+    },
+    {
+      "participant_id": "eval-0098",
+      "source_participant_id": "sub-0899",
+      "ground_truth": {
+        "IST_intelligence_total": 249.0,
+        "IST_fluid": 133.0,
+        "IST_memory": 54.0,
+        "IST_crystallised": 62.0
+      }
+    },
+    {
+      "participant_id": "eval-0099",
+      "source_participant_id": "sub-0914",
+      "ground_truth": {
+        "IST_intelligence_total": 158.0,
+        "IST_fluid": 92.0,
+        "IST_memory": 47.0,
+        "IST_crystallised": 19.0
+      }
+    },
+    {
+      "participant_id": "eval-0100",
+      "source_participant_id": "sub-0917",
+      "ground_truth": {
+        "IST_intelligence_total": 233.0,
+        "IST_fluid": 126.0,
+        "IST_memory": 53.0,
+        "IST_crystallised": 54.0
+      }
+    }
+  ]
+}

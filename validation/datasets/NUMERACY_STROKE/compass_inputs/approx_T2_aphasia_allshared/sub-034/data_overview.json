@@ -1,0 +1,62 @@
+{
+  "participant_id": "sub-034",
+  "reference_mode": "cohort",
+  "domain_coverage": {
+    "DEMOGRAPHICS_AND_BACKGROUND": {
+      "present_leaves": 3,
+      "total_leaves": 3,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 24,
+      "is_available": true,
+      "structure": {
+        "participant_characteristics": {
+          "label": "Participant characteristics",
+          "present_leaves": 2,
+          "total_leaves": 2,
+          "coverage_percentage": 100.0,
+          "tokens": 14
+        },
+        "imaging_acquisition": {
+          "label": "Imaging acquisition",
+          "present_leaves": 1,
+          "total_leaves": 1,
+          "coverage_percentage": 100.0,
+          "tokens": 10
+        }
+      }
+    },
+    "CLINICAL_PROFILE": {
+      "present_leaves": 2,
+      "total_leaves": 2,
+      "coverage_percentage": 100.0,
+      "missing_count": 0,
+      "total_tokens": 53,
+      "is_available": true,
+      "structure": {
+        "language_function": {
+          "label": "Language function",
+          "present_leaves": 1,
+          "total_leaves": 1,
+          "coverage_percentage": 100.0,
+          "tokens": 27
+        },
+        "whole_brain_lesion_load": {
+          "label": "Whole-brain lesion load",
+          "present_leaves": 1,
+          "total_leaves": 1,
+          "coverage_percentage": 100.0,
+          "tokens": 26
+        }
+      }
+    }
+  },
+  "total_tokens": 77,
+  "total_leaves": 5,
+  "present_leaves": 5,
+  "available_domains": [
+    "DEMOGRAPHICS_AND_BACKGROUND",
+    "CLINICAL_PROFILE"
+  ],
+  "token_budget": 84
+}

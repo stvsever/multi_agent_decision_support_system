@@ -275,11 +275,6 @@ class Predictor(BaseAgent):
                         response.content,
                         expected_keys=self._predictor_expected_keys(),
                     )
-                    if isinstance(parsed, dict) and parsed:
-                        return parsed
-                    if isinstance(parsed, dict):
-                        raise ValueError("Predictor JSON output was empty.")
-                    raise ValueError(f"Predictor JSON output type was {type(parsed).__name__}, expected object.")
                 except Exception as parse_exc:
                     if backend_is_local:
                         max_agent_out = int(
@@ -294,6 +289,14 @@ class Predictor(BaseAgent):
                         if repaired is not None:
                             return repaired
                     raise parse_exc
+                if not isinstance(parsed, dict):
+                    raise ValueError(
+                        f"Predictor JSON output type was {type(parsed).__name__}, expected object."
+                    )
+                if not parsed:
+                    raise ValueError("Predictor JSON output was empty.")
+                self._validate_predictor_payload(parsed)
+                return parsed
             except Exception as e:
                 last_error = str(e)
                 if self._is_length_error(last_error):
@@ -336,6 +339,7 @@ class Predictor(BaseAgent):
                 expected_keys=self._predictor_expected_keys(),
             )
             if isinstance(repaired, dict) and repaired:
+                self._validate_predictor_payload(repaired)
                 return repaired
         except Exception as repair_exc:
             logger.warning(
@@ -344,6 +348,28 @@ class Predictor(BaseAgent):
                 repair_exc,
             )
         return None
+
+    def _validate_predictor_payload(self, prediction_data: Dict[str, Any]) -> None:
+        """Validate task-specific outputs before accepting an LLM response.
+
+        Parsing used to happen only after ``_call_predictor_json`` returned, so a
+        syntactically valid response that omitted one multivariate regression
+        output bypassed the model's retry loop. Validate the active task here so
+        the retry prompt includes the precise schema error and the model
+        regenerates from the original evidence rather than accepting an
+        incomplete prediction.
+        """
+        active = self._active_prediction_task_spec
+        if active is None or active.is_pure_binary_root():
+            return
+        root_payload = prediction_data.get("root_prediction")
+        if not isinstance(root_payload, dict):
+            raise ValueError("Generalized predictor output missing root_prediction object")
+        self._parse_node_prediction(
+            node_payload=root_payload,
+            node_spec=active.root,
+            path=active.root.node_id,
+        )
 
     def _is_local_backend(self) -> bool:
         backend_value = getattr(self.settings.models.backend, "value", self.settings.models.backend)

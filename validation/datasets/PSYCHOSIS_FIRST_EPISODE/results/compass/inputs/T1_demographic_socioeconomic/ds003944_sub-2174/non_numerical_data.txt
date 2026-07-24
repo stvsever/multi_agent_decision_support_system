@@ -1,0 +1,30 @@
+Participant ID: ds003944_sub-2174
+Source: evaluation record from PSYCHOSIS_FEP. Only the multimodal predictor features listed below are provided; the prediction target is never included as an input.
+Reference strategy: cohort (deviation from the population cohort).
+Feature values below are shown on their native measured scale; the parenthetical qualifier (e.g. High, Low, Very High) is this participant's signed deviation (z-score) from the reference cohort for that feature.
+
+TARGET MEASUREMENT REFERENCE:
+Cohort: First-Episode Psychosis resting-state EEG study (OpenNeuro ds003944 + ds003947). Participants are adults early in a psychotic illness plus matched healthy controls; each has a resting-state EEG recording and a clinical phenotype. Controls have no psychotic disorder and typically minimal symptoms; cases vary widely in severity.
+
+Predict whether this resting-EEG participant is a first-episode-psychosis case or a control, then predict their psychiatric symptom severity on the native clinical scales below.
+
+Symptom scales (predict on these native ranges; no symptom value for this participant is given):
+- target__bprs__total_q01_to_q19: Brief Psychiatric Rating Scale, sum of 19 items (each 1-7; total 19-133). Reference mean=46.77, sd=8.64.
+- target__saps__q07_global_rating_of_hallucinations: SAPS hallucinations, global rating 0-5. Reference mean=1.76, sd=1.4.
+- target__saps__q20_global_rating_of_delusions: SAPS delusions, global rating 0-5. Reference mean=2.61, sd=1.14.
+- target__saps__q25_global_rating_of_bizzare_behavior: SAPS bizarre behavior, global rating 0-5. Reference mean=0.97, sd=1.11.
+- target__saps__q34_global_rating_of_positive_formal_thought_disorder: SAPS positive formal thought disorder, global rating 0-5. Reference mean=1.04, sd=1.18.
+- target__sans__q07_global_rating_of_affective_flattening: SANS affective flattening, global rating 0-5. Reference mean=1.58, sd=1.09.
+- target__sans__q13_global_rating_of_alogia: SANS alogia, global rating 0-5. Reference mean=1.05, sd=1.04.
+- target__sans__q17_global_rating_of_avolition: SANS avolition apathy, global rating 0-5. Reference mean=2.28, sd=1.29.
+- target__sans__q22_anhedonia: SANS anhedonia asociality, global rating 0-5. Reference mean=2.27, sd=1.36.
+- target__sans__q25_global_rating_of_attention: SANS attention, global rating 0-5. Reference mean=1.39, sd=1.18.
+
+Controls are expected to have low or absent symptoms; cases vary widely. Infer diagnosis and severity only from the provided evidence (demographics, socio-economic status, cognition, observed functioning, and EEG features, depending on the tier).
+
+OBSERVED FEATURE PROFILE (deviation from the population cohort):
+- Demographics and Socio-economic Status [8 measured]: Mother Hollingshead Index = 22 (Low); Participant Hollingshead Index = 11 (Low); Sex Source Reported = F (Low); Parental Mean Hollingshead Index = 29.5 (Low); Race Source Reported = White (High-Normal); Father Hollingshead Index = 37 (Low-Normal) (+2 more)
+
+NOTABLE DEVIATIONS: Sex Source Reported is low (z=-1.40); Mother Hollingshead Index is low (z=-1.75); Parental Mean Hollingshead Index is low (z=-1.35); Participant Hollingshead Index is low (z=-1.64).
+
+NOTE: The prediction target and any of its own components are never provided as inputs. Infer the target only from the multimodal predictor evidence in this record, reading each value on the native scale described in the target reference above.
