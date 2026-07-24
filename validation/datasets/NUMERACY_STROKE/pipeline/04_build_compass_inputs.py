@@ -28,13 +28,10 @@ multimodal_data.json, non_numerical_data.txt) via the existing, unmodified
 validation.common.{deviation,compass_writer,tiers} - same mechanism
 AOMIC_ID1000's 03_build_compass_inputs.py already uses.
 
-FA1/FA2 factor scores are excluded from every tier as predictors: per
-participants.json they're derived from the same math/language task battery as
-both DVs (confirmed via the notebook's correlation matrix: r=0.85-0.97 with one
-DV or the other), i.e. circular, same reasoning AOMIC uses to exclude its IST
-subscales. aphasia_quotient stays a predictor (r=0.26 vs 0.78 with the two DVs -
-an asymmetry that's itself a finding, not a reason to model it as a third
-target).
+The tier predictor sets are demographics, aphasia severity, whole-brain lesion
+load, and per-region lesion overlap. aphasia_quotient stays a predictor (r=0.26
+vs 0.78 with the two DVs, an asymmetry that is itself a finding, not a reason to
+model it as a third target).
 
 Writes:
   compass_inputs/<tier_id>/<participant_id>/{data_overview.json,

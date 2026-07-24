@@ -3,8 +3,8 @@
 Step 02 - build two processed feature CSVs per subject: raw and transformed.
 
 For every subject: every participants.tsv column (demographics, aphasia
-quotient, factor scores, whole-brain lesion_volume, and the two DV/target
-columns approximate_numeracy/precise_numeracy) plus one affected-voxel-ratio
+quotient, whole-brain lesion_volume, and the two DV/target columns
+approximate_numeracy/precise_numeracy) plus one affected-voxel-ratio
 feature per ROI of the combined cortex+subcortex+cerebellum parcellation
 (see validation/common/lesion.py). Writes:
 
