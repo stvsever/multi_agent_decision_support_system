@@ -8,6 +8,12 @@ seven groups, plus separate quality-control and provenance artifacts.
 **Scope:** research use only; sensor-space cortical topography, not source localization.
 This is not a clinical diagnostic protocol.
 
+## Team
+
+- Stijn Van Severen
+- Gavin Schneider
+- Ziyuan Chen
+
 ## Data source
 
 Two OpenNeuro datasets (same lab, same resting paradigm, different acquisition samples):
