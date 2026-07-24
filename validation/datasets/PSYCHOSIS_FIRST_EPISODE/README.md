@@ -10,7 +10,7 @@ This is not a clinical diagnostic protocol.
 
 ## Team
 
-- Stijn Van Severen
+- Stijn Van Severen — Department of Experimental Psychology, Ghent University, Ghent, Belgium
 - Gavin Schneider — Department of Psychology, University of Oregon, Eugene, OR
 - Ziyuan Chen — Department of Psychology, University of Oregon, Eugene, OR
 
