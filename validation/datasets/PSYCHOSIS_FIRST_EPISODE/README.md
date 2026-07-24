@@ -11,8 +11,8 @@ This is not a clinical diagnostic protocol.
 ## Team
 
 - Stijn Van Severen
-- Gavin Schneider
-- Ziyuan Chen
+- Gavin Schneider — Department of Psychology, University of Oregon, Eugene, OR
+- Ziyuan Chen — Department of Psychology, University of Oregon, Eugene, OR
 
 ## Data source
 
