@@ -23,6 +23,7 @@
 - [⚡ Usage](#usage)
 - [📁 Project Structure](#project-structure)
 - [📈 Development Status](#development-status)
+- [👥 Team](#team)
 
 <br>
 
@@ -272,6 +273,15 @@ Run the automated test suite with:
 ```bash
 python3 -m pytest -q
 ```
+
+## <a id="team"></a>👥 Team
+
+- Stijn Van Severen¹
+- Gavin Schneider²
+- Ziyuan Chen²
+
+*¹ Department of Experimental Psychology, Ghent University, Ghent, Belgium*
+*² Department of Psychology, University of Oregon, Eugene, OR*
 
 > [!CAUTION]
 > **PRE-CLINICAL DISCLAIMER**

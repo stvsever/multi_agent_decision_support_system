@@ -1,0 +1,30 @@
+{
+  "schema_version": "eeg_fep_rest_v1",
+  "datasets": [
+    "ds003944@1.0.1",
+    "ds003947@1.0.1"
+  ],
+  "n_workers": 8,
+  "package_versions": {
+    "mne": "1.12.1",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "pandas": "3.0.3",
+    "specparam": "2.0.0rc7",
+    "antropy": "0.2.2",
+    "mne_connectivity": "0.8.1",
+    "networkx": "3.6.1",
+    "pyprep": "0.7.1",
+    "autoreject": "0.4.4"
+  },
+  "git_commit": "05a42ec9e0afc39861a651fe98c7634641ebb253",
+  "git_dirty": true,
+  "feature_manifest_hash": "312824551e8d60b0ac8dbd4662915623c55a285f04a760d62b37d6f62d6e94a9",
+  "performance_mitigations": {
+    "sample_entropy_epoch_cap": 40,
+    "sample_entropy_epoch_cap_seed": 97,
+    "parallel_workers": 8
+  },
+  "group_f_status": "unavailable_pending_template",
+  "run_started_utc": "2026-07-22T22:06:46Z"
+}
