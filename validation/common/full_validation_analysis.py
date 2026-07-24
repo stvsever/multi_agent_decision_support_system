@@ -11,7 +11,10 @@ the notebook can present, per dataset and per target phenotype:
   - calibration metrics: the coefficient of determination (R^2, 1 - SS_res/SS_tot,
     which can be negative when raw predictions are biased or mis-scaled), the OLS
     slope, plus MAE, RMSE, normalized RMSE and bias for completeness,
-  - predicted-vs-truth panels per output with the identity and OLS-fit lines,
+  - predicted-vs-truth panels per output with the identity line, a pooled OLS
+    fit, and a per-tier linear (Pearson) fit plus a per-tier monotonic
+    (Spearman-flavored, isotonic) fit, so a tier's ranking signal and its
+    linear signal can be told apart even when they diverge,
   - Pearson-r heatmaps over output x tier and output x provider,
   - binary-diagnosis quality (accuracy, balanced accuracy, sensitivity,
     specificity, AUROC, F1, MCC and the confusion matrix) for the psychosis task,
@@ -41,6 +44,17 @@ Design choices worth stating up front:
     psychosis (10 outputs, most individually non-significant) gets a compact
     forest plot of all ten plus full scatter detail only for the outputs whose
     95% interval excludes zero, instead of ten mostly-uninformative panels.
+    Every dataset's per-dataset composite is split into exactly two uniformly
+    gridded figures (``predictions`` and ``association``) rather than one
+    figure with a ragged row/column count, which the earlier single-composite
+    design produced whenever a dataset had more scatter panels than the two
+    columns used by its heatmaps and bars.
+  - In every predicted-vs-truth panel, a tier's linear fit is solid and its
+    monotonic (isotonic) fit is dashed, both drawn in that tier's own color and
+    restricted to that tier's own x-range; the pooled OLS fit (all tiers
+    combined) is a thicker solid red line, and the identity reference is a
+    thin grey dotted line, chosen specifically so it is never confused with a
+    per-tier dashed line.
 
 The provider axis is a supplementary cross-provider check: because the seeded
 design balances the five providers within every tier, a provider difference is
@@ -372,25 +386,78 @@ def _category_bar_single(ax, categories: Sequence[str], values: np.ndarray,
     ax.tick_params(labelsize=7)
 
 
+def _isotonic_fit(x: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    """Monotone least-squares fit via pool-adjacent-violators (direction from Spearman's sign).
+
+    A dependency-free (pure numpy/scipy) isotonic regression: it fits the best
+    non-decreasing (or non-increasing) step function through the points, so it
+    reflects a rank-consistent trend without assuming linearity the way an OLS
+    fit does. Used to draw each tier's Spearman-flavored line, visually distinct
+    from that tier's linear (Pearson) fit line.
+    """
+    order = np.argsort(x)
+    xs = x[order]
+    ys = y[order].astype(float)
+    rho = spearmanr(xs, ys)[0] if len(xs) >= 2 else 0.0
+    direction = -1.0 if (np.isfinite(rho) and rho < 0) else 1.0
+    levels = [[float(v) * direction, 1] for v in ys]
+    i = 0
+    while i < len(levels) - 1:
+        if levels[i][0] > levels[i + 1][0] + 1e-12:
+            wa, wb = levels[i][1], levels[i + 1][1]
+            merged = (levels[i][0] * wa + levels[i + 1][0] * wb) / (wa + wb)
+            levels[i:i + 2] = [[merged, wa + wb]]
+            i = max(i - 1, 0)
+        else:
+            i += 1
+    fitted: List[float] = []
+    for val, w in levels:
+        fitted.extend([val] * int(w))
+    y_fit = np.array(fitted) * direction
+    return xs, y_fit
+
+
 def _scatter_with_fit(ax, s: pd.DataFrame, tiers: Sequence[str],
                       tier_color_of: Callable[[str], str], title: str) -> pd.Series:
-    """Predicted-vs-truth scatter (colored by tier) with identity + OLS lines and a stats box."""
+    """Predicted-vs-truth scatter (colored by tier) with identity, pooled-OLS, and
+    per-tier trend lines, plus a pooled stats box.
+
+    Each tier with enough points (n >= 3, more than one unique x) gets two lines
+    in its own color: a solid linear (Pearson/OLS) fit and a dashed monotonic
+    (Spearman-flavored, isotonic) fit, restricted to that tier's own x-range so
+    neither line extrapolates beyond its data. The thick red line is the pooled
+    OLS fit across all tiers combined; the grey dotted line is the identity
+    reference (perfect prediction), kept dotted specifically so it is never
+    confused with a per-tier dashed line.
+    """
     for t in tiers:
         st = s[s.tier == t]
         if st.empty:
             continue
+        color = tier_color_of(t)
         ax.scatter(st["truth"], st["predicted"], s=26, alpha=0.78,
-                   color=tier_color_of(t), edgecolor="none", label=pretty_tier(t))
+                   color=color, edgecolor="none", label=pretty_tier(t))
+        xt = st["truth"].to_numpy(float)
+        yt = st["predicted"].to_numpy(float)
+        if len(xt) >= 3 and np.unique(xt).size > 1:
+            b, a = np.polyfit(xt, yt, 1)
+            xs_lin = np.array([xt.min(), xt.max()])
+            ax.plot(xs_lin, b * xs_lin + a, color=color, lw=1.3, alpha=0.85,
+                    linestyle="-", zorder=2)
+            xs_iso, y_iso = _isotonic_fit(xt, yt)
+            ax.plot(xs_iso, y_iso, color=color, lw=1.3, alpha=0.85,
+                    linestyle="--", zorder=2)
     xv = s["truth"].to_numpy(float)
     yv = s["predicted"].to_numpy(float)
     lo = float(np.nanmin([xv.min(), yv.min()]))
     hi = float(np.nanmax([xv.max(), yv.max()]))
     pad = 0.05 * (hi - lo or 1)
-    ax.plot([lo - pad, hi + pad], [lo - pad, hi + pad], "k--", lw=0.8, alpha=0.6)
+    ax.plot([lo - pad, hi + pad], [lo - pad, hi + pad], color="#555555", lw=0.8,
+            alpha=0.6, linestyle=":")
     if np.unique(xv).size > 1:
         b, a = np.polyfit(xv, yv, 1)
         xs = np.array([lo - pad, hi + pad])
-        ax.plot(xs, b * xs + a, color="#d1495b", lw=1.6, alpha=0.9)
+        ax.plot(xs, b * xs + a, color="#d1495b", lw=1.8, alpha=0.9, linestyle="-", zorder=3)
     m = rich_regression_metrics(s)
     ax.set_title(title, fontsize=9.5)
     ax.set_xlabel("true", fontsize=8)
@@ -460,124 +527,130 @@ def _output_order(dkey: str, reg: pd.DataFrame) -> List[str]:
 
 
 # ---------------------------------------------------------------------------
-# Per-dataset performance composite: dispatches on how many outputs there are
+# Per-dataset performance composite: two uniformly-gridded figures per dataset
 # ---------------------------------------------------------------------------
 def fig_dataset_performance(
     dkey: str, long: pd.DataFrame, out_dir: Optional[Path] = None, show: bool = True
-) -> plt.Figure:
-    """Predictive-performance composite for one dataset.
+) -> Tuple[plt.Figure, plt.Figure]:
+    """Predictive-performance figures for one dataset: (predictions, association).
 
-    Few outputs (intelligence: 4, numeracy: 2) get a full predicted-vs-truth grid,
-    one panel per output. Many outputs (psychosis: 10 symptom scores, mostly weak
-    and individually non-significant) get a compact forest plot of all of them
-    plus full scatter detail only for the ones whose 95% interval excludes zero,
-    so panel count tracks how much there is to show rather than the raw output
-    count.
+    Each dataset gets exactly two figures, both with a uniform row x column grid
+    (no row with more or fewer populated columns than another, which the earlier
+    single-composite design produced whenever a dataset had more scatter panels
+    than the two columns used by its heatmaps and bars):
+
+      - ``predictions``: few outputs (intelligence: 4, numeracy: 2) get a full
+        predicted-vs-truth grid at 2 columns (2x2 for 4 outputs, 1x2 for 2).
+        Many outputs (psychosis: 10 symptom scores, mostly individually
+        non-significant) get a compact forest plot of all of them in one row,
+        plus full scatter detail only for the outputs whose 95% interval
+        excludes zero, so panel count tracks how much there is to show rather
+        than the raw output count.
+      - ``association``: always the same clean 2x2 grid (heatmap by tier,
+        heatmap by provider, macro bar by tier, macro bar by provider). Uses
+        absolute Pearson r for psychosis (noisy, inconsistent sign at n=79)
+        and signed r elsewhere (few, individually reliable outputs).
     """
     reg = long[long.kind == "reg"].dropna(subset=["predicted", "truth"]).copy()
     outputs = _output_order(dkey, reg)
     tiers = sorted(reg["tier"].unique())
     providers = ordered_providers(reg["model"].unique())
-    if len(outputs) <= 4:
-        return _scatter_grid_composite(dkey, reg, outputs, tiers, providers, out_dir, show)
-    return _forest_composite(dkey, reg, outputs, tiers, providers, out_dir, show)
+    use_abs = len(outputs) > 4
+
+    if use_abs:
+        fig_pred = _predictions_forest(dkey, reg, outputs, tiers, out_dir, show)
+    else:
+        fig_pred = _predictions_grid(dkey, reg, outputs, tiers, out_dir, show)
+    fig_assoc = _association_grid(dkey, reg, outputs, tiers, providers, use_abs, out_dir, show)
+    return fig_pred, fig_assoc
 
 
-def _scatter_grid_composite(dkey, reg, outputs, tiers, providers, out_dir, show) -> plt.Figure:
+def _predictions_grid(dkey, reg, outputs, tiers, out_dir, show) -> plt.Figure:
+    """Predicted-vs-truth panels for few (<=4) outputs, at a fixed 2-column grid."""
     k = len(outputs)
-    scat_cols = min(k, 4)
-    scat_rows = int(np.ceil(k / scat_cols))
-    fig = plt.figure(figsize=(4.7 * scat_cols, 3.5 * scat_rows + 6.6))
-    gs = GridSpec(
-        scat_rows + 2, max(scat_cols, 2), figure=fig,
-        height_ratios=[3.4] * scat_rows + [4.0, 3.0], hspace=0.62, wspace=0.32,
-    )
+    cols = 2 if k > 1 else 1
+    rows = int(np.ceil(k / cols))
+    fig, axes = plt.subplots(rows, cols, figsize=(5.8 * cols, 4.6 * rows), constrained_layout=True)
+    axes = np.atleast_1d(axes).ravel()
 
     tier_color = _tier_color_map(tiers)
     for idx, out in enumerate(outputs):
-        ax = fig.add_subplot(gs[idx // scat_cols, idx % scat_cols])
         s = reg[reg.output == out]
-        _scatter_with_fit(ax, s, tiers, lambda t: tier_color[t], pretty_output(out))
-    # single shared tier legend, framed, in the first scatter's upper-right corner
-    # (the metrics annotation box sits in the upper-left, so they never collide)
-    first = fig.axes[0]
-    first.legend(fontsize=6.6, frameon=True, framealpha=0.9, edgecolor="#cccccc",
-                 loc="upper right", title="tier", title_fontsize=6.8)
-
-    # r heatmaps: output x tier and output x provider (the provider heatmap reuses
-    # the tier heatmap's output rows, so its y-labels are suppressed to avoid overlap)
-    r_tier = _pivot_metric(reg, "tier", "pearson_r", outputs, tiers)
-    r_prov = _pivot_metric(reg, "model", "pearson_r", outputs, providers)
-    ax_ht = fig.add_subplot(gs[scat_rows, 0])
-    _heatmap(ax_ht, r_tier.rename(index=pretty_output, columns=pretty_tier),
-             "Pearson r by output x tier")
-    ax_hp = fig.add_subplot(gs[scat_rows, 1] if max(scat_cols, 2) > 1 else gs[scat_rows, 0])
-    im = _heatmap(ax_hp, r_prov, "Pearson r by output x provider", show_ylabels=False)
-    fig.colorbar(im, ax=ax_hp, fraction=0.046, pad=0.02).ax.tick_params(labelsize=6)
-
-    # macro association by tier and provider: one bar per category, in that
-    # category's own established color (not one flat color for every bar)
-    ax_bt = fig.add_subplot(gs[scat_rows + 1, 0])
-    _category_bar_single(ax_bt, tiers, _macro_r_by(reg, "tier", tiers), lambda t: tier_color[t],
-                          pretty_tier, "macro association by tier", "mean Pearson r over outputs")
-    ax_bp = fig.add_subplot(gs[scat_rows + 1, 1] if max(scat_cols, 2) > 1 else gs[scat_rows + 1, 0])
-    _category_bar_single(ax_bp, providers, _macro_r_by(reg, "model", providers), provider_color,
-                          lambda p: p, "macro association by provider", "mean Pearson r over outputs")
+        _scatter_with_fit(axes[idx], s, tiers, lambda t: tier_color[t], pretty_output(out))
+    for ax in axes[len(outputs):]:
+        ax.axis("off")
+    axes[0].legend(fontsize=6.8, frameon=True, framealpha=0.9, edgecolor="#cccccc",
+                   loc="upper right", title="tier", title_fontsize=7.2)
 
     if out_dir is not None:
         out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
-        fig.savefig(out_dir / f"{dkey.lower()}_performance.png", dpi=130, bbox_inches="tight")
+        fig.savefig(out_dir / f"{dkey.lower()}_predictions.png", dpi=130, bbox_inches="tight")
     if show:
         plt.show()
     return fig
 
 
-def _forest_composite(dkey, reg, outputs, tiers, providers, out_dir, show) -> plt.Figure:
+def _predictions_forest(dkey, reg, outputs, tiers, out_dir, show) -> plt.Figure:
+    """Forest plot of all outputs (one row) plus scatter detail for significant ones."""
     tab = regression_by(reg, ["output"]).reindex(outputs)
     sig = tab[(tab.r_lo > 0) | (tab.r_hi < 0)].copy()
     sig["abs_r"] = sig["pearson_r"].abs()
     examples = sig.sort_values("abs_r", ascending=False).index.tolist()[:2]
     n_ex = len(examples)
 
-    fig = plt.figure(figsize=(15.5, 11.6))
-    gs = GridSpec(3, 3, figure=fig, height_ratios=[3.4, 2.6, 2.6], hspace=0.58, wspace=0.36)
+    ncols = 1 + n_ex
+    width_ratios = [1.6] + [1.0] * n_ex if n_ex else [1.0]
+    fig, axes = plt.subplots(
+        1, ncols, figsize=(6.8 + 4.8 * n_ex, 5.6),
+        gridspec_kw=dict(width_ratios=width_ratios), constrained_layout=True,
+    )
+    axes = np.atleast_1d(axes).ravel()
 
-    ax_forest = fig.add_subplot(gs[0, 0:2] if n_ex == 0 else gs[0, 0])
-    _forest_plot(ax_forest, tab, outputs,
-                 f"Association with truth, all {len(outputs)} outputs")
+    _forest_plot(axes[0], tab, outputs, f"Association with truth, all {len(outputs)} outputs")
 
     tier_color = _tier_color_map(tiers)
     for j, out in enumerate(examples):
-        ax = fig.add_subplot(gs[0, 1 + j])
+        ax = axes[1 + j]
         s = reg[reg.output == out]
         _scatter_with_fit(ax, s, tiers, lambda t: tier_color[t], pretty_output(out))
         if j == 0:
-            ax.legend(fontsize=6.2, frameon=True, framealpha=0.9, edgecolor="#ccc",
-                      loc="lower right", title="tier", title_fontsize=6.4)
-
-    # r heatmaps use ABSOLUTE magnitude for this many-output, noisy-sign setting
-    r_tier_abs = _pivot_metric(reg, "tier", "pearson_r", outputs, tiers).abs()
-    r_prov_abs = _pivot_metric(reg, "model", "pearson_r", outputs, providers).abs()
-    ax_ht = fig.add_subplot(gs[1, 0])
-    _heatmap(ax_ht, r_tier_abs.rename(index=pretty_output, columns=pretty_tier),
-             "|Pearson r| by output x tier", vmin=0, vmax=1, cmap="Reds")
-    ax_hp = fig.add_subplot(gs[1, 1])
-    im = _heatmap(ax_hp, r_prov_abs, "|Pearson r| by output x provider",
-                  vmin=0, vmax=1, cmap="Reds", show_ylabels=False)
-    fig.colorbar(im, ax=ax_hp, fraction=0.046, pad=0.02).ax.tick_params(labelsize=6)
-
-    ax_bt = fig.add_subplot(gs[2, 0])
-    _category_bar_single(ax_bt, tiers, _macro_r_by(reg, "tier", tiers, use_abs=True),
-                          lambda t: tier_color[t], pretty_tier,
-                          "macro |r| by tier", "mean |Pearson r| over outputs", use_abs=True)
-    ax_bp = fig.add_subplot(gs[2, 1])
-    _category_bar_single(ax_bp, providers, _macro_r_by(reg, "model", providers, use_abs=True),
-                          provider_color, lambda p: p,
-                          "macro |r| by provider", "mean |Pearson r| over outputs", use_abs=True)
+            ax.legend(fontsize=6.4, frameon=True, framealpha=0.9, edgecolor="#ccc",
+                      loc="lower right", title="tier", title_fontsize=6.6)
 
     if out_dir is not None:
         out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
-        fig.savefig(out_dir / f"{dkey.lower()}_performance.png", dpi=130, bbox_inches="tight")
+        fig.savefig(out_dir / f"{dkey.lower()}_predictions.png", dpi=130, bbox_inches="tight")
+    if show:
+        plt.show()
+    return fig
+
+
+def _association_grid(dkey, reg, outputs, tiers, providers, use_abs, out_dir, show) -> plt.Figure:
+    """Always a 2x2 grid: heatmap by tier, heatmap by provider, macro bar by each."""
+    r_tier = _pivot_metric(reg, "tier", "pearson_r", outputs, tiers)
+    r_prov = _pivot_metric(reg, "model", "pearson_r", outputs, providers)
+    if use_abs:
+        r_tier, r_prov = r_tier.abs(), r_prov.abs()
+    heat_kwargs = dict(vmin=0, vmax=1, cmap="Reds") if use_abs else dict(vmin=-1, vmax=1, cmap="RdBu_r")
+    label = "|Pearson r|" if use_abs else "Pearson r"
+    tier_color = _tier_color_map(tiers)
+
+    fig, ax = plt.subplots(2, 2, figsize=(11.8, 9.0), constrained_layout=True)
+    _heatmap(ax[0, 0], r_tier.rename(index=pretty_output, columns=pretty_tier),
+             f"{label} by output x tier", **heat_kwargs)
+    im = _heatmap(ax[0, 1], r_prov, f"{label} by output x provider", show_ylabels=False, **heat_kwargs)
+    fig.colorbar(im, ax=ax[0, 1], fraction=0.046, pad=0.02).ax.tick_params(labelsize=6)
+
+    _category_bar_single(ax[1, 0], tiers, _macro_r_by(reg, "tier", tiers, use_abs=use_abs),
+                          lambda t: tier_color[t], pretty_tier,
+                          f"macro {label} by tier", f"mean {label} over outputs", use_abs=use_abs)
+    _category_bar_single(ax[1, 1], providers, _macro_r_by(reg, "model", providers, use_abs=use_abs),
+                          provider_color, lambda p: p,
+                          f"macro {label} by provider", f"mean {label} over outputs", use_abs=use_abs)
+
+    if out_dir is not None:
+        out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
+        fig.savefig(out_dir / f"{dkey.lower()}_association.png", dpi=130, bbox_inches="tight")
     if show:
         plt.show()
     return fig
