@@ -620,18 +620,28 @@ class Critic(BaseAgent):
                 'Return strict JSON: {"concise_summary":"..."}',
             ]
         )
-        raw = self._call_llm_raw(
-            prompt,
-            model=self.LLM_MODEL or self.settings.models.critic_model,
-            max_tokens=220,
-            temperature=0.1,
-            expect_json=True,
-            system_prompt="You are a precise evaluator summary writer. Return only JSON.",
-        )
-        parsed = parse_json_response(raw, expected_keys=["concise_summary"])
-        text = str(parsed.get("concise_summary") or "").strip()
-        if not text:
-            raise ValueError("Critic LLM returned an empty concise_summary.")
+        try:
+            raw = self._call_llm_raw(
+                prompt,
+                model=self.LLM_MODEL or self.settings.models.critic_model,
+                max_tokens=220,
+                temperature=self.LLM_TEMPERATURE,
+                expect_json=True,
+                system_prompt="You are a precise evaluator summary writer. Return only JSON.",
+            )
+            parsed = parse_json_response(raw, expected_keys=["concise_summary"])
+            text = str(parsed.get("concise_summary") or "").strip()
+            if not text:
+                raise ValueError("Critic LLM returned an empty concise_summary.")
+        except Exception as exc:
+            # This call only polishes an already-complete deterministic evaluation.
+            # A truncated/malformed 220-token summary must never invalidate the
+            # prediction or force the expensive participant pipeline to run again.
+            logger.warning(
+                "Critic summary polish failed; using deterministic summary: %s", exc
+            )
+            print("[Critic] Summary polish failed; using deterministic evaluation summary.")
+            return base_summary
         text = " ".join(text.split())
         if len(text) > 320:
             text = text[:317].rstrip() + "..."

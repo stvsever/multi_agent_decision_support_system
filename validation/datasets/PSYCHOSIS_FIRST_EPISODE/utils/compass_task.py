@@ -427,6 +427,13 @@ def build_global_instruction(stats: dict[str, dict[str, float]]) -> str:
         lines.append(line)
     lines += [
         "",
+        "Hard output constraints: every BPRS total must stay within 19-133 inclusive "
+        "(it is a 19-item SUM, never a per-item average); every SAPS/SANS global rating "
+        "must stay within 0-5 inclusive. Return a finite numeric prediction for the BPRS "
+        "total and for every one of the four SAPS and five SANS outputs—never omit an "
+        "output, even when evidence is weak. If evidence suggests the BPRS floor, output "
+        "19, never a value below 19.",
+        "",
         "Controls are expected to have low or absent symptoms; cases vary widely. Infer diagnosis and "
         "severity only from the provided evidence (demographics, socio-economic status, cognition, "
         "observed functioning, and EEG features, depending on the tier).",

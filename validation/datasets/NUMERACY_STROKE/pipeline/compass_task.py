@@ -63,7 +63,9 @@ DATASET_CONTEXT = (
     "per-region lesion-overlap proportions across cortex (Yeo-7), subcortex (Tian) and "
     "cerebellum (Nettekoven). Key prior: approximate numeracy is largely spared by "
     "left-hemisphere language damage, whereas precise, symbolic numeracy is more vulnerable "
-    "to aphasia and peri-sylvian / parietal lesions."
+    "to aphasia and peri-sylvian / parietal lesions. Keep the prediction on the population "
+    "Z-score scale: values outside [-5, +5] are invalid. In particular, never substitute a "
+    "lesion-feature Z-score, raw test score, or sum of feature deviations for the target."
 )
 
 

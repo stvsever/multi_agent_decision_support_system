@@ -446,6 +446,27 @@ Return a JSON object with:
             steps_value = list(steps_value.values())
         if not isinstance(steps_value, list):
             steps_value = []
+        cleaned_steps: List[Dict[str, Any]] = []
+        for index, step in enumerate(steps_value):
+            if isinstance(step, dict):
+                cleaned_steps.append(step)
+                continue
+            if isinstance(step, str):
+                text = step.strip()
+                if text.startswith("{"):
+                    try:
+                        decoded = json.loads(text)
+                    except (TypeError, ValueError, json.JSONDecodeError):
+                        decoded = None
+                    if isinstance(decoded, dict):
+                        cleaned_steps.append(decoded)
+                        continue
+            logger.warning(
+                "Dropping malformed orchestrator step %s (%s); valid plan steps remain.",
+                index,
+                type(step).__name__,
+            )
+        steps_value = cleaned_steps
         normalized["steps"] = steps_value
 
         if "plan_id" not in normalized or not str(normalized.get("plan_id", "")).strip():

@@ -1,12 +1,12 @@
 """Make a single validation smoke-test cell runnable from a fresh kernel.
 
 If a smoke-test cell is pressed before the setup cells have been executed in this
-kernel session (a fresh kernel shows only saved outputs, not live definitions),
-`ensure_notebook_setup` runs every code cell ABOVE the first smoke-test cell
-(environment, provider panel, dataset registry, cohorts, run helpers, and the
-smoke-test helpers) into the caller's namespace. It stops at the first engine
-cell, so it never triggers a paid run. During a normal top-to-bottom run it is a
-no-op, because `run_smoketest` is already defined.
+kernel session, or after the notebook's helper API changed while the kernel stayed
+alive, `ensure_notebook_setup` runs every code cell ABOVE the first smoke-test
+cell into the caller's namespace. It stops at the first engine cell, so it never
+triggers a paid run. A version marker—not merely the presence of
+`run_smoketest`—prevents stale in-memory helpers from being mistaken for current
+ones.
 """
 
 from __future__ import annotations
@@ -16,6 +16,7 @@ from pathlib import Path
 # Everything above this cell id is setup; this id and below are the engine cells.
 _FIRST_ENGINE_CELL = "c0438afa"
 _NB_NAME = "validation_with_openneuro_datasets.ipynb"
+SETUP_VERSION = "2026-07-24-live-verbose-v8"
 
 
 def _repo_root() -> Path:
@@ -29,8 +30,8 @@ def _repo_root() -> Path:
 
 
 def ensure_notebook_setup(g: dict) -> None:
-    """Execute the notebook's setup cells into globals `g` if setup is not loaded yet."""
-    if "run_smoketest" in g:
+    """Execute setup cells unless `g` already holds this exact helper version."""
+    if g.get("VALIDATION_HELPERS_VERSION") == SETUP_VERSION:
         return
     import nbformat
 

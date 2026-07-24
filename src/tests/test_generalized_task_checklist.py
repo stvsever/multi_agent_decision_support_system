@@ -150,6 +150,11 @@ class _StubCriticClient:
         return _StubResponse(json.dumps(payload))
 
 
+class _MalformedSummaryClient:
+    def call(self, **_kwargs):
+        return _StubResponse('{"concise_summary":"truncated')
+
+
 def test_univariate_checklist_is_task_specific():
     prediction, spec = _build_univariate_prediction()
     critic = Critic(llm_client=SimpleNamespace())
@@ -168,6 +173,21 @@ def test_univariate_checklist_is_task_specific():
     assert "hierarchy_consistent" not in evaluation.checklist.active_checks
     assert evaluation.checklist.total_count == 8
     assert evaluation.checklist.pass_count == 8
+
+
+def test_malformed_optional_summary_falls_back_without_failing_evaluation():
+    prediction, spec = _build_univariate_prediction()
+    critic = Critic(llm_client=_MalformedSummaryClient())
+
+    evaluation = critic.execute(
+        prediction=prediction,
+        executor_output={"domains_processed": ["COGNITION"]},
+        data_overview={"domain_coverage": {"COGNITION": {"present_leaves": 4}}},
+        prediction_task_spec=spec,
+    )
+
+    assert evaluation.verdict == Verdict.SATISFACTORY
+    assert "Estimated value: total_iq=91.000" in evaluation.concise_summary
 
 
 def test_binary_execute_uses_binary_relevant_active_checks_only():
