@@ -1,105 +1,117 @@
+"""Contract for the HuggingFace lookup used by the local inference backend."""
+
 import sys
 from pathlib import Path
 
+import pytest
+from fastapi.testclient import TestClient
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
-from src.full_stack.frontend import compass_ui
-from src.full_stack.frontend.compass_ui import app
+from src.full_stack.backend.api import hf_catalog
+from src.full_stack.backend.api.app import create_app
 
 
-def test_hf_models_endpoint_returns_catalog(monkeypatch):
-    def fake_open(req, timeout=15):
-        return [
-            {"modelId": "Qwen/Qwen2.5-7B", "downloads": 123, "likes": 10, "pipeline_tag": "text-generation"},
-            {"modelId": "mistralai/Mistral-7B-Instruct", "downloads": 456, "likes": 20, "pipeline_tag": "text-generation"},
-            {"modelId": "sentence-transformers/all-MiniLM-L6-v2", "downloads": 222, "likes": 99, "pipeline_tag": "feature-extraction"},
-        ]
-
-    monkeypatch.setattr(compass_ui, "_open_url_json", fake_open)
-    client = app.test_client()
-    resp = client.get("/api/hf/models")
-    assert resp.status_code == 200
-    body = resp.get_json()
-    assert "models" in body
-    assert any(row["id"] == "Qwen/Qwen2.5-7B" for row in body["models"])
+@pytest.fixture
+def client():
+    return TestClient(create_app())
 
 
-def test_hf_models_embedding_task_filters_non_embeddings(monkeypatch):
-    def fake_open(req, timeout=15):
-        return [
-            {"modelId": "Qwen/Qwen2.5-7B", "downloads": 123, "likes": 10, "pipeline_tag": "text-generation"},
-            {"modelId": "BAAI/bge-base-en-v1.5", "downloads": 987, "likes": 55, "pipeline_tag": "feature-extraction"},
-            {"modelId": "Qwen/Qwen2.5-0.5B-Instruct", "downloads": 400, "likes": 12, "pipeline_tag": "text-generation"},
-        ]
+def _fake_get_json(mapping):
+    # Longest fragment first: "config.json" is a substring of
+    # "tokenizer_config.json", so a naive scan would match the wrong file.
+    ordered = sorted(mapping.items(), key=lambda item: -len(item[0]))
 
-    monkeypatch.setattr(compass_ui, "_open_url_json", fake_open)
-    client = app.test_client()
-    resp = client.get("/api/hf/models?task=embedding")
-    assert resp.status_code == 200
-    body = resp.get_json()
-    assert len(body["models"]) == 1
-    assert body["models"][0]["id"] == "BAAI/bge-base-en-v1.5"
+    def _get(url, timeout=15.0):
+        for fragment, payload in ordered:
+            if fragment in url:
+                return payload
+        raise RuntimeError(f"unexpected url: {url}")
+
+    return _get
+
+
+def test_search_returns_normalised_rows(client, monkeypatch):
+    monkeypatch.setattr(
+        hf_catalog,
+        "_get_json",
+        _fake_get_json(
+            {
+                "api/models?": [
+                    {"modelId": "Qwen/Qwen3-14B-AWQ", "downloads": 5000, "likes": 40, "pipeline_tag": "text-generation", "tags": ["awq"]},
+                    {"id": "no-model-id-key", "downloads": 1},
+                ]
+            }
+        ),
+    )
+    body = client.get("/api/hf/models", params={"q": "qwen"}).json()
+    assert [row["id"] for row in body["models"]] == ["Qwen/Qwen3-14B-AWQ", "no-model-id-key"]
+    assert body["models"][0]["is_embedding"] is False
+
+
+def test_embedding_task_filters_to_feature_extraction(client, monkeypatch):
+    seen: list[str] = []
+
+    def _get(url, timeout=15.0):
+        seen.append(url)
+        return [{"modelId": "BAAI/bge-large-en", "pipeline_tag": "feature-extraction"}]
+
+    monkeypatch.setattr(hf_catalog, "_get_json", _get)
+    body = client.get("/api/hf/models", params={"task": "embedding"}).json()
+    assert "pipeline_tag=feature-extraction" in seen[0]
     assert body["models"][0]["is_embedding"] is True
 
 
-def test_hf_model_detail_endpoint_parses_context(monkeypatch):
-    def fake_open(req, timeout=15):
-        return {
-            "modelId": "Qwen/Qwen2.5-7B",
-            "downloads": 999,
-            "likes": 55,
-            "pipeline_tag": "text-generation",
-            "config": {"max_position_embeddings": 4096},
-        }
-
-    monkeypatch.setattr(compass_ui, "_open_url_json", fake_open)
-    client = app.test_client()
-    resp = client.get("/api/hf/model/Qwen%2FQwen2.5-7B")
-    assert resp.status_code == 200
-    body = resp.get_json()
-    assert body["id"] == "Qwen/Qwen2.5-7B"
-    assert body["context_length"] == 4096
-    assert body["is_embedding"] is False
-
-
-def test_hf_model_detail_endpoint_handles_missing_context(monkeypatch):
-    def fake_open(req, timeout=15):
-        return {
-            "modelId": "sentence-transformers/all-MiniLM-L6-v2",
-            "downloads": 500,
-            "likes": 100,
-            "pipeline_tag": "feature-extraction",
-            "config": {},
-        }
-
-    monkeypatch.setattr(compass_ui, "_open_url_json", fake_open)
-    client = app.test_client()
-    resp = client.get("/api/hf/model/sentence-transformers%2Fall-MiniLM-L6-v2")
-    assert resp.status_code == 200
-    body = resp.get_json()
-    assert body["context_length"] in (None, 0)
-    assert body["is_embedding"] is True
-
-
-def test_hf_model_detail_prefers_conservative_context_window(monkeypatch):
-    def fake_open(req, timeout=15):
-        url = getattr(req, "full_url", "")
-        if "/api/models/Qwen/Qwen3-Embedding-8B" in url:
-            return {
-                "modelId": "Qwen/Qwen3-Embedding-8B",
-                "downloads": 1000,
-                "likes": 100,
-                "pipeline_tag": "feature-extraction",
-                "config": {"max_position_embeddings": 131072},
+def test_tokenizer_length_wins_over_the_architectural_maximum(client, monkeypatch):
+    """A tokenizer's model_max_length reflects what the model actually serves."""
+    monkeypatch.setattr(
+        hf_catalog,
+        "_get_json",
+        _fake_get_json(
+            {
+                "api/models/": {"pipeline_tag": "text-generation", "downloads": 1},
+                "config.json": {"max_position_embeddings": 131072, "model_type": "qwen3"},
+                "tokenizer_config.json": {"model_max_length": 32768},
             }
-        if "/Qwen/Qwen3-Embedding-8B/raw/main/tokenizer_config.json" in url:
-            return {"model_max_length": 32768}
-        return {}
-
-    monkeypatch.setattr(compass_ui, "_open_url_json", fake_open)
-    client = app.test_client()
-    resp = client.get("/api/hf/model/Qwen%2FQwen3-Embedding-8B")
-    assert resp.status_code == 200
-    body = resp.get_json()
+        ),
+    )
+    body = client.get("/api/hf/model/Qwen/Qwen3-14B").json()
     assert body["context_length"] == 32768
-    assert body["is_embedding"] is True
+    assert body["architectural_context_length"] == 131072
+    assert body["model_type"] == "qwen3"
+
+
+def test_missing_config_leaves_the_context_window_unknown(client, monkeypatch):
+    def _get(url, timeout=15.0):
+        if "api/models/" in url:
+            return {"pipeline_tag": "text-generation"}
+        raise RuntimeError("404")
+
+    monkeypatch.setattr(hf_catalog, "_get_json", _get)
+    assert client.get("/api/hf/model/some/model").json()["context_length"] is None
+
+
+def test_sentinel_context_values_are_rejected(client, monkeypatch):
+    """Some repositories publish 1e30 to mean "unbounded"; that is not a length."""
+    monkeypatch.setattr(
+        hf_catalog,
+        "_get_json",
+        _fake_get_json(
+            {
+                "api/models/": {"pipeline_tag": "text-generation"},
+                "config.json": {"max_position_embeddings": 4096},
+                "tokenizer_config.json": {"model_max_length": 1000000000000000019884624838656},
+            }
+        ),
+    )
+    assert client.get("/api/hf/model/some/model").json()["context_length"] == 4096
+
+
+def test_search_reports_a_reachability_failure_without_raising(client, monkeypatch):
+    def _boom(url, timeout=15.0):
+        raise RuntimeError("offline")
+
+    monkeypatch.setattr(hf_catalog, "_get_json", _boom)
+    body = client.get("/api/hf/models").json()
+    assert body["models"] == []
+    assert "HuggingFace" in body["error"]

@@ -1,3 +1,15 @@
+# Stage 1: build the web client.
+FROM node:22-slim AS web
+
+WORKDIR /web
+COPY src/full_stack/frontend/package.json src/full_stack/frontend/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+COPY src/full_stack/frontend/ ./
+RUN npm run build
+
+
+# Stage 2: the engine, the dashboard service, and the local inference stack.
 FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -22,9 +34,14 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
 COPY . /workspace/multi_agent_decision_support_system
 WORKDIR /workspace/multi_agent_decision_support_system
 
+COPY --from=web /web/dist /workspace/multi_agent_decision_support_system/src/full_stack/frontend/dist
+
 RUN chmod +x /workspace/multi_agent_decision_support_system/docker/entrypoint.sh
 
 EXPOSE 5005
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -fsS "http://127.0.0.1:${COMPASS_UI_PORT}/api/health" || exit 1
 
 ENTRYPOINT ["/workspace/multi_agent_decision_support_system/docker/entrypoint.sh"]
 CMD []

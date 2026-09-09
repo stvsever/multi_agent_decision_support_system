@@ -91,12 +91,12 @@ class ModelConfig:
     """
     Configuration for LLM models.
     
-    Public test runs default to Gemini 3.1 Flash Lite through OpenRouter.
-    Role-specific models can still be overridden from the CLI or UI.
+    Public runs default to DeepSeek V4 Flash through OpenRouter.
+    Role-specific models can still be overridden from the CLI or the dashboard.
     """
     # Backend Selection
     backend: LLMBackend = LLMBackend.OPENROUTER
-    public_model_name: str = "google/gemini-3.1-flash-lite"
+    public_model_name: str = "deepseek/deepseek-v4-flash-0731"
     public_max_context_tokens: int = 1048576
     embedding_model: str = field(default_factory=lambda: os.getenv("EMBEDDING_MODEL", "text-embedding-3-large"))
     local_model_name: str = "Qwen/Qwen3-14B-AWQ"  
@@ -114,13 +114,13 @@ class ModelConfig:
     local_trust_remote_code: bool = True
     local_attn_implementation: str = "auto"  
     
-    # Cost-efficient public testing profile.
-    orchestrator_model: str = "google/gemini-3.1-flash-lite"
-    critic_model: str = "google/gemini-3.1-flash-lite"
-    predictor_model: str = "google/gemini-3.1-flash-lite"
-    integrator_model: str = "google/gemini-3.1-flash-lite"
-    communicator_model: str = "google/gemini-3.1-flash-lite"
-    tool_model: str = "google/gemini-3.1-flash-lite"
+    # Cost-efficient public profile.
+    orchestrator_model: str = "deepseek/deepseek-v4-flash-0731"
+    critic_model: str = "deepseek/deepseek-v4-flash-0731"
+    predictor_model: str = "deepseek/deepseek-v4-flash-0731"
+    integrator_model: str = "deepseek/deepseek-v4-flash-0731"
+    communicator_model: str = "deepseek/deepseek-v4-flash-0731"
+    tool_model: str = "deepseek/deepseek-v4-flash-0731"
     
     orchestrator_max_tokens: int = 64000
     critic_max_tokens: int = 64000
@@ -149,7 +149,17 @@ class RetryConfig:
 
 @dataclass
 class TokenBudgetConfig:
-    """Token budget constraints for processing."""
+    """
+    Token budget constraints for processing.
+
+    `explicit_*` record which values a caller set deliberately. The derivation
+    helpers recompute the rest on every pipeline start, so without this an
+    explicit choice would be overwritten by the derived default.
+    """
+
+    explicit_limits: Dict[str, int] = field(default_factory=dict)
+    explicit_component_budgets: Dict[str, int] = field(default_factory=dict)
+    explicit_role_max_tokens: Dict[str, int] = field(default_factory=dict)
     total_budget: int = 1500000
     orchestrator_budget: int = 50000
     executor_budget_per_step: int = 30000
@@ -187,7 +197,7 @@ class ExplainabilityConfig:
     internal_span_mode: str = "value"
 
     # Hybrid (LLM-select)
-    hybrid_model: str = "google/gemini-3.1-flash-lite"
+    hybrid_model: str = "deepseek/deepseek-v4-flash-0731"
     hybrid_repeats: int = 1
     hybrid_temperature: float = 0.3
 
@@ -232,6 +242,19 @@ class Settings:
     openrouter_site_url: str = field(default_factory=lambda: os.getenv("OPENROUTER_SITE_URL", ""))
     openrouter_app_name: str = field(default_factory=lambda: os.getenv("OPENROUTER_APP_NAME", "COMPASS"))
     
+    # Reasoning effort forwarded to providers that support it. Providers that do
+    # not support it ignore the field. Reasoning tokens are billed as output and
+    # count against the output ceiling, so on a reasoning model they can consume
+    # the whole budget and truncate the answer: "off" is the safe default, and
+    # "low" through "high" are available when a task needs deliberation.
+    reasoning_effort: str = field(default_factory=lambda: os.getenv("COMPASS_REASONING_EFFORT", "off"))
+
+    # Upper bound on a single provider request. Without this the SDK default
+    # lets one stalled call hold a run open indefinitely.
+    request_timeout_seconds: float = field(
+        default_factory=lambda: float(os.getenv("COMPASS_REQUEST_TIMEOUT", "300"))
+    )
+
     # Logging settings
     log_level: str = "INFO"
     verbose_logging: bool = True
@@ -272,6 +295,7 @@ class Settings:
 
         normalized = normalized_requested
         known_ctx = {
+            "deepseek-v4-flash-0731": 1048576,
             "gemini-3.1-flash-lite": 1048576,
             "gpt-5": 128000,
             "gpt-5-mini": 128000,

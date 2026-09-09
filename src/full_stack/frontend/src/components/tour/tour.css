@@ -1,0 +1,56 @@
+.tour {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  pointer-events: none;
+}
+.tour__scrim { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: auto; }
+.tour__scrim-fill { fill: var(--bg-scrim); }
+
+.tour__ring {
+  position: absolute;
+  border-radius: 12px;
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-100), var(--shadow-lg);
+  pointer-events: none;
+}
+
+.tour__card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-xl);
+  pointer-events: auto;
+}
+.tour__card-head { display: flex; align-items: center; gap: var(--s-2); }
+.tour__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: var(--r-sm);
+  background: var(--accent-50);
+  color: var(--accent);
+}
+.tour__body { font-size: var(--t-small); line-height: 1.6; color: var(--text-secondary); }
+.tour__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
+.tour__dots { display: flex; gap: 4px; }
+.tour__dot {
+  width: 5px;
+  height: 5px;
+  padding: 0;
+  border: none;
+  border-radius: var(--r-full);
+  background: var(--line-strong);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease-out);
+}
+.tour__dot[data-seen='true'] { background: var(--accent-200); }
+.tour__dot[data-on='true'] { background: var(--accent); width: 16px; }

@@ -86,7 +86,7 @@ class Orchestrator(BaseAgent):
         )
         
         # Get UI instance for granular updates
-        from src.full_stack.frontend.compass_ui import get_ui
+        from src.full_stack.backend.runtime.event_bus import get_ui
         ui = get_ui()
         
         print(f"[Orchestrator] Participant: {participant_data.participant_id}")

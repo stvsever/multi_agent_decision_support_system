@@ -44,26 +44,46 @@ The Executor can run independent tool steps concurrently for public API backends
 
 ## <a id="interactive-dashboard"></a>🖥️ Interactive Dashboard
 
+A FastAPI service supervises runs as isolated worker processes and serves a React web client from the same port.
+
 The dashboard supports:
 
-- live execution and stage monitoring;
-- execution plan inspection;
-- role-specific model and token configuration;
-- binary, multiclass, regression, and hierarchical task setup;
-- prediction and critic inspection;
-- structured input, output, and report browsing.
+- guided setup for the provider key, model, and data folders;
+- binary, multiclass, regression, and hierarchical task design;
+- cost projection from live OpenRouter pricing, with warning and hard-stop thresholds;
+- live execution streamed over server-sent events, with the orchestrator plan rendered as an animated graph of sequential, parallel, and feedback edges;
+- an ontology explorer over the hierarchical deviation map and feature payload, as a tree, sunburst, icicle, or ranked table;
+- prediction, critic checklist, token, and per-model cost inspection;
+- deep phenotype reports on screen and as a standardized PDF;
+- batch execution across a cohort with configurable concurrency;
+- high-resolution control over per-role models, token ceilings, temperatures, reasoning effort, executor workers, budgets, agent instructions, and the system prompts themselves.
 
-Launch it with:
+Build the web client once, then launch:
 
 ```bash
+npm --prefix src/full_stack/frontend install
+npm --prefix src/full_stack/frontend run build
 python3 main.py --ui
 ```
 
-The bundled pseudo-participant folders are discovered automatically and can be launched directly from the UI.
+The dashboard is served at http://127.0.0.1:5005. Set `COMPASS_UI_HOST` and `COMPASS_UI_PORT` to change that.
+
+For web client development, run the API and the Vite dev server side by side:
+
+```bash
+python3 main.py --ui --quiet
+npm --prefix src/full_stack/frontend run dev
+```
+
+Vite serves the client on http://localhost:5173 and proxies `/api` to the service.
+
+The bundled pseudo-participant folders are discovered automatically and can be run directly from the dashboard.
 
 ## <a id="installation"></a>🛠️ Installation
 
 ### Local development
+
+Python 3.11 or newer runs the engine. Node 20 or newer builds the dashboard client.
 
 ```bash
 git clone https://github.com/stvsever/multi_agent_decision_support_system.git
@@ -73,10 +93,12 @@ source .venv/bin/activate
 python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 cp .env.example .env
-# Add your OPENROUTER_API_KEY to .env
+# Add your OPENROUTER_API_KEY to .env, or paste it into the dashboard settings
 ```
 
-OpenRouter is the default public backend. The testing profile uses `google/gemini-3.1-flash-lite` for all agent and tool roles. Models remain configurable through CLI flags and the dashboard.
+OpenRouter is the default public backend and `deepseek/deepseek-v4-flash-0731` is the default model for all agent and tool roles. Models, token ceilings, temperatures, and reasoning effort remain configurable through CLI flags and the dashboard.
+
+Reasoning is off by default. Reasoning tokens are billed as output and count against the output ceiling, so on a reasoning model they can consume the whole budget and truncate the answer. Raise it with `--reasoning_effort` or in the dashboard when a task needs deeper deliberation.
 
 The local `.env` file is loaded automatically and is excluded from Git. Model, schema, or connectivity failures stop the run explicitly. COMPASS does not replace failed LLM outputs with deterministic predictions, plans, evaluations, or narratives.
 
@@ -147,7 +169,7 @@ python3 main.py \
   --target_label target_phenotype \
   --control_label non_target_comparator \
   --backend openrouter \
-  --public_model google/gemini-3.1-flash-lite
+  --public_model deepseek/deepseek-v4-flash-0731
 ```
 
 Other task modes:
@@ -220,13 +242,15 @@ multi_agent_decision_support_system/
 │   ├── full_stack/
 │   │   ├── backend/
 │   │   │   ├── agents/            # Agent implementations and prompts
+│   │   │   ├── api/               # FastAPI dashboard service, run supervision, cost, PDF
 │   │   │   ├── config/            # Runtime and model configuration
 │   │   │   ├── data/              # Typed models and pseudo-data
 │   │   │   ├── hpc/               # Slurm and Apptainer templates
+│   │   │   ├── runtime/           # Engine event bus consumed by the dashboard
 │   │   │   ├── tools/             # Clinical analysis tools and prompts
 │   │   │   └── utils/             # Core engine, validation, XAI, and logging
-│   │   └── frontend/               # Flask dashboard, templates, and static assets
-│   └── tests/                      # Backend and frontend unit tests
+│   │   └── frontend/               # React and Vite web client
+│   └── tests/                      # Engine and dashboard unit tests
 ├── validation/
 │   ├── validation_with_openneuro_datasets.ipynb  # Master notebook: runs all 3 datasets end to end (resumable)
 │   ├── common/                     # Reusable exploration, ontology, ingestion, MRI, and evaluation code

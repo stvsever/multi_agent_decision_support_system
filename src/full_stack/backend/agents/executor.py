@@ -96,7 +96,7 @@ class Executor(BaseAgent):
             else (prediction_task_spec.dict() if prediction_task_spec is not None and hasattr(prediction_task_spec, "dict") else None)
         )
         
-        from src.full_stack.frontend.compass_ui import get_ui
+        from src.full_stack.backend.runtime.event_bus import get_ui
         ui = get_ui()
         fusion_step_id = 900 + context.get("iteration", 1) # Pseudo ID matching UI logic
         

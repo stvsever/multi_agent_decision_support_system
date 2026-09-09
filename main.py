@@ -9,8 +9,8 @@ Main entry point for running the COMPASS pipeline on participant data.
 
 import argparse
 import json
+import os
 import sys
-import threading
 import time
 from pathlib import Path
 from datetime import datetime
@@ -62,8 +62,7 @@ from src.full_stack.backend.data.models.prediction_task import (
     build_task_spec_from_flat_args,
     parse_csv_list,
 )
-from src.full_stack.frontend.compass_ui import get_ui, reset_ui, start_ui_loop
-from src.full_stack.backend.utils.participant_resolver import resolve_participant_dir
+from src.full_stack.backend.runtime.event_bus import get_ui
 
 
 def _resolve_output_dir(participant_dir: Path, participant_id: str, settings) -> Path:
@@ -136,9 +135,10 @@ def _apply_role_max_token_overrides(settings, role_max_tokens: Dict[str, Any]) -
     role_names = ("orchestrator", "critic", "integrator", "predictor", "communicator", "tool")
     for role in role_names:
         value = role_max_tokens.get(role)
-        if value in (None, ""):
+        if value in (None, "", 0, "0"):
             continue
         setattr(settings.models, f"{role}_max_tokens", int(value))
+        settings.token_budget.explicit_role_max_tokens[role] = int(value)
 
 
 def _sync_role_token_limits_with_budgets(settings, role_max_tokens: Optional[Dict[str, Any]] = None) -> None:
@@ -151,14 +151,18 @@ def _sync_role_token_limits_with_budgets(settings, role_max_tokens: Optional[Dic
     3) Model-safe cap via `_clamp_role_token_limits`
     """
     role_names = ("orchestrator", "critic", "integrator", "predictor", "communicator", "tool")
+    # Remembered choices count as explicit, so the pipeline's own preamble does
+    # not overwrite a ceiling the caller set before the run started.
+    remembered = dict(getattr(settings.token_budget, "explicit_role_max_tokens", {}) or {})
     explicit_roles = set()
-    if isinstance(role_max_tokens, dict):
-        for role in role_names:
-            value = role_max_tokens.get(role)
-            if value in (None, "", 0, "0"):
-                continue
-            explicit_roles.add(role)
-            setattr(settings.models, f"{role}_max_tokens", int(value))
+    merged: Dict[str, Any] = {**remembered, **(role_max_tokens if isinstance(role_max_tokens, dict) else {})}
+    for role in role_names:
+        value = merged.get(role)
+        if value in (None, "", 0, "0"):
+            continue
+        explicit_roles.add(role)
+        setattr(settings.models, f"{role}_max_tokens", int(value))
+        settings.token_budget.explicit_role_max_tokens[role] = int(value)
 
     max_agent_output = max(1, int(getattr(settings.token_budget, "max_agent_output_tokens", 16000) or 16000))
     max_tool_output = max(1, int(getattr(settings.token_budget, "max_tool_output_tokens", 8000) or 8000))
@@ -205,16 +209,31 @@ def _compute_token_budget_defaults(settings, context_window: int) -> Dict[str, i
     }
 
 
+_LIMIT_FIELDS = {
+    "max_agent_input": "max_agent_input_tokens",
+    "max_agent_output": "max_agent_output_tokens",
+    "max_tool_input": "max_tool_input_tokens",
+    "max_tool_output": "max_tool_output_tokens",
+}
+
+
 def _apply_token_budget_defaults(settings, overrides: Dict[str, Any]) -> None:
+    """
+    Derive the four global limits, keeping any value the caller set explicitly.
+
+    An explicit value is both applied and remembered, because the pipeline
+    re-derives these on every start and would otherwise discard the choice.
+    """
+    remembered = dict(getattr(settings.token_budget, "explicit_limits", {}) or {})
+    merged = {**remembered, **{k: v for k, v in (overrides or {}).items() if v not in (None, "", 0)}}
     defaults = _compute_token_budget_defaults(settings, settings.effective_context_window())
-    if overrides.get("max_agent_input") in (None, "", 0):
-        settings.token_budget.max_agent_input_tokens = defaults["max_agent_input"]
-    if overrides.get("max_agent_output") in (None, "", 0):
-        settings.token_budget.max_agent_output_tokens = defaults["max_agent_output"]
-    if overrides.get("max_tool_input") in (None, "", 0):
-        settings.token_budget.max_tool_input_tokens = defaults["max_tool_input"]
-    if overrides.get("max_tool_output") in (None, "", 0):
-        settings.token_budget.max_tool_output_tokens = defaults["max_tool_output"]
+    for key, field_name in _LIMIT_FIELDS.items():
+        value = merged.get(key)
+        if value in (None, "", 0):
+            setattr(settings.token_budget, field_name, defaults[key])
+        else:
+            setattr(settings.token_budget, field_name, int(value))
+            settings.token_budget.explicit_limits[key] = int(value)
 
 
 def _sync_component_token_budgets(settings) -> None:
@@ -240,6 +259,11 @@ def _sync_component_token_budgets(settings) -> None:
     settings.token_budget.fusion_budget = max(90000, tool_fusion_floor)
     settings.token_budget.integrator_budget = max(90000, tool_fusion_floor)
     settings.token_budget.executor_budget_per_step = max(30000, max_tool_input + max_tool_output)
+
+    # A component budget the caller set explicitly wins over the derived value.
+    for name, value in (getattr(settings.token_budget, "explicit_component_budgets", {}) or {}).items():
+        if hasattr(settings.token_budget, name) and value:
+            setattr(settings.token_budget, name, int(value))
 
 
 def _parse_xai_methods(raw_methods: Optional[str]) -> List[str]:
@@ -401,28 +425,6 @@ def _combine_instruction(global_instruction: str, scoped_instruction: str) -> st
     if global_text and scoped_text:
         return f"{global_text}\n\n{scoped_text}"
     return scoped_text or global_text
-
-
-def _describe_task_spec_for_launch(task_spec: PredictionTaskSpec) -> str:
-    root = task_spec.root
-    mode = root.mode
-    if mode == PredictionMode.BINARY_CLASSIFICATION:
-        labels = list(root.class_labels or [])
-        if len(labels) == 2:
-            return f"{labels[0]} vs {labels[1]}"
-        return str(root.display_name or root.node_id)
-    if mode == PredictionMode.MULTICLASS_CLASSIFICATION:
-        labels = ", ".join(list(root.class_labels or [])[:6])
-        return f"{root.display_name}: classes=[{labels}]"
-    outputs = list(root.regression_outputs or [])
-    if not outputs:
-        return str(root.display_name or root.node_id)
-    if len(outputs) == 1:
-        return f"{root.display_name}: {outputs[0]}"
-    preview = ", ".join(outputs[:4])
-    if len(outputs) > 4:
-        preview = f"{preview}, +{len(outputs) - 4} more"
-    return f"{root.display_name}: {preview}"
 
 
 def _prediction_primary_label(prediction: Any) -> str:
@@ -1230,6 +1232,13 @@ def run_compass_pipeline(
         },
         "control_condition": control_condition,
         "critic_verdict": final_evaluation.verdict.value,
+        # The full evaluation, not just the verdict: the score breakdown, the
+        # checklist, and the improvement suggestions are the reviewable part.
+        "critic_evaluation": (
+            final_evaluation.model_dump(mode="json")
+            if hasattr(final_evaluation, "model_dump")
+            else final_evaluation.dict()
+        ),
         "token_usage": {
             "total_tokens": token_usage.get("total_tokens", 0),
             "prompt_tokens": token_usage.get("prompt_tokens", 0),
@@ -1955,8 +1964,8 @@ Examples:
     parser.add_argument(
         "--public_model",
         type=str,
-        default="google/gemini-3.1-flash-lite",
-        help="Model name for public API backend (default: google/gemini-3.1-flash-lite)"
+        default="deepseek/deepseek-v4-flash-0731",
+        help="Model name for public API backend (default: deepseek/deepseek-v4-flash-0731)"
     )
     parser.add_argument(
         "--public_max_context_tokens",
@@ -2052,6 +2061,13 @@ Examples:
     )
     
     # --- TOKEN CONTROLS ---
+    parser.add_argument(
+        "--reasoning_effort",
+        type=str,
+        default=None,
+        choices=["provider_default", "off", "low", "medium", "high"],
+        help="Reasoning effort for providers that support it (default: off). Reasoning tokens are billed as output and count against the output ceiling."
+    )
     parser.add_argument(
         "--total_budget",
         type=int,
@@ -2224,347 +2240,22 @@ Examples:
             )
             sys.exit(0)
         if args.ui:
-            # Run with GUI: Main thread -> UI, Background logic via callback
-            
-            # --- SMART DATA DISCOVERY ---
-            def find_compass_data(start_path: Path) -> Path:
-                """
-                Locate a participant input root using heuristic scan.
-                1. Check specific relative paths (fastest)
-                2. Check specific common data folders in parents
-                3. Shallow BFS scan of project tree (fallback)
-                """
-                pseudo_data_root = (
-                    PROJECT_ROOT
-                    / "src"
-                    / "full_stack"
-                    / "backend"
-                    / "data"
-                    / "pseudo_data"
-                    / "inputs"
-                )
-                if pseudo_data_root.exists():
-                    return pseudo_data_root
+            # The dashboard is a separate service: a FastAPI backend that supervises
+            # runs as isolated worker processes and serves the built web client.
+            from src.full_stack.backend.api.server import serve_dashboard
 
-                search_target = "COMPASS_data"
-                
-                # S1: Check standard legacy paths
-                candidates = [
-                    start_path / "data" / "__FEATURES__" / search_target,  # Original
-                    start_path.parent / "data" / "__FEATURES__" / search_target,
-                    start_path / "data" / search_target,
-                    start_path.parent / "data" / search_target,
-                    start_path.parent.parent / "data" / search_target
-                ]
-                
-                for cand in candidates:
-                    if cand.exists() and cand.is_dir():
-                        return cand
-
-                # S2: Upward Search + Shallow Downward Scan
-                # We go up to 3 levels to find a likely project root
-                curr = start_path
-                project_root = start_path
-                for _ in range(3):
-                    if (curr / search_target).exists(): return curr / search_target
-                    if (curr / ".git").exists(): # Stop at git root
-                        project_root = curr
-                        break
-                    if curr.parent == curr: break
-                    curr = curr.parent
-                    project_root = curr # Assume highest reachable is root if no .git
-                
-                # S3: Limited Scan from Project Root (Max Depth 3)
-                print(f"[*] Scanning for '{search_target}' in {project_root}...")
-                for path in project_root.rglob(search_target):
-                    if path.is_dir():
-                        if "node_modules" in str(path) or ".git" in str(path): continue
-                        return path
-
-                # Fallback: Return standard path even if missing (will be created or error later)
-                return start_path.parent / "data" / "__FEATURES__" / "COMPASS_data"
-
-            # Execute Discovery
-            script_path = Path(__file__).parent
-            compass_data_root = find_compass_data(script_path)
-
-            if not compass_data_root.exists():
-                # One last try check user argument
-                if args.participant_dir and args.participant_dir.exists():
-                     compass_data_root = args.participant_dir.parent
-                else:    
-                     logger.warning(f"[!] Could not auto-locate 'COMPASS_data'. Assumed default: {compass_data_root}")
-
-            print(f"[*] Data Root: {compass_data_root}")
-            latest_run_context: Dict[str, Any] = {"internal": None}
-            
-            def launch_wrapper(config: dict):
-                """Callback triggered by UI Launch button"""
-                participant_id = config.get("id")
-                target_label_raw = config.get("target_label")
-                if target_label_raw is None:
-                    target_label_raw = config.get("target")
-                if target_label_raw is None:
-                    target_label_raw = cli_target_label
-                target_label = str(target_label_raw or "").strip()
-
-                # Preserve explicit empty comparator values from UI for non-classification runs.
-                control_label_raw = config.get("control_label")
-                if control_label_raw is None:
-                    control_label_raw = config.get("control")
-                if control_label_raw is None:
-                    control_label_raw = cli_control_label
-                control_label = str(control_label_raw or "").strip()
-                prediction_type = str(config.get("prediction_type") or "binary").strip().lower()
-                class_labels = config.get("class_labels")
-                if isinstance(class_labels, str):
-                    class_labels = parse_csv_list(class_labels)
-                regression_outputs = config.get("regression_outputs")
-                if isinstance(regression_outputs, str):
-                    regression_outputs = parse_csv_list(regression_outputs)
-                elif isinstance(regression_outputs, (tuple, set)):
-                    regression_outputs = [str(x).strip() for x in regression_outputs if str(x).strip()]
-                elif isinstance(regression_outputs, list):
-                    regression_outputs = [str(x).strip() for x in regression_outputs if str(x).strip()]
-                else:
-                    regression_outputs = []
-                regression_output = str(config.get("regression_output") or "").strip()
-                if regression_output:
-                    if "," in regression_output:
-                        print("[!] Invalid UI prediction task configuration: regression_output must be a single output name without commas.")
-                        return
-                    if regression_outputs and regression_outputs != [regression_output]:
-                        print("[!] Invalid UI prediction task configuration: regression_output conflicts with regression_outputs.")
-                        return
-                    regression_outputs = [regression_output]
-                raw_agent_instructions = config.get("agent_instructions")
-                if not isinstance(raw_agent_instructions, dict):
-                    raw_agent_instructions = {}
-                launch_agent_instructions = _normalize_agent_instructions(
-                    {
-                        **cli_agent_instructions,
-                        **raw_agent_instructions,
-                    }
-                )
-
-                prediction_task_spec_payload = config.get("prediction_spec")
-                try:
-                    runtime_task_spec = _resolve_prediction_task_spec(
-                        prediction_type=prediction_type,
-                        target_label=target_label,
-                        control_label=control_label,
-                        class_labels=list(class_labels or []),
-                        regression_outputs=list(regression_outputs or []),
-                        task_spec_json=str(config.get("task_spec_json") or ""),
-                        task_spec_file=str(config.get("task_spec_file") or ""),
-                        task_spec_payload=prediction_task_spec_payload if isinstance(prediction_task_spec_payload, dict) else None,
-                    )
-                    runtime_task_spec = _align_binary_task_spec_labels(
-                        runtime_task_spec,
-                        target_label=target_label,
-                        control_label=control_label,
-                    )
-                except Exception as e:
-                    print(f"[!] Invalid UI prediction task configuration: {e}")
-                    return
-                target_condition, control_condition = _task_spec_to_legacy_labels(runtime_task_spec)
-                
-                # Apply Dynamic Settings
-                from src.full_stack.backend.config.settings import get_settings, LLMBackend
-                settings = get_settings()
-                
-                backend = (config.get("backend") or "openrouter").lower()
-                if backend == "local":
-                    settings.models.backend = LLMBackend.LOCAL
-                elif backend == "openai":
-                    settings.models.backend = LLMBackend.OPENAI
-                else:
-                    settings.models.backend = LLMBackend.OPENROUTER
-
-                if config.get("public_model"):
-                    public_model = str(config.get("public_model"))
-                    settings.models.public_model_name = public_model
-                    if settings.models.backend != LLMBackend.LOCAL:
-                        settings.models.orchestrator_model = public_model
-                        settings.models.critic_model = public_model
-                        settings.models.predictor_model = public_model
-                        settings.models.integrator_model = public_model
-                        settings.models.communicator_model = public_model
-                        settings.models.tool_model = public_model
-                if config.get("public_max_context_tokens"):
-                    settings.models.public_max_context_tokens = int(config.get("public_max_context_tokens"))
-                if config.get("embedding_model"):
-                    settings.models.embedding_model = str(config.get("embedding_model"))
-                if config.get("local_embedding_model"):
-                    settings.models.embedding_model = str(config.get("local_embedding_model"))
-
-                if config.get("model"):
-                    settings.models.local_model_name = str(config.get("model"))
-                if config.get("max_tokens"):
-                    settings.models.local_max_tokens = int(config.get("max_tokens"))
-                if config.get("local_engine"):
-                    settings.models.local_backend_type = str(config.get("local_engine"))
-                if config.get("local_dtype"):
-                    settings.models.local_dtype = str(config.get("local_dtype"))
-                if config.get("local_quant") is not None:
-                    settings.models.local_quantization = config.get("local_quant")
-                if config.get("local_kv_cache_dtype"):
-                    settings.models.local_kv_cache_dtype = str(config.get("local_kv_cache_dtype"))
-                if config.get("local_attn"):
-                    settings.models.local_attn_implementation = str(config.get("local_attn"))
-                if config.get("local_tensor_parallel"):
-                    settings.models.local_tensor_parallel_size = int(config.get("local_tensor_parallel"))
-                if config.get("local_pipeline_parallel"):
-                    settings.models.local_pipeline_parallel_size = int(config.get("local_pipeline_parallel"))
-                if config.get("local_gpu_mem_util"):
-                    settings.models.local_gpu_memory_utilization = float(config.get("local_gpu_mem_util"))
-                if config.get("local_max_model_len"):
-                    settings.models.local_max_model_len = int(config.get("local_max_model_len"))
-                if config.get("local_enforce_eager") is not None:
-                    settings.models.local_enforce_eager = bool(config.get("local_enforce_eager"))
-                if config.get("local_trust_remote_code") is not None:
-                    settings.models.local_trust_remote_code = bool(config.get("local_trust_remote_code"))
-
-                role_models = config.get("role_models") or {}
-                _apply_role_model_overrides(settings, role_models)
-
-                role_token_limits = config.get("role_max_tokens") or {}
-                _apply_role_max_token_overrides(settings, role_token_limits)
-
-                if settings.models.backend == LLMBackend.LOCAL:
-                    local_model = settings.models.local_model_name
-                    settings.models.orchestrator_model = local_model
-                    settings.models.critic_model = local_model
-                    settings.models.predictor_model = local_model
-                    settings.models.integrator_model = local_model
-                    settings.models.communicator_model = local_model
-                    settings.models.tool_model = local_model
-
-                # Apply Token Limits from UI (defaults derive from context window)
-                _apply_token_budget_defaults(settings, config)
-                if config.get("total_budget"):
-                    settings.token_budget.total_budget = int(config.get("total_budget"))
-                if config.get("max_agent_input") not in (None, "", 0):
-                    settings.token_budget.max_agent_input_tokens = int(config.get("max_agent_input"))
-                if config.get("max_agent_output") not in (None, "", 0):
-                    settings.token_budget.max_agent_output_tokens = int(config.get("max_agent_output"))
-                if config.get("max_tool_input") not in (None, "", 0):
-                    settings.token_budget.max_tool_input_tokens = int(config.get("max_tool_input"))
-                if config.get("max_tool_output") not in (None, "", 0):
-                    settings.token_budget.max_tool_output_tokens = int(config.get("max_tool_output"))
-                _sync_component_token_budgets(settings)
-                _sync_role_token_limits_with_budgets(settings, role_token_limits)
-
-                _apply_explainability_overrides(settings, args)
-
-                reset_llm_client()
-                launch_target_desc = _describe_task_spec_for_launch(runtime_task_spec)
-                print(
-                    f"[*] UI Triggered Launch: {participant_id} -> {launch_target_desc} "
-                    f"(mode: {runtime_task_spec.root.mode.value})"
-                )
-                
-                # Optional user-chosen output directory (flexible ingestion).
-                _out = str(config.get("output_dir") or "").strip()
-                if _out:
-                    try:
-                        chosen = Path(_out).expanduser()
-                        chosen.mkdir(parents=True, exist_ok=True)
-                        settings.paths.output_dir = chosen
-                        print(f"[*] Output directory set to: {chosen}")
-                    except Exception as e:
-                        print(f"[!] Could not use output_dir '{_out}': {e}")
-
-                p_dir = resolve_participant_dir(participant_id, compass_data_root, settings)
-                if not p_dir or not p_dir.exists():
-                    print(f"[!] Error: Participant folder not found for ID: {participant_id}")
-                    return
-                print(f"[*] Fuzzy matched folder: {p_dir.name}")
-                
-                result = run_compass_pipeline(
-                    participant_dir=p_dir,
-                    target_condition=target_condition,
-                    control_condition=control_condition,
-                    prediction_task_spec=runtime_task_spec,
-                    agent_instructions=launch_agent_instructions,
-                    max_iterations=args.iterations,
-                    verbose=not args.quiet,
-                    interactive_ui=args.ui,
-                    generate_deep_phenotype=False,
-                    generate_xai_report=False,
-                )
-                latest_run_context["internal"] = result.get("internal_context")
-
-            def deep_report_wrapper(payload: Dict[str, Any]) -> Dict[str, Any]:
-                internal = latest_run_context.get("internal")
-                if not internal:
-                    raise RuntimeError("No completed pipeline run found. Run a participant first.")
-
-                communicator = Communicator()
-                internal_agent_instructions = _normalize_agent_instructions(
-                    internal.get("agent_instructions") or {}
-                )
-                communicator.set_runtime_instruction(
-                    _combine_instruction(
-                        internal_agent_instructions.get("global", ""),
-                        internal_agent_instructions.get("communicator", ""),
-                    )
-                )
-                result = _generate_deep_phenotype_report(
-                    communicator=communicator,
-                    prediction=internal.get("prediction"),
-                    evaluation=internal.get("evaluation"),
-                    executor_output=internal.get("executor_output") or {},
-                    data_overview=internal.get("data_overview") or {},
-                    execution_summary=internal.get("execution_summary") or {},
-                    control_condition=str(internal.get("control_condition") or ""),
-                    report_context_note=str(internal.get("report_context_note") or ""),
-                    base_output_dir=Path(str(internal.get("base_output_dir"))),
-                    participant_id=str(internal.get("participant_id") or "unknown"),
-                    user_focus_modalities=str(payload.get("focus_modalities") or ""),
-                    user_general_instruction=str(payload.get("general_instruction") or ""),
-                    trigger_source="ui",
-                    ui_step_id=990,
-                    interactive_ui=True,
-                )
-                if not result.get("success"):
-                    raise RuntimeError(result.get("error") or "Deep phenotype generation failed.")
-                return result
-
-            print("Launching COMPASS Dashboard...")
-            
-            # Auto-trigger if path provided via CLI
-            if args.participant_dir and args.participant_dir.exists():
-                participant_id = args.participant_dir.name
-                target_condition, control_condition = _task_spec_to_legacy_labels(cli_prediction_task_spec)
-                # Small delay to ensure server is up before first event
-                def auto_launch():
-                    time.sleep(2)
-                    launch_wrapper(
-                        {
-                            "id": participant_id,
-                            "target": target_condition,
-                            "control": control_condition,
-                            "prediction_type": args.prediction_type,
-                            "class_labels": cli_class_labels,
-                            "regression_outputs": cli_regression_outputs,
-                            "regression_output": cli_regression_outputs[0] if len(cli_regression_outputs) == 1 else "",
-                            "prediction_spec": (
-                                cli_prediction_task_spec.model_dump()
-                                if hasattr(cli_prediction_task_spec, "model_dump")
-                                else cli_prediction_task_spec.dict()
-                            ),
-                            "agent_instructions": cli_agent_instructions,
-                        }
-                    )
-                threading.Thread(target=auto_launch, daemon=True).start()
-
-            start_ui_loop(launch_wrapper, deep_report_wrapper)
-            print("\nPipeline complete. Closing dashboard server...")
+            serve_dashboard(
+                host=os.getenv("COMPASS_UI_HOST", "127.0.0.1"),
+                port=int(os.getenv("COMPASS_UI_PORT", "5005")),
+                open_browser=not args.quiet,
+            )
+            sys.exit(0)
         else:
             # Update settings with detailed log flag
             settings = get_settings()
             settings.detailed_tool_logging = args.detailed_log
+            if args.reasoning_effort is not None:
+                settings.reasoning_effort = "" if args.reasoning_effort == "provider_default" else args.reasoning_effort
 
             # Apply Backend Settings
             from src.full_stack.backend.config.settings import LLMBackend

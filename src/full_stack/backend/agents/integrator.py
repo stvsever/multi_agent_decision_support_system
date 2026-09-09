@@ -15,7 +15,7 @@ from ..utils.core.fusion_layer import FusionLayer
 from ..utils.core.predictor_input_assembler import PredictorInputAssembler, PredictorSection
 from ..utils.token_packer import count_tokens
 from ..tools import get_tool
-from src.full_stack.frontend.compass_ui import get_ui
+from src.full_stack.backend.runtime.event_bus import get_ui
 
 logger = logging.getLogger("compass.integrator")
 

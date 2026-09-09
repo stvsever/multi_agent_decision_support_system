@@ -23,7 +23,7 @@ from ...tools import get_tool
 from .auto_repair import AutoRepair
 # Removed duplicate import
 from .token_manager import TokenManager
-from src.full_stack.frontend.compass_ui import get_ui
+from src.full_stack.backend.runtime.event_bus import get_ui
 from ..path_utils import split_node_path, resolve_requested_subtree, path_is_prefix
 from .multimodal_coverage import feature_key_set
 

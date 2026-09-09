@@ -1,98 +1,139 @@
-import json
+"""Contract for the model catalog endpoint and its pricing normalisation."""
+
 import sys
 from pathlib import Path
 
+import pytest
+from fastapi.testclient import TestClient
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
-from src.full_stack.backend.config.settings import get_settings, reload_settings
-from src.full_stack.frontend.compass_ui import app
+from src.full_stack.backend.api import catalog as catalog_module
+from src.full_stack.backend.api.app import create_app
+
+
+@pytest.fixture(autouse=True)
+def clear_catalog_cache(tmp_path, monkeypatch):
+    """Every test starts from an empty cache in a throwaway directory."""
+    monkeypatch.setenv("COMPASS_HOME", str(tmp_path))
+    catalog_module._memory.clear()
+    yield
+    catalog_module._memory.clear()
+
+
+@pytest.fixture
+def client():
+    return TestClient(create_app())
 
 
 class _FakeResponse:
-    def __init__(self, payload: dict):
+    def __init__(self, payload):
         self._payload = payload
 
-    def read(self) -> bytes:
-        return json.dumps(self._payload).encode("utf-8")
+    def raise_for_status(self):
+        return None
+
+    def json(self):
+        return self._payload
+
+
+class _FakeClient:
+    def __init__(self, payload, recorder=None):
+        self._payload = payload
+        self._recorder = recorder
 
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc, tb):
+    def __exit__(self, *exc):
         return False
 
-
-def test_openrouter_models_requires_api_key():
-    settings = reload_settings()
-    settings.openrouter_api_key = ""
-    client = app.test_client()
-    resp = client.get("/api/openrouter/models")
-    assert resp.status_code == 400
+    def get(self, url, headers=None):
+        if self._recorder is not None:
+            self._recorder.append(url)
+        return _FakeResponse(self._payload)
 
 
-def test_openrouter_models_endpoint_returns_catalog(monkeypatch):
-    settings = get_settings()
-    settings.openrouter_api_key = "test-key"
-
-    import src.full_stack.frontend.compass_ui as compass_ui
+def _install(monkeypatch, payload, recorder=None):
     monkeypatch.setattr(
-        compass_ui,
-        "urlopen",
-        lambda req, timeout=15, context=None: _FakeResponse(
-            {
-                "data": [
-                    {
-                        "id": "openai/gpt-5-nano",
-                        "context_length": 128000,
-                        "pricing": {"prompt": "0.1", "completion": "0.4"},
-                        "architecture": {"modality": "text->text"},
-                    },
-                    {"id": "openai/gpt-4o-mini", "context_length": 128000, "pricing": {"prompt": "0.05", "completion": "0.15"}},
-                    {
-                        "id": "openai/text-embedding-3-large",
-                        "context_length": 8192,
-                        "pricing": {"prompt": "0.02", "completion": "0"},
-                        "architecture": {"modality": "text->text"},
-                        "supported_parameters": ["input", "embedding"],
-                    },
-                ]
-            }
-        ),
+        catalog_module.httpx, "Client", lambda **kwargs: _FakeClient(payload, recorder)
     )
-    client = app.test_client()
-    resp = client.get("/api/openrouter/models")
-    body = resp.get_json()
-    assert resp.status_code == 200
-    assert "models" in body
-    assert any(row["id"] == "openai/gpt-5-nano" for row in body["models"])
-    assert any(row["id"] == "openai/text-embedding-3-large" and row["is_embedding"] for row in body["models"])
 
 
-def test_openrouter_embedding_models_endpoint_returns_catalog(monkeypatch):
-    settings = get_settings()
-    settings.openrouter_api_key = "test-key"
+SAMPLE = {
+    "data": [
+        {
+            "id": "deepseek/deepseek-v4-flash-0731",
+            "name": "DeepSeek V4 Flash",
+            "context_length": 1310720,
+            "pricing": {"prompt": "0.000000065", "completion": "0.00000018"},
+            "architecture": {"modality": "text->text"},
+            "supported_parameters": ["reasoning", "structured_outputs", "tools"],
+            "top_provider": {"max_completion_tokens": 943718},
+        },
+        {
+            "id": "openai/text-embedding-3-large",
+            "name": "Text Embedding 3 Large",
+            "context_length": 8191,
+            "pricing": {"prompt": "0.00000013", "completion": "0"},
+            "architecture": {"modality": "text->vector"},
+            "supported_parameters": [],
+        },
+    ]
+}
 
-    import src.full_stack.frontend.compass_ui as compass_ui
 
-    def _fake_urlopen(req, timeout=15, context=None):
-        url = getattr(req, "full_url", "")
-        if url.endswith("/embeddings/models"):
-            return _FakeResponse(
-                {
-                    "data": [
-                        {"id": "openai/text-embedding-3-large", "context_length": 8192, "pricing": {"prompt": "0.02"}},
-                        {"id": "qwen/qwen3-embedding-8b", "context_length": 32768, "pricing": {"prompt": "0.03"}},
-                    ]
-                }
-            )
-        return _FakeResponse({"data": []})
+def test_pricing_is_normalised_to_usd_per_million_tokens(client, monkeypatch):
+    _install(monkeypatch, SAMPLE)
+    body = client.get("/api/catalog/models").json()
+    rows = {row["id"]: row for row in body["models"]}
 
-    monkeypatch.setattr(compass_ui, "urlopen", _fake_urlopen)
-    client = app.test_client()
-    resp = client.get("/api/openrouter/embedding-models")
-    body = resp.get_json()
-    assert resp.status_code == 200
-    assert "models" in body
-    assert len(body["models"]) == 2
-    assert all(row["is_embedding"] for row in body["models"])
-    assert any(row["id"] == "qwen/qwen3-embedding-8b" and row["context_length"] == 32768 for row in body["models"])
+    default = rows["deepseek/deepseek-v4-flash-0731"]
+    assert default["prompt_usd_per_mtok"] == pytest.approx(0.065)
+    assert default["completion_usd_per_mtok"] == pytest.approx(0.18)
+    assert default["context_length"] == 1310720
+    assert default["provider"] == "deepseek"
+    assert default["supports_structured_output"] is True
+    assert default["is_free"] is False
+
+
+def test_embedding_models_are_flagged(client, monkeypatch):
+    _install(monkeypatch, SAMPLE)
+    body = client.get("/api/catalog/models", params={"embedding": True}).json()
+    assert [row["id"] for row in body["models"]] == ["openai/text-embedding-3-large"]
+    assert body["models"][0]["is_embedding"] is True
+
+
+def test_chat_filter_excludes_embedding_models(client, monkeypatch):
+    _install(monkeypatch, SAMPLE)
+    body = client.get("/api/catalog/models", params={"embedding": False}).json()
+    assert [row["id"] for row in body["models"]] == ["deepseek/deepseek-v4-flash-0731"]
+
+
+def test_search_and_provider_filters(client, monkeypatch):
+    _install(monkeypatch, SAMPLE)
+    assert client.get("/api/catalog/models", params={"search": "deepseek"}).json()["total"] == 1
+    assert client.get("/api/catalog/models", params={"provider": "openai"}).json()["total"] == 1
+    assert client.get("/api/catalog/models", params={"min_context": 100000}).json()["total"] == 1
+
+
+def test_catalog_hits_the_configured_models_endpoint(client, monkeypatch):
+    calls: list[str] = []
+    _install(monkeypatch, SAMPLE, calls)
+    client.get("/api/catalog/models")
+    assert calls and calls[0].endswith("/models")
+
+
+def test_a_network_failure_degrades_to_a_clear_error(client, monkeypatch):
+    def _boom(**kwargs):
+        raise RuntimeError("no network")
+
+    monkeypatch.setattr(catalog_module.httpx, "Client", _boom)
+    response = client.get("/api/catalog/models")
+    assert response.status_code == 502
+    assert "catalog" in response.json()["detail"].lower()
+
+
+def test_unknown_model_detail_is_a_404(client, monkeypatch):
+    _install(monkeypatch, SAMPLE)
+    assert client.get("/api/catalog/models/does/not-exist").status_code == 404

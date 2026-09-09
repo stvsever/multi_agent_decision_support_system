@@ -1,5 +1,4 @@
 openai>=1.40.0
-flask>=3.0.0
 numpy==1.26.4
 pandas==2.2.2
 scipy==1.13.1
@@ -9,4 +8,7 @@ python-dotenv>=1.0.0
 tenacity>=8.2.0
 huggingface_hub>=0.20.0
 certifi>=2024.0.0
-psutil>=5.9.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+httpx>=0.27.0
+reportlab>=4.0.0

@@ -86,7 +86,7 @@ docker run --rm \
 ### 4. Open the user interface:
 - `http://localhost:5005`
 
-The default public model is `google/gemini-3.1-flash-lite` through OpenRouter.
+The default public model is `deepseek/deepseek-v4-flash-0731` through OpenRouter.
 
 ## Prediction Task Setup in UI
 

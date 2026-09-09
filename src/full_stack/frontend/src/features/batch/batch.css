@@ -1,0 +1,173 @@
+/* Batch console. Layout only; every colour resolves through a token. */
+
+.bt__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr);
+  gap: var(--s-5);
+  align-items: start;
+}
+@media (max-width: 1180px) {
+  .bt__layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* --- Participant picker --------------------------------------------------- */
+
+.bt__picker {
+  max-height: 420px;
+  overflow: auto;
+}
+
+.bt__row { cursor: pointer; }
+.bt__row[data-disabled='true'] { cursor: not-allowed; opacity: 0.55; }
+.bt__row[data-selected='true'] { background: var(--accent-50); }
+.bt__row[data-selected='true']:hover { background: var(--accent-100); }
+
+.bt__check {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.bt__domains {
+  display: flex;
+  gap: var(--s-1);
+  flex-wrap: wrap;
+  max-width: 260px;
+}
+
+/* --- Projection ----------------------------------------------------------- */
+
+.bt__totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--s-4);
+}
+
+.bt__range {
+  position: relative;
+  height: 6px;
+  border-radius: var(--r-full);
+  background: var(--bg-inset);
+  overflow: hidden;
+}
+.bt__range-band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+.bt__range-mark {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  border-radius: var(--r-full);
+  background: var(--accent);
+}
+
+/* --- Batch list ----------------------------------------------------------- */
+
+.bt__batch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  width: 100%;
+  padding: var(--s-3) var(--s-4);
+  border: none;
+  border-bottom: 1px solid var(--line-faint);
+  background: transparent;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.bt__batch:last-child { border-bottom: none; }
+.bt__batch:hover { background: var(--bg-hover); }
+.bt__batch[aria-current='true'] { background: var(--accent-50); }
+
+/* --- Stacked aggregate ---------------------------------------------------- */
+
+.bt__stack {
+  display: flex;
+  height: 10px;
+  border-radius: var(--r-full);
+  overflow: hidden;
+  background: var(--bg-inset);
+}
+.bt__stack-seg {
+  height: 100%;
+  transition: width var(--dur-slow) var(--ease-out);
+}
+.bt__legend {
+  display: flex;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+.bt__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex: none;
+}
+
+/* --- Run tiles ------------------------------------------------------------ */
+
+.bt__tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+  gap: var(--s-3);
+}
+
+.bt__tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+.bt__tile:hover { border-color: var(--accent-400); box-shadow: var(--shadow-sm); }
+.bt__tile[data-status='failed'] { border-color: color-mix(in srgb, var(--critical) 42%, transparent); }
+.bt__tile[data-status='succeeded'] { border-color: color-mix(in srgb, var(--positive) 34%, transparent); }
+
+.bt__tile-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Finished summary ----------------------------------------------------- */
+
+.bt__summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--s-4);
+  padding: var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line-faint);
+}
+
+/* --- Monitor layout ------------------------------------------------------- */
+
+.bt__monitor {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: var(--s-5);
+  align-items: start;
+}
+@media (max-width: 1000px) {
+  .bt__monitor { grid-template-columns: minmax(0, 1fr); }
+}
+
+.bt__list {
+  max-height: 520px;
+  overflow: auto;
+}

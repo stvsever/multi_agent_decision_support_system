@@ -88,7 +88,9 @@ class PatientReportGenerator:
                 {
                     "domain": f.domain,
                     "finding": f.finding,
-                    "direction": f.direction
+                    "direction": f.direction,
+                    "z_score": getattr(f, "z_score", None),
+                    "relevance_to_prediction": getattr(f, "relevance_to_prediction", ""),
                 }
                 for f in prediction.key_findings[:10]
             ],

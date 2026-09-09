@@ -41,6 +41,7 @@ Issues = "https://github.com/stvsever/multi_agent_decision_support_system/issues
 
 [project.scripts]
 compass = "main:main"
+compass-dashboard = "src.full_stack.backend.api.server:main"
 
 [tool.setuptools]
 py-modules = ["main"]
@@ -55,7 +56,7 @@ namespaces = false
 [tool.setuptools.package-data]
 "src.full_stack.backend.agents" = ["prompts/*.txt"]
 "src.full_stack.backend.tools" = ["prompts/*.txt"]
-"src.full_stack.frontend" = ["static/*.js", "templates/*.html"]
+"src.full_stack.frontend" = ["dist/**/*"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }

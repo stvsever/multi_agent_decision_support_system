@@ -101,7 +101,10 @@ class LLMClient:
         elif self.backend == LLMBackend.OPENAI:
             if not self.settings.openai_api_key:
                 raise ValueError("OPENAI_API_KEY not provided for OpenAI backend")
-            self.client = OpenAI(api_key=self.settings.openai_api_key)
+            self.client = OpenAI(
+                api_key=self.settings.openai_api_key,
+                timeout=float(getattr(self.settings, "request_timeout_seconds", 300.0)),
+            )
             self.embedding_client = self.client
             logger.info("LLM Client initialized (OpenAI Backend)")
         else:
@@ -118,6 +121,7 @@ class LLMClient:
         kwargs: Dict[str, Any] = {
             "api_key": self.settings.openrouter_api_key,
             "base_url": self.settings.openrouter_base_url,
+            "timeout": float(getattr(self.settings, "request_timeout_seconds", 300.0)),
         }
         if headers:
             kwargs["default_headers"] = headers
@@ -320,7 +324,15 @@ class LLMClient:
             
             if response_format:
                 kwargs["response_format"] = response_format
-            
+
+            effort = str(getattr(self.settings, "reasoning_effort", "") or "").strip().lower()
+            if effort and self.backend == LLMBackend.OPENROUTER:
+                kwargs["extra_body"] = {
+                    "reasoning": {"enabled": False}
+                    if effort in ("off", "none", "disabled")
+                    else {"effort": effort}
+                }
+
             print(f"[LLMClient] Sending request to {model} (max_completion_tokens={max_tokens})...")
             response = None
             try:

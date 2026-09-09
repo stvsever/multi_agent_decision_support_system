@@ -1,0 +1,355 @@
+/*
+ * Settings surface.
+ *
+ * A section list on the left, one panel on the right. The dialog keeps a fixed
+ * height so moving between sections never resizes the window under the cursor.
+ */
+
+.modal:has(.settings) {
+  height: min(88vh, 760px);
+  max-height: 88vh;
+}
+.sheet__body:has(.settings) {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+}
+
+.settings {
+  /* The accent chips show every option at once, so each identity needs a token
+     of its own; --accent only ever holds the one currently selected. */
+  --swatch-indigo: #4f46e5;
+  --swatch-violet: #7c3aed;
+  --swatch-teal: #0d9488;
+  --swatch-amber: #b45309;
+  --swatch-rose: #e11d48;
+  --swatch-slate: #334155;
+
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* --- Section list --------------------------------------------------------- */
+
+.settings__nav {
+  flex: none;
+  width: 216px;
+  border-right: 1px solid var(--line);
+  background: var(--bg-sunken);
+  overflow-y: auto;
+  padding: var(--s-3) var(--s-2);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.settings__navitem {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  padding: var(--s-2) var(--s-3);
+  border: none;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--t-small);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.settings__navitem:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.settings__navitem[aria-selected='true'] {
+  background: var(--accent-50);
+  color: var(--accent);
+  font-weight: 600;
+}
+.settings__navitem svg {
+  flex: none;
+  color: currentColor;
+}
+.settings__navgroup {
+  padding: var(--s-3) var(--s-3) var(--s-1);
+}
+
+/* --- Panel ---------------------------------------------------------------- */
+
+.settings__panel {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: var(--s-5) var(--s-6) var(--s-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+/* A scrolling flex column would otherwise squeeze any child that sets
+   overflow: hidden, which is exactly what a collapsed disclosure does. */
+.settings__panel > *,
+.settings__group > * {
+  flex: 0 0 auto;
+}
+
+/* The InfoDot panel places itself on a line of its own with flex-basis 100%,
+   which only works if the label it sits in is allowed to wrap. */
+.settings__panel .field__label,
+.settings__head {
+  flex-wrap: wrap;
+}
+
+.settings__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--line-faint);
+}
+
+.settings__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.settings__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+.settings__grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 900px) {
+  .settings__grid,
+  .settings__grid--three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .settings__nav {
+    width: 168px;
+  }
+}
+
+/* A labelled row with the control pushed to the right, used for switches. */
+.settings__switch {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-4);
+  padding: var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+  flex-wrap: wrap;
+}
+/* A zero basis keeps the label from pushing the switch onto its own line: a
+   wrapping flex container decides where to break from the base size, not the
+   shrunk one. The InfoDot panel still wraps, which is what wrap is here for. */
+.settings__switch > .settings__switch-text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* --- Per-role table ------------------------------------------------------- */
+
+.settings__roles {
+  width: 100%;
+  border-collapse: collapse;
+}
+.settings__roles th {
+  text-align: left;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 var(--s-2) var(--s-2);
+}
+.settings__roles td {
+  padding: var(--s-2);
+  border-top: 1px solid var(--line-faint);
+  vertical-align: middle;
+}
+.settings__roles tr:first-child td {
+  border-top: none;
+}
+
+/* --- Appearance ----------------------------------------------------------- */
+
+.settings__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.settings__swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-full);
+  border: 2px solid transparent;
+  background: transparent;
+  padding: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring);
+}
+.settings__swatch:hover {
+  transform: scale(1.06);
+}
+.settings__swatch[aria-pressed='true'] {
+  border-color: var(--accent);
+}
+.settings__swatch span {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-full);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.12);
+}
+
+.settings__preview {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: var(--s-4);
+  background: var(--bg-sunken);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+/* --- Prompt editor -------------------------------------------------------- */
+
+.settings__prompts {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+  gap: var(--s-4);
+  flex: 1;
+  min-height: 0;
+}
+.settings__promptlist {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow-y: auto;
+  max-height: 440px;
+  padding-right: var(--s-1);
+}
+.settings__promptitem {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--t-small);
+  text-align: left;
+  cursor: pointer;
+}
+.settings__promptitem:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.settings__promptitem[aria-current='true'] {
+  background: var(--accent-50);
+  border-color: var(--accent-200);
+  color: var(--accent);
+}
+.settings__editor {
+  width: 100%;
+  min-height: 340px;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: var(--t-tiny);
+  line-height: 1.55;
+  tab-size: 2;
+}
+
+/* --- Save indicator ------------------------------------------------------- */
+
+.settings__saved {
+  position: absolute;
+  right: var(--s-5);
+  bottom: var(--s-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-1) var(--s-3);
+  border-radius: var(--r-full);
+  border: 1px solid var(--line);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-md);
+  font-size: var(--t-tiny);
+  color: var(--text-secondary);
+  pointer-events: none;
+  z-index: 2;
+}
+.settings__saved[data-status='saved'] {
+  color: var(--positive);
+  border-color: color-mix(in srgb, var(--positive) 30%, transparent);
+}
+.settings__saved[data-status='error'] {
+  color: var(--critical);
+  border-color: color-mix(in srgb, var(--critical) 30%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .settings {
+    --swatch-indigo: #818cf8;
+    --swatch-violet: #a78bfa;
+    --swatch-teal: #2dd4bf;
+    --swatch-amber: #fbbf24;
+    --swatch-rose: #fb7185;
+    --swatch-slate: #94a3b8;
+  }
+}
+:root[data-theme='dark'] .settings {
+  --swatch-indigo: #818cf8;
+  --swatch-violet: #a78bfa;
+  --swatch-teal: #2dd4bf;
+  --swatch-amber: #fbbf24;
+  --swatch-rose: #fb7185;
+  --swatch-slate: #94a3b8;
+}
+
+/* An anchor styled as a button must not pick up the link underline. */
+a.btn:hover {
+  text-decoration: none;
+}
+
+/* --- Small helpers -------------------------------------------------------- */
+
+.settings__roots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+.settings__root {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+  font-family: var(--font-mono);
+  font-size: var(--t-tiny);
+}
+
+.settings__count {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+  align-self: flex-end;
+}

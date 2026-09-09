@@ -10,6 +10,10 @@
 .idea
 .vscode
 
+# Web client sources: the image builds the bundle in its own stage.
+node_modules/
+src/full_stack/frontend/node_modules/
+
 # Python artifacts
 __pycache__/
 *.py[cod]

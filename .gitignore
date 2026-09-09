@@ -58,6 +58,10 @@ build/
 dist/
 *.egg-info/
 
+# Web client build artifacts
+node_modules/
+src/full_stack/frontend/dist/
+
 # Per-dataset raw and processed EEG/MRI data are large; kept local, never pushed.
 # The derived feature tables, figures and COMPASS inputs under results/ are tracked.
 validation/datasets/*/data/
