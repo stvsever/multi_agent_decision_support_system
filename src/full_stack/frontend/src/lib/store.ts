@@ -72,12 +72,16 @@ interface AppState {
   paletteOpen: boolean
   setPaletteOpen: (open: boolean) => void
 
-  /* Guided tour. */
+  /* Guided tour and first-run welcome. */
   tourActive: boolean
   tourStep: number
   startTour: () => void
   endTour: () => void
   setTourStep: (step: number) => void
+  /** Persisted, so the welcome only interrupts the very first visit. */
+  welcomeSeen: boolean
+  dismissWelcome: () => void
+  showWelcome: () => void
 
   /* Run focus. */
   activeRunId: string | null
@@ -130,7 +134,7 @@ export const useApp = create<AppState>()(
         })),
       clearOverrides: () => set({ overrides: {} }),
 
-      generateDeepReport: true,
+      generateDeepReport: false,
       setGenerateDeepReport: (value) => set({ generateDeepReport: value }),
 
       navCollapsed: false,
@@ -149,9 +153,13 @@ export const useApp = create<AppState>()(
 
       tourActive: false,
       tourStep: 0,
-      startTour: () => set({ tourActive: true, tourStep: 0 }),
+      startTour: () => set({ tourActive: true, tourStep: 0, welcomeSeen: true }),
       endTour: () => set({ tourActive: false, tourStep: 0 }),
       setTourStep: (step) => set({ tourStep: step }),
+
+      welcomeSeen: false,
+      dismissWelcome: () => set({ welcomeSeen: true }),
+      showWelcome: () => set({ welcomeSeen: false }),
 
       activeRunId: null,
       setActiveRunId: (id) => set({ activeRunId: id }),
@@ -166,12 +174,21 @@ export const useApp = create<AppState>()(
     }),
     {
       name: 'compass.ui',
+      /* Bumped when the deep phenotype report stopped being on by default. The
+         stored `true` came from the old default rather than from a decision, so
+         it is dropped once and the switch is left where the user puts it. */
+      version: 2,
+      migrate: (persisted, from) => {
+        const state = (persisted ?? {}) as Record<string, unknown>
+        return (from < 2 ? { ...state, generateDeepReport: false } : state) as never
+      },
       partialize: (s) => ({
         appearance: s.appearance,
         navCollapsed: s.navCollapsed,
         task: s.task,
         generateDeepReport: s.generateDeepReport,
         advancedOpen: s.advancedOpen,
+        welcomeSeen: s.welcomeSeen,
       }),
     },
   ),

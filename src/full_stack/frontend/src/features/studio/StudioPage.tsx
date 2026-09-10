@@ -3,7 +3,9 @@
  *
  * Three decisions get a run started: whose data, what question, and which
  * model. Everything else has a working default and lives behind a disclosure,
- * so the page reads as three steps rather than a control panel.
+ * so the page reads as three steps rather than a control panel. Settings that
+ * matter at launch time are shown here next to the run, with the saved value
+ * named, rather than hidden behind a second trip into the settings sheet.
  */
 
 import clsx from 'clsx'
@@ -13,18 +15,20 @@ import {
   Cpu,
   Database,
   FlaskConical,
-  Gauge,
+  Layers,
   Play,
+  RotateCcw,
   Settings2,
   Target,
+  WifiOff,
 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, ApiError } from '@/lib/api'
 import { compactNumber, tokens, usd } from '@/lib/format'
-import { useCapabilities, useDebounced, useSettings } from '@/lib/hooks'
+import { useCapabilities, useConnectivity, useDebounced, useSettings } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
-import type { EstimateResponse, RunOverrides } from '@/lib/types'
+import type { EstimateResponse, ReasoningEffort } from '@/lib/types'
 import {
   Badge,
   Button,
@@ -33,21 +37,40 @@ import {
   Disclosure,
   Field,
   InfoDot,
-  Input,
   Progress,
   Segmented,
   SliderField,
+  Textarea,
   Toggle,
-  Tooltip,
 } from '@/components/ui/primitives'
+import { ModelPicker } from '@/components/ui/ModelPicker'
+import { BatchOptions, type BatchSettings } from '@/features/batch/BatchOptions'
 import { ParticipantPicker } from './ParticipantPicker'
-import { TaskDesigner, validateTask } from './TaskDesigner'
+import { TaskDesigner } from './TaskDesigner'
+import { taskReport } from './taskValidation'
 import './studio.css'
+
+const REASONING_CHOICES: { value: ReasoningEffort | 'saved'; label: string }[] = [
+  { value: 'saved', label: 'Saved' },
+  { value: 'off', label: 'Off' },
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' },
+]
+
+const REASONING_LABELS: Record<ReasoningEffort, string> = {
+  provider_default: 'provider default',
+  off: 'off',
+  low: 'low',
+  medium: 'medium',
+  high: 'high',
+}
 
 export function StudioPage() {
   const navigate = useNavigate()
   const { data: capabilities } = useCapabilities()
   const { data: settings } = useSettings()
+  const connectivity = useConnectivity()
   const {
     selected,
     task,
@@ -64,11 +87,19 @@ export function StudioPage() {
   const [estimate, setEstimate] = useState<EstimateResponse | null>(null)
   const [estimating, setEstimating] = useState(false)
   const [launching, setLaunching] = useState(false)
+  const [auditing, setAuditing] = useState(false)
   const [advanced, setAdvanced] = useState(settings?.config.appearance.show_advanced_by_default ?? false)
+  const [batchOptions, setBatchOptions] = useState<BatchSettings | null>(null)
 
   const config = settings?.config
-  const problems = validateTask(task)
-  const ready = selected.length > 0 && problems.length === 0
+  const report = taskReport(task)
+  const ready = selected.length > 0 && report.ready
+  const isBatch = selected.length > 1
+
+  const batchSettings: BatchSettings = batchOptions ?? {
+    concurrency: config?.batch.concurrency ?? 2,
+    continueOnError: config?.batch.continue_on_error ?? true,
+  }
 
   // The projection depends on the selection, the task, and any per-run deltas,
   // so it is recomputed as those settle rather than on every keystroke.
@@ -106,37 +137,44 @@ export function StudioPage() {
     // estimateKey encodes every input the projection depends on.
   }, [estimateKey])
 
-  const effectiveModel = useMemo(() => {
-    const override = (overrides.models as { default_model?: string } | undefined)?.default_model
-    return override || config?.models.default_model || capabilities?.default_model || ''
-  }, [overrides.models, config?.models.default_model, capabilities?.default_model])
+  const models = (overrides.models ?? {}) as Record<string, unknown>
+  const engine = (overrides.engine ?? {}) as Record<string, unknown>
+  const instructions = (overrides.instructions ?? {}) as Record<string, string>
 
-  const iterations =
-    (overrides.engine as { max_iterations?: number } | undefined)?.max_iterations ??
-    config?.engine.max_iterations ??
-    3
-  const workers =
-    (overrides.engine as { executor_max_workers?: number } | undefined)?.executor_max_workers ??
-    config?.engine.executor_max_workers ??
-    12
-  const reasoning =
-    (overrides.models as { reasoning_effort?: string } | undefined)?.reasoning_effort ??
-    config?.models.reasoning_effort ??
-    'off'
+  const savedModel = config?.models.default_model || capabilities?.default_model || ''
+  const modelOverride = (models.default_model as string) || ''
+  const effectiveModel = modelOverride || savedModel
 
-  const launch = async (audit = false) => {
+  const savedReasoning = config?.models.reasoning_effort ?? 'off'
+  const reasoningOverride = models.reasoning_effort as ReasoningEffort | undefined
+  const reasoning = reasoningOverride ?? savedReasoning
+
+  const savedIterations = config?.engine.max_iterations ?? 3
+  const iterations = (engine.max_iterations as number | undefined) ?? savedIterations
+  const savedWorkers = config?.engine.executor_max_workers ?? 12
+  const workers = (engine.executor_max_workers as number | undefined) ?? savedWorkers
+
+  const activeOverrides = useMemo(() => {
+    const names: string[] = []
+    if (modelOverride) names.push('model')
+    if (reasoningOverride) names.push('reasoning')
+    if (engine.max_iterations !== undefined) names.push('iterations')
+    if (engine.executor_max_workers !== undefined) names.push('workers')
+    if ((instructions.global ?? '').trim()) names.push('instruction')
+    return names
+  }, [modelOverride, reasoningOverride, engine.max_iterations, engine.executor_max_workers, instructions.global])
+
+  const launch = async () => {
     if (!ready) return
     setLaunching(true)
     try {
       if (selected.length === 1) {
-        const run = audit
-          ? await api.runs.audit({ participant_dir: selected[0].directory, task })
-          : await api.runs.create({
-              participant_dir: selected[0].directory,
-              task,
-              overrides,
-              generate_deep_phenotype: generateDeepReport,
-            })
+        const run = await api.runs.create({
+          participant_dir: selected[0].directory,
+          task,
+          overrides,
+          generate_deep_phenotype: generateDeepReport,
+        })
         navigate(`/runs/${run.id}`)
       } else {
         const batch = await api.batches.create({
@@ -144,14 +182,20 @@ export function StudioPage() {
           task,
           overrides,
           generate_deep_phenotype: generateDeepReport,
+          concurrency: batchSettings.concurrency,
+          continue_on_error: batchSettings.continueOnError,
         })
-        notify({ tone: 'positive', title: 'Batch started', body: `${batch.total} participants queued.` })
-        navigate('/batch')
+        notify({
+          tone: 'positive',
+          title: 'Batch started',
+          body: `${batch.total} participants queued, ${batch.concurrency} at a time.`,
+        })
+        navigate('/batch', { state: { batchId: batch.id } })
       }
     } catch (error) {
       notify({
         tone: 'critical',
-        title: audit ? 'Audit could not start' : 'Run could not start',
+        title: 'Run could not start',
         body: error instanceof ApiError ? error.message : String(error),
       })
     } finally {
@@ -159,8 +203,26 @@ export function StudioPage() {
     }
   }
 
+  const audit = async () => {
+    if (selected.length !== 1 || !report.ready) return
+    setAuditing(true)
+    try {
+      const run = await api.runs.audit({ participant_dir: selected[0].directory, task })
+      navigate(`/runs/${run.id}`)
+    } catch (error) {
+      notify({
+        tone: 'critical',
+        title: 'Audit could not start',
+        body: error instanceof ApiError ? error.message : String(error),
+      })
+    } finally {
+      setAuditing(false)
+    }
+  }
+
   const totals = estimate?.totals
   const guards = estimate?.guards
+  const offline = connectivity.data && (!connectivity.data.online || !connectivity.data.provider_reachable)
 
   return (
     <div className="page studio">
@@ -183,18 +245,28 @@ export function StudioPage() {
             done={selected.length > 0}
             summary={
               selected.length === 0
-                ? 'None selected'
+                ? 'none selected'
                 : selected.length === 1
                   ? selected[0].id
-                  : `${selected.length} selected`
+                  : `${selected.length} selected, this will run as a batch`
             }
             tour="studio-participants"
           >
             <ParticipantPicker multiple />
-            {selected.length > 1 && (
-              <Callout tone="info" title={`${selected.length} participants selected`}>
-                Launching will queue a batch. Concurrency and failure handling are set under Batch in settings.
-              </Callout>
+
+            {isBatch && (
+              <section className="studio__batch">
+                <header className="row gap-2">
+                  <Layers size={15} />
+                  <span className="t-small semibold grow">Batch controls</span>
+                  <Badge tone="accent">{selected.length} participants</Badge>
+                </header>
+                <BatchOptions
+                  value={batchSettings}
+                  onChange={setBatchOptions}
+                  participantCount={selected.length}
+                />
+              </section>
             )}
           </Step>
 
@@ -202,15 +274,17 @@ export function StudioPage() {
             index={2}
             icon={<Target size={15} />}
             title="Prediction task"
-            done={problems.length === 0 && Boolean(task.target_label.trim() || task.root)}
-            summary={
-              problems.length === 0
-                ? `${capabilities?.prediction_types.find((t) => t.value === task.prediction_type)?.label ?? task.prediction_type}: ${task.target_label || task.root?.display_name || 'unnamed'}`
-                : `${problems.length} thing${problems.length === 1 ? '' : 's'} to fix`
-            }
+            done={report.ready}
+            summary={report.summary}
             tour="studio-task"
           >
-            <TaskDesigner task={task} onChange={setTask} types={capabilities?.prediction_types ?? []} />
+            <TaskDesigner
+              task={task}
+              report={report}
+              onChange={setTask}
+              types={capabilities?.prediction_types ?? []}
+              onNotify={(title, body) => notify({ tone: 'positive', title, body })}
+            />
           </Step>
 
           <Step
@@ -218,29 +292,87 @@ export function StudioPage() {
             icon={<Cpu size={15} />}
             title="Model and engine"
             done
-            summary={`${effectiveModel || 'no model'} · ${iterations} iteration${iterations === 1 ? '' : 's'}`}
+            summary={`${effectiveModel || 'no model'}, reasoning ${REASONING_LABELS[reasoning]}, ${iterations} iteration${iterations === 1 ? '' : 's'}`}
             tour="studio-model"
           >
-            <div className="stack gap-4">
+            <div className="stack gap-5">
               <div className="row between gap-3 wrap">
                 <div className="stack gap-1" style={{ minWidth: 0 }}>
                   <span className="eyebrow">Model in use</span>
                   <span className="row gap-2 wrap">
                     <span className="mono semibold">{effectiveModel || 'not set'}</span>
-                    <Badge tone={reasoning === 'off' ? 'neutral' : 'accent'}>reasoning {reasoning}</Badge>
+                    {modelOverride && <Badge tone="accent">this run only</Badge>}
                   </span>
                   <span className="t-tiny muted">
-                    Applies to every agent role unless a role override is set in settings.
+                    {modelOverride
+                      ? `The saved default is ${savedModel || 'not set'}. It is untouched.`
+                      : 'Applies to every agent role unless a role override is set in settings.'}
                   </span>
                 </div>
-                <Button size="sm" icon={<Settings2 size={13} />} onClick={() => openSettings('models')}>
+                <Button size="sm" icon={<Settings2 size={13} />} onClick={() => openSettings('compute')}>
                   Change models
                 </Button>
               </div>
 
               <div className="grid grid--2">
                 <Field
-                  label="Critic iterations"
+                  label="Model for this run"
+                  hint="Searches the live provider catalog. Leaving it on the saved default is the usual choice."
+                >
+                  <ModelPicker
+                    value={modelOverride}
+                    onChange={(default_model) => setOverride('models', { default_model: default_model || undefined })}
+                    allowInherit
+                    inheritLabel={savedModel ? `Saved default: ${savedModel}` : 'Saved default'}
+                  />
+                </Field>
+
+                <Field
+                  label="Reasoning effort"
+                  info={
+                    <>
+                      <p>
+                        Reasoning tokens are billed as output and count against the output ceiling. Turning
+                        reasoning off is markedly faster and cheaper; raise it when the task needs deeper
+                        deliberation.
+                      </p>
+                      <p>
+                        The saved value applies to every run and lives in settings. Choosing anything else here
+                        changes this run only.
+                      </p>
+                    </>
+                  }
+                  hint={
+                    reasoningOverride
+                      ? `Overridden for this run. The saved value is ${REASONING_LABELS[savedReasoning]}.`
+                      : `Using the saved value, ${REASONING_LABELS[savedReasoning]}.`
+                  }
+                >
+                  <Segmented
+                    block
+                    value={(reasoningOverride ?? 'saved') as ReasoningEffort | 'saved'}
+                    options={REASONING_CHOICES.map((choice) =>
+                      choice.value === 'saved' ? { ...choice, label: `Saved: ${REASONING_LABELS[savedReasoning]}` } : choice,
+                    )}
+                    onChange={(next) =>
+                      setOverride('models', {
+                        reasoning_effort: next === 'saved' ? undefined : (next as ReasoningEffort),
+                      })
+                    }
+                  />
+                </Field>
+              </div>
+
+              <div className="grid grid--2">
+                <Field
+                  label={
+                    <OverrideLabel
+                      label="Critic iterations"
+                      overridden={engine.max_iterations !== undefined}
+                      saved={String(savedIterations)}
+                      onReset={() => setOverride('engine', { max_iterations: undefined })}
+                    />
+                  }
                   info={
                     <p>
                       Each iteration replans, re-executes, re-predicts, and re-scores. The loop stops early when
@@ -253,13 +385,20 @@ export function StudioPage() {
                     value={iterations}
                     min={1}
                     max={10}
-                    presets={[1, 2, 3, 5]}
+                    suffix={iterations === 1 ? 'pass' : 'passes'}
                     onChange={(max_iterations) => setOverride('engine', { max_iterations })}
                   />
                 </Field>
 
                 <Field
-                  label="Parallel tool workers"
+                  label={
+                    <OverrideLabel
+                      label="Parallel tool workers"
+                      overridden={engine.executor_max_workers !== undefined}
+                      saved={String(savedWorkers)}
+                      onReset={() => setOverride('engine', { executor_max_workers: undefined })}
+                    />
+                  }
                   info={
                     <p>
                       The executor runs every unblocked plan step at once, bounded by this number. Raising it
@@ -272,35 +411,63 @@ export function StudioPage() {
                     value={workers}
                     min={1}
                     max={64}
-                    presets={[1, 4, 8, 12, 24]}
+                    suffix="at once"
                     onChange={(executor_max_workers) => setOverride('engine', { executor_max_workers })}
                   />
                 </Field>
               </div>
 
               <div className="row between gap-3">
-                <Field
-                  label="Generate the deep phenotype report"
-                  hint="The Communicator writes an evidence-grounded report and marks missing information explicitly."
-                >
-                  <div />
-                </Field>
+                <div className="stack" style={{ gap: 1 }}>
+                  <span className="t-small semibold">Generate the deep phenotype report</span>
+                  <span className="t-tiny muted">
+                    The Communicator writes an evidence-grounded report and marks missing information explicitly.
+                    It is the largest single cost per participant.
+                  </span>
+                </div>
                 <Toggle checked={generateDeepReport} onChange={setGenerateDeepReport} label="Deep phenotype report" />
               </div>
 
               <Disclosure
-                title="Advanced overrides for this run"
-                subtitle="Applied on top of the saved configuration, without changing it"
+                title="Extra instruction for this run"
+                subtitle="Appended to every agent prompt, without changing the saved instructions"
                 open={advanced}
                 onOpenChange={setAdvanced}
-                right={
-                  Object.keys(overrides).length > 0 ? (
-                    <Badge tone="accent">{Object.keys(overrides).length} section</Badge>
-                  ) : undefined
-                }
+                right={(instructions.global ?? '').trim() ? <Badge tone="accent">set</Badge> : undefined}
               >
-                <RunOverridePanel overrides={overrides} setOverride={setOverride} onClear={clearOverrides} />
+                <div className="stack gap-4">
+                  <Field
+                    label="Applies to every agent"
+                    hint="Use it for study-specific framing. Per-agent instructions and token budgets are saved settings."
+                  >
+                    <Textarea
+                      rows={3}
+                      placeholder="for example: this cohort is medication naive; do not infer treatment effects."
+                      value={instructions.global ?? ''}
+                      onChange={(event) => setOverride('instructions', { ...instructions, global: event.target.value })}
+                    />
+                  </Field>
+                  <div className="row gap-2">
+                    <Button size="sm" variant="ghost" onClick={() => openSettings('instructions')}>
+                      Saved instructions
+                    </Button>
+                    <Button size="sm" variant="ghost" onClick={() => openSettings('engine')}>
+                      Token budgets
+                    </Button>
+                  </div>
+                </div>
               </Disclosure>
+
+              {activeOverrides.length > 0 && (
+                <div className="row between gap-3 wrap">
+                  <span className="t-tiny muted">
+                    This run overrides {activeOverrides.join(', ')}. The saved configuration is untouched.
+                  </span>
+                  <Button size="sm" variant="ghost" icon={<RotateCcw size={13} />} onClick={clearOverrides}>
+                    Reset to saved
+                  </Button>
+                </div>
+              )}
             </div>
           </Step>
         </div>
@@ -375,38 +542,61 @@ export function StudioPage() {
             )}
           </Card>
 
-          <Card title="Ready to run" data-tour="studio-launch">
-            <div className="stack gap-3">
-              <ChecklistRow ok={selected.length > 0} label="Participants selected" />
-              <ChecklistRow ok={problems.length === 0} label="Task is valid" />
-              <ChecklistRow ok={Boolean(effectiveModel)} label="Model chosen" />
+          <div data-tour="studio-launch">
+            <Card title="Ready to run">
+              <div className="stack gap-3">
+                <ChecklistRow
+                  ok={selected.length > 0}
+                  label={
+                    selected.length > 1
+                      ? `${selected.length} participants selected`
+                      : selected.length === 1
+                        ? '1 participant selected'
+                        : 'Participants selected'
+                  }
+                />
+                <ChecklistRow ok={report.ready} label={report.ready ? 'Task is valid' : `Task ${report.summary}`} />
+                <ChecklistRow ok={Boolean(effectiveModel)} label="Model chosen" />
 
-              <Button
-                variant="primary"
-                size="lg"
-                block
-                icon={<Play size={15} />}
-                disabled={!ready || Boolean(guards?.blocks)}
-                loading={launching}
-                onClick={() => launch(false)}
-              >
-                {selected.length > 1 ? `Run ${selected.length} participants` : 'Run the pipeline'}
-              </Button>
+                {offline && (
+                  <Callout tone="caution" icon={<WifiOff size={15} />} title="The provider is not reachable">
+                    {connectivity.data?.reason || 'A run started now would fail on its first call.'}
+                  </Callout>
+                )}
 
-              <Tooltip content="Loads the data and builds the predictor payload without contacting any provider. Free.">
                 <Button
+                  variant="primary"
+                  size="lg"
                   block
-                  icon={<FlaskConical size={14} />}
-                  disabled={selected.length !== 1 || problems.length > 0}
-                  onClick={() => launch(true)}
+                  icon={<Play size={15} />}
+                  disabled={!ready || Boolean(guards?.blocks)}
+                  loading={launching}
+                  onClick={launch}
                 >
-                  Dry run: structural audit
+                  {isBatch ? `Run ${selected.length} participants` : 'Run the pipeline'}
                 </Button>
-              </Tooltip>
 
-              {estimating && <Progress indeterminate />}
-            </div>
-          </Card>
+                <div className="stack gap-2">
+                  <Button
+                    block
+                    icon={<FlaskConical size={14} />}
+                    disabled={selected.length !== 1 || !report.ready}
+                    loading={auditing}
+                    onClick={audit}
+                  >
+                    Dry run: structural audit
+                  </Button>
+                  <span className="t-tiny muted">
+                    {selected.length > 1
+                      ? 'An audit reads one participant at a time. Select a single participant to audit.'
+                      : 'Loads the inputs and builds the predictor payload, then reports token counts, chunking, and the coverage assertions. No provider is called, so it is free and returns no prediction.'}
+                  </span>
+                </div>
+
+                {estimating && <Progress indeterminate />}
+              </div>
+            </Card>
+          </div>
 
           <Card title="What happens next">
             <ol className="studio__steps">
@@ -457,11 +647,38 @@ function Step({
             {icon}
             <span className="t-h3">{title}</span>
           </span>
-          <span className="t-tiny muted truncate">{summary}</span>
+          <span className={clsx('t-tiny truncate', done ? 'muted' : 'studio__step-todo')}>{summary}</span>
         </span>
       </header>
       <div className="studio__step-body">{children}</div>
     </section>
+  )
+}
+
+/** A label that says when the control has been moved off its saved value. */
+function OverrideLabel({
+  label,
+  overridden,
+  saved,
+  onReset,
+}: {
+  label: string
+  overridden: boolean
+  saved: string
+  onReset: () => void
+}) {
+  return (
+    <span className="row gap-2">
+      <span>{label}</span>
+      {overridden && (
+        <>
+          <Badge tone="accent">this run</Badge>
+          <button type="button" className="studio__reset" onClick={onReset}>
+            back to {saved}
+          </button>
+        </>
+      )}
+    </span>
   )
 }
 
@@ -482,103 +699,6 @@ function ChecklistRow({ ok, label }: { ok: boolean; label: string }) {
         {ok ? <Check size={11} /> : <span style={{ fontSize: 9 }}>·</span>}
       </span>
       <span className={ok ? undefined : 'muted'}>{label}</span>
-    </div>
-  )
-}
-
-function RunOverridePanel({
-  overrides,
-  setOverride,
-  onClear,
-}: {
-  overrides: RunOverrides
-  setOverride: (section: keyof RunOverrides, patch: Record<string, unknown>) => void
-  onClear: () => void
-}) {
-  const models = (overrides.models ?? {}) as Record<string, unknown>
-  const budget = (overrides.token_budget ?? {}) as Record<string, unknown>
-  const instructions = (overrides.instructions ?? {}) as Record<string, string>
-
-  return (
-    <div className="stack gap-4">
-      <Callout tone="neutral" icon={<Gauge size={15} />}>
-        These apply to this run only. The saved configuration is left untouched.
-      </Callout>
-
-      <div className="grid grid--2">
-        <Field label="Model for this run" hint="Leave blank to use the saved default.">
-          <Input
-            mono
-            placeholder="provider/model-id"
-            value={(models.default_model as string) ?? ''}
-            onChange={(e) => setOverride('models', { default_model: e.target.value })}
-          />
-        </Field>
-        <Field
-          label="Reasoning effort"
-          info={
-            <p>
-              Reasoning tokens are billed as output and count against the output ceiling. Turning reasoning off
-              is markedly faster and cheaper; raise it when the task needs deeper deliberation.
-            </p>
-          }
-        >
-          <Segmented
-            value={(models.reasoning_effort as string) ?? 'off'}
-            options={[
-              { value: 'off', label: 'Off' },
-              { value: 'low', label: 'Low' },
-              { value: 'medium', label: 'Medium' },
-              { value: 'high', label: 'High' },
-            ]}
-            onChange={(reasoning_effort) => setOverride('models', { reasoning_effort })}
-          />
-        </Field>
-        <Field label="Total token budget" hint="0 keeps the saved value.">
-          <Input
-            type="number"
-            min={0}
-            value={(budget.total_budget as number) ?? ''}
-            onChange={(e) => setOverride('token_budget', { total_budget: Number(e.target.value) || 0 })}
-          />
-        </Field>
-        <Field label="Max agent output tokens" hint="0 derives from the context window.">
-          <Input
-            type="number"
-            min={0}
-            value={(budget.max_agent_output_tokens as number) ?? ''}
-            onChange={(e) =>
-              setOverride('token_budget', { max_agent_output_tokens: Number(e.target.value) || 0 })
-            }
-          />
-        </Field>
-      </div>
-
-      <Field
-        label="Extra instruction for every agent"
-        info={
-          <p>
-            Appended to each agent's system prompt for this run. Use it for study-specific framing, for example a
-            cohort description or a reporting convention. Per-agent instructions live in settings.
-          </p>
-        }
-      >
-        <textarea
-          className="textarea"
-          rows={3}
-          placeholder="for example: this cohort is medication naive; do not infer treatment effects."
-          value={instructions.global ?? ''}
-          onChange={(e) => setOverride('instructions', { ...instructions, global: e.target.value })}
-        />
-      </Field>
-
-      {Object.keys(overrides).length > 0 && (
-        <div className="row">
-          <Button size="sm" variant="ghost" onClick={onClear}>
-            Clear all overrides
-          </Button>
-        </div>
-      )}
     </div>
   )
 }

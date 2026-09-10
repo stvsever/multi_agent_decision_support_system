@@ -1,0 +1,450 @@
+/*
+ * Graph view.
+ *
+ * Deviation colour arrives on the node as `--tone`, always from a --dev-*
+ * token, so both themes and all six accents follow without a second palette.
+ * Label visibility is driven entirely by `data-labels` on the surface, which
+ * lets a wheel tick repaint hundreds of nodes without React touching any of
+ * them.
+ */
+
+.ograph {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  overflow: hidden;
+  background: var(--bg-sunken);
+  border-radius: inherit;
+  outline: none;
+}
+
+.ograph:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.ograph .react-flow {
+  --xy-background-pattern-color: var(--line);
+  --xy-minimap-background-color: var(--bg-elevated);
+  --xy-minimap-node-stroke-color: transparent;
+  background: transparent;
+}
+
+/* The opening frame is worked out once the pane has been measured, so the
+   first painted transform is held back rather than shown and corrected. */
+.ograph .react-flow__viewport {
+  opacity: 0;
+}
+.ograph[data-opened='true'] .react-flow__viewport {
+  opacity: 1;
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+.ograph .react-flow__attribution {
+  background: transparent;
+  margin: 0 4px 2px 0;
+  padding: 0;
+  font-size: 9px;
+}
+.ograph .react-flow__attribution a {
+  color: var(--text-faint);
+}
+
+.ograph .react-flow__minimap {
+  width: 156px;
+  height: 112px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  margin: var(--s-3) var(--s-3) 18px;
+  overflow: hidden;
+}
+
+/* React Flow writes the stacking order inline, so a hovered node can only be
+   lifted above its neighbours from here. */
+.ograph .react-flow__node:hover {
+  z-index: 40 !important;
+}
+
+/* --- Node ----------------------------------------------------------------- */
+
+.ographn {
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  cursor: pointer;
+}
+
+/* A leaf is eleven pixels wide before the viewport scales it down, which is
+   below what anyone can hit. The halo is the click target; the disc is only
+   what you see. */
+.ographn::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+}
+
+.ographn__port {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 1px;
+  min-width: 1px;
+  min-height: 1px;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.ographn__disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--tone);
+  border: 1.5px solid transparent;
+  transition:
+    box-shadow var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+/* A branch is a ring around a wash, a leaf is solid: the two never read the
+   same even at the zoom where labels are gone. */
+.ographn[data-kind='branch'] .ographn__disc {
+  background: color-mix(in srgb, var(--tone) 24%, var(--bg-elevated));
+  border: 2.5px solid var(--tone);
+}
+
+.ographn[data-kind='root'] .ographn__disc {
+  background: var(--bg-elevated);
+  border: 2px solid var(--line-strong);
+}
+
+.ographn[data-collapsed] .ographn__disc {
+  box-shadow:
+    0 0 0 2px var(--bg-sunken),
+    0 0 0 3.5px color-mix(in srgb, var(--tone) 62%, transparent);
+}
+
+.ographn[data-selected] .ographn__disc {
+  box-shadow:
+    0 0 0 2px var(--bg-sunken),
+    0 0 0 4px var(--accent);
+}
+
+/* The keyboard can rest on a node that carries nothing to inspect, such as the
+   participant at the root, so the cursor is marked separately. */
+.ographn[data-cursor] .ographn__disc {
+  box-shadow:
+    0 0 0 2px var(--bg-sunken),
+    0 0 0 3px var(--accent-200);
+}
+
+.ographn[data-dim] {
+  opacity: 0.26;
+}
+
+/* --- Cohort membership ---------------------------------------------------- */
+
+.ograph[data-cohort] .ographn[data-membership='common'] .ographn__disc {
+  border-style: solid;
+  background: color-mix(in srgb, var(--tone) 62%, var(--bg-elevated));
+}
+.ograph[data-cohort] .ographn[data-membership='common'][data-kind='branch'] .ographn__disc {
+  background: color-mix(in srgb, var(--tone) 18%, var(--bg-elevated));
+}
+
+.ograph[data-cohort] .ographn[data-membership='partial'] .ographn__disc {
+  border: 2px dashed var(--tone);
+  background: color-mix(in srgb, var(--tone) 22%, var(--bg-elevated));
+}
+
+.ograph[data-cohort] .ographn[data-membership='unique'] .ographn__disc {
+  border: 2px dotted var(--accent);
+  background: color-mix(in srgb, var(--tone) 16%, var(--bg-elevated));
+}
+
+/* A leaf only one participant carries has to stay findable, so it keeps a
+   marker of its own rather than only a border treatment. */
+.ograph[data-cohort] .ographn[data-membership='unique']::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1.5px var(--bg-sunken);
+}
+
+.ographn__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  pointer-events: none;
+}
+.ographn__ring circle {
+  fill: none;
+  stroke: var(--tone);
+  stroke-width: 2;
+  opacity: 0.62;
+}
+
+/* --- Collapse affordance --------------------------------------------------- */
+
+.ographn__toggle {
+  position: absolute;
+  left: 100%;
+  top: 100%;
+  transform: translate(-3px, -3px);
+  display: grid;
+  place-items: center;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+  z-index: 3;
+}
+.ographn[data-collapsed] .ographn__toggle,
+.ographn:hover .ographn__toggle,
+.ographn[data-selected] .ographn__toggle {
+  opacity: 1;
+}
+.ographn__toggle:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.ographn:not([data-collapsed]) .ographn__toggle::after {
+  content: '';
+  width: 6px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+/* --- Label ---------------------------------------------------------------- */
+
+.ographn__label {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  gap: 1px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.ograph[data-layout='lr'] .ographn__label,
+.ograph[data-layout='radial'] .ographn[data-side='right'] .ographn__label {
+  left: calc(100% + 7px);
+  top: 50%;
+  transform: translateY(-50%);
+  align-items: flex-start;
+}
+
+.ograph[data-layout='radial'] .ographn[data-side='left'] .ographn__label {
+  right: calc(100% + 7px);
+  left: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  align-items: flex-end;
+  text-align: right;
+}
+
+.ograph[data-layout='tb'] .ographn__label {
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+  text-align: center;
+}
+
+/* Legibility beats completeness: below the threshold the text would overlap,
+   so it is removed from layout entirely and comes back on hover. */
+.ograph[data-labels='all'] .ographn__label,
+.ograph[data-labels='branches'] .ographn[data-kind='branch'] .ographn__label,
+.ograph[data-labels='branches'] .ographn[data-kind='root'] .ographn__label,
+.ographn:hover .ographn__label,
+.ographn[data-cursor] .ographn__label,
+.ographn[data-selected] .ographn__label {
+  display: flex;
+}
+
+.ographn__name {
+  max-width: 178px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 10.5px;
+  font-weight: 560;
+  color: var(--text);
+}
+.ograph[data-layout='tb'] .ographn__name {
+  max-width: 118px;
+}
+.ographn[data-kind='root'] .ographn__name,
+.ographn[data-kind='branch'] .ographn__name {
+  font-weight: 640;
+}
+
+.ographn__meta {
+  display: none;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: 9.5px;
+  color: var(--text-muted);
+}
+.ograph[data-labels='all'] .ographn__meta,
+.ographn:hover .ographn__meta,
+.ographn[data-cursor] .ographn__meta,
+.ographn[data-selected] .ographn__meta {
+  display: flex;
+}
+
+/* On the left half of a radial layout the text reads outward, so the pieces
+   inside the meta row have to reverse with it. */
+.ograph[data-layout='radial'] .ographn[data-side='left'] .ographn__meta {
+  flex-direction: row-reverse;
+}
+
+/* --- Edge ----------------------------------------------------------------- */
+
+.ographe {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.15;
+  stroke-opacity: 0.8;
+}
+.ographe[data-dim] {
+  stroke-opacity: 0.22;
+}
+
+.ograph .react-flow__edges {
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+/* --- Chrome --------------------------------------------------------------- */
+
+.ograph-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.ograph-controls__cluster {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-elevated) 90%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+}
+
+.ograph-controls__zoom {
+  min-width: 40px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  color: var(--text-muted);
+}
+
+.ograph-controls__divider {
+  width: 1px;
+  height: 18px;
+  margin: 0 2px;
+  background: var(--line);
+}
+
+.ograph-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-elevated) 90%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+  font-size: var(--t-micro);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.ograph-foot__row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.ograph-foot__row b {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.ograph-foot__sep {
+  width: 1px;
+  height: 11px;
+  background: var(--line);
+}
+
+.ograph-foot__legend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding-left: var(--s-3);
+  border-left: 1px solid var(--line);
+}
+
+.ograph-foot__key {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ograph-foot__swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  border: 1.5px solid var(--text-faint);
+}
+.ograph-foot__key[data-membership='common'] .ograph-foot__swatch {
+  background: color-mix(in srgb, var(--text-faint) 55%, transparent);
+}
+.ograph-foot__key[data-membership='partial'] .ograph-foot__swatch {
+  background: transparent;
+  border-style: dashed;
+}
+.ograph-foot__key[data-membership='unique'] .ograph-foot__swatch {
+  background: transparent;
+  border-style: dotted;
+  border-color: var(--accent);
+}
+
+.ograph-hint {
+  max-width: 208px;
+  pointer-events: none;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .ograph-hint {
+    display: none;
+  }
+}

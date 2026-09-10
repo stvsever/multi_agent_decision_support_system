@@ -3,10 +3,19 @@
 import type {
   AccountStatus,
   BatchStatus,
+  BrowseResponse,
   Capabilities,
   CatalogResponse,
+  Connectivity,
+  CredentialProvider,
   DashboardConfig,
+  DeployPlan,
+  DeployProbe,
+  DistributionResponse,
   EstimateResponse,
+  HfModelDetail,
+  HfModelRow,
+  LocalBackendConfig,
   Ontology,
   Participant,
   ParticipantsResponse,
@@ -86,6 +95,8 @@ const query = (params: Record<string, string | number | boolean | undefined | nu
 export const api = {
   health: () => request<{ status: string; version: string }>('/health'),
   capabilities: () => request<Capabilities>('/capabilities'),
+  /* Grouped under /system so it shares a namespace with the storage controls. */
+  connectivity: () => request<Connectivity>('/system/connectivity'),
 
   settings: {
     get: () => request<SettingsResponse>('/settings'),
@@ -98,7 +109,7 @@ export const api = {
       request<{ config: DashboardConfig; effective: Record<string, unknown> }>('/settings/reset', {
         method: 'POST',
       }),
-    setCredential: (provider: 'openrouter' | 'openai', apiKey: string) =>
+    setCredential: (provider: CredentialProvider, apiKey: string) =>
       request<{ credential: unknown; verification: AccountStatus }>('/settings/credentials', {
         method: 'PUT',
         body: JSON.stringify({ provider, api_key: apiKey }),
@@ -129,6 +140,17 @@ export const api = {
         `/datasets/participant/file${query({ directory, key })}`,
       ),
     ontology: (directory: string) => request<Ontology>(`/datasets/ontology${query({ directory })}`),
+    ontologyAggregate: (directories: string[]) =>
+      request<Ontology>('/datasets/ontology/aggregate', {
+        method: 'POST',
+        body: JSON.stringify({ directories }),
+      }),
+    distribution: (directories: string[], path: string[]) =>
+      request<DistributionResponse>('/datasets/ontology/distribution', {
+        method: 'POST',
+        body: JSON.stringify({ directories, path }),
+      }),
+    browse: (path?: string) => request<BrowseResponse>(`/datasets/browse${query({ path })}`),
     addRoot: (path: string) =>
       request<ParticipantsResponse>('/datasets/roots', { method: 'POST', body: JSON.stringify({ path }) }),
     removeRoot: (path: string) =>
@@ -181,6 +203,19 @@ export const api = {
       request<string>(`/reports/file${query(params)}`),
     pdfUrl: (params: { run_id?: string; participant_dir?: string }) =>
       `${API_BASE}/reports/pdf${query(params)}`,
+  },
+
+  hf: {
+    search: (params: { q?: string; task?: string; limit?: number } = {}) =>
+      request<{ models: HfModelRow[]; error?: string }>(`/hf/models${query(params)}`),
+    detail: (modelId: string) => request<HfModelDetail>(`/hf/model/${modelId}`),
+  },
+
+  deploy: {
+    plan: () => request<DeployPlan>('/deploy/plan'),
+    preview: (local: Partial<LocalBackendConfig>) =>
+      request<DeployPlan>('/deploy/plan', { method: 'POST', body: JSON.stringify(local) }),
+    probe: () => request<DeployProbe>('/deploy/probe'),
   },
 
   prompts: {

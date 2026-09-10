@@ -145,14 +145,21 @@ export function Segmented<T extends string>({
   options,
   onChange,
   size = 'md',
+  block = false,
 }: {
   value: T
   options: { value: T; label: ReactNode; title?: string }[]
   onChange: (next: T) => void
   size?: 'sm' | 'md'
+  /** Stretch to the container. Off by default so a two-option control stays small. */
+  block?: boolean
 }) {
   return (
-    <div className="segmented" role="group" style={size === 'sm' ? { padding: 2 } : undefined}>
+    <div
+      className={clsx('segmented', block && 'segmented--block')}
+      role="group"
+      style={size === 'sm' ? { padding: 2 } : undefined}
+    >
       {options.map((option) => (
         <button
           key={option.value}
@@ -171,6 +178,12 @@ export function Segmented<T extends string>({
 
 /* --- Slider with a numeric companion -------------------------------------- */
 
+/**
+ * Range with a numeric companion.
+ *
+ * The track itself communicates the position, so the only labels are the two
+ * bounds: preset chips underneath duplicated what the thumb already showed.
+ */
 export function SliderField({
   value,
   min,
@@ -179,7 +192,7 @@ export function SliderField({
   onChange,
   format,
   suffix,
-  presets,
+  disabled,
 }: {
   value: number
   min: number
@@ -188,28 +201,41 @@ export function SliderField({
   onChange: (next: number) => void
   format?: (value: number) => string
   suffix?: string
-  presets?: number[]
+  disabled?: boolean
 }) {
+  const label = (bound: number) => (format ? format(bound) : String(bound))
   return (
-    <div className="stack gap-2">
+    <div className="stack gap-1">
       <div className="row gap-3">
-        <input
-          type="range"
-          className="slider grow"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(event) => onChange(Number(event.target.value))}
-        />
+        {/* The bounds belong under the track, so the track and the row that
+            labels it are one column and the numeric companion sits outside
+            it. Laying the labels out against the whole row instead pushed the
+            upper bound past the track and under the number box. */}
+        <div className="stack gap-1 grow" style={{ minWidth: 0 }}>
+          <input
+            type="range"
+            className="slider"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            disabled={disabled}
+            onChange={(event) => onChange(Number(event.target.value))}
+          />
+          <div className="row between">
+            <span className="t-micro faint tabular">{label(min)}</span>
+            <span className="t-micro faint tabular">{label(max)}</span>
+          </div>
+        </div>
         <input
           type="number"
           className="input tabular"
-          style={{ width: 92, flex: 'none' }}
+          style={{ width: 88, flex: 'none' }}
           min={min}
           max={max}
           step={step}
           value={value}
+          disabled={disabled}
           onChange={(event) => {
             const next = Number(event.target.value)
             if (!Number.isNaN(next)) onChange(Math.min(max, Math.max(min, next)))
@@ -217,25 +243,6 @@ export function SliderField({
         />
         {suffix && <span className="t-tiny muted" style={{ flex: 'none' }}>{suffix}</span>}
       </div>
-      {presets && presets.length > 0 && (
-        <div className="row gap-1 wrap">
-          {presets.map((preset) => (
-            <button
-              key={preset}
-              type="button"
-              className="badge"
-              style={{
-                cursor: 'pointer',
-                background: value === preset ? 'var(--accent-50)' : undefined,
-                color: value === preset ? 'var(--accent)' : undefined,
-              }}
-              onClick={() => onChange(preset)}
-            >
-              {format ? format(preset) : preset}
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   )
 }
@@ -492,13 +499,16 @@ export function Tabs<T extends string>({
   value,
   options,
   onChange,
+  spread = false,
 }: {
   value: T
   options: { value: T; label: ReactNode; badge?: ReactNode; disabled?: boolean }[]
   onChange: (next: T) => void
+  /** Share the full width evenly rather than bunching every label on the left. */
+  spread?: boolean
 }) {
   return (
-    <div className="tabs" role="tablist">
+    <div className={clsx('tabs', spread && 'tabs--spread')} role="tablist">
       {options.map((option) => (
         <button
           key={option.value}

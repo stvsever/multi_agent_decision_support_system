@@ -43,7 +43,9 @@
   padding: var(--s-3) var(--s-2);
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  /* Eight sections rather than twelve, so the rail can breathe instead of
+     stacking every name against the top edge. */
+  gap: var(--s-1);
 }
 
 .settings__navitem {
@@ -51,7 +53,7 @@
   align-items: center;
   gap: var(--s-3);
   width: 100%;
-  padding: var(--s-2) var(--s-3);
+  padding: var(--s-3);
   border: none;
   border-radius: var(--r-md);
   background: transparent;
@@ -352,4 +354,88 @@ a.btn:hover {
   font-size: var(--t-micro);
   color: var(--text-faint);
   align-self: flex-end;
+}
+
+/* --- Hugging Face results ------------------------------------------------- */
+
+.settings__hflist {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: 232px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+  padding: var(--s-1);
+}
+.settings__hfrow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  text-align: left;
+  cursor: pointer;
+}
+.settings__hfrow:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.settings__hfrow[aria-current='true'] {
+  background: var(--accent-50);
+  border-color: var(--accent-200);
+  color: var(--accent);
+}
+
+/* --- Commands ------------------------------------------------------------- */
+
+.settings__script {
+  margin: 0;
+  padding: var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-inset);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+/* A generated sbatch script is long; it scrolls rather than pushing the
+   controls underneath it off the panel. */
+.settings__script--tall {
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+.settings__warnings {
+  margin: 0;
+  padding-left: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+/* --- Storage rows --------------------------------------------------------- */
+
+.settings__store {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+}
+.settings__store[data-armed='true'] {
+  border-color: color-mix(in srgb, var(--critical) 40%, transparent);
+  background: var(--critical-soft);
 }

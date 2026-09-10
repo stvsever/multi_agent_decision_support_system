@@ -14,7 +14,7 @@ from pydantic import ValidationError
 from ..config_store import load_config
 from ..cost import estimate_run, expected_plan_steps, participant_domain_count, participant_input_tokens
 from ..datasets import inspect_participant
-from ..engine_bridge import merge_overrides
+from ..engine_bridge import ConfigurationProblem, merge_overrides
 from ..run_manager import get_run_manager
 from ..safe_paths import to_path
 from ..schemas import AuditRequest, CostEstimateRequest, RunRequest
@@ -30,7 +30,8 @@ def _readable(exc: ValidationError) -> str:
     parts = []
     for error in exc.errors():
         location = ".".join(str(p) for p in error.get("loc", ()) if p != "__root__")
-        parts.append(f"{location}: {error.get('msg', 'invalid value')}" if location else error.get("msg", "invalid"))
+        message = str(error.get("msg", "invalid value")).replace("Value error, ", "")
+        parts.append(f"{location}: {message}" if location else message)
     return "; ".join(parts) or "Invalid configuration."
 
 
@@ -95,6 +96,10 @@ def create_run(request: RunRequest) -> Dict[str, Any]:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except ValidationError as exc:
         raise HTTPException(status_code=422, detail=_readable(exc)) from exc
+    # A configuration problem is unprocessable rather than malformed, and it
+    # must be caught before the plain ValueError the cost guard raises.
+    except ConfigurationProblem as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     return record.summary()
@@ -115,6 +120,8 @@ def create_audit(request: AuditRequest) -> Dict[str, Any]:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except ValidationError as exc:
         raise HTTPException(status_code=422, detail=_readable(exc)) from exc
+    except ConfigurationProblem as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     return record.summary()

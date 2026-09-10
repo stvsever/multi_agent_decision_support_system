@@ -46,15 +46,37 @@ export function AppearanceSection() {
       <SectionHead title="Appearance" description="How the interface looks and how much it moves." />
 
       <Group title="Theme">
-        <Segmented
-          value={appearance.theme}
-          options={[
-            { value: 'system', label: 'System' },
-            { value: 'light', label: 'Light' },
-            { value: 'dark', label: 'Dark' },
-          ]}
-          onChange={setTheme}
-        />
+        <Grid>
+          <Field label="Mode" hint="System follows the operating system setting.">
+            <Segmented
+              value={appearance.theme}
+              options={[
+                { value: 'system', label: 'System' },
+                { value: 'light', label: 'Light' },
+                { value: 'dark', label: 'Dark' },
+              ]}
+              onChange={setTheme}
+            />
+          </Field>
+          <Field label="Accent" hint="Used for selection, focus, and the active state.">
+            <div className="settings__swatches" role="group" aria-label="Accent colour">
+              {ACCENTS.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  className="settings__swatch"
+                  title={option.label}
+                  aria-label={option.label}
+                  aria-pressed={appearance.accent === option.value}
+                  onClick={() => setAccent(option.value)}
+                >
+                  <span style={{ background: `var(--swatch-${option.value})` }} />
+                </button>
+              ))}
+            </div>
+          </Field>
+        </Grid>
+
         <div className="settings__preview">
           <span className="eyebrow">Preview</span>
           <div className="row gap-3 wrap">
@@ -73,27 +95,9 @@ export function AppearanceSection() {
         </div>
       </Group>
 
-      <Group title="Accent">
-        <div className="settings__swatches" role="group" aria-label="Accent colour">
-          {ACCENTS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              className="settings__swatch"
-              title={option.label}
-              aria-label={option.label}
-              aria-pressed={appearance.accent === option.value}
-              onClick={() => setAccent(option.value)}
-            >
-              <span style={{ background: `var(--swatch-${option.value})` }} />
-            </button>
-          ))}
-        </div>
-      </Group>
-
       <Group title="Layout">
         <Grid>
-          <Field label="Density" hint="Compact tightens spacing and control heights across every screen.">
+          <Field label="Density" hint="Compact tightens spacing and control heights everywhere.">
             <Segmented
               value={appearance.density}
               options={[
@@ -103,13 +107,12 @@ export function AppearanceSection() {
               onChange={setDensity}
             />
           </Field>
-          <Field label={`Font scale: ${appearance.font_scale.toFixed(2)}x`} hint="Scales the whole type ramp. 0.85 to 1.3.">
+          <Field label={`Font scale: ${appearance.font_scale.toFixed(2)}x`} hint="Scales the whole type ramp.">
             <SliderControl
               value={appearance.font_scale}
               min={0.85}
               max={1.3}
               step={0.05}
-              presets={[0.85, 1, 1.15, 1.3]}
               format={(value) => `${value.toFixed(2)}x`}
               onCommit={(next) => {
                 setAppearance({ fontScale: next })
@@ -137,13 +140,7 @@ export function AppearanceSection() {
       </Group>
 
       <Group title="Flow canvas">
-        <SwitchRow
-          label="Animate edges"
-          hint="Dispatch edges pulse while a step is in flight."
-          checked={appearance.flow_animate_edges}
-          onChange={(next) => update('appearance', { flow_animate_edges: next })}
-        />
-        <Grid columns={3}>
+        <Grid>
           <Field label="Direction">
             <Segmented
               value={appearance.flow_direction}
@@ -163,23 +160,26 @@ export function AppearanceSection() {
                   flow_edge_style: event.target.value as typeof appearance.flow_edge_style,
                 })
               }
+              style={{ width: 200 }}
             >
               <option value="bezier">Bezier</option>
               <option value="smoothstep">Smooth step</option>
               <option value="straight">Straight</option>
             </Select>
           </Field>
-          <Field label="Token badges" hint="Shows the token count on each node.">
-            <Segmented
-              value={appearance.flow_show_tokens ? 'on' : 'off'}
-              options={[
-                { value: 'on', label: 'Show' },
-                { value: 'off', label: 'Hide' },
-              ]}
-              onChange={(next) => update('appearance', { flow_show_tokens: next === 'on' })}
-            />
-          </Field>
         </Grid>
+        <SwitchRow
+          label="Animate edges"
+          hint="Dispatch edges pulse while a step is in flight."
+          checked={appearance.flow_animate_edges}
+          onChange={(next) => update('appearance', { flow_animate_edges: next })}
+        />
+        <SwitchRow
+          label="Token badges"
+          hint="Shows the token count on each node of the flow canvas."
+          checked={appearance.flow_show_tokens}
+          onChange={(next) => update('appearance', { flow_show_tokens: next })}
+        />
       </Group>
 
       <Group title="Numbers">
@@ -187,16 +187,18 @@ export function AppearanceSection() {
           label="Numeric locale"
           hint="A BCP 47 tag such as en-US, en-GB, de-DE, or nl-BE. It sets thousands separators and date format."
         >
-          <TextControl
-            ariaLabel="Numeric locale"
-            value={appearance.numeric_locale}
-            onCommit={(next) => {
-              const tag = next.trim() || 'en-US'
-              setLocale(tag)
-              setAppearance({ numericLocale: tag })
-              update('appearance', { numeric_locale: tag })
-            }}
-          />
+          <div style={{ maxWidth: 220 }}>
+            <TextControl
+              ariaLabel="Numeric locale"
+              value={appearance.numeric_locale}
+              onCommit={(next) => {
+                const tag = next.trim() || 'en-US'
+                setLocale(tag)
+                setAppearance({ numericLocale: tag })
+                update('appearance', { numeric_locale: tag })
+              }}
+            />
+          </div>
         </Field>
       </Group>
     </>

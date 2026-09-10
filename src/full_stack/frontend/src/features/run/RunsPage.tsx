@@ -7,7 +7,7 @@
 
 import clsx from 'clsx'
 import { useQueryClient } from '@tanstack/react-query'
-import { Activity, FileText, Search, Sparkles, Trash2, X } from 'lucide-react'
+import { Activity, FileText, Layers, Search, Sparkles, Trash2, X } from 'lucide-react'
 import { memo, useCallback, useMemo, useState, type ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Badge, Button, EmptyState, Input, Progress, Segmented, Skeleton, Tooltip } from '@/components/ui/primitives'
@@ -43,6 +43,9 @@ export function RunsPage() {
   const [status, setStatus] = useState<RunStatus | 'all'>('all')
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortKey>('newest')
+  // Batches have no place in the navigation any more, so the history is where a
+  // cohort run is found again.
+  const [batchOnly, setBatchOnly] = useState(false)
 
   const anyActive = runs.some((run) => isActive(run.status))
   const now = useNow(anyActive)
@@ -62,10 +65,13 @@ export function RunsPage() {
     [runs],
   )
 
+  const batched = useMemo(() => runs.filter((run) => Boolean(run.batch_id)).length, [runs])
+
   const visible = useMemo(() => {
     const needle = search.trim().toLowerCase()
     const filtered = runs.filter((run) => {
       if (status !== 'all' && run.status !== status) return false
+      if (batchOnly && !run.batch_id) return false
       if (!needle) return true
       return (
         run.participant_id.toLowerCase().includes(needle) ||
@@ -82,7 +88,7 @@ export function RunsPage() {
       sorted.sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))
     }
     return sorted
-  }, [runs, status, search, sort])
+  }, [runs, status, search, sort, batchOnly])
 
   return (
     <div className="page">
@@ -118,6 +124,11 @@ export function RunsPage() {
               {STATUS_LABEL[key]}
             </FilterChip>
           ))}
+          {batched > 0 && (
+            <FilterChip active={batchOnly} onClick={() => setBatchOnly(!batchOnly)} count={batched}>
+              In a batch
+            </FilterChip>
+          )}
         </div>
         <div className="grow" />
         <div className="run-search">
@@ -167,6 +178,7 @@ export function RunsPage() {
                 onClick={() => {
                   setSearch('')
                   setStatus('all')
+                  setBatchOnly(false)
                 }}
               >
                 Reset filters
@@ -258,7 +270,8 @@ const RunRow = memo(function RunRow({ run, now }: { run: RunSummary; now: number
           <span className="row gap-2" style={{ minWidth: 0 }}>
             <span className="semibold truncate">{run.participant_id}</span>
             <Badge tone="neutral">{taskModeLabel(run.task)}</Badge>
-            {run.audit && <Badge tone="info">Audit</Badge>}
+            {run.audit && <Badge tone="info">Structural audit</Badge>}
+            {run.batch_id && <Badge outline>Batch</Badge>}
             {run.verdict && <Badge tone={verdictTone(run.verdict)}>{run.verdict}</Badge>}
           </span>
           <span className="t-tiny muted truncate">
@@ -290,13 +303,26 @@ const RunRow = memo(function RunRow({ run, now }: { run: RunSummary; now: number
             <span className="run-metric__label">tokens</span>
           </span>
           <span className="run-metric">
-            <span className="run-metric__value tabular">{usd(run.cost?.usd)}</span>
-            <span className="run-metric__label">of ~{usd(run.estimate?.usd)}</span>
+            <span className="run-metric__value tabular">{run.audit ? 'free' : usd(run.cost?.usd)}</span>
+            <span className="run-metric__label">
+              {run.audit
+                ? 'no model calls'
+                : run.estimate?.usd === null || run.estimate?.usd === undefined
+                  ? 'no projection'
+                  : `of ~${usd(run.estimate.usd)}`}
+            </span>
           </span>
         </span>
       </Link>
 
       <div className="run-row__actions">
+        {run.batch_id && (
+          <Tooltip content="This run is one of a batch. Open the batch monitor.">
+            <Link to="/batch" state={{ batchId: run.batch_id }} className="run-rowlink" aria-label="Open the batch">
+              <Layers size={14} />
+            </Link>
+          </Tooltip>
+        )}
         {active && (
           <Tooltip content="Cancel this run">
             <Button
@@ -310,14 +336,14 @@ const RunRow = memo(function RunRow({ run, now }: { run: RunSummary; now: number
             />
           </Tooltip>
         )}
-        {run.status === 'succeeded' && (
+        {run.status === 'succeeded' && !run.audit && (
           <Tooltip content="Open the report">
             <Button
               size="sm"
               variant="ghost"
               iconOnly
               icon={<FileText size={14} />}
-              onClick={() => navigate(`/reports/${encodeURIComponent(run.participant_id)}?run=${run.id}`)}
+              onClick={() => navigate(`/reports/${encodeURIComponent(run.participant_id)}?run_id=${run.id}`)}
               aria-label="Open report"
             />
           </Tooltip>

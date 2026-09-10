@@ -4,12 +4,18 @@
   z-index: 800;
   pointer-events: none;
 }
-.tour__scrim { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: auto; }
+/* Paint only. The shields below decide what can be clicked, so the lit element
+   keeps its own hit area instead of the scrim swallowing the click. */
+.tour__scrim { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .tour__scrim-fill { fill: var(--bg-scrim); }
 
+/* The screen minus the hole, in four bands. */
+.tour__shield { position: absolute; pointer-events: auto; }
+
+/* The radius is set inline from the highlighted element's own computed radius,
+   so the ring follows the shape it is tracing. */
 .tour__ring {
   position: absolute;
-  border-radius: 12px;
   border: 1.5px solid var(--accent);
   box-shadow: 0 0 0 3px var(--accent-100), var(--shadow-lg);
   pointer-events: none;
@@ -26,6 +32,9 @@
   border: 1px solid var(--line);
   box-shadow: var(--shadow-xl);
   pointer-events: auto;
+  /* Moved with top and left, never a transform: the transform is the
+     animation's. The reduced-motion rules flatten this to an instant move. */
+  transition: top var(--dur-slow) var(--ease-out), left var(--dur-slow) var(--ease-out);
 }
 .tour__card-head { display: flex; align-items: center; gap: var(--s-2); }
 .tour__badge {
@@ -40,17 +49,27 @@
   color: var(--accent);
 }
 .tour__body { font-size: var(--t-small); line-height: 1.6; color: var(--text-secondary); }
-.tour__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
-.tour__dots { display: flex; gap: 4px; }
+/* Wraps rather than overflows: at a large font scale the dots and the two
+   buttons stop fitting on one line. */
+.tour__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; }
+.tour__foot > :last-child { margin-left: auto; }
+.tour__dots { display: flex; gap: 0; }
+/* The dot is 5px of paint inside a 21 by 23 button: the visual rhythm is the
+   same, the thing you have to hit is not a 5px square. */
 .tour__dot {
+  box-sizing: content-box;
   width: 5px;
   height: 5px;
-  padding: 0;
+  flex: none;
+  padding: 9px 8px;
   border: none;
   border-radius: var(--r-full);
   background: var(--line-strong);
+  background-clip: content-box;
   cursor: pointer;
-  transition: all var(--dur) var(--ease-out);
+  transition: background var(--dur) var(--ease-out), width var(--dur) var(--ease-out);
 }
-.tour__dot[data-seen='true'] { background: var(--accent-200); }
-.tour__dot[data-on='true'] { background: var(--accent); width: 16px; }
+/* background-color, not the shorthand: the shorthand would reset the clip and
+   paint the whole hit area. */
+.tour__dot[data-seen='true'] { background-color: var(--accent-200); }
+.tour__dot[data-on='true'] { background-color: var(--accent); width: 16px; }

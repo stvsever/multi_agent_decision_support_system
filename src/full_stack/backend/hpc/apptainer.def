@@ -1,0 +1,172 @@
+Bootstrap: docker
+From: nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04
+
+# =============================================================================
+# COMPASS Apptainer image for self-hosted open weights
+# =============================================================================
+#
+# The cluster twin of docker/Dockerfile.gpu: the same CUDA base, the same Python
+# environment, the same two roles (serve a model with vLLM, or run the COMPASS
+# dashboard). Clusters run Apptainer rather than Docker because it needs no
+# daemon and no root.
+#
+# BUILD FROM SOURCE (run from the repository root, the %files paths are relative
+# to the working directory):
+#
+#   cd ~/compass_pipeline/multi_agent_decision_support_system
+#   apptainer build ~/compass_containers/compass_gpu.sif \
+#       src/full_stack/backend/hpc/apptainer.def
+#
+# Most clusters forbid unprivileged builds. Two ways around that:
+#
+#   # a. Build remotely on the Sylabs cloud builder
+#   apptainer build --remote ~/compass_containers/compass_gpu.sif \
+#       src/full_stack/backend/hpc/apptainer.def
+#
+#   # b. Build the Docker image on a machine you control and convert it
+#   docker build -f docker/Dockerfile.gpu -t compass-engine:gpu .
+#   apptainer build compass_gpu.sif docker-daemon://compass-engine:gpu
+#   # or, after pushing it: apptainer build compass_gpu.sif docker://<registry>/compass-engine:gpu
+#
+# RUN:
+#   --nv is what exposes the host NVIDIA driver and libraries to the container.
+#   Without it the container starts, sees no GPU, and vLLM fails at load time.
+#   Apptainer mounts $HOME and $PWD by default; everything else needs --bind.
+#
+#   # Serve a model
+#   apptainer run --nv \
+#       --bind "${HOME}/compass_models:${HOME}/compass_models" \
+#       --bind "${HOME}/compass_pipeline:${HOME}/compass_pipeline" \
+#       --env COMPASS_VLLM_MODEL=Qwen/Qwen3-14B-AWQ \
+#       --env COMPASS_VLLM_TP=1 \
+#       --env HF_HOME="${HOME}/compass_models/hf_cache" \
+#       ~/compass_containers/compass_gpu.sif serve
+#
+#   # Run the dashboard (forward the port with: ssh -N -L 5005:<node>:5005 <login>)
+#   apptainer run --nv --bind "${HOME}/compass_pipeline:${HOME}/compass_pipeline" \
+#       ~/compass_containers/compass_gpu.sif dashboard
+#
+#   # Any other command
+#   apptainer exec --nv ~/compass_containers/compass_gpu.sif python3 -c "import vllm; print(vllm.__version__)"
+#
+#   06_serve_vllm.sh drives all of this for you, including Slurm submission and
+#   multi-node Ray:
+#       CONTAINER_IMAGE=~/compass_containers/compass_gpu.sif \
+#         bash src/full_stack/backend/hpc/06_serve_vllm.sh
+# =============================================================================
+
+%files
+    docker/requirements.ui.txt /opt/compass/requirements.ui.txt
+
+%post
+    set -eu
+    export DEBIAN_FRONTEND=noninteractive
+
+    # Kept in step with PIN_VLLM in 02_setup_environment.sh. Edit this line to
+    # move the whole image to another vLLM release.
+    VLLM_VERSION=0.8.5
+
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        bash \
+        ca-certificates \
+        curl \
+        git \
+        python3 \
+        python3-venv
+    rm -rf /var/lib/apt/lists/*
+
+    # A venv keeps the image out of the way of Ubuntu's managed Python, and gives
+    # the same /opt/venv layout as the Docker GPU image.
+    python3 -m venv /opt/venv
+    /opt/venv/bin/pip install --no-cache-dir --upgrade pip setuptools wheel
+
+    # vLLM first: it is the large layer and it brings its own torch build. The
+    # curated engine pins follow so numpy/pandas/scipy end up on the versions the
+    # pipeline is validated against, matching 02_setup_environment.sh.
+    /opt/venv/bin/pip install --no-cache-dir "vllm==${VLLM_VERSION}"
+    /opt/venv/bin/pip install --no-cache-dir -r /opt/compass/requirements.ui.txt
+
+    # Ray is what lets vLLM shard a model across nodes.
+    /opt/venv/bin/pip install --no-cache-dir "ray[default]"
+
+    /opt/venv/bin/python3 -c "import importlib.util as u, torch; assert u.find_spec('vllm'); print('torch', torch.__version__, '+ vllm installed')"
+
+%environment
+    export PATH=/opt/venv/bin:$PATH
+    export PYTHONUNBUFFERED=1
+    export COMPASS_UI_HOST="${COMPASS_UI_HOST:-0.0.0.0}"
+    export COMPASS_UI_PORT="${COMPASS_UI_PORT:-5005}"
+    export COMPASS_VLLM_HOST="${COMPASS_VLLM_HOST:-0.0.0.0}"
+    export COMPASS_VLLM_PORT="${COMPASS_VLLM_PORT:-8000}"
+    # Weights belong on shared storage, never inside the image. Override with
+    # --env HF_HOME=... to point at a project or scratch filesystem.
+    export HF_HOME="${HF_HOME:-${HOME}/compass_models/hf_cache}"
+
+%runscript
+    #!/bin/bash
+    # Same two roles as docker/entrypoint.gpu.sh, so a command that works under
+    # Docker works here unchanged.
+    set -eu
+    role="${1:-dashboard}"
+    case "${role}" in
+        serve)
+            if [ "$#" -gt 0 ]; then shift; fi
+            if [ -z "${COMPASS_VLLM_MODEL:-}" ]; then
+                echo "✗ ERROR: COMPASS_VLLM_MODEL is not set." >&2
+                echo "  Example: --env COMPASS_VLLM_MODEL=Qwen/Qwen3-14B-AWQ" >&2
+                exit 2
+            fi
+            echo "Serving ${COMPASS_VLLM_MODEL} with vLLM"
+            echo "  base URL: http://$(hostname -f):${COMPASS_VLLM_PORT}/v1"
+            # Keep this list byte-for-byte in step with serve_vllm() in
+            # docker/entrypoint.gpu.sh: the two roles are documented as twins,
+            # so a model that serves here must serve under Docker too.
+            args=(
+                "${COMPASS_VLLM_MODEL}"
+                --host "${COMPASS_VLLM_HOST}"
+                --port "${COMPASS_VLLM_PORT}"
+                --tensor-parallel-size "${COMPASS_VLLM_TP:-1}"
+                --pipeline-parallel-size "${COMPASS_VLLM_PP:-1}"
+                --gpu-memory-utilization "${COMPASS_VLLM_GPU_MEM_UTIL:-0.90}"
+                --max-model-len "${COMPASS_VLLM_MAX_MODEL_LEN:-32768}"
+            )
+            # Repositories that ship their own modeling code need this. Set the
+            # variable to 0 to refuse to execute code from the model repository.
+            case "${COMPASS_VLLM_TRUST_REMOTE_CODE:-1}" in
+                0|false|no) ;;
+                *) args+=(--trust-remote-code) ;;
+            esac
+            if [ -n "${COMPASS_VLLM_SERVED_NAME:-}" ]; then args+=(--served-model-name "${COMPASS_VLLM_SERVED_NAME}"); fi
+            if [ -n "${COMPASS_VLLM_API_KEY:-}" ]; then args+=(--api-key "${COMPASS_VLLM_API_KEY}"); fi
+            if [ -n "${COMPASS_VLLM_QUANT:-}" ]; then args+=(--quantization "${COMPASS_VLLM_QUANT}"); fi
+            # Word splitting on the passthrough is intended, same as the Docker entrypoint.
+            exec vllm serve "${args[@]}" ${COMPASS_VLLM_EXTRA_ARGS:-} "$@"
+            ;;
+        dashboard)
+            if [ "$#" -gt 0 ]; then shift; fi
+            exec python3 main.py --ui "$@"
+            ;;
+        *)
+            exec "$@"
+            ;;
+    esac
+
+%test
+    # Import checks only, no vLLM execution: the build host usually has no GPU.
+    /opt/venv/bin/python3 -c "import importlib.util as u, fastapi, pydantic; assert u.find_spec('vllm'); print('image OK')"
+
+%labels
+    Author COMPASS
+    Purpose Self-hosted open-weight inference and dashboard for the COMPASS engine
+    Python 3.12
+
+%help
+    COMPASS GPU image. Two roles:
+
+      apptainer run --nv <image>.sif serve       vLLM OpenAI-compatible server
+      apptainer run --nv <image>.sif dashboard   COMPASS dashboard on port 5005
+
+    Always pass --nv, and bind the project and model directories that live
+    outside $HOME. See the comment block at the top of this definition file and
+    src/full_stack/backend/hpc/README.md.

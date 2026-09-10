@@ -4,50 +4,81 @@ import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   Activity,
-  AlertTriangle,
-  CheckCircle2,
   ChevronLeft,
   CircleDashed,
   Compass,
   FileText,
-  Layers,
   LayoutGrid,
   Network,
   PanelLeftClose,
   PanelLeftOpen,
   Settings,
   Sparkles,
+  WifiOff,
   X,
 } from 'lucide-react'
 import { NavLink, useLocation } from 'react-router-dom'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import type { ReactNode } from 'react'
-import { useAccount, useRuns } from '@/lib/hooks'
+import { useConnectivity, useRuns } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
-import { usd } from '@/lib/format'
 import { Button, Tooltip } from '@/components/ui/primitives'
+import { openWelcome } from '@/components/welcome/welcomeOpen'
 import './shell.css'
 
+/* Batch is reachable from Configure rather than from the rail: it is a mode of
+   composing a run, not a section of its own. */
 const NAV = [
-  { to: '/', label: 'Overview', icon: LayoutGrid, end: true, hint: 'Where things stand' },
-  { to: '/studio', label: 'Configure', icon: Sparkles, hint: 'Compose a run' },
-  { to: '/runs', label: 'Runs', icon: Activity, hint: 'Live and past runs' },
-  { to: '/ontology', label: 'Ontology', icon: Network, hint: 'Explore the evidence taxonomy' },
-  { to: '/reports', label: 'Reports', icon: FileText, hint: 'Deep phenotype output' },
-  { to: '/batch', label: 'Batch', icon: Layers, hint: 'Run a cohort' },
+  { to: '/', label: 'Overview', icon: LayoutGrid, end: true },
+  { to: '/studio', label: 'Configure', icon: Sparkles },
+  { to: '/runs', label: 'Runs', icon: Activity },
+  { to: '/ontology', label: 'Ontology', icon: Network },
+  { to: '/reports', label: 'Reports', icon: FileText },
 ]
+
+/* A window this narrow has no room for a labelled rail. The breakpoint is read
+   here rather than acted on in CSS so that the one class carries both the width
+   and the centring: a media query that only set the width left every icon
+   sitting off the rail's centre line. */
+const NARROW = '(max-width: 900px)'
+
+function useNarrowWindow(): boolean {
+  return useSyncExternalStore(
+    (onChange) => {
+      // Both signals, because a browser that misses one still resizes: the
+      // query is the answer, the events are only the prompt to re-read it.
+      const query = window.matchMedia(NARROW)
+      query.addEventListener('change', onChange)
+      window.addEventListener('resize', onChange)
+      window.addEventListener('orientationchange', onChange)
+      return () => {
+        query.removeEventListener('change', onChange)
+        window.removeEventListener('resize', onChange)
+        window.removeEventListener('orientationchange', onChange)
+      }
+    },
+    () => window.matchMedia(NARROW).matches,
+    () => false,
+  )
+}
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { navCollapsed, toggleNav, openSettings } = useApp()
   const location = useLocation()
+  const narrow = useNarrowWindow()
+  /* What the rail actually is, as opposed to what the user asked for. */
+  const collapsed = navCollapsed || narrow
 
   return (
-    <div className={clsx('shell', navCollapsed && 'shell--collapsed')}>
+    <div className={clsx('shell', collapsed && 'shell--collapsed')}>
       <nav className="shell__nav" aria-label="Primary">
         <div className="shell__brand">
-          <span className="shell__mark" aria-hidden>
-            <Compass size={17} />
-          </span>
-          {!navCollapsed && (
+          <Tooltip content="About COMPASS" side={collapsed ? 'right' : 'bottom'}>
+            <button type="button" className="shell__mark" onClick={openWelcome} aria-label="About COMPASS">
+              <Compass size={17} />
+            </button>
+          </Tooltip>
+          {!collapsed && (
             <span className="stack" style={{ gap: 0, minWidth: 0 }}>
               <span className="shell__wordmark">COMPASS</span>
               <span className="t-micro muted truncate">Decision support engine</span>
@@ -58,15 +89,16 @@ export function AppShell({ children }: { children: ReactNode }) {
         <ul className="shell__links">
           {NAV.map((item) => (
             <li key={item.to}>
-              <Tooltip content={navCollapsed ? item.label : ''} side="right">
+              <Tooltip content={collapsed ? item.label : ''} side="right">
                 <NavLink
                   to={item.to}
                   end={item.end}
                   className={({ isActive }) => clsx('shell__link', isActive && 'shell__link--active')}
                   data-tour={`nav-${item.label.toLowerCase()}`}
+                  aria-label={item.label}
                 >
                   <item.icon size={16} className="shell__link-icon" />
-                  {!navCollapsed && (
+                  {!collapsed && (
                     <span className="stack grow" style={{ gap: 0, minWidth: 0 }}>
                       <span className="truncate">{item.label}</span>
                     </span>
@@ -78,15 +110,22 @@ export function AppShell({ children }: { children: ReactNode }) {
         </ul>
 
         <div className="shell__nav-footer">
-          <ActiveRunsBadge collapsed={navCollapsed} />
+          <ActiveRunsBadge collapsed={collapsed} />
           <button
             type="button"
             className="shell__collapse"
             onClick={toggleNav}
-            aria-label={navCollapsed ? 'Expand navigation' : 'Collapse navigation'}
+            disabled={narrow}
+            aria-label={
+              narrow
+                ? 'Navigation stays collapsed at this window width'
+                : collapsed
+                  ? 'Expand navigation'
+                  : 'Collapse navigation'
+            }
           >
-            {navCollapsed ? <PanelLeftOpen size={15} /> : <PanelLeftClose size={15} />}
-            {!navCollapsed && <span className="t-tiny">Collapse</span>}
+            {collapsed ? <PanelLeftOpen size={15} /> : <PanelLeftClose size={15} />}
+            {!collapsed && <span className="t-tiny">Collapse</span>}
           </button>
         </div>
       </nav>
@@ -95,7 +134,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <header className="shell__topbar">
           <Breadcrumb path={location.pathname} />
           <div className="grow" />
-          <ConnectionPill />
+          <OfflineChip />
           <Tooltip content="Settings">
             <button
               type="button"
@@ -116,6 +155,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   )
 }
 
+/* Keyed by the first path segment. /batch keeps a title because the route is
+   still reachable from Configure even though it left the rail. */
 const TITLES: Record<string, string> = {
   '/': 'Overview',
   '/studio': 'Configure a run',
@@ -147,39 +188,55 @@ function ActiveRunsBadge({ collapsed }: { collapsed: boolean }) {
   const active = (data?.runs ?? []).filter((r) => r.status === 'running' || r.status === 'queued')
   if (active.length === 0) return null
   return (
-    <NavLink to="/runs" className="shell__active">
+    <NavLink to="/runs" className="shell__active" aria-label={`${active.length} running`}>
       <CircleDashed size={13} className="spin" />
       {!collapsed && <span className="t-tiny">{active.length} running</span>}
     </NavLink>
   )
 }
 
-function ConnectionPill() {
-  const { data, isLoading } = useAccount()
+/**
+ * Reachability, and only when it fails. A healthy connection is the normal
+ * case and gets no screen space; the chip appears only when something is
+ * actually broken and offers the one control that can fix it.
+ */
+function OfflineChip() {
+  const { data, isError, refetch } = useConnectivity()
   const openSettings = useApp((s) => s.openSettings)
+  const [deviceOnline, setDeviceOnline] = useState(() => navigator.onLine)
 
-  const tone = isLoading ? 'idle' : data?.valid ? 'ok' : 'warn'
-  const label = isLoading
-    ? 'Checking'
-    : data?.valid
-      ? data.remaining_usd != null
-        ? `${usd(data.remaining_usd)} left`
-        : 'Connected'
-      : 'Not connected'
+  // The poll is slow, so a dropped local network would otherwise take up to
+  // half a minute to surface. The browser tells us immediately.
+  useEffect(() => {
+    const up = () => {
+      setDeviceOnline(true)
+      void refetch()
+    }
+    const down = () => setDeviceOnline(false)
+    window.addEventListener('online', up)
+    window.addEventListener('offline', down)
+    return () => {
+      window.removeEventListener('online', up)
+      window.removeEventListener('offline', down)
+    }
+  }, [refetch])
+
+  const broken = !deviceOnline || isError || data?.online === false || data?.provider_reachable === false
+  if (!broken) return null
+
+  const reason = !deviceOnline
+    ? 'This device is offline.'
+    : isError
+      ? 'The dashboard service did not answer.'
+      : data?.reason
+        ? data.reason
+        : 'The model provider is not reachable.'
 
   return (
-    <Tooltip
-      content={
-        isLoading
-          ? 'Verifying the provider connection'
-          : data?.valid
-            ? `OpenRouter connected${data.usage_usd != null ? `. ${usd(data.usage_usd)} used to date.` : ''}`
-            : (data?.reason ?? 'Add an OpenRouter key to run the engine.')
-      }
-    >
-      <button type="button" className={clsx('shell__pill', `shell__pill--${tone}`)} onClick={() => openSettings('connection')}>
-        {tone === 'ok' ? <CheckCircle2 size={13} /> : tone === 'warn' ? <AlertTriangle size={13} /> : <CircleDashed size={13} className="spin" />}
-        <span className="t-tiny">{label}</span>
+    <Tooltip content={`${reason} Open connection settings.`}>
+      <button type="button" className="shell__offline" onClick={() => openSettings('connection')}>
+        <WifiOff size={12} />
+        <span className="t-micro">No connection</span>
       </button>
     </Tooltip>
   )

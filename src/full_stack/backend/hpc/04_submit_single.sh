@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# COMPASS HPC — Step 3: Run Single Participant (Test Job)
+# COMPASS HPC Step 3: Run Single Participant (Test Job)
 # =============================================================================
 # - Tries vLLM first (if LOCAL_ENGINE=auto), falls back to Transformers if vLLM init fails
 # - Prints vLLM traceback to STDOUT so it shows up in .out logs
@@ -57,6 +57,22 @@ PARTICIPANT_DIR="${DATA_DIR}/participant_ID${PARTICIPANT_ID}"
 : "${MAX_TOOL_INPUT:=auto}"
 : "${MAX_TOOL_OUTPUT:=8000}"
 : "${LOCAL_KV_CACHE_DTYPE:=auto}"
+# Multi-GPU: tensor parallel splits the model across the GPUs of one node,
+# pipeline parallel splits it across nodes. Both stay at 1 unless asked, so the
+# single-L40S profile this script was written for is unchanged.
+: "${LOCAL_TENSOR_PARALLEL:=1}"
+: "${LOCAL_PIPELINE_PARALLEL:=1}"
+# Slurm resource request used by the login-node auto-submit below. The #SBATCH
+# lines above are the defaults for a direct `sbatch`; these variables let a
+# multi-GPU run go through without editing this file, for example:
+#   COMPASS_SLURM_GRES=gpu:l40s:4 LOCAL_TENSOR_PARALLEL=4 bash 04_submit_single.sh
+: "${COMPASS_SLURM_PARTITION:=main}"
+: "${COMPASS_SLURM_NODES:=1}"
+: "${COMPASS_SLURM_NTASKS_PER_NODE:=1}"
+: "${COMPASS_SLURM_CPUS_PER_TASK:=16}"
+: "${COMPASS_SLURM_MEM:=64G}"
+: "${COMPASS_SLURM_GRES:=gpu:l40s:1}"
+: "${COMPASS_SLURM_TIME:=04:00:00}"
 # Prediction task controls (default remains binary for backward compatibility)
 : "${PREDICTION_TYPE:=binary}"
 : "${CLASS_LABELS:=}"
@@ -179,14 +195,15 @@ if [[ "${CURRENT_HOST}" == login* ]]; then
         --job-name="compass_single" \
         --output="${LOG_DIR}/compass_single_%j.out" \
         --error="${LOG_DIR}/compass_single_%j.err" \
-        --partition=main \
-        --nodes=1 \
-        --ntasks=1 \
-        --cpus-per-task=16 \
-        --mem=64G \
-        --gres=gpu:l40s:1 \
-        --time=04:00:00 \
+        --partition="${COMPASS_SLURM_PARTITION}" \
+        --nodes="${COMPASS_SLURM_NODES}" \
+        --ntasks-per-node="${COMPASS_SLURM_NTASKS_PER_NODE}" \
+        --cpus-per-task="${COMPASS_SLURM_CPUS_PER_TASK}" \
+        --mem="${COMPASS_SLURM_MEM}" \
+        --gres="${COMPASS_SLURM_GRES}" \
+        --time="${COMPASS_SLURM_TIME}" \
         --chdir="${PROJECT_DIR}" \
+        --export=ALL \
         "$0")"
 
     echo "✓ Smoke test job submitted! Job ID: ${JOB_ID}"
@@ -211,7 +228,7 @@ mkdir -p "${LOG_DIR}"
 cd "${PROJECT_DIR}"
 
 echo "============================================="
-echo " COMPASS HPC — Single Participant Test"
+echo " COMPASS HPC: Single Participant Test"
 echo "============================================="
 echo ""
 echo "SCRIPT_PATH:  $0"
@@ -224,6 +241,8 @@ echo "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-<unset>}"
 echo "LOCAL_ENGINE: ${LOCAL_ENGINE}"
 echo "Requested ctx:${MAX_TOKENS} tokens"
 echo "GPU mem util: ${GPU_MEM_UTIL}"
+echo "Tensor parallel: ${LOCAL_TENSOR_PARALLEL}"
+echo "Pipeline parallel: ${LOCAL_PIPELINE_PARALLEL}"
 echo "Budget request: agent(in=${MAX_AGENT_INPUT}, out=${MAX_AGENT_OUTPUT}) tool(in=${MAX_TOOL_INPUT}, out=${MAX_TOOL_OUTPUT})"
 echo "Prediction type: ${PREDICTION_TYPE}"
 echo "Regression output: ${REGRESSION_OUTPUT:-<none>}"
@@ -377,6 +396,11 @@ echo ""
 START_TIME=${SECONDS}
 mkdir -p "${MODELS_DIR}/hf_cache"
 
+# Slurm exports the device list it allocated. Outside Slurm nothing does, so fall
+# back to as many devices as the two parallel sizes need between them: vLLM wants
+# TP * PP ranks, and this step runs them all on this one node.
+DEFAULT_VISIBLE_DEVICES="$(seq 0 $((LOCAL_TENSOR_PARALLEL * LOCAL_PIPELINE_PARALLEL - 1)) | paste -sd, -)"
+
 # We will compute ACTUAL_ENGINE on-node after optional vLLM preflight
 ACTUAL_ENGINE="${LOCAL_ENGINE}"
 
@@ -386,13 +410,15 @@ apptainer exec \
     --bind "${PROJECT_DIR}:${PROJECT_DIR}" \
     --bind "${MODELS_DIR}:${MODELS_DIR}" \
     --bind "${HOME}:${HOME}" \
-    --env CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}" \
+    --env CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-${DEFAULT_VISIBLE_DEVICES}}" \
     --env HF_HOME="${MODELS_DIR}/hf_cache" \
     --env TRANSFORMERS_CACHE="${MODELS_DIR}/hf_cache" \
     --env EMBEDDING_MODEL="${EMBEDDING_MODEL_NAME}" \
     --env PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True" \
     --env PYTHONUNBUFFERED="1" \
     --env LOCAL_ENGINE="${LOCAL_ENGINE}" \
+    --env LOCAL_TENSOR_PARALLEL="${LOCAL_TENSOR_PARALLEL}" \
+    --env LOCAL_PIPELINE_PARALLEL="${LOCAL_PIPELINE_PARALLEL}" \
     --env MODEL_NAME="${MODEL_NAME}" \
     --env MAX_TOKENS="${MAX_TOKENS}" \
     --env GPU_MEM_UTIL="${GPU_MEM_UTIL}" \
@@ -483,6 +509,8 @@ base_kwargs = dict(
     trust_remote_code=True,
     max_model_len=max_len,
     gpu_memory_utilization=gpu_mem,
+    tensor_parallel_size=int(os.environ.get('LOCAL_TENSOR_PARALLEL', '1')),
+    pipeline_parallel_size=int(os.environ.get('LOCAL_PIPELINE_PARALLEL', '1')),
 )
 if kv_dtype and kv_dtype not in ('auto', 'none', 'null', '0'):
     if 'kv_cache_dtype' in sig.parameters:
@@ -603,6 +631,8 @@ PY
                 --local_kv_cache_dtype ${LOCAL_KV_CACHE_DTYPE} \
                 --local_gpu_mem_util ${GPU_MEM_UTIL} \
                 --local_max_model_len ${MAX_TOKENS} \
+                --local_tensor_parallel ${LOCAL_TENSOR_PARALLEL} \
+                --local_pipeline_parallel ${LOCAL_PIPELINE_PARALLEL} \
                 --max_agent_input ${MAX_AGENT_INPUT} \
                 --max_agent_output ${MAX_AGENT_OUTPUT} \
                 --max_tool_input ${MAX_TOOL_INPUT} \
@@ -643,6 +673,8 @@ PY
             --local_kv_cache_dtype ${LOCAL_KV_CACHE_DTYPE} \
             --local_gpu_mem_util ${GPU_MEM_UTIL} \
             --local_max_model_len ${MAX_TOKENS} \
+            --local_tensor_parallel ${LOCAL_TENSOR_PARALLEL} \
+            --local_pipeline_parallel ${LOCAL_PIPELINE_PARALLEL} \
             --max_agent_input ${MAX_AGENT_INPUT} \
             --max_agent_output ${MAX_AGENT_OUTPUT} \
             --max_tool_input ${MAX_TOOL_INPUT} \

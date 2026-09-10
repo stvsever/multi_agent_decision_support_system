@@ -10,9 +10,26 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError, model_validator
 
 from . import DEFAULT_MODEL
+
+
+def readable_validation_error(exc: ValidationError) -> str:
+    """
+    A rejected request in the words the constraint was written in.
+
+    The model validators here raise sentences meant for the person editing the
+    form, and pydantic prefixes each one with "Value error", which turns it into
+    something that reads like a defect report. Every screen that surfaces a
+    rejection goes through this, so all of them say the same thing.
+    """
+    parts: List[str] = []
+    for error in exc.errors():
+        location = ".".join(str(p) for p in error.get("loc", ()) if p not in ("__root__", "body"))
+        message = str(error.get("msg", "invalid value")).replace("Value error, ", "")
+        parts.append(f"{location}: {message}" if location else message)
+    return "; ".join(parts) or "Invalid configuration."
 
 AGENT_ROLES = ("orchestrator", "integrator", "predictor", "critic", "communicator", "tool")
 INSTRUCTION_SLOTS = (
@@ -33,7 +50,11 @@ PredictionType = Literal[
     "regression_multivariate",
     "hierarchical",
 ]
-BackendName = Literal["openrouter", "openai", "local"]
+BackendName = Literal["openrouter", "local"]
+
+#: Providers the dashboard can store a key for. HuggingFace is here because
+#: gated weight repositories need a token before the local runtime can pull them.
+CredentialProvider = Literal["openrouter", "huggingface"]
 
 
 # --- configuration -----------------------------------------------------------
@@ -123,6 +144,14 @@ class TokenBudgetConfig(BaseModel):
 
 
 class LocalBackendConfig(BaseModel):
+    """
+    Open weights served by this project, from one workstation to an HPC cluster.
+
+    The model settings describe what to load; the runtime and scheduler settings
+    describe where it runs, which is what the deployment planner turns into
+    copy-pasteable commands.
+    """
+
     model_name: str = "Qwen/Qwen3-14B-AWQ"
     max_tokens: int = Field(32768, ge=1024)
     engine: Literal["auto", "vllm", "transformers"] = "auto"
@@ -136,6 +165,32 @@ class LocalBackendConfig(BaseModel):
     max_model_len: int = Field(0, ge=0)
     enforce_eager: bool = False
     trust_remote_code: bool = True
+
+    runtime: Literal["native", "docker", "apptainer"] = "native"
+    image: str = Field("", description="Container image or .sif path; blank uses the shipped default")
+    gpu_count: int = Field(1, ge=1, le=64)
+    scheduler: Literal["none", "slurm"] = "none"
+    slurm_partition: str = ""
+    slurm_account: str = ""
+    slurm_time: str = "04:00:00"
+    slurm_nodes: int = Field(1, ge=1, le=64)
+    slurm_gpus_per_node: int = Field(1, ge=1, le=16)
+    slurm_cpus_per_task: int = Field(8, ge=1, le=256)
+    slurm_mem_gb: int = Field(0, ge=0, description="0 lets the scheduler decide")
+
+    @model_validator(mode="after")
+    def _parallelism_fits_the_gpus(self) -> "LocalBackendConfig":
+        # vLLM claims one GPU per tensor-parallel rank per pipeline stage, so a
+        # product larger than the machine has fails at load time with an error
+        # that says nothing about which setting caused it.
+        needed = self.tensor_parallel_size * self.pipeline_parallel_size
+        if needed > self.gpu_count:
+            raise ValueError(
+                f"Tensor parallel {self.tensor_parallel_size} times pipeline parallel "
+                f"{self.pipeline_parallel_size} needs {needed} GPUs, but only {self.gpu_count} "
+                "are declared. Raise the GPU count or lower the parallelism."
+            )
+        return self
 
 
 class BatchConfig(BaseModel):
@@ -187,6 +242,14 @@ class DashboardConfig(BaseModel):
     onboarding_complete: bool = False
     tour_completed: List[str] = Field(default_factory=list)
 
+    @model_validator(mode="after")
+    def _local_backend_needs_a_model(self) -> "DashboardConfig":
+        # Without this the interface happily stores a backend it cannot run and
+        # the first sign of trouble is a worker traceback minutes later.
+        if self.connection.backend == "local" and not self.local.model_name.strip():
+            raise ValueError("Choose a local model before switching the backend to Local.")
+        return self
+
 
 class ConfigPatch(BaseModel):
     """Partial update. Only the sections present are merged."""
@@ -206,7 +269,7 @@ class ConfigPatch(BaseModel):
 
 
 class CredentialUpdate(BaseModel):
-    provider: Literal["openrouter", "openai"] = "openrouter"
+    provider: CredentialProvider = "openrouter"
     api_key: str = ""
 
 
@@ -272,7 +335,7 @@ class RunRequest(BaseModel):
     participant_dir: str
     task: TaskSpecInput = Field(default_factory=TaskSpecInput)
     overrides: RunOverrides = Field(default_factory=RunOverrides)
-    generate_deep_phenotype: bool = True
+    generate_deep_phenotype: bool = False
     label: str = ""
     batch_id: Optional[str] = None
 
@@ -281,7 +344,7 @@ class BatchRequest(BaseModel):
     participant_dirs: List[str]
     task: TaskSpecInput = Field(default_factory=TaskSpecInput)
     overrides: RunOverrides = Field(default_factory=RunOverrides)
-    generate_deep_phenotype: bool = True
+    generate_deep_phenotype: bool = False
     concurrency: Optional[int] = None
     continue_on_error: Optional[bool] = None
     label: str = ""
@@ -296,7 +359,16 @@ class CostEstimateRequest(BaseModel):
     participant_dirs: List[str] = Field(default_factory=list)
     task: TaskSpecInput = Field(default_factory=TaskSpecInput)
     overrides: RunOverrides = Field(default_factory=RunOverrides)
-    generate_deep_phenotype: bool = True
+    generate_deep_phenotype: bool = False
+
+
+class OntologyAggregateRequest(BaseModel):
+    directories: List[str] = Field(default_factory=list)
+
+
+class OntologyDistributionRequest(BaseModel):
+    directories: List[str] = Field(default_factory=list)
+    path: List[str] = Field(default_factory=list)
 
 
 class DeepReportRequest(BaseModel):

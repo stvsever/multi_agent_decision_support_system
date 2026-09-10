@@ -7,6 +7,7 @@ from typing import Any, Dict
 from fastapi import APIRouter, HTTPException
 
 from ..config_store import load_config
+from ..engine_bridge import ConfigurationProblem
 from ..run_manager import get_run_manager
 from ..schemas import BatchRequest, RunRequest
 
@@ -42,6 +43,8 @@ def create_batch(request: BatchRequest) -> Dict[str, Any]:
         )
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ConfigurationProblem as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     return get_run_manager().batch_status(batch["id"]) or batch

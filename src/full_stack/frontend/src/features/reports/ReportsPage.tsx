@@ -6,6 +6,7 @@
  * rather than on whatever the participant's directory happens to hold now.
  */
 
+import clsx from 'clsx'
 import { useMemo, useState, type JSX } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
@@ -18,6 +19,7 @@ import {
   EmptyState,
   Skeleton,
   Tabs,
+  Tooltip,
 } from '@/components/ui/primitives'
 import { api } from '@/lib/api'
 import { dateTime } from '@/lib/format'
@@ -42,6 +44,9 @@ const TABS: { value: TabKey; label: string }[] = [
 ]
 
 const FINISHED = new Set(['succeeded', 'failed'])
+
+/** Tabs that read as prose keep a document measure; the tabular ones do not. */
+const DOCUMENT_TABS = new Set<TabKey>(['summary', 'phenotype', 'clinical'])
 
 export function ReportsPage(): JSX.Element {
   const { participant } = useParams<{ participant?: string }>()
@@ -147,7 +152,11 @@ export function ReportsPage(): JSX.Element {
           <div className="stack gap-1" style={{ minWidth: 0 }}>
             <div className="row gap-2 wrap">
               <span className="t-h2">{view?.participantId ?? selected?.participantId ?? 'Reports'}</span>
-              {selected?.kind === 'run' && <Badge tone="accent">run {selected.runId?.slice(0, 8)}</Badge>}
+              {selected?.kind === 'run' && selected.runId && (
+                <Badge tone="accent" mono>
+                  run {selected.runId.split('_').pop()}
+                </Badge>
+              )}
               {bundle?.run?.status && bundle.run.status !== 'succeeded' && (
                 <Badge tone="critical">{bundle.run.status}</Badge>
               )}
@@ -172,29 +181,33 @@ export function ReportsPage(): JSX.Element {
                 Copy deep phenotype
               </Button>
             )}
-            <Button size="sm" variant="secondary" icon={<Printer size={13} />} onClick={printSummary}>
-              Print summary
-            </Button>
+            <Tooltip content="Sends the summary as it appears here to your printer, in black and white.">
+              <Button size="sm" variant="secondary" icon={<Printer size={13} />} onClick={printSummary}>
+                Print summary
+              </Button>
+            </Tooltip>
             {bundleParams ? (
-              <a
-                className="btn btn--primary btn--sm reports__pdf"
-                href={api.reports.pdfUrl(bundleParams)}
-                download
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FileText size={13} />
-                Download PDF
-              </a>
+              <Tooltip content="A short PDF the service composes from this run: what was predicted, the evidence for it, and what the run could not see. It is not a copy of this screen.">
+                <a
+                  className="btn btn--primary btn--sm reports__pdf"
+                  href={api.reports.pdfUrl(bundleParams)}
+                  download
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FileText size={13} />
+                  Download PDF
+                </a>
+              </Tooltip>
             ) : null}
           </div>
         </header>
 
         <div className="reports__tabs reports__no-print">
-          <Tabs value={tab} options={TABS} onChange={setTab} />
+          <Tabs value={tab} options={TABS} onChange={setTab} spread />
         </div>
 
-        <div className="reports__body">
+        <div className={clsx('reports__body', DOCUMENT_TABS.has(tab) && 'reports__body--doc')}>
           {noSources && (
             <EmptyState
               title="Nothing to read yet"

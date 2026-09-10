@@ -5,7 +5,7 @@
  * and the table agree on keys, colours and filtering without recomputing.
  */
 
-import type { Band, Ontology, OntologyFeature, OntologyNode } from '@/lib/types'
+import type { AggregateStats, Band, Ontology, OntologyFeature, OntologyNode } from '@/lib/types'
 
 export const BAND_ORDER: Band[] = [
   'very_high',
@@ -42,6 +42,49 @@ export function bandFor(z: number | null | undefined): Band {
   if (z >= -1) return 'low_normal'
   if (z >= -2) return 'low'
   return 'very_low'
+}
+
+/* --- Cohort membership ----------------------------------------------------- */
+
+/**
+ * How widely a node is shared once several participants are merged.
+ *
+ * The service reports shared, common and partial. A node held by exactly one
+ * participant is split out as its own case, because the whole point of the
+ * merge is that those stay visible and stay marked.
+ */
+export type Membership = 'shared' | 'common' | 'partial' | 'unique'
+
+export const MEMBERSHIP_LABEL: Record<Membership, string> = {
+  shared: 'In every participant',
+  common: 'In most participants',
+  partial: 'In some participants',
+  unique: 'In one participant only',
+}
+
+export function membershipOf(node: OntologyNode): Membership | null {
+  const aggregate = node.aggregate
+  if (!aggregate) return null
+  if (aggregate.present_in <= 1 && aggregate.participant_count > 1) return 'unique'
+  return aggregate.membership
+}
+
+/** Spread of the signed deviation across the cohort, for the box glyph. */
+export interface Spread {
+  n: number
+  min: number
+  q1: number
+  median: number
+  q3: number
+  max: number
+}
+
+export function spreadOf(aggregate: AggregateStats | null | undefined): Spread | null {
+  if (!aggregate) return null
+  const { min, q1, median, q3, max } = aggregate
+  if (min === null || q1 === null || median === null || q3 === null || max === null) return null
+  if (![min, q1, median, q3, max].every((value) => Number.isFinite(value))) return null
+  return { n: aggregate.n, min, q1, median, q3, max }
 }
 
 /** Node ids carry punctuation, so paths join on a character they never hold. */
@@ -546,75 +589,6 @@ export function histogram(values: number[], clamp: number, binCount = 25): Histo
     bins[slot].count += 1
   }
   return { bins, max: bins.reduce((m, b) => Math.max(m, b.count), 0), total: values.length }
-}
-
-/* --- Extremes ------------------------------------------------------------- */
-
-export interface ExtremeChip {
-  id: string
-  nodeKey: string
-  feature: string | null
-  label: string
-  score: number
-  band: Band
-}
-
-/**
- * The service ranks leaves and features together, so a measurement often shows
- * up twice with the same score under the same parent. Collapse those, and
- * prefer the entry that resolves to a real node so clicking it can navigate.
- */
-export function topExtremes(
-  index: OntologyIndex,
-  extremes: Ontology['extremes'],
-  limit: number,
-): ExtremeChip[] {
-  const seen = new Map<string, ExtremeChip>()
-  for (const row of extremes) {
-    if (!Number.isFinite(row.score)) continue
-    const full = keyOf(row.path)
-    const parentPath = row.path.slice(0, -1)
-    const parentKey = keyOf(parentPath)
-    let chip: ExtremeChip | null = null
-    if (index.byKey.has(full)) {
-      chip = {
-        id: full,
-        nodeKey: full,
-        feature: null,
-        label: prettyLabel(row.label),
-        score: row.score,
-        band: row.band,
-      }
-    } else if (index.byKey.has(parentKey)) {
-      const feature = row.path[row.path.length - 1] ?? row.label
-      // A feature already represented by a leaf points at that leaf instead.
-      const merged = index.attachedBy.get(`${parentKey}${SEP}${SEP}${feature}`)
-      chip = merged
-        ? {
-            id: merged,
-            nodeKey: merged,
-            feature: null,
-            label: prettyLabel(index.byKey.get(merged)?.node.label ?? row.label),
-            score: row.score,
-            band: row.band,
-          }
-        : {
-            id: `${parentKey}${SEP}${SEP}${feature}`,
-            nodeKey: parentKey,
-            feature,
-            label: prettyLabel(row.label),
-            score: row.score,
-            band: row.band,
-          }
-    }
-    if (!chip) continue
-    const dedupe = `${parentKey}#${row.score.toFixed(4)}`
-    const existing = seen.get(dedupe)
-    if (!existing) seen.set(dedupe, chip)
-    else if (existing.feature && !chip.feature) seen.set(dedupe, chip)
-    if (seen.size >= limit * 3) break
-  }
-  return [...seen.values()].sort((a, b) => Math.abs(b.score) - Math.abs(a.score)).slice(0, limit)
 }
 
 export function featureColumns(features: OntologyFeature[]): {

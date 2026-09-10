@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# COMPASS — HPC Deployment Helper
+# COMPASS HPC Deployment Helper
 # =============================================================================
 # This script automates transferring your code to a configured HPC cluster
 # and initiating the setup process.

@@ -50,6 +50,44 @@ def merge_overrides(config: DashboardConfig, overrides: Optional[RunOverrides]) 
     return DashboardConfig.model_validate(deep(base, delta))
 
 
+class ConfigurationProblem(ValueError):
+    """A configuration that cannot start a run, phrased for the person who set it."""
+
+
+def run_blockers(config: DashboardConfig, audit: bool = False) -> List[str]:
+    """
+    Everything about this configuration that would stop a run from starting.
+
+    The worker discovers these the hard way, minutes in and with a traceback,
+    so the service checks them before it spawns anything. A structural audit
+    calls no provider and loads no model, so none of this applies to it.
+    """
+    if audit:
+        return []
+
+    problems: List[str] = []
+    backend = config.connection.backend
+
+    if not config.models.default_model.strip():
+        problems.append("Choose a default model before starting a run.")
+
+    if backend == "local":
+        if not config.local.model_name.strip():
+            problems.append("Choose a local model before switching the backend to Local.")
+    elif not get_credential("openrouter"):
+        problems.append(
+            "Add an OpenRouter key in Settings before starting a run, or switch the backend to Local."
+        )
+
+    return problems
+
+
+def ensure_runnable(config: DashboardConfig, audit: bool = False) -> None:
+    problems = run_blockers(config, audit=audit)
+    if problems:
+        raise ConfigurationProblem(" ".join(problems))
+
+
 def normalise_instructions(raw: Optional[Dict[str, str]]) -> Dict[str, str]:
     source = raw or {}
     return {slot: str(source.get(slot) or "").strip() for slot in INSTRUCTION_SLOTS}
@@ -135,13 +173,9 @@ def apply_config_to_settings(config: DashboardConfig) -> Any:
     settings = get_settings()
 
     backend_name = config.connection.backend
-    settings.models.backend = {
-        "local": LLMBackend.LOCAL,
-        "openai": LLMBackend.OPENAI,
-    }.get(backend_name, LLMBackend.OPENROUTER)
+    settings.models.backend = LLMBackend.LOCAL if backend_name == "local" else LLMBackend.OPENROUTER
 
     settings.openrouter_api_key = get_credential("openrouter")
-    settings.openai_api_key = get_credential("openai")
     settings.openrouter_base_url = config.connection.openrouter_base_url
     settings.openrouter_site_url = config.connection.openrouter_site_url
     settings.openrouter_app_name = config.connection.openrouter_app_name

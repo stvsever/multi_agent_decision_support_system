@@ -12,29 +12,25 @@ import { Fragment, useMemo, useState } from 'react'
 import { useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { AlertTriangle, ExternalLink, Play, Users } from 'lucide-react'
-import {
-  Badge,
-  Button,
-  Callout,
-  Card,
-  EmptyState,
-  Field,
-  Skeleton,
-  SliderField,
-  Toggle,
-} from '@/components/ui/primitives'
+import { Badge, Button, Callout, Card, EmptyState, Skeleton } from '@/components/ui/primitives'
 import { api, ApiError } from '@/lib/api'
-import { number, percent, titleCase, tokens, usd } from '@/lib/format'
+import { percent, titleCase, tokens, usd } from '@/lib/format'
 import { queryKeys, useCapabilities, useDebounced, useParticipants, useSettings } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
-import type { EstimateResponse, Participant } from '@/lib/types'
-import { describeRequirements, missingRequirements } from './util'
+import type { EstimateResponse, Participant, TaskSpecInput } from '@/lib/types'
+import {
+  FAMILY_LABELS,
+  cleanList,
+  taskReport,
+  walkNodes,
+  type TaskReport,
+} from '@/features/studio/taskValidation'
+import { BatchOptions, type BatchSettings } from './BatchOptions'
 
 export function BatchComposer({ onLaunched }: { onLaunched: (batchId: string) => void }) {
   const client = useQueryClient()
   const participantsQuery = useParticipants()
   const settings = useSettings()
-  const capabilities = useCapabilities()
 
   const selected = useApp((s) => s.selected)
   const setSelected = useApp((s) => s.setSelected)
@@ -47,13 +43,13 @@ export function BatchComposer({ onLaunched }: { onLaunched: (batchId: string) =>
   const openSettings = useApp((s) => s.openSettings)
 
   const config = settings.data?.config
-  const [concurrency, setConcurrency] = useState<number | null>(null)
-  const [continueOnError, setContinueOnError] = useState<boolean | null>(null)
+  const [options, setOptions] = useState<BatchSettings | null>(null)
   const [launching, setLaunching] = useState(false)
 
-  const effectiveConcurrency = concurrency ?? config?.batch.concurrency ?? 2
-  const effectiveContinue = continueOnError ?? config?.batch.continue_on_error ?? true
-  const workers = config?.engine.executor_max_workers ?? 1
+  const effective: BatchSettings = options ?? {
+    concurrency: config?.batch.concurrency ?? 2,
+    continueOnError: config?.batch.continue_on_error ?? true,
+  }
 
   const participants = useMemo(() => participantsQuery.data?.participants ?? [], [participantsQuery.data])
   const selectedDirs = useMemo(() => new Set(selected.map((p) => p.directory)), [selected])
@@ -85,9 +81,9 @@ export function BatchComposer({ onLaunched }: { onLaunched: (batchId: string) =>
   })
 
   const guards = estimate.data?.guards
-  const unmet = missingRequirements(task, capabilities.data?.prediction_types)
+  const report = taskReport(task)
   const blocked = Boolean(guards?.blocks)
-  const canLaunch = chosen.length > 0 && unmet.length === 0 && !blocked && !launching
+  const canLaunch = chosen.length > 0 && report.ready && !blocked && !launching
 
   const launch = async () => {
     setLaunching(true)
@@ -97,8 +93,8 @@ export function BatchComposer({ onLaunched }: { onLaunched: (batchId: string) =>
         task,
         overrides,
         generate_deep_phenotype: generateDeepReport,
-        concurrency: effectiveConcurrency,
-        continue_on_error: effectiveContinue,
+        concurrency: effective.concurrency,
+        continue_on_error: effective.continueOnError,
       })
       client.invalidateQueries({ queryKey: queryKeys.batches })
       client.invalidateQueries({ queryKey: queryKeys.runs })
@@ -154,15 +150,39 @@ export function BatchComposer({ onLaunched }: { onLaunched: (batchId: string) =>
             </div>
           )}
 
-          {!participantsQuery.isLoading && participants.length === 0 && (
+          {!participantsQuery.isLoading && participantsQuery.isError && !participantsQuery.data && (
+            <div style={{ padding: 'var(--s-5)' }}>
+              <Callout
+                tone="critical"
+                icon={<AlertTriangle size={15} />}
+                title="The participants could not be listed"
+                action={
+                  <Button
+                    size="sm"
+                    onClick={() => void participantsQuery.refetch()}
+                    loading={participantsQuery.isFetching}
+                  >
+                    Try again
+                  </Button>
+                }
+              >
+                {participantsQuery.error instanceof Error && participantsQuery.error.message
+                  ? participantsQuery.error.message
+                  : 'The service did not answer.'}{' '}
+                This is the scan failing, not an empty cohort.
+              </Callout>
+            </div>
+          )}
+
+          {!participantsQuery.isLoading && !participantsQuery.isError && participants.length === 0 && (
             <EmptyState
               icon={<Users size={20} />}
               title="No participants found"
-              body="A batch needs a cohort. Add a data root and the scan will pick up every participant directory under it."
+              body="A batch needs a cohort. Configure has the folder browser: point it at a folder and every participant under it is picked up."
               action={
-                <Button size="sm" variant="primary" onClick={() => openSettings('workspace')}>
-                  Add a data root
-                </Button>
+                <Link className="btn btn--primary btn--sm" to="/studio">
+                  Add participants in Configure
+                </Link>
               }
             />
           )}
@@ -205,11 +225,11 @@ export function BatchComposer({ onLaunched }: { onLaunched: (batchId: string) =>
             </Link>
           }
         >
-          <TaskSummary />
-          {unmet.length > 0 && (
+          <TaskSummary task={task} report={report} />
+          {!report.ready && (
             <div style={{ marginTop: 'var(--s-4)' }}>
               <Callout tone="caution" icon={<AlertTriangle size={15} />} title="The task is not complete">
-                This task shape still needs {describeRequirements(unmet)}. Set it in Configure and the launch unlocks.
+                It {report.summary}. Set it in Configure and the launch unlocks.
               </Callout>
             </div>
           )}
@@ -218,58 +238,13 @@ export function BatchComposer({ onLaunched }: { onLaunched: (batchId: string) =>
 
       <div className="stack gap-5">
         <Card title="Execution">
-          <div className="stack gap-5">
-            <Field
-              label="Participants in parallel"
-              hint={`Up to about ${effectiveConcurrency * workers} model calls in flight across the batch.`}
-              info={
-                <>
-                  <p>
-                    This slider sets how many participants run at the same time. It is not the only source of
-                    parallelism: inside each participant the executor fans its plan steps out across up to{' '}
-                    {number(workers)} workers.
-                  </p>
-                  <p>
-                    The concurrency the provider actually sees is roughly the product of the two, so {effectiveConcurrency}{' '}
-                    participants times {number(workers)} workers is about {effectiveConcurrency * workers} requests in
-                    flight. Raise this only if the provider rate limit has room for it.
-                  </p>
-                </>
-              }
-            >
-              <SliderField
-                value={effectiveConcurrency}
-                min={1}
-                max={16}
-                onChange={setConcurrency}
-                presets={[1, 2, 4, 8, 16]}
-              />
-            </Field>
-
-            <div className="row gap-3 between">
-              <div className="stack" style={{ gap: 1 }}>
-                <span className="t-small semibold">Continue on error</span>
-                <span className="t-tiny muted">
-                  {effectiveContinue
-                    ? 'A failed participant does not stop the rest.'
-                    : 'The first failure cancels everything still queued.'}
-                </span>
-              </div>
-              <Toggle checked={effectiveContinue} onChange={setContinueOnError} label="Continue on error" />
-            </div>
-
-            <div className="row gap-3 between">
-              <div className="stack" style={{ gap: 1 }}>
-                <span className="t-small semibold">Deep phenotype report</span>
-                <span className="t-tiny muted">
-                  {generateDeepReport
-                    ? 'The communicator writes a full report for each participant.'
-                    : 'Skipped, which removes the largest single cost per participant.'}
-                </span>
-              </div>
-              <Toggle checked={generateDeepReport} onChange={setGenerateDeepReport} label="Deep phenotype report" />
-            </div>
-          </div>
+          <BatchOptions
+            value={effective}
+            onChange={setOptions}
+            participantCount={chosen.length}
+            deepReport={generateDeepReport}
+            onDeepReportChange={setGenerateDeepReport}
+          />
         </Card>
 
         <Projection
@@ -355,19 +330,48 @@ function ParticipantRow({
   )
 }
 
-function TaskSummary() {
-  const task = useApp((s) => s.task)
+/**
+ * What this task is, stated in the terms its own family uses.
+ *
+ * Listing every flat field for every family described a task tree with four
+ * rows reading "not set" and "none", so the rows follow the family the same
+ * way the designer's requirement strip does.
+ */
+function TaskSummary({ task, report }: { task: TaskSpecInput; report: TaskReport }) {
   const capabilities = useCapabilities()
   const spec = capabilities.data?.prediction_types.find((t) => t.value === task.prediction_type)
+  const target = task.target_label.trim() || 'not set'
+  const classes = cleanList(task.class_labels)
+  const outputs = cleanList(task.regression_outputs)
 
-  const rows: [string, string][] = [
-    ['Shape', spec?.label ?? titleCase(task.prediction_type)],
-    ['Target', task.target_label || 'not set'],
-    ['Comparator', task.control_label || 'not set'],
-    ['Classes', task.class_labels.length ? task.class_labels.join(', ') : 'none'],
-    ['Outputs', task.regression_outputs.length ? task.regression_outputs.join(', ') : 'none'],
-  ]
-  if (task.root) rows.push(['Tree root', task.root.display_name || task.root.node_id])
+  const rows: [string, string][] = [['Shape', spec?.label ?? FAMILY_LABELS[task.prediction_type]]]
+
+  switch (task.prediction_type) {
+    case 'binary':
+      rows.push(['Target', target], ['Comparator', task.control_label.trim() || 'not set'])
+      break
+    case 'multiclass':
+      rows.push(['Target', target], ['Classes', classes.length ? classes.join(', ') : 'none set'])
+      break
+    case 'regression_univariate':
+      rows.push(['Target', target], ['Output', outputs[0] ?? 'not set'])
+      break
+    case 'regression_multivariate':
+      rows.push(['Target', target], ['Outputs', outputs.length ? outputs.join(', ') : 'none set'])
+      break
+    default: {
+      let depth = 0
+      walkNodes(task.root, (_node, _key, level) => {
+        depth = Math.max(depth, level)
+      })
+      rows.push(
+        ['Tree root', task.root ? task.root.display_name.trim() || task.root.node_id : 'not set'],
+        ['Nodes', `${report.nodeCount} node${report.nodeCount === 1 ? '' : 's'}, ${depth} level${depth === 1 ? '' : 's'} deep`],
+      )
+    }
+  }
+
+  if (report.ready) rows.push(['Reads as', report.summary])
 
   return (
     <dl className="kv">

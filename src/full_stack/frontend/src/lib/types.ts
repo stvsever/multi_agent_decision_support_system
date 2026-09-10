@@ -3,7 +3,10 @@
 export type Theme = 'system' | 'light' | 'dark'
 export type Accent = 'indigo' | 'violet' | 'teal' | 'amber' | 'rose' | 'slate'
 export type Density = 'comfortable' | 'compact'
-export type BackendName = 'openrouter' | 'openai' | 'local'
+export type BackendName = 'openrouter' | 'local'
+export type CredentialProvider = 'openrouter' | 'huggingface'
+export type LocalRuntime = 'native' | 'docker' | 'apptainer'
+export type LocalScheduler = 'none' | 'slurm'
 export type ReasoningEffort = 'provider_default' | 'off' | 'low' | 'medium' | 'high'
 export type PredictionType =
   | 'binary'
@@ -41,6 +44,38 @@ export const INSTRUCTION_SLOTS = [
 export type InstructionSlot = (typeof INSTRUCTION_SLOTS)[number]
 
 export type RoleMap<T> = Record<AgentRole, T>
+
+/**
+ * Self-hosted inference. The fields past `trust_remote_code` describe where the
+ * weights actually run, which is what makes a multi-GPU or cluster deployment
+ * expressible rather than only a single local process.
+ */
+export interface LocalBackendConfig {
+  model_name: string
+  max_tokens: number
+  engine: 'auto' | 'vllm' | 'transformers'
+  dtype: string
+  quantization: string
+  kv_cache_dtype: string
+  attn_implementation: string
+  tensor_parallel_size: number
+  pipeline_parallel_size: number
+  gpu_memory_utilization: number
+  max_model_len: number
+  enforce_eager: boolean
+  trust_remote_code: boolean
+  runtime: LocalRuntime
+  image: string
+  gpu_count: number
+  scheduler: LocalScheduler
+  slurm_partition: string
+  slurm_account: string
+  slurm_time: string
+  slurm_nodes: number
+  slurm_gpus_per_node: number
+  slurm_cpus_per_task: number
+  slurm_mem_gb: number
+}
 
 export interface DashboardConfig {
   version: number
@@ -83,21 +118,7 @@ export interface DashboardConfig {
     critic_budget: number
     communicator_budget: number
   }
-  local: {
-    model_name: string
-    max_tokens: number
-    engine: 'auto' | 'vllm' | 'transformers'
-    dtype: string
-    quantization: string
-    kv_cache_dtype: string
-    attn_implementation: string
-    tensor_parallel_size: number
-    pipeline_parallel_size: number
-    gpu_memory_utilization: number
-    max_model_len: number
-    enforce_eager: boolean
-    trust_remote_code: boolean
-  }
+  local: LocalBackendConfig
   batch: { concurrency: number; continue_on_error: boolean; run_timeout_seconds: number }
   cost: { warn_above_usd: number; block_above_usd: number; currency_decimals: number }
   workspace: { data_roots: string[]; output_dir: string; auto_open_report: boolean }
@@ -130,6 +151,19 @@ export interface SettingsResponse {
   config: DashboardConfig
   effective: Record<string, unknown>
   credentials: Record<string, CredentialStatus>
+  /** One-off explanations for a configuration the service had to heal on load. */
+  notices?: string[]
+}
+
+/**
+ * Reachability. The interface stays silent when everything is fine and only
+ * marks the failure, so a healthy state costs no screen space.
+ */
+export interface Connectivity {
+  online: boolean
+  provider_reachable: boolean
+  checked_at: number
+  reason: string
 }
 
 export interface AccountStatus {
@@ -203,10 +237,43 @@ export interface Participant {
   token_budget?: number
 }
 
+/** A directory that holds some but not all of the four required input files. */
+export interface NearMiss {
+  directory: string
+  present: string[]
+  missing: string[]
+}
+
+export interface ScannedRoot {
+  root: string
+  label: string
+  found: number
+  bundled: boolean
+  scanned_dir_count?: number
+  near_misses?: NearMiss[]
+}
+
 export interface ParticipantsResponse {
   participants: Participant[]
-  roots: { root: string; label: string; found: number; bundled: boolean }[]
+  roots: ScannedRoot[]
   count: number
+  added?: boolean
+  already_present?: boolean
+}
+
+export interface BrowseEntry {
+  name: string
+  path: string
+  is_dir: boolean
+  is_participant: boolean
+  child_dir_count: number
+}
+
+export interface BrowseResponse {
+  path: string
+  parent: string | null
+  entries: BrowseEntry[]
+  roots: { label: string; path: string }[]
 }
 
 export interface TaskNodeInput {
@@ -425,6 +492,20 @@ export interface RunSummary {
   max_steps: number
   verdict?: string
   prediction?: string
+  audit_summary?: AuditSummary | null
+}
+
+/** What a structural audit produces. No model is called, so there is no cost. */
+export interface AuditSummary {
+  predictor_payload_tokens: number
+  chunk_budget_tokens: number
+  chunk_count: number
+  predictor_input_mode: string
+  assertions_ok: boolean
+  coverage_summary: Record<string, unknown>
+  section_stats?: { name: string; tokens: number; feature_key_count: number }[]
+  chunk_stats?: { chunk_index: number; sections: string[]; tokens: number }[]
+  assertions?: Record<string, boolean>
 }
 
 export interface RunDetail extends RunSummary {
@@ -491,10 +572,29 @@ export interface OntologyNode {
   feature_count: number
   features: OntologyFeature[]
   children: OntologyNode[]
+  aggregate?: AggregateStats
+}
+
+/** Present on a merged cohort tree; absent on a single participant's tree. */
+export interface AggregateStats {
+  present_in: number
+  participant_count: number
+  coverage: number
+  membership: 'shared' | 'common' | 'partial'
+  n: number
+  mean: number | null
+  sd: number | null
+  min: number | null
+  max: number | null
+  q1: number | null
+  median: number | null
+  q3: number | null
 }
 
 export interface Ontology {
   participant_id: string
+  participant_ids?: string[]
+  aggregated?: boolean
   domains: OntologyNode[]
   extremes: { path: string[]; label: string; score: number; band: Band }[]
   summary: {
@@ -567,4 +667,100 @@ export interface Capabilities {
   prediction_types: { value: PredictionType; label: string; summary: string; needs: string[] }[]
   cost_model: Record<string, unknown>
   provider_links: Record<string, string>
+}
+
+
+/* --- Cohort distributions -------------------------------------------------- */
+
+export type VariableType = 'continuous' | 'integer' | 'ordinal' | 'nominal' | 'missing'
+
+export interface HistogramBin {
+  start: number
+  end: number
+  count: number
+}
+
+export interface CategoryCount {
+  label: string
+  count: number
+  proportion: number
+}
+
+export interface NumericSummary {
+  n: number
+  mean: number | null
+  sd: number | null
+  min: number | null
+  max: number | null
+  median: number | null
+  q1: number | null
+  q3: number | null
+  bins: HistogramBin[]
+}
+
+export interface DistributionResponse {
+  path: string[]
+  label: string
+  variable_type: VariableType
+  participant_count: number
+  values: (number | string | boolean | null)[]
+  numeric?: NumericSummary
+  categories?: CategoryCount[]
+  z_scores?: NumericSummary
+  rows: { participant_id: string; value: number | string | boolean | null; z_score: number | null }[]
+}
+
+/* --- Self-hosted deployment ------------------------------------------------ */
+
+export interface DeployCommand {
+  runtime: LocalRuntime | 'slurm'
+  title: string
+  command: string
+  note?: string
+}
+
+export interface DeployPlan {
+  engine: 'vllm' | 'transformers'
+  model_name: string
+  gpu_count: number
+  tensor_parallel_size: number
+  pipeline_parallel_size: number
+  estimated_vram_gb: number | null
+  estimate_basis: string
+  warnings: string[]
+  commands: DeployCommand[]
+  endpoint_hint: string
+}
+
+export interface DeployProbe {
+  cuda_available: boolean
+  gpu_count: number
+  gpu_names: string[]
+  total_vram_gb: number | null
+  vllm_installed: boolean
+  transformers_installed: boolean
+  docker_available: boolean
+  apptainer_available: boolean
+  slurm_available: boolean
+}
+
+export interface HfModelRow {
+  id: string
+  downloads: number
+  likes: number
+  pipeline_tag: string
+  tags: string[]
+  gated: boolean
+  is_embedding: boolean
+}
+
+export interface HfModelDetail extends Partial<HfModelRow> {
+  id: string
+  context_length: number | null
+  architectural_context_length?: number | null
+  parameter_count?: number | null
+  license?: string
+  model_type?: string
+  architecture?: string[]
+  error?: string
 }

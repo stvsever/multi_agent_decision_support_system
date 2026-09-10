@@ -50,16 +50,28 @@ from reportlab.platypus import (
 # Design system
 # ============================================================================
 
-INK = colors.HexColor("#0F172A")
-MUTED = colors.HexColor("#64748B")
-HAIRLINE = colors.HexColor("#E2E8F0")
-PAGE_TINT = colors.HexColor("#F8FAFC")
-ACCENT = colors.HexColor("#4F46E5")
-POSITIVE = colors.HexColor("#059669")
-CAUTION = colors.HexColor("#D97706")
-CRITICAL = colors.HexColor("#DC2626")
-INFO = colors.HexColor("#0EA5E9")
+#: Hex strings as well as colours, because the inline markup the paragraph
+#: parser understands takes the string form and the two must not drift.
+INK_HEX = "#101820"
+MUTED_HEX = "#6B7684"
+#: One accent for emphasis, one diverging pair for signed data, and nothing
+#: else. The high end of the diverging pair doubles as the alert colour, so a
+#: warning never needs a hue the reader has not already been taught to read.
+ACCENT_HEX = "#1D3557"
+DEV_HIGH_HEX = "#A8382B"
+DEV_LOW_HEX = "#3C6E8F"
+
+INK = colors.HexColor(INK_HEX)
+MUTED = colors.HexColor(MUTED_HEX)
+HAIRLINE = colors.HexColor("#E3E7EB")
+#: A rule that has to be seen, under a table header or above a totals row.
+RULE = colors.HexColor("#AEB7C0")
+PAGE_TINT = colors.HexColor("#F4F6F8")
 PAPER = colors.HexColor("#FFFFFF")
+ACCENT = colors.HexColor(ACCENT_HEX)
+DEV_HIGH = colors.HexColor(DEV_HIGH_HEX)
+DEV_LOW = colors.HexColor(DEV_LOW_HEX)
+ALERT = DEV_HIGH
 
 #: Type scale: (font size, leading). Helvetica and Courier ship with every
 #: viewer, so the document renders identically without embedded fonts.
@@ -69,28 +81,34 @@ FONT_SANS_OBLIQUE = "Helvetica-Oblique"
 FONT_MONO = "Courier"
 FONT_MONO_BOLD = "Courier-Bold"
 
-SIZE_DISPLAY, LEAD_DISPLAY = 26.0, 32.0
-SIZE_H1, LEAD_H1 = 16.0, 22.0
-SIZE_H2, LEAD_H2 = 12.5, 17.0
-SIZE_H3, LEAD_H3 = 10.5, 14.0
-SIZE_BODY, LEAD_BODY = 9.5, 14.0
-SIZE_SMALL, LEAD_SMALL = 8.5, 12.0
+#: Three levels of heading and three of text, and the document uses no others.
+#: A fourth heading level was what made the old layout read as a debug dump.
+SIZE_DISPLAY, LEAD_DISPLAY = 25.0, 30.0
+SIZE_H1, LEAD_H1 = 17.0, 22.0
+SIZE_H2, LEAD_H2 = 11.0, 15.0
+SIZE_H3, LEAD_H3 = 9.5, 13.0
+SIZE_BODY, LEAD_BODY = 9.5, 14.5
+SIZE_SMALL, LEAD_SMALL = 8.5, 12.5
 SIZE_MICRO, LEAD_MICRO = 7.5, 10.0
 
 PAGE_SIZE = A4
 PAGE_WIDTH, PAGE_HEIGHT = A4
-MARGIN_SIDE = 42.0
-MARGIN_TOP = 54.0
-MARGIN_BOTTOM = 46.0
+MARGIN_SIDE = 46.0
+MARGIN_TOP = 58.0
+MARGIN_BOTTOM = 50.0
 CONTENT_WIDTH = PAGE_WIDTH - (2 * MARGIN_SIDE)
+#: Inset of a fenced code panel, and the text width that leaves inside it.
+CODE_PADDING = 8.0
+CODE_WIDTH = CONTENT_WIDTH - (2 * CODE_PADDING)
 
 #: Vertical rhythm. Every gap in the document is a multiple of these.
 RHYTHM = 6.0
 GAP_TIGHT = RHYTHM
 GAP_BLOCK = RHYTHM * 2
 GAP_SECTION = RHYTHM * 3
+GAP_MAJOR = RHYTHM * 4
 
-COVER_BAND_HEIGHT = 118.0
+COVER_BAND_HEIGHT = 132.0
 COVER_FRAME_TOP_GAP = 26.0
 #: Usable height of the cover frame. The cover is a single frame of known size,
 #: so the builder can measure what it has and decide what else will fit.
@@ -108,29 +126,39 @@ COVER_STRIP_ROW_HEIGHT = 11.5
 COVER_STRIP_GAP = 3.0
 COVER_STRIP_BAR_HEIGHT = 5.5
 
+#: Separates the facts on the cover's one-line metadata strips. A middle dot
+#: is in the built-in fonts, unlike the glyphs a designer would reach for.
+META_SEPARATOR = "  \u00b7  "
 DISCLAIMER = (
     "COMPASS is a research prototype and is not a certified medical device. "
     "Outputs require review by qualified domain experts."
 )
+#: The title page carries the claim only; every body page carries the full
+#: sentence, so repeating the review clause under the wave would clip it.
+COVER_CAVEAT = "Research prototype. Not a certified medical device."
 NOT_AVAILABLE = "Not available"
 #: Section titles and standfirsts, in document order. The cover contents
 #: list and the section headers both read from here so they cannot drift.
 SECTION_SPECS: Tuple[Tuple[str, str], ...] = (
-    ("Prediction", "Task specification and primary output"),
+    ("Prediction", "Task and primary output"),
     ("Evidence", "What the prediction rests on"),
-    ("Uncertainty and missing information", "What the run could not see"),
-    ("Evidence coverage", "Ontology leaves present per domain"),
-    ("Deviation profile", "Normative deviation across the ontology"),
+    ("Uncertainty", "What the run could not see"),
+    ("Coverage", "Source data present per domain"),
+    ("Deviation profile", "Distance from the normative mean"),
     ("Critic evaluation", "Automated quality review"),
-    ("Deep phenotype report", "Narrative synthesis from the Communicator"),
+    ("Deep phenotype narrative", "Written synthesis of the run"),
     ("Execution and cost", "How the run was carried out"),
-    ("Appendix: run configuration", "Provenance for reproduction"),
+    ("Provenance", "How to reproduce this report"),
 )
 
-#: Cap on how many missing feature identifiers are printed before eliding.
-MISSING_FEATURE_CAP = 40
+#: Caps on how much of a long list is printed before it is elided with a count.
+#: A clinical report states its evidence, it does not transcribe the run log.
+MISSING_FEATURE_CAP = 24
+KEY_FINDING_CAP = 12
+REASONING_STEP_CAP = 12
+CHECKLIST_CAP = 16
 #: Cap on how many leaf paths the deviation chart shows.
-DEVIATION_CHART_ROWS = 18
+DEVIATION_CHART_ROWS = 12
 #: Depth guard for the generic deviation-map walk.
 MAX_TREE_DEPTH = 12
 
@@ -138,6 +166,11 @@ try:  # The engine version is nice to have, not worth an import failure.
     from ..config.settings import COMPASS_VERSION as _ENGINE_VERSION
 except Exception:  # pragma: no cover - defensive, settings pulls heavy optionals
     _ENGINE_VERSION = ""
+
+#: The repository root, which is where the reproduce command tells the reader to
+#: stand. A participant directory underneath it is written relative to it, which
+#: keeps the one unbreakable token in that command short enough to print whole.
+_REPO_ROOT = Path(__file__).resolve().parents[4]
 
 
 # ============================================================================
@@ -349,13 +382,15 @@ def build_styles() -> Dict[str, ParagraphStyle]:
 
     add("Display", fontName=FONT_SANS_BOLD, fontSize=SIZE_DISPLAY, leading=LEAD_DISPLAY)
     add("H1", fontName=FONT_SANS_BOLD, fontSize=SIZE_H1, leading=LEAD_H1, keepWithNext=1)
+    # The single sub-heading level inside a section. It earns its weight from
+    # the space above it rather than from size, colour or a rule.
     add(
         "H2",
         fontName=FONT_SANS_BOLD,
         fontSize=SIZE_H2,
         leading=LEAD_H2,
-        spaceBefore=GAP_BLOCK,
-        spaceAfter=GAP_TIGHT * 0.5,
+        spaceBefore=GAP_SECTION,
+        spaceAfter=GAP_TIGHT,
         keepWithNext=1,
     )
     add(
@@ -363,24 +398,14 @@ def build_styles() -> Dict[str, ParagraphStyle]:
         fontName=FONT_SANS_BOLD,
         fontSize=SIZE_H3,
         leading=LEAD_H3,
-        spaceBefore=GAP_TIGHT,
-        spaceAfter=2,
-        keepWithNext=1,
-    )
-    add(
-        "H4",
-        fontName=FONT_SANS_BOLD,
-        fontSize=SIZE_SMALL,
-        leading=LEAD_SMALL,
-        textColor=MUTED,
-        spaceBefore=GAP_TIGHT,
-        spaceAfter=2,
+        spaceBefore=GAP_BLOCK,
+        spaceAfter=3,
         keepWithNext=1,
     )
     add("Body", spaceAfter=GAP_TIGHT)
     add("BodyTight", spaceAfter=2)
     add("BodyMuted", textColor=MUTED, spaceAfter=GAP_TIGHT)
-    add("Lead", fontSize=SIZE_H3, leading=LEAD_H3 + 2, spaceAfter=GAP_TIGHT)
+    add("Lead", fontSize=SIZE_H2, leading=LEAD_H2 + 2, spaceAfter=GAP_TIGHT)
     add("Small", fontSize=SIZE_SMALL, leading=LEAD_SMALL)
     add("SmallMuted", fontSize=SIZE_SMALL, leading=LEAD_SMALL, textColor=MUTED)
     add("Micro", fontSize=SIZE_MICRO, leading=LEAD_MICRO, textColor=MUTED)
@@ -393,12 +418,31 @@ def build_styles() -> Dict[str, ParagraphStyle]:
         textColor=MUTED,
         wordWrap="CJK",
     )
-    add("BigValue", fontName=FONT_SANS_BOLD, fontSize=22, leading=26)
-    add("TableHeader", fontName=FONT_SANS_BOLD, fontSize=SIZE_MICRO, leading=LEAD_MICRO, textColor=MUTED)
+    add("BigValue", fontName=FONT_SANS_BOLD, fontSize=21, leading=25)
+    add(
+        "TableHeader",
+        fontName=FONT_SANS_BOLD,
+        fontSize=SIZE_MICRO,
+        leading=LEAD_MICRO,
+        textColor=MUTED,
+    )
+    add(
+        "TableHeaderRight",
+        fontName=FONT_SANS_BOLD,
+        fontSize=SIZE_MICRO,
+        leading=LEAD_MICRO,
+        textColor=MUTED,
+        alignment=TA_RIGHT,
+    )
     add("TableCell", fontSize=SIZE_SMALL, leading=LEAD_SMALL)
     add("TableCellMuted", fontSize=SIZE_SMALL, leading=LEAD_SMALL, textColor=MUTED)
+    # Ontology domain names are long compound identifiers, so the column that
+    # carries them is set smaller to keep them on one line.
+    add("TableCellLabel", fontSize=SIZE_MICRO, leading=LEAD_SMALL, textColor=MUTED)
     add("TableCellMono", fontName=FONT_MONO, fontSize=SIZE_MICRO + 0.5, leading=LEAD_SMALL, wordWrap="CJK")
     add("TableCellRight", fontSize=SIZE_SMALL, leading=LEAD_SMALL, alignment=TA_RIGHT)
+    # Courier is the only tabular-figure face guaranteed to be present, so
+    # every column of numerals uses it and every one of them is right aligned.
     add(
         "TableCellNumeric",
         fontName=FONT_MONO,
@@ -406,21 +450,34 @@ def build_styles() -> Dict[str, ParagraphStyle]:
         leading=LEAD_SMALL,
         alignment=TA_RIGHT,
     )
-    add("Bullet", spaceAfter=2, leftIndent=13, bulletIndent=2)
-    add("BulletNested", spaceAfter=2, leftIndent=26, bulletIndent=15, textColor=colors.HexColor("#334155"))
-    add("Numbered", spaceAfter=2, leftIndent=18, bulletIndent=2)
+    add("TableCellBold", fontName=FONT_SANS_BOLD, fontSize=SIZE_SMALL, leading=LEAD_SMALL)
+    add(
+        "TableCellNumericBold",
+        fontName=FONT_MONO_BOLD,
+        fontSize=SIZE_MICRO + 0.5,
+        leading=LEAD_SMALL,
+        alignment=TA_RIGHT,
+    )
+    add("SpecKey", fontSize=SIZE_SMALL, leading=LEAD_SMALL, textColor=MUTED)
+    add("SpecValue", fontSize=SIZE_SMALL, leading=LEAD_SMALL, textColor=INK)
+    add("SpecValueMono", fontName=FONT_MONO, fontSize=SIZE_MICRO + 0.5, leading=LEAD_SMALL, wordWrap="CJK")
+    add("Bullet", spaceAfter=3, leftIndent=13, bulletIndent=2)
+    add("BulletNested", spaceAfter=3, leftIndent=26, bulletIndent=15, textColor=colors.HexColor("#3A4550"))
+    add("Numbered", spaceAfter=3, leftIndent=18, bulletIndent=2)
     add("CalloutBody", fontSize=SIZE_SMALL, leading=LEAD_SMALL + 0.5)
     add("Code", fontName=FONT_MONO, fontSize=SIZE_SMALL, leading=LEAD_SMALL + 1, wordWrap="CJK")
-    add("MdH1", fontName=FONT_SANS_BOLD, fontSize=SIZE_H1, leading=LEAD_H1, spaceBefore=GAP_BLOCK, spaceAfter=GAP_TIGHT, keepWithNext=1)
-    add("MdH2", fontName=FONT_SANS_BOLD, fontSize=SIZE_H2, leading=LEAD_H2, spaceBefore=GAP_BLOCK, spaceAfter=3, keepWithNext=1)
-    add("MdH3", fontName=FONT_SANS_BOLD, fontSize=SIZE_H3, leading=LEAD_H3, spaceBefore=GAP_TIGHT, spaceAfter=2, keepWithNext=1)
+    # The narrative arrives as markdown written by the Communicator, so its
+    # headings map onto the same three levels the rest of the document uses.
+    add("MdH1", fontName=FONT_SANS_BOLD, fontSize=SIZE_H1 - 3.0, leading=LEAD_H1 - 3.0, spaceBefore=GAP_SECTION, spaceAfter=GAP_TIGHT, keepWithNext=1)
+    add("MdH2", fontName=FONT_SANS_BOLD, fontSize=SIZE_H2, leading=LEAD_H2, spaceBefore=GAP_SECTION, spaceAfter=3, keepWithNext=1)
+    add("MdH3", fontName=FONT_SANS_BOLD, fontSize=SIZE_H3, leading=LEAD_H3, spaceBefore=GAP_BLOCK, spaceAfter=2, keepWithNext=1)
     add(
         "MdH4",
         fontName=FONT_SANS_BOLD,
-        fontSize=SIZE_BODY,
-        leading=LEAD_BODY,
+        fontSize=SIZE_SMALL,
+        leading=LEAD_SMALL,
         textColor=MUTED,
-        spaceBefore=GAP_TIGHT,
+        spaceBefore=GAP_BLOCK,
         spaceAfter=2,
         keepWithNext=1,
     )
@@ -505,10 +562,16 @@ class HRule(Flowable):
 
 
 class SectionHeader(Flowable):
-    """Numbered section heading: accent circle, title, optional subtitle, rule."""
+    """
+    A section opening: a letterspaced number label, the title, a standfirst.
 
-    RADIUS = 9.0
-    GAP_AFTER_CIRCLE = 10.0
+    The rule sits above the block rather than below it, so the title reads as
+    the start of what follows instead of the end of what came before.
+    """
+
+    #: Space between the rule above and the number label.
+    GAP_UNDER_RULE = 9.0
+    LABEL_GAP = 5.0
 
     def __init__(self, number: Any, title: str, subtitle: str = "") -> None:
         super().__init__()
@@ -522,59 +585,67 @@ class SectionHeader(Flowable):
 
     def wrap(self, availWidth: float, availHeight: float) -> Tuple[float, float]:
         self.width = availWidth
-        text_left = (self.RADIUS * 2) + self.GAP_AFTER_CIRCLE
         self._subtitle_height = 0.0
         self._subtitle_para = None
         if self.subtitle:
             self._subtitle_para = P(self.subtitle, "SmallMuted")
-            _, self._subtitle_height = self._subtitle_para.wrap(
-                max(availWidth - text_left, 40.0), availHeight
-            )
-        self.height = LEAD_H1 + self._subtitle_height + GAP_TIGHT + 1.0
+            _, self._subtitle_height = self._subtitle_para.wrap(availWidth, availHeight)
+        self.height = (
+            self.GAP_UNDER_RULE
+            + LEAD_MICRO
+            + self.LABEL_GAP
+            + LEAD_H1
+            + (self._subtitle_height + 2.0 if self._subtitle_para else 0.0)
+        )
         return self.width, self.height
 
     def draw(self) -> None:
         canvas = self.canv
-        text_left = (self.RADIUS * 2) + self.GAP_AFTER_CIRCLE
-        rule_y = 1.0
-        title_baseline = rule_y + GAP_TIGHT + self._subtitle_height + 4.5
+        canvas.setStrokeColor(ACCENT)
+        canvas.setLineWidth(1.4)
+        canvas.line(0, self.height, self.width, self.height)
 
-        canvas.setFillColor(ACCENT)
-        canvas.circle(self.RADIUS, title_baseline + (SIZE_H1 * 0.34), self.RADIUS, stroke=0, fill=1)
+        label_baseline = self.height - self.GAP_UNDER_RULE - SIZE_MICRO
         if self.number:
-            canvas.setFillColor(PAPER)
-            canvas.setFont(FONT_SANS_BOLD, 9.5)
-            canvas.drawCentredString(
-                self.RADIUS, title_baseline + (SIZE_H1 * 0.34) - 3.4, self.number
+            _draw_tracked(
+                canvas,
+                0,
+                label_baseline,
+                f"SECTION {self.number}",
+                FONT_SANS_BOLD,
+                SIZE_MICRO,
+                ACCENT,
+                1.6,
             )
 
+        subtitle_height = self._subtitle_height + 2.0 if self._subtitle_para else 0.0
+        title_baseline = subtitle_height + (LEAD_H1 - SIZE_H1) * 0.5
         canvas.setFillColor(INK)
-        title, size = _fit_text(
-            self.title, FONT_SANS_BOLD, SIZE_H1, self.width - text_left, min_size=12.0
-        )
+        title, size = _fit_text(self.title, FONT_SANS_BOLD, SIZE_H1, self.width, min_size=12.0)
         canvas.setFont(FONT_SANS_BOLD, size)
-        canvas.drawString(text_left, title_baseline, title)
+        canvas.drawString(0, title_baseline, title)
 
         if self._subtitle_para is not None:
-            self._subtitle_para.drawOn(self.canv, text_left, rule_y + GAP_TIGHT)
-
-        canvas.setStrokeColor(HAIRLINE)
-        canvas.setLineWidth(0.8)
-        canvas.line(0, rule_y, self.width, rule_y)
+            self._subtitle_para.drawOn(canvas, 0, 0)
 
 
 class Callout(Flowable):
-    """A tinted, rounded note box with a coloured spine."""
+    """
+    A note set off by a rule on its left edge, on a neutral ground.
 
-    PAD_X = 10.0
+    Only the rule and the title carry the tone. The panel itself stays neutral
+    so a page with two callouts does not turn into a colour chart.
+    """
+
+    PAD_X = 11.0
     PAD_Y = 8.0
-    SPINE = 3.0
+    SPINE = 2.2
     MAX_CHARS = 1600
 
     def __init__(
         self,
         text: str,
-        tone: colors.Color = INFO,
+        tone: colors.Color = ACCENT,
         title: str = "",
         space_after: float = GAP_BLOCK,
     ) -> None:
@@ -614,14 +685,10 @@ class Callout(Flowable):
         canvas = self.canv
         box_height = self.height - self.space_after
         box_y = self.space_after
-        canvas.setFillColor(tint(self.tone, 0.92))
-        canvas.setStrokeColor(tint(self.tone, 0.72))
-        canvas.setLineWidth(0.6)
-        canvas.roundRect(0, box_y, self.width, box_height, 4, stroke=1, fill=1)
+        canvas.setFillColor(PAGE_TINT)
+        canvas.rect(0, box_y, self.width, box_height, stroke=0, fill=1)
         canvas.setFillColor(self.tone)
-        canvas.roundRect(0, box_y, self.SPINE + 2, box_height, 2, stroke=0, fill=1)
-        canvas.setFillColor(tint(self.tone, 0.92))
-        canvas.rect(self.SPINE, box_y + 0.5, 3, box_height - 1, stroke=0, fill=1)
+        canvas.rect(0, box_y, self.SPINE, box_height, stroke=0, fill=1)
 
         cursor = box_y + box_height - self.PAD_Y
         for para, height in zip(self._paras, self._heights):
@@ -656,14 +723,13 @@ class Chip(Flowable):
         canvas = self.canv
         if self.solid:
             canvas.setFillColor(self.color)
-            canvas.setStrokeColor(self.color)
+            canvas.rect(0, 1.0, self.width, self.height - 2.0, stroke=0, fill=1)
             text_color = PAPER
         else:
-            canvas.setFillColor(tint(self.color, 0.88))
-            canvas.setStrokeColor(tint(self.color, 0.62))
+            canvas.setStrokeColor(self.color)
+            canvas.setLineWidth(0.6)
+            canvas.rect(0, 1.0, self.width, self.height - 2.0, stroke=1, fill=0)
             text_color = self.color
-        canvas.setLineWidth(0.5)
-        canvas.roundRect(0, 1.0, self.width, self.height - 2.0, 3, stroke=1, fill=1)
         canvas.setFillColor(text_color)
         canvas.setFont(FONT_SANS_BOLD, self.FONT_SIZE)
         canvas.drawString(self.PAD_X, 1.0 + self.PAD_Y + 1.0, self._label)
@@ -738,7 +804,9 @@ class KpiGrid(Flowable):
             return
         canvas = self.canv
         tile_w = (self.width - self.gap * (self.cols - 1)) / float(self.cols)
-        top = self.height - self.space_after
+        # Trailing space belongs under the block: a flowable draws from the top
+        # of the box it was given, so the leftover has to fall out at the bottom.
+        top = self.height
         for index, item in enumerate(self.items):
             row, col = divmod(index, self.cols)
             x = col * (tile_w + self.gap)
@@ -748,41 +816,38 @@ class KpiGrid(Flowable):
     def _draw_tile(
         self, canvas: Any, item: KpiItem, x: float, y: float, tile_w: float
     ) -> None:
-        accent = item.accent or ACCENT
-        canvas.setFillColor(PAGE_TINT)
-        canvas.setStrokeColor(HAIRLINE)
-        canvas.setLineWidth(0.7)
-        canvas.roundRect(x, y, tile_w, self.tile_height, 5, stroke=1, fill=1)
-        canvas.setFillColor(accent)
-        canvas.roundRect(x, y, 3.0, self.tile_height, 1.5, stroke=0, fill=1)
+        # A rule over the tile, nothing around it. Boxes and coloured spines are
+        # what made these read as dashboard widgets rather than a report.
+        canvas.setStrokeColor(RULE)
+        canvas.setLineWidth(0.8)
+        canvas.line(x, y + self.tile_height, x + tile_w, y + self.tile_height)
 
-        pad = 10.0
-        inner = tile_w - pad - 8.0
-        label, _ = _fit_text(
-            item.label.upper(), FONT_SANS_BOLD, SIZE_MICRO - 0.5, inner - 6.0
-        )
+        inner = tile_w - 6.0
+        label, _ = _fit_text(item.label.upper(), FONT_SANS_BOLD, SIZE_MICRO - 0.5, inner)
         _draw_tracked(
             canvas,
-            x + pad,
-            y + self.tile_height - 15.0,
+            x,
+            y + self.tile_height - 14.0,
             label,
             FONT_SANS_BOLD,
             SIZE_MICRO - 0.5,
             MUTED,
-            0.9,
+            1.1,
         )
 
-        value_baseline = y + (18.0 if item.note else 13.0)
+        value_baseline = y + (17.0 if item.note else 11.0)
         canvas.setFillColor(item.accent or INK)
-        value, size = _fit_text(item.value or NOT_AVAILABLE, FONT_SANS_BOLD, SIZE_H1, inner, min_size=8.0)
+        value, size = _fit_text(
+            item.value or NOT_AVAILABLE, FONT_SANS_BOLD, SIZE_H1, inner, min_size=8.5
+        )
         canvas.setFont(FONT_SANS_BOLD, size)
-        canvas.drawString(x + pad, value_baseline, value)
+        canvas.drawString(x, value_baseline, value)
 
         if item.note:
             note, note_size = _fit_text(item.note, FONT_SANS, SIZE_MICRO, inner, min_size=6.0)
             canvas.setFillColor(MUTED)
             canvas.setFont(FONT_SANS, note_size)
-            canvas.drawString(x + pad, y + 8.0, note)
+            canvas.drawString(x, y + 6.0, note)
 
 
 def _rows_that_fit(
@@ -892,32 +957,33 @@ class HBarChart(Flowable):
         label_w = max(self.width * self.label_ratio, 60.0)
         track_x = label_w + 8.0
         track_w = max(self.width - track_x - self.value_width - 6.0, 20.0)
-        top = self.height - self.space_after
+        # Trailing space belongs under the block: a flowable draws from the top
+        # of the box it was given, so the leftover has to fall out at the bottom.
+        top = self.height
         for index, row in enumerate(self.rows):
             y = top - (index + 1) * self.row_height - index * self.gap
             mid = y + (self.row_height / 2.0)
             bar_y = mid - (self.bar_height / 2.0)
 
             label, size = _fit_text(row.label, FONT_SANS, SIZE_SMALL, label_w, min_size=6.5)
-            canvas.setFillColor(INK if row.emphasis else colors.HexColor("#334155"))
+            canvas.setFillColor(INK if row.emphasis else colors.HexColor("#3A4550"))
             canvas.setFont(FONT_SANS_BOLD if row.emphasis else FONT_SANS, size)
             canvas.drawString(0, mid - (size * 0.35), label)
 
             canvas.setFillColor(HAIRLINE)
-            canvas.roundRect(track_x, bar_y, track_w, self.bar_height, self.bar_height / 2.0, stroke=0, fill=1)
+            canvas.rect(track_x, bar_y, track_w, self.bar_height, stroke=0, fill=1)
 
             ratio = min(max(_as_float(row.value) or 0.0, 0.0), 1.0)
             filled = track_w * ratio
             if filled > 0.4:
                 canvas.setFillColor(row.color or ACCENT)
-                canvas.roundRect(
-                    track_x, bar_y, max(filled, self.bar_height), self.bar_height,
-                    self.bar_height / 2.0, stroke=0, fill=1,
-                )
+                canvas.rect(track_x, bar_y, filled, self.bar_height, stroke=0, fill=1)
 
+            # Every bar carries its own value: a bar the reader has to measure
+            # against a track is not a chart, it is a decoration.
             text = row.text or f"{ratio * 100:.1f}%"
             value, value_size = _fit_text(text, FONT_MONO, SIZE_MICRO + 0.5, self.value_width, min_size=6.0)
-            canvas.setFillColor(MUTED)
+            canvas.setFillColor(INK)
             canvas.setFont(FONT_MONO, value_size)
             canvas.drawRightString(self.width, mid - (value_size * 0.35), value)
 
@@ -932,10 +998,18 @@ class DivRow:
 
 
 class DivergingBarChart(Flowable):
-    """Signed bars around a centred zero rule, scaled to the largest magnitude."""
+    """
+    Signed bars around a centred zero rule, scaled to the largest magnitude.
+
+    The scale is the only place in the document where two hues carry meaning:
+    below the normative mean on the left, above it on the right. When ``axis``
+    is set the chart prints its own end labels, so the reader never has to infer
+    what the width of a bar is worth.
+    """
 
     splittable = True
 
+    AXIS_HEIGHT = 13.0
 
     def __init__(
         self,
@@ -947,6 +1021,7 @@ class DivergingBarChart(Flowable):
         bar_height: float = 8.0,
         domain: Optional[float] = None,
         space_after: float = GAP_BLOCK,
+        axis: bool = False,
     ) -> None:
         super().__init__()
         self.rows = list(rows)
@@ -957,6 +1032,7 @@ class DivergingBarChart(Flowable):
         self.bar_height = bar_height
         self.domain = domain or self._auto_domain()
         self.space_after = space_after
+        self.axis = bool(axis)
         self.width = 0.0
         self.height = 0.0
 
@@ -970,13 +1046,20 @@ class DivergingBarChart(Flowable):
             return 0.0
         return len(self.rows) * self.row_height + (len(self.rows) - 1) * self.gap
 
+    def _axis_height(self) -> float:
+        return self.AXIS_HEIGHT if (self.axis and self.rows) else 0.0
+
     def first_slice_height(self) -> float:
         """Smallest slice :meth:`split` can leave behind."""
         return _bar_slice_height(len(self.rows), self.row_height, self.gap)
 
     def wrap(self, availWidth: float, availHeight: float) -> Tuple[float, float]:
         self.width = availWidth
-        self.height = self._content_height() + (self.space_after if self.rows else 0.0)
+        self.height = (
+            self._content_height()
+            + self._axis_height()
+            + (self.space_after if self.rows else 0.0)
+        )
         return self.width, self.height
 
     def split(self, availWidth: float, availHeight: float) -> List[Flowable]:
@@ -989,16 +1072,16 @@ class DivergingBarChart(Flowable):
             row_height=self.row_height, gap=self.gap, label_ratio=self.label_ratio,
             value_width=self.value_width, bar_height=self.bar_height, domain=self.domain,
         )
+        # The axis belongs under the last band, so only the tail carries it.
         head = DivergingBarChart(self.rows[:fits], space_after=self.gap, **common)
-        tail = DivergingBarChart(self.rows[fits:], space_after=self.space_after, **common)
+        tail = DivergingBarChart(
+            self.rows[fits:], space_after=self.space_after, axis=self.axis, **common
+        )
         return [head, tail]
 
     @staticmethod
-    def _bar_color(value: float, domain: float) -> colors.Color:
-        if value < 0:
-            return INFO
-        magnitude = abs(value) / domain if domain else 0.0
-        return CRITICAL if magnitude >= 0.66 else CAUTION
+    def _bar_color(value: float) -> colors.Color:
+        return DEV_LOW if value < 0 else DEV_HIGH
 
     def draw(self) -> None:
         if not self.rows:
@@ -1009,12 +1092,14 @@ class DivergingBarChart(Flowable):
         chart_w = max(self.width - chart_x - self.value_width - 6.0, 30.0)
         center = chart_x + (chart_w / 2.0)
         half = chart_w / 2.0
-        top = self.height - self.space_after
-        bottom = top - self._content_height()
+        # Trailing space belongs under the block: a flowable draws from the top
+        # of the box it was given, so the leftover has to fall out at the bottom.
+        top = self.height
+        bottom = top - self._content_height() - self._axis_height()
 
-        canvas.setStrokeColor(HAIRLINE)
+        canvas.setStrokeColor(RULE)
         canvas.setLineWidth(0.7)
-        canvas.line(center, bottom - 2.0, center, top + 2.0)
+        canvas.line(center, bottom, center, top)
 
         for index, row in enumerate(self.rows):
             y = top - (index + 1) * self.row_height - index * self.gap
@@ -1024,18 +1109,29 @@ class DivergingBarChart(Flowable):
             length = min(abs(value) / self.domain, 1.0) * half if self.domain else 0.0
 
             label, size = _fit_text(row.label, FONT_SANS, SIZE_MICRO + 0.5, label_w, min_size=5.5)
-            canvas.setFillColor(colors.HexColor("#334155"))
+            canvas.setFillColor(colors.HexColor("#3A4550"))
             canvas.setFont(FONT_SANS, size)
             canvas.drawString(0, mid - (size * 0.35), label)
 
             if length > 0.3:
-                canvas.setFillColor(self._bar_color(value, self.domain))
+                canvas.setFillColor(self._bar_color(value))
                 x = center - length if value < 0 else center
                 canvas.rect(x, bar_y, max(length, 0.8), self.bar_height, stroke=0, fill=1)
 
-            canvas.setFillColor(MUTED)
+            canvas.setFillColor(INK)
             canvas.setFont(FONT_MONO, SIZE_MICRO)
             canvas.drawRightString(self.width, mid - (SIZE_MICRO * 0.35), row.text or fmt_z(value))
+
+        if self._axis_height():
+            self._draw_axis(canvas, center, half, bottom)
+
+    def _draw_axis(self, canvas: Any, center: float, half: float, bottom: float) -> None:
+        baseline = bottom + 3.0
+        canvas.setFillColor(MUTED)
+        canvas.setFont(FONT_MONO, SIZE_MICRO - 0.5)
+        canvas.drawString(center - half, baseline, f"{-self.domain:.1f}")
+        canvas.drawCentredString(center, baseline, "0")
+        canvas.drawRightString(center + half, baseline, f"+{self.domain:.1f}")
 
 
 class ScoreMeter(Flowable):
@@ -1063,18 +1159,15 @@ class ScoreMeter(Flowable):
         return self.width, self.height
 
     def _color(self) -> colors.Color:
-        value = self.value01 or 0.0
-        if value >= 0.8:
-            return POSITIVE
-        if value >= 0.6:
-            return CAUTION
-        return CRITICAL
+        # A weak composite score is a finding, not a mood: it is the only case
+        # that earns the alert colour here.
+        return ALERT if (self.value01 or 0.0) < 0.6 else ACCENT
 
     def draw(self) -> None:
         canvas = self.canv
-        value_width = 58.0
+        value_width = 76.0
         track_w = max(self.width - value_width - 8.0, 40.0)
-        gap = 3.0
+        gap = 2.5
         seg_w = (track_w - gap * (self.segments - 1)) / float(self.segments)
         y = self.space_after
 
@@ -1087,7 +1180,7 @@ class ScoreMeter(Flowable):
                 FONT_SANS_BOLD,
                 SIZE_MICRO - 0.5,
                 MUTED,
-                0.9,
+                1.1,
             )
 
         filled = 0 if self.value01 is None else int(round(self.value01 * self.segments))
@@ -1095,12 +1188,15 @@ class ScoreMeter(Flowable):
         for index in range(self.segments):
             x = index * (seg_w + gap)
             canvas.setFillColor(color if index < filled else HAIRLINE)
-            canvas.roundRect(x, y, seg_w, self.bar_height, 1.5, stroke=0, fill=1)
+            canvas.rect(x, y, seg_w, self.bar_height, stroke=0, fill=1)
 
+        # The scale is stated with the value so the meter needs no legend.
         canvas.setFillColor(INK if self.value01 is not None else MUTED)
         canvas.setFont(FONT_SANS_BOLD, SIZE_H3)
-        text = "n/r" if self.value01 is None else f"{self.value01:.2f}"
-        canvas.drawRightString(self.width, y + 2.0, text)
+        text = "not recorded" if self.value01 is None else f"{self.value01:.2f} of 1.00"
+        value, size = _fit_text(text, FONT_SANS_BOLD, SIZE_H3, value_width, min_size=6.5)
+        canvas.setFont(FONT_SANS_BOLD, size)
+        canvas.drawRightString(self.width, y + 2.0, value)
 
 
 def _is_splittable(flowable: Any) -> bool:
@@ -1198,13 +1294,15 @@ class KeepHeadingWith(KeepTogether):
 # Table helpers
 # ============================================================================
 
+#: No boxes, no vertical rules, no tinted bands: a header rule and light row
+#: separators are the whole vocabulary.
 _BASE_TABLE_STYLE: List[Tuple[Any, ...]] = [
     ("VALIGN", (0, 0), (-1, -1), "TOP"),
-    ("LEFTPADDING", (0, 0), (-1, -1), 4),
-    ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+    ("RIGHTPADDING", (0, 0), (-1, -1), 8),
     ("TOPPADDING", (0, 0), (-1, -1), 4),
     ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-    ("LINEBELOW", (0, 0), (-1, -2), 0.4, HAIRLINE),
+    ("LINEBELOW", (0, 0), (-1, -2), 0.35, HAIRLINE),
 ]
 
 
@@ -1215,16 +1313,15 @@ def make_table(
     extra_styles: Optional[Sequence[Tuple[Any, ...]]] = None,
     space_after: float = GAP_BLOCK,
 ) -> Flowable:
-    """A table with the document's shared look: hairlines only, tinted header."""
+    """A table with the document's shared look: a header rule and hairlines."""
     if not data:
         return Spacer(1, 0)
     style: List[Tuple[Any, ...]] = list(_BASE_TABLE_STYLE)
     if header:
         style.extend(
             [
-                ("BACKGROUND", (0, 0), (-1, 0), PAGE_TINT),
-                ("LINEBELOW", (0, 0), (-1, 0), 0.8, colors.HexColor("#CBD5E1")),
-                ("TOPPADDING", (0, 0), (-1, 0), 5),
+                ("LINEBELOW", (0, 0), (-1, 0), 0.8, RULE),
+                ("TOPPADDING", (0, 0), (-1, 0), 0),
                 ("BOTTOMPADDING", (0, 0), (-1, 0), 5),
             ]
         )
@@ -1243,17 +1340,63 @@ def make_table(
     return table
 
 
-def header_row(labels: Sequence[str]) -> List[Paragraph]:
-    return [P(label.upper(), "TableHeader") for label in labels]
+def header_row(labels: Sequence[str], numeric: Sequence[int] = ()) -> List[Paragraph]:
+    """Header cells. Columns listed in ``numeric`` align with their figures."""
+    right = set(numeric)
+    return [
+        P(label.upper(), "TableHeaderRight" if index in right else "TableHeader")
+        for index, label in enumerate(labels)
+    ]
 
 
-def kv_table(pairs: Sequence[Tuple[str, Any]], key_ratio: float = 0.34) -> Flowable:
-    """A two-column key/value table with monospaced values."""
-    rows = [header_row(["Field", "Value"])]
-    for key, value in pairs:
-        rows.append([P(key, "TableCell"), P(_s(value, NOT_AVAILABLE), "TableCellMono")])
-    key_w = CONTENT_WIDTH * key_ratio
-    return make_table(rows, [key_w, CONTENT_WIDTH - key_w])
+def totals_row_style(row_index: int) -> List[Tuple[Any, ...]]:
+    """A summed final row: a rule above it and bold figures, no fill."""
+    return [
+        ("LINEABOVE", (0, row_index), (-1, row_index), 0.8, RULE),
+        ("TOPPADDING", (0, row_index), (-1, row_index), 5),
+    ]
+
+
+def spec_table(
+    pairs: Sequence[Tuple[str, Any]],
+    columns: int = 2,
+    mono: bool = False,
+    space_after: float = GAP_BLOCK,
+) -> Flowable:
+    """
+    A definition list, laid out over ``columns`` pairs per row.
+
+    Short facts do not deserve a "Field / Value" header and a full-width row
+    each. Two pairs to a line halves the height of every specification block in
+    the document and reads as a designed grid rather than a dump.
+    """
+    entries = [(k, _s(v, NOT_AVAILABLE)) for k, v in pairs if _s(k)]
+    if not entries:
+        return Spacer(1, 0)
+    count = max(int(columns), 1)
+    value_style = "SpecValueMono" if mono else "SpecValue"
+    rows: List[List[Any]] = []
+    for start in range(0, len(entries), count):
+        line: List[Any] = []
+        for index in range(count):
+            if start + index < len(entries):
+                key, value = entries[start + index]
+                line.extend([P(key, "SpecKey"), P(value, value_style)])
+            else:
+                line.extend(["", ""])
+        rows.append(line)
+    pair_width = CONTENT_WIDTH / float(count)
+    key_width = pair_width * (0.46 if count > 1 else 0.24)
+    widths: List[float] = []
+    for _ in range(count):
+        widths.extend([key_width, pair_width - key_width])
+    return make_table(
+        rows,
+        widths,
+        header=False,
+        extra_styles=[("RIGHTPADDING", (0, 0), (-1, -1), 12)],
+        space_after=space_after,
+    )
 
 
 def bullet_list(
@@ -1273,21 +1416,35 @@ def bullet_list(
     return flowables
 
 
-def numbered_list(items: Sequence[Any]) -> List[Flowable]:
+def numbered_list(items: Sequence[Any], limit: int = 0) -> List[Flowable]:
+    """Numbered paragraphs, optionally truncated with an explicit elision note."""
     flowables: List[Flowable] = []
-    for index, entry in enumerate([e for e in items if _s(e)], start=1):
+    entries = [entry for entry in items if _s(entry)]
+    shown = entries[:limit] if limit else entries
+    for index, entry in enumerate(shown, start=1):
         flowables.append(
             Paragraph(escape(_s(entry)), _style(_styles(), "Numbered"), bulletText=f"{index}.")
         )
+    if limit and len(entries) > limit:
+        flowables.append(P(f"and {len(entries) - limit:,} more not shown", "Micro"))
     return flowables
 
 
 def missing_note(text: str) -> Flowable:
     """The single, consistent way this document reports absent information."""
-    return RP(
-        f'<font color="#64748B">{escape(text)}</font>',
-        "Small",
-    )
+    note = P(text, "SmallMuted")
+    note.spaceAfter = GAP_TIGHT
+    return note
+
+
+def sentence_list(items: Sequence[str]) -> str:
+    """``a``, ``b`` and ``c``, for the one-line absence note each section ends on."""
+    entries = [_s(item) for item in items if _s(item)]
+    if not entries:
+        return ""
+    if len(entries) == 1:
+        return entries[0]
+    return ", ".join(entries[:-1]) + " and " + entries[-1]
 
 
 # ============================================================================
@@ -1324,10 +1481,10 @@ def inline_markdown(text: str) -> str:
     staged = _RE_BOLD_ALT.sub(r"<b>\1</b>", staged)
     staged = _RE_ITALIC.sub(r"<i>\1</i>", staged)
     staged = _RE_ITALIC_ALT.sub(r"<i>\1</i>", staged)
-    staged = _RE_LINK.sub(r'<link href="\2" color="#4F46E5">\1</link>', staged)
+    staged = _RE_LINK.sub(rf'<link href="\2" color="{ACCENT_HEX}">\1</link>', staged)
     for index, span in enumerate(spans):
         replacement = (
-            f'<font face="{FONT_MONO}" size="{SIZE_SMALL}" color="#4F46E5">{span}</font>'
+            f'<font face="{FONT_MONO}" size="{SIZE_SMALL}" color="{ACCENT_HEX}">{span}</font>'
         )
         staged = staged.replace(_CODE_SENTINEL.format(index), replacement)
     return staged
@@ -1354,14 +1511,58 @@ def _code_block(lines: Sequence[str], styles: Any) -> Flowable:
         extra_styles=[
             ("BACKGROUND", (0, 0), (-1, -1), PAGE_TINT),
             ("BOX", (0, 0), (-1, -1), 0.6, HAIRLINE),
-            ("LEFTPADDING", (0, 0), (-1, -1), 8),
-            ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+            ("LEFTPADDING", (0, 0), (-1, -1), CODE_PADDING),
+            ("RIGHTPADDING", (0, 0), (-1, -1), CODE_PADDING),
             ("TOPPADDING", (0, 0), (-1, -1), 6),
             ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
             ("LINEBELOW", (0, 0), (-1, -1), 0, PAGE_TINT),
         ],
         space_after=GAP_BLOCK,
     )
+
+
+#: Continuation indent for a wrapped shell command, and the trailing escape.
+_SHELL_INDENT = "  "
+_SHELL_CONTINUATION = " \\"
+
+
+def _code_fits(line: str) -> bool:
+    """Whether one line of code sets inside a code panel without wrapping."""
+    return stringWidth(line, FONT_MONO, SIZE_SMALL) <= CODE_WIDTH
+
+
+def shell_command_lines(command: str, path: str, arguments: Sequence[str]) -> List[str]:
+    """
+    Wrap one shell command at argument boundaries so a reader can copy it.
+
+    The code style wraps character by character, which is right for a log line
+    and wrong for a command: it splits a path mid-token and the paste is broken.
+    Wrapping here instead keeps every token whole, gives the path a line of its
+    own because it is the one argument long enough to overflow alone, and ends
+    each continued line with a backslash so the whole block still runs as typed.
+    """
+    groups: List[str] = [command]
+    quoted = f'"{path}"'
+    if _code_fits(_SHELL_INDENT + quoted + _SHELL_CONTINUATION):
+        groups.append(_SHELL_INDENT + quoted)
+    else:
+        # A path too long for a line of its own would character-wrap and break
+        # the paste, so the directory moves into a cd and only the leaf stays
+        # as the argument. Both tokens are then short enough to survive.
+        parent = str(Path(path).parent)
+        leaf = Path(path).name or path
+        groups = [f'cd "{parent}"', "&& " + command, _SHELL_INDENT + f'"{leaf}"']
+    current = ""
+    for argument in [_s(item) for item in arguments if _s(item)]:
+        candidate = f"{current} {argument}" if current else argument
+        if current and not _code_fits(_SHELL_INDENT + candidate + _SHELL_CONTINUATION):
+            groups.append(_SHELL_INDENT + current)
+            current = argument
+        else:
+            current = candidate
+    if current:
+        groups.append(_SHELL_INDENT + current)
+    return [line + _SHELL_CONTINUATION for line in groups[:-1]] + groups[-1:]
 
 
 def _split_table_row(line: str) -> List[str]:
@@ -1525,9 +1726,11 @@ def _markdown_to_flowables(text: str, styles: Any) -> List[Flowable]:
 
 _Z_IN_TEXT = re.compile(r"\bz\s*=\s*(-?\d+(?:\.\d+)?)", re.IGNORECASE)
 
+#: The direction of a finding is signed data, so it reads on the same
+#: diverging scale as the deviation chart and gains no colour of its own.
 _DIRECTION_COLORS: Dict[str, colors.Color] = {
-    "ABNORMAL_HIGH": CRITICAL,
-    "ABNORMAL_LOW": INFO,
+    "ABNORMAL_HIGH": DEV_HIGH,
+    "ABNORMAL_LOW": DEV_LOW,
     "NORMAL": MUTED,
 }
 
@@ -1721,42 +1924,6 @@ def _group_token_calls(calls: Sequence[Any]) -> List[Tuple[str, int, int, int, i
     return rows
 
 
-def _flatten_mapping(
-    payload: Any, prefix: str = "", depth: int = 0, out: Optional[List[Tuple[str, str]]] = None
-) -> List[Tuple[str, str]]:
-    """Flatten a nested mapping into dotted key/value pairs for the appendix."""
-    rows = out if out is not None else []
-    if depth > MAX_TREE_DEPTH:
-        return rows
-    if isinstance(payload, dict):
-        for key, value in payload.items():
-            path = f"{prefix}.{key}" if prefix else _s(key, "?")
-            _flatten_mapping(value, path, depth + 1, rows)
-        if not payload and prefix:
-            rows.append((prefix, "{}"))
-        return rows
-    if isinstance(payload, (list, tuple)):
-        if not payload:
-            rows.append((prefix, "[]"))
-        elif all(not isinstance(item, (dict, list, tuple)) for item in payload):
-            rows.append((prefix, ", ".join(_s(item, "-") for item in payload)))
-        else:
-            for index, item in enumerate(payload):
-                _flatten_mapping(item, f"{prefix}[{index}]", depth + 1, rows)
-        return rows
-    if isinstance(payload, bool):
-        rows.append((prefix, "true" if payload else "false"))
-    elif payload is None:
-        rows.append((prefix, "null"))
-    elif isinstance(payload, float):
-        rows.append((prefix, fmt_number(payload)))
-    elif isinstance(payload, int):
-        rows.append((prefix, f"{payload:,}"))
-    else:
-        rows.append((prefix, _s(payload, "-")[:180]))
-    return rows
-
-
 # ============================================================================
 # Page furniture, canvas and document template
 # ============================================================================
@@ -1807,9 +1974,7 @@ class NumberedCanvas(pdfcanvas.Canvas):
         self.saveState()
         self.setFont(FONT_SANS, SIZE_MICRO)
         self.setFillColor(MUTED)
-        self.drawRightString(
-            PAGE_WIDTH - MARGIN_SIDE, PAGE_HEIGHT - 42.0, f"Page {page} of {total}"
-        )
+        self.drawRightString(PAGE_WIDTH - MARGIN_SIDE, 30.0, f"{page} / {total}")
         self.restoreState()
 
 
@@ -1818,79 +1983,159 @@ def _furniture(doc: Any) -> Furniture:
     return value if isinstance(value, Furniture) else Furniture()
 
 
+def _wave_path(canvas: Any, points: Sequence[Tuple[float, float]], floor: float) -> Any:
+    """
+    A smooth crest through `points`, closed down to `floor`.
+
+    Control points are placed at the horizontal midpoint of each span, which
+    turns a handful of coordinates into one continuous curve with no visible
+    joins. Drawing the crest as a series of straight segments instead is what
+    makes a decorative band read as a chart.
+    """
+    path = canvas.beginPath()
+    path.moveTo(points[0][0], points[0][1])
+    for (x0, y0), (x1, y1) in zip(points, points[1:]):
+        midpoint = (x0 + x1) / 2.0
+        path.curveTo(midpoint, y0, midpoint, y1, x1, y1)
+    path.lineTo(points[-1][0], floor)
+    path.lineTo(points[0][0], floor)
+    path.close()
+    return path
+
+
+#: Where the cover's wave field begins, as a share of the page height. The
+#: title sits on clean paper above it, which is what keeps the page calm.
+COVER_WAVE_TOP = 0.46
+#: Crest heights of the three layers, as a share of the page height. They rise
+#: to the right so the field reads as one diagonal sweep rather than a border.
+COVER_WAVE_LAYERS: Tuple[Tuple[Tuple[float, ...], float, float], ...] = (
+    ((0.30, 0.36, 0.31, 0.40, 0.46), 0.16, 1.00),
+    ((0.24, 0.27, 0.35, 0.30, 0.38), 0.42, 1.00),
+    ((0.17, 0.22, 0.19, 0.26, 0.29), 1.00, 1.00),
+)
+
+
+def draw_cover_wave(canvas: Any) -> None:
+    """
+    The cover's one piece of decoration: a diagonal field of layered waves.
+
+    Three crests of the same accent, each lighter and higher than the one in
+    front, rising left to right. They occupy the lower half of the page only,
+    so the title above them stays on plain paper.
+    """
+    canvas.saveState()
+    columns = 4
+    for heights, lightness, alpha in COVER_WAVE_LAYERS:
+        points = [
+            (PAGE_WIDTH * (index / columns), PAGE_HEIGHT * height)
+            for index, height in enumerate(heights)
+        ]
+        canvas.setFillColor(ACCENT if lightness >= 1.0 else tint(ACCENT, 1.0 - lightness))
+        canvas.setFillAlpha(alpha)
+        canvas.drawPath(_wave_path(canvas, points, 0.0), stroke=0, fill=1)
+    canvas.setFillAlpha(1.0)
+    canvas.restoreState()
+
+
 def draw_cover_page(canvas: Any, doc: Any) -> None:
     """
-    Full-bleed accent band, wordmark, title and generation timestamp.
+    The title page: a wordmark, the title, and the wave field beneath it.
 
-    The band deliberately stops there: the task line belongs to the participant
-    block in the frame below, and printing it in both places read as a mistake.
-    ``Furniture.subtitle`` survives as document metadata only.
+    Everything else a reader needs is one page further in. A title page that
+    also carries the findings is not a title page, it is a first page with a
+    larger heading, and it was the crowded version of this that read as a
+    dashboard screenshot rather than as a document.
     """
     info = _furniture(doc)
     canvas.saveState()
-    band_bottom = PAGE_HEIGHT - COVER_BAND_HEIGHT
-    canvas.setFillColor(ACCENT)
-    canvas.rect(0, band_bottom, PAGE_WIDTH, COVER_BAND_HEIGHT, stroke=0, fill=1)
-    canvas.setFillColor(colors.HexColor("#312E81"))
-    canvas.rect(0, band_bottom, PAGE_WIDTH, 4.0, stroke=0, fill=1)
+    draw_cover_wave(canvas)
 
     _draw_tracked(
         canvas,
         MARGIN_SIDE,
-        PAGE_HEIGHT - 34.0,
+        PAGE_HEIGHT - 52.0,
         "COMPASS ENGINE",
         FONT_SANS_BOLD,
         SIZE_MICRO,
-        tint(ACCENT, 0.72),
-        2.0,
+        ACCENT,
+        2.6,
     )
-
-    title, size = _fit_text(
-        info.title, FONT_SANS_BOLD, SIZE_DISPLAY, CONTENT_WIDTH, min_size=15.0
-    )
-    canvas.setFillColor(PAPER)
-    canvas.setFont(FONT_SANS_BOLD, size)
-    # Sits low in the band now that no subtitle follows it, so the wordmark and
-    # the title stay optically centred between the band's edges.
-    canvas.drawString(MARGIN_SIDE, PAGE_HEIGHT - 78.0, title)
-
     if info.timestamp:
-        canvas.setFillColor(tint(ACCENT, 0.72))
+        canvas.setFillColor(MUTED)
         canvas.setFont(FONT_SANS, SIZE_MICRO)
-        canvas.drawRightString(PAGE_WIDTH - MARGIN_SIDE, PAGE_HEIGHT - 34.0, info.timestamp)
+        canvas.drawRightString(PAGE_WIDTH - MARGIN_SIDE, PAGE_HEIGHT - 52.0, info.timestamp)
 
-    canvas.setFillColor(MUTED)
+    canvas.setStrokeColor(ACCENT)
+    canvas.setLineWidth(2.0)
+    canvas.line(MARGIN_SIDE, PAGE_HEIGHT - 66.0, MARGIN_SIDE + 34.0, PAGE_HEIGHT - 66.0)
+
+    title, size = _fit_text(info.title, FONT_SANS_BOLD, 32.0, CONTENT_WIDTH, min_size=18.0)
+    canvas.setFillColor(INK)
+    canvas.setFont(FONT_SANS_BOLD, size)
+    canvas.drawString(MARGIN_SIDE, PAGE_HEIGHT * 0.72, title)
+
+    baseline = PAGE_HEIGHT * 0.72 - size * 0.86
+    if info.participant_id:
+        identifier, id_size = _fit_text(
+            info.participant_id, FONT_MONO, SIZE_H1, CONTENT_WIDTH, min_size=9.0
+        )
+        canvas.setFillColor(ACCENT)
+        canvas.setFont(FONT_MONO, id_size)
+        canvas.drawString(MARGIN_SIDE, baseline, identifier)
+        baseline -= id_size + 6.0
+    if info.task_line:
+        task, task_size = _fit_text(
+            info.task_line, FONT_SANS, SIZE_BODY, CONTENT_WIDTH, min_size=7.5
+        )
+        canvas.setFillColor(MUTED)
+        canvas.setFont(FONT_SANS, task_size)
+        canvas.drawString(MARGIN_SIDE, baseline, task)
+
+    # Set on the deepest wave, so it reverses out rather than competing with
+    # the title for the eye.
+    canvas.setFillColor(tint(ACCENT, 0.72))
     canvas.setFont(FONT_SANS, SIZE_MICRO)
-    canvas.drawString(MARGIN_SIDE, 27.0, f"Engine {_ENGINE_VERSION or 'version not recorded'}")
+    canvas.drawString(MARGIN_SIDE, 34.0, f"Engine {_ENGINE_VERSION or 'version not recorded'}")
+    # The full disclaimer runs under every body page. Here it shares a line with
+    # the build, so the cover states the caveat without clipping it: the first
+    # sentence carries the claim, and the second is one page away.
+    supplied = _s(info.footer)
+    caveat = supplied if supplied and supplied != DISCLAIMER else COVER_CAVEAT
+    caveat, _ = _fit_text(caveat, FONT_SANS, SIZE_MICRO, CONTENT_WIDTH * 0.70)
+    canvas.drawRightString(PAGE_WIDTH - MARGIN_SIDE, 34.0, caveat)
     canvas.restoreState()
 
 
 def draw_body_page(canvas: Any, doc: Any) -> None:
-    """Thin accent rule, participant id and the footer disclaimer."""
+    """
+    The running header and footer, and nothing else.
+
+    Participant above, disclaimer and folio below. Anything more on a body page
+    competes with the content for the reader's attention.
+    """
     info = _furniture(doc)
     canvas.saveState()
-    rule_y = PAGE_HEIGHT - 46.0
-    canvas.setStrokeColor(ACCENT)
-    canvas.setLineWidth(1.2)
-    canvas.line(MARGIN_SIDE, rule_y, PAGE_WIDTH - MARGIN_SIDE, rule_y)
-
     canvas.setFillColor(MUTED)
     canvas.setFont(FONT_MONO, SIZE_MICRO)
     identifier, _ = _fit_text(
         info.participant_id or "participant not identified",
         FONT_MONO,
         SIZE_MICRO,
-        CONTENT_WIDTH - 120.0,
+        CONTENT_WIDTH - 140.0,
     )
-    canvas.drawString(MARGIN_SIDE, PAGE_HEIGHT - 42.0, identifier)
+    canvas.drawString(MARGIN_SIDE, PAGE_HEIGHT - 38.0, identifier)
 
     canvas.setStrokeColor(HAIRLINE)
     canvas.setLineWidth(0.6)
-    canvas.line(MARGIN_SIDE, 38.0, PAGE_WIDTH - MARGIN_SIDE, 38.0)
+    canvas.line(MARGIN_SIDE, PAGE_HEIGHT - 46.0, PAGE_WIDTH - MARGIN_SIDE, PAGE_HEIGHT - 46.0)
+    canvas.line(MARGIN_SIDE, 40.0, PAGE_WIDTH - MARGIN_SIDE, 40.0)
+
     canvas.setFillColor(MUTED)
-    canvas.setFont(FONT_SANS, SIZE_MICRO - 0.5)
-    footer, _ = _fit_text(info.footer or DISCLAIMER, FONT_SANS, SIZE_MICRO - 0.5, CONTENT_WIDTH)
-    canvas.drawString(MARGIN_SIDE, 26.0, footer)
+    canvas.setFont(FONT_SANS, SIZE_MICRO)
+    footer, _ = _fit_text(
+        info.footer or DISCLAIMER, FONT_SANS, SIZE_MICRO, CONTENT_WIDTH - 60.0
+    )
+    canvas.drawString(MARGIN_SIDE, 30.0, footer)
     canvas.restoreState()
 
 
@@ -1967,14 +2212,55 @@ class _Sections:
         return SectionHeader(str(number), title, subtitle)
 
 
-_HEADING_STYLES = frozenset(
-    {"H1", "H2", "H3", "H4", "MdH1", "MdH2", "MdH3", "MdH4"}
-)
+_HEADING_STYLES = frozenset({"H1", "H2", "H3", "MdH1", "MdH2", "MdH3", "MdH4"})
 
 
 def _is_heading(flowable: Any) -> bool:
     style = getattr(flowable, "style", None)
     return bool(style is not None and getattr(style, "name", "") in _HEADING_STYLES)
+
+
+class _Body:
+    """
+    A section body that leaves out what it cannot fill.
+
+    A heading followed by a sentence saying nothing was recorded is noise nine
+    times over, so a block with no content is dropped, heading included, and
+    its name is kept back. The section then closes on one plain line naming
+    everything that was absent, which reports the gap without spending a page
+    on it.
+    """
+
+    def __init__(self) -> None:
+        self.flowables: List[Flowable] = []
+        self.absent: List[str] = []
+
+    def add(self, *blocks: Optional[Flowable]) -> None:
+        self.flowables.extend([block for block in blocks if block is not None])
+
+    def extend(self, blocks: Sequence[Optional[Flowable]]) -> None:
+        self.flowables.extend([block for block in blocks if block is not None])
+
+    def block(
+        self,
+        heading: str,
+        content: Sequence[Optional[Flowable]],
+        absent_as: str = "",
+    ) -> None:
+        """Emit ``heading`` and ``content`` together, or neither."""
+        items = [block for block in (content or ()) if block is not None]
+        if items:
+            if heading:
+                self.flowables.append(P(heading, "H2"))
+            self.flowables.extend(items)
+        elif absent_as:
+            self.absent.append(absent_as)
+
+    def close(self) -> List[Flowable]:
+        out = list(self.flowables)
+        if self.absent:
+            out.append(missing_note(f"Not recorded by this run: {sentence_list(self.absent)}."))
+        return out
 
 
 def _section(
@@ -1986,7 +2272,7 @@ def _section(
     content = [flowable for flowable in body if flowable is not None]
     if not content:
         content = [missing_note(f"{title}: no information was recorded for this run.")]
-    header.spaceAfter = GAP_TIGHT
+    header.spaceAfter = GAP_BLOCK
     lead: List[Flowable] = [header, content[0]]
     rest = content[1:]
     # A section that opens on a subheading needs the block under it too, or the
@@ -1994,7 +2280,7 @@ def _section(
     if rest and _is_heading(content[0]):
         lead.append(rest[0])
         rest = rest[1:]
-    flowables: List[Flowable] = [Spacer(1, GAP_SECTION)]
+    flowables: List[Flowable] = [Spacer(1, GAP_MAJOR)]
     flowables.append(KeepHeadingWith(lead))
     flowables.extend(rest)
     return flowables
@@ -2032,44 +2318,46 @@ def _stack_height(
     return total
 
 
-def _cover_flowables(ctx: "_RunContext") -> List[Flowable]:
+def _cover_flowables(_ctx: "_RunContext") -> List[Flowable]:
     """
-    Participant strip, KPI grid, provenance line, contents and disclaimer, then
-    whatever the leftover room can usefully hold.
+    Nothing. The title page is drawn entirely on the canvas.
 
-    The cover is one frame of a known height, so the block is measured before it
-    is emitted. A run that has source data to show closes with a glance block; a
-    run that has none is centred rather than left hanging above a void.
+    A frame still has to receive something for the page to exist at all, so it
+    receives a hairline spacer. Everything the old cover carried now opens the
+    body, where it has room to breathe.
     """
-    core: List[Flowable] = [Spacer(1, GAP_BLOCK)]
-    core.append(
-        RP(
-            f'<font face="{FONT_MONO}" size="{SIZE_H2}" color="#0F172A">'
-            f"{escape(ctx.participant_id or 'participant id not recorded')}</font>",
-            "Body",
-        )
-    )
-    core.append(P(ctx.task_line, "BodyMuted"))
-    core.append(Spacer(1, GAP_BLOCK))
-    core.append(KpiGrid(ctx.kpi_items(), cols=3, tile_height=62.0))
-    core.append(Spacer(1, GAP_BLOCK + 2))
-    core.append(HRule(space_before=0, space_after=GAP_TIGHT))
-    core.append(P(ctx.provenance_line(), "Micro"))
-    core.append(Spacer(1, GAP_SECTION + 4))
-    core.append(_contents_block())
-    core.append(Spacer(1, GAP_SECTION))
-    core.append(Callout(DISCLAIMER, CAUTION, title="Pre-clinical use only", space_after=0))
+    return [Spacer(1, 1)]
+
+
+def _summary_flowables(ctx: "_RunContext") -> List[Flowable]:
+    """
+    The opening spread: what was asked, what came back, and what it rested on.
+
+    This is what used to be crowded onto the title page under the wordmark. On
+    a page of its own the KPI grid, the contents list and the source-data glance
+    each get their own band of white space instead of competing for one frame.
+    """
+    core: List[Flowable] = [
+        P("Summary", "H1"),
+        P(ctx.task_line, "BodyMuted"),
+        Spacer(1, GAP_BLOCK),
+        KpiGrid(ctx.kpi_items(), cols=3, tile_height=58.0),
+        Spacer(1, GAP_SECTION),
+        HRule(space_before=0, space_after=GAP_TIGHT),
+        P(ctx.provenance_line(), "Micro"),
+        Spacer(1, GAP_MAJOR),
+        _contents_block(),
+        Spacer(1, GAP_SECTION),
+        Callout(DISCLAIMER, ACCENT, title="Pre-clinical use only", space_after=0),
+    ]
 
     measured = _stack_height(core)
     if measured is None:
         return core
-    free = COVER_FRAME_HEIGHT - measured
-    glance = _cover_glance(ctx, free)
-    if glance:
-        return core + glance
-    if free > COVER_GLANCE_MIN_SPACE:
-        return [Spacer(1, free / 2.0)] + core
-    return core
+    # The body frame is a full page rather than the old short cover frame, so
+    # there is usually room for the glance block that used to be dropped.
+    free = (PAGE_HEIGHT - MARGIN_TOP - MARGIN_BOTTOM) - measured
+    return core + _cover_glance(ctx, free)
 
 
 def _cover_glance(ctx: "_RunContext", free: float) -> List[Flowable]:
@@ -2158,7 +2446,7 @@ def _cover_deviation_strip(ctx: "_RunContext", rows: int) -> List[Flowable]:
     if not leaves or limit < 1:
         return []
     ranked = sorted(leaves, key=lambda leaf: abs(leaf.score), reverse=True)[:limit]
-    heading = P(f"Most deviating leaves ({len(ranked)} of {len(leaves):,})", "Micro")
+    heading = P(f"Furthest from the normative mean ({len(ranked)} of {len(leaves):,} leaves)", "Micro")
     heading.spaceAfter = 4.0
     return [
         heading,
@@ -2190,7 +2478,7 @@ def _contents_block() -> Flowable:
                 number, (title, _) = column[row]
                 line.append(
                     RP(
-                        f'<font color="#4F46E5" face="{FONT_SANS_BOLD}">{number}</font>'
+                        f'<font color="{ACCENT_HEX}" face="{FONT_SANS_BOLD}">{number}</font>'
                         f"&nbsp;&nbsp;{escape(title)}",
                         "Small",
                     )
@@ -2207,107 +2495,127 @@ def _contents_block() -> Flowable:
             ("LINEBELOW", (0, 0), (-1, -1), 0, PAPER),
             ("TOPPADDING", (0, 0), (-1, -1), 3),
             ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
-            ("LEFTPADDING", (0, 0), (0, -1), 0),
         ],
         space_after=0,
     )
     return _titled_block("In this report", table)
 
 
-def _titled_block(label: str, block: Flowable) -> Flowable:
-    """A micro, letterspaced label above a block, kept together with it."""
+def _titled_block(label: str, *blocks: Flowable) -> Flowable:
+    """
+    A micro, letterspaced label above one or more blocks, kept with them.
+
+    The blocks are passed in flat rather than pre-grouped: a keep-together
+    nested inside another one reports a sentinel height during measurement,
+    which the outer group reads as "does not fit" and answers with a page break.
+    """
     heading = P(label.upper(), "Micro")
     heading.spaceAfter = 3.0
-    return KeepHeadingWith([heading, block])
+    return KeepHeadingWith([heading, *blocks])
+
+
+def _probability_bars(node: Dict[str, Any]) -> List[Flowable]:
+    """Class probabilities as labelled bars, highest first. May be empty."""
+    classification = _as_dict(node.get("classification"))
+    probabilities = _as_dict(classification.get("probabilities"))
+    if not probabilities:
+        return []
+    predicted = _s(classification.get("predicted_label"))
+    rows = [
+        BarRow(
+            label=_s(label, "?"),
+            value=_as_float(value) or 0.0,
+            text=fmt_prob(value, "not recorded"),
+            color=ACCENT if _s(label) == predicted else tint(ACCENT, 0.55),
+            emphasis=_s(label) == predicted,
+        )
+        for label, value in sorted(
+            probabilities.items(), key=lambda item: _as_float(item[1]) or 0.0, reverse=True
+        )
+    ]
+    return [HBarChart(rows, label_ratio=0.42, value_width=60.0)]
+
+
+def _regression_table(node: Dict[str, Any], units: Dict[str, Any]) -> List[Flowable]:
+    """Estimated values with their declared units. May be empty."""
+    values = _as_dict(_as_dict(node.get("regression")).get("values"))
+    if not values:
+        return []
+    rows = [header_row(["Output", "Value", "Unit"], numeric=[1])]
+    for key, value in values.items():
+        rows.append(
+            [
+                P(key, "TableCellMono"),
+                P(fmt_number(value), "TableCellNumeric"),
+                P(_s(units.get(key), "not declared"), "TableCellMuted"),
+            ]
+        )
+    widths = [CONTENT_WIDTH * 0.46, CONTENT_WIDTH * 0.22, CONTENT_WIDTH * 0.32]
+    return [make_table(rows, widths)]
 
 
 def _prediction_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
+    body = _Body()
     root_node = _as_dict(ctx.task_root)
 
-    spec_pairs: List[Tuple[str, str]] = [
-        ("Task mode", humanize(root_node.get("mode")) if root_node else NOT_AVAILABLE),
-        ("Task label", _s(root_node.get("display_name"), NOT_AVAILABLE)),
-        ("Task id", _s(ctx.task_spec.get("task_id"), "not assigned")),
-        ("Target label", _s(ctx.performance.get("target_condition"), NOT_AVAILABLE)),
-        ("Comparator label", _s(ctx.performance.get("control_condition"), "not applicable")),
-    ]
     labels = [_s(item) for item in _as_list(root_node.get("class_labels")) if _s(item)]
     outputs = [_s(item) for item in _as_list(root_node.get("regression_outputs")) if _s(item)]
-    spec_pairs.append(("Class labels", ", ".join(labels) if labels else "none declared"))
-    spec_pairs.append(("Regression outputs", ", ".join(outputs) if outputs else "none declared"))
-    body.append(kv_table(spec_pairs))
+    task_id = _s(ctx.task_spec.get("task_id"))
+    spec_pairs: List[Tuple[str, str]] = [
+        ("Task", _s(root_node.get("display_name"), _s(ctx.performance.get("target_condition"), NOT_AVAILABLE))),
+        ("Mode", humanize(root_node.get("mode")) if root_node else NOT_AVAILABLE),
+    ]
+    if _s(ctx.performance.get("target_condition")):
+        spec_pairs.append(("Target label", _s(ctx.performance.get("target_condition"))))
+    if _s(ctx.performance.get("control_condition")):
+        spec_pairs.append(("Comparator label", _s(ctx.performance.get("control_condition"))))
+    if labels:
+        spec_pairs.append(("Class labels", ", ".join(labels)))
+    if outputs:
+        spec_pairs.append(("Regression outputs", ", ".join(outputs)))
+    if len(ctx.node_rows) > 1:
+        spec_pairs.append(("Prediction nodes", f"{len(ctx.node_rows):,}"))
+    if task_id:
+        spec_pairs.append(("Task id", task_id))
+    body.add(spec_table(spec_pairs, columns=2))
 
-    body.append(P("Primary output", "H2"))
-    if ctx.node_rows:
-        body.append(P(ctx.primary_output, "BigValue"))
-        confidence_bits = [
-            f"Confidence level: {ctx.confidence_level}",
-            f"Root confidence: {fmt_prob(ctx.root_confidence)}",
-        ]
+    if ctx.node_rows or _s(ctx.primary_output) != NOT_AVAILABLE:
+        confidence_bits = [f"Confidence {ctx.confidence_level.lower()}"]
+        if ctx.root_confidence is not None:
+            confidence_bits.append(f"score {fmt_prob(ctx.root_confidence)}")
         probability = _as_float(ctx.prediction_result.get("probability"))
         if probability is not None:
-            confidence_bits.append(f"Reported probability: {fmt_prob(probability)}")
-        body.append(P("   |   ".join(confidence_bits), "SmallMuted"))
-        body.append(Spacer(1, GAP_BLOCK))
+            confidence_bits.append(f"reported probability {fmt_prob(probability)}")
+        body.add(
+            _titled_block(
+                "Primary output",
+                P(ctx.primary_output, "BigValue"),
+                P(", ".join(confidence_bits), "SmallMuted"),
+            )
+        )
+        body.add(Spacer(1, GAP_TIGHT))
     else:
-        body.append(missing_note("No prediction node was recorded for this run."))
+        body.add(missing_note("No prediction node was recorded for this run."))
 
     summary = _s(ctx.patient_report.get("clinical_summary"))
-    if summary:
-        body.append(P("Clinical summary", "H3"))
-        body.append(P(summary, "Body"))
-    else:
-        body.append(P("Clinical summary", "H3"))
-        body.append(missing_note("The run did not record a clinical summary."))
+    body.block(
+        "Clinical summary",
+        [P(summary, "Body")] if summary else [],
+        absent_as="a clinical summary",
+    )
 
     root_row = ctx.node_rows[0] if ctx.node_rows else None
     if root_row is not None:
-        classification = _as_dict(root_row.payload.get("classification"))
-        regression = _as_dict(root_row.payload.get("regression"))
-        if classification:
-            probabilities = _as_dict(classification.get("probabilities"))
-            if probabilities:
-                body.append(P("Class probabilities", "H3"))
-                predicted = _s(classification.get("predicted_label"))
-                rows: List[BarRow] = []
-                for label, value in sorted(
-                    probabilities.items(), key=lambda item: _as_float(item[1]) or 0.0, reverse=True
-                ):
-                    score = _as_float(value)
-                    rows.append(
-                        BarRow(
-                            label=_s(label, "?"),
-                            value=score or 0.0,
-                            text=fmt_prob(score, "not recorded"),
-                            color=ACCENT if _s(label) == predicted else tint(ACCENT, 0.55),
-                            emphasis=_s(label) == predicted,
-                        )
-                    )
-                body.append(HBarChart(rows, label_ratio=0.42, value_width=60.0))
-            else:
-                body.append(missing_note("Class probabilities were not recorded."))
-        elif regression:
-            values = _as_dict(regression.get("values"))
-            body.append(P("Estimated values", "H3"))
-            if values:
-                units = _as_dict(root_node.get("unit_by_output"))
-                rows = [header_row(["Output", "Value", "Unit"])]
-                for key, value in values.items():
-                    rows.append(
-                        [
-                            P(key, "TableCellMono"),
-                            P(fmt_number(value), "TableCellNumeric"),
-                            P(_s(units.get(key), "not declared"), "TableCellMuted"),
-                        ]
-                    )
-                widths = [CONTENT_WIDTH * 0.46, CONTENT_WIDTH * 0.22, CONTENT_WIDTH * 0.32]
-                body.append(make_table(rows, widths))
-            else:
-                body.append(missing_note("No regression values were recorded."))
+        bars = _probability_bars(root_row.payload)
+        if bars:
+            body.block("Class probabilities", bars)
+        else:
+            body.block(
+                "Estimated values",
+                _regression_table(root_row.payload, _as_dict(root_node.get("unit_by_output"))),
+            )
 
     if len(ctx.node_rows) > 1:
-        body.append(P("Hierarchical prediction tree", "H2"))
         rows = [header_row(["Node", "Mode", "Output", "Confidence"])]
         for node in ctx.node_rows:
             # Only Latin-1 glyphs are safe in the built-in fonts, so the tree
@@ -2326,200 +2634,146 @@ def _prediction_section(ctx: "_RunContext", sections: _Sections) -> List[Flowabl
                 ]
             )
         widths = [
-            CONTENT_WIDTH * 0.20,
             CONTENT_WIDTH * 0.22,
+            CONTENT_WIDTH * 0.20,
             CONTENT_WIDTH * 0.38,
             CONTENT_WIDTH * 0.20,
         ]
-        body.append(make_table(rows, widths))
+        # The per-node output already carries the winning label and its
+        # probability, so a bar chart per child would repeat the table at length.
+        body.block("Prediction tree", [make_table(rows, widths)])
 
-        for node in ctx.node_rows[1:]:
-            child_classification = _as_dict(node.payload.get("classification"))
-            probabilities = _as_dict(child_classification.get("probabilities"))
-            if not probabilities:
-                continue
-            body.append(P(f"{node.node_id}: class probabilities", "H4"))
-            predicted = _s(child_classification.get("predicted_label"))
-            bars = [
-                BarRow(
-                    label=_s(label, "?"),
-                    value=_as_float(value) or 0.0,
-                    text=fmt_prob(value, "not recorded"),
-                    color=ACCENT if _s(label) == predicted else tint(ACCENT, 0.55),
-                    emphasis=_s(label) == predicted,
-                )
-                for label, value in sorted(
-                    probabilities.items(), key=lambda item: _as_float(item[1]) or 0.0, reverse=True
-                )
+    return _section(sections, SECTION_SPECS[0], body.close())
+
+
+def _key_findings_table(findings: Sequence[Dict[str, Any]]) -> List[Flowable]:
+    """Findings by domain, with the direction and the z-score that carried them."""
+    if not findings:
+        return []
+    shown = list(findings)[:KEY_FINDING_CAP]
+    rows = [header_row(["Domain", "Finding", "Direction", "z"], numeric=[3])]
+    direction_styles: List[Tuple[Any, ...]] = []
+    for index, item in enumerate(shown, start=1):
+        direction = _s(item.get("direction"), "UNSPECIFIED").upper()
+        color = _DIRECTION_COLORS.get(direction, MUTED)
+        direction_styles.append(("TEXTCOLOR", (2, index), (2, index), color))
+        rows.append(
+            [
+                P(_s(item.get("domain"), NOT_AVAILABLE), "TableCellLabel"),
+                P(_s(item.get("finding"), NOT_AVAILABLE), "TableCell"),
+                P(direction.replace("_", " ").title(), "TableCell"),
+                P(fmt_z(_finding_z(item)), "TableCellNumeric"),
             ]
-            body.append(HBarChart(bars, label_ratio=0.42, value_width=60.0, space_after=GAP_TIGHT))
-
-    return _section(sections, SECTION_SPECS[0], body)
+        )
+    widths = [
+        CONTENT_WIDTH * 0.22,
+        CONTENT_WIDTH * 0.48,
+        CONTENT_WIDTH * 0.19,
+        CONTENT_WIDTH * 0.11,
+    ]
+    blocks: List[Flowable] = [make_table(rows, widths, extra_styles=direction_styles)]
+    if len(findings) > len(shown):
+        blocks.append(P(f"and {len(findings) - len(shown):,} further findings not shown", "Micro"))
+    return blocks
 
 
 def _evidence_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
+    body = _Body()
 
-    body.append(P("Key findings", "H2"))
-    if ctx.key_findings:
-        rows = [header_row(["Domain", "Finding", "Direction", "z"])]
-        direction_styles: List[Tuple[Any, ...]] = []
-        for index, item in enumerate(ctx.key_findings, start=1):
-            direction = _s(item.get("direction"), "UNSPECIFIED").upper()
-            color = _DIRECTION_COLORS.get(direction, MUTED)
-            direction_styles.append(("TEXTCOLOR", (2, index), (2, index), color))
-            rows.append(
-                [
-                    P(_s(item.get("domain"), NOT_AVAILABLE), "TableCellMuted"),
-                    P(_s(item.get("finding"), NOT_AVAILABLE), "TableCell"),
-                    Paragraph(
-                        escape(direction.replace("_", " ").title()),
-                        ParagraphStyle(
-                            name=f"dir{index}",
-                            parent=_style(_styles(), "TableCell"),
-                            fontName=FONT_SANS_BOLD,
-                            fontSize=SIZE_MICRO + 0.5,
-                            textColor=color,
-                        ),
-                    ),
-                    P(fmt_z(_finding_z(item)), "TableCellNumeric"),
-                ]
+    body.block("Key findings", _key_findings_table(ctx.key_findings), absent_as="key findings")
+    body.block(
+        "Reasoning chain",
+        numbered_list(ctx.reasoning_chain, limit=REASONING_STEP_CAP),
+        absent_as="a reasoning chain",
+    )
+
+    body.block(
+        "Supporting evidence",
+        _evidence_columns(ctx.evidence_for, ctx.evidence_against),
+        absent_as="supporting evidence for or against",
+    )
+    return _section(sections, SECTION_SPECS[1], body.close())
+
+
+def _evidence_columns(for_items: Sequence[str], against_items: Sequence[str]) -> List[Flowable]:
+    """Evidence for and against side by side. Empty when neither was recorded."""
+    if not for_items and not against_items:
+        return []
+    left: List[Flowable] = [P("For the prediction", "Micro")]
+    left.extend(bullet_list(for_items) or [missing_note("None recorded.")])
+    right: List[Flowable] = [P("Against the prediction", "Micro")]
+    right.extend(bullet_list(against_items) or [missing_note("None recorded.")])
+    half = CONTENT_WIDTH / 2.0
+    return [
+        make_table(
+            [[left, right]],
+            [half, half],
+            header=False,
+            extra_styles=[
+                ("LINEBELOW", (0, 0), (-1, -1), 0, PAPER),
+                ("RIGHTPADDING", (0, 0), (0, -1), 14),
+                ("LEFTPADDING", (1, 0), (1, -1), 14),
+            ],
+        )
+    ]
+
+
+def _feature_ledger_blocks(coverage: Dict[str, Any]) -> List[Flowable]:
+    """The feature ledger, its one-line reconciliation and any failure note."""
+    if not coverage:
+        return []
+    pairs = [
+        ("Features in the ledger", fmt_int(coverage.get("all_feature_count"))),
+        ("Represented", fmt_int(coverage.get("represented_feature_count"))),
+        ("Processed by tools", fmt_int(coverage.get("processed_feature_count"))),
+        ("Passed through raw", fmt_int(coverage.get("unprocessed_raw_feature_count"))),
+        ("Missing", fmt_int(coverage.get("missing_feature_count"))),
+    ]
+    blocks: List[Flowable] = [spec_table(pairs, columns=2, space_after=GAP_TIGHT)]
+
+    missing_count = _as_int(coverage.get("missing_feature_count"))
+    if missing_count is None:
+        blocks.append(missing_note("The run did not record a missing-feature count."))
+    elif missing_count > 0:
+        blocks.append(
+            P(f"{missing_count:,} features are missing from the prediction.", "Small")
+        )
+        names = [_s(name) for name in _as_list(coverage.get("missing_features")) if _s(name)]
+        if names:
+            blocks.append(Spacer(1, GAP_TIGHT))
+            blocks.extend(bullet_list(names, limit=MISSING_FEATURE_CAP))
+        else:
+            blocks.append(missing_note("The identifiers of the missing features were not recorded."))
+
+    if coverage.get("invariant_ok") is False:
+        blocks.append(Spacer(1, GAP_TIGHT))
+        blocks.append(
+            Callout(
+                "The coverage invariant failed for this run: the feature ledger does not "
+                "reconcile with what reached the predictor. Treat the coverage figures "
+                "above as unverified.",
+                ALERT,
+                title="Coverage invariant not satisfied",
             )
-        widths = [
-            CONTENT_WIDTH * 0.20,
-            CONTENT_WIDTH * 0.50,
-            CONTENT_WIDTH * 0.20,
-            CONTENT_WIDTH * 0.10,
-        ]
-        body.append(make_table(rows, widths, extra_styles=direction_styles))
-    else:
-        body.append(missing_note("No key findings were recorded by the predictor."))
-
-    body.append(P("Reasoning chain", "H2"))
-    if ctx.reasoning_chain:
-        body.extend(numbered_list(ctx.reasoning_chain))
-        body.append(Spacer(1, GAP_TIGHT))
-    else:
-        body.append(missing_note("No reasoning chain was recorded by the predictor."))
-
-    body.append(P("Supporting evidence", "H2"))
-    if ctx.evidence_for or ctx.evidence_against:
-        left: List[Flowable] = [P("For the prediction", "H4")]
-        left.extend(
-            bullet_list(ctx.evidence_for)
-            or [missing_note("None recorded.")]
         )
-        right: List[Flowable] = [P("Against the prediction", "H4")]
-        right.extend(
-            bullet_list(ctx.evidence_against)
-            or [missing_note("None recorded.")]
-        )
-        half = CONTENT_WIDTH / 2.0
-        body.append(
-            make_table(
-                [[left, right]],
-                [half, half],
-                header=False,
-                extra_styles=[
-                    ("LINEBELOW", (0, 0), (-1, -1), 0, PAPER),
-                    ("LEFTPADDING", (0, 0), (0, -1), 0),
-                    ("RIGHTPADDING", (0, 0), (0, -1), 10),
-                    ("LEFTPADDING", (1, 0), (1, -1), 10),
-                ],
-            )
-        )
-    else:
-        body.append(missing_note("No supporting evidence was recorded for or against."))
-
-    return _section(sections, SECTION_SPECS[1], body)
+    return blocks
 
 
 def _uncertainty_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
-    coverage = ctx.coverage_summary
-
-    body.append(P("Uncertainty factors", "H2"))
-    if ctx.uncertainty_factors:
-        body.extend(bullet_list(ctx.uncertainty_factors))
-        body.append(Spacer(1, GAP_TIGHT))
-    else:
-        body.append(missing_note("No uncertainty factors were recorded by the predictor."))
-
-    body.append(P("Feature ledger", "H2"))
-    if coverage:
-        missing_count = _as_int(coverage.get("missing_feature_count"))
-        pairs = [
-            ("Features in the ledger", fmt_int(coverage.get("all_feature_count"))),
-            ("Represented in the prediction", fmt_int(coverage.get("represented_feature_count"))),
-            ("Processed by tools", fmt_int(coverage.get("processed_feature_count"))),
-            ("Passed through unprocessed", fmt_int(coverage.get("unprocessed_raw_feature_count"))),
-            ("Missing from the prediction", fmt_int(coverage.get("missing_feature_count"))),
-        ]
-        body.append(kv_table(pairs, key_ratio=0.44))
-        if missing_count is None:
-            body.append(missing_note("The run did not record a missing-feature count."))
-        elif missing_count == 0:
-            body.append(
-                P(
-                    "No features are missing: every feature in the ledger is represented in the prediction.",
-                    "Small",
-                )
-            )
-        else:
-            body.append(
-                P(f"{missing_count:,} features are missing from the prediction.", "Small")
-            )
-            names = [_s(name) for name in _as_list(coverage.get("missing_features")) if _s(name)]
-            if names:
-                body.append(Spacer(1, GAP_TIGHT))
-                body.extend(bullet_list(names, limit=MISSING_FEATURE_CAP))
-            else:
-                body.append(
-                    missing_note("The identifiers of the missing features were not recorded.")
-                )
-        if coverage.get("invariant_ok") is False:
-            body.append(Spacer(1, GAP_TIGHT))
-            body.append(
-                Callout(
-                    "The coverage invariant failed for this run: the feature ledger does not "
-                    "reconcile with what reached the predictor. Treat the coverage figures "
-                    "above as unverified.",
-                    CAUTION,
-                    title="Coverage invariant not satisfied",
-                )
-            )
-    else:
-        body.append(missing_note("No coverage summary was recorded for this run."))
-
-    body.append(P("Domain coverage of the source data", "H2"))
-    if ctx.domain_coverage:
-        rows = [header_row(["Domain", "Present", "Total", "Coverage", "Missing"])]
-        for domain, stats in ctx.domain_coverage:
-            rows.append(
-                [
-                    P(domain, "TableCell"),
-                    P(fmt_int(stats.get("present_leaves"), "-"), "TableCellNumeric"),
-                    P(fmt_int(stats.get("total_leaves"), "-"), "TableCellNumeric"),
-                    P(fmt_pct(stats.get("coverage_percentage"), "-"), "TableCellNumeric"),
-                    P(fmt_int(stats.get("missing_count"), "-"), "TableCellNumeric"),
-                ]
-            )
-        widths = [
-            CONTENT_WIDTH * 0.36,
-            CONTENT_WIDTH * 0.16,
-            CONTENT_WIDTH * 0.16,
-            CONTENT_WIDTH * 0.16,
-            CONTENT_WIDTH * 0.16,
-        ]
-        body.append(make_table(rows, widths))
-    else:
-        body.append(
-            missing_note(
-                "No data overview was supplied, so per-domain coverage could not be reported."
-            )
-        )
-
-    return _section(sections, SECTION_SPECS[2], body)
+    body = _Body()
+    body.block(
+        "Uncertainty factors",
+        bullet_list(ctx.uncertainty_factors),
+        absent_as="uncertainty factors",
+    )
+    # Per-domain coverage is charted in the next section, so the ledger here
+    # stays a reconciliation of the feature count and nothing more.
+    body.block(
+        "Feature ledger",
+        _feature_ledger_blocks(ctx.coverage_summary),
+        absent_as="a coverage summary",
+    )
+    return _section(sections, SECTION_SPECS[2], body.close())
 
 
 def _coverage_bar_rows(
@@ -2537,58 +2791,58 @@ def _coverage_bar_rows(
                 label=domain,
                 value=(percentage or 0.0) / 100.0,
                 text=f"{fmt_pct(percentage, '-'):>7}  {leaves}",
-                color=_coverage_color(percentage),
+                color=ACCENT,
             )
         )
     return rows
 
 
 def _coverage_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
+    body = _Body()
     if ctx.domain_coverage:
-        body.append(
-            HBarChart(_coverage_bar_rows(ctx.domain_coverage), label_ratio=0.32, value_width=104.0)
-        )
-        body.append(
-            P(
-                "The bar shows the share of the ontology leaves that carry a value for this "
-                "participant. Everything else was absent from the source data.",
-                "Micro",
+        body.add(
+            HBarChart(
+                _coverage_bar_rows(ctx.domain_coverage),
+                label_ratio=0.32,
+                value_width=104.0,
+                space_after=GAP_BLOCK,
             )
         )
+        caption = (
+            "Each bar is the share of that domain's ontology leaves that carried a value "
+            "for this participant, with the leaf count alongside."
+        )
+        present = sum(_as_int(stats.get("present_leaves")) or 0 for _, stats in ctx.domain_coverage)
+        total = sum(_as_int(stats.get("total_leaves")) or 0 for _, stats in ctx.domain_coverage)
+        if total:
+            caption += (
+                f" Across every domain, {present:,} of {total:,} leaves "
+                f"({present / total * 100.0:.1f}%) were present; the rest were absent from "
+                "the source data."
+            )
+        body.add(P(caption, "Small"))
     else:
-        body.append(
+        body.add(
             missing_note(
-                "Evidence coverage cannot be charted: no data overview was supplied with this run."
+                "Coverage cannot be charted: no data overview was supplied with this run."
             )
         )
-    return _section(sections, SECTION_SPECS[3], body)
-
-
-def _coverage_color(percentage: Optional[float]) -> colors.Color:
-    if percentage is None:
-        return MUTED
-    if percentage >= 50.0:
-        return POSITIVE
-    if percentage >= 20.0:
-        return ACCENT
-    return CAUTION
+    return _section(sections, SECTION_SPECS[3], body.close())
 
 
 def _deviation_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
+    body = _Body()
     leaves = ctx.deviation_leaves
     if not leaves:
-        body.append(
+        body.add(
             missing_note(
                 "No hierarchical deviation map was supplied, so the deviation profile "
                 "could not be computed."
             )
         )
-        return _section(sections, SECTION_SPECS[4], body)
+        return _section(sections, SECTION_SPECS[4], body.close())
 
-    body.append(P("Domain summary", "H2"))
-    rows = [header_row(["Domain", "Leaves", "Mean |z|", "Peak |z|"])]
+    rows = [header_row(["Domain", "Leaves", "Mean |z|", "Peak |z|"], numeric=[1, 2, 3])]
     for domain, count, mean_abs, peak in summarize_deviation_domains(leaves):
         rows.append(
             [
@@ -2604,37 +2858,71 @@ def _deviation_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable
         CONTENT_WIDTH * 0.18,
         CONTENT_WIDTH * 0.18,
     ]
-    body.append(make_table(rows, widths))
+    body.block("Domain summary", [make_table(rows, widths)])
 
     ranked = sorted(leaves, key=lambda leaf: abs(leaf.score), reverse=True)[:DEVIATION_CHART_ROWS]
-    body.append(
-        P(
-            f"Most deviating leaves ({len(ranked)} of {len(leaves):,})",
-            "H2",
-        )
-    )
     chart_rows = [
         DivRow(label=leaf.path, value=leaf.score, text=fmt_z(leaf.score)) for leaf in ranked
     ]
-    body.append(DivergingBarChart(chart_rows, label_ratio=0.46, value_width=38.0))
-    body.append(
-        P(
-            "Bars are signed z-scores on a symmetric axis. Left of the rule is below the "
-            "normative mean, right of it is above.",
-            "Micro",
-        )
+    caption = P(
+        "Signed z-scores on a symmetric axis: left of the rule is below the normative "
+        "mean, right of it is above.",
+        "Small",
     )
-    return _section(sections, SECTION_SPECS[4], body)
+    body.block(
+        f"Furthest from the normative mean ({len(ranked)} of {len(leaves):,} leaves)",
+        [
+            DivergingBarChart(
+                chart_rows, label_ratio=0.46, value_width=38.0, axis=True, space_after=GAP_BLOCK
+            ),
+            caption,
+        ],
+    )
+    return _section(sections, SECTION_SPECS[4], body.close())
+
+
+def _verdict_word(passed: bool) -> Paragraph:
+    """A checklist result as a word, not a coloured pill."""
+    style = ParagraphStyle(
+        name=f"check_{'pass' if passed else 'fail'}",
+        parent=_style(_styles(), "SpecValue"),
+        fontName=FONT_SANS if passed else FONT_SANS_BOLD,
+        textColor=MUTED if passed else ALERT,
+    )
+    return Paragraph("Passed" if passed else "Failed", style)
+
+
+def _checklist_grid(checklist: Dict[str, Any], keys: Sequence[str]) -> Flowable:
+    """Checklist results two to a line, so eight checks cost four lines."""
+    pairs = [(humanize(key), bool(checklist.get(key))) for key in keys]
+    rows: List[List[Any]] = []
+    for start in range(0, len(pairs), 2):
+        line: List[Any] = []
+        for index in range(2):
+            if start + index < len(pairs):
+                label, passed = pairs[start + index]
+                line.extend([P(label, "SpecKey"), _verdict_word(passed)])
+            else:
+                line.extend(["", ""])
+        rows.append(line)
+    pair_width = CONTENT_WIDTH / 2.0
+    result_width = 52.0
+    widths = [pair_width - result_width, result_width, pair_width - result_width, result_width]
+    return make_table(
+        rows,
+        widths,
+        header=False,
+        extra_styles=[("RIGHTPADDING", (0, 0), (-1, -1), 12)],
+    )
 
 
 def _critic_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
+    body = _Body()
     evaluation = ctx.evaluation
     verdict = ctx.verdict
-    tone = POSITIVE if verdict == "SATISFACTORY" else CAUTION
 
     header_pairs: List[Tuple[str, str]] = [
-        ("Verdict", verdict or NOT_AVAILABLE),
+        ("Verdict", verdict.title() if verdict else NOT_AVAILABLE),
         ("Confidence in verdict", fmt_prob(evaluation.get("confidence_in_verdict"))),
         ("Selected iteration", ctx.iteration_text),
     ]
@@ -2642,321 +2930,432 @@ def _critic_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
     total = _as_int(evaluation.get("checklist_total"))
     if passed is not None and total is not None:
         header_pairs.append(("Checklist", f"{passed} of {total} checks passed"))
-    body.append(kv_table(header_pairs, key_ratio=0.34))
+    body.add(spec_table(header_pairs, columns=2))
 
     reason = _s(ctx.performance.get("selection_reason"))
     if reason:
-        body.append(Callout(reason, tone, title="Attempt selection", space_after=GAP_BLOCK))
-
-    body.append(P("Composite score", "H2"))
-    composite = _as_float(evaluation.get("composite_score"))
-    if composite is None:
-        body.append(
-            missing_note("The run did not record a composite critic score for this attempt.")
+        body.add(
+            Callout(
+                reason,
+                ACCENT if verdict == "SATISFACTORY" else ALERT,
+                title="Attempt selection",
+            )
         )
-    else:
-        body.append(ScoreMeter(composite, segments=10, label="composite"))
 
+    composite = _as_float(evaluation.get("composite_score"))
     breakdown = _as_dict(evaluation.get("score_breakdown"))
-    body.append(P("Score breakdown", "H3"))
+    score_blocks: List[Flowable] = []
+    if composite is not None:
+        score_blocks.append(ScoreMeter(composite, segments=10, label="composite", space_after=GAP_TIGHT))
     if breakdown:
-        rows = [header_row(["Component", "Score"])]
-        for key, value in breakdown.items():
-            rows.append([P(humanize(key), "TableCell"), P(fmt_number(value), "TableCellNumeric")])
-        body.append(make_table(rows, [CONTENT_WIDTH * 0.68, CONTENT_WIDTH * 0.32]))
-    else:
-        body.append(missing_note("No per-component score breakdown was recorded."))
+        score_blocks.append(
+            spec_table(
+                [(humanize(key), fmt_number(value)) for key, value in breakdown.items()],
+                columns=2,
+            )
+        )
+    body.block("Composite score", score_blocks, absent_as="a composite critic score")
 
-    body.append(P("Quality checklist", "H2"))
     checklist = _as_dict(evaluation.get("checklist"))
+    checklist_blocks: List[Flowable] = []
     if checklist:
         active = [_s(key) for key in _as_list(checklist.get("active_checks")) if _s(key)]
-        keys = active or [
-            key for key, value in checklist.items() if isinstance(value, bool)
-        ]
-        rows = [header_row(["Check", "Result"])]
-        for key in keys:
-            passed_check = bool(checklist.get(key))
-            rows.append(
-                [
-                    P(humanize(key), "TableCell"),
-                    Chip("PASS" if passed_check else "FAIL", POSITIVE if passed_check else CRITICAL),
-                ]
-            )
-        body.append(make_table(rows, [CONTENT_WIDTH * 0.74, CONTENT_WIDTH * 0.26]))
-        if not active:
-            body.append(
-                P(
-                    "The run did not declare an active-check subset, so every recorded check "
-                    "is listed.",
-                    "Micro",
+        keys = active or [key for key, value in checklist.items() if isinstance(value, bool)]
+        if keys:
+            checklist_blocks.append(_checklist_grid(checklist, keys[:CHECKLIST_CAP]))
+            # The header above states the full count, so a silent cut here would
+            # leave the reader counting rows that do not add up.
+            if len(keys) > CHECKLIST_CAP:
+                checklist_blocks.append(
+                    P(f"and {len(keys) - CHECKLIST_CAP:,} further checks not shown", "Micro")
                 )
-            )
     elif passed is not None and total is not None:
-        body.append(
+        checklist_blocks.append(
             P(
                 f"{passed} of {total} checks passed. The per-check detail was not recorded "
                 "in the run artifacts.",
                 "Small",
             )
         )
-    else:
-        body.append(missing_note("No quality checklist was recorded for this run."))
+    body.block("Quality checklist", checklist_blocks, absent_as="a quality checklist")
 
-    for title, key, tone_for in (
-        ("Strengths", "strengths", POSITIVE),
-        ("Weaknesses", "weaknesses", CAUTION),
-    ):
+    for title, key in (("Strengths", "strengths"), ("Weaknesses", "weaknesses")):
         entries = [_s(item) for item in _as_list(evaluation.get(key)) if _s(item)]
-        body.append(P(title, "H3"))
-        if entries:
-            body.extend(bullet_list(entries))
-            body.append(Spacer(1, GAP_TIGHT))
-        else:
-            body.append(missing_note(f"No {title.lower()} were recorded."))
+        body.block(title, bullet_list(entries), absent_as=title.lower())
 
-    body.append(P("Improvement suggestions", "H3"))
     suggestions = [_as_dict(item) for item in _as_list(evaluation.get("improvement_suggestions"))]
     suggestions = [item for item in suggestions if item]
+    suggestion_blocks: List[Flowable] = []
     if suggestions:
         rows = [header_row(["Priority", "Issue", "Suggestion"])]
-        priority_tones = {"HIGH": CRITICAL, "MEDIUM": CAUTION, "LOW": INFO}
         for item in suggestions:
             priority = _s(item.get("priority"), "UNSET").upper()
             rows.append(
                 [
-                    Chip(priority, priority_tones.get(priority, MUTED)),
+                    Chip(priority, ALERT if priority == "HIGH" else MUTED),
                     P(_s(item.get("issue"), NOT_AVAILABLE), "TableCell"),
                     P(_s(item.get("suggestion"), NOT_AVAILABLE), "TableCell"),
                 ]
             )
         widths = [CONTENT_WIDTH * 0.16, CONTENT_WIDTH * 0.40, CONTENT_WIDTH * 0.44]
-        body.append(make_table(rows, widths))
-    else:
-        body.append(
-            missing_note(
-                "No improvement suggestions were recorded, which is expected for a "
-                "satisfactory first attempt."
-                if ctx.verdict == "SATISFACTORY"
-                else "No improvement suggestions were recorded."
-            )
-        )
+        suggestion_blocks.append(make_table(rows, widths))
+    body.block("Improvement suggestions", suggestion_blocks, absent_as="improvement suggestions")
 
-    return _section(sections, SECTION_SPECS[5], body)
+    return _section(sections, SECTION_SPECS[5], body.close())
+
+
+#: Blocks of the narrative that restate, at length, what earlier sections
+#: already give from the run's own record. The Communicator is asked for a
+#: self-contained document, so it repeats the header and re-tabulates the
+#: evidence; printing both costs several pages and tells the reader nothing new.
+_NARRATIVE_DUPLICATES: Tuple[Tuple[str, str], ...] = (
+    ("target header", "section 1"),
+    ("technical summary", "sections 1 and 2"),
+)
+
+
+def _trim_narrative(markdown_text: str) -> Tuple[str, List[str]]:
+    """
+    Drop the narrative blocks that duplicate earlier sections, and name them.
+
+    Returns the markdown still worth printing and a plain-language list of what
+    was left out, which the section prints so nothing goes missing silently.
+    """
+    lines = markdown_text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    kept: List[str] = []
+    dropped: List[str] = []
+    skipping = False
+    fenced = False
+    for line in lines:
+        if _RE_FENCE.match(line):
+            fenced = not fenced
+        heading = None if fenced else _RE_HEADING.match(line)
+        if heading is not None and len(heading.group(1)) <= 2:
+            title = heading.group(2).strip()
+            lowered = title.lower()
+            skipping = False
+            for needle, where in _NARRATIVE_DUPLICATES:
+                if needle in lowered:
+                    skipping = True
+                    dropped.append(f"{title} (see {where})")
+                    break
+        if not skipping:
+            kept.append(line)
+    return "\n".join(kept), dropped
 
 
 def _deep_phenotype_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
+    body = _Body()
     if ctx.deep_phenotype_markdown.strip():
-        body.extend(markdown_to_flowables(ctx.deep_phenotype_markdown, _styles()))
-        if not body:
-            body.append(missing_note("The deep phenotype report was empty after parsing."))
-    else:
-        body.append(missing_note("This run did not generate a deep phenotype report."))
-        status = _as_dict(ctx.performance.get("deep_phenotype"))
-        if status:
-            trigger = _s(status.get("trigger_source"), "not requested")
-            body.append(
-                P(
-                    f"Generation flag: {'yes' if status.get('generated') else 'no'}. "
-                    f"Trigger source: {trigger}.",
-                    "Micro",
-                )
-            )
-    return _section(sections, SECTION_SPECS[6], body)
-
-
-def _execution_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
-    plan = _as_dict(ctx.performance.get("plan_summary"))
-    body.append(P("Plan", "H2"))
-    if plan:
-        domains = [_s(item) for item in _as_list(plan.get("priority_domains")) if _s(item)]
-        body.append(
-            kv_table(
-                [
-                    ("Plan id", _s(plan.get("plan_id"), NOT_AVAILABLE)),
-                    ("Total steps", fmt_int(plan.get("total_steps"))),
-                    ("Priority domains", ", ".join(domains) if domains else "none recorded"),
-                    ("Iterations", ctx.iteration_text),
-                    ("Duration", fmt_duration(ctx.performance.get("total_duration_seconds"))),
-                ],
-                key_ratio=0.34,
-            )
-        )
-    else:
-        body.append(missing_note("No plan summary was recorded for this run."))
-
-    body.append(P("Token ledger by component", "H2"))
-    grouped = _group_token_calls(_as_list(ctx.token_usage.get("calls")))
-    if grouped:
-        rows = [header_row(["Component", "Calls", "Prompt", "Completion", "Total"])]
-        for component, call_count, prompt, completion, total in grouped:
-            rows.append(
-                [
-                    P(humanize(component), "TableCell"),
-                    P(f"{call_count:,}", "TableCellNumeric"),
-                    P(f"{prompt:,}", "TableCellNumeric"),
-                    P(f"{completion:,}", "TableCellNumeric"),
-                    P(f"{total:,}", "TableCellNumeric"),
-                ]
-            )
-        totals = [sum(row[index] for row in grouped) for index in (1, 2, 3, 4)]
-        rows.append(
-            [
-                P("All components", "TableCell"),
-                P(f"{totals[0]:,}", "TableCellNumeric"),
-                P(f"{totals[1]:,}", "TableCellNumeric"),
-                P(f"{totals[2]:,}", "TableCellNumeric"),
-                P(f"{totals[3]:,}", "TableCellNumeric"),
-            ]
-        )
-        last = len(rows) - 1
-        body.append(
-            make_table(
-                rows,
-                [
-                    CONTENT_WIDTH * 0.32,
-                    CONTENT_WIDTH * 0.13,
-                    CONTENT_WIDTH * 0.18,
-                    CONTENT_WIDTH * 0.18,
-                    CONTENT_WIDTH * 0.19,
-                ],
-                extra_styles=[
-                    ("BACKGROUND", (0, last), (-1, last), PAGE_TINT),
-                    ("FONT", (0, last), (-1, last), FONT_SANS_BOLD),
-                    ("LINEABOVE", (0, last), (-1, last), 0.8, colors.HexColor("#CBD5E1")),
-                ],
-            )
-        )
-    else:
-        recorded_total = _as_int(ctx.token_usage.get("total_tokens"))
-        if recorded_total is not None:
-            body.append(
-                P(
-                    f"{recorded_total:,} tokens were recorded in total, but the per-call "
-                    "ledger was not saved with this run.",
-                    "Small",
+        trimmed, dropped = _trim_narrative(ctx.deep_phenotype_markdown)
+        rendered = markdown_to_flowables(trimmed, _styles())
+        # The narrative already opens on its own title, which would sit
+        # directly under the section header saying the same thing twice.
+        if rendered and _is_heading(rendered[0]):
+            rendered = rendered[1:]
+        if rendered:
+            body.extend(rendered)
+        elif dropped:
+            # A narrative built only from the blocks the trimmer targets leaves
+            # nothing to print. That is the trimmer's doing, not a parse failure.
+            body.add(
+                missing_note(
+                    "Every part of this narrative repeats a section printed above, "
+                    "so none of it is reprinted here."
                 )
             )
         else:
-            body.append(missing_note("No token usage was recorded for this run."))
-
-    body.append(P("Cost", "H2"))
-    cost = ctx.cost
-    lines = [_as_dict(line) for line in _as_list(cost.get("lines"))]
-    lines = [line for line in lines if line]
-    if lines:
-        rows = [header_row(["Model", "Prompt", "Completion", "Total tokens", "USD"])]
-        for line in lines:
-            rows.append(
-                [
-                    P(_s(line.get("model"), NOT_AVAILABLE), "TableCellMono"),
-                    P(fmt_int(line.get("prompt_tokens"), "-"), "TableCellNumeric"),
-                    P(fmt_int(line.get("completion_tokens"), "-"), "TableCellNumeric"),
-                    P(fmt_int(line.get("total_tokens"), "-"), "TableCellNumeric"),
-                    P(fmt_usd(line.get("usd")), "TableCellNumeric"),
-                ]
-            )
-        rows.append(
-            [
-                P("Total", "TableCell"),
-                P("", "TableCellNumeric"),
-                P("", "TableCellNumeric"),
-                P(fmt_int(cost.get("total_tokens"), "-"), "TableCellNumeric"),
-                P(fmt_usd(cost.get("usd")), "TableCellNumeric"),
-            ]
-        )
-        last = len(rows) - 1
-        body.append(
-            make_table(
-                rows,
-                [
-                    CONTENT_WIDTH * 0.34,
-                    CONTENT_WIDTH * 0.15,
-                    CONTENT_WIDTH * 0.16,
-                    CONTENT_WIDTH * 0.18,
-                    CONTENT_WIDTH * 0.17,
-                ],
-                extra_styles=[
-                    ("BACKGROUND", (0, last), (-1, last), PAGE_TINT),
-                    ("FONT", (0, last), (-1, last), FONT_SANS_BOLD),
-                    ("LINEABOVE", (0, last), (-1, last), 0.8, colors.HexColor("#CBD5E1")),
-                ],
-            )
-        )
-        if _as_float(cost.get("usd")) is None:
-            body.append(
-                P(
-                    "Pricing unavailable: at least one model in the ledger has no published "
-                    "price, so the total cost cannot be closed out.",
-                    "Small",
+            body.add(missing_note("The deep phenotype report was empty after parsing."))
+        if dropped:
+            body.add(Spacer(1, GAP_BLOCK))
+            body.add(
+                missing_note(
+                    f"Not reprinted from the narrative: {sentence_list(dropped)}. "
+                    "Those parts restate the prediction and the evidence, which this "
+                    "report already gives from the run's own record. The narrative "
+                    "itself is kept in full in deep_phenotype.md."
                 )
             )
     else:
-        body.append(
-            missing_note(
-                "Pricing unavailable: no cost ledger was supplied with this run."
+        body.add(missing_note("This run did not generate a deep phenotype narrative."))
+        status = _as_dict(ctx.performance.get("deep_phenotype"))
+        if status:
+            body.add(
+                P(
+                    f"Generation flag: {'yes' if status.get('generated') else 'no'}. "
+                    f"Trigger source: {_s(status.get('trigger_source'), 'not requested')}.",
+                    "Micro",
+                )
             )
+    return _section(sections, SECTION_SPECS[6], body.close())
+
+
+def _token_ledger_table(calls: Sequence[Any]) -> List[Flowable]:
+    """Prompt and completion tokens per component, with a summed final row."""
+    grouped = _group_token_calls(calls)
+    if not grouped:
+        return []
+    rows = [header_row(["Component", "Calls", "Prompt", "Completion", "Total"], numeric=[1, 2, 3, 4])]
+    for component, call_count, prompt, completion, total in grouped:
+        rows.append(
+            [
+                P(humanize(component), "TableCell"),
+                P(f"{call_count:,}", "TableCellNumeric"),
+                P(f"{prompt:,}", "TableCellNumeric"),
+                P(f"{completion:,}", "TableCellNumeric"),
+                P(f"{total:,}", "TableCellNumeric"),
+            ]
         )
-    return _section(sections, SECTION_SPECS[7], body)
+    totals = [sum(row[index] for row in grouped) for index in (1, 2, 3, 4)]
+    rows.append(
+        [
+            P("All components", "TableCellBold"),
+            *[P(f"{value:,}", "TableCellNumericBold") for value in totals],
+        ]
+    )
+    widths = [
+        CONTENT_WIDTH * 0.32,
+        CONTENT_WIDTH * 0.13,
+        CONTENT_WIDTH * 0.18,
+        CONTENT_WIDTH * 0.18,
+        CONTENT_WIDTH * 0.19,
+    ]
+    return [make_table(rows, widths, extra_styles=totals_row_style(len(rows) - 1))]
 
 
-def _appendix_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
-    body: List[Flowable] = []
-
-    body.append(P("Agent instructions", "H2"))
-    instructions = _as_dict(ctx.performance.get("agent_instructions"))
-    populated = [(key, _s(value)) for key, value in instructions.items() if _s(value)]
-    if populated:
-        rows = [header_row(["Agent", "Instruction"])]
-        for key, value in populated:
-            rows.append([P(humanize(key), "TableCell"), P(value, "TableCell")])
-        body.append(make_table(rows, [CONTENT_WIDTH * 0.24, CONTENT_WIDTH * 0.76]))
-    elif instructions:
-        body.append(
+def _cost_table(cost: Dict[str, Any]) -> List[Flowable]:
+    """Priced token lines per model. Empty when no ledger was supplied."""
+    lines = [_as_dict(line) for line in _as_list(cost.get("lines"))]
+    lines = [line for line in lines if line]
+    if not lines:
+        return []
+    rows = [header_row(["Model", "Prompt", "Completion", "Total tokens", "USD"], numeric=[1, 2, 3, 4])]
+    for line in lines:
+        rows.append(
+            [
+                P(_s(line.get("model"), NOT_AVAILABLE), "TableCellMono"),
+                P(fmt_int(line.get("prompt_tokens"), "-"), "TableCellNumeric"),
+                P(fmt_int(line.get("completion_tokens"), "-"), "TableCellNumeric"),
+                P(fmt_int(line.get("total_tokens"), "-"), "TableCellNumeric"),
+                P(fmt_usd(line.get("usd")), "TableCellNumeric"),
+            ]
+        )
+    rows.append(
+        [
+            P("Total", "TableCellBold"),
+            P("", "TableCellNumeric"),
+            P("", "TableCellNumeric"),
+            P(fmt_int(cost.get("total_tokens"), "-"), "TableCellNumericBold"),
+            P(fmt_usd(cost.get("usd")), "TableCellNumericBold"),
+        ]
+    )
+    widths = [
+        CONTENT_WIDTH * 0.34,
+        CONTENT_WIDTH * 0.15,
+        CONTENT_WIDTH * 0.16,
+        CONTENT_WIDTH * 0.18,
+        CONTENT_WIDTH * 0.17,
+    ]
+    blocks: List[Flowable] = [
+        make_table(rows, widths, extra_styles=totals_row_style(len(rows) - 1))
+    ]
+    if _as_float(cost.get("usd")) is None:
+        blocks.append(
             P(
-                "No custom agent instructions were supplied: every slot in the run "
-                "configuration was left at its default.",
+                "At least one model in the ledger has no published price, so the total "
+                "cost cannot be closed out.",
                 "Small",
             )
         )
-    else:
-        body.append(missing_note("No agent instruction block was recorded for this run."))
+    return blocks
 
-    body.append(P("Dataflow summary", "H2"))
-    dataflow = _as_dict(ctx.performance.get("dataflow_summary"))
-    if dataflow:
-        pairs = _flatten_mapping(dataflow)
-        rows = [header_row(["Key", "Value"])]
-        for key, value in pairs:
-            rows.append([P(key, "TableCellMono"), P(value, "TableCellMono")])
-        body.append(make_table(rows, [CONTENT_WIDTH * 0.52, CONTENT_WIDTH * 0.48]))
-    else:
-        body.append(missing_note("No dataflow summary was recorded for this run."))
 
-    body.append(P("Explainability", "H2"))
-    explainability = _as_dict(ctx.performance.get("explainability"))
-    xai = _as_dict(ctx.performance.get("xai_report"))
-    if explainability or xai:
-        methods = [_s(item) for item in _as_list(explainability.get("methods_requested")) if _s(item)]
-        body.append(
-            kv_table(
-                [
-                    ("Enabled", "yes" if explainability.get("enabled") else "no"),
-                    ("Status", _s(explainability.get("status"), NOT_AVAILABLE)),
-                    ("Reason", _s(explainability.get("reason"), "none recorded")),
-                    ("Methods requested", ", ".join(methods) if methods else "none"),
-                    ("XAI report generated", "yes" if xai.get("generated") else "no"),
-                    ("XAI report path", _s(xai.get("path"), "not written")),
-                ],
-                key_ratio=0.34,
-            )
+def _execution_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
+    body = _Body()
+    plan = _as_dict(ctx.performance.get("plan_summary"))
+    plan_pairs: List[Tuple[str, str]] = [
+        ("Duration", fmt_duration(ctx.performance.get("total_duration_seconds"))),
+        ("Iterations", ctx.iteration_text),
+    ]
+    if plan:
+        domains = [_s(item) for item in _as_list(plan.get("priority_domains")) if _s(item)]
+        plan_pairs.extend(
+            [
+                ("Plan steps", fmt_int(plan.get("total_steps"))),
+                ("Plan id", _s(plan.get("plan_id"), NOT_AVAILABLE)),
+            ]
         )
-    else:
-        body.append(missing_note("No explainability status was recorded for this run."))
+        if domains:
+            plan_pairs.append(("Priority domains", ", ".join(domains)))
+    body.add(spec_table(plan_pairs, columns=2))
 
-    return _section(sections, SECTION_SPECS[8], body)
+    ledger = _token_ledger_table(_as_list(ctx.token_usage.get("calls")))
+    recorded_total = _as_int(ctx.token_usage.get("total_tokens"))
+    if not ledger and recorded_total is not None:
+        # A total without the per-call breakdown is still worth stating, and
+        # saying why the table is not there keeps the absence explicit.
+        ledger = [
+            P(
+                f"{recorded_total:,} tokens were recorded in total, but the per-call "
+                "ledger was not saved with this run.",
+                "Small",
+            )
+        ]
+    body.block("Token ledger by component", ledger, absent_as="a token ledger")
+
+    body.block("Cost", _cost_table(ctx.cost), absent_as="a priced cost ledger")
+    return _section(sections, SECTION_SPECS[7], body.close())
+
+
+def _provenance_section(ctx: "_RunContext", sections: _Sections) -> List[Flowable]:
+    """
+    Everything needed to say where this report came from and run it again.
+
+    Deliberately a handful of rows. The full dataflow audit belongs in the JSON
+    artifacts the run already writes, not transcribed across three pages here.
+
+    Rows split on whether they can be attributed to the run. What the artifacts
+    and the run record hold is stated plainly; settings that only a live record
+    could vouch for are printed under a heading that says they are the service's
+    current ones, so nothing here reads as a fact about the run that is not.
+    """
+    body = _Body()
+    meta = ctx.provenance
+
+    pairs: List[Tuple[str, str]] = [
+        ("Engine version", _ENGINE_VERSION or "not recorded"),
+        ("Participant", ctx.participant_id or "not recorded"),
+    ]
+    run_id = _s(meta.get("run_id"))
+    if run_id:
+        pairs.append(("Run id", run_id))
+    pairs.append(("Executed", fmt_timestamp(ctx.performance.get("execution_timestamp"))))
+    finished = _s(meta.get("finished_at"))
+    if finished:
+        pairs.append(("Finished", fmt_timestamp(finished)))
+    pairs.append(("Report generated", fmt_timestamp(datetime.now().isoformat())))
+    pairs.append(("Iterations", ctx.iteration_text))
+    tokens = ctx.total_tokens
+    if tokens is not None:
+        pairs.append(("Tokens spent", f"{tokens:,}"))
+
+    settings_pairs: List[Tuple[str, str]] = []
+    reasoning = _s(meta.get("reasoning_effort"))
+    if reasoning:
+        settings_pairs.append(("Reasoning effort", humanize(reasoning)))
+    budget = _as_int(meta.get("token_budget"))
+    if budget:
+        settings_pairs.append(("Token budget", f"{budget:,} tokens"))
+    backend = _s(meta.get("backend"))
+    if backend:
+        settings_pairs.append(("Backend", backend))
+
+    configured = _configured_model_pairs(ctx)
+    billed = _billed_model_pairs(ctx)
+    if ctx.settings_from_run:
+        body.add(spec_table(pairs + settings_pairs, columns=2))
+        body.block("Models", _mono_spec(configured + billed), absent_as="the models used")
+    else:
+        body.add(spec_table(pairs, columns=2))
+        body.block("Models", _mono_spec(billed), absent_as="the models used")
+        if settings_pairs or configured:
+            body.block(
+                "Current service settings",
+                [
+                    P(
+                        "The settings this run was launched with were not kept with its "
+                        "artifacts. What follows is how the service is configured now, "
+                        "which is not necessarily what governed the run above.",
+                        "Small",
+                    ),
+                    spec_table(settings_pairs, columns=2) if settings_pairs else None,
+                    *_mono_spec(configured),
+                ],
+            )
+
+    instructions = [
+        (humanize(key), _s(value))
+        for key, value in _as_dict(ctx.performance.get("agent_instructions")).items()
+        if _s(value)
+    ]
+    if instructions:
+        rows = [header_row(["Agent", "Instruction"])]
+        rows.extend([P(key, "TableCell"), P(value, "TableCell")] for key, value in instructions)
+        body.block(
+            "Custom agent instructions",
+            [make_table(rows, [CONTENT_WIDTH * 0.22, CONTENT_WIDTH * 0.78])],
+        )
+
+    explainability = _as_dict(ctx.performance.get("explainability"))
+    if explainability.get("enabled"):
+        methods = [_s(item) for item in _as_list(explainability.get("methods_requested")) if _s(item)]
+        body.block(
+            "Explainability",
+            [
+                spec_table(
+                    [
+                        ("Status", _s(explainability.get("status"), NOT_AVAILABLE)),
+                        ("Methods requested", ", ".join(methods) if methods else "none"),
+                    ],
+                    columns=2,
+                )
+            ],
+        )
+
+    lines = ctx.reproduce_command_lines()
+    if lines:
+        lead = (
+            "From the repository root, against the same participant directory and "
+            "the same task, with the run's own model and budget settings:"
+            if ctx.settings_from_run
+            else "From the repository root, against the same participant directory and "
+            "the same task. The model and the reasoning effort this run was launched "
+            "with are not recorded in its artifacts, so the command names neither and "
+            "the service defaults apply:"
+        )
+        # The command is short and unsplittable, so letting the frame break
+        # between its heading and its panel strands it alone on a final page.
+        body.block(
+            "",
+            [
+                KeepHeadingWith(
+                    [P("How to reproduce", "H2"), P(lead, "Small"), _code_block(lines, _styles())]
+                )
+            ],
+        )
+
+    return _section(sections, SECTION_SPECS[8], body.close())
+
+
+def _configured_model_pairs(ctx: "_RunContext") -> List[Tuple[str, str]]:
+    """Which model each role was given, according to a configuration."""
+    meta = ctx.provenance
+    default_model = _s(meta.get("default_model"))
+    roles = {
+        _s(role): _s(name) or default_model
+        for role, name in _as_dict(meta.get("role_models")).items()
+        if _s(role)
+    }
+    distinct = {name for name in roles.values() if name}
+    # One line when every agent shared a model, a row per role when they did not.
+    if roles and len(distinct) == 1 and default_model:
+        return [("Configured for every role", default_model)]
+    if roles:
+        return [
+            (humanize(role), name or "not configured") for role, name in sorted(roles.items())
+        ]
+    return [("Configured model", default_model)] if default_model else []
+
+
+def _billed_model_pairs(ctx: "_RunContext") -> List[Tuple[str, str]]:
+    """Which models the run's own token ledger charged for."""
+    billed = ctx.models_used()
+    return [("Billed by the token ledger", ", ".join(billed))] if billed else []
+
+
+def _mono_spec(pairs: Sequence[Tuple[str, str]]) -> List[Flowable]:
+    """Model names in a one-column monospaced grid, or nothing to print."""
+    return [spec_table(list(pairs), columns=1, mono=True)] if pairs else []
 
 
 # ============================================================================
@@ -2976,6 +3375,7 @@ class _RunContext:
         deviation_map: Any,
         cost: Any,
         branding: Any,
+        provenance: Any = None,
     ) -> None:
         self.performance = _as_dict(performance_report)
         self.patient_report = _as_dict(patient_report)
@@ -2986,6 +3386,11 @@ class _RunContext:
         self.deviation_map = _as_dict(deviation_map)
         self.cost = _as_dict(cost)
         self.branding = {k: _s(v) for k, v in _as_dict(branding).items()}
+        self.provenance = _as_dict(provenance)
+        # Whether the settings in ``provenance`` are this run's own or the
+        # service's current ones. Absent means unattributable, which is the
+        # safe reading: nothing is claimed for the run that it did not record.
+        self.settings_from_run = bool(self.provenance.get("settings_from_run"))
 
         self.participant_id = _s(
             self.performance.get("participant_id")
@@ -3086,9 +3491,10 @@ class _RunContext:
 
     @property
     def task_line(self) -> str:
-        mode = humanize(self.task_root.get("mode")) if self.task_root else NOT_AVAILABLE
+        mode = humanize(self.task_root.get("mode")) if self.task_root else ""
+        mode = "" if mode == NOT_AVAILABLE else mode
         name = _s(self.task_root.get("display_name")) or _s(
-            self.performance.get("target_condition"), "task not recorded"
+            self.performance.get("target_condition")
         )
         labels = [_s(item) for item in _as_list(self.task_root.get("class_labels")) if _s(item)]
         outputs = [
@@ -3106,10 +3512,14 @@ class _RunContext:
             tree = "single node"
         else:
             tree = f"{node_count} nodes"
-        parts = [f"Task: {name}", f"Mode: {mode}", tree]
+        if mode and name:
+            headline = f"{mode} of {name}"
+        else:
+            headline = mode or (f"Task: {name}" if name else "Task not recorded")
+        parts = [headline, tree]
         if detail:
             parts.append(detail)
-        return "   |   ".join(parts)
+        return META_SEPARATOR.join(parts)
 
     def models_used(self) -> List[str]:
         seen: List[str] = []
@@ -3119,6 +3529,64 @@ class _RunContext:
                 seen.append(model)
         return seen
 
+    def prediction_family(self) -> str:
+        """The ``--prediction_type`` value that produced this task."""
+        if len(self.node_rows) > 1 or _as_list(self.task_root.get("children")):
+            return "hierarchical"
+        return {
+            "binary_classification": "binary",
+            "multiclass_classification": "multiclass",
+            "univariate_regression": "regression_univariate",
+            "multivariate_regression": "regression_multivariate",
+        }.get(_s(self.task_root.get("mode")), "")
+
+    def reproduce_command_lines(self) -> List[str]:
+        """
+        The command that would run this task again, wrapped so it can be copied.
+
+        Task, labels and iteration count come from the artifacts. The model and
+        the reasoning effort come from a configuration, which is only this run's
+        own while the run is still live, so they are written out when
+        ``settings_from_run`` says they can be attributed and left off otherwise:
+        what the line names, the run really used.
+        """
+        directory = _s(self.provenance.get("participant_dir"))
+        if not directory:
+            return []
+        parts: List[str] = []
+        family = self.prediction_family()
+        if family:
+            parts.append(f"--prediction_type {family}")
+        if family == "hierarchical":
+            parts.append("--task_spec_file <the task specification used for this run>")
+        else:
+            target = _s(self.performance.get("target_condition"))
+            control = _s(self.performance.get("control_condition"))
+            if target:
+                parts.append(f"--target_label {target}")
+            if control:
+                parts.append(f"--control_label {control}")
+        if self.settings_from_run:
+            model = _s(self.provenance.get("default_model"))
+            if model:
+                parts.append(f"--model {model}")
+            reasoning = _s(self.provenance.get("reasoning_effort"))
+            if reasoning:
+                parts.append(f"--reasoning_effort {reasoning}")
+        iterations = _as_int(self.performance.get("iterations"))
+        if iterations:
+            parts.append(f"--iterations {iterations}")
+        return shell_command_lines("python main.py", self.participant_path, parts)
+
+    @property
+    def participant_path(self) -> str:
+        """The participant directory as the reader would type it from the repo root."""
+        directory = _s(self.provenance.get("participant_dir"))
+        try:
+            return str(Path(directory).resolve().relative_to(_REPO_ROOT))
+        except (OSError, ValueError):
+            return directory
+
     def provenance_line(self) -> str:
         models = self.models_used()
         parts = [
@@ -3127,11 +3595,10 @@ class _RunContext:
             f"Duration: {fmt_duration(self.performance.get('total_duration_seconds'))}",
             f"Executed: {fmt_timestamp(self.performance.get('execution_timestamp'))}",
         ]
-        return "   |   ".join(parts)
+        return META_SEPARATOR.join(parts)
 
     def kpi_items(self) -> List[KpiItem]:
         verdict = self.verdict or NOT_AVAILABLE
-        verdict_color = POSITIVE if verdict == "SATISFACTORY" else CAUTION
         cost_value = _as_float(self.cost.get("usd"))
         tokens = self.total_tokens
         return [
@@ -3143,13 +3610,15 @@ class _RunContext:
             KpiItem(
                 label="Confidence",
                 value=fmt_prob(self.root_confidence),
-                note="" if self.confidence_level == NOT_AVAILABLE else self.confidence_level,
+                note="" if self.confidence_level == NOT_AVAILABLE else self.confidence_level.lower(),
             ),
+            # The only tile that can change colour, and only to say that the
+            # automated review was not satisfied.
             KpiItem(
                 label="Critic verdict",
                 value=verdict.title() if verdict != NOT_AVAILABLE else NOT_AVAILABLE,
                 note="automated review",
-                accent=verdict_color if verdict != NOT_AVAILABLE else MUTED,
+                accent=None if verdict in ("SATISFACTORY", NOT_AVAILABLE) else ALERT,
             ),
             KpiItem(
                 label="Iterations",
@@ -3199,6 +3668,7 @@ def render_run_pdf(
     deviation_map: Optional[Dict[str, Any]] = None,
     cost: Optional[Dict[str, Any]] = None,
     branding: Optional[Dict[str, str]] = None,
+    provenance: Optional[Dict[str, Any]] = None,
 ) -> Path:
     """
     Render one COMPASS run into a standardized, print-quality PDF.
@@ -3216,6 +3686,13 @@ def render_run_pdf(
         deviation_map: Contents of ``hierarchical_deviation_map.json``.
         cost: Cost ledger shaped like ``{"usd", "lines", "total_tokens"}``.
         branding: Optional ``title`` / ``subtitle`` / ``footer`` overrides.
+        provenance: What the artifacts cannot know about themselves: the run id,
+            the participant directory, the configured models per role, the
+            reasoning effort, the token budget and the run timestamps. Every
+            key is optional and an absent one simply drops its row. The
+            ``settings_from_run`` flag says whether the settings among those
+            belong to this run or are merely the caller's current ones; without
+            it they are printed as the latter, never attributed to the run.
 
     Returns:
         ``output_path``, after the file has been written.
@@ -3231,6 +3708,7 @@ def render_run_pdf(
         deviation_map,
         cost,
         branding,
+        provenance,
     )
     sections = _Sections()
 
@@ -3240,6 +3718,8 @@ def render_run_pdf(
     # page wearing the cover's accent band.
     story: List[Flowable] = [NextPageTemplate("Body")]
     story.extend(_cover_flowables(ctx))
+    story.append(PageBreak())
+    story.extend(_summary_flowables(ctx))
     story.append(PageBreak())
 
     builders: Sequence[Callable[["_RunContext", _Sections], List[Flowable]]] = (
@@ -3251,7 +3731,7 @@ def render_run_pdf(
         _critic_section,
         _deep_phenotype_section,
         _execution_section,
-        _appendix_section,
+        _provenance_section,
     )
     for builder, spec in zip(builders, SECTION_SPECS):
         try:
@@ -3259,7 +3739,7 @@ def render_run_pdf(
         except Exception as error:  # A broken section must not lose the report.
             notice = Callout(
                 f"This section could not be rendered from the run artifacts: {error}",
-                CRITICAL,
+                ALERT,
                 title="Section unavailable",
             )
             try:

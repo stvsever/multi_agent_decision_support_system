@@ -1,10 +1,10 @@
-/** Small pieces the four views and both rails share. */
+/** Small pieces the five views and both rails share. */
 
 import type { CSSProperties, ReactNode } from 'react'
 import { ChevronRight } from 'lucide-react'
 import type { Band } from '@/lib/types'
 import { signed } from '@/lib/format'
-import { BAND_LABEL, bandColor, bandFor, prettyLabel, type FlatNode } from './model'
+import { BAND_LABEL, bandColor, bandFor, prettyLabel, type FlatNode, type Spread } from './model'
 
 export function BandDot({ band, size = 8 }: { band: Band; size?: number }) {
   return (
@@ -106,6 +106,66 @@ export function MagnitudeBar({
   )
 }
 
+/**
+ * Cohort spread for one node, as a box with whiskers on the deviation scale.
+ *
+ * A mean would hide whether the cohort agrees, so the quartiles are drawn
+ * instead. The optional mark is where the focused participant sits inside it.
+ */
+export function BoxGlyph({
+  spread,
+  clamp,
+  width = 96,
+  height = 12,
+  mark,
+}: {
+  spread: Spread
+  clamp: number
+  width?: number
+  height?: number
+  mark?: number | null
+}) {
+  const at = (value: number) =>
+    ((Math.max(-clamp, Math.min(clamp, value)) + clamp) / (2 * clamp)) * (width - 2) + 1
+  const mid = height / 2
+  const boxTop = mid - height * 0.32
+  const boxHeight = height * 0.64
+  const q1 = at(spread.q1)
+  const q3 = at(spread.q3)
+
+  return (
+    <svg
+      className="onto-box"
+      width={width}
+      height={height}
+      role="img"
+      aria-label={`Cohort spread, median ${spread.median.toFixed(2)}`}
+    >
+      <line className="onto-box__zero" x1={at(0)} x2={at(0)} y1={0} y2={height} />
+      <line className="onto-box__whisker" x1={at(spread.min)} x2={at(spread.max)} y1={mid} y2={mid} />
+      <rect
+        className="onto-box__box"
+        x={Math.min(q1, q3)}
+        y={boxTop}
+        width={Math.max(1.5, Math.abs(q3 - q1))}
+        height={boxHeight}
+        rx={1.5}
+        style={{ fill: bandColor(bandFor(spread.median)) }}
+      />
+      <line
+        className="onto-box__median"
+        x1={at(spread.median)}
+        x2={at(spread.median)}
+        y1={boxTop - 1}
+        y2={boxTop + boxHeight + 1}
+      />
+      {mark !== null && mark !== undefined && Number.isFinite(mark) && (
+        <circle className="onto-box__mark" cx={at(mark)} cy={mid} r={Math.max(2, height * 0.19)} />
+      )}
+    </svg>
+  )
+}
+
 export function Highlight({ text, query }: { text: string; query: string }) {
   const needle = query.trim().toLowerCase()
   if (!needle) return <>{text}</>
@@ -179,16 +239,6 @@ export function ChartTooltip({
       style={{ left: x, top: y, transform: `translate(${flip ? '-100%' : '0'}, -100%)` }}
     >
       {children}
-    </div>
-  )
-}
-
-export function Stat({ label, value, meta }: { label: ReactNode; value: ReactNode; meta?: ReactNode }) {
-  return (
-    <div className="stat onto-stat">
-      <span className="stat__label">{label}</span>
-      <span className="stat__value">{value}</span>
-      {meta && <span className="stat__meta">{meta}</span>}
     </div>
   )
 }

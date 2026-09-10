@@ -107,6 +107,73 @@
   flex-direction: column;
   gap: var(--s-4);
 }
+/* Prose must not run the full width of a very wide screen to be readable. */
+.reports__body--doc > * {
+  width: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
+}
+
+/* --- The report as a document --------------------------------------------- */
+
+.reports__document { display: flex; flex-direction: column; gap: var(--s-8); }
+
+.reports__doc-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+.reports__doc-title { font-size: var(--t-display); font-weight: 650; letter-spacing: -0.026em; }
+.reports__doc-lede { font-size: var(--t-lead); color: var(--text-secondary); max-width: 68ch; margin: 0; }
+
+.reports__doc-meta { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6); margin: var(--s-2) 0 0; }
+.reports__doc-meta-item { display: flex; flex-direction: column; gap: 1px; }
+.reports__doc-meta dt {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.reports__doc-meta dd { margin: 0; font-size: var(--t-small); color: var(--text); }
+
+.reports__section { display: flex; flex-direction: column; gap: var(--s-3); }
+.reports__section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--line-faint);
+}
+.reports__section-title { font-size: var(--t-h2); font-weight: 600; letter-spacing: -0.016em; }
+.reports__section-note { margin: 0; font-size: var(--t-small); color: var(--text-muted); max-width: 72ch; }
+.reports__section-body { display: flex; flex-direction: column; gap: var(--s-4); }
+
+.reports__kpis {
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+}
+
+.reports__prose {
+  margin: 0;
+  max-width: 72ch;
+  font-size: var(--t-body);
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.reports__omissions {
+  margin: 0;
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line-faint);
+  font-size: var(--t-small);
+  color: var(--text-muted);
+}
 
 /* The PDF action is a link so the browser handles the download itself. */
 .reports__pdf,
@@ -470,18 +537,15 @@
     height: auto !important;
     overflow: visible !important;
   }
+  /* The document carries its own header, so the screen chrome is dropped. */
   .reports__rail,
   .reports__tabs,
+  .reports__toolbar,
   .reports__no-print,
   .reports__toc {
     display: none !important;
   }
   .reports__main { display: block; }
-  .reports__toolbar {
-    border: 0;
-    padding: 0 0 12pt;
-    background: transparent;
-  }
   .reports__body {
     display: block;
     overflow: visible;
@@ -489,7 +553,12 @@
     max-height: none;
   }
   .reports__body > * { margin-bottom: 12pt; }
+  .reports__document { gap: 16pt; }
+  .reports__section { break-inside: auto; }
+  .reports__section-head { break-after: avoid; page-break-after: avoid; }
+
   .card,
+  .reports__kpis,
   .reports__group-box,
   .reports__node,
   .callout,

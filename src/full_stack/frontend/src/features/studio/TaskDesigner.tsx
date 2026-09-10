@@ -2,266 +2,89 @@
  * Prediction task designer.
  *
  * The engine accepts five task families. Four are flat and need only labels;
- * the fifth is a tree of mixed-mode nodes. Rather than five separate forms this
- * is one form whose required fields follow the chosen family, so the shape of
- * the question stays visible while the detail changes.
+ * the fifth is a tree of mixed-mode nodes. One form serves all five: the family
+ * decides which controls appear and what "runnable" means, and every problem is
+ * shown against the control that caused it as soon as that control is touched.
  */
 
-import { Plus, Trash2, X } from 'lucide-react'
-import { useCallback } from 'react'
-import { Badge, Button, Callout, Field, Input, Select } from '@/components/ui/primitives'
-import type { NodeMode, PredictionType, TaskNodeInput, TaskSpecInput } from '@/lib/types'
+import clsx from 'clsx'
+import { Check, Network, Plus, Trash2 } from 'lucide-react'
+import { useId, useState, type AriaAttributes, type ReactNode } from 'react'
+import { Badge, Button, EmptyState, Field, Input } from '@/components/ui/primitives'
+import type { PredictionType, TaskNodeInput, TaskSpecInput } from '@/lib/types'
+import { ChipList } from './ChipList'
+import { TaskTree, newNode } from './TaskTree'
+import { TaskTreeSource } from './TaskTreeSource'
+import {
+  FAMILY_LABELS,
+  countNodes,
+  problemsFor,
+  slugify,
+  walkNodes,
+  type TaskProblem,
+  type TaskReport,
+} from './taskValidation'
 
-const MODE_LABELS: Record<NodeMode, string> = {
-  binary_classification: 'Binary',
-  multiclass_classification: 'Multiclass',
-  univariate_regression: 'Univariate regression',
-  multivariate_regression: 'Multivariate regression',
-}
+type FlatFieldName = 'target_label' | 'control_label' | 'class_labels' | 'regression_outputs'
 
-/** The engine validates these contracts, so mirror them here for fast feedback. */
-export function validateTask(task: TaskSpecInput): string[] {
-  const problems: string[] = []
-  const label = task.target_label.trim()
-  if (!label) problems.push('Give the target a name.')
-
-  if (task.prediction_type === 'binary' && !task.control_label.trim()) {
-    problems.push('Binary classification needs a comparator label.')
-  }
-  if (task.prediction_type === 'multiclass' && task.class_labels.filter(Boolean).length < 3) {
-    problems.push('Multiclass needs at least three class labels.')
-  }
-  if (task.prediction_type === 'regression_univariate' && task.regression_outputs.filter(Boolean).length !== 1) {
-    problems.push('Univariate regression needs exactly one output name.')
-  }
-  if (task.prediction_type === 'regression_multivariate' && task.regression_outputs.filter(Boolean).length < 2) {
-    problems.push('Multivariate regression needs at least two output names.')
-  }
-  if (task.prediction_type === 'hierarchical') {
-    if (!task.root) problems.push('Add a root node to the task tree.')
-    else problems.push(...validateNode(task.root, new Set()))
-  }
-  return problems
-}
-
-function validateNode(node: TaskNodeInput, seen: Set<string>): string[] {
-  const problems: string[] = []
-  const id = node.node_id.trim()
-  if (!id) problems.push('Every node needs an id.')
-  else if (seen.has(id)) problems.push(`Duplicate node id: ${id}`)
-  else seen.add(id)
-  if (!node.display_name.trim()) problems.push(`Node "${id || 'unnamed'}" needs a display name.`)
-
-  const classes = node.class_labels.filter(Boolean)
-  const outputs = node.regression_outputs.filter(Boolean)
-  if (node.mode === 'binary_classification' && classes.length !== 2) {
-    problems.push(`"${id}" is binary and needs exactly two class labels.`)
-  }
-  if (node.mode === 'multiclass_classification' && classes.length < 3) {
-    problems.push(`"${id}" is multiclass and needs at least three class labels.`)
-  }
-  if (node.mode === 'univariate_regression' && outputs.length !== 1) {
-    problems.push(`"${id}" is univariate and needs exactly one output.`)
-  }
-  if (node.mode === 'multivariate_regression' && outputs.length < 2) {
-    problems.push(`"${id}" is multivariate and needs at least two outputs.`)
-  }
-  for (const child of node.children) problems.push(...validateNode(child, seen))
-  return problems
-}
-
-export function newNode(seed: Partial<TaskNodeInput> = {}): TaskNodeInput {
-  return {
-    node_id: seed.node_id ?? `node_${Math.random().toString(36).slice(2, 7)}`,
-    display_name: seed.display_name ?? 'New node',
-    mode: seed.mode ?? 'binary_classification',
-    class_labels: seed.class_labels ?? ['CASE', 'CONTROL'],
-    regression_outputs: seed.regression_outputs ?? [],
-    unit_by_output: seed.unit_by_output ?? {},
-    required: seed.required ?? true,
-    children: seed.children ?? [],
-  }
-}
-
-/* --- Chip list ------------------------------------------------------------ */
-
-function ChipList({
-  values,
-  onChange,
-  placeholder,
-  min,
-}: {
-  values: string[]
-  onChange: (next: string[]) => void
-  placeholder: string
-  min?: number
-}) {
-  const add = useCallback(
-    (raw: string) => {
-      const parts = raw
-        .split(',')
-        .map((p) => p.trim())
-        .filter(Boolean)
-      if (!parts.length) return
-      const next = [...values]
-      for (const part of parts) if (!next.includes(part)) next.push(part)
-      onChange(next)
-    },
-    [values, onChange],
-  )
-
-  return (
-    <div className="chiplist">
-      {values.map((value, index) => (
-        <span key={`${value}-${index}`} className="chiplist__chip">
-          <span className="mono truncate">{value}</span>
-          <button
-            type="button"
-            aria-label={`Remove ${value}`}
-            onClick={() => onChange(values.filter((_, i) => i !== index))}
-            disabled={min !== undefined && values.length <= min}
-          >
-            <X size={11} />
-          </button>
-        </span>
-      ))}
-      <input
-        className="chiplist__input"
-        placeholder={placeholder}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ',') {
-            event.preventDefault()
-            add(event.currentTarget.value)
-            event.currentTarget.value = ''
-          }
-          if (event.key === 'Backspace' && !event.currentTarget.value && values.length) {
-            onChange(values.slice(0, -1))
-          }
-        }}
-        onBlur={(event) => {
-          add(event.currentTarget.value)
-          event.currentTarget.value = ''
-        }}
-      />
-    </div>
-  )
-}
-
-/* --- Node editor ---------------------------------------------------------- */
-
-function NodeEditor({
-  node,
-  depth,
-  onChange,
-  onRemove,
-}: {
-  node: TaskNodeInput
-  depth: number
-  onChange: (next: TaskNodeInput) => void
-  onRemove?: () => void
-}) {
-  const patch = (delta: Partial<TaskNodeInput>) => onChange({ ...node, ...delta })
-  const needsClasses = node.mode.endsWith('classification')
-
-  return (
-    <div className="tasknode" style={{ marginLeft: depth * 18 }}>
-      <div className="tasknode__head">
-        <Badge tone={depth === 0 ? 'accent' : 'neutral'} mono>
-          {depth === 0 ? 'root' : `depth ${depth}`}
-        </Badge>
-        <Input
-          value={node.display_name}
-          onChange={(e) => patch({ display_name: e.target.value })}
-          placeholder="Display name"
-          style={{ maxWidth: 210 }}
-        />
-        <Input
-          mono
-          value={node.node_id}
-          onChange={(e) => patch({ node_id: e.target.value.replace(/\s+/g, '_') })}
-          placeholder="node_id"
-          style={{ maxWidth: 150 }}
-        />
-        <Select
-          value={node.mode}
-          onChange={(e) => {
-            const mode = e.target.value as NodeMode
-            patch({
-              mode,
-              class_labels: mode === 'binary_classification' ? ['CASE', 'CONTROL'] : mode === 'multiclass_classification' ? node.class_labels : [],
-              regression_outputs: mode.endsWith('regression') ? node.regression_outputs : [],
-            })
-          }}
-          style={{ maxWidth: 190 }}
-        >
-          {Object.entries(MODE_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </Select>
-        <div className="grow" />
-        <Button
-          size="sm"
-          variant="ghost"
-          icon={<Plus size={13} />}
-          onClick={() => patch({ children: [...node.children, newNode({ display_name: 'Child node' })] })}
-        >
-          Child
-        </Button>
-        {onRemove && (
-          <Button size="sm" variant="ghost" iconOnly icon={<Trash2 size={13} />} onClick={onRemove} aria-label="Remove node" />
-        )}
-      </div>
-
-      <div className="tasknode__body">
-        {needsClasses ? (
-          <Field label={node.mode === 'binary_classification' ? 'Two class labels' : 'Three or more class labels'}>
-            <ChipList
-              values={node.class_labels}
-              onChange={(class_labels) => patch({ class_labels })}
-              placeholder="Add a label, then Enter"
-            />
-          </Field>
-        ) : (
-          <Field
-            label={node.mode === 'univariate_regression' ? 'One output name' : 'Two or more output names'}
-            hint="Optionally append a unit in the unit column below."
-          >
-            <ChipList
-              values={node.regression_outputs}
-              onChange={(regression_outputs) => patch({ regression_outputs })}
-              placeholder="Add an output, then Enter"
-            />
-          </Field>
-        )}
-      </div>
-
-      {node.children.map((child, index) => (
-        <NodeEditor
-          key={`${child.node_id}-${index}`}
-          node={child}
-          depth={depth + 1}
-          onChange={(next) => patch({ children: node.children.map((c, i) => (i === index ? next : c)) })}
-          onRemove={() => patch({ children: node.children.filter((_, i) => i !== index) })}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* --- Designer ------------------------------------------------------------- */
+/** What TaskField hands its control so the message reaches assistive tech. */
+type FieldAria = Pick<AriaAttributes, 'aria-invalid' | 'aria-describedby'>
 
 export function TaskDesigner({
   task,
+  report,
   onChange,
   types,
+  onNotify,
 }: {
   task: TaskSpecInput
+  report: TaskReport
   onChange: (patch: Partial<TaskSpecInput>) => void
   types: { value: PredictionType; label: string; summary: string; needs: string[] }[]
+  onNotify?: (title: string, body: string) => void
 }) {
-  const problems = validateTask(task)
+  /* A pristine field states its requirement as a hint. It only turns into an
+     error once it has been touched or already carries something. */
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const touch = (field: FlatFieldName) => setTouched((state) => (state[field] ? state : { ...state, [field]: true }))
+
+  const hasContent = (field: FlatFieldName): boolean => {
+    switch (field) {
+      case 'target_label':
+        return task.target_label.trim().length > 0
+      case 'control_label':
+        return task.control_label.trim().length > 0
+      case 'class_labels':
+        return task.class_labels.length > 0
+      case 'regression_outputs':
+        return task.regression_outputs.length > 0
+    }
+  }
+
+  const errorFor = (field: FlatFieldName): TaskProblem | undefined => {
+    const problem = problemsFor(report.problems, field).find((entry) => entry.severity === 'error')
+    if (!problem) return undefined
+    return touched[field] || hasContent(field) ? problem : undefined
+  }
+
+  /* A warning is about a value the form does not show, so it cannot wait for
+     the field to be touched. */
+  const warningFor = (field: FlatFieldName): TaskProblem | undefined =>
+    problemsFor(report.problems, field).find((entry) => entry.severity === 'warning')
+
+  const chooseFamily = (value: PredictionType) => {
+    const patch: Partial<TaskSpecInput> = { prediction_type: value }
+    if (value === 'hierarchical' && !task.root) {
+      patch.root = newNode({
+        node_id: slugify(task.target_label) || 'root',
+        display_name: task.target_label.trim() || 'Phenotype profile',
+      })
+    }
+    // Binary reads two stored class labels in preference to the target and the
+    // comparator, so leaving a multiclass draft behind would quietly win.
+    if (value === 'binary') patch.class_labels = []
+    onChange(patch)
+  }
 
   return (
     <div className="stack gap-5">
@@ -277,8 +100,7 @@ export function TaskDesigner({
               <li>Classification returns a label and a probability per class.</li>
               <li>Regression returns one or more numeric values.</li>
               <li>
-                A hierarchical tree mixes families: a root question with dependent sub-questions, each answered in
-                its own mode.
+                A tree mixes families: a root question with dependent sub-questions, each answered in its own mode.
               </li>
             </ol>
           </>
@@ -291,17 +113,7 @@ export function TaskDesigner({
               type="button"
               className="typecard"
               data-selected={task.prediction_type === type.value}
-              onClick={() => {
-                const patch: Partial<TaskSpecInput> = { prediction_type: type.value }
-                if (type.value === 'hierarchical' && !task.root) {
-                  patch.root = newNode({
-                    node_id: 'root',
-                    display_name: task.target_label || 'Phenotype profile',
-                    mode: 'binary_classification',
-                  })
-                }
-                onChange(patch)
-              }}
+              onClick={() => chooseFamily(type.value)}
             >
               <span className="typecard__label">{type.label}</span>
               <span className="typecard__summary">{type.summary}</span>
@@ -310,84 +122,237 @@ export function TaskDesigner({
         </div>
       </Field>
 
+      <RequirementStrip report={report} family={task.prediction_type} />
+
       {task.prediction_type !== 'hierarchical' ? (
         <div className="grid grid--2">
-          <Field
+          <TaskField
             label="Target label"
-            required
             hint="The phenotype being predicted. This name reaches every agent prompt."
+            error={errorFor('target_label')}
           >
-            <Input
-              value={task.target_label}
-              onChange={(e) => onChange({ target_label: e.target.value })}
-              placeholder="for example: major_depressive_episode"
-            />
-          </Field>
+            {(aria) => (
+              <Input
+                {...aria}
+                value={task.target_label}
+                invalid={Boolean(errorFor('target_label'))}
+                onChange={(event) => onChange({ target_label: event.target.value })}
+                onBlur={() => touch('target_label')}
+                placeholder="for example: major_depressive_episode"
+              />
+            )}
+          </TaskField>
 
           {task.prediction_type === 'binary' && (
-            <Field label="Comparator label" required hint="What the target is being distinguished from.">
-              <Input
-                value={task.control_label}
-                onChange={(e) => onChange({ control_label: e.target.value })}
-                placeholder="for example: healthy_comparator"
-              />
-            </Field>
+            <TaskField
+              label="Comparator label"
+              hint="What the target is being distinguished from."
+              error={errorFor('control_label')}
+              warning={warningFor('control_label')}
+            >
+              {(aria) => (
+                <Input
+                  {...aria}
+                  value={task.control_label}
+                  invalid={Boolean(errorFor('control_label'))}
+                  onChange={(event) => onChange({ control_label: event.target.value })}
+                  onBlur={() => touch('control_label')}
+                  placeholder="for example: healthy_comparator"
+                />
+              )}
+            </TaskField>
           )}
 
           {task.prediction_type === 'multiclass' && (
-            <Field label="Class labels" required hint="Three or more mutually exclusive classes.">
-              <ChipList
-                values={task.class_labels}
-                onChange={(class_labels) => onChange({ class_labels })}
-                placeholder="Add a class, then Enter"
-              />
-            </Field>
+            <TaskField
+              label="Class labels"
+              hint="Three or more mutually exclusive classes."
+              error={errorFor('class_labels')}
+            >
+              {(aria) => (
+                <ChipList
+                  {...aria}
+                  aria-label="Class labels"
+                  values={task.class_labels}
+                  invalid={Boolean(errorFor('class_labels'))}
+                  onChange={(class_labels) => onChange({ class_labels })}
+                  onBlurCapture={() => touch('class_labels')}
+                  placeholder="Add a class, then Enter"
+                />
+              )}
+            </TaskField>
           )}
 
           {task.prediction_type.startsWith('regression') && (
-            <Field
+            <TaskField
               label={task.prediction_type === 'regression_univariate' ? 'Output name' : 'Output names'}
-              required
               hint={
                 task.prediction_type === 'regression_univariate'
                   ? 'Exactly one continuous output.'
                   : 'Two or more continuous outputs, predicted together.'
               }
+              error={errorFor('regression_outputs')}
             >
-              <ChipList
-                values={task.regression_outputs}
-                onChange={(regression_outputs) => onChange({ regression_outputs })}
-                placeholder="Add an output, then Enter"
-              />
-            </Field>
+              {(aria) => (
+                <ChipList
+                  {...aria}
+                  aria-label={task.prediction_type === 'regression_univariate' ? 'Output name' : 'Output names'}
+                  values={task.regression_outputs}
+                  invalid={Boolean(errorFor('regression_outputs'))}
+                  onChange={(regression_outputs) => onChange({ regression_outputs })}
+                  onBlurCapture={() => touch('regression_outputs')}
+                  placeholder="Add an output, then Enter"
+                />
+              )}
+            </TaskField>
           )}
         </div>
       ) : (
-        <div className="stack gap-3">
-          <Field label="Task tree" hint="Each node is answered in its own mode. Children are answered in context of their parent.">
-            <div />
-          </Field>
-          {task.root ? (
-            <NodeEditor node={task.root} depth={0} onChange={(root) => onChange({ root })} />
-          ) : (
-            <Button
-              icon={<Plus size={14} />}
-              onClick={() => onChange({ root: newNode({ node_id: 'root', display_name: 'Phenotype profile' }) })}
-            >
-              Add the root node
-            </Button>
-          )}
-        </div>
+        <TreeSection task={task} report={report} onChange={onChange} onNotify={onNotify} />
       )}
+    </div>
+  )
+}
 
-      {problems.length > 0 && (
-        <Callout tone="caution" title="This task is not runnable yet">
-          <ul className="stack gap-1" style={{ marginTop: 4 }}>
-            {problems.map((problem) => (
-              <li key={problem}>{problem}</li>
-            ))}
-          </ul>
-        </Callout>
+/* --- Pieces ---------------------------------------------------------------- */
+
+/**
+ * A labelled control whose message is wired to it rather than merely placed
+ * next to it. Colour alone does not reach a screen reader, so the control
+ * carries aria-invalid and points at whichever message is on screen: the
+ * hint while the field is clean, the error once it is not.
+ */
+function TaskField({
+  label,
+  hint,
+  error,
+  warning,
+  children,
+}: {
+  label: string
+  hint: string
+  error?: TaskProblem
+  warning?: TaskProblem
+  children: (aria: FieldAria) => ReactNode
+}) {
+  const hintId = useId()
+  const errorId = useId()
+  const warningId = useId()
+  const describedBy = [error ? errorId : hintId, warning ? warningId : null].filter(Boolean).join(' ')
+
+  return (
+    <Field
+      label={label}
+      required
+      hint={<span id={hintId}>{hint}</span>}
+      error={error ? <span id={errorId}>{error.message}</span> : undefined}
+    >
+      <div className="stack gap-1">
+        {children({ 'aria-invalid': error ? true : undefined, 'aria-describedby': describedBy })}
+        {warning && (
+          <span id={warningId} className="t-tiny studio__warn">
+            {warning.message}
+          </span>
+        )}
+      </div>
+    </Field>
+  )
+}
+
+/** What this family still needs, as a row of met and unmet requirements. */
+function RequirementStrip({ report, family }: { report: TaskReport; family: PredictionType }) {
+  return (
+    <div className="taskreq">
+      <span className="t-tiny muted" style={{ flex: 'none' }}>
+        {FAMILY_LABELS[family]} needs
+      </span>
+      {report.requirements.map((requirement) => (
+        <span key={requirement.field} className={clsx('taskreq__pill', requirement.met && 'taskreq__pill--met')}>
+          {requirement.met ? <Check size={11} /> : <span className="taskreq__dot" />}
+          <span>{requirement.label}</span>
+          {requirement.note && <span className="faint tabular">{requirement.note}</span>}
+        </span>
+      ))}
+    </div>
+  )
+}
+
+function TreeSection({
+  task,
+  report,
+  onChange,
+  onNotify,
+}: {
+  task: TaskSpecInput
+  report: TaskReport
+  onChange: (patch: Partial<TaskSpecInput>) => void
+  onNotify?: (title: string, body: string) => void
+}) {
+  let depth = 0
+  walkNodes(task.root, (_node, _key, level) => {
+    depth = Math.max(depth, level)
+  })
+
+  const apply = (root: TaskNodeInput, origin: string) => {
+    onChange({ root })
+    onNotify?.('Task tree applied', `${countNodes(root)} nodes read from ${origin}.`)
+  }
+
+  return (
+    <div className="stack gap-4">
+      <div className="row between gap-3 wrap">
+        <span className="stack" style={{ gap: 1 }}>
+          <span className="t-small semibold">Task tree</span>
+          <span className="t-tiny muted">
+            Each node is answered in its own mode, in the context of its parent.
+          </span>
+        </span>
+        <span className="row gap-2">
+          {task.root && (
+            <>
+              <Badge mono>
+                {report.nodeCount} node{report.nodeCount === 1 ? '' : 's'}
+              </Badge>
+              <Badge mono>depth {depth}</Badge>
+              <Button
+                size="sm"
+                variant="ghost"
+                icon={<Trash2 size={13} />}
+                onClick={() => onChange({ root: null })}
+              >
+                Clear
+              </Button>
+            </>
+          )}
+        </span>
+      </div>
+
+      <TaskTreeSource root={task.root ?? null} onApply={apply} />
+
+      {task.root ? (
+        <TaskTree root={task.root} problems={report.problems} onChange={(root) => onChange({ root })} />
+      ) : (
+        <EmptyState
+          icon={<Network size={20} />}
+          title="No tree yet"
+          body="Drop a file, apply an example, or start from a single root question and add children to it."
+          action={
+            <Button
+              variant="primary"
+              icon={<Plus size={14} />}
+              onClick={() =>
+                onChange({
+                  root: newNode({
+                    node_id: slugify(task.target_label) || 'root',
+                    display_name: task.target_label.trim() || 'Phenotype profile',
+                  }),
+                })
+              }
+            >
+              Add the root question
+            </Button>
+          }
+        />
       )}
     </div>
   )

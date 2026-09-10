@@ -1,0 +1,111 @@
+# syntax=docker/dockerfile:1.7
+
+# One image, two jobs: it serves open weights with vLLM and it runs the COMPASS
+# dashboard. Keeping them in one image means the self-hosted path needs a single
+# build, and the dashboard container is guaranteed to match the server it talks to.
+
+# The base is pinned to an exact CUDA tag rather than a moving one. Verified
+# digest for this tag: sha256:8aef630a54bc5c5146ae5ce68e6af5caa3df0fb690bb91544175c91f307e4356
+# Ubuntu 24.04 ships Python 3.12, which the engine requires (pyproject asks for 3.11+).
+ARG CUDA_IMAGE=nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04
+ARG VLLM_VERSION=0.8.5
+
+
+# Stage 1: build the web client.
+FROM node:22-slim AS web
+
+WORKDIR /web
+COPY src/full_stack/frontend/package.json src/full_stack/frontend/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+COPY src/full_stack/frontend/ ./
+RUN npm run build
+
+
+# Stage 2: the engine, the dashboard service, and the vLLM server.
+FROM ${CUDA_IMAGE}
+
+ARG VLLM_VERSION
+ARG COMPASS_UID=1000
+ARG COMPASS_GID=1000
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PATH=/opt/venv/bin:$PATH \
+    COMPASS_UI_HOST=0.0.0.0 \
+    COMPASS_UI_PORT=5005 \
+    COMPASS_HOME=/home/compass/.compass \
+    COMPASS_VLLM_HOST=0.0.0.0 \
+    COMPASS_VLLM_PORT=8000 \
+    HF_HOME=/home/compass/.cache/huggingface
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    ca-certificates \
+    curl \
+    git \
+    python3 \
+    python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Ubuntu 24.04 already owns uid 1000, so the stock user is removed before the
+# service account takes that id. Matching the host uid keeps bind-mounted caches
+# writable without chowning them from the container.
+RUN if getent passwd ${COMPASS_UID} >/dev/null; then \
+        userdel -r "$(getent passwd ${COMPASS_UID} | cut -d: -f1)" 2>/dev/null || true; \
+    fi && \
+    groupadd --gid ${COMPASS_GID} compass && \
+    useradd --uid ${COMPASS_UID} --gid ${COMPASS_GID} --create-home --shell /bin/bash compass
+
+RUN python3 -m venv /opt/venv && /opt/venv/bin/pip install --upgrade pip setuptools wheel
+
+# vLLM first because it is the large, rarely changing layer, and it drags in its
+# own torch build. The curated engine pins land afterwards so the numpy/pandas
+# stack ends up on the versions the pipeline is validated against, which is the
+# same ordering src/full_stack/backend/hpc/02_setup_environment.sh uses.
+RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+    /opt/venv/bin/pip install "vllm==${VLLM_VERSION}"
+
+COPY docker/requirements.ui.txt /tmp/requirements.ui.txt
+RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+    /opt/venv/bin/pip install -r /tmp/requirements.ui.txt
+
+WORKDIR /workspace/multi_agent_decision_support_system
+
+COPY --chown=compass:compass . /workspace/multi_agent_decision_support_system
+
+# The compiled client is served by the same process that runs the API.
+COPY --from=web --chown=compass:compass /web/dist \
+    /workspace/multi_agent_decision_support_system/src/full_stack/frontend/dist
+
+# Runs write logs and results next to the code, and both directories are
+# excluded from the build context, so they are created here for the service user.
+RUN chmod +x /workspace/multi_agent_decision_support_system/docker/entrypoint.gpu.sh && \
+    mkdir -p "${HF_HOME}" "${COMPASS_HOME}" \
+             /workspace/multi_agent_decision_support_system/logs \
+             /workspace/multi_agent_decision_support_system/results && \
+    chown compass:compass /workspace \
+             /workspace/multi_agent_decision_support_system \
+             /workspace/multi_agent_decision_support_system/logs \
+             /workspace/multi_agent_decision_support_system/results && \
+    chown -R compass:compass /home/compass
+
+USER compass
+
+EXPOSE 5005 8000
+
+# The image answers on two ports depending on the role it was started in, so the
+# probe follows the role instead of assuming the dashboard. The daemon builds
+# the probe as a sibling process from this image's configured environment, so
+# the running entrypoint cannot hand it a variable; it writes the role's URL to
+# a file instead and the probe reads that. An explicit -e still wins, and the
+# dashboard remains the fallback. Weight loading can take minutes, hence the
+# long start period.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=300s --retries=10 \
+    CMD url="${COMPASS_HEALTHCHECK_URL:-}"; \
+        [ -n "$url" ] || url="$(cat "${COMPASS_HEALTH_URL_FILE:-/tmp/compass-health-url}" 2>/dev/null)"; \
+        [ -n "$url" ] || url="http://127.0.0.1:${COMPASS_UI_PORT}/api/health"; \
+        curl -fsS "$url" > /dev/null || exit 1
+
+ENTRYPOINT ["/workspace/multi_agent_decision_support_system/docker/entrypoint.gpu.sh"]
+CMD ["dashboard"]

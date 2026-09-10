@@ -184,6 +184,68 @@ def pricing_index(cached_only: bool = False) -> Dict[str, Dict[str, Any]]:
     return {row["id"]: row for row in catalog.get("models") or []}
 
 
+CONNECTIVITY_TTL_SECONDS = 20.0
+CONNECTIVITY_TIMEOUT_SECONDS = 3.0
+
+#: Where a Local workspace gets its weights from, so the same probe means
+#: something when no hosted provider is configured.
+_WEIGHTS_HOST = "https://huggingface.co"
+
+
+def connectivity(force: bool = False) -> Dict[str, Any]:
+    """
+    Whether this machine can reach the network and the configured provider.
+
+    The interface shows nothing at all when this is healthy, so the only job
+    here is to be cheap, bounded, and incapable of raising: a probe that throws
+    would turn a silent healthy state into a permanent error marker.
+    """
+    now = time.time()
+    with _lock:
+        cached = _memory.get("connectivity")
+        if cached and not force and (now - float(cached.get("checked_at") or 0)) < CONNECTIVITY_TTL_SECONDS:
+            return dict(cached)
+
+    config = load_config()
+    if config.connection.backend == "local":
+        target = _WEIGHTS_HOST
+    else:
+        target = _base_url() or "https://openrouter.ai/api/v1"
+
+    online = False
+    provider_reachable = False
+    reason = ""
+    try:
+        with httpx.Client(timeout=CONNECTIVITY_TIMEOUT_SECONDS, follow_redirects=True) as client:
+            response = client.get(f"{target.rstrip('/')}/models", headers={"Accept": "application/json"})
+        online = True
+        # An authentication refusal still proves the provider answered, which is
+        # a connection question rather than a credential question.
+        provider_reachable = response.status_code < 500
+        if not provider_reachable:
+            reason = f"The provider answered with {response.status_code}."
+    except httpx.TimeoutException:
+        reason = "The provider did not answer within three seconds."
+    except httpx.TransportError as exc:
+        reason = f"No connection to {target}: {exc}"
+    except Exception as exc:
+        # Anything else still means the probe produced no evidence of a
+        # connection, and the caller only ever needs a sentence.
+        reason = f"Could not check the connection: {exc}"
+
+    result = {
+        "online": online,
+        "provider_reachable": provider_reachable,
+        "checked_at": now,
+        "reason": reason,
+        "target": target,
+        "backend": config.connection.backend,
+    }
+    with _lock:
+        _memory["connectivity"] = result
+    return dict(result)
+
+
 def account_status() -> Dict[str, Any]:
     """Key validity plus remaining credit, so budget warnings can be concrete."""
     api_key = get_credential("openrouter")

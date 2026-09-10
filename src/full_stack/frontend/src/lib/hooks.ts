@@ -7,7 +7,9 @@ import type {
   AccountStatus,
   Capabilities,
   CatalogResponse,
+  Connectivity,
   DashboardConfig,
+  LocalBackendConfig,
   ParticipantsResponse,
   RunDetail,
   SettingsResponse,
@@ -25,6 +27,14 @@ export const queryKeys = {
   batches: ['batches'] as const,
   report: (params: Record<string, unknown>) => ['report', params] as const,
   prompts: ['prompts'] as const,
+  connectivity: ['connectivity'] as const,
+  ontologyAggregate: (dirs: string[]) => ['ontology-aggregate', [...dirs].sort().join('|')] as const,
+  distribution: (dirs: string[], path: string[]) =>
+    ['ontology-distribution', [...dirs].sort().join('|'), path.join('/')] as const,
+  deployProbe: ['deploy-probe'] as const,
+  deployPlan: (local: unknown) => ['deploy-plan', local] as const,
+  hfSearch: (params: Record<string, unknown>) => ['hf-search', params] as const,
+  browse: (path: string) => ['browse', path] as const,
 }
 
 export const useCapabilities = (): UseQueryResult<Capabilities> =>
@@ -57,12 +67,72 @@ export const useCatalog = (
     retry: 1,
   })
 
+/**
+ * Reachability, polled slowly. The interface only renders the failing case, so
+ * a healthy result costs nothing on screen and the poll stays cheap.
+ */
+export const useConnectivity = (): UseQueryResult<Connectivity> =>
+  useQuery({
+    queryKey: queryKeys.connectivity,
+    queryFn: api.connectivity,
+    refetchInterval: 30_000,
+    staleTime: 20_000,
+    retry: false,
+  })
+
 export const useOntology = (directory: string | null) =>
   useQuery({
     queryKey: queryKeys.ontology(directory ?? ''),
     queryFn: () => api.datasets.ontology(directory!),
     enabled: Boolean(directory),
     staleTime: 5 * 60_000,
+  })
+
+/** Merged cohort tree. Disabled below two participants: use useOntology there. */
+export const useAggregateOntology = (directories: string[]) =>
+  useQuery({
+    queryKey: queryKeys.ontologyAggregate(directories),
+    queryFn: () => api.datasets.ontologyAggregate(directories),
+    enabled: directories.length > 1,
+    staleTime: 5 * 60_000,
+  })
+
+export const useDistribution = (directories: string[], path: string[] | null) =>
+  useQuery({
+    queryKey: queryKeys.distribution(directories, path ?? []),
+    queryFn: () => api.datasets.distribution(directories, path!),
+    enabled: Boolean(path && path.length > 0 && directories.length > 0),
+    staleTime: 5 * 60_000,
+  })
+
+export const useDeployProbe = (enabled = true) =>
+  useQuery({ queryKey: queryKeys.deployProbe, queryFn: api.deploy.probe, enabled, staleTime: 5 * 60_000, retry: false })
+
+export const useDeployPlan = (local: Partial<LocalBackendConfig> | null) =>
+  useQuery({
+    queryKey: queryKeys.deployPlan(local),
+    queryFn: () => api.deploy.preview(local!),
+    enabled: Boolean(local && local.model_name),
+    staleTime: 60_000,
+    retry: false,
+  })
+
+export const useHfSearch = (params: { q?: string; task?: string; limit?: number }, enabled = true) =>
+  useQuery({
+    queryKey: queryKeys.hfSearch(params as Record<string, unknown>),
+    queryFn: () => api.hf.search(params),
+    enabled,
+    staleTime: 60_000,
+    retry: false,
+  })
+
+export const useBrowse = (path: string | null) =>
+  useQuery({
+    queryKey: queryKeys.browse(path ?? ''),
+    queryFn: () => api.datasets.browse(path ?? undefined),
+    enabled: path !== null,
+    staleTime: 10_000,
+    retry: false,
   })
 
 export const useRuns = (poll = false) =>

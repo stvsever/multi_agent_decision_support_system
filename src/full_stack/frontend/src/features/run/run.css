@@ -269,6 +269,7 @@
   border: 1px solid transparent;
 }
 .run-stage--current { background: var(--accent-50); border-color: var(--accent-200); }
+.run-stage--failed { background: var(--critical-soft); border-color: color-mix(in srgb, var(--critical) 30%, transparent); }
 .run-stage--pending { opacity: 0.55; }
 
 .run-stage__marker {
@@ -285,6 +286,7 @@
 }
 .run-stage--done .run-stage__marker { background: var(--positive); border-color: var(--positive); color: var(--text-inverse); }
 .run-stage--current .run-stage__marker { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
+.run-stage--failed .run-stage__marker { background: var(--critical); border-color: var(--critical); color: var(--text-inverse); }
 .run-stage__index { font-variant-numeric: tabular-nums; }
 
 .run-stage__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
@@ -294,6 +296,7 @@
 .run-stage__bar { display: block; height: 3px; border-radius: var(--r-full); background: var(--bg-inset); overflow: hidden; }
 .run-stage__bar-fill { display: block; height: 100%; background: var(--text-faint); transition: width var(--dur) var(--ease-out); }
 .run-stage--current .run-stage__bar-fill { background: var(--accent); }
+.run-stage--failed .run-stage__bar-fill { background: var(--critical); }
 .run-stage--done .run-stage__bar-fill { background: var(--positive); }
 
 /* --- Two-column body ------------------------------------------------------ */
@@ -523,4 +526,84 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   overflow: auto;
+}
+
+/* --- Failure -------------------------------------------------------------- */
+
+/*
+ * A failure leads with the plain facts. The trace is a disclosure inside the
+ * same frame, so the page never opens on a wall of stack.
+ */
+.run-failure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  background: var(--critical-soft);
+  border: 1px solid color-mix(in srgb, var(--critical) 26%, transparent);
+  border-radius: var(--r-lg);
+}
+.run-failure__head { display: flex; align-items: flex-start; gap: var(--s-3); }
+.run-failure__icon { color: var(--critical); flex: none; margin-top: 2px; }
+.run-failure__message {
+  margin: 0;
+  max-width: 72ch;
+  font-size: var(--t-body);
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+/* --- Row affordances ------------------------------------------------------ */
+
+.run-rowlink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-h-sm);
+  height: var(--control-h-sm);
+  border-radius: var(--r-sm);
+  color: var(--text-muted);
+}
+.run-rowlink:hover { background: var(--bg-hover); color: var(--text); text-decoration: none; }
+
+/* --- Structural audit ----------------------------------------------------- */
+
+/* A document rather than a console, so it keeps a readable measure. */
+.run-audit { max-width: 1080px; }
+
+.run-budget {
+  display: block;
+  height: 10px;
+  border-radius: var(--r-full);
+  background: var(--bg-inset);
+  overflow: hidden;
+}
+.run-budget__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--r-full);
+  background: var(--accent);
+  transition: width var(--dur) var(--ease-out);
+}
+.run-budget__fill--over { background: var(--caution); }
+
+.run-chunk {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+.run-chunk__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: var(--r-full);
+  background: var(--bg-inset);
+  color: var(--text-muted);
+  font-size: var(--t-micro);
 }

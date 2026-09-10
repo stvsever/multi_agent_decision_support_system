@@ -1,0 +1,104 @@
+# Self-hosted path: open weights from HuggingFace served by vLLM on local GPUs,
+# with the dashboard pointed at that server instead of at OpenRouter.
+#
+#   cp .env.example docker/.env
+#   docker compose -f docker/docker-compose.gpu.yml up --build
+#   open http://localhost:5005
+#
+# Requires the NVIDIA Container Toolkit on the host. Multi-GPU on one node is a
+# matter of raising COMPASS_GPU_COUNT and COMPASS_VLLM_TP together; across nodes,
+# use src/full_stack/backend/hpc/06_serve_vllm.sh instead.
+
+name: compass-gpu
+
+# Both services are the same image in two roles, so they share one build.
+x-compass-gpu-build: &compass-gpu-build
+  context: ..
+  dockerfile: docker/Dockerfile.gpu
+  args:
+    VLLM_VERSION: ${VLLM_VERSION:-0.8.5}
+
+services:
+  vllm:
+    image: compass-engine:gpu
+    build: *compass-gpu-build
+    command: ["serve"]
+    environment:
+      COMPASS_VLLM_MODEL: ${COMPASS_VLLM_MODEL:-Qwen/Qwen3-14B-AWQ}
+      COMPASS_VLLM_HOST: 0.0.0.0
+      COMPASS_VLLM_PORT: "8000"
+      # Tensor parallelism splits one model across the GPUs of this container.
+      # It must divide the number of attention heads, and it must not exceed
+      # COMPASS_GPU_COUNT.
+      COMPASS_VLLM_TP: ${COMPASS_VLLM_TP:-1}
+      COMPASS_VLLM_PP: ${COMPASS_VLLM_PP:-1}
+      COMPASS_VLLM_MAX_MODEL_LEN: ${COMPASS_VLLM_MAX_MODEL_LEN:-32768}
+      COMPASS_VLLM_GPU_MEM_UTIL: ${COMPASS_VLLM_GPU_MEM_UTIL:-0.90}
+      COMPASS_VLLM_SERVED_NAME: ${COMPASS_VLLM_SERVED_NAME:-}
+      COMPASS_VLLM_QUANT: ${COMPASS_VLLM_QUANT:-}
+      COMPASS_VLLM_API_KEY: ${COMPASS_VLLM_API_KEY:-local-vllm}
+      COMPASS_VLLM_EXTRA_ARGS: ${COMPASS_VLLM_EXTRA_ARGS:-}
+      # Kept in step with the %runscript in src/full_stack/backend/hpc/apptainer.def.
+      COMPASS_VLLM_TRUST_REMOTE_CODE: ${COMPASS_VLLM_TRUST_REMOTE_CODE:-1}
+      COMPASS_HEALTHCHECK_URL: http://127.0.0.1:8000/health
+      HF_HOME: /home/compass/.cache/huggingface
+      # Only needed for gated repositories. Passed at run time so it never lands
+      # in an image layer.
+      HF_TOKEN: ${HF_TOKEN:-}
+    volumes:
+      # Weights are downloaded once into a named volume, never baked into the image.
+      - hf-cache:/home/compass/.cache/huggingface
+    ports:
+      - "${COMPASS_VLLM_PORT:-8000}:8000"
+    # vLLM moves tensors between workers through shared memory; the 64 MB Docker
+    # default deadlocks tensor-parallel startup.
+    shm_size: "16gb"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: ${COMPASS_GPU_COUNT:-all}
+              capabilities: ["gpu"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 20
+      start_period: 300s
+    restart: unless-stopped
+
+  compass:
+    image: compass-engine:gpu
+    build: *compass-gpu-build
+    command: ["dashboard"]
+    depends_on:
+      vllm:
+        condition: service_healthy
+    environment:
+      # The engine talks OpenAI protocol, so a local vLLM server is configured
+      # exactly like a hosted provider: a base URL and any non-empty key.
+      #
+      # This seeds the dashboard's stored configuration on FIRST start only, when
+      # the compass-home volume holds no dashboard.json yet. Once that file
+      # exists, the base URL saved in it wins and this variable is ignored, so a
+      # value the user chose in Settings is never overwritten. An installation
+      # that already has a configuration must be pointed at http://vllm:8000/v1
+      # from Settings, Connection: nothing rewires it automatically.
+      OPENROUTER_BASE_URL: http://vllm:8000/v1
+      OPENROUTER_API_KEY: ${COMPASS_VLLM_API_KEY:-local-vllm}
+      COMPASS_HOME: /home/compass/.compass
+      COMPASS_UI_HOST: 0.0.0.0
+      COMPASS_UI_PORT: "5005"
+      COMPASS_HEALTHCHECK_URL: http://127.0.0.1:5005/api/health
+      COMPASS_REQUEST_TIMEOUT: ${COMPASS_REQUEST_TIMEOUT:-600}
+      COMPASS_EXECUTOR_MAX_WORKERS: ${COMPASS_EXECUTOR_MAX_WORKERS:-4}
+    ports:
+      - "${COMPASS_UI_PORT:-5005}:5005"
+    volumes:
+      - compass-home:/home/compass/.compass
+    restart: unless-stopped
+
+volumes:
+  hf-cache:
+  compass-home:

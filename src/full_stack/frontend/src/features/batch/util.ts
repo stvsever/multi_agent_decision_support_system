@@ -1,6 +1,6 @@
-/** Small helpers shared by the batch composer and monitor. */
+/** Small helpers shared by the batch composer, the monitor, and Configure. */
 
-import type { Capabilities, RunStatus, TaskSpecInput } from '@/lib/types'
+import type { RunStatus } from '@/lib/types'
 
 export type Tone = 'neutral' | 'accent' | 'positive' | 'caution' | 'critical' | 'info'
 
@@ -20,45 +20,36 @@ export const BATCH_TONE: Record<string, Tone> = {
   cancelled: 'neutral',
 }
 
-/**
- * Which requirements of the chosen prediction type the composed task has not
- * met yet. The requirement list comes from `/capabilities`, so a new task
- * shape added on the server is checked here without a frontend change.
- */
-export function missingRequirements(
-  task: TaskSpecInput,
-  types: Capabilities['prediction_types'] | undefined,
-): string[] {
-  const spec = types?.find((t) => t.value === task.prediction_type)
-  if (!spec) return []
-  return spec.needs.filter((need) => {
-    switch (need) {
-      case 'target_label':
-        return task.target_label.trim().length === 0
-      case 'control_label':
-        return task.control_label.trim().length === 0
-      case 'class_labels':
-        return task.class_labels.length < 2
-      case 'regression_outputs':
-        return task.regression_outputs.length === 0
-      case 'root':
-        return !task.root
-      default:
-        return false
-    }
-  })
+/** The service accepts 60 to 86400 seconds; these are the ones worth offering. */
+export const TIMEOUT_CHOICES = [900, 1800, 3600, 7200, 14400, 43200, 86400]
+
+export function timeoutLabel(seconds: number): string {
+  if (seconds < 3600) {
+    const minutes = Math.round(seconds / 60)
+    return `${minutes} minute${minutes === 1 ? '' : 's'}`
+  }
+  const hours = seconds / 3600
+  const rounded = Number.isInteger(hours) ? hours : Number(hours.toFixed(1))
+  return `${rounded} hour${rounded === 1 ? '' : 's'}`
 }
 
-export const REQUIREMENT_LABEL: Record<string, string> = {
-  target_label: 'a target label',
-  control_label: 'a comparator label',
-  class_labels: 'at least two class labels',
-  regression_outputs: 'at least one regression output',
-  root: 'a task tree root',
-}
-
-export function describeRequirements(needs: string[]): string {
-  const parts = needs.map((need) => REQUIREMENT_LABEL[need] ?? need.replace(/_/g, ' '))
-  if (parts.length <= 1) return parts.join('')
-  return `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`
+/** One sentence saying exactly what pressing launch will do. */
+export function describeQueue(
+  count: number,
+  concurrency: number,
+  continueOnError: boolean,
+  timeoutSeconds: number,
+): string {
+  if (count === 0) return 'Select participants to see what launching would queue.'
+  if (count === 1) {
+    return `Launching starts one run, stopped if it is still going after ${timeoutLabel(timeoutSeconds)}.`
+  }
+  const parallel = Math.min(concurrency, count)
+  return [
+    `Launching queues ${count} runs, ${parallel} at a time, each with its own report.`,
+    continueOnError
+      ? 'A failure is recorded and the rest continue.'
+      : 'The first failure cancels everything still queued.',
+    `Any run still going after ${timeoutLabel(timeoutSeconds)} is stopped.`,
+  ].join(' ')
 }

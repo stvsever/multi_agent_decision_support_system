@@ -8,9 +8,9 @@
 
 import { useMemo } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
-import { Layers, Square } from 'lucide-react'
-import { Badge, Button, Card, EmptyState, Progress, Skeleton } from '@/components/ui/primitives'
+import { Link, useNavigate } from 'react-router-dom'
+import { AlertTriangle, Layers, Square } from 'lucide-react'
+import { Badge, Button, Callout, Card, EmptyState, Progress, Skeleton } from '@/components/ui/primitives'
 import { api } from '@/lib/api'
 import { duration, elapsedSince, relativeTime, titleCase, tokens, usd } from '@/lib/format'
 import { queryKeys, useBatches, useNow } from '@/lib/hooks'
@@ -50,11 +50,13 @@ function useCancelBatch() {
 export function BatchMonitor({
   activeId,
   onSelect,
+  onCompose,
 }: {
   activeId: string | null
   onSelect: (batchId: string) => void
+  onCompose?: () => void
 }) {
-  const { data, isLoading } = useBatches(true)
+  const { data, isLoading, isError, error, refetch, isFetching } = useBatches(true)
   const batches = data?.batches ?? []
   const active = batches.find((b) => b.id === activeId) ?? batches[0] ?? null
 
@@ -69,13 +71,47 @@ export function BatchMonitor({
     )
   }
 
+  // A list that could not be fetched is not an empty list, so it does not get
+  // the empty state below and its invitation to launch something.
+  if (isError && !data) {
+    return (
+      <Card>
+        <Callout
+          tone="critical"
+          icon={<AlertTriangle size={15} />}
+          title="The batches could not be listed"
+          action={
+            <Button size="sm" onClick={() => void refetch()} loading={isFetching}>
+              Try again
+            </Button>
+          }
+        >
+          {error instanceof Error && error.message ? error.message : 'The service did not answer.'} Any batch already
+          running is unaffected: this screen only reads the list.
+        </Callout>
+      </Card>
+    )
+  }
+
   if (batches.length === 0) {
     return (
       <Card>
         <EmptyState
           icon={<Layers size={20} />}
           title="No batches yet"
-          body="Compose a cohort and launch it. Every batch stays here with its runs, spend, and verdicts."
+          body="Select more than one participant in Configure and launch. Every batch stays here with its runs, spend, and verdicts."
+          action={
+            <span className="row gap-2">
+              <Link className="btn btn--primary btn--sm" to="/studio">
+                Go to Configure
+              </Link>
+              {onCompose && (
+                <Button size="sm" variant="ghost" onClick={onCompose}>
+                  Compose here
+                </Button>
+              )}
+            </span>
+          }
         />
       </Card>
     )

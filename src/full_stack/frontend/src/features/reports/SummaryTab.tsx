@@ -1,14 +1,18 @@
 /**
- * The summary tab: what the run concluded, on what evidence, and what it could
- * not see. Absent sections are named rather than hidden, because a silent gap
- * in a clinical report reads as a finding of normality.
+ * The summary tab, composed as a document.
+ *
+ * A block with nothing in it is left out along with its heading: a heading over
+ * "not recorded" is noise, and a stack of them buries the parts that do carry
+ * a finding. What the run never wrote is stated once, at the end, so a gap is
+ * still visible without being repeated on every section.
  */
 
-import { AlertTriangle, CircleCheck, ShieldQuestion } from 'lucide-react'
-import { Badge, Callout, Card } from '@/components/ui/primitives'
+import { AlertTriangle, CircleCheck } from 'lucide-react'
+import type { ReactNode } from 'react'
+import { Badge, Callout } from '@/components/ui/primitives'
 import { dateTime, duration, number, percent, tokens as formatTokens, titleCase, usd } from '@/lib/format'
 import type { CostSummary } from '@/lib/types'
-import { Bar, BulletList, Flag, GroupBox, KeyValue, NotRecorded, Stat } from './parts'
+import { Bar, BulletList, Flag, GroupBox, Omissions, Section, Stat } from './parts'
 import {
   directionTone,
   isClassificationMode,
@@ -25,27 +29,20 @@ function verdictTone(verdict: string) {
   return VERDICT_TONE[verdict] ?? 'neutral'
 }
 
+/* --- Prediction ----------------------------------------------------------- */
+
 function NodeDetail({ node }: { node: PredictionNode }) {
-  if (isClassificationMode(node.mode)) {
-    if (node.probabilities.length === 0) {
-      return <NotRecorded what="A class probability distribution" />
-    }
+  if (isClassificationMode(node.mode) && node.probabilities.length > 0) {
     return (
       <div className="stack">
         {node.probabilities.map((entry) => (
-          <Bar
-            key={entry.label}
-            label={entry.label}
-            value={entry.value}
-            lead={entry.label === node.predictedLabel}
-          />
+          <Bar key={entry.label} label={entry.label} value={entry.value} lead={entry.label === node.predictedLabel} />
         ))}
       </div>
     )
   }
 
-  if (isRegressionMode(node.mode)) {
-    if (node.values.length === 0) return <NotRecorded what="A set of regression outputs" />
+  if (isRegressionMode(node.mode) && node.values.length > 0) {
     return (
       <table className="table">
         <thead>
@@ -68,7 +65,7 @@ function NodeDetail({ node }: { node: PredictionNode }) {
     )
   }
 
-  return <NotRecorded what={`A prediction body for mode "${node.mode}"`} />
+  return null
 }
 
 function NodeView({ node, root }: { node: PredictionNode; root?: boolean }) {
@@ -111,460 +108,475 @@ function NodeView({ node, root }: { node: PredictionNode; root?: boolean }) {
   )
 }
 
+/* --- Evidence ------------------------------------------------------------- */
+
 function Evidence({ view }: { view: ReportView }) {
   const hasAnything =
     view.findings.length > 0 ||
     view.reasoning.length > 0 ||
     view.evidenceFor.length > 0 ||
-    view.evidenceAgainst.length > 0
+    view.evidenceAgainst.length > 0 ||
+    view.uncertainty.length > 0
 
-  if (!hasAnything) {
-    return (
-      <Card title="Evidence">
-        <NotRecorded what="Key findings, a reasoning chain, and supporting evidence" />
-      </Card>
-    )
-  }
+  if (!hasAnything) return null
 
   return (
-    <Card
+    <Section
       title="Evidence"
-      subtitle={
+      note={
         view.findingsSource === 'report'
           ? 'Key findings read from the structured report; the prediction tree carried none.'
           : undefined
       }
     >
-      <div className="stack gap-5">
-        {view.findings.length > 0 ? (
-          <div className="stack gap-2">
-            <span className="eyebrow">Key findings</span>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th style={{ width: '20%' }}>Domain</th>
-                  <th>Finding</th>
-                  <th style={{ width: 140 }}>Direction</th>
-                  <th className="num" style={{ width: 70 }}>
-                    z
-                  </th>
+      {view.findings.length > 0 && (
+        <div className="stack gap-2">
+          <span className="eyebrow">Key findings</span>
+          <table className="table">
+            <thead>
+              <tr>
+                <th style={{ width: '20%' }}>Domain</th>
+                <th>Finding</th>
+                <th style={{ width: 140 }}>Direction</th>
+                <th className="num" style={{ width: 70 }}>
+                  z
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {view.findings.map((finding, index) => (
+                <tr key={index}>
+                  <td className="mono t-tiny">{finding.domain}</td>
+                  <td>
+                    {finding.finding}
+                    {finding.relevance ? <div className="t-tiny muted">{finding.relevance}</div> : null}
+                  </td>
+                  <td>
+                    {finding.direction ? (
+                      <Badge tone={directionTone(finding.direction)}>{titleCase(finding.direction)}</Badge>
+                    ) : (
+                      <span className="muted t-tiny">not stated</span>
+                    )}
+                  </td>
+                  <td className="num tabular">{finding.z === null ? '-' : finding.z.toFixed(2)}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {view.findings.map((finding, index) => (
-                  <tr key={index}>
-                    <td className="mono t-tiny">{finding.domain}</td>
-                    <td>
-                      {finding.finding}
-                      {finding.relevance ? <div className="t-tiny muted">{finding.relevance}</div> : null}
-                    </td>
-                    <td>
-                      {finding.direction ? (
-                        <Badge tone={directionTone(finding.direction)}>{titleCase(finding.direction)}</Badge>
-                      ) : (
-                        <span className="muted t-tiny">not stated</span>
-                      )}
-                    </td>
-                    <td className="num tabular">{finding.z === null ? '-' : finding.z.toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <NotRecorded what="Key findings" />
-        )}
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
+      {view.reasoning.length > 0 && (
         <div className="stack gap-2">
           <span className="eyebrow">Reasoning chain</span>
-          {view.reasoning.length > 0 ? <BulletList items={view.reasoning} ordered /> : <NotRecorded what="A reasoning chain" />}
+          <BulletList items={view.reasoning} ordered />
         </div>
+      )}
 
+      {(view.evidenceFor.length > 0 || view.evidenceAgainst.length > 0) && (
         <div className="grid grid--2">
-          <GroupBox title="Supporting evidence for">
-            {view.evidenceFor.length > 0 ? <BulletList items={view.evidenceFor} /> : <NotRecorded what="Supporting evidence" />}
-          </GroupBox>
-          <GroupBox title="Evidence against">
-            {view.evidenceAgainst.length > 0 ? (
+          {view.evidenceFor.length > 0 && (
+            <GroupBox title="Supporting the conclusion">
+              <BulletList items={view.evidenceFor} />
+            </GroupBox>
+          )}
+          {view.evidenceAgainst.length > 0 && (
+            <GroupBox title="Against the conclusion">
               <BulletList items={view.evidenceAgainst} />
-            ) : (
-              <span className="t-small muted">Nothing was recorded against this conclusion.</span>
-            )}
-          </GroupBox>
+            </GroupBox>
+          )}
         </div>
+      )}
 
-        {view.uncertainty.length > 0 && (
-          <GroupBox title="Uncertainty factors">
-            <BulletList items={view.uncertainty} />
-          </GroupBox>
-        )}
-      </div>
-    </Card>
+      {view.uncertainty.length > 0 && (
+        <GroupBox title="Uncertainty factors">
+          <BulletList items={view.uncertainty} />
+        </GroupBox>
+      )}
+    </Section>
   )
 }
+
+/* --- Coverage ------------------------------------------------------------- */
 
 function CoverageSection({ view }: { view: ReportView }) {
   const { coverage } = view
+  if (!coverage.present && view.domainCoverage.length === 0) return null
+
   const missing = coverage.missingCount ?? coverage.missingFeatures.length
   const shown = coverage.missingFeatures.slice(0, MISSING_FEATURE_CAP)
   const overflow = coverage.missingFeatures.length - shown.length
-  const nothingMissing = coverage.present && missing === 0
 
   return (
-    <Card title="What the run could not see">
-      <div className="stack gap-4">
-        {!coverage.present && <NotRecorded what="A coverage summary" />}
+    <Section title="What the run could not see">
+      {coverage.invariantOk === false && (
+        <Callout tone="caution" icon={<AlertTriangle size={15} />} title="Coverage invariant failed">
+          The engine could not account for every input feature. Treat the completeness of this report as unverified.
+        </Callout>
+      )}
 
-        {coverage.invariantOk === false && (
-          <Callout tone="caution" icon={<AlertTriangle size={15} />} title="Coverage invariant failed">
-            The engine could not account for every input feature. Treat the completeness of this report as unverified.
-          </Callout>
-        )}
+      {coverage.present && missing === 0 && (
+        <Callout tone="positive" icon={<CircleCheck size={15} />} title="Every input feature was represented">
+          {number(coverage.representedFeatures ?? coverage.allFeatures)} of {number(coverage.allFeatures)} features
+          reached the predictor, and the coverage invariant held.
+        </Callout>
+      )}
 
-        {nothingMissing && (
-          <Callout tone="positive" icon={<CircleCheck size={15} />} title="Every input feature was represented">
-            {number(coverage.representedFeatures ?? coverage.allFeatures)} of{' '}
-            {number(coverage.allFeatures)} features reached the predictor, and the coverage invariant held.
-          </Callout>
-        )}
+      {coverage.present && (
+        <div className="grid grid--3">
+          <Stat label="Features in" value={number(coverage.allFeatures)} />
+          <Stat label="Represented" value={number(coverage.representedFeatures)} />
+          <Stat
+            label="Missing"
+            value={number(missing)}
+            meta={
+              coverage.invariantOk === null
+                ? undefined
+                : coverage.invariantOk
+                  ? 'invariant held'
+                  : 'invariant failed'
+            }
+          />
+        </div>
+      )}
 
-        {coverage.present && (
-          <div className="grid grid--3">
-            <Stat label="Features in" value={number(coverage.allFeatures)} />
-            <Stat label="Represented" value={number(coverage.representedFeatures)} />
-            <Stat
-              label="Missing"
-              value={number(missing)}
-              meta={coverage.invariantOk === null ? 'invariant not reported' : coverage.invariantOk ? 'invariant held' : 'invariant failed'}
-            />
+      {shown.length > 0 && (
+        <div className="stack gap-2">
+          <span className="eyebrow">Missing features</span>
+          <div className="reports__missing">
+            {shown.map((feature) => (
+              <Badge key={feature} mono outline>
+                {feature}
+              </Badge>
+            ))}
+            {overflow > 0 && <span className="t-tiny muted">and {number(overflow)} more</span>}
           </div>
-        )}
+        </div>
+      )}
 
-        {shown.length > 0 && (
-          <div className="stack gap-2">
-            <span className="eyebrow">Missing features</span>
-            <div className="reports__missing">
-              {shown.map((feature) => (
-                <Badge key={feature} mono outline>
-                  {feature}
-                </Badge>
-              ))}
-              {overflow > 0 && <span className="t-tiny muted">and {number(overflow)} more</span>}
-            </div>
-          </div>
-        )}
-
+      {view.domainCoverage.length > 0 && (
         <div className="stack gap-2">
           <span className="eyebrow">Domain coverage of the input</span>
-          {view.domainCoverage.length === 0 ? (
-            <NotRecorded what="A per-domain coverage breakdown" />
-          ) : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Domain</th>
-                  <th className="num">Present</th>
-                  <th className="num">Total</th>
-                  <th className="num">Missing</th>
-                  <th style={{ width: '24%' }}>Coverage</th>
-                  <th className="num">Tokens</th>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Domain</th>
+                <th className="num">Present</th>
+                <th className="num">Total</th>
+                <th className="num">Missing</th>
+                <th style={{ width: '24%' }}>Coverage</th>
+                <th className="num">Tokens</th>
+              </tr>
+            </thead>
+            <tbody>
+              {view.domainCoverage.map((row) => (
+                <tr key={row.domain}>
+                  <td className="mono t-tiny">
+                    {row.domain}
+                    {!row.available && (
+                      <Badge tone="caution" style={{ marginLeft: 'var(--s-2)' }}>
+                        unavailable
+                      </Badge>
+                    )}
+                  </td>
+                  <td className="num">{number(row.present)}</td>
+                  <td className="num">{number(row.total)}</td>
+                  <td className="num">{number(row.missing)}</td>
+                  <td>
+                    <Bar
+                      label=""
+                      value={(row.percentage ?? 0) / 100}
+                      caption={row.percentage === null ? '-' : `${row.percentage.toFixed(1)}%`}
+                    />
+                  </td>
+                  <td className="num">{formatTokens(row.tokens)}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {view.domainCoverage.map((row) => (
-                  <tr key={row.domain}>
-                    <td className="mono t-tiny">
-                      {row.domain}
-                      {!row.available && (
-                        <Badge tone="caution" style={{ marginLeft: 'var(--s-2)' }}>
-                          unavailable
-                        </Badge>
-                      )}
-                    </td>
-                    <td className="num">{number(row.present)}</td>
-                    <td className="num">{number(row.total)}</td>
-                    <td className="num">{number(row.missing)}</td>
-                    <td>
-                      <Bar
-                        label=""
-                        value={(row.percentage ?? 0) / 100}
-                        caption={row.percentage === null ? '-' : `${row.percentage.toFixed(1)}%`}
-                      />
-                    </td>
-                    <td className="num">{formatTokens(row.tokens)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
-    </Card>
+      )}
+    </Section>
   )
 }
+
+/* --- Critic --------------------------------------------------------------- */
 
 function CriticSection({ view }: { view: ReportView }) {
   const { evaluation } = view
-
-  if (evaluation.source === 'none') {
-    return (
-      <Card title="Critic evaluation">
-        <Callout tone="neutral" icon={<ShieldQuestion size={15} />} title="No evaluation was recorded">
-          Neither the performance report nor the structured report carries a critic block for this run.
-          {view.verdict ? ` The run finished with verdict ${view.verdict}.` : ''}
-        </Callout>
-      </Card>
-    )
-  }
+  if (evaluation.source === 'none') return null
 
   const partial = evaluation.source === 'report'
+  const activeChecks = evaluation.checklist.filter((entry) => entry.active)
 
   return (
-    <Card
+    <Section
       title="Critic evaluation"
-      subtitle={partial ? 'Read from the structured report; the full critic block was not written.' : undefined}
+      note={
+        partial
+          ? 'Read from the structured report. Only the verdict, its confidence, and the checklist tally were written.'
+          : undefined
+      }
       actions={<Badge tone={verdictTone(evaluation.verdict)}>{evaluation.verdict || 'No verdict'}</Badge>}
     >
-      <div className="stack gap-4">
-        {partial && (
-          <Callout tone="neutral">
-            Score breakdown, checklist detail, strengths, weaknesses, and improvement suggestions were not recorded for
-            this run. Only the verdict, the verdict confidence, and the checklist tally are available.
-          </Callout>
+      <div className="grid grid--3">
+        {evaluation.compositeScore !== null && (
+          <Stat label="Composite score" value={percent(evaluation.compositeScore, 0)} />
         )}
-
-        <div className="grid grid--3">
-          <Stat
-            label="Composite score"
-            value={evaluation.compositeScore === null ? 'not recorded' : percent(evaluation.compositeScore, 0)}
-          />
-          <Stat
-            label="Confidence in verdict"
-            value={
-              evaluation.confidenceInVerdict === null ? 'not recorded' : percent(evaluation.confidenceInVerdict, 0)
-            }
-          />
+        {evaluation.confidenceInVerdict !== null && (
+          <Stat label="Confidence in verdict" value={percent(evaluation.confidenceInVerdict, 0)} />
+        )}
+        {evaluation.checklistPassed !== null && evaluation.checklistTotal !== null && (
           <Stat
             label="Checklist"
-            value={
-              evaluation.checklistTotal === null || evaluation.checklistPassed === null
-                ? 'not recorded'
-                : `${evaluation.checklistPassed} of ${evaluation.checklistTotal}`
-            }
+            value={`${evaluation.checklistPassed} of ${evaluation.checklistTotal}`}
             meta="checks passed"
           />
-        </div>
-
-        {evaluation.summary ? <p className="t-small secondary">{evaluation.summary}</p> : null}
-
-        {evaluation.scoreBreakdown.length > 0 && (
-          <GroupBox title="Score breakdown">
-            <div className="stack">
-              {evaluation.scoreBreakdown.map((entry) => (
-                <Bar key={entry.key} label={titleCase(entry.key)} value={entry.value} />
-              ))}
-            </div>
-          </GroupBox>
-        )}
-
-        {evaluation.checklist.length > 0 && (
-          <GroupBox title="Checklist">
-            <div className="reports__flags">
-              {evaluation.checklist
-                .filter((entry) => entry.active)
-                .map((entry) => (
-                  <Flag key={entry.key} label={titleCase(entry.key)} state={entry.passed} />
-                ))}
-            </div>
-            {evaluation.checklist.some((entry) => !entry.active) && (
-              <span className="t-tiny muted">
-                Checks not applicable to this task mode are omitted:{' '}
-                {evaluation.checklist
-                  .filter((entry) => !entry.active)
-                  .map((entry) => titleCase(entry.key))
-                  .join(', ')}
-                .
-              </span>
-            )}
-          </GroupBox>
-        )}
-
-        {(evaluation.strengths.length > 0 || evaluation.weaknesses.length > 0) && (
-          <div className="grid grid--2">
-            <GroupBox title="Strengths">
-              {evaluation.strengths.length > 0 ? (
-                <BulletList items={evaluation.strengths} />
-              ) : (
-                <span className="t-small muted">None listed.</span>
-              )}
-            </GroupBox>
-            <GroupBox title="Weaknesses">
-              {evaluation.weaknesses.length > 0 ? (
-                <BulletList items={evaluation.weaknesses} />
-              ) : (
-                <span className="t-small muted">None listed.</span>
-              )}
-            </GroupBox>
-          </div>
-        )}
-
-        {evaluation.suggestions.length > 0 && (
-          <div className="stack gap-2">
-            <span className="eyebrow">Improvement suggestions</span>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th style={{ width: 96 }}>Priority</th>
-                  <th style={{ width: '30%' }}>Issue</th>
-                  <th>Suggestion</th>
-                </tr>
-              </thead>
-              <tbody>
-                {evaluation.suggestions.map((entry, index) => (
-                  <tr key={index}>
-                    <td>
-                      <Badge
-                        tone={entry.priority === 'HIGH' ? 'critical' : entry.priority === 'MEDIUM' ? 'caution' : 'neutral'}
-                      >
-                        {entry.priority || 'UNSET'}
-                      </Badge>
-                    </td>
-                    <td>{entry.issue || '-'}</td>
-                    <td className="secondary">{entry.suggestion || '-'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {evaluation.domainsMissed.length > 0 && (
-          <GroupBox title="Domains missed">
-            <div className="reports__chips">
-              {evaluation.domainsMissed.map((domain) => (
-                <Badge key={domain} tone="caution" mono>
-                  {domain}
-                </Badge>
-              ))}
-            </div>
-          </GroupBox>
         )}
       </div>
-    </Card>
+
+      {evaluation.summary ? <p className="reports__prose">{evaluation.summary}</p> : null}
+
+      {evaluation.scoreBreakdown.length > 0 && (
+        <GroupBox title="Score breakdown">
+          <div className="stack">
+            {evaluation.scoreBreakdown.map((entry) => (
+              <Bar key={entry.key} label={titleCase(entry.key)} value={entry.value} />
+            ))}
+          </div>
+        </GroupBox>
+      )}
+
+      {activeChecks.length > 0 && (
+        <GroupBox title="Checklist">
+          <div className="reports__flags">
+            {activeChecks.map((entry) => (
+              <Flag key={entry.key} label={titleCase(entry.key)} state={entry.passed} />
+            ))}
+          </div>
+        </GroupBox>
+      )}
+
+      {(evaluation.strengths.length > 0 || evaluation.weaknesses.length > 0) && (
+        <div className="grid grid--2">
+          {evaluation.strengths.length > 0 && (
+            <GroupBox title="Strengths">
+              <BulletList items={evaluation.strengths} />
+            </GroupBox>
+          )}
+          {evaluation.weaknesses.length > 0 && (
+            <GroupBox title="Weaknesses">
+              <BulletList items={evaluation.weaknesses} />
+            </GroupBox>
+          )}
+        </div>
+      )}
+
+      {evaluation.suggestions.length > 0 && (
+        <div className="stack gap-2">
+          <span className="eyebrow">Improvements the critic asked for</span>
+          <table className="table">
+            <thead>
+              <tr>
+                <th style={{ width: 96 }}>Priority</th>
+                <th style={{ width: '30%' }}>Issue</th>
+                <th>Suggestion</th>
+              </tr>
+            </thead>
+            <tbody>
+              {evaluation.suggestions.map((entry, index) => (
+                <tr key={index}>
+                  <td>
+                    <Badge
+                      tone={entry.priority === 'HIGH' ? 'critical' : entry.priority === 'MEDIUM' ? 'caution' : 'neutral'}
+                    >
+                      {entry.priority || 'UNSET'}
+                    </Badge>
+                  </td>
+                  <td>{entry.issue || '-'}</td>
+                  <td className="secondary">{entry.suggestion || '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {evaluation.domainsMissed.length > 0 && (
+        <GroupBox title="Domains the critic found missing">
+          <div className="reports__chips">
+            {evaluation.domainsMissed.map((domain) => (
+              <Badge key={domain} tone="caution" mono>
+                {domain}
+              </Badge>
+            ))}
+          </div>
+        </GroupBox>
+      )}
+    </Section>
   )
 }
 
-export function SummaryTab({ view, cost }: { view: ReportView; cost: CostSummary | null | undefined }) {
-  const taskOutputs = view.classLabels.length
-    ? view.classLabels.join(' vs ')
-    : view.regressionOutputs.length
-      ? view.regressionOutputs
-          .map((output) => (view.unitByOutput[output] ? `${output} (${view.unitByOutput[output]})` : output))
-          .join(', ')
-      : 'not specified'
+/* --- The document --------------------------------------------------------- */
 
-  const costText = cost && cost.usd !== null && cost.usd !== undefined ? usd(cost.usd) : 'Pricing unavailable'
+function metaLine(view: ReportView): { label: string; value: ReactNode }[] {
+  const rows: { label: string; value: ReactNode }[] = []
+  if (view.taskMode) rows.push({ label: 'Task', value: titleCase(view.taskMode) })
+  if (view.classLabels.length) rows.push({ label: 'Labels', value: view.classLabels.join(' vs ') })
+  else if (view.regressionOutputs.length) {
+    rows.push({
+      label: 'Outputs',
+      value: view.regressionOutputs
+        .map((output) => (view.unitByOutput[output] ? `${output} (${view.unitByOutput[output]})` : output))
+        .join(', '),
+    })
+  }
+  if (view.timestamp) rows.push({ label: 'Executed', value: dateTime(view.timestamp) })
+  if (view.durationSeconds !== null) rows.push({ label: 'Took', value: duration(view.durationSeconds) })
+  if (view.iterations !== null) {
+    rows.push({
+      label: 'Iterations',
+      value:
+        view.selectedIteration !== null ? `${view.selectedIteration} of ${view.iterations} selected` : String(view.iterations),
+    })
+  }
+  return rows
+}
+
+/** One line saying what was asked, in the terms the task itself used. */
+function lede(view: ReportView): string {
+  const name = view.taskName || view.targetCondition || 'Prediction task'
+  if (view.classLabels.length >= 2) {
+    // A binary task is usually named after its positive label, and repeating it
+    // reads as a stutter: "DEPRESSION: DEPRESSION against HEALTHY".
+    const joined = view.classLabels.join(' against ')
+    return view.classLabels[0] === name ? joined : `${name}: ${joined}`
+  }
+  if (view.targetCondition && view.controlCondition)
+    return `${view.targetCondition} against ${view.controlCondition}`
+  if (view.regressionOutputs.length && view.taskMode)
+    return `${titleCase(view.taskMode)} of ${view.regressionOutputs.join(', ')}`
+  return name
+}
+
+export function SummaryTab({ view, cost }: { view: ReportView; cost: CostSummary | null | undefined }) {
+  const meta = metaLine(view)
+
+  const stats: { label: string; value: ReactNode; meta?: ReactNode }[] = []
+  if (view.primaryOutput) {
+    stats.push({
+      label: 'Primary output',
+      value: (
+        <span className={view.primaryOutput.length > 24 ? 'reports__stat-value--long' : undefined} title={view.primaryOutput}>
+          {view.primaryOutput}
+        </span>
+      ),
+      meta: view.taskName || undefined,
+    })
+  }
+  if (view.confidenceLevel || view.rootConfidence !== null) {
+    stats.push({
+      label: 'Confidence',
+      value: view.confidenceLevel || percent(view.rootConfidence, 0),
+      meta: view.confidenceLevel && view.rootConfidence !== null ? percent(view.rootConfidence, 0) : undefined,
+    })
+  }
+  if (view.verdict) {
+    stats.push({
+      label: 'Critic verdict',
+      value: (
+        <span
+          style={{
+            color:
+              view.verdict === 'SATISFACTORY'
+                ? 'var(--positive)'
+                : view.verdict === 'UNSATISFACTORY'
+                  ? 'var(--critical)'
+                  : 'var(--text)',
+          }}
+        >
+          {view.verdict}
+        </span>
+      ),
+      meta:
+        view.evaluation.compositeScore === null ? undefined : `score ${percent(view.evaluation.compositeScore, 0)}`,
+    })
+  }
+  if (view.totalTokens !== null) {
+    stats.push({
+      label: 'Tokens',
+      value: formatTokens(view.totalTokens),
+      meta:
+        view.promptTokens === null
+          ? undefined
+          : `${formatTokens(view.promptTokens)} in, ${formatTokens(view.completionTokens)} out`,
+    })
+  }
+  // A zero with no priced lines behind it says nothing, so it is left out.
+  if (cost && cost.usd !== null && cost.usd !== undefined && cost.lines.length > 0) {
+    stats.push({
+      label: 'Cost',
+      value: usd(cost.usd),
+      meta: `${cost.lines.length} ${cost.lines.length === 1 ? 'model' : 'models'}`,
+    })
+  }
+
+  const omissions: string[] = []
+  if (!view.root) omissions.push('a prediction tree')
+  if (view.findingsSource === 'none') omissions.push('any key findings')
+  if (!view.coverage.present) omissions.push('a coverage ledger')
+  if (view.evaluation.source === 'none') omissions.push('a critic evaluation')
 
   return (
-    <>
-      <Card title={view.participantId} subtitle={view.taskName || view.targetCondition || 'Prediction task'}>
-        <div className="stack gap-4">
-          <KeyValue
-            rows={[
-              { label: 'Task mode', value: view.taskMode ? titleCase(view.taskMode) : 'not specified' },
-              { label: view.classLabels.length ? 'Labels' : 'Outputs', value: taskOutputs },
-              {
-                label: 'Context',
-                value:
-                  view.targetCondition || view.controlCondition
-                    ? `${view.targetCondition || 'unspecified target'} against ${view.controlCondition || 'unspecified comparator'}`
-                    : 'not specified',
-              },
-              { label: 'Executed', value: view.timestamp ? dateTime(view.timestamp) : 'timestamp not recorded' },
-              {
-                label: 'Duration',
-                value: view.durationSeconds === null ? 'not recorded' : duration(view.durationSeconds),
-              },
-            ]}
-          />
-          <Callout
-            tone="neutral"
-            title={
-              view.iterations === null
-                ? 'Iteration count not recorded'
-                : `Iteration ${view.selectedIteration ?? '?'} of ${view.iterations} was selected`
-            }
-          >
-            {view.selectionReason || 'No selection reason was recorded for this run.'}
-          </Callout>
-        </div>
-      </Card>
+    <article className="reports__document">
+      <header className="reports__doc-head">
+        <span className="eyebrow">Prediction report</span>
+        <h1 className="reports__doc-title">{view.participantId}</h1>
+        <p className="reports__doc-lede">{lede(view)}</p>
+        {meta.length > 0 && (
+          <dl className="reports__doc-meta">
+            {meta.map((row) => (
+              <div key={row.label} className="reports__doc-meta-item">
+                <dt>{row.label}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </header>
 
-      <Card>
-        <div className="grid grid--4">
-          <Stat
-            label="Primary output"
-            // A multivariate output is a sentence, not a word, so it steps down
-            // a size rather than pushing the row out of rhythm.
-            value={
-              <span
-                className={view.primaryOutput.length > 24 ? 'reports__stat-value--long' : undefined}
-                title={view.primaryOutput}
-              >
-                {view.primaryOutput || 'not recorded'}
-              </span>
-            }
-            meta={view.taskName}
-          />
-          <Stat
-            label="Confidence"
-            value={view.confidenceLevel || 'not recorded'}
-            meta={view.rootConfidence === null ? 'no score' : percent(view.rootConfidence, 0)}
-          />
-          <Stat
-            label="Critic verdict"
-            value={
-              <span style={{ color: view.verdict === 'SATISFACTORY' ? 'var(--positive)' : view.verdict === 'UNSATISFACTORY' ? 'var(--critical)' : 'var(--text)' }}>
-                {view.verdict || 'not recorded'}
-              </span>
-            }
-            meta={
-              view.evaluation.compositeScore === null ? undefined : `score ${percent(view.evaluation.compositeScore, 0)}`
-            }
-          />
-          <Stat
-            label="Total tokens"
-            value={view.totalTokens === null ? 'not recorded' : formatTokens(view.totalTokens)}
-            meta={
-              view.promptTokens === null
-                ? undefined
-                : `${formatTokens(view.promptTokens)} in, ${formatTokens(view.completionTokens)} out`
-            }
-          />
-          <Stat label="Cost" value={costText} meta={cost ? `${cost.lines.length} model lines` : undefined} />
+      {stats.length > 0 && (
+        <div className="grid grid--4 reports__kpis">
+          {stats.map((stat) => (
+            <Stat key={stat.label} label={stat.label} value={stat.value} meta={stat.meta} />
+          ))}
         </div>
-      </Card>
+      )}
 
-      <Card
-        title="Prediction detail"
-        subtitle={view.isHierarchical ? 'Hierarchical task: the root and each child node' : undefined}
-      >
-        {view.root ? <NodeView node={view.root} root /> : <NotRecorded what="A prediction tree" />}
-      </Card>
+      {view.selectionReason && <p className="reports__prose">{view.selectionReason}</p>}
+
+      {view.root && (
+        <Section
+          title="Prediction"
+          note={view.isHierarchical ? 'A hierarchical task: the root, then each child node.' : undefined}
+        >
+          <NodeView node={view.root} root />
+        </Section>
+      )}
+
+      {view.clinicalSummary && (
+        <Section title="Clinical summary">
+          <p className="reports__prose">{view.clinicalSummary}</p>
+        </Section>
+      )}
 
       <Evidence view={view} />
-
-      {view.clinicalSummary ? (
-        <Card title="Clinical summary">
-          <p className="t-body secondary" style={{ maxWidth: '72ch', lineHeight: 1.7 }}>
-            {view.clinicalSummary}
-          </p>
-        </Card>
-      ) : null}
 
       <CoverageSection view={view} />
 
       <CriticSection view={view} />
-    </>
+
+      <Omissions items={omissions} />
+    </article>
   )
 }

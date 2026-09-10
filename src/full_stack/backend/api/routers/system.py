@@ -6,15 +6,18 @@ import platform
 import sys
 from typing import Any, Dict
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Path as PathParam, Query
 
 from ...config.settings import COMPASS_FULL_NAME, COMPASS_VERSION
 from ...data.models.execution_plan import ToolName
 from ...runtime.event_bus import STAGE_NAMES
 from .. import DEFAULT_MODEL
+from ..catalog import connectivity
 from ..cost import model_profile
 from ..flow import TOOL_FAMILIES
 from ..schemas import AGENT_ROLES, INSTRUCTION_SLOTS
+from ..storage import clear as clear_storage
+from ..storage import describe as describe_storage
 
 router = APIRouter(tags=["system"])
 
@@ -52,6 +55,37 @@ AGENT_SUMMARIES = [
 @router.get("/health")
 def health() -> Dict[str, Any]:
     return {"status": "ok", "version": COMPASS_VERSION}
+
+
+@router.get("/system/connectivity")
+def system_connectivity(refresh: bool = Query(False, description="Skip the cached probe")) -> Dict[str, Any]:
+    """
+    Whether this machine can reach the network and the configured provider.
+
+    A healthy connection is shown by showing nothing at all, so this exists to
+    make the failing case visible and is cached to stay cheap to poll.
+    """
+    return connectivity(force=refresh)
+
+
+@router.get("/system/storage")
+def system_storage() -> Dict[str, Any]:
+    """Everything COMPASS has written on this machine, with its size on disk."""
+    return describe_storage()
+
+
+@router.delete("/system/storage/{key}")
+def delete_system_storage(key: str = PathParam(..., description="One storage entry key")) -> Dict[str, Any]:
+    """
+    Remove one entry's contents.
+
+    Only the fixed set of keys above is accepted, so this can never be aimed at
+    a path of the caller's choosing.
+    """
+    try:
+        return clear_storage(key)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=f"No such storage entry: {key}") from exc
 
 
 @router.get("/capabilities")

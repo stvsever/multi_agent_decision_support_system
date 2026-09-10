@@ -11,22 +11,21 @@ from ..catalog import CatalogError, account_status, fetch_catalog
 from ..config_store import (
     credential_status,
     load_config,
+    load_notices,
     patch_config,
     reset_config,
     set_credential,
 )
-from ..engine_bridge import effective_settings_snapshot
-from ..schemas import ConfigPatch, CredentialUpdate, DashboardConfig
+from ..engine_bridge import effective_settings_snapshot, run_blockers
+from ..schemas import ConfigPatch, CredentialUpdate, DashboardConfig, readable_validation_error
 
 router = APIRouter(prefix="/settings", tags=["settings"])
 
+CREDENTIAL_PROVIDERS = ("openrouter", "huggingface")
 
-def _readable(exc: ValidationError) -> str:
-    parts = []
-    for error in exc.errors():
-        location = ".".join(str(p) for p in error.get("loc", ()) if p != "__root__")
-        parts.append(f"{location}: {error.get('msg', 'invalid value')}" if location else error.get("msg", "invalid"))
-    return "; ".join(parts) or "Invalid configuration."
+#: Shared with the deployment planner so a rejected local backend reads the same
+#: on both screens.
+_readable = readable_validation_error
 
 
 @router.get("")
@@ -37,8 +36,12 @@ def read_settings() -> Dict[str, Any]:
         "effective": effective_settings_snapshot(config),
         "credentials": {
             provider: credential_status(provider).model_dump()
-            for provider in ("openrouter", "openai")
+            for provider in CREDENTIAL_PROVIDERS
         },
+        # Anything the loader had to repair, and anything that would stop a run
+        # right now, so the interface can say so before the user starts one.
+        "notices": load_notices(),
+        "blockers": run_blockers(config),
     }
 
 
@@ -53,6 +56,7 @@ def update_settings(patch: ConfigPatch) -> Dict[str, Any]:
     return {
         "config": config.model_dump(mode="json"),
         "effective": effective_settings_snapshot(config),
+        "blockers": run_blockers(config),
     }
 
 
@@ -61,13 +65,21 @@ def replace_settings(config: DashboardConfig) -> Dict[str, Any]:
     from ..config_store import save_config
 
     saved = save_config(config)
-    return {"config": saved.model_dump(mode="json"), "effective": effective_settings_snapshot(saved)}
+    return {
+        "config": saved.model_dump(mode="json"),
+        "effective": effective_settings_snapshot(saved),
+        "blockers": run_blockers(saved),
+    }
 
 
 @router.post("/reset")
 def reset() -> Dict[str, Any]:
     config = reset_config()
-    return {"config": config.model_dump(mode="json"), "effective": effective_settings_snapshot(config)}
+    return {
+        "config": config.model_dump(mode="json"),
+        "effective": effective_settings_snapshot(config),
+        "blockers": run_blockers(config),
+    }
 
 
 @router.put("/credentials")
@@ -89,4 +101,7 @@ def verify_credential() -> Dict[str, Any]:
     except CatalogError as exc:
         catalog_ready = False
         catalog_error = str(exc)
-    return {**status, "catalog_ready": catalog_ready, "catalog_error": catalog_error}
+    # Readiness is a key that works and a catalog that answers. Remaining credit
+    # is reported for the cost guardrails and never decides this.
+    ready = bool(status.get("valid")) and catalog_ready
+    return {**status, "ready": ready, "catalog_ready": catalog_ready, "catalog_error": catalog_error}

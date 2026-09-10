@@ -8,12 +8,24 @@
 .shell--collapsed { grid-template-columns: var(--nav-w-collapsed) 1fr; }
 
 .shell__nav {
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--bg-sunken);
-  border-right: 1px solid var(--line);
   min-width: 0;
   overflow: hidden;
+  /* The rail divider is drawn on top of the rail rather than as a border, so
+     the content box is the full --nav-w-collapsed and centring is exact. */
+}
+.shell__nav::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+  pointer-events: none;
 }
 
 .shell__brand {
@@ -25,7 +37,6 @@
   border-bottom: 1px solid var(--line-faint);
   flex: none;
 }
-.shell--collapsed .shell__brand { padding: 0; justify-content: center; }
 
 .shell__mark {
   display: flex;
@@ -34,11 +45,16 @@
   width: 27px;
   height: 27px;
   flex: none;
+  padding: 0;
+  border: none;
   border-radius: var(--r-md);
   background: var(--accent);
   color: var(--accent-contrast);
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out);
 }
+.shell__mark:hover { transform: scale(1.06); }
 .shell__wordmark {
   font-size: var(--t-small);
   font-weight: 680;
@@ -53,6 +69,11 @@
   flex-direction: column;
   gap: 2px;
 }
+/* Each row is a flex line so the tooltip wrapper around the link stretches to
+   the full rail width. Without this the wrapper shrink-wraps the icon and the
+   link lands hard against the left edge. */
+.shell__links li { display: flex; }
+.shell__links li > span { flex: 1 1 auto; min-width: 0; }
 
 .shell__link {
   display: flex;
@@ -69,7 +90,6 @@
   position: relative;
   width: 100%;
 }
-.shell--collapsed .shell__link { justify-content: center; padding: 0; }
 .shell__link:hover { background: var(--bg-hover); color: var(--text); text-decoration: none; }
 .shell__link--active {
   background: var(--accent-50);
@@ -108,7 +128,6 @@
   text-decoration: none;
   font-weight: 550;
 }
-.shell--collapsed .shell__active { justify-content: center; padding: var(--s-2) 0; }
 .shell__active:hover { text-decoration: none; }
 
 .shell__collapse {
@@ -125,8 +144,41 @@
   cursor: pointer;
   transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
-.shell--collapsed .shell__collapse { justify-content: center; padding: 0; }
-.shell__collapse:hover { background: var(--bg-hover); color: var(--text); }
+.shell__collapse:hover:not(:disabled) { background: var(--bg-hover); color: var(--text); }
+/* Below the breakpoint the rail width is not a choice, so the control says so
+   rather than pretending to toggle something. */
+.shell__collapse:disabled { cursor: default; color: var(--text-faint); }
+
+/* --- Collapsed rail ------------------------------------------------------ */
+
+/* Every control becomes the same square box, centred in the rail by equal auto
+   margins, so the icons line up on the rail's own centre line.
+
+   Only this class narrows the rail. A window too narrow for labels is turned
+   into the same class by AppShell rather than by a second media query here,
+   because a media query that set the width without the centring rules is
+   exactly how the icons ended up hard against the left edge. */
+.shell--collapsed .shell__nav { --rail-box: 36px; }
+
+.shell--collapsed .shell__brand { padding: 0; justify-content: center; }
+
+.shell--collapsed .shell__links { padding: var(--s-3) 0; }
+.shell--collapsed .shell__nav-footer { padding: var(--s-2) 0; }
+
+.shell--collapsed .shell__link,
+.shell--collapsed .shell__active,
+.shell--collapsed .shell__collapse {
+  width: var(--rail-box);
+  min-width: var(--rail-box);
+  margin-inline: auto;
+  padding: 0;
+  gap: 0;
+  justify-content: center;
+}
+.shell--collapsed .shell__active { height: var(--rail-box); }
+/* The accent fill already marks the active row; the edge bar has nowhere to
+   sit once the row is a centred square. */
+.shell--collapsed .shell__link--active::before { display: none; }
 
 .shell__main { display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
 
@@ -143,23 +195,22 @@
   z-index: 20;
 }
 
-.shell__pill {
+/* Failure only. A working connection renders nothing at all. */
+.shell__offline {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
-  height: var(--control-h-sm);
-  padding: 0 var(--s-3);
+  gap: 5px;
+  height: 21px;
+  padding: 0 var(--s-2);
   border-radius: var(--r-full);
-  border: 1px solid var(--line-strong);
-  background: var(--bg-elevated);
-  color: var(--text-secondary);
+  border: 1px solid color-mix(in srgb, var(--critical) 34%, transparent);
+  background: var(--critical-soft);
+  color: var(--critical);
   cursor: pointer;
   white-space: nowrap;
-  transition: all var(--dur-fast) var(--ease-out);
+  transition: background var(--dur-fast) var(--ease-out);
 }
-.shell__pill:hover { border-color: var(--text-faint); }
-.shell__pill--ok { color: var(--positive); border-color: color-mix(in srgb, var(--positive) 32%, transparent); background: var(--positive-soft); }
-.shell__pill--warn { color: var(--caution); border-color: color-mix(in srgb, var(--caution) 36%, transparent); background: var(--caution-soft); }
+.shell__offline:hover { background: color-mix(in srgb, var(--critical) 18%, transparent); }
 
 .shell__gear {
   display: flex;
@@ -206,7 +257,9 @@
 .grid--3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
 .grid--4 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 
+/* The rail is not sized here. AppShell puts .shell--collapsed on the element at
+   this same width, so the collapsed geometry and the collapsed width always
+   arrive together. */
 @media (max-width: 900px) {
-  .shell { grid-template-columns: var(--nav-w-collapsed) 1fr; }
   .page { padding: var(--s-4) var(--s-4) var(--s-10); }
 }

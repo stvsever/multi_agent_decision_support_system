@@ -62,7 +62,7 @@ export function CostSection() {
             field="currency_decimals"
             min={2}
             max={6}
-            hint="Precision used when a cost is written to a report. Two to six."
+            hint="Precision used when a cost is written to a report."
             info={
               <p>
                 Per-run costs are often fractions of a cent, so the interface already widens the precision for small
@@ -74,9 +74,8 @@ export function CostSection() {
       </Group>
 
       <p className="t-small secondary">
-        The projection comes from the participant's input size, the plan shape, the iteration ceiling, and the live
-        price of every model the run would use. Models with no published price are counted as unknown rather than free,
-        which is why an estimate can carry a spread.
+        A model with no published price is counted as unknown rather than free, which is why an estimate can carry a
+        spread. Self-hosted inference has no per-token price, so neither threshold applies to it.
       </p>
     </>
   )

@@ -8,34 +8,20 @@
 
 import clsx from 'clsx'
 import { useQueryClient } from '@tanstack/react-query'
-import {
-  AlertTriangle,
-  ArrowLeft,
-  Download,
-  FileText,
-  RefreshCw,
-  X,
-} from 'lucide-react'
+import { ArrowLeft, CircleSlash, Download, FileText, Layers, RefreshCw, X } from 'lucide-react'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import {
-  Badge,
-  Button,
-  Callout,
-  Disclosure,
-  EmptyState,
-  Skeleton,
-  Tabs,
-  Tooltip,
-} from '@/components/ui/primitives'
+import { Badge, Button, Callout, EmptyState, Skeleton, Tabs, Tooltip } from '@/components/ui/primitives'
 import { api } from '@/lib/api'
 import { duration as formatDuration, elapsedSince, tokens as formatTokens, usd } from '@/lib/format'
 import { queryKeys, useNow, useRunStream, useSettings } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
 import type { GraphNode, RunDetail, RunState, RunStatus } from '@/lib/types'
+import { AuditView } from './AuditView'
 import { CostPanel } from './CostPanel'
 import { CriticPanel } from './CriticPanel'
 import { EventsPanel } from './EventsPanel'
+import { FailurePanel } from './FailurePanel'
 import { FlowCanvas } from './FlowCanvas'
 import { LogsPanel } from './LogsPanel'
 import { NodeInspector } from './NodeInspector'
@@ -113,6 +99,10 @@ export function RunDetailPage() {
     )
   }
 
+  // An audit calls no model and publishes no plan, so the live console would be
+  // an empty frame. It gets a screen that shows what an audit actually proves.
+  if (detail.audit) return <AuditView detail={detail} />
+
   return (
     <RunConsole
       detail={detail}
@@ -179,16 +169,11 @@ function RunConsole({
     <div className="page page--wide run-page">
       <RunHeader detail={detail} connected={connected} running={running} />
 
-      {detail.status === 'failed' && (
-        <Callout tone="critical" icon={<AlertTriangle size={15} />} title="This run failed">
-          <div className="stack gap-2">
-            <span>{detail.error ?? 'The worker exited without a reason.'}</span>
-            {detail.traceback && (
-              <Disclosure title="Traceback" subtitle="The worker stack trace">
-                <pre className="run-pre run-pre--tall run-pre--critical">{detail.traceback}</pre>
-              </Disclosure>
-            )}
-          </div>
+      {detail.status === 'failed' && <FailurePanel detail={detail} />}
+
+      {detail.status === 'cancelled' && (
+        <Callout tone="neutral" icon={<CircleSlash size={15} />} title="This run was cancelled">
+          Everything below is what the engine had produced when the worker was stopped.
         </Callout>
       )}
 
@@ -197,6 +182,7 @@ function RunConsole({
         currentStage={state.current_stage ?? -1}
         events={events}
         running={running}
+        failed={detail.status === 'failed'}
         iteration={state.iteration ?? 1}
         maxIterations={state.max_iterations}
       />
@@ -233,7 +219,7 @@ function RunConsole({
 
         <section className="run-side card">
           <header className="card__header run-side__head">
-            <Tabs<TabKey> value={tab} options={tabs} onChange={onTab} />
+            <Tabs<TabKey> value={tab} options={tabs} onChange={onTab} spread />
           </header>
           <div className="run-side__body">
             {tab === 'timeline' && <TimelinePanel steps={steps} history={history} graph={detail.graph} />}
@@ -293,6 +279,12 @@ function RunHeader({ detail, connected, running }: { detail: RunDetail; connecte
           <ArrowLeft size={14} />
           <span className="t-tiny">Runs</span>
         </Link>
+        {detail.batch_id && (
+          <Link to="/batch" state={{ batchId: detail.batch_id }} className="run-back">
+            <Layers size={13} />
+            <span className="t-tiny">Part of a batch</span>
+          </Link>
+        )}
         <div className="grow" />
         <ConnectionDot connected={connected} running={running} />
         <div className="row gap-2">
@@ -303,21 +295,25 @@ function RunHeader({ detail, connected, running }: { detail: RunDetail; connecte
           )}
           {detail.status === 'succeeded' && (
             <>
-              <a
-                href={api.reports.pdfUrl({ run_id: detail.id })}
-                target="_blank"
-                rel="noreferrer"
-                className="run-plainlink"
-              >
-                <Button size="sm" variant="secondary" icon={<Download size={14} />}>
-                  PDF
-                </Button>
-              </a>
+              <Tooltip content="Download the service-composed summary of this run as a PDF">
+                <a
+                  href={api.reports.pdfUrl({ run_id: detail.id })}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="run-plainlink"
+                >
+                  <Button size="sm" variant="secondary" icon={<Download size={14} />}>
+                    PDF
+                  </Button>
+                </a>
+              </Tooltip>
               <Button
                 size="sm"
                 variant="secondary"
                 icon={<FileText size={14} />}
-                onClick={() => navigate(`/reports/${encodeURIComponent(detail.participant_id)}?run=${detail.id}`)}
+                onClick={() =>
+                  navigate(`/reports/${encodeURIComponent(detail.participant_id)}?run_id=${detail.id}`)
+                }
               >
                 Report
               </Button>
@@ -337,7 +333,6 @@ function RunHeader({ detail, connected, running }: { detail: RunDetail; connecte
             <h1 className="page__title truncate">{detail.participant_id}</h1>
             <Badge tone={statusTone(detail.status)}>{STATUS_LABEL[detail.status]}</Badge>
             <Badge tone="neutral">{taskModeLabel(detail.task)}</Badge>
-            {detail.audit && <Badge tone="info">Audit</Badge>}
             {detail.verdict && <Badge tone={verdictTone(detail.verdict)}>{detail.verdict}</Badge>}
           </div>
           <span className="t-small muted truncate">
@@ -360,12 +355,16 @@ function RunHeader({ detail, connected, running }: { detail: RunDetail; connecte
           <div className="stat">
             <span className="stat__label">Tokens</span>
             <span className="stat__value tabular">{formatTokens(detail.cost?.total_tokens || state.total_tokens || 0)}</span>
-            <span className="stat__meta tabular">of ~{formatTokens(detail.estimate?.total_tokens ?? 0)} projected</span>
+            <span className="stat__meta tabular">
+              {detail.estimate?.total_tokens ? `of ~${formatTokens(detail.estimate.total_tokens)} projected` : 'no projection'}
+            </span>
           </div>
           <div className="stat run-head__cost">
             <span className="stat__label">Cost</span>
             <span className="stat__value tabular">{usd(spent)}</span>
-            <span className="stat__meta tabular">of ~{usd(projected)} projected</span>
+            <span className="stat__meta tabular">
+              {projected === null ? 'no projection' : `of ~${usd(projected)} projected`}
+            </span>
             <span className="run-costbar" aria-hidden>
               <span
                 className={clsx('run-costbar__fill', share > 1 && 'run-costbar__fill--over')}
@@ -397,12 +396,13 @@ const LiveElapsed = memo(function LiveElapsed({
 })
 
 function ConnectionDot({ connected, running }: { connected: boolean; running: boolean }) {
-  const label = connected ? 'Live stream' : running ? 'Polling' : 'Stream closed'
-  const hint = connected
-    ? 'Attached to the server-sent event stream. Updates arrive as the engine emits them.'
-    : running
-      ? 'The event stream is not attached, so the screen refreshes by polling every two seconds.'
-      : 'This run has finished, so there is nothing left to stream.'
+  const label = connected && running ? 'Live stream' : running ? 'Polling' : 'Stream closed'
+  const hint =
+    connected && running
+      ? 'Attached to the server-sent event stream. Updates arrive as the engine emits them.'
+      : running
+        ? 'The event stream is not attached, so the screen refreshes by polling every two seconds.'
+        : 'This run has finished, so there is nothing left to stream.'
   return (
     <Tooltip content={hint}>
       <span className={clsx('run-conn', connected && running && 'run-conn--live', !connected && running && 'run-conn--poll')}>

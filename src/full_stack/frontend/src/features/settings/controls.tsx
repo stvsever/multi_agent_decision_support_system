@@ -240,7 +240,6 @@ export function SliderControl({
   min,
   max,
   step = 1,
-  presets,
   suffix,
   format,
 }: {
@@ -249,7 +248,6 @@ export function SliderControl({
   min: number
   max: number
   step?: number
-  presets?: number[]
   suffix?: string
   format?: (value: number) => string
 }) {
@@ -273,7 +271,6 @@ export function SliderControl({
       min={min}
       max={max}
       step={step}
-      presets={presets}
       suffix={suffix}
       format={format}
       onChange={(next) => {
@@ -330,6 +327,7 @@ export function NumberSetting({
   step,
   integer = true,
   suffix,
+  width,
 }: {
   label: string
   hint?: ReactNode
@@ -341,6 +339,8 @@ export function NumberSetting({
   step?: number
   integer?: boolean
   suffix?: string
+  /** Set on a field that stands alone, so a number box does not span the panel. */
+  width?: number
 }) {
   const { config, update } = useSettingsController()
   const bucket = config[section] as unknown as Record<string, number>
@@ -356,6 +356,7 @@ export function NumberSetting({
           max={max}
           step={step}
           integer={integer}
+          width={width}
           onCommit={(next) => update(section, { [field]: next } as never)}
         />
         {suffix && (

@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# COMPASS HPC — Step 0: Pre-flight Health Check
+# COMPASS HPC Step 0: Pre-flight Health Check
 # =============================================================================
 #
 # PURPOSE: Validates the HPC setup before submitting compute jobs.
@@ -20,7 +20,7 @@
 set -euo pipefail
 
 echo "============================================="
-echo " COMPASS HPC — Pre-flight Health Check"
+echo " COMPASS HPC: Pre-flight Health Check"
 echo "============================================="
 echo ""
 echo "Host:    $(hostname)"
@@ -73,7 +73,7 @@ elif command -v singularity &>/dev/null; then
 else
     HOSTNAME_CHECK=$(hostname)
     if [[ "$HOSTNAME_CHECK" == login* ]]; then
-        check "Apptainer not on login node (OK — it's on compute nodes)" "warn"
+        check "Apptainer not on login node (OK, it lives on compute nodes)" "warn"
         echo "       This is normal when Apptainer is restricted to compute nodes."
     else
         check "No apptainer/singularity found on $(hostname)" "fail"
@@ -294,7 +294,7 @@ if [ ${FAIL} -gt 0 ]; then
     exit 1
 elif [ ${WARN} -gt 0 ]; then
     echo ""
-    echo " ⚠ Some warnings detected — review above before proceeding."
+    echo " ⚠ Some warnings detected. Review the output above before proceeding."
 else
     echo ""
     echo " ✓ All checks passed! Ready to submit jobs."

@@ -4,16 +4,20 @@ import { useMemo } from 'react'
 import { MousePointerClick } from 'lucide-react'
 import { Badge, Card, CopyButton, EmptyState } from '@/components/ui/primitives'
 import { number, percent, signed } from '@/lib/format'
-import type { Band } from '@/lib/types'
-import { BandDot, Breadcrumb, DeviationBar, MagnitudeBar, ScoreChip, crumbsOf } from './atoms'
+import type { AggregateStats, Band } from '@/lib/types'
+import { BandDot, BoxGlyph, Breadcrumb, DeviationBar, MagnitudeBar, ScoreChip, crumbsOf } from './atoms'
 import {
   BAND_LABEL,
+  MEMBERSHIP_LABEL,
   bandColor,
   chainOf,
   collectAtoms,
   featureColumns,
   histogram,
+  membershipOf,
   prettyLabel,
+  spreadOf,
+  type Membership,
   type OntologyIndex,
 } from './model'
 import { useMeasure } from './useOntologyIndex'
@@ -40,13 +44,15 @@ export function NodeInspector({ index, nodeKey, feature, onSelect }: NodeInspect
         <EmptyState
           icon={<MousePointerClick size={20} />}
           title="Nothing selected"
-          body="Pick a node in any view, or a chip from the most deviating strip."
+          body="Pick a node in any view. Its evidence, its place in the hierarchy and, in a cohort, its spread all land here."
         />
       </Card>
     )
   }
 
   const node = flat.node
+  const aggregate = node.aggregate ?? null
+  const membership = membershipOf(node)
   const chain = chainOf(index, flat.key)
   const isLeaf = flat.children.length === 0
   const coverage = node.leaf_count > 0 ? node.present_leaves / node.leaf_count : null
@@ -100,6 +106,8 @@ export function NodeInspector({ index, nodeKey, feature, onSelect }: NodeInspect
             />
           </div>
         </div>
+
+        {aggregate && <CohortBlock aggregate={aggregate} membership={membership} clamp={index.clamp} />}
 
         <dl className="kv onto-kv">
           <dt>Depth</dt>
@@ -211,6 +219,71 @@ export function NodeInspector({ index, nodeKey, feature, onSelect }: NodeInspect
         )}
       </div>
     </Card>
+  )
+}
+
+/**
+ * What the cohort says about one node.
+ *
+ * Membership first, because a mean over three of nine participants means
+ * something different from a mean over all nine, and the reader has to see
+ * which one they are looking at before they read the number.
+ */
+function CohortBlock({
+  aggregate,
+  membership,
+  clamp,
+}: {
+  aggregate: AggregateStats
+  membership: Membership | null
+  clamp: number
+}) {
+  const spread = spreadOf(aggregate)
+  const tone: Record<Membership, 'positive' | 'info' | 'caution' | 'accent'> = {
+    shared: 'positive',
+    common: 'info',
+    partial: 'caution',
+    unique: 'accent',
+  }
+  return (
+    <section className="stack gap-2 onto-agg">
+      <div className="row between gap-2 wrap">
+        {membership && <Badge tone={tone[membership]}>{MEMBERSHIP_LABEL[membership]}</Badge>}
+        <span className="t-tiny muted tabular">
+          {number(aggregate.present_in)} / {number(aggregate.participant_count)} participants
+        </span>
+      </div>
+      {spread && spread.n > 1 ? (
+        <>
+          <BoxGlyph spread={spread} clamp={clamp} width={196} height={16} />
+          <dl className="kv onto-kv">
+            <dt>Median</dt>
+            <dd className="tabular">{signed(aggregate.median)}</dd>
+            <dt>Quartiles</dt>
+            <dd className="tabular">
+              {signed(aggregate.q1)} to {signed(aggregate.q3)}
+            </dd>
+            <dt>Range</dt>
+            <dd className="tabular">
+              {signed(aggregate.min)} to {signed(aggregate.max)}
+            </dd>
+            <dt>Mean, sd</dt>
+            <dd className="tabular">
+              {signed(aggregate.mean)}
+              {aggregate.sd === null ? '' : ` ± ${aggregate.sd.toFixed(2)}`}
+            </dd>
+            <dt>Measured</dt>
+            <dd className="tabular">n {number(aggregate.n)}</dd>
+          </dl>
+        </>
+      ) : (
+        <span className="t-tiny muted">
+          {aggregate.n === 1
+            ? 'One participant carries this, so there is no spread to show.'
+            : 'No measured value in the selection.'}
+        </span>
+      )}
+    </section>
   )
 }
 

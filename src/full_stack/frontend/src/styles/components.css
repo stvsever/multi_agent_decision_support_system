@@ -170,12 +170,25 @@
 
 .segmented {
   display: inline-flex;
+  /* Never stretch to a stack's width: a two-option control that spans the
+     whole panel reads as a table, not as a choice. */
+  align-self: flex-start;
+  max-width: 100%;
   padding: 2px;
   gap: 2px;
   background: var(--bg-inset);
   border-radius: var(--r-md);
   border: 1px solid var(--line-faint);
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.segmented::-webkit-scrollbar { display: none; }
+.segmented--block {
+  display: flex;
+  width: 100%;
+  align-self: stretch;
+}
+.segmented--block .segmented__item { flex: 1 1 0; }
 .segmented__item {
   border: none;
   background: transparent;
@@ -506,6 +519,8 @@
   scrollbar-width: none;
 }
 .tabs::-webkit-scrollbar { display: none; }
+.tabs--spread { gap: 0; }
+.tabs--spread .tabs__item { flex: 1 1 0; justify-content: center; }
 .tabs__item {
   position: relative;
   border: none;

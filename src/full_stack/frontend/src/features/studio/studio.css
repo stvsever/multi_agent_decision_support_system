@@ -48,9 +48,36 @@
 .studio__step-num--done {
   background: var(--positive);
   border-color: var(--positive);
-  color: #fff;
+  /* Text on a filled positive surface, the same token the run stage markers use. */
+  color: var(--text-inverse);
 }
 .studio__step-body { padding: var(--s-5); }
+.studio__step-todo { color: var(--caution); }
+
+/* Batch controls, revealed in place once the cohort is larger than one. */
+.studio__batch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  margin-top: var(--s-5);
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--r-md);
+  background: var(--bg-sunken);
+}
+
+.studio__reset {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--t-micro);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.studio__reset:hover { color: var(--text); }
+.studio__warn { color: var(--caution); line-height: 1.45; }
 
 .studio__steps {
   display: flex;
@@ -159,27 +186,8 @@
   height: 24px;
 }
 .chiplist__input::placeholder { color: var(--text-faint); }
-
-/* --- Task tree ------------------------------------------------------------ */
-
-.tasknode {
-  border: 1px solid var(--line);
-  border-left: 2px solid var(--accent-200);
-  border-radius: var(--r-md);
-  background: var(--bg-elevated);
-  margin-bottom: var(--s-2);
-}
-.tasknode__head {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  flex-wrap: wrap;
-  padding: var(--s-2) var(--s-3);
-  border-bottom: 1px solid var(--line-faint);
-  background: var(--bg-sunken);
-  border-radius: var(--r-md) var(--r-md) 0 0;
-}
-.tasknode__body { padding: var(--s-3); }
+.chiplist--invalid { border-color: var(--critical); }
+.chiplist--invalid:focus-within { box-shadow: 0 0 0 3px var(--critical-soft); }
 
 /* --- Participant picker --------------------------------------------------- */
 
@@ -232,7 +240,8 @@
   margin-top: 1px;
   border-radius: var(--r-xs);
   border: 1.5px solid var(--line-strong);
-  color: #fff;
+  /* The tick only shows once the box is filled with the accent. */
+  color: var(--accent-contrast);
 }
 .picker__row--on .picker__mark { background: var(--accent); border-color: var(--accent); }
 .picker__row--bad .picker__mark { border-color: var(--critical); color: var(--critical); }
@@ -245,3 +254,317 @@
   white-space: nowrap;
 }
 .picker__cov { font-size: var(--t-tiny); color: var(--text-muted); flex: none; white-space: nowrap; }
+
+
+/* --- Requirements strip --------------------------------------------------- */
+
+.taskreq {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--line-faint);
+  border-radius: var(--r-md);
+  background: var(--bg-sunken);
+}
+.taskreq__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: 2px var(--s-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-full);
+  background: var(--bg-elevated);
+  font-size: var(--t-tiny);
+  color: var(--text-secondary);
+}
+.taskreq__pill--met {
+  border-color: color-mix(in srgb, var(--positive) 40%, transparent);
+  background: var(--positive-soft);
+  color: var(--positive);
+}
+.taskreq__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-faint);
+}
+
+/* --- Task tree ------------------------------------------------------------ */
+
+.ttree,
+.ttree__kids {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ttree__kids {
+  margin: var(--s-2) 0 0 var(--s-5);
+  padding-left: var(--s-4);
+  border-left: 1px solid var(--line);
+}
+.ttree__item { position: relative; }
+/* The elbow into each child, and a mask that stops the trunk at the last one. */
+.ttree__kids > .ttree__item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--s-4) * -1);
+  top: 25px;
+  width: var(--s-4);
+  height: 1px;
+  background: var(--line);
+}
+.ttree__kids > .ttree__item--last::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--s-4) * -1 - 1px);
+  top: 26px;
+  bottom: calc(var(--s-2) * -1);
+  width: 1px;
+  background: var(--bg-elevated);
+}
+
+.ttree__node {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+.ttree__node--broken { border-color: color-mix(in srgb, var(--critical) 45%, transparent); }
+
+.ttree__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 1px solid var(--line-faint);
+  background: var(--bg-sunken);
+}
+.ttree__node[data-open='false'] .ttree__head { border-bottom-color: transparent; }
+
+.ttree__chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  border: none;
+  border-radius: var(--r-xs);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: transform var(--dur) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.ttree__chevron:hover { background: var(--bg-hover); color: var(--text); }
+.ttree__node[data-open='true'] .ttree__chevron { transform: rotate(90deg); }
+
+.ttree__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-3);
+}
+.ttree__collapsed {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+}
+.ttree__grid {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) minmax(0, 1fr);
+  gap: var(--s-3);
+}
+@media (max-width: 760px) {
+  .ttree__grid { grid-template-columns: minmax(0, 1fr); }
+}
+.ttree__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  min-width: 0;
+}
+.ttree__units {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-2);
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+}
+
+.ttree__add {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: var(--s-2) 0 0 var(--s-5);
+  padding: var(--s-2) var(--s-3);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--t-tiny);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.ttree__add:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-50); }
+
+/* --- Import, export, examples --------------------------------------------- */
+
+.tio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-md);
+  background: var(--bg-sunken);
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.tio--over { border-color: var(--accent); background: var(--accent-50); }
+
+.tio__issues {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  margin-top: var(--s-1);
+}
+.tio__issues li {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+  font-size: var(--t-tiny);
+}
+
+.tio__examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(212px, 1fr));
+  gap: var(--s-3);
+}
+.tio__example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+}
+.tio__preview {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--s-2);
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+}
+.tio__preview-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+/* --- Scanned roots -------------------------------------------------------- */
+
+.roots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.roots__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-3);
+  border: 1px solid var(--line-faint);
+  border-radius: var(--r-md);
+  background: var(--bg-sunken);
+}
+
+/* --- Folder browser ------------------------------------------------------- */
+
+.fb {
+  display: grid;
+  grid-template-columns: 186px minmax(0, 1fr);
+  gap: var(--s-4);
+}
+@media (max-width: 720px) {
+  .fb { grid-template-columns: minmax(0, 1fr); }
+}
+
+.fb__roots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+.fb__root {
+  padding: var(--s-2) var(--s-3);
+  border: none;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--t-tiny);
+  text-align: left;
+  cursor: pointer;
+}
+.fb__root:hover { background: var(--bg-hover); color: var(--text); }
+.fb__root--on { background: var(--accent-50); color: var(--accent); }
+
+.fb__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.fb__status {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+}
+.fb__status--ok { background: var(--positive-soft); color: var(--positive); }
+
+.fb__list {
+  display: flex;
+  flex-direction: column;
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+}
+.fb__row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding-right: var(--s-2);
+  border-bottom: 1px solid var(--line-faint);
+}
+.fb__row:last-child { border-bottom: none; }
+.fb__row:hover { background: var(--bg-hover); }
+.fb__row--participant { background: color-mix(in srgb, var(--positive) 7%, transparent); }
+.fb__open {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: 1;
+  min-width: 0;
+  padding: var(--s-2) var(--s-3);
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: var(--t-small);
+  text-align: left;
+  cursor: pointer;
+}

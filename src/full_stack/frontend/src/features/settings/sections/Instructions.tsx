@@ -53,7 +53,7 @@ export function InstructionsSection() {
 
       <Callout tone="info">
         Global is combined with the scoped instruction, so an agent sees both. Use this for study conventions, units,
-        or vocabulary. Use Prompts when you need to change how a role reasons.
+        or vocabulary; use Prompts to change how a role reasons.
       </Callout>
 
       <Group>

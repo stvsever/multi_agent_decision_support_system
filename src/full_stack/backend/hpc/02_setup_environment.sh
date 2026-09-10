@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# COMPASS HPC — Step 1: Environment Setup
+# COMPASS HPC Step 1: Environment Setup
 # =============================================================================
 #
 # PURPOSE:
@@ -39,7 +39,7 @@ PIN_TRANSFORMERS="4.51.3"
 
 # ─── Header / Fingerprint ───────────────────────────────────────────────────
 echo "============================================="
-echo " COMPASS HPC — Environment Setup"
+echo " COMPASS HPC: Environment Setup"
 echo "============================================="
 echo ""
 echo "SCRIPT_PATH:  $0"

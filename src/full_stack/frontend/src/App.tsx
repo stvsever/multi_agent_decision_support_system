@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { TourLayer } from '@/components/tour/TourLayer'
+import { WelcomeDialog } from '@/components/welcome/WelcomeDialog'
 import { BatchPage } from '@/features/batch/BatchPage'
 import { OntologyPage } from '@/features/ontology/OntologyPage'
 import { OverviewPage } from '@/features/overview/OverviewPage'
@@ -55,6 +56,7 @@ export default function App() {
         </Routes>
       </AppShell>
       <SettingsSheet />
+      <WelcomeDialog />
       <TourLayer />
     </>
   )

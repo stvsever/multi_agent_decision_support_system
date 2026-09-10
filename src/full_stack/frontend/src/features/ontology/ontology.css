@@ -17,95 +17,6 @@
   gap: var(--s-4);
 }
 
-.onto-summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(116px, 1fr));
-  gap: var(--s-4);
-  padding: var(--s-4) var(--s-5);
-  background: var(--bg-elevated);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-xs);
-}
-
-.onto-stat .stat__value {
-  font-size: var(--t-h3);
-}
-
-/* --- Most deviating strip -------------------------------------------------- */
-
-.onto-extremes {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-2);
-}
-
-.onto-extremes__title {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  flex-wrap: wrap;
-  font-size: var(--t-micro);
-  font-weight: 640;
-  letter-spacing: 0.055em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.onto-extremes__rail {
-  display: flex;
-  gap: var(--s-2);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  padding-bottom: var(--s-1);
-  scrollbar-width: thin;
-}
-
-.onto-extreme {
-  position: relative;
-  flex: none;
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  max-width: 232px;
-  height: 36px;
-  padding: 0 var(--s-3);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  background: var(--bg-elevated);
-  color: var(--text);
-  font: inherit;
-  cursor: pointer;
-  overflow: hidden;
-  transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
-}
-.onto-extreme:hover { transform: translateY(-1px); }
-.onto-extreme[data-active] {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent);
-}
-.onto-extreme__fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: var(--intensity);
-  background: color-mix(in srgb, var(--tone) 22%, transparent);
-}
-.onto-extreme__label {
-  position: relative;
-  font-size: var(--t-tiny);
-  font-weight: 500;
-}
-.onto-extreme__score {
-  position: relative;
-  margin-left: auto;
-  font-size: var(--t-tiny);
-  font-weight: 680;
-  color: var(--tone);
-  font-variant-numeric: tabular-nums;
-}
-
 /* --- Layout ---------------------------------------------------------------- */
 
 .onto-layout {
@@ -768,3 +679,308 @@ button.onto-crumbs__link:hover { background: var(--bg-hover); color: var(--text)
   stroke-dasharray: 2 3;
 }
 .onto-hist__tick { font-size: 9px; fill: var(--text-faint); }
+
+
+/* --- View switcher --------------------------------------------------------- */
+
+.onto-view__tabs {
+  padding: 0 var(--s-3);
+  flex: none;
+}
+
+.onto-graph-shell {
+  height: var(--onto-view-h);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  overflow: hidden;
+}
+
+/* --- Cohort picker --------------------------------------------------------- */
+
+.onto-cohort {
+  position: relative;
+  flex: none;
+}
+
+.onto-cohort__tag {
+  margin-left: var(--s-2);
+}
+
+.onto-cohort__panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + var(--s-2));
+  z-index: 40;
+  width: min(92vw, 380px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-lg);
+}
+
+.onto-cohort__head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.onto-cohort__search {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: 1 1 auto;
+  min-width: 0;
+  height: var(--control-h);
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-inset);
+}
+.onto-cohort__search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-100);
+}
+.onto-cohort__search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--t-small);
+}
+
+.onto-cohort__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.onto-cohort__row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: var(--r-md);
+}
+.onto-cohort__row[data-on] {
+  background: var(--accent-50);
+}
+
+.onto-cohort__pick {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--s-2) var(--s-3);
+  border: 0;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.onto-cohort__pick:hover {
+  background: var(--bg-hover);
+}
+
+.onto-cohort__mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-xs);
+  color: var(--accent-contrast);
+}
+.onto-cohort__row[data-on] .onto-cohort__mark {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.onto-cohort__focus {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin-right: 4px;
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+}
+.onto-cohort__focus:hover {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+.onto-cohort__focus[aria-pressed='true'] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.onto-cohort__foot {
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--line-faint);
+  line-height: 1.45;
+}
+
+/* --- Cohort spread glyph --------------------------------------------------- */
+
+.onto-agg {
+  padding: var(--s-3);
+  border: 1px solid var(--line-faint);
+  border-radius: var(--r-md);
+  background: var(--bg-inset);
+}
+
+.onto-box {
+  overflow: visible;
+}
+.onto-box__zero {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+.onto-box__whisker {
+  stroke: var(--text-faint);
+  stroke-width: 1.2;
+}
+.onto-box__box {
+  fill-opacity: 0.55;
+  stroke: var(--text-muted);
+  stroke-width: 0.8;
+}
+.onto-box__median {
+  stroke: var(--text);
+  stroke-width: 1.6;
+}
+.onto-box__mark {
+  fill: var(--accent);
+  stroke: var(--bg-elevated);
+  stroke-width: 1.2;
+}
+
+/* --- Distribution panel ---------------------------------------------------- */
+
+.onto-dist {
+  width: 100%;
+}
+
+.onto-dist__bar {
+  fill: var(--accent);
+  fill-opacity: 0.42;
+}
+.onto-dist__bar[data-hit] {
+  fill-opacity: 0.9;
+}
+
+.onto-dist__outline {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+
+.onto-dist__axis {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.onto-dist__tick {
+  font-size: 9px;
+  fill: var(--text-faint);
+}
+
+.onto-dist__box line {
+  stroke: var(--text-faint);
+  stroke-width: 1.2;
+}
+.onto-dist__box rect {
+  fill: var(--text-muted);
+  fill-opacity: 0.3;
+  stroke: var(--text-muted);
+  stroke-width: 0.8;
+}
+.onto-dist__box .onto-dist__median {
+  stroke: var(--text);
+  stroke-width: 1.6;
+}
+
+.onto-dist__mark line {
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  stroke-dasharray: 3 2;
+}
+.onto-dist__mark circle {
+  fill: var(--accent);
+}
+
+.onto-mark-note {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--accent-50);
+  color: var(--text-secondary);
+}
+.onto-mark-note__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.onto-cat {
+  display: grid;
+  grid-template-columns: minmax(0, 96px) minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--t-tiny);
+}
+.onto-cat[data-hit] {
+  font-weight: 620;
+  color: var(--text);
+}
+
+.onto-cat__label {
+  color: var(--text-secondary);
+}
+.onto-cat[data-hit] .onto-cat__label {
+  color: var(--text);
+}
+
+.onto-cat__track {
+  height: 10px;
+  border-radius: var(--r-xs);
+  background: var(--bg-inset);
+  overflow: hidden;
+}
+
+.onto-cat__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--accent) 42%, transparent);
+}
+.onto-cat[data-hit] .onto-cat__fill {
+  background: var(--accent);
+}
+
+.onto-cat__count {
+  text-align: right;
+}

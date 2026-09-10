@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# COMPASS HPC — Step 2: Download LLM Models
+# COMPASS HPC Step 2: Download LLM Models
 # =============================================================================
 #
 # PURPOSE: Downloads model weights from HuggingFace to shared storage.
@@ -39,7 +39,7 @@ TRANSFORMERS_CACHE_DIR="${HF_HOME_DIR}/transformers"
 
 # ─── Header ────────────────────────────────────────────────────────────────
 echo "============================================="
-echo " COMPASS HPC — Model Download"
+echo " COMPASS HPC: Model Download"
 echo "============================================="
 echo ""
 echo "Host:    $(hostname)"

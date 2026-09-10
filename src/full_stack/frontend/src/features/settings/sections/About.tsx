@@ -1,59 +1,21 @@
-/** What this build is, what it can do, and the two ways to start over. */
+/** What this build is, what it is made of, and how to start over. */
 
-import { useQueryClient } from '@tanstack/react-query'
-import { Compass, RotateCcw, Sparkles, TriangleAlert } from 'lucide-react'
-import { useState } from 'react'
-import { Badge, Button, Callout, Disclosure, Spinner } from '@/components/ui/primitives'
-import { ApiError, api } from '@/lib/api'
+import { Compass, Sparkles } from 'lucide-react'
+import { Badge, Button, Disclosure, Spinner } from '@/components/ui/primitives'
 import { titleCase } from '@/lib/format'
 import { useCapabilities } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
 import { Group, SectionHead } from '../controls'
+import { ResetAllSettings } from '../reset'
 import { useSettingsController } from '../state'
 
 export function AboutSection() {
   const capabilities = useCapabilities()
-  const client = useQueryClient()
-  const notify = useApp((s) => s.notify)
   const startTour = useApp((s) => s.startTour)
   const closeSettings = useApp((s) => s.closeSettings)
-  const setAppearance = useApp((s) => s.setAppearance)
   const { config, updateRoot } = useSettingsController()
 
-  const [confirming, setConfirming] = useState(false)
-  const [resetting, setResetting] = useState(false)
-
   const info = capabilities.data
-
-  const resetAll = async () => {
-    setResetting(true)
-    try {
-      const result = await api.settings.reset()
-      setAppearance({
-        theme: result.config.appearance.theme,
-        accent: result.config.appearance.accent,
-        density: result.config.appearance.density,
-        fontScale: result.config.appearance.font_scale,
-        reducedMotion: result.config.appearance.reduced_motion,
-        numericLocale: result.config.appearance.numeric_locale,
-      })
-      await client.invalidateQueries()
-      setConfirming(false)
-      notify({
-        tone: 'positive',
-        title: 'Settings reset',
-        body: 'Every section is back to the shipped defaults. Your API key and system prompts were not touched.',
-      })
-    } catch (error) {
-      notify({
-        tone: 'critical',
-        title: 'Settings were not reset',
-        body: error instanceof ApiError ? error.message : 'The dashboard service rejected the request.',
-      })
-    } finally {
-      setResetting(false)
-    }
-  }
 
   return (
     <>
@@ -175,40 +137,12 @@ export function AboutSection() {
             Show it again
           </Button>
         </div>
-      </Group>
 
-      <Group title="Reset">
-        {confirming ? (
-          <Callout
-            tone="critical"
-            icon={<TriangleAlert size={15} />}
-            title="Reset every setting to its default?"
-            action={
-              <div className="row gap-2">
-                <Button size="sm" onClick={() => setConfirming(false)}>
-                  Cancel
-                </Button>
-                <Button variant="danger" size="sm" loading={resetting} onClick={() => void resetAll()}>
-                  Reset everything
-                </Button>
-              </div>
-            }
-          >
-            Connection, models, engine, budgets, cost guardrails, local backend, batch, data roots, appearance, and
-            instructions all go back to the shipped values. Your stored API key and any edited system prompts are left
-            alone.
-          </Callout>
-        ) : (
-          <div className="settings__switch">
-            <span className="settings__switch-text">
-              <span className="t-small semibold">Reset all settings</span>
-              <span className="t-tiny muted">Restores every section to the shipped defaults. This cannot be undone.</span>
-            </span>
-            <Button variant="danger" icon={<RotateCcw size={13} />} onClick={() => setConfirming(true)}>
-              Reset
-            </Button>
-          </div>
-        )}
+        {/* The same control renders on the configuration row in Data, which is
+            a storage listing and only appears when the service can measure the
+            disk. This one has no such dependency, so there is always a way back
+            to the defaults. */}
+        <ResetAllSettings />
       </Group>
     </>
   )

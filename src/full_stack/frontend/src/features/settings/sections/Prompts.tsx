@@ -7,9 +7,9 @@
  */
 
 import { useQueryClient } from '@tanstack/react-query'
-import { TriangleAlert, Undo2 } from 'lucide-react'
+import { Undo2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Badge, Button, Callout, EmptyState, Spinner, Textarea } from '@/components/ui/primitives'
+import { Badge, Button, EmptyState, Spinner, Tabs, Textarea } from '@/components/ui/primitives'
 import { ApiError, api } from '@/lib/api'
 import { queryKeys, usePrompts } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
@@ -22,6 +22,7 @@ export function PromptsSection() {
   const notify = useApp((s) => s.notify)
 
   const rows = prompts.data?.prompts ?? []
+  const [scope, setScope] = useState<'agent' | 'tool'>('agent')
   const [chosen, setChosen] = useState<{ scope: 'agent' | 'tool'; name: string } | null>(null)
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(false)
@@ -101,10 +102,9 @@ export function PromptsSection() {
     }
   }
 
-  const groups: { label: string; rows: PromptRow[] }[] = [
-    { label: 'Agents', rows: rows.filter((row) => row.scope === 'agent') },
-    { label: 'Tools', rows: rows.filter((row) => row.scope === 'tool') },
-  ]
+  const agents = rows.filter((row) => row.scope === 'agent')
+  const tools = rows.filter((row) => row.scope === 'tool')
+  const listed: PromptRow[] = scope === 'agent' ? agents : tools
 
   const dirty = content !== original
 
@@ -112,14 +112,18 @@ export function PromptsSection() {
     <>
       <SectionHead
         title="Prompts"
-        description="The system prompts the agents and tools actually load."
+        description="The system prompts the agents and tools actually load. A saved edit applies to the next run."
       />
 
-      <Callout tone="caution" icon={<TriangleAlert size={15} />}>
-        These are the engine's real prompts, not a copy. A saved edit is loaded by the next run, and a prompt that
-        contradicts the output schema will make that agent fail. The shipped text is snapshotted the first time you
-        save, so Restore default can always bring it back.
-      </Callout>
+      <Tabs
+        spread
+        value={scope}
+        options={[
+          { value: 'agent', label: `Agents (${agents.length})` },
+          { value: 'tool', label: `Tools (${tools.length})` },
+        ]}
+        onChange={setScope}
+      />
 
       <div className="settings__prompts">
         <div className="settings__promptlist">
@@ -128,37 +132,28 @@ export function PromptsSection() {
               <Spinner /> <span className="t-tiny muted">Loading</span>
             </div>
           )}
-          {groups.map((group) =>
-            group.rows.length === 0 ? null : (
-              <div key={group.label}>
-                <div className="eyebrow" style={{ padding: 'var(--s-3) var(--s-3) var(--s-1)' }}>
-                  {group.label}
-                </div>
-                {group.rows.map((row) => (
-                  <button
-                    key={`${row.scope}/${row.name}`}
-                    type="button"
-                    className="settings__promptitem"
-                    aria-current={chosen?.name === row.name && chosen.scope === row.scope}
-                    onClick={() => setChosen({ scope: row.scope, name: row.name })}
-                  >
-                    <span className="stack grow" style={{ gap: 1, minWidth: 0 }}>
-                      <span className="truncate semibold">{row.title}</span>
-                      <span className="t-micro muted tabular">{row.characters.toLocaleString()} characters</span>
-                    </span>
-                    {row.modified && <Badge tone="caution">modified</Badge>}
-                  </button>
-                ))}
-              </div>
-            ),
-          )}
+          {listed.map((row) => (
+            <button
+              key={`${row.scope}/${row.name}`}
+              type="button"
+              className="settings__promptitem"
+              aria-current={chosen?.name === row.name && chosen.scope === row.scope}
+              onClick={() => setChosen({ scope: row.scope, name: row.name })}
+            >
+              <span className="stack grow" style={{ gap: 1, minWidth: 0 }}>
+                <span className="truncate semibold">{row.title}</span>
+                <span className="t-micro muted tabular">{row.characters.toLocaleString()} characters</span>
+              </span>
+              {row.modified && <Badge tone="caution">modified</Badge>}
+            </button>
+          ))}
         </div>
 
         <div className="stack gap-3" style={{ minWidth: 0 }}>
           {!selected && (
             <EmptyState
               title="Select a prompt"
-              body="Each entry is the system prompt for one agent or one tool. Editing is for changing how a role reasons, not for study conventions: those belong in Instructions."
+              body="Each entry is the system prompt for one agent or one tool. Editing changes how a role reasons; study conventions belong in Instructions."
             />
           )}
 
@@ -191,7 +186,10 @@ export function PromptsSection() {
                 </div>
               </div>
 
-              {selected.description && <span className="t-tiny muted">{selected.description}</span>}
+              <span className="t-tiny muted">
+                {selected.description ? `${selected.description} ` : ''}A prompt that contradicts the output schema
+                will make this agent fail.
+              </span>
 
               {loading ? (
                 <div className="row gap-2 center" style={{ padding: 'var(--s-8)' }}>

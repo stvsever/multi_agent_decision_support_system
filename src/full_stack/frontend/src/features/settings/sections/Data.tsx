@@ -1,14 +1,15 @@
-/** Where participants are read from and where output is written. */
+/** Where participants are read from, where output is written, and what is kept. */
 
 import { useQueryClient } from '@tanstack/react-query'
-import { FolderTree, Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 import { useState } from 'react'
-import { Badge, Button, Callout, Field, Input } from '@/components/ui/primitives'
+import { Badge, Button, Field, Input } from '@/components/ui/primitives'
 import { ApiError, api } from '@/lib/api'
 import { queryKeys, useParticipants } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
 import { Group, SectionHead, SwitchRow, TextSetting } from '../controls'
 import { useSettingsController } from '../state'
+import { StoragePanel } from './StoragePanel'
 
 export function DataSection() {
   const { config, update } = useSettingsController()
@@ -59,47 +60,56 @@ export function DataSection() {
     }
   }
 
-  const found = (root: string) => participants.data?.roots.find((entry) => entry.root === root)?.found
+  const rootStatus = (root: string) => participants.data?.roots.find((entry) => entry.root === root)
 
   return (
     <>
       <SectionHead
         title="Data"
-        description="Folders scanned for participants, and where a finished report is written."
+        description="Folders scanned for participants, where a finished report is written, and what COMPASS keeps on disk."
       />
 
       <Group title="Data roots">
-        <Callout tone="neutral" icon={<FolderTree size={15} />}>
-          The sample participants bundled with COMPASS are always available, so you can try a run before pointing the
-          engine at your own data. Add a folder here and every participant directory inside it is discovered and
-          validated.
-        </Callout>
-
         {workspace.data_roots.length > 0 && (
           <div className="settings__roots">
-            {workspace.data_roots.map((root) => (
-              <div key={root} className="settings__root">
-                <span className="grow truncate" title={root}>
-                  {root}
-                </span>
-                {found(root) !== undefined && (
-                  <Badge tone={found(root) ? 'positive' : 'caution'}>{found(root)} found</Badge>
-                )}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  iconOnly
-                  icon={<Trash2 size={13} />}
-                  aria-label={`Remove ${root}`}
-                  loading={busy === root}
-                  onClick={() => void remove(root)}
-                />
-              </div>
-            ))}
+            {workspace.data_roots.map((root) => {
+              const status = rootStatus(root)
+              const near = status?.near_misses?.length ?? 0
+              return (
+                <div key={root} className="settings__root">
+                  <span className="grow truncate" title={root}>
+                    {root}
+                  </span>
+                  {near > 0 && (
+                    <span
+                      className="t-micro muted"
+                      title="Directories that hold some of the four required input files"
+                    >
+                      {near} incomplete
+                    </span>
+                  )}
+                  {status?.found !== undefined && (
+                    <Badge tone={status.found ? 'positive' : 'caution'}>{status.found} found</Badge>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    iconOnly
+                    icon={<Trash2 size={13} />}
+                    aria-label={`Remove ${root}`}
+                    loading={busy === root}
+                    onClick={() => void remove(root)}
+                  />
+                </div>
+              )
+            })}
           </div>
         )}
 
-        <Field label="Add a folder" hint="An absolute path to a directory holding participant folders.">
+        <Field
+          label="Add a folder"
+          hint="An absolute path. Every participant directory inside it is discovered and validated. The bundled sample participants are always available as well."
+        >
           <div className="row gap-2">
             <Input
               mono
@@ -140,6 +150,8 @@ export function DataSection() {
           onChange={(next) => update('workspace', { auto_open_report: next })}
         />
       </Group>
+
+      <StoragePanel />
     </>
   )
 }

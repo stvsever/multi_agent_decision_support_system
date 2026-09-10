@@ -14,6 +14,36 @@ export function Stat({ label, value, meta }: { label: ReactNode; value: ReactNod
   )
 }
 
+/**
+ * One part of the document.
+ *
+ * A report reads better as headed sections than as a stack of identical cards,
+ * and a section with nothing to say is omitted by its caller rather than
+ * printing a heading over an apology.
+ */
+export function Section({
+  title,
+  note,
+  actions,
+  children,
+}: {
+  title: ReactNode
+  note?: ReactNode
+  actions?: ReactNode
+  children: ReactNode
+}) {
+  return (
+    <section className="reports__section">
+      <header className="reports__section-head">
+        <h2 className="reports__section-title">{title}</h2>
+        {actions ? <div className="row gap-2">{actions}</div> : null}
+      </header>
+      {note ? <p className="reports__section-note">{note}</p> : null}
+      <div className="reports__section-body">{children}</div>
+    </section>
+  )
+}
+
 export function GroupBox({ title, children }: { title: ReactNode; children: ReactNode }) {
   return (
     <div className="reports__group-box">
@@ -101,6 +131,9 @@ export function BulletList({ items, ordered }: { items: string[]; ordered?: bool
   )
 }
 
-export function NotRecorded({ what }: { what: string }) {
-  return <span className="t-small muted">{what} was not recorded in this run.</span>
+/** One line closing the document with whatever the run never wrote. */
+export function Omissions({ items }: { items: string[] }) {
+  if (items.length === 0) return null
+  const list = items.length === 1 ? items[0] : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`
+  return <p className="reports__omissions">This run did not record {list}.</p>
 }

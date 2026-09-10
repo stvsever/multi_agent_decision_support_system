@@ -1,7 +1,7 @@
 /** The seven pipeline stages with the time each one has consumed. */
 
 import clsx from 'clsx'
-import { Check } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { memo, useMemo } from 'react'
 import { Badge } from '@/components/ui/primitives'
 import { duration as formatDuration } from '@/lib/format'
@@ -14,6 +14,8 @@ export interface StageRailProps {
   currentStage: number
   events: RunEvent[]
   running: boolean
+  /** Marks the stage the run stopped in rather than leaving it looking current. */
+  failed?: boolean
   iteration: number
   maxIterations?: number
 }
@@ -23,6 +25,7 @@ export const StageRail = memo(function StageRail({
   currentStage,
   events,
   running,
+  failed = false,
   iteration,
   maxIterations,
 }: StageRailProps) {
@@ -33,7 +36,10 @@ export const StageRail = memo(function StageRail({
   )
 
   const total = timings.totals.reduce((sum, value) => sum + value, 0)
-  const slowest = timings.totals.reduce((best, value, index) => (value > timings.totals[best] ? index : best), 0)
+  const timed = timings.totals.filter((value) => value > 0).length
+  // With a single timed stage there is nothing to be slower than.
+  const slowest =
+    timed > 1 ? timings.totals.reduce((best, value, index) => (value > timings.totals[best] ? index : best), 0) : -1
 
   return (
     <section className="run-rail" aria-label="Pipeline stages">
@@ -48,21 +54,32 @@ export const StageRail = memo(function StageRail({
               key={stage}
               className={clsx(
                 'run-stage',
-                isCurrent && 'run-stage--current',
+                isCurrent && !failed && 'run-stage--current',
+                isCurrent && failed && 'run-stage--failed',
                 isDone && 'run-stage--done',
                 !isCurrent && !isDone && 'run-stage--pending',
               )}
             >
               <span className="run-stage__marker" aria-hidden>
-                {isDone ? <Check size={12} /> : <span className="run-stage__index">{index + 1}</span>}
+                {isDone ? (
+                  <Check size={12} />
+                ) : isCurrent && failed ? (
+                  <X size={12} />
+                ) : (
+                  <span className="run-stage__index">{index + 1}</span>
+                )}
               </span>
               <span className="run-stage__body">
                 <span className="run-stage__name truncate">{stage}</span>
                 <span className="run-stage__time tabular">
-                  {seconds > 0 ? formatDuration(seconds) : isCurrent ? 'starting' : '-'}
-                  {seconds > 0 && total > 0 && index === slowest && timings.totals[slowest] > 0 && (
-                    <span className="run-stage__flag"> slowest</span>
-                  )}
+                  {seconds > 0
+                    ? formatDuration(seconds)
+                    : isCurrent
+                      ? failed
+                        ? 'stopped here'
+                        : 'starting'
+                      : '-'}
+                  {seconds > 0 && index === slowest && <span className="run-stage__flag"> slowest</span>}
                 </span>
                 <span className="run-stage__bar" aria-hidden>
                   <span className="run-stage__bar-fill" style={{ width: `${Math.round(share * 100)}%` }} />

@@ -126,6 +126,32 @@ Use `--platform linux/amd64` on Intel Mac, Linux, and Windows Docker Desktop.
 > [!NOTE]
 > The default Docker image is CPU-first and uses public API inference. The optional full image includes local inference dependencies. GPU and Slurm workflows remain under `src/full_stack/backend/hpc/`.
 
+### Deployment
+
+Two supported ways to run COMPASS. Both serve the dashboard on `http://localhost:5005`.
+
+| Path | What runs where | Start here |
+| --- | --- | --- |
+| Hosted models (default) | Dashboard and engine local, models called at OpenRouter | `docker compose -f docker/docker-compose.yml up --build` |
+| Self-hosted open weights | Dashboard and engine local, model held by a vLLM server on your own GPUs | `docker compose -f docker/docker-compose.gpu.yml up --build` |
+
+The self-hosted path scales from one GPU, to several GPUs on one machine (the
+model split across them), to several nodes on a Slurm cluster. Use Docker
+locally and Apptainer on the cluster:
+
+- GPU image `compass-engine:gpu`, built from `docker/Dockerfile.gpu`
+- one machine: `docker/docker-compose.gpu.yml`
+- cluster image: `src/full_stack/backend/hpc/apptainer.def`
+- cluster server: `src/full_stack/backend/hpc/06_serve_vllm.sh`, which submits the
+  job and prints the exact base URL to point COMPASS at
+
+A self-hosted server is configured exactly like a hosted provider, because both
+speak the OpenAI protocol: set `OPENROUTER_BASE_URL` to the printed URL and
+`OPENROUTER_API_KEY` to any non-empty value.
+
+Copy-pasteable commands: [docker/README.md](docker/README.md) and
+[HPC README](src/full_stack/backend/hpc/README.md).
+
 ## <a id="usage"></a>⚡ Usage
 
 ### Expected input and output structure

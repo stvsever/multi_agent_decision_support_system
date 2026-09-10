@@ -19,6 +19,7 @@ from .routers import (
     batch_router,
     catalog_router,
     datasets_router,
+    deploy_router,
     hf_router,
     prompts_router,
     reports_router,
@@ -27,6 +28,7 @@ from .routers import (
     system,
 )
 from .run_manager import get_run_manager
+from .schemas import readable_validation_error
 
 logger = logging.getLogger("compass.api")
 
@@ -64,6 +66,7 @@ def create_app() -> FastAPI:
         settings_router.router,
         catalog_router.router,
         hf_router.router,
+        deploy_router.router,
         datasets_router.router,
         runs_router.router,
         batch_router.router,
@@ -75,11 +78,7 @@ def create_app() -> FastAPI:
     @app.exception_handler(ValidationError)
     async def invalid_config(request: Request, exc: ValidationError) -> JSONResponse:
         """A constraint declared in schemas.py is the caller's mistake, not ours."""
-        details = "; ".join(
-            f"{'.'.join(str(p) for p in e.get('loc', ()))}: {e.get('msg', 'invalid value')}".lstrip(": ")
-            for e in exc.errors()
-        )
-        return JSONResponse(status_code=422, content={"detail": details or "Invalid configuration."})
+        return JSONResponse(status_code=422, content={"detail": readable_validation_error(exc)})
 
     @app.exception_handler(Exception)
     async def unhandled(request: Request, exc: Exception) -> JSONResponse:

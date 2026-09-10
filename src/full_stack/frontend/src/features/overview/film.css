@@ -1,0 +1,185 @@
+/* The methodology film. Layout and the tool-family palette; every other colour
+   resolves through a design token. */
+
+.film {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-5) var(--s-5);
+
+  /* Tool families. Mid-tone hues that hold up against both themes; a family is
+     assigned its index at render time, so the list is never hardcoded here. */
+  --fam-0: #6366f1;
+  --fam-1: #0891b2;
+  --fam-2: #0d9488;
+  --fam-3: #d97706;
+  --fam-4: #db2777;
+  --fam-5: #7c3aed;
+  --fam-6: #059669;
+  --fam-7: #e11d48;
+}
+
+:root[data-theme='dark'] .film {
+  --fam-0: #818cf8;
+  --fam-1: #22d3ee;
+  --fam-2: #2dd4bf;
+  --fam-3: #fbbf24;
+  --fam-4: #f472b6;
+  --fam-5: #a78bfa;
+  --fam-6: #34d399;
+  --fam-7: #fb7185;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .film {
+    --fam-0: #818cf8;
+    --fam-1: #22d3ee;
+    --fam-2: #2dd4bf;
+    --fam-3: #fbbf24;
+    --fam-4: #f472b6;
+    --fam-5: #a78bfa;
+    --fam-6: #34d399;
+    --fam-7: #fb7185;
+  }
+}
+
+.film__caption {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.film__stage {
+  position: relative;
+  min-height: 300px;
+  border-radius: var(--r-lg);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line-faint);
+  overflow: hidden;
+}
+
+.film__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.film__fallback {
+  padding: var(--s-5);
+}
+
+/* Text set inside the stage through a foreignObject, so it can wrap. */
+.film__card-note,
+.film__plate-note {
+  font-size: var(--t-tiny);
+  line-height: 1.4;
+  color: var(--text-muted);
+  overflow: hidden;
+}
+.film__plate-note {
+  font-size: var(--t-micro);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.film__card-note {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.film__prose {
+  font-size: var(--t-lead);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 92ch;
+  min-height: calc(var(--t-lead) * 3);
+  margin: 0;
+}
+
+.film__transport {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding-top: var(--s-1);
+}
+
+.film__buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  flex: none;
+}
+
+.film__rail {
+  display: flex;
+  align-items: stretch;
+  gap: var(--s-2);
+  flex: 1 1 auto;
+  min-width: 0;
+  touch-action: pan-y;
+}
+
+.film__rail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-faint);
+  border-radius: var(--r-xs);
+}
+.film__rail-item:hover { color: var(--text-secondary); }
+.film__rail-item[data-current] { color: var(--text); }
+
+.film__rail-track {
+  display: block;
+  height: 3px;
+  border-radius: var(--r-full);
+  background: var(--line);
+  overflow: hidden;
+}
+.film__rail-item[data-current] .film__rail-track { background: var(--line-strong); }
+
+.film__rail-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  border-radius: var(--r-full);
+  background: var(--accent);
+  transition: none;
+}
+
+.film__rail-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--t-micro);
+  font-weight: 550;
+  min-width: 0;
+}
+
+.film__rail-index {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+  flex: none;
+}
+.film__rail-item[data-current] .film__rail-index { color: var(--accent); }
+
+/* Narrow rails keep the numbers and drop the words. */
+@media (max-width: 900px) {
+  .film__rail-label .truncate { display: none; }
+  .film__rail-label { justify-content: center; }
+  .film { padding: var(--s-4) var(--s-4) var(--s-4); }
+  .film__prose { font-size: var(--t-body); min-height: calc(var(--t-body) * 4.5); }
+}

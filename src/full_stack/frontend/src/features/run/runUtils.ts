@@ -8,6 +8,7 @@
 
 import { titleCase } from '@/lib/format'
 import type {
+  RunDetail,
   RunEvent,
   RunGraph,
   RunStatus,
@@ -438,4 +439,248 @@ export function taskSpecFromSummary(task: TaskSummary): TaskSpecInput {
     regression_outputs: [...task.regression_outputs],
     root: task.is_hierarchical ? build(rootId, new Set()) : null,
   }
+}
+
+/* --- Failure -------------------------------------------------------------- */
+
+export interface FailureSummary {
+  /** The exception class, when the worker reported one. */
+  exception: string
+  /** The exception message on its own, which is the part a reader can act on. */
+  message: string
+  /** One plain sentence naming what stopped and where. */
+  lead: string
+  stage: string | null
+  step: RunStep | null
+  /** A concrete next check for the failures that recur. Empty when unknown. */
+  hint: string
+}
+
+const EXCEPTION_LINE = /^([A-Za-z_][\w.]*(?:Error|Exception|Interrupt|Exit|Failure))\s*:\s*([\s\S]+)$/
+
+/** Split "RuntimeError: something broke" into its class and its message. */
+export function splitError(error: string | null | undefined): { exception: string; message: string } {
+  const text = String(error ?? '').trim()
+  if (!text) return { exception: '', message: '' }
+  const match = EXCEPTION_LINE.exec(text)
+  if (!match) return { exception: '', message: text }
+  return { exception: match[1], message: match[2].trim() }
+}
+
+/**
+ * Named checks for the failures that come back often enough to recognise. The
+ * list stays short on purpose: a wrong guess costs more than no guess.
+ */
+const HINTS: { test: RegExp; hint: string }[] = [
+  {
+    test: /local backend|vllm|apptainer|singularity/i,
+    hint: 'The self-hosted backend did not come up. Check the model name, the runtime, and that the machine has the GPUs the deployment asks for.',
+  },
+  {
+    test: /api key|unauthorized|unauthorised|\b401\b|credential|forbidden|\b403\b/i,
+    hint: 'The provider rejected the credential. Add or replace the API key in settings, then run again.',
+  },
+  { test: /rate limit|\b429\b|quota/i, hint: 'The provider throttled this run. Wait, or lower the number of parallel steps.' },
+  {
+    test: /timed out|timeout/i,
+    hint: 'The provider did not answer inside the request timeout. Raise the timeout or choose a faster model.',
+  },
+  {
+    test: /connection|unreachable|network|name resolution|dns|refused/i,
+    hint: 'The provider could not be reached. Check the network and the base URL in settings.',
+  },
+  {
+    test: /out of memory|cuda|oom/i,
+    hint: 'The device ran out of memory. Lower the context length, the GPU memory fraction, or the parallel size.',
+  },
+  {
+    test: /context length|maximum context|too many tokens/i,
+    hint: 'The payload did not fit the model context. Raise the context window or lower the per-agent token budgets.',
+  },
+  {
+    test: /no such file|filenotfound|not a directory/i,
+    hint: 'A file the engine expected was not on disk. Re-check the participant directory and the data roots.',
+  },
+]
+
+function hintFor(text: string): string {
+  for (const entry of HINTS) if (entry.test.test(text)) return entry.hint
+  return ''
+}
+
+/**
+ * Turn a failed run into something readable.
+ *
+ * A stack trace answers "where in the code", which is the wrong first question.
+ * The first question is what stopped and at which stage, so that is what this
+ * derives; the trace stays available underneath.
+ */
+export function describeFailure(detail: RunDetail): FailureSummary {
+  const state = detail.state
+  const stages = state?.stages?.length ? state.stages : STAGE_NAMES
+  const index = state?.current_stage ?? -1
+  const stage = index >= 0 && index < stages.length ? stages[index] : null
+
+  const steps = [...(state?.history ?? []), ...(state?.steps ?? [])]
+  const step = [...steps].reverse().find((row) => row.status === 'failed') ?? null
+
+  const { exception, message } = splitError(detail.error)
+  const body = message || 'The worker exited without reporting a reason.'
+
+  const lead = stage
+    ? `The run stopped during ${stage.toLowerCase()}.`
+    : detail.started_at
+      ? 'The run stopped before it reached its first stage.'
+      : 'The run never started.'
+
+  return {
+    exception,
+    message: body,
+    lead,
+    stage,
+    step,
+    hint: hintFor(`${detail.error ?? ''} ${step?.error ?? ''}`),
+  }
+}
+
+/* --- Structural audit ----------------------------------------------------- */
+
+export interface AuditSection {
+  name: string
+  tokens: number
+  featureKeys: number
+}
+
+export interface AuditChunk {
+  index: number
+  sections: string[]
+  tokens: number
+}
+
+export interface AuditCoverage {
+  all: number | null
+  processed: number | null
+  covered: number | null
+  missing: number | null
+  forcedRaw: number | null
+  present: boolean
+}
+
+export interface AuditView {
+  participantId: string
+  targetCondition: string
+  controlCondition: string
+  taskMode: string
+  nodeCount: number | null
+  payloadTokens: number | null
+  chunkBudget: number | null
+  chunkCount: number | null
+  inputMode: string
+  coverage: AuditCoverage
+  sections: AuditSection[]
+  chunks: AuditChunk[]
+  assertions: { key: string; ok: boolean }[]
+  assertionsOk: boolean | null
+  /** Whether anything at all was recovered, from either source. */
+  present: boolean
+  raw: Record<string, unknown>
+}
+
+/** The two spellings the engine has used for the same coverage tally. */
+function coverageNumber(summary: Record<string, unknown>, ...keys: string[]): number | null {
+  for (const key of keys) {
+    const value = asNumber(summary[key])
+    if (value !== null) return value
+  }
+  return null
+}
+
+/**
+ * Read an audit from the run record.
+ *
+ * `audit_summary` is the current contract; an older record carries the same
+ * fields inside the raw result, so both are merged with the summary winning.
+ */
+export function readAudit(detail: RunDetail): AuditView {
+  const result = asRecord(detail.result)
+  const summary = asRecord(detail.audit_summary)
+  const raw: Record<string, unknown> = { ...result, ...summary }
+  const coverageRaw = asRecord(raw.coverage_summary)
+
+  const sections = asArray(raw.section_stats)
+    .map((row) => asRecord(row))
+    .map((row) => ({
+      name: asText(row.name),
+      tokens: asNumber(row.tokens) ?? 0,
+      featureKeys: asNumber(row.feature_key_count) ?? 0,
+    }))
+    .filter((row) => row.name.length > 0)
+    .sort((a, b) => b.tokens - a.tokens)
+
+  const chunks = asArray(raw.chunk_stats)
+    .map((row) => asRecord(row))
+    .map((row, index) => ({
+      index: asNumber(row.chunk_index) ?? index + 1,
+      sections: asStringList(row.sections),
+      tokens: asNumber(row.tokens) ?? 0,
+    }))
+
+  const assertionsRaw = asRecord(raw.assertions)
+  const assertions = Object.entries(assertionsRaw)
+    .filter(([, value]) => typeof value === 'boolean')
+    .map(([key, value]) => ({ key, ok: value === true }))
+
+  return {
+    participantId: asText(raw.participant_id) || detail.participant_id,
+    targetCondition: asText(raw.target_condition),
+    controlCondition: asText(raw.control_condition),
+    taskMode: asText(raw.prediction_task_root_mode),
+    nodeCount: asNumber(raw.prediction_task_node_count),
+    payloadTokens: asNumber(raw.predictor_payload_tokens),
+    chunkBudget: asNumber(raw.chunk_budget_tokens),
+    chunkCount: asNumber(raw.chunk_count),
+    inputMode: asText(raw.predictor_input_mode),
+    coverage: {
+      all: coverageNumber(coverageRaw, 'all_count', 'all_feature_count'),
+      processed: coverageNumber(coverageRaw, 'processed_count', 'processed_feature_count'),
+      covered: coverageNumber(coverageRaw, 'covered_count', 'represented_feature_count'),
+      missing: coverageNumber(coverageRaw, 'missing_count', 'missing_feature_count'),
+      forcedRaw: coverageNumber(coverageRaw, 'forced_raw_count'),
+      present: Object.keys(coverageRaw).length > 0,
+    },
+    sections,
+    chunks,
+    assertions,
+    assertionsOk:
+      typeof raw.assertions_ok === 'boolean'
+        ? raw.assertions_ok
+        : assertions.length > 0
+          ? assertions.every((entry) => entry.ok)
+          : null,
+    present: Object.keys(raw).length > 0,
+    raw,
+  }
+}
+
+/** Assembler section ids read as words; a `#n` suffix is a split of one section. */
+export function sectionLabel(name: string): { title: string; part: string } {
+  const [base, part] = String(name ?? '').split('#')
+  const title = titleCase(base.replace(/_raw$/, '')).replace(/\bRag\b/, 'RAG')
+  return { title, part: part ? `part ${part}` : '' }
+}
+
+/** Assertion keys are schema names, so they read better spelled out. */
+const ASSERTION_LABELS: Record<string, string> = {
+  predictor_input_mode_present: 'The predictor input carries a mode',
+  chunk_count_non_negative: 'The chunk count is well formed',
+  coverage_summary_present: 'A coverage ledger was produced',
+  task_mode_present: 'The task carries a prediction mode',
+  invariant_ok: 'The coverage invariant held',
+  missing_feature_count_zero: 'No feature was dropped',
+  chunk_evidence_matches_count: 'Every chunk reported evidence',
+  processed_raw_flag_consistent: 'The processed raw flag matches the payload',
+}
+
+export function assertionLabel(key: string): string {
+  return ASSERTION_LABELS[key] ?? titleCase(key)
 }

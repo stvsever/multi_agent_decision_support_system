@@ -7,7 +7,6 @@
  */
 
 import {
-  Boxes,
   Coins,
   Cpu,
   Database,
@@ -15,10 +14,7 @@ import {
   Info,
   MessageSquareText,
   Palette,
-  Plug,
-  Server,
   SlidersHorizontal,
-  Wallet,
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, type ComponentType, type JSX } from 'react'
 import { Modal, Spinner } from '@/components/ui/primitives'
@@ -27,15 +23,11 @@ import { useApp } from '@/lib/store'
 import { SaveIndicator } from './controls'
 import { AboutSection } from './sections/About'
 import { AppearanceSection } from './sections/Appearance'
-import { BatchSection } from './sections/Batch'
-import { BudgetsSection } from './sections/Budgets'
-import { ConnectionSection } from './sections/Connection'
+import { ComputeSection } from './sections/Compute'
 import { CostSection } from './sections/Cost'
 import { DataSection } from './sections/Data'
 import { EngineSection } from './sections/Engine'
 import { InstructionsSection } from './sections/Instructions'
-import { LocalSection } from './sections/LocalBackend'
-import { ModelsSection } from './sections/Models'
 import { PromptsSection } from './sections/Prompts'
 import { SettingsProvider, useSettingsController } from './state'
 import './settings.css'
@@ -47,20 +39,37 @@ interface SectionDef {
   render: () => JSX.Element
 }
 
+/* Ordered the way the questions actually arrive: what is this, how should it
+   look, where does it think, how hard does it work, what may it spend, what
+   does it read and write, then the two prompt surfaces. */
 const SECTIONS: SectionDef[] = [
-  { id: 'connection', label: 'Connection', icon: Plug, render: () => <ConnectionSection /> },
-  { id: 'models', label: 'Models', icon: Boxes, render: () => <ModelsSection /> },
-  { id: 'engine', label: 'Engine', icon: Cpu, render: () => <EngineSection /> },
-  { id: 'budgets', label: 'Budgets', icon: Gauge, render: () => <BudgetsSection /> },
+  { id: 'about', label: 'About', icon: Info, render: () => <AboutSection /> },
+  { id: 'appearance', label: 'Appearance', icon: Palette, render: () => <AppearanceSection /> },
+  { id: 'compute', label: 'Models and compute', icon: Cpu, render: () => <ComputeSection /> },
+  { id: 'engine', label: 'Engine', icon: Gauge, render: () => <EngineSection /> },
   { id: 'cost', label: 'Cost guardrails', icon: Coins, render: () => <CostSection /> },
-  { id: 'local', label: 'Local backend', icon: Server, render: () => <LocalSection /> },
-  { id: 'batch', label: 'Batch', icon: Wallet, render: () => <BatchSection /> },
   { id: 'workspace', label: 'Data', icon: Database, render: () => <DataSection /> },
   { id: 'instructions', label: 'Instructions', icon: MessageSquareText, render: () => <InstructionsSection /> },
   { id: 'prompts', label: 'Prompts', icon: SlidersHorizontal, render: () => <PromptsSection /> },
-  { id: 'appearance', label: 'Appearance', icon: Palette, render: () => <AppearanceSection /> },
-  { id: 'about', label: 'About', icon: Info, render: () => <AboutSection /> },
 ]
+
+/* Sections that were folded into a larger one still answer to their old name,
+   so every deep link written before the merge lands somewhere sensible. */
+const ALIASES: Record<string, string> = {
+  connection: 'compute',
+  models: 'compute',
+  local: 'compute',
+  budgets: 'engine',
+  batch: 'engine',
+  data: 'workspace',
+}
+
+const resolveSection = (requested: string): string => {
+  const target = ALIASES[requested] ?? requested
+  return SECTIONS.find((entry) => entry.id === target)?.id ?? SECTIONS[0].id
+}
+
+const isKnown = (requested: string) => Boolean(ALIASES[requested]) || SECTIONS.some((e) => e.id === requested)
 
 const HASH_PREFIX = '#settings='
 
@@ -72,10 +81,10 @@ export function SettingsSheet(): JSX.Element | null {
   const container = useRef<HTMLDivElement>(null)
 
   const open = settingsOpen !== false
-  const section = useMemo(() => {
-    const requested = typeof settingsOpen === 'string' ? settingsOpen : ''
-    return SECTIONS.find((entry) => entry.id === requested)?.id ?? SECTIONS[0].id
-  }, [settingsOpen])
+  const section = useMemo(
+    () => resolveSection(typeof settingsOpen === 'string' ? settingsOpen : ''),
+    [settingsOpen],
+  )
 
   /* A pasted URL can name a section. The hash is written while the sheet is
      open and cleared on close, so it never lingers in the address bar. */
@@ -83,7 +92,7 @@ export function SettingsSheet(): JSX.Element | null {
     const requested = window.location.hash.startsWith(HASH_PREFIX)
       ? window.location.hash.slice(HASH_PREFIX.length)
       : ''
-    if (requested && SECTIONS.some((entry) => entry.id === requested)) openSettings(requested)
+    if (requested && isKnown(requested)) openSettings(requested)
   }, [openSettings])
 
   useEffect(() => {
@@ -186,6 +195,15 @@ export function SettingsSheet(): JSX.Element | null {
               role="tabpanel"
               aria-labelledby={`settings-tab-${active.id}`}
             >
+              {settings.data.notices && settings.data.notices.length > 0 && (
+                <div className="callout callout--caution">
+                  <div className="grow stack gap-1">
+                    {settings.data.notices.map((notice) => (
+                      <span key={notice}>{notice}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
               {active.render()}
             </div>
             <SaveBadge />

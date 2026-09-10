@@ -1,67 +1,10 @@
-/** The top "most deviating" strip and the domain coverage panel. */
+/** Left rail: how much of each domain the participant actually carries. */
 
-import type { CSSProperties } from 'react'
-import { Flame } from 'lucide-react'
-import { Card, InfoDot } from '@/components/ui/primitives'
-import { number, percent, signed, tokens } from '@/lib/format'
+import { Card } from '@/components/ui/primitives'
+import { number, percent, tokens } from '@/lib/format'
 import type { DomainCoverage } from '@/lib/types'
 import { MagnitudeBar } from './atoms'
-import { bandColor, prettyLabel, type ExtremeChip } from './model'
-
-export function ExtremesStrip({
-  chips,
-  clamp,
-  selectedKey,
-  selectedFeature,
-  onSelect,
-}: {
-  chips: ExtremeChip[]
-  clamp: number
-  selectedKey: string | null
-  selectedFeature: string | null
-  onSelect: (key: string, feature: string | null) => void
-}) {
-  if (chips.length === 0) return null
-  return (
-    <section className="onto-extremes" aria-label="Most deviating measurements">
-      <div className="onto-extremes__title">
-        <Flame size={13} aria-hidden="true" />
-        <span>Most deviating</span>
-        <InfoDot label="About the ranking">
-          Ranked by absolute deviation across every leaf and feature. The bar behind each chip is
-          clamped to the 98th percentile of the participant's magnitudes so one stray value cannot
-          flatten the rest; the printed number is always the true one.
-        </InfoDot>
-      </div>
-      <div className="onto-extremes__rail">
-        {chips.map((chip) => {
-          const intensity = Math.min(1, Math.abs(chip.score) / clamp)
-          const active = selectedKey === chip.nodeKey && selectedFeature === chip.feature
-          return (
-            <button
-              key={chip.id}
-              type="button"
-              className="onto-extreme"
-              data-active={active || undefined}
-              onClick={() => onSelect(chip.nodeKey, chip.feature)}
-              title={`${chip.label}: ${chip.score}`}
-              style={
-                {
-                  '--tone': bandColor(chip.band),
-                  '--intensity': `${8 + intensity * 84}%`,
-                } as CSSProperties
-              }
-            >
-              <span className="onto-extreme__fill" aria-hidden="true" />
-              <span className="onto-extreme__label truncate">{chip.label}</span>
-              <span className="onto-extreme__score tabular">{signed(chip.score, 2)}</span>
-            </button>
-          )
-        })}
-      </div>
-    </section>
-  )
-}
+import { prettyLabel } from './model'
 
 export function DomainCoveragePanel({
   coverage,

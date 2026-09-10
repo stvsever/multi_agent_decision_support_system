@@ -1,0 +1,37 @@
+# Hosted-model path: the dashboard runs locally, the models run at OpenRouter.
+# Nothing here needs a GPU.
+#
+#   cp .env.example docker/.env          # fill in OPENROUTER_API_KEY
+#   docker compose -f docker/docker-compose.yml up --build
+#   open http://localhost:5005
+#
+# The self-hosted path lives in docker-compose.gpu.yml.
+
+name: compass
+
+services:
+  compass:
+    image: compass-engine:cpu
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      # Fails fast with this message instead of starting a dashboard that cannot
+      # reach any model.
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:?set OPENROUTER_API_KEY in docker/.env}
+      OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
+      OPENROUTER_APP_NAME: ${OPENROUTER_APP_NAME:-COMPASS}
+      COMPASS_HOME: /root/.compass
+      COMPASS_UI_HOST: 0.0.0.0
+      COMPASS_UI_PORT: "5005"
+      COMPASS_REQUEST_TIMEOUT: ${COMPASS_REQUEST_TIMEOUT:-300}
+      COMPASS_EXECUTOR_MAX_WORKERS: ${COMPASS_EXECUTOR_MAX_WORKERS:-12}
+    ports:
+      - "${COMPASS_UI_PORT:-5005}:5005"
+    volumes:
+      # Settings, stored credentials, and run history survive a rebuild.
+      - compass-home:/root/.compass
+    restart: unless-stopped
+
+volumes:
+  compass-home:

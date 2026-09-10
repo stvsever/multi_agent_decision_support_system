@@ -31,13 +31,22 @@ from .cost import (
     participant_domain_count,
     participant_input_tokens,
 )
-from .engine_bridge import build_task_spec, describe_task, merge_overrides
+from .engine_bridge import build_task_spec, describe_task, ensure_runnable, merge_overrides
 from .paths import runs_dir
 from .schemas import DashboardConfig, RunRequest
 from .flow import plan_to_graph
 
 MAX_LIVE_EVENTS = 4000
 TERMINAL_STATES = {"succeeded", "failed", "cancelled"}
+
+#: The offline audit loads the data, assembles the predictor payload, and splits
+#: it into chunks. It orchestrates nothing, calls no model, and predicts
+#: nothing, so the record reports these three phases and no others.
+AUDIT_PHASES = (
+    ("Data loader", "Read the four participant input files.", 0),
+    ("Payload builder", "Assemble the predictor payload and the coverage ledger.", 3),
+    ("Chunker", "Split the evidence into predictor-sized chunks.", 3),
+)
 
 
 def _now() -> str:
@@ -107,6 +116,22 @@ class RunRecord:
 
     # -- serialisation --------------------------------------------------------
 
+    def audit_summary(self) -> Optional[Dict[str, Any]]:
+        """The four numbers that say whether the structural audit passed."""
+        if not self.audit or not self.result:
+            return None
+        report = self.result
+        return {
+            "payload_tokens": report.get("predictor_payload_tokens"),
+            "chunk_count": report.get("chunk_count"),
+            "chunk_budget_tokens": report.get("chunk_budget_tokens"),
+            "section_count": len(report.get("section_stats") or []),
+            "coverage_summary": report.get("coverage_summary") or {},
+            "assertions": report.get("assertions") or {},
+            "assertions_ok": bool(report.get("assertions_ok")),
+            "predictor_input_mode": report.get("predictor_input_mode"),
+        }
+
     def summary(self) -> Dict[str, Any]:
         return {
             "id": self.id,
@@ -115,6 +140,7 @@ class RunRecord:
             "participant_dir": str(self.participant_dir),
             "status": self.status,
             "audit": self.audit,
+            "audit_summary": self.audit_summary(),
             "batch_id": self.batch_id,
             "created_at": self.created_at,
             "started_at": self.started_at,
@@ -143,6 +169,9 @@ class RunRecord:
                 "cost": self.cost,
                 "estimate": self.estimate,
                 "result": self.result,
+                # A stable place for the audit report, so the client never has
+                # to guess whether `result` holds a prediction or an audit.
+                "audit_result": self.result if self.audit else None,
                 "graph": self.graph,
                 "logs": self.logs[-200:],
                 "traceback": self.traceback,
@@ -322,6 +351,8 @@ class RunRecord:
         elif kind == "result":
             with self._lock:
                 self.result = message.get("result") or {}
+            if self.audit:
+                self._audit_finished(self.result or {})
             self._broadcast({"type": "result", "result": self.result})
         elif kind == "error":
             with self._lock:
@@ -330,7 +361,103 @@ class RunRecord:
         elif kind == "log":
             self._record_log(str(message.get("message") or ""))
         elif kind == "ready":
+            if self.audit:
+                self._audit_started()
             self._broadcast({"type": "ready", "data": message})
+
+    # -- audit progress -------------------------------------------------------
+
+    def _audit_steps(self, completed: int, previews: Dict[int, str]) -> List[Dict[str, Any]]:
+        steps: List[Dict[str, Any]] = []
+        for index, (tool, description, _stage) in enumerate(AUDIT_PHASES):
+            if index < completed:
+                status = "complete"
+            elif index == completed:
+                status = "running"
+            else:
+                status = "pending"
+            steps.append(
+                {
+                    "id": index + 1,
+                    "tool": tool,
+                    "desc": description,
+                    "preview": previews.get(index, ""),
+                    "status": status,
+                    "tokens": 0,
+                    "duration": 0,
+                    "iteration": 1,
+                }
+            )
+        return steps
+
+    def _audit_event(self, event_type: str, data: Dict[str, Any], **state_updates: Any) -> None:
+        with self._lock:
+            state = dict(self.state)
+            state.update(state_updates)
+            event = {
+                "id": len(self.events) + 1,
+                "time": datetime.now().strftime("%H:%M:%S"),
+                "ts": _now(),
+                "type": event_type,
+                "data": data,
+            }
+        self._append_event(event, state)
+
+    def _audit_started(self) -> None:
+        _, description, stage = AUDIT_PHASES[0]
+        self._audit_event(
+            "STATUS",
+            {"message": description, "stage": stage},
+            status=description,
+            current_stage=stage,
+            steps=self._audit_steps(0, {}),
+            max_steps=len(AUDIT_PHASES),
+            progress=0,
+            completed=False,
+        )
+
+    def _audit_finished(self, report: Dict[str, Any]) -> None:
+        """
+        Report the phases the audit ran, with the numbers each one produced.
+
+        The audit is a single offline call that returns its measurements at the
+        end, so the phases are announced as their results arrive rather than
+        pretending to a timeline the worker never reported.
+        """
+        tokens = report.get("predictor_payload_tokens")
+        chunks = report.get("chunk_count")
+        previews = {
+            0: f"{report.get('participant_id') or self.participant_id} loaded.",
+            1: f"Predictor payload: {tokens} tokens." if tokens is not None else "Predictor payload assembled.",
+            2: (
+                f"{chunks} chunks at a budget of {report.get('chunk_budget_tokens')} tokens."
+                if chunks is not None
+                else "Evidence chunked."
+            ),
+        }
+
+        for index in (1, 2):
+            _, description, stage = AUDIT_PHASES[index]
+            self._audit_event(
+                "STATUS",
+                {"message": description, "stage": stage},
+                status=description,
+                current_stage=stage,
+                steps=self._audit_steps(index, previews),
+                progress=index,
+            )
+
+        assertions_ok = bool(report.get("assertions_ok"))
+        last_stage = AUDIT_PHASES[-1][2]
+        self._audit_event(
+            "AUDIT_COMPLETE",
+            {"summary": self.audit_summary() or {}, "assertions_ok": assertions_ok},
+            status="Structural audit complete" if assertions_ok else "Structural audit found problems",
+            current_stage=last_stage,
+            steps=self._audit_steps(len(AUDIT_PHASES), previews),
+            progress=len(AUDIT_PHASES),
+            completed=True,
+        )
 
     def _finalise(self) -> None:
         process = self._process
@@ -422,8 +549,8 @@ class ArchivedRun:
 
     def summary(self) -> Dict[str, Any]:
         keys = (
-            "id", "label", "participant_id", "participant_dir", "status", "audit", "batch_id",
-            "created_at", "started_at", "finished_at", "error", "task", "estimate", "cost",
+            "id", "label", "participant_id", "participant_dir", "status", "audit", "audit_summary",
+            "batch_id", "created_at", "started_at", "finished_at", "error", "task", "estimate", "cost",
             "stage", "progress", "max_steps", "verdict", "prediction",
         )
         return {**{k: self._payload.get(k) for k in keys}, "archived": True}
@@ -449,6 +576,7 @@ class ArchivedRun:
             "cost": self.cost,
             "estimate": self.estimate,
             "result": self.result,
+            "audit_result": self.result if self._payload.get("audit") else None,
             "graph": self.graph,
             "logs": [],
             "traceback": None,
@@ -519,6 +647,9 @@ class RunManager:
             raise FileNotFoundError(f"No participant directory at {participant_dir}")
 
         config = merge_overrides(load_config(refresh=True), request.overrides)
+        # The worker would discover a missing key or a blank model minutes from
+        # now, as a traceback. Refuse here, where the caller can be told why.
+        ensure_runnable(config, audit=audit)
         task_spec = build_task_spec(request.task)
         estimate = estimate_run(
             config=config,
