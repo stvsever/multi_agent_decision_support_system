@@ -47,6 +47,28 @@ const PLATE_H = 72
 
 /* --- Small drawing helpers ------------------------------------------------- */
 
+/**
+ * Filters every scene shares.
+ *
+ * Rendered once at the top of the stage svg. The shadow is what separates a
+ * card from the field behind it: without one, a panel with a hairline border on
+ * a flat ground reads as an outline rather than an object.
+ */
+export function FilmDefs(): JSX.Element {
+  return (
+    <defs>
+      <filter id="film-lift" x="-20%" y="-20%" width="140%" height="150%">
+        <feDropShadow dx="0" dy="1" stdDeviation="1" floodColor="var(--shadow-ink)" floodOpacity="0.10" />
+        <feDropShadow dx="0" dy="4" stdDeviation="7" floodColor="var(--shadow-ink)" floodOpacity="0.09" />
+      </filter>
+      <filter id="film-lift-strong" x="-25%" y="-25%" width="150%" height="160%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="var(--shadow-ink)" floodOpacity="0.12" />
+        <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="var(--shadow-ink)" floodOpacity="0.13" />
+      </filter>
+    </defs>
+  )
+}
+
 function Panel({
   box,
   radius = 10,
@@ -55,6 +77,7 @@ function Panel({
   strokeWidth = 1,
   opacity = 1,
   dashed,
+  lift = 'none',
 }: {
   box: Box
   radius?: number
@@ -63,6 +86,7 @@ function Panel({
   strokeWidth?: number
   opacity?: number
   dashed?: boolean
+  lift?: 'none' | 'soft' | 'strong'
 }) {
   return (
     <rect
@@ -76,6 +100,7 @@ function Panel({
       strokeWidth={strokeWidth}
       strokeDasharray={dashed ? '4 3' : undefined}
       opacity={opacity}
+      filter={lift === 'strong' ? 'url(#film-lift-strong)' : lift === 'soft' ? 'url(#film-lift)' : undefined}
     />
   )
 }
@@ -150,8 +175,8 @@ function AgentPlate({
           opacity={0.1 * glow}
         />
       )}
-      <Panel box={box} radius={12} stroke="var(--accent)" strokeWidth={1 + glow * 0.6} />
-      <Caption x={box.x + 14} y={box.y + 20} text={label} size={13} weight={600} fill="var(--text)" />
+      <Panel box={box} radius={13} stroke="var(--accent)" strokeWidth={1 + glow * 0.6} lift="strong" />
+      <Caption x={box.x + 14} y={box.y + 21} text={label} size={13.5} weight={600} fill="var(--text)" />
       <foreignObject x={box.x + 14} y={box.y + 30} width={box.w - 28} height={box.h - 36}>
         <div className="film__plate-note">{summary}</div>
       </foreignObject>
@@ -186,8 +211,10 @@ function StepNode({
 }) {
   if (appear <= 0 || !box) return null
   const fam = `var(--fam-${step.familyIndex})`
-  const titleSize = compact ? 12 : 12.5
-  const room = box.w - 62
+  const titleSize = compact ? 11.5 : 12
+  // Left padding plus the status mark on the right, and nothing more: the old
+  // reserve was wide enough to truncate names that had room to spare.
+  const room = box.w - 46
   const dim = state === 'pending' ? 0.42 : state === 'queued' ? 0.78 : 1
   const offset = compact ? 7 : 9
   return (
@@ -335,15 +362,23 @@ export function planGeometry(L: StageLayout, steps: ResolvedStep[]): PlanGeometr
   for (const step of steps) byWave[step.wave]?.push(step)
 
   if (L.wide) {
-    const colGap = 26
-    // Below a certain width the agent sits above the graph rather than beside
-    // it, so the columns keep enough room for a tool name.
-    const agentAbove = L.work.w < 1080
-    const gutter = agentAbove ? 0 : PLATE_W + 34
-    const available = L.work.w - gutter
-    const nodeW = Math.min(236, (available - colGap * (WAVE_COUNT - 1)) / WAVE_COUNT)
+    const colGap = 20
+    // The agent moves above the graph unless the columns can still hold a full
+    // tool name beside it. `ClinicalRelevanceRanker` is the longest the engine
+    // ships, and a column narrower than this had it rendering as an ellipsis,
+    // which is the one thing a diagram of named tools must not do.
+    const MIN_NODE_W = 230
+    const gutter = PLATE_W + 30
+    const beside = (L.work.w - gutter - colGap * (WAVE_COUNT - 1)) / WAVE_COUNT >= MIN_NODE_W
+    const agentAbove = !beside
+    // One inset for both the width the graph gets and where it starts. Deriving
+    // them separately is how the graph ended up indented by a gutter that was
+    // no longer there, and clipped off the right edge.
+    const inset = agentAbove ? 0 : gutter
+    const available = L.work.w - inset
+    const nodeW = Math.min(268, (available - colGap * (WAVE_COUNT - 1)) / WAVE_COUNT)
     const graphW = nodeW * WAVE_COUNT + colGap * (WAVE_COUNT - 1)
-    const originX = L.work.x + gutter + (available - graphW) / 2
+    const originX = L.work.x + inset + (available - graphW) / 2
     const nodeH = 46
     const rowGap = 14
     const maxRows = byWave.reduce((max, rows) => Math.max(max, rows.length), 1)

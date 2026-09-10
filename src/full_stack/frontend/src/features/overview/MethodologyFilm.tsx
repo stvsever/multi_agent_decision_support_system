@@ -28,6 +28,7 @@ import {
   layoutFor,
 } from './filmScript'
 import {
+  FilmDefs,
   SceneCommunication,
   SceneEvaluation,
   SceneEvidence,
@@ -192,6 +193,7 @@ export function MethodologyFilm(): JSX.Element {
               height={layout.height}
               aria-hidden="true"
             >
+              <FilmDefs />
               <StageHud L={layout} act={index} p={progress} v={vocabulary} />
               <Scene p={progress} L={layout} v={vocabulary} />
             </svg>

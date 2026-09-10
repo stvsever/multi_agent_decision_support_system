@@ -114,12 +114,21 @@ interface Spot {
 
 const CARD_W = 380
 const GAP = 14
+/**
+ * Uniform breathing room around the highlighted element. It is a constant on
+ * purpose: scaling it with the element made a small control and a tall panel
+ * carry visibly different frames, which read as the highlight not fitting what
+ * it was pointing at.
+ */
+const SPOT_PAD = 6
+/** Clearance kept above a target that is taller than the viewport. */
+const SCROLL_MARGIN = 24
+/** How long the tour takes to bring a target into place. */
+const SCROLL_MS = 380
 /** Tab is kept inside the card, so the card needs to know what is focusable. */
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 /** How long a target gets to mount before the step is skipped. */
 const RESOLVE_MS = 1200
-/** Upper bound on waiting for a smooth scroll to settle. */
-const SETTLE_MS = 700
 
 export function TourLayer() {
   const { tourActive, tourStep, setTourStep, endTour } = useApp()
@@ -164,6 +173,20 @@ export function TourLayer() {
     if (location.pathname !== step.route) navigate(step.route)
   }, [tourActive, step?.route, location.pathname, navigate])
 
+  /**
+   * Resolve the step's target, bring it to rest, and pin the highlight to it.
+   *
+   * There is deliberately no per-frame chase loop. Scrolling is locked for the
+   * duration (see below), so once the target is in place nothing can move it
+   * except a layout change, and those announce themselves: a ResizeObserver on
+   * the element and a window resize listener are enough. The old loop measured
+   * on every frame and re-committed, which meant the highlight was continuously
+   * catching up to its target rather than sitting on it.
+   *
+   * Nothing here rides on requestAnimationFrame either. rAF stops entirely on a
+   * hidden tab, which left the walkthrough resolving nothing at all until the
+   * tab came back; timers keep running, so the step still lands.
+   */
   useEffect(() => {
     if (!tourActive || !step) return
     if (!step.target) {
@@ -174,87 +197,75 @@ export function TourLayer() {
     if (step.route && location.pathname !== step.route) return
 
     let cancelled = false
-    let frame = 0
+    let timer = 0
     let observer: ResizeObserver | null = null
-    let deadline = performance.now() + RESOLVE_MS
-
-    const commit = (element: HTMLElement, radius: number) => {
-      const next = geometry(element, radius)
-      setSpot((prev) => (same(prev, next) ? prev : next))
+    const later = (fn: () => void, ms = 16) => {
+      timer = window.setTimeout(fn, ms)
     }
 
-    // A target can be replaced under us: a poll that remounts the panel the
-    // step is pointing at leaves a detached node measuring 0x0. Committing that
-    // would collapse the hole into the top-left corner, so the search starts
-    // again instead, and the step is skipped if nothing comes back.
-    const gone = (element: HTMLElement) =>
-      !element.isConnected || element.getBoundingClientRect().width === 0
-    const restart = () => {
-      observer?.disconnect()
-      observer = null
-      deadline = performance.now() + RESOLVE_MS
-      frame = requestAnimationFrame(find)
-    }
+    const usable = (element: HTMLElement) =>
+      element.isConnected && element.getBoundingClientRect().width > 0
 
-    // Third: stay glued to the element for as long as the step is showing.
-    const track = (element: HTMLElement) => {
-      let radius = cornerRadius(element)
-      const loop = () => {
-        if (cancelled) return
-        if (gone(element)) {
-          restart()
-          return
-        }
-        commit(element, radius)
-        frame = requestAnimationFrame(loop)
+    /** Pin the highlight and keep it pinned against layout changes only. */
+    const pin = (element: HTMLElement) => {
+      const measure = () => {
+        if (cancelled || !usable(element)) return
+        const next = geometry(element, cornerRadius(element))
+        setSpot((prev) => (same(prev, next) ? prev : next))
       }
-      frame = requestAnimationFrame(loop)
-      observer = new ResizeObserver(() => {
-        if (gone(element)) return
-        radius = cornerRadius(element)
-        commit(element, radius)
-      })
+      measure()
+      observer = new ResizeObserver(measure)
       observer.observe(element)
+      // A panel elsewhere growing or shrinking moves this one without resizing
+      // it, so the frame it sits in is watched too.
+      const host = element.closest('.shell__content') ?? document.body
+      observer.observe(host)
+      window.addEventListener('resize', measure)
+      cleanupResize = () => window.removeEventListener('resize', measure)
     }
+    let cleanupResize: (() => void) | null = null
 
-    // Second: let the scroll finish. Reading the rect straight after asking for
-    // a smooth scroll measures the element half way through the animation.
+    /** Move the target to its resting place, then pin. */
     const settle = (element: HTMLElement) => {
-      element.scrollIntoView({
-        block: 'center',
-        inline: 'nearest',
-        behavior: reducedMotion ? 'auto' : 'smooth',
-      })
-      const until = performance.now() + SETTLE_MS
-      let previous: Spot | null = null
-      let steady = 0
-      const poll = () => {
-        if (cancelled) return
-        if (gone(element)) {
-          restart()
-          return
-        }
-        const radius = cornerRadius(element)
-        const now = geometry(element, radius)
-        steady = previous && same(previous, now) ? steady + 1 : 0
-        previous = now
-        if (steady >= 2 || performance.now() > until) {
-          setSpot(now)
-          track(element)
-          return
-        }
-        frame = requestAnimationFrame(poll)
+      const container = scrollParent(element)
+      if (!container) {
+        pin(element)
+        return
       }
-      frame = requestAnimationFrame(poll)
+      const from = container.scrollTop
+      const to = restingScrollTop(container, element)
+      if (reducedMotion || Math.abs(to - from) < 1) {
+        container.scrollTop = to
+        pin(element)
+        return
+      }
+      // The exact resting position is known before the move starts, so the
+      // highlight is committed on arrival rather than guessed at from a rect
+      // that is still changing.
+      const started = performance.now()
+      const glide = () => {
+        if (cancelled) return
+        const progress = Math.min(1, (performance.now() - started) / SCROLL_MS)
+        container.scrollTop = from + (to - from) * (1 - Math.pow(1 - progress, 3))
+        if (progress < 1) {
+          later(glide)
+          return
+        }
+        container.scrollTop = to
+        if (usable(element)) pin(element)
+      }
+      later(glide)
     }
 
-    // First: find the target, allowing for a screen that is still mounting. A
-    // hidden or zero-sized element counts as absent: there is nothing to point
-    // at, so the step is skipped rather than shown against empty space.
+    // A screen may still be mounting, so the target is polled for rather than
+    // demanded at once. A step whose target never appears is skipped in the
+    // direction of travel: a centred card would silently describe something
+    // that is not on the screen.
+    const deadline = performance.now() + RESOLVE_MS
     const find = () => {
       if (cancelled) return
       const element = document.querySelector<HTMLElement>(`[data-tour="${step.target}"]`)
-      if (element && element.getBoundingClientRect().width > 0) {
+      if (element && usable(element)) {
         settle(element)
         return
       }
@@ -262,16 +273,59 @@ export function TourLayer() {
         go(tourStep + direction.current)
         return
       }
-      frame = requestAnimationFrame(find)
+      later(find)
     }
 
-    frame = requestAnimationFrame(find)
+    find()
     return () => {
       cancelled = true
-      cancelAnimationFrame(frame)
+      window.clearTimeout(timer)
       observer?.disconnect()
+      cleanupResize?.()
     }
   }, [tourActive, tourStep, step, location.pathname, reducedMotion, go])
+
+  /**
+   * Nothing moves during the walkthrough except by pressing Back or Next.
+   *
+   * A scroll the tour did not ask for slides the interface out from under the
+   * highlight, and the tracking loop then chases it, which is what made the
+   * spotlight look like it was drifting off its target. Every scroller is
+   * frozen for the duration and the tour moves them itself. The lock is
+   * overflow rather than a wheel handler alone, so a trackpad, a scrollbar
+   * drag, and a page key are all covered by the same mechanism; the handlers
+   * below only stop the browser scrolling something the lock cannot reach.
+   */
+  useEffect(() => {
+    if (!tourActive) return
+    const frozen: { node: HTMLElement; overflow: string }[] = []
+    const freeze = (node: HTMLElement | null) => {
+      if (!node) return
+      frozen.push({ node, overflow: node.style.overflow })
+      node.style.overflow = 'hidden'
+    }
+    freeze(document.documentElement)
+    freeze(document.body)
+    document.querySelectorAll<HTMLElement>('.shell__content').forEach(freeze)
+
+    const swallow = (event: Event) => event.preventDefault()
+    const KEYS = new Set([' ', 'PageUp', 'PageDown', 'Home', 'End', 'ArrowUp', 'ArrowDown'])
+    const keys = (event: KeyboardEvent) => {
+      // Typing inside the card is not scrolling, so a field keeps its keys.
+      const target = event.target as HTMLElement | null
+      if (target && target.closest('input, textarea, [contenteditable="true"]')) return
+      if (KEYS.has(event.key)) event.preventDefault()
+    }
+    window.addEventListener('wheel', swallow, { passive: false })
+    window.addEventListener('touchmove', swallow, { passive: false })
+    window.addEventListener('keydown', keys)
+    return () => {
+      window.removeEventListener('wheel', swallow)
+      window.removeEventListener('touchmove', swallow)
+      window.removeEventListener('keydown', keys)
+      for (const entry of frozen) entry.node.style.overflow = entry.overflow
+    }
+  }, [tourActive])
 
   // Measured before paint, so the centred opener is centred on its first frame.
   useLayoutEffect(() => {
@@ -491,23 +545,55 @@ function cornerRadius(element: HTMLElement): number {
 }
 
 /**
- * The hole around the element. Padding scales with the element so a control
- * gets a tight cut-out and a card gets a looser one, and the corner stays
- * concentric with the element's own corner instead of a flat 12px guess.
+ * The hole around the element: its own box, grown by one constant on every
+ * side, with the corner kept concentric with the element's own corner. Every
+ * highlight therefore traces its target at the same offset, which is what makes
+ * the frame read as belonging to the thing underneath it.
  */
 function geometry(element: HTMLElement, radius: number): Spot {
   const box = element.getBoundingClientRect()
-  const shortest = Math.min(box.width, box.height)
-  const pad = Math.max(3, Math.min(12, shortest * 0.09))
-  const height = box.height + pad * 2
-  const width = box.width + pad * 2
+  const height = box.height + SPOT_PAD * 2
+  const width = box.width + SPOT_PAD * 2
   return {
-    top: box.top - pad,
-    left: box.left - pad,
+    top: box.top - SPOT_PAD,
+    left: box.left - SPOT_PAD,
     width,
     height,
-    radius: Math.min(radius + pad, Math.min(width, height) / 2),
+    radius: Math.min(radius + SPOT_PAD, Math.min(width, height) / 2),
   }
+}
+
+/**
+ * The nearest ancestor that actually scrolls.
+ *
+ * `hidden` counts: the tour locks its scrollers by setting overflow hidden, and
+ * a locked container is still the one whose scrollTop has to move to bring the
+ * next target into view.
+ */
+function scrollParent(element: HTMLElement): HTMLElement | null {
+  let node: HTMLElement | null = element.parentElement
+  while (node && node !== document.body) {
+    const overflow = getComputedStyle(node).overflowY
+    const scrolls = overflow === 'auto' || overflow === 'scroll' || overflow === 'hidden'
+    if (scrolls && node.scrollHeight > node.clientHeight + 1) return node
+    node = node.parentElement
+  }
+  return null
+}
+
+/** Where the container has to sit for `element` to be properly in view. */
+function restingScrollTop(container: HTMLElement, element: HTMLElement): number {
+  const view = container.clientHeight
+  const top =
+    element.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop
+  const height = element.getBoundingClientRect().height
+  // Centred whenever it fits at all, even without the usual margin around it:
+  // a panel that is a little shorter than the frame should be shown whole, and
+  // insisting on the margin pushed its lower edge off the screen instead. Only
+  // a target that genuinely cannot fit falls back to anchoring its top, since
+  // centring that one would take its heading off the top.
+  const wanted = height <= view ? top - (view - height) / 2 : top - SCROLL_MARGIN
+  return clamp(wanted, 0, Math.max(0, container.scrollHeight - view))
 }
 
 /** Sub-pixel churn is not worth a render. */
@@ -579,13 +665,19 @@ function cardPlacement(
   }
 
   const order = placement === 'auto' ? SIDES : [placement, ...SIDES.filter((s) => s !== placement)]
-  const fits = (side: Placement) => {
-    if (side === 'right') return spot.left + spot.width + GAP + cardW <= vw - GAP
-    if (side === 'left') return spot.left - GAP - cardW >= GAP
-    if (side === 'bottom') return spot.top + spot.height + GAP + cardH <= vh - GAP
-    return spot.top - GAP - cardH >= GAP
+  const room = (side: Placement) => {
+    if (side === 'right') return vw - GAP - (spot.left + spot.width + GAP)
+    if (side === 'left') return spot.left - GAP * 2
+    if (side === 'bottom') return vh - GAP - (spot.top + spot.height + GAP)
+    return spot.top - GAP * 2
   }
-  const side = order.find(fits) ?? order[0]
+  const need = (side: Placement) => (side === 'right' || side === 'left' ? cardW : cardH)
+  // A spot that fills the screen leaves no side with room, and the card then
+  // has to sit over it. Falling back to the requested side put it over the
+  // middle of the panel; the roomiest side keeps it against an edge, where it
+  // covers the least.
+  const side = order.find((option) => room(option) >= need(option)) ??
+    [...order].sort((a, b) => room(b) - room(a))[0]
 
   let top: number
   let left: number

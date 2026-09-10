@@ -507,7 +507,12 @@ export function layoutFor(width: number): StageLayout {
   const hud: Box = { x: pad, y: 14, w: width - pad * 2, h: 44 }
   const sceneY = hud.y + hud.h + (wide ? 18 : 14)
   const scene: Box = { x: pad, y: sceneY, w: width - pad * 2, h: height - sceneY - pad }
-  const stripH = wide ? 116 : 104
+  // The footer band carries a few figures, not a panel of them, so it gives
+  // height back to the diagram above it. It cannot give back everything: the
+  // execution act draws its worker pool down here and needs about 114px, while
+  // orchestration needs 314 above once the agent plate sits over the graph.
+  // This is the value that satisfies both without either one clipping.
+  const stripH = wide ? 104 : 96
   const strip: Box = { x: scene.x, y: scene.y + scene.h - stripH, w: scene.w, h: stripH }
   const work: Box = { x: scene.x, y: scene.y, w: scene.w, h: scene.h - stripH - 14 }
   return { width, height, wide, hud, scene, work, strip }
@@ -515,7 +520,10 @@ export function layoutFor(width: number): StageLayout {
 
 /** Rough text metrics, good enough to keep a label inside its own box. */
 export function fit(text: string, maxWidth: number, fontSize: number): string {
-  const perChar = fontSize * 0.54
+  // Measured against the rendered face rather than guessed: the tool names are
+  // CamelCase, and at 0.54 the estimate was optimistic enough that a name which
+  // did fit was still being cut.
+  const perChar = fontSize * 0.575
   const room = Math.floor(maxWidth / perChar)
   if (text.length <= room) return text
   if (room <= 1) return ''
