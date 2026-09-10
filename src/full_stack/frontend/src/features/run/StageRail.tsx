@@ -18,6 +18,8 @@ export interface StageRailProps {
   failed?: boolean
   iteration: number
   maxIterations?: number
+  /** ISO start of the run, so Initialization is timed from the run itself. */
+  startedAt?: string | null
 }
 
 export const StageRail = memo(function StageRail({
@@ -28,11 +30,17 @@ export const StageRail = memo(function StageRail({
   failed = false,
   iteration,
   maxIterations,
+  startedAt,
 }: StageRailProps) {
   const now = useNow(running)
+  const startedMs = useMemo(() => {
+    if (!startedAt) return null
+    const parsed = Date.parse(startedAt)
+    return Number.isNaN(parsed) ? null : parsed
+  }, [startedAt])
   const timings = useMemo(
-    () => stageTimings(events, stages.length, running ? now : null),
-    [events, stages.length, running, now],
+    () => stageTimings(events, stages.length, running ? now : null, startedMs),
+    [events, stages.length, running, now, startedMs],
   )
 
   const total = timings.totals.reduce((sum, value) => sum + value, 0)

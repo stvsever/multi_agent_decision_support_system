@@ -154,7 +154,7 @@ export function MethodologyFilm(): JSX.Element {
 
   return (
     <Card
-      title="How a run answers one question"
+      title="How the multi-agent inference system works"
       subtitle="An illustration of the method from end to end. No participant data is read and no model is called."
       actions={
         stageName ? (
@@ -166,12 +166,19 @@ export function MethodologyFilm(): JSX.Element {
       flush
     >
       <div className="film">
-        <div className="film__caption">
-          <span className="eyebrow">
-            Act {index + 1} of {ACTS.length}
-          </span>
-          <span className="t-h3">{act.title}</span>
-        </div>
+        {/* The line about the act reads before the picture it describes, not
+            after it. The act's own name is carried by the rail below, where it
+            is already marked as the current one, so a heading here would say it
+            twice. */}
+        <motion.p
+          key={act.key}
+          className="film__prose"
+          initial={reducedMotion ? false : { opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reducedMotion ? 0 : 0.26, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {act.prose}
+        </motion.p>
 
         <div className="film__stage" ref={stageRef}>
           {isLoading && <Skeleton height={layout.height} radius={10} />}
@@ -199,18 +206,6 @@ export function MethodologyFilm(): JSX.Element {
             </svg>
           )}
         </div>
-
-        {/* Keyed rather than wrapped in AnimatePresence: the line must be
-            correct on the frame the act changes, including a scrub. */}
-        <motion.p
-          key={act.key}
-          className="film__prose"
-          initial={reducedMotion ? false : { opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reducedMotion ? 0 : 0.26, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {act.prose}
-        </motion.p>
 
         <Transport
           index={index}

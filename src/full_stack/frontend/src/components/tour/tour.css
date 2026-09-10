@@ -14,12 +14,26 @@
 
 /* The radius is set inline from the highlighted element's own computed radius,
    so the ring follows the shape it is tracing. */
+/* The hole in the scrim and the ring around it move together, on the same
+   curve, because they are the same shape: if one eases and the other does not,
+   the ring leaves the lit area for the length of the transition. */
+.tour__hole,
+.tour__ring {
+  transition:
+    x var(--dur-slow) var(--ease-out),
+    y var(--dur-slow) var(--ease-out),
+    top var(--dur-slow) var(--ease-out),
+    left var(--dur-slow) var(--ease-out),
+    width var(--dur-slow) var(--ease-out),
+    height var(--dur-slow) var(--ease-out);
+}
 .tour__ring {
   position: absolute;
   border: 1.5px solid var(--accent);
   box-shadow: 0 0 0 3px var(--accent-100), var(--shadow-lg);
   pointer-events: none;
 }
+.tour__shield { transition: all var(--dur-slow) var(--ease-out); }
 
 .tour__card {
   position: absolute;

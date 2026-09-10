@@ -425,7 +425,6 @@ export function TourLayer() {
   // A card wider than the window is not a card, so it gives way to the window.
   const cardW = Math.min(CARD_W, Math.max(200, viewport.width - GAP * 2))
   const place = cardPlacement(spot, step.placement ?? 'auto', cardH, cardW, viewport)
-  const duration = reducedMotion ? 0 : 0.28
   const shields = shieldRects(spot, viewport)
 
   return createPortal(
@@ -438,18 +437,23 @@ export function TourLayer() {
         exit={{ opacity: 0 }}
         transition={{ duration: reducedMotion ? 0 : 0.18 }}
       >
-        {/* One scrim with a mask, so the target stays fully lit while
-            everything around it dims. It paints only: what it dims is put out
-            of reach by the shields below, which leave the lit hole alone. */}
+        {/* The dim, the hole and the ring are one shape drawn three times, so
+            they are all read from `spot` in this render and moved by CSS.
+            Animating the mask and the ring through framer while the shields
+            stayed put meant three different ideas of where the hole was: for a
+            few frames one of them dimmed what another had lit, which is what
+            made a step look half highlighted. */}
         <svg className="tour__scrim" aria-hidden>
           <defs>
-            <mask id="tour-hole">
-              <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <mask id="tour-hole" maskUnits="userSpaceOnUse">
+              <rect x="0" y="0" width={viewport.width} height={viewport.height} fill="white" />
               {spot && (
-                <motion.rect
-                  initial={false}
-                  animate={{ x: spot.left, y: spot.top, width: spot.width, height: spot.height }}
-                  transition={{ duration, ease: [0.22, 1, 0.36, 1] }}
+                <rect
+                  className="tour__hole"
+                  x={spot.left}
+                  y={spot.top}
+                  width={spot.width}
+                  height={spot.height}
                   rx={spot.radius}
                   fill="black"
                 />
@@ -467,12 +471,15 @@ export function TourLayer() {
         ))}
 
         {spot && (
-          <motion.div
+          <div
             className="tour__ring"
-            style={{ borderRadius: spot.radius }}
-            initial={false}
-            animate={{ top: spot.top, left: spot.left, width: spot.width, height: spot.height }}
-            transition={{ duration, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              borderRadius: spot.radius,
+              top: spot.top,
+              left: spot.left,
+              width: spot.width,
+              height: spot.height,
+            }}
           />
         )}
 

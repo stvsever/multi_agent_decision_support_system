@@ -8,14 +8,10 @@
  */
 
 import type { JSX, ReactNode } from 'react'
-import { tokens } from '@/lib/format'
 import {
-  BUNDLE_TOKENS,
   CHECKLIST,
-  CHUNK_BUDGET,
   EVIDENCE,
   LANES,
-  LEAF_TOTAL,
   PREDICTION,
   REPORT_SECTIONS,
   UNKNOWNS,
@@ -304,7 +300,7 @@ function Mark({ kind, x, y, size = 5 }: { kind: 'check' | 'warn' | 'cross'; x: n
 }
 
 /** A dependency edge, drawn on as `draw` runs from 0 to 1. */
-function Edge({ from, to, draw, compact }: { from: Box; to: Box; draw: number; compact?: boolean }) {
+function Edge({ id, from, to, draw, compact }: { id: string; from: Box; to: Box; draw: number; compact?: boolean }) {
   if (draw <= 0 || !from || !to) return null
   const bend = compact ? 14 : Math.max(16, (to.x - (from.x + from.w)) * 0.6)
   const path = compact
@@ -314,17 +310,60 @@ function Edge({ from, to, draw, compact }: { from: Box; to: Box; draw: number; c
     : `M ${from.x + from.w} ${from.y + from.h / 2} C ${from.x + from.w + bend} ${from.y + from.h / 2}, ${
         to.x - bend
       } ${to.y + to.h / 2}, ${to.x} ${to.y + to.h / 2}`
+  const complete = clamp01(draw) >= 0.999
+  const startX = compact ? from.x + from.w / 2 : from.x + from.w
+  const startY = compact ? from.y + from.h : from.y + from.h / 2
   return (
-    <path
-      d={path}
-      fill="none"
-      stroke="var(--line-strong)"
-      strokeWidth={1}
-      pathLength={1}
-      strokeDasharray={1}
-      strokeDashoffset={1 - clamp01(draw)}
-      opacity={0.85}
-    />
+    <g>
+      <path
+        id={id}
+        d={path}
+        fill="none"
+        stroke="var(--line-strong)"
+        strokeWidth={1}
+        pathLength={1}
+        strokeDasharray={1}
+        strokeDashoffset={1 - clamp01(draw)}
+        opacity={0.85}
+      />
+      {/* Direction, once the line has finished drawing. A static curve between
+          two boxes says they are related but not which way the work flows, and
+          on a graph with two fusion layers that is the whole point. Markers
+          ride the path itself, so they follow whatever curve it takes. */}
+      {complete &&
+        [0, 1, 2].map((slot) => (
+          // Parked on the edge's origin rather than at the default 0,0: if the
+          // motion never runs, a marker should sit where the work starts, not
+          // in the corner of the stage.
+          <circle
+            key={slot}
+            cx={startX}
+            cy={startY}
+            r={compact ? 1.8 : 2.1}
+            fill="var(--accent)"
+            opacity={0.9}
+          >
+            <animateMotion
+              dur="1.9s"
+              begin={`${slot * 0.63}s`}
+              repeatCount="indefinite"
+              keyPoints="0;1"
+              keyTimes="0;1"
+              calcMode="linear"
+            >
+              <mpath href={`#${id}`} />
+            </animateMotion>
+            <animate
+              attributeName="opacity"
+              dur="1.9s"
+              begin={`${slot * 0.63}s`}
+              repeatCount="indefinite"
+              values="0;0.95;0.95;0"
+              keyTimes="0;0.15;0.8;1"
+            />
+          </circle>
+        ))}
+    </g>
   )
 }
 
@@ -379,9 +418,11 @@ export function planGeometry(L: StageLayout, steps: ResolvedStep[]): PlanGeometr
     const nodeW = Math.min(268, (available - colGap * (WAVE_COUNT - 1)) / WAVE_COUNT)
     const graphW = nodeW * WAVE_COUNT + colGap * (WAVE_COUNT - 1)
     const originX = L.work.x + inset + (available - graphW) / 2
-    const nodeH = 46
-    const rowGap = 14
     const maxRows = byWave.reduce((max, rows) => Math.max(max, rows.length), 1)
+    // The tallest column decides the row size, so a wave of six reads at the
+    // same rhythm as a wave of two instead of running off the stage.
+    const nodeH = maxRows >= 6 ? 38 : maxRows === 5 ? 42 : 46
+    const rowGap = maxRows >= 6 ? 9 : maxRows === 5 ? 11 : 14
     const blockH = maxRows * nodeH + (maxRows - 1) * rowGap
     const bound = L.work.y + (agentAbove ? PLATE_H + 16 : 0)
     const top = bound + Math.max(18, (L.work.y + L.work.h - bound - blockH) / 2)
@@ -434,10 +475,9 @@ export function SceneQuestion({ p, L, v }: SceneProps): JSX.Element {
   const cardW = (L.scene.w - gap * (columns - 1)) / columns
   const cardH = L.wide ? 118 : 84
   const gridH = rows * cardH + (rows - 1) * gap
-  const contractH = 108
-  const blockH = gridH + 30 + contractH
-  const top = L.scene.y + Math.max(6, (L.scene.h - blockH) / 2)
-  const contractTop = top + gridH + 30
+  // The grid is the whole act now, so it sits in the middle of the stage
+  // rather than at the top of a column it used to share with a contract panel.
+  const top = L.scene.y + Math.max(6, (L.scene.h - gridH) / 2)
 
   const boxFor = (index: number): Box => ({
     x: L.scene.x + (index % columns) * (cardW + gap),
@@ -455,8 +495,6 @@ export function SceneQuestion({ p, L, v }: SceneProps): JSX.Element {
   const toBox = boxFor(tour[legIndex + 1])
   const highlight = { x: lerp(fromBox.x, toBox.x, legT), y: lerp(fromBox.y, toBox.y, legT) }
   const settled = seg(p, 0.62, 0.78)
-  const contract = rise(p, 0.7, 0.94)
-  const items = ['One label from two', 'A probability', 'A confidence', 'An evidence chain']
 
   return (
     <g>
@@ -467,27 +505,24 @@ export function SceneQuestion({ p, L, v }: SceneProps): JSX.Element {
         const fade = isChosen ? 1 : lerp(1, 0.28, settled)
         return (
           <g key={shape.value} opacity={enter * fade} transform={`translate(0 ${(1 - enter) * 12})`}>
-            <Panel box={box} radius={11} stroke={isChosen && settled > 0.4 ? 'var(--accent)' : 'var(--line)'} />
+            <Panel
+              box={box}
+              radius={11}
+              stroke={isChosen && settled > 0.4 ? 'var(--accent)' : 'var(--line)'}
+              lift={isChosen && settled > 0.4 ? 'soft' : 'none'}
+            />
             <Caption
-              x={box.x + 14}
-              y={box.y + 24}
-              text={fit(shape.label, box.w - 28, 13)}
+              x={box.x + box.w / 2}
+              y={box.y + box.h / 2 - 12}
+              text={fit(shape.label, box.w - 24, 13)}
               size={13}
               weight={600}
+              anchor="middle"
               fill="var(--text)"
             />
-            <foreignObject x={box.x + 14} y={box.y + 34} width={Math.max(10, box.w - 28)} height={L.wide ? 50 : 32}>
-              <div className="film__card-note">{shape.summary}</div>
+            <foreignObject x={box.x + 12} y={box.y + box.h / 2 - 2} width={Math.max(10, box.w - 24)} height={L.wide ? 44 : 30}>
+              <div className="film__card-note film__card-note--center">{shape.summary}</div>
             </foreignObject>
-            {L.wide && (
-              <Caption
-                x={box.x + 14}
-                y={box.y + box.h - 18}
-                text={`needs ${shape.needs.length} input${shape.needs.length === 1 ? '' : 's'}`}
-                size={10}
-                fill="var(--text-faint)"
-              />
-            )}
           </g>
         )
       })}
@@ -506,45 +541,6 @@ export function SceneQuestion({ p, L, v }: SceneProps): JSX.Element {
         />
       )}
 
-      {contract > 0 && (
-        <g opacity={contract} transform={`translate(0 ${(1 - contract) * 10})`}>
-          <Panel
-            box={{ x: L.scene.x, y: contractTop, w: L.scene.w, h: contractH }}
-            radius={11}
-            fill="var(--bg-inset)"
-            stroke="var(--line-faint)"
-          />
-          <Caption
-            x={L.scene.x + 16}
-            y={contractTop + 22}
-            text="THE OUTPUT CONTRACT THIS SHAPE FIXES"
-            size={9.5}
-            weight={700}
-            fill="var(--text-muted)"
-          />
-          {items.map((item, index) => {
-            const columnsHere = L.wide ? 4 : 2
-            const slotW = (L.scene.w - 32) / columnsHere
-            const x = L.scene.x + 16 + (index % columnsHere) * slotW
-            const y = contractTop + 52 + Math.floor(index / columnsHere) * 22
-            const appear = rise(p, 0.76 + index * 0.04, 0.9 + index * 0.04)
-            return (
-              <g key={item} opacity={appear}>
-                <circle cx={x + 5} cy={y} r={3} fill="var(--accent)" />
-                <Caption x={x + 17} y={y} text={fit(item, slotW - 26, 12)} size={12} fill="var(--text-secondary)" />
-              </g>
-            )
-          })}
-          <Caption
-            x={L.scene.x + 16}
-            y={contractTop + contractH - 16}
-            text="Every later stage is checked against this contract."
-            size={11}
-            fill="var(--text-faint)"
-            opacity={rise(p, 0.9, 1)}
-          />
-        </g>
-      )}
     </g>
   )
 }
@@ -552,98 +548,107 @@ export function SceneQuestion({ p, L, v }: SceneProps): JSX.Element {
 /* --- Act 2: the evidence --------------------------------------------------- */
 
 export function SceneEvidence({ p, L }: SceneProps): JSX.Element {
-  const laneH = L.wide ? 48 : 54
-  const laneGap = 12
-  const blockH = LANES.length * laneH + (LANES.length - 1) * laneGap
-  const gutter = L.wide ? 176 : 0
-  const laneW = Math.min(L.wide ? 780 : L.scene.w, L.scene.w - gutter)
-  const groupX = L.scene.x + (L.scene.w - (gutter + laneW)) / 2
-  const laneX = groupX + gutter
-  const top = L.wide ? L.scene.y + (L.scene.h - blockH) / 2 - 10 : L.scene.y + 100
-  const sourceX = L.wide ? groupX + 58 : L.scene.x + L.scene.w / 2
-  const sourceY = L.wide ? top + blockH / 2 : L.scene.y + 46
-  const enter = rise(p, 0, 0.16)
-  const countW = L.wide ? 104 : 96
-  const trackW = L.wide ? 140 : 120
-  const counted = LANES.reduce(
-    (sum, lane, index) => sum + Math.round(lane.present * easeOut(seg(p, 0.2 + index * 0.08, 0.62 + index * 0.08))),
-    0,
-  )
+  /*
+   * The participant's evidence as a radial hierarchy.
+   *
+   * A single subject has no cohort to be a fraction of, so nothing here is
+   * counted: the earlier version reported "22 of 100 leaves" per domain, which
+   * invited a comparison against a reference that does not exist for one
+   * person. What matters is the shape, so the shape is what is drawn: the
+   * participant at the centre, the domains around them, and what sits under
+   * each domain one ring further out.
+   */
+  const cx = L.scene.x + L.scene.w / 2
+  const cy = L.scene.y + L.scene.h / 2
+  const ringA = { rx: Math.min(224, L.scene.w * 0.2), ry: Math.min(104, L.scene.h * 0.27) }
+  const ringB = { rx: Math.min(392, L.scene.w * 0.36), ry: Math.min(168, L.scene.h * 0.42) }
+  const step = 360 / LANES.length
+  const at = (angle: number, ring: { rx: number; ry: number }) => {
+    const radians = ((angle - 90) * Math.PI) / 180
+    return { x: cx + Math.cos(radians) * ring.rx, y: cy + Math.sin(radians) * ring.ry }
+  }
+  const centre = rise(p, 0, 0.14)
 
   return (
     <g>
-      <g opacity={enter}>
-        <circle cx={sourceX} cy={sourceY} r={30} fill="var(--accent-50)" stroke="var(--accent-200)" />
-        <circle cx={sourceX} cy={sourceY - 8} r={8} fill="var(--accent)" opacity={0.75} />
-        <path d={`M ${sourceX - 14} ${sourceY + 17} a 14 14 0 0 1 28 0 z`} fill="var(--accent)" opacity={0.75} />
-        <Caption x={sourceX} y={sourceY + 46} text="one participant" size={10.5} anchor="middle" />
-      </g>
-
       {LANES.map((lane, index) => {
-        const y = top + index * (laneH + laneGap)
-        const fan = rise(p, 0.08 + index * 0.05, 0.36 + index * 0.05)
-        const tick = easeOut(seg(p, 0.2 + index * 0.08, 0.62 + index * 0.08))
-        const present = Math.round(lane.present * tick)
-        const trackX = laneX + laneW - 14 - countW - 12 - trackW
-        const barY = L.wide ? y + laneH / 2 - 3 : y + laneH - 20
-        const path = L.wide
-          ? `M ${sourceX + 32} ${sourceY} C ${sourceX + 92} ${sourceY}, ${laneX - 56} ${y + laneH / 2}, ${laneX} ${
-              y + laneH / 2
-            }`
-          : `M ${sourceX} ${sourceY + 32} C ${sourceX} ${sourceY + 60}, ${laneX + laneW / 2} ${y - 26}, ${
-              laneX + laneW / 2
-            } ${y}`
+        const angle = index * step
+        const node = at(angle, ringA)
+        const limb = rise(p, 0.1 + index * 0.06, 0.34 + index * 0.06)
+        const spread = step * 0.34
         return (
           <g key={lane.key}>
             <path
-              d={path}
+              d={`M ${cx} ${cy} Q ${(cx + node.x) / 2} ${(cy + node.y) / 2}, ${node.x} ${node.y}`}
               fill="none"
               stroke="var(--line-strong)"
-              strokeWidth={1}
+              strokeWidth={1.2}
               pathLength={1}
               strokeDasharray={1}
-              strokeDashoffset={1 - fan}
-              opacity={0.7}
+              strokeDashoffset={1 - limb}
+              opacity={0.75}
             />
-            <g opacity={fan} transform={`translate(${(1 - fan) * (L.wide ? -10 : 0)} ${(1 - fan) * (L.wide ? 0 : 8)})`}>
-              <Panel box={{ x: laneX, y, w: laneW, h: laneH }} radius={9} />
+            {lane.branches.map((branch, twig) => {
+              const leafAngle = angle + (twig - (lane.branches.length - 1) / 2) * spread
+              const tip = at(leafAngle, ringB)
+              const grow = rise(p, 0.3 + index * 0.05 + twig * 0.03, 0.6 + index * 0.05 + twig * 0.03)
+              const anchor = Math.cos(((leafAngle - 90) * Math.PI) / 180) >= 0 ? 'start' : 'end'
+              const nudge = anchor === 'start' ? 9 : -9
+              return (
+                <g key={branch}>
+                  <path
+                    d={`M ${node.x} ${node.y} Q ${(node.x + tip.x) / 2} ${(node.y + tip.y) / 2}, ${tip.x} ${tip.y}`}
+                    fill="none"
+                    stroke="var(--line)"
+                    strokeWidth={1}
+                    pathLength={1}
+                    strokeDasharray={1}
+                    strokeDashoffset={1 - grow}
+                    opacity={0.6}
+                  />
+                  <g opacity={grow}>
+                    <circle cx={tip.x} cy={tip.y} r={3.4} fill={`var(--fam-${index % 8})`} />
+                    <Caption
+                      x={tip.x + nudge}
+                      y={tip.y}
+                      text={branch}
+                      size={10.5}
+                      anchor={anchor}
+                      fill="var(--text-muted)"
+                    />
+                  </g>
+                </g>
+              )
+            })}
+            <g opacity={limb}>
+              <circle cx={node.x} cy={node.y} r={7} fill={`var(--fam-${index % 8})`} />
+              <circle cx={node.x} cy={node.y} r={12} fill="none" stroke={`var(--fam-${index % 8})`} opacity={0.35} />
               <Caption
-                x={laneX + 14}
-                y={L.wide ? y + laneH / 2 : y + 18}
-                text={fit(lane.label, L.wide ? trackX - laneX - 26 : laneW - 28, 12.5)}
-                size={12.5}
+                x={node.x}
+                y={node.y - 22}
+                text={lane.label}
+                size={12}
                 weight={600}
+                anchor="middle"
                 fill="var(--text)"
-              />
-              <rect x={trackX} y={barY} width={trackW} height={6} rx={3} fill="var(--bg-inset)" />
-              <rect
-                x={trackX}
-                y={barY}
-                width={Math.max(0, trackW * (present / lane.total))}
-                height={6}
-                rx={3}
-                fill="var(--accent)"
-                opacity={0.85}
-              />
-              <Caption
-                x={laneX + laneW - 14}
-                y={barY + 3}
-                text={`${present} of ${lane.total} leaves`}
-                size={11}
-                anchor="end"
-                mono
               />
             </g>
           </g>
         )
       })}
 
+      <g opacity={centre}>
+        <circle cx={cx} cy={cy} r={26} fill="var(--accent-50)" stroke="var(--accent)" />
+        <circle cx={cx} cy={cy - 6} r={6.5} fill="var(--accent)" opacity={0.8} />
+        <path d={`M ${cx - 11} ${cy + 14} a 11 11 0 0 1 22 0 z`} fill="var(--accent)" opacity={0.8} />
+      </g>
       <Caption
-        x={L.scene.x}
-        y={L.scene.y + L.scene.h - 10}
-        text={`${counted} of ${LEAF_TOTAL} measured leaves read, and every leaf that is absent is recorded as absent.`}
-        size={11.5}
-        opacity={rise(p, 0.6, 0.86)}
+        x={cx}
+        y={cy + 42}
+        text="one participant"
+        size={10.5}
+        anchor="middle"
+        opacity={centre}
       />
     </g>
   )
@@ -656,7 +661,6 @@ export function SceneOrchestration({ p, L, v }: SceneProps): JSX.Element {
   const agent = v.agents.orchestrator
   const glow = p < 0.42 ? 0.5 + 0.5 * Math.sin(seg(p, 0, 0.4) * Math.PI * 3) : 0
   const waveIn = rise(p, 0.8, 0.96)
-  const stripIn = rise(p, 0.06, 0.2)
 
   return (
     <g>
@@ -675,6 +679,7 @@ export function SceneOrchestration({ p, L, v }: SceneProps): JSX.Element {
           return (
             <Edge
               key={`${dep}-${step.id}`}
+              id={`plan-${dep}-${step.id}`}
               from={geometry.pos[dep]}
               to={geometry.pos[step.id]}
               draw={rise(p, 0.24 + index * 0.05, 0.4 + index * 0.05)}
@@ -700,27 +705,23 @@ export function SceneOrchestration({ p, L, v }: SceneProps): JSX.Element {
           {L.wide ? (
             <>
               <line x1={wave.x} y1={wave.y + 8} x2={wave.x + wave.w} y2={wave.y + 8} stroke="var(--line-strong)" />
+              {/* What the wave is, centred over the column it labels. A
+                  letter and a step count said nothing the column did not
+                  already show. */}
               <Caption
-                x={wave.x}
+                x={wave.x + wave.w / 2}
                 y={wave.y - 4}
-                text={`WAVE ${wave.letter}, ${wave.count} STEP${wave.count === 1 ? '' : 'S'}`}
+                text={fit((WAVE_NOTES[index] ?? '').toUpperCase(), wave.w, 9.5)}
                 size={9.5}
                 weight={700}
-              />
-              <Caption
-                x={wave.x + wave.w}
-                y={wave.y - 4}
-                text={fit(WAVE_NOTES[index] ?? '', wave.w - 120, 9.5)}
-                size={9.5}
-                anchor="end"
-                fill="var(--text-faint)"
+                anchor="middle"
               />
             </>
           ) : (
             <Caption
               x={wave.x}
               y={wave.y + 10}
-              text={`WAVE ${wave.letter}, ${wave.count} STEP${wave.count === 1 ? '' : 'S'}, ${WAVE_NOTES[index] ?? ''}`}
+              text={(WAVE_NOTES[index] ?? '').toUpperCase()}
               size={9.5}
               weight={700}
             />
@@ -728,25 +729,6 @@ export function SceneOrchestration({ p, L, v }: SceneProps): JSX.Element {
         </g>
       ))}
 
-      <g opacity={stripIn}>
-        <Panel box={L.strip} radius={11} fill="var(--bg-inset)" stroke="var(--line-faint)" />
-        <Caption x={L.strip.x + 16} y={L.strip.y + 20} text="THE PLAN" size={9.5} weight={700} />
-        {[
-          [`${v.steps.length}`, 'steps in this plan'],
-          [`${WAVE_COUNT}`, 'waves that can run together'],
-          [`${v.steps.filter((step) => step.deps.length > 0).length}`, 'steps that wait on an earlier one'],
-        ].map(([value, label], index) => {
-          const slotW = (L.strip.w - 32) / 3
-          const x = L.strip.x + 16 + index * slotW
-          const appear = rise(p, 0.84 + index * 0.04, 0.94 + index * 0.04)
-          return (
-            <g key={label} opacity={appear}>
-              <Caption x={x} y={L.strip.y + 54} text={value} size={20} weight={650} fill="var(--text)" mono />
-              <Caption x={x} y={L.strip.y + 78} text={fit(label, slotW - 12, 11)} size={11} />
-            </g>
-          )
-        })}
-      </g>
     </g>
   )
 }
@@ -778,7 +760,14 @@ export function SceneExecution({ p, L, v }: SceneProps): JSX.Element {
     <g>
       {v.steps.map((step) =>
         step.deps.map((dep) => (
-          <Edge key={`${dep}-${step.id}`} from={geometry.pos[dep]} to={geometry.pos[step.id]} draw={1} compact={!L.wide} />
+          <Edge
+            key={`${dep}-${step.id}`}
+            id={`exec-${dep}-${step.id}`}
+            from={geometry.pos[dep]}
+            to={geometry.pos[step.id]}
+            draw={1}
+            compact={!L.wide}
+          />
         )),
       )}
 
@@ -1004,7 +993,7 @@ export function SceneIntegration({ p, L, v }: SceneProps): JSX.Element {
             <Caption
               x={box.x + box.w - 9}
               y={box.y + box.h / 2}
-              text={tokens(slot.step.chunked ? slot.step.payload / 2 : slot.step.payload)}
+              text={slot.step.chunked ? 'split' : ''}
               size={9.5}
               anchor="end"
               mono
@@ -1028,7 +1017,7 @@ export function SceneIntegration({ p, L, v }: SceneProps): JSX.Element {
             <Caption
               x={first.x + first.w + 24}
               y={middle + 4}
-              text={`one payload over ${tokens(CHUNK_BUDGET)} tokens`}
+              text="one output too large to pass whole"
               size={10.5}
               fill="var(--caution)"
               weight={600}
@@ -1041,7 +1030,7 @@ export function SceneIntegration({ p, L, v }: SceneProps): JSX.Element {
       <Caption
         x={L.scene.x + L.scene.w / 2}
         y={Math.min(spineBottom + 22, L.scene.y + L.scene.h - 8)}
-        text={`one evidence bundle, ${slots.length} blocks, ${tokens(BUNDLE_TOKENS)} tokens`}
+        text={`one evidence bundle, ${slots.length} blocks`}
         size={11.5}
         anchor="middle"
         opacity={rise(p, 0.82, 1)}
@@ -1233,7 +1222,7 @@ export function SceneEvaluation({ p, L, v }: SceneProps): JSX.Element {
         <Caption
           x={listX + 18}
           y={listY + 24}
-          text={secondPass ? 'CHECKLIST, ITERATION 2' : 'CHECKLIST, ITERATION 1'}
+          text={secondPass ? 'CHECKLIST, SECOND PASS' : 'CHECKLIST, FIRST PASS'}
           size={9.5}
           weight={700}
         />
@@ -1326,7 +1315,7 @@ export function SceneEvaluation({ p, L, v }: SceneProps): JSX.Element {
           <Caption
             x={loopEndX + 14}
             y={loopY + 30}
-            text="iteration 2, back to the Orchestrator"
+            text="back to the Orchestrator"
             size={10.5}
             weight={600}
             fill="var(--caution)"
@@ -1495,93 +1484,43 @@ export function SceneCommunication({ p, L, v }: SceneProps): JSX.Element {
 export function StageHud({ L, act, p, v }: { L: StageLayout; act: number; p: number; v: FilmVocabulary }): JSX.Element {
   const shape = v.shapes[v.chosenShape]
   const targetIn = act > 0 ? 1 : rise(p, 0.7, 0.94)
-  const ringIn = act > 1 ? 1 : act === 1 ? rise(p, 0.12, 0.34) : 0
-  const coverage = act > 4 ? 1 : act === 4 ? easeInOut(seg(p, 0.14, 0.86)) : 0
-  const iteration = act > 6 || (act === 6 && p >= 0.55) ? 2 : 1
 
-  const radius = 15
-  const circumference = 2 * Math.PI * radius
-  const ringX = L.hud.x + L.hud.w - 22
-  const ringY = L.hud.y + 22
-  const labelRight = ringX - 26
-  const labelW = L.wide ? 150 : 46
-  const badgeW = 88
-  const badgeX = labelRight - labelW - 14 - badgeW
-  const chipW = L.wide ? 320 : Math.max(120, badgeX - L.hud.x - 14)
-  const domains = Math.round(LANES.length * coverage)
+  // One thing only: what this run is being asked. The coverage dial and the
+  // iteration badge that used to sit beside it were counters about the
+  // illustration rather than part of the explanation, and they competed with
+  // the diagram for the top of the stage.
+  const chipW = Math.min(L.hud.w, L.wide ? 360 : L.hud.w)
+  const chipX = L.hud.x + (L.hud.w - chipW) / 2
 
   return (
     <g>
       {targetIn > 0 && (
-        <g opacity={targetIn} transform={`translate(${(1 - targetIn) * -8} 0)`}>
+        <g opacity={targetIn} transform={`translate(0 ${(1 - targetIn) * -6})`}>
           <Panel
-            box={{ x: L.hud.x, y: L.hud.y, w: chipW, h: L.hud.h }}
+            box={{ x: chipX, y: L.hud.y, w: chipW, h: L.hud.h }}
             radius={10}
             fill="var(--accent-50)"
             stroke="var(--accent-200)"
+            lift="soft"
           />
-          <Caption x={L.hud.x + 14} y={L.hud.y + 15} text="THE RUN'S SUBJECT" size={9} weight={700} fill="var(--accent)" />
           <Caption
-            x={L.hud.x + 14}
+            x={chipX + chipW / 2}
+            y={L.hud.y + 15}
+            text="THE RUN'S SUBJECT"
+            size={9}
+            weight={700}
+            anchor="middle"
+            fill="var(--accent)"
+          />
+          <Caption
+            x={chipX + chipW / 2}
             y={L.hud.y + 31}
             text={fit(shape?.label ?? 'Binary classification', chipW - 28, 13)}
             size={13}
             weight={600}
+            anchor="middle"
             fill="var(--text)"
           />
-        </g>
-      )}
-
-      {ringIn > 0 && (
-        <g opacity={ringIn}>
-          <circle cx={ringX} cy={ringY} r={radius} fill="none" stroke="var(--line-strong)" strokeWidth={3} />
-          <circle
-            cx={ringX}
-            cy={ringY}
-            r={radius}
-            fill="none"
-            stroke="var(--accent)"
-            strokeWidth={3}
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={circumference * (1 - coverage)}
-            transform={`rotate(-90 ${ringX} ${ringY})`}
-          />
-          {L.wide ? (
-            <>
-              <Caption x={labelRight} y={ringY - 7} text="EVIDENCE INTEGRATED" size={9} weight={700} anchor="end" />
-              <Caption
-                x={labelRight}
-                y={ringY + 9}
-                text={`${domains} of ${LANES.length} domains`}
-                size={12.5}
-                weight={600}
-                anchor="end"
-                fill="var(--text)"
-              />
-            </>
-          ) : (
-            <Caption x={labelRight} y={ringY} text={`${domains}/${LANES.length}`} size={12} weight={600} anchor="end" mono fill="var(--text)" />
-          )}
-          {iteration > 1 && (
-            <g>
-              <Panel
-                box={{ x: badgeX, y: L.hud.y + 6, w: badgeW, h: 32 }}
-                radius={16}
-                fill="var(--caution-soft)"
-                stroke="var(--caution)"
-              />
-              <Caption
-                x={badgeX + badgeW / 2}
-                y={L.hud.y + 22}
-                text="iteration 2"
-                size={11}
-                weight={600}
-                anchor="middle"
-                fill="var(--caution)"
-              />
-            </g>
-          )}
         </g>
       )}
     </g>

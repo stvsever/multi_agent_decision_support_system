@@ -180,6 +180,7 @@ function RunConsole({
       <StageRail
         stages={stages}
         currentStage={state.current_stage ?? -1}
+        startedAt={detail.started_at ?? detail.created_at}
         events={events}
         running={running}
         failed={detail.status === 'failed'}

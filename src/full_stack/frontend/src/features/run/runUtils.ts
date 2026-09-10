@@ -156,11 +156,30 @@ export function eventStage(event: RunEvent, stageCount: number): number | null {
  * visits. Pass `nowMs` for a live run to keep the open stage counting; pass null
  * and the final interval closes at the last timed event.
  */
-export function stageTimings(events: RunEvent[], stageCount: number, nowMs: number | null): StageTimings {
+export function stageTimings(
+  events: RunEvent[],
+  stageCount: number,
+  nowMs: number | null,
+  startedMs: number | null = null,
+): StageTimings {
   const totals = new Array<number>(Math.max(0, stageCount)).fill(0)
   const visited = new Array<boolean>(Math.max(0, stageCount)).fill(false)
   let current = -1
   let since = 0
+
+  /*
+   * A run is in Initialization from the moment it starts, not from the moment
+   * its first event arrives. The worker has to boot a process and import the
+   * engine before it can say anything, and reading the rail only from the
+   * stream left the first stage blank for those seconds, as though nothing had
+   * happened yet. Seeding from the run's own start time makes the rail honest
+   * about where the time is going.
+   */
+  if (startedMs !== null && stageCount > 0) {
+    current = 0
+    visited[0] = true
+    since = startedMs
+  }
 
   for (const event of events) {
     const stage = eventStage(event, stageCount)
