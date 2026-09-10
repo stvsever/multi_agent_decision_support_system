@@ -1,37 +1,94 @@
-# Hosted-model path: the dashboard runs locally, the models run at OpenRouter.
+# Hosted-model path: the engine runs locally, the models run at OpenRouter.
 # Nothing here needs a GPU.
 #
-#   cp .env.example docker/.env          # fill in OPENROUTER_API_KEY
-#   docker compose -f docker/docker-compose.yml up --build
-#   open http://localhost:5005
+#   cp docker/.env.example docker/.env       # fill in OPENROUTER_API_KEY
+#
+#   docker compose -f docker/docker-compose.yml up --build            # dashboard
+#   docker compose -f docker/docker-compose.yml --profile api up      # API only
+#   docker compose -f docker/docker-compose.yml --profile cli run --rm compass-cli \
+#       src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO \
+#       --prediction_type binary --target_label CASE --control_label CONTROL
+#
+# The three roles share one image and one settings volume, so a run started on
+# the command line shows up in the dashboard's history.
 #
 # The self-hosted path lives in docker-compose.gpu.yml.
 
 name: compass
 
+x-compass-build: &compass-build
+  context: ..
+  dockerfile: docker/Dockerfile
+
+x-compass-env: &compass-env
+  # Fails fast with this message instead of starting something that cannot
+  # reach any model.
+  OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:?set OPENROUTER_API_KEY in docker/.env}
+  OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
+  OPENROUTER_APP_NAME: ${OPENROUTER_APP_NAME:-COMPASS}
+  COMPASS_HOME: /root/.compass
+  COMPASS_UI_HOST: 0.0.0.0
+  COMPASS_UI_PORT: "5005"
+  COMPASS_REQUEST_TIMEOUT: ${COMPASS_REQUEST_TIMEOUT:-300}
+  COMPASS_EXECUTOR_MAX_WORKERS: ${COMPASS_EXECUTOR_MAX_WORKERS:-12}
+
 services:
+  # Dashboard and API. Started by a plain `up`, because it is what most people
+  # want and a profile would make the common case the awkward one.
   compass:
     image: compass-engine:cpu
     build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    environment:
-      # Fails fast with this message instead of starting a dashboard that cannot
-      # reach any model.
-      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:?set OPENROUTER_API_KEY in docker/.env}
-      OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
-      OPENROUTER_APP_NAME: ${OPENROUTER_APP_NAME:-COMPASS}
-      COMPASS_HOME: /root/.compass
-      COMPASS_UI_HOST: 0.0.0.0
-      COMPASS_UI_PORT: "5005"
-      COMPASS_REQUEST_TIMEOUT: ${COMPASS_REQUEST_TIMEOUT:-300}
-      COMPASS_EXECUTOR_MAX_WORKERS: ${COMPASS_EXECUTOR_MAX_WORKERS:-12}
+      <<: *compass-build
+      args:
+        WEB_STAGE: web
+    environment: *compass-env
     ports:
       - "${COMPASS_UI_PORT:-5005}:5005"
     volumes:
       # Settings, stored credentials, and run history survive a rebuild.
       - compass-home:/root/.compass
+      # Participant folders on the host, read only. Defaults to the bundled
+      # samples so /data is never an empty mount; point COMPASS_DATA_DIR at your
+      # own folder and add /data as a data root in the dashboard.
+      - ${COMPASS_DATA_DIR:-../src/full_stack/backend/data/pseudo_data/inputs}:/data:ro
+      - ${COMPASS_RESULTS_DIR:-compass-results}:/workspace/multi_agent_decision_support_system/results
     restart: unless-stopped
+
+  # The same service without the web client. The Node stage is skipped
+  # entirely, so this builds faster and ships a smaller image for anyone
+  # driving COMPASS over HTTP from their own tooling.
+  compass-api:
+    profiles: ["api"]
+    image: compass-engine:api
+    build:
+      <<: *compass-build
+      args:
+        WEB_STAGE: web-none
+    environment: *compass-env
+    ports:
+      - "${COMPASS_UI_PORT:-5005}:5005"
+    volumes:
+      - compass-home:/root/.compass
+      - ${COMPASS_DATA_DIR:-../src/full_stack/backend/data/pseudo_data/inputs}:/data:ro
+      - ${COMPASS_RESULTS_DIR:-compass-results}:/workspace/multi_agent_decision_support_system/results
+    restart: unless-stopped
+
+  # One run, then exit. Everything after the service name is passed to main.py,
+  # so this is the CLI with the container's dependencies already in place.
+  compass-cli:
+    profiles: ["cli"]
+    image: compass-engine:api
+    build:
+      <<: *compass-build
+      args:
+        WEB_STAGE: web-none
+    environment: *compass-env
+    entrypoint: ["python3", "main.py"]
+    volumes:
+      - compass-home:/root/.compass
+      - ${COMPASS_DATA_DIR:-../src/full_stack/backend/data/pseudo_data/inputs}:/data:ro
+      - ${COMPASS_RESULTS_DIR:-compass-results}:/workspace/multi_agent_decision_support_system/results
 
 volumes:
   compass-home:
+  compass-results:

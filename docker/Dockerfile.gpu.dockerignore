@@ -2,11 +2,17 @@
 # rather than at the repository root, and the compose build context is the root.
 # Keep it in step with .dockerignore and Dockerfile.dockerignore.
 
-# Secrets and credentials
-.env
-.env.*
+# Secrets and credentials. The ** prefix matters: a bare `.env` anchors to the
+# context root, and the compose files keep theirs at docker/.env, which would
+# otherwise be copied into the image by the wholesale source COPY.
+**/.env
+**/.env.*
 *.pem
 *.key
+
+# Local working material, never part of an image.
+report/
+validation/
 
 # Git and local tooling
 .git

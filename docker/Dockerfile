@@ -1,3 +1,8 @@
+# The web client is optional. `--build-arg WEB_STAGE=web-none` skips the whole
+# Node stage and produces an API-only image: the service still answers every
+# /api route and simply reports that no client is built for anything else.
+ARG WEB_STAGE=web
+
 # Stage 1: build the web client.
 FROM node:22-slim AS web
 
@@ -7,6 +12,15 @@ RUN npm ci --no-audit --no-fund
 
 COPY src/full_stack/frontend/ ./
 RUN npm run build
+
+
+# The stand-in for a skipped client build. An empty directory is enough: the
+# service checks for index.html and degrades on its own when it is absent.
+FROM busybox:1.36 AS web-none
+RUN mkdir -p /web/dist
+
+
+FROM ${WEB_STAGE} AS web-dist
 
 
 # Stage 2: the engine and the dashboard service.
@@ -34,8 +48,9 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
 COPY . /workspace/multi_agent_decision_support_system
 WORKDIR /workspace/multi_agent_decision_support_system
 
-# The compiled client is served by the same process that runs the API.
-COPY --from=web /web/dist /workspace/multi_agent_decision_support_system/src/full_stack/frontend/dist
+# The compiled client is served by the same process that runs the API. With
+# WEB_STAGE=web-none this copies an empty directory instead.
+COPY --from=web-dist /web/dist /workspace/multi_agent_decision_support_system/src/full_stack/frontend/dist
 
 RUN chmod +x /workspace/multi_agent_decision_support_system/docker/entrypoint.sh
 

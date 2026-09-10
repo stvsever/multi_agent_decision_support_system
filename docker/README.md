@@ -1,11 +1,22 @@
 # Docker Setup
 
-Two supported ways to run COMPASS in containers:
+Two paths, and within the hosted path three shapes, so a container carries only
+what you actually run:
 
 | Path | You get | Files | GPU needed |
 | --- | --- | --- | --- |
-| Hosted models | The dashboard and engine locally, models called at OpenRouter | `Dockerfile`, `docker-compose.yml` | no |
+| Hosted models | The engine locally, models called at OpenRouter | `Dockerfile`, `docker-compose.yml` | no |
 | Self-hosted open weights | The dashboard plus a vLLM server holding a HuggingFace model | `Dockerfile.gpu`, `docker-compose.gpu.yml` | yes |
+
+| Shape | Command | What it builds |
+| --- | --- | --- |
+| Dashboard and API | `docker compose -f docker/docker-compose.yml up --build` | client bundle plus service |
+| API only | `docker compose -f docker/docker-compose.yml --profile api up --build` | service only, no Node stage |
+| One run, then exit | `docker compose -f docker/docker-compose.yml --profile cli run --rm compass-cli <main.py args>` | service only, no server |
+
+The API-only and CLI shapes pass `--build-arg WEB_STAGE=web-none`, which skips
+the Node stage outright rather than building a bundle and ignoring it. The
+service still answers every `/api` route; only the browser client is absent.
 
 Both paths expose the dashboard at `http://localhost:5005`. The self-hosted path
 also exposes an OpenAI-compatible API at `http://localhost:8000/v1`.
@@ -24,6 +35,7 @@ pipeline parallelism, and Ray.
 - `requirements.ui.txt`: curated dashboard and engine dependencies
 - `entrypoint.sh`: starts `main.py --ui` and binds to `0.0.0.0:5005`
 - `entrypoint.gpu.sh`: picks the role for the GPU image, `serve` or `dashboard`
+- `.env.example`: every environment variable the compose files read
 - `.dockerignore`: exclusions for the `tar | docker buildx build` flow below
 - `Dockerfile.dockerignore`, `Dockerfile.gpu.dockerignore`: the same exclusions
   for builds whose context is the repository root, which is what Compose uses.
@@ -39,11 +51,18 @@ pipeline parallelism, and Ray.
   Check it with `docker run --rm --gpus all nvidia/cuda:12.6.3-base-ubuntu24.04 nvidia-smi`.
 - An `OPENROUTER_API_KEY` for the hosted path.
 
-Compose reads `docker/.env`. Start from the example at the repository root:
+Compose reads `docker/.env`. Start from the annotated example beside it, which
+documents every knob including the GPU and vLLM settings:
 
 ```bash
-cp .env.example docker/.env
+cp docker/.env.example docker/.env
 ```
+
+Two mounts are worth setting there. `COMPASS_DATA_DIR` is your folder of
+participant directories, mounted read only at `/data`; add `/data` as a data
+root in the dashboard, or pass a path under it on the command line. It defaults
+to the bundled synthetic samples. `COMPASS_RESULTS_DIR` is where run outputs
+land: a path mounts that folder, a bare name uses a Docker volume.
 
 ## Path 1: hosted models (no GPU)
 
@@ -101,6 +120,16 @@ docker compose -f docker/docker-compose.gpu.yml up --build
 
 The first start downloads the model, so give it time. The dashboard waits for the
 server's health check before it comes up. Then open `http://localhost:5005`.
+
+To serve the weights without the dashboard, for instance on a GPU box that other
+machines call over the network, start the one service:
+
+```bash
+docker compose -f docker/docker-compose.gpu.yml up vllm
+```
+
+It exposes the OpenAI-compatible API on port 8000. Point any COMPASS install at
+`http://<host>:8000/v1` with any non-empty key.
 
 ### How the dashboard finds the server
 

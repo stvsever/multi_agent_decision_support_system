@@ -8,6 +8,11 @@
 # Requires the NVIDIA Container Toolkit on the host. Multi-GPU on one node is a
 # matter of raising COMPASS_GPU_COUNT and COMPASS_VLLM_TP together; across nodes,
 # use src/full_stack/backend/hpc/06_serve_vllm.sh instead.
+#
+# To serve the model without the dashboard, for example on a GPU box that other
+# machines call:
+#
+#   docker compose -f docker/docker-compose.gpu.yml up vllm
 
 name: compass-gpu
 
@@ -97,8 +102,13 @@ services:
       - "${COMPASS_UI_PORT:-5005}:5005"
     volumes:
       - compass-home:/home/compass/.compass
+      # Same two mounts as the hosted path, so moving between them changes only
+      # where the weights live.
+      - ${COMPASS_DATA_DIR:-../src/full_stack/backend/data/pseudo_data/inputs}:/data:ro
+      - ${COMPASS_RESULTS_DIR:-compass-results}:/workspace/multi_agent_decision_support_system/results
     restart: unless-stopped
 
 volumes:
   hf-cache:
   compass-home:
+  compass-results:
