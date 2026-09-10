@@ -14,20 +14,30 @@
 
 ---
 
-## Key features
+## 📖 Contents
+
+- [🚀 Key features](#key-features)
+- [🧠 Architecture](#architecture)
+- [🖥️ Dashboard](#dashboard)
+- [🛠️ Install](#install)
+- [🐳 Run in containers](#containers)
+- [⚡ Usage](#usage)
+- [📁 Project structure](#structure)
+
+## <a id="key-features"></a>🚀 Key features
 
 - **Multi-agent orchestration**: an actor-critic workflow coordinates the Orchestrator, Executor, Integrator, Predictor, Critic, and Communicator.
 - **Flexible prediction tasks**: typed task specifications cover classification, regression, and mixed hierarchical output trees.
 - **Explainable clinical reasoning**: optional XAI methods and evidence chains connect predictions to source features and clinical narratives.
 - **Live dashboard**: execution plans, agent progress, token usage, predictions, critic feedback, and generated reports.
 
-## Architecture
+## <a id="architecture"></a>🧠 Architecture
 
 ![COMPASS multi-agent workflow](src/full_stack/backend/assets/figures/MAIN_01_flowchart.png)
 
 The Executor runs independent tool steps concurrently against a hosted API, and sequentially against a self-hosted model to limit GPU memory pressure. After the final iteration COMPASS selects the strongest satisfactory attempt; if none is satisfactory it selects the highest-scoring attempt and records that status.
 
-## Dashboard
+## <a id="dashboard"></a>🖥️ Dashboard
 
 A FastAPI service supervises each run as an isolated worker process and serves a React client on the same port: guided setup, task design for all five families, live cost projection, execution streamed over server-sent events with the plan drawn as a graph, an ontology explorer with per-participant and cohort views, reports on screen and as PDF, batch runs, and per-role control over models, budgets, and the system prompts.
 
@@ -39,7 +49,7 @@ python3 main.py --ui
 
 Served at http://127.0.0.1:5005. For client development run `npm --prefix src/full_stack/frontend run dev` alongside `python3 main.py --ui --quiet`; Vite serves on port 5173 and proxies `/api`.
 
-## Install
+## <a id="install"></a>🛠️ Install
 
 Python 3.11+ runs the engine, Node 20+ builds the client.
 
@@ -53,7 +63,7 @@ cp .env.example .env          # add OPENROUTER_API_KEY, or paste it in the dashb
 
 OpenRouter is the default backend and `deepseek/deepseek-v4-flash-0731` the default model for every role. Reasoning is off by default: reasoning tokens are billed as output and count against the output ceiling, so they can consume the budget and truncate the answer. A failed model, schema, or connection stops the run; COMPASS never substitutes a deterministic result for a failed one.
 
-## Run in containers
+## <a id="containers"></a>🐳 Run in containers
 
 All commands read `docker/.env`, so copy `docker/.env.example` first. Full detail in [docker/README.md](docker/README.md).
 
@@ -67,7 +77,7 @@ All commands read `docker/.env`, so copy `docker/.env.example` first. Full detai
 
 Set `COMPASS_DATA_DIR` to mount your participant folders at `/data`, and `COMPASS_RESULTS_DIR` for outputs. The self-hosted path scales from one GPU, to several on one node with `COMPASS_GPU_COUNT` and `COMPASS_VLLM_TP`, to several nodes on a Slurm cluster through [src/full_stack/backend/hpc](src/full_stack/backend/hpc/README.md), which prints the base URL to point COMPASS at. A self-hosted server is configured exactly like a hosted one, because both speak the OpenAI protocol.
 
-## Usage
+## <a id="usage"></a>⚡ Usage
 
 Each participant folder holds four files:
 
@@ -91,7 +101,7 @@ python3 main.py src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO \
 
 Other task modes take `--class_labels`, `--regression_output(s)`, or `--task_spec_file` for a hierarchical tree. `--xai_methods external,internal,hybrid` adds explainability, which currently covers root-level binary classification and records an explicit skip otherwise. `python3 main.py --help` lists every flag.
 
-## Project structure
+## <a id="structure"></a>📁 Project structure
 
 ```text
 multi_agent_decision_support_system/
@@ -112,14 +122,6 @@ multi_agent_decision_support_system/
 ├── COMPASS_demo.ipynb          # End-to-end demonstration notebook
 ├── main.py                     # CLI and UI entry point
 └── requirements.txt
-```
-
-## Status
-
-An active research prototype. The actor-critic pipeline, task contracts, dashboard, container runtimes, and pseudo-data workflows are functional; work continues on stability, calibration, and reporting.
-
-```bash
-python3 -m pytest -q
 ```
 
 > [!CAUTION]
