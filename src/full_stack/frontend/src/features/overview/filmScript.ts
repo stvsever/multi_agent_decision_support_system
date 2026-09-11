@@ -49,7 +49,7 @@ export const ACTS: ActDefinition[] = [
     key: 'question',
     title: 'What is being asked',
     stage: 0,
-    seconds: 5.5,
+    seconds: 9,
     prose:
       'The shape of the question is settled first, because it fixes what every later stage has to satisfy.',
   },
@@ -81,7 +81,7 @@ export const ACTS: ActDefinition[] = [
     key: 'integration',
     title: 'Integration',
     stage: 3,
-    seconds: 6.5,
+    seconds: 8.5,
     prose:
       'The Integrator fuses the step outputs into a single bundle of evidence, and splits anything too large to pass in one piece.',
   },
@@ -97,7 +97,7 @@ export const ACTS: ActDefinition[] = [
     key: 'evaluation',
     title: 'Evaluation',
     stage: 5,
-    seconds: 7,
+    seconds: 10,
     prose:
       'The Critic scores the answer against a checklist for this shape of question. A weak first pass goes back to the Orchestrator to be planned again.',
   },
@@ -490,16 +490,15 @@ const FALLBACK_AGENT: Record<string, FilmAgent> = {
 }
 
 /**
- * Bind the authored script to the engine's own words. Tool names resolve by
- * name, then by position, so a renamed tool degrades to a real name rather than
- * to a name this file invented.
+ * Resolve tools by identity. A missing tool retains its authored name rather
+ * than silently borrowing an unrelated tool's name from the catalog.
  */
 export function buildVocabulary(capabilities: Capabilities): FilmVocabulary {
   const tools = capabilities.tools ?? []
   const families = [...new Set(tools.map((tool) => tool.family || 'other'))]
 
   const steps: ResolvedStep[] = PLAN.map((step) => {
-    const match = tools.find((tool) => tool.name === step.tool) ?? tools[step.fallback % Math.max(1, tools.length)]
+    const match = tools.find((tool) => tool.name === step.tool)
     const family = match?.family || 'other'
     return {
       ...step,
@@ -558,10 +557,27 @@ export interface StageLayout {
  * The layout reflows instead of shrinking, which is what keeps the stage
  * legible from a narrow column up to the full content width.
  */
-export function layoutFor(width: number): StageLayout {
+export function layoutFor(width: number, act = 1): StageLayout {
   const wide = width >= 900
   const pad = wide ? 22 : 14
-  const height = wide ? 540 : 820
+  // The evidence scene retains its original geometry. Other scenes receive
+  // enough vertical space for fully written labels rather than smaller type.
+  let height = wide ? 540 : 820
+  if (act === 0) {
+    const columns = width - pad * 2 >= 1150 ? 5 : width - pad * 2 >= 600 ? 3 : width - pad * 2 >= 380 ? 2 : 1
+    height = Math.max(390, Math.ceil(5 / columns) * 172 + 140)
+  }
+  if (act === 2 || act === 3) {
+    const workW = width - pad * 2
+    const beside = (workW - 270 - 108) / 4 >= 230
+    const nodeW = Math.min(268, (workW - (beside ? 270 : 0) - 108) / 4)
+    const nodeH = nodeW >= 224 ? 52 : 64
+    height = wide ? 76 + (beside ? 28 : 134) + 6 * nodeH + 5 * 18 + 24 + (act === 3 ? 146 : 0) : 1530
+  }
+  if (act === 4) height = 810
+  if (act === 5) height = 640
+  if (act === 6) height = 700
+  if (act === 7) height = 780
   const hud: Box = { x: pad, y: 14, w: width - pad * 2, h: 44 }
   const sceneY = hud.y + hud.h + (wide ? 18 : 14)
   const scene: Box = { x: pad, y: sceneY, w: width - pad * 2, h: height - sceneY - pad }
@@ -570,7 +586,7 @@ export function layoutFor(width: number): StageLayout {
   // execution act draws its worker pool down here and needs about 114px, while
   // orchestration needs 314 above once the agent plate sits over the graph.
   // This is the value that satisfies both without either one clipping.
-  const stripH = wide ? 104 : 96
+  const stripH = act === 2 ? 0 : act === 3 ? 124 : wide ? 104 : 96
   const strip: Box = { x: scene.x, y: scene.y + scene.h - stripH, w: scene.w, h: stripH }
   const work: Box = { x: scene.x, y: scene.y, w: scene.w, h: scene.h - stripH - 14 }
   return { width, height, wide, hud, scene, work, strip }

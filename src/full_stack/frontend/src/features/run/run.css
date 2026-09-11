@@ -292,7 +292,6 @@
 .run-stage__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
 .run-stage__name { font-size: var(--t-tiny); font-weight: 550; }
 .run-stage__time { font-size: var(--t-micro); color: var(--text-muted); }
-.run-stage__flag { color: var(--caution); }
 .run-stage__bar { display: block; height: 3px; border-radius: var(--r-full); background: var(--bg-inset); overflow: hidden; }
 .run-stage__bar-fill { display: block; height: 100%; background: var(--text-faint); transition: width var(--dur) var(--ease-out); }
 .run-stage--current .run-stage__bar-fill { background: var(--accent); }

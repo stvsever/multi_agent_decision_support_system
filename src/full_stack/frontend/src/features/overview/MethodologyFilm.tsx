@@ -12,9 +12,9 @@
  * is read and no run is made.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState, type JSX, type PointerEvent as ReactPointerEvent } from 'react'
-import { motion } from 'framer-motion'
-import { Pause, Play, RotateCcw } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState, type JSX } from 'react'
+import { useReducedMotion } from 'framer-motion'
+import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw } from 'lucide-react'
 import { Badge, Button, Callout, Card, Skeleton } from '@/components/ui/primitives'
 import { useCapabilities } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
@@ -57,10 +57,12 @@ const SCENES: ((props: SceneProps) => JSX.Element)[] = [
 const actEnd = (index: number): number => ACT_STARTS[index] + ACTS[index].seconds * 0.999
 
 export function MethodologyFilm(): JSX.Element {
-  const { data, isLoading, error } = useCapabilities()
+  const { data, isLoading, error, refetch } = useCapabilities()
   /* The store mirrors `data-motion` on the document root, so this is the same
      preference the stylesheet reads. */
-  const reducedMotion = useApp((state) => state.appearance.reducedMotion)
+  const appReducedMotion = useApp((state) => state.appearance.reducedMotion)
+  const systemReducedMotion = useReducedMotion()
+  const reducedMotion = appReducedMotion || !!systemReducedMotion
 
   const stageRef = useRef<HTMLDivElement>(null)
   const width = useElementWidth(stageRef)
@@ -85,12 +87,12 @@ export function MethodologyFilm(): JSX.Element {
      document is re-read here rather than trusted from `active`, which is still
      the mount-time optimistic value on this pass. */
   useEffect(() => {
-    if (started.current || !active || reducedMotion) return
+    if (started.current || !active || reducedMotion || !data) return
     if (document.visibilityState === 'hidden') return
     started.current = true
     seek(0)
     setPlaying(true)
-  }, [active, reducedMotion, seek])
+  }, [active, reducedMotion, seek, data])
 
   useEffect(() => {
     if (!playing || !active || reducedMotion) return
@@ -128,26 +130,37 @@ export function MethodologyFilm(): JSX.Element {
   const finished = time >= TOTAL_SECONDS
 
   const vocabulary = useMemo(() => (data ? buildVocabulary(data) : null), [data])
-  const layout = useMemo(() => layoutFor(Math.max(320, Math.min(1500, width || 960))), [width])
+  const scrollDiagram = index >= 1 && index <= 6
+  const diagramWidth = scrollDiagram ? Math.max(960, width) : Math.max(280, width || 960)
+  const layout = useMemo(() => layoutFor(diagramWidth, index), [diagramWidth, index])
 
-  /* A jump while the film is running lands at the act's start so the reader
-     watches it assemble. A jump while it is paused lands on the composed frame
-     instead, because the start of an act is the frame where nothing has
-     entered yet and a still of it says nothing. */
+  // A chapter selection pauses on its composed frame. Play then animates that
+  // chapter from its beginning. Manual navigation always takes over autoplay.
   const jump = useCallback(
-    (next: number) => seek(reducedMotion || !playing ? actEnd(next) : ACT_STARTS[next]),
-    [playing, reducedMotion, seek],
+    (next: number) => {
+      started.current = true
+      setPlaying(false)
+      seek(actEnd(Math.max(0, Math.min(ACTS.length - 1, next))))
+    },
+    [seek],
   )
 
   const toggle = useCallback(() => {
-    if (!playing && timeRef.current >= TOTAL_SECONDS - 0.01) seek(0)
+    started.current = true
+    if (!playing) {
+      const current = actIndexAt(timeRef.current)
+      if (timeRef.current >= TOTAL_SECONDS - 0.01) seek(0)
+      else if (actProgressAt(timeRef.current, current) > 0.98) seek(ACT_STARTS[current])
+    }
     setPlaying(!playing)
   }, [playing, seek])
 
   const restart = useCallback(() => {
+    started.current = true
     seek(reducedMotion ? actEnd(0) : 0)
     if (!reducedMotion) setPlaying(true)
   }, [reducedMotion, seek])
+
 
   const Scene = SCENES[index] ?? SCENES[0]
   const stageName = data?.stages?.[act.stage]
@@ -165,22 +178,16 @@ export function MethodologyFilm(): JSX.Element {
       }
       flush
     >
-      <div className="film">
+      <div className="film" data-act={act.key} data-reduced={reducedMotion} data-playing={playing && active} data-scroll-diagram={scrollDiagram}>
         {/* The line about the act reads before the picture it describes, not
             after it. The act's own name is carried by the rail below, where it
             is already marked as the current one, so a heading here would say it
             twice. */}
-        <motion.p
-          key={act.key}
-          className="film__prose"
-          initial={reducedMotion ? false : { opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reducedMotion ? 0 : 0.26, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {act.prose}
-        </motion.p>
+        <p key={act.key} className="film__prose">{act.prose}</p>
 
-        <div className="film__stage" ref={stageRef}>
+        {scrollDiagram && width > 0 && width < 960 && <span className="film__pan-hint">Scroll horizontally to explore the diagram <ArrowRight size={12} /></span>}
+        <div className="film__stage" ref={stageRef} tabIndex={scrollDiagram && width < 960 ? 0 : undefined}
+          role={scrollDiagram && width < 960 ? 'region' : undefined} aria-label={scrollDiagram && width < 960 ? `Scrollable ${act.title} diagram` : undefined}>
           {isLoading && <Skeleton height={layout.height} radius={10} />}
 
           {error && !data && (
@@ -188,6 +195,7 @@ export function MethodologyFilm(): JSX.Element {
               <Callout tone="caution" title="The engine description could not be read">
                 The walkthrough names its stages, agents and tools from the running engine, so it stays blank until
                 that call succeeds. The rest of this screen still works.
+                <Button size="sm" variant="secondary" onClick={() => void refetch()}>Retry</Button>
               </Callout>
             </div>
           )}
@@ -195,10 +203,11 @@ export function MethodologyFilm(): JSX.Element {
           {vocabulary && width > 0 && (
             <svg
               className="film__svg"
+              role="img"
+              aria-label={`${act.title}. ${act.prose}`}
               viewBox={`0 0 ${layout.width} ${layout.height}`}
               width={layout.width}
               height={layout.height}
-              aria-hidden="true"
             >
               <FilmDefs />
               <StageHud L={layout} act={index} p={progress} v={vocabulary} />
@@ -216,133 +225,50 @@ export function MethodologyFilm(): JSX.Element {
           onToggle={toggle}
           onRestart={restart}
           onJump={jump}
-          onScrub={seek}
+          onScrub={(next) => { started.current = true; setPlaying(false); seek(next) }}
+          disabled={!vocabulary}
         />
       </div>
     </Card>
   )
 }
 
-/* --- Transport ------------------------------------------------------------- */
-
-function Transport({
-  index,
-  time,
-  playing,
-  finished,
-  reducedMotion,
-  onToggle,
-  onRestart,
-  onJump,
-  onScrub,
-}: {
-  index: number
-  time: number
-  playing: boolean
-  finished: boolean
-  reducedMotion: boolean
-  onToggle: () => void
-  onRestart: () => void
-  onJump: (act: number) => void
-  onScrub: (time: number) => void
+/* Chapter controls and the timeline have separate hit areas. */
+function Transport({ index, time, playing, finished, reducedMotion, onToggle, onRestart, onJump, onScrub, disabled }: {
+  index: number; time: number; playing: boolean; finished: boolean; reducedMotion: boolean
+  onToggle: () => void; onRestart: () => void; onJump: (act: number) => void; onScrub: (time: number) => void; disabled: boolean
 }) {
-  const railRef = useRef<HTMLDivElement>(null)
-  const dragging = useRef(false)
-  const moved = useRef(false)
-
-  const timeAt = (clientX: number): number => {
-    const rect = railRef.current?.getBoundingClientRect()
-    if (!rect || rect.width === 0) return 0
-    return ((clientX - rect.left) / rect.width) * TOTAL_SECONDS
-  }
-
-  // The rail is linear in time because each act is sized by its own duration:
-  // a press jumps to the act, a drag scrubs inside it.
-  const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (reducedMotion) return
-    dragging.current = true
-    moved.current = false
-    try {
-      railRef.current?.setPointerCapture(event.pointerId)
-    } catch {
-      // Not every pointer can be captured; the drag still tracks without it.
-    }
-    onJump(actIndexAt(timeAt(event.clientX)))
-  }
-
-  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!dragging.current) return
-    moved.current = true
-    onScrub(timeAt(event.clientX))
-  }
-
-  const endDrag = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!dragging.current) return
-    dragging.current = false
-    if (railRef.current?.hasPointerCapture(event.pointerId)) railRef.current.releasePointerCapture(event.pointerId)
-  }
-
-  return (
-    <div className="film__transport">
+  return <div className="film__transport">
+    <div className="film__controls">
       <div className="film__buttons">
-        {!reducedMotion && (
-          <Button
-            size="sm"
-            variant="secondary"
-            iconOnly
-            icon={playing ? <Pause size={13} /> : <Play size={13} />}
-            onClick={onToggle}
-            aria-label={playing ? 'Pause the walkthrough' : finished ? 'Play the walkthrough again' : 'Play the walkthrough'}
-          />
-        )}
-        <Button
-          size="sm"
-          variant="ghost"
-          iconOnly
-          icon={<RotateCcw size={13} />}
-          onClick={onRestart}
-          aria-label="Back to the first act"
-        />
+        {!reducedMotion && <Button size="sm" variant="secondary" disabled={disabled}
+          icon={playing ? <Pause size={13} /> : <Play size={13} />} onClick={onToggle}
+          aria-label={playing ? 'Pause the walkthrough' : finished ? 'Play the walkthrough again' : 'Play the walkthrough'}>
+          {playing ? 'Pause' : finished ? 'Replay' : 'Play'}
+        </Button>}
+        <Button size="sm" variant="ghost" iconOnly icon={<RotateCcw size={13} />} onClick={onRestart} disabled={disabled} aria-label="Back to the first act" />
       </div>
-
-      <div
-        className="film__rail"
-        ref={railRef}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-      >
-        {ACTS.map((act, actIndex) => {
-          const fill = Math.max(0, Math.min(1, (time - ACT_STARTS[actIndex]) / act.seconds))
-          const current = actIndex === index
-          return (
-            <button
-              key={act.key}
-              type="button"
-              className="film__rail-item"
-              style={{ flexGrow: act.seconds }}
-              data-current={current || undefined}
-              aria-current={current ? 'step' : undefined}
-              aria-label={`Act ${actIndex + 1}, ${act.title}`}
-              onClick={() => {
-                if (moved.current) return
-                onJump(actIndex)
-              }}
-            >
-              <span className="film__rail-track">
-                <span className="film__rail-fill" style={{ transform: `scaleX(${fill})` }} />
-              </span>
-              <span className="film__rail-label">
-                <span className="film__rail-index">{actIndex + 1}</span>
-                <span className="truncate">{act.title}</span>
-              </span>
-            </button>
-          )
-        })}
+      {!reducedMotion && <input className="film__scrubber" type="range" min={0} max={TOTAL_SECONDS} step={0.05}
+        value={time} disabled={disabled} aria-label="Walkthrough position" aria-valuetext={`${ACTS[index].title}, ${Math.round(actProgressAt(time, index) * 100)} percent`}
+        onChange={(event) => onScrub(Number(event.target.value))} />}
+      <div className="film__buttons">
+        <Button size="sm" variant="ghost" iconOnly icon={<ArrowLeft size={14} />} disabled={disabled || index === 0} onClick={() => onJump(index - 1)} aria-label="Previous act" />
+        <Button size="sm" variant="ghost" iconOnly icon={<ArrowRight size={14} />} disabled={disabled || index === ACTS.length - 1} onClick={() => onJump(index + 1)} aria-label="Next act" />
       </div>
     </div>
-  )
+    <nav className="film__rail" aria-label="Methodology walkthrough">
+      {ACTS.map((act, actIndex) => {
+        const fill = Math.max(0, Math.min(1, (time - ACT_STARTS[actIndex]) / act.seconds))
+        const current = actIndex === index
+        return <button key={act.key} type="button" className="film__rail-item" disabled={disabled}
+          data-current={current || undefined} aria-current={current ? 'step' : undefined}
+          aria-label={`Act ${actIndex + 1}, ${act.title}`} onClick={() => onJump(actIndex)}>
+          <span className="film__rail-label"><span className="film__rail-index">{actIndex + 1}</span><span>{act.title}</span></span>
+          <span className="film__rail-track"><span className="film__rail-fill" style={{ transform: `scaleX(${fill})` }} /></span>
+        </button>
+      })}
+    </nav>
+  </div>
 }
 
 /* --- Measurement ----------------------------------------------------------- */

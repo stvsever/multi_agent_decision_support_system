@@ -38,8 +38,8 @@ export interface SceneProps {
 }
 
 const WAVE_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']
-const PLATE_W = 210
-const PLATE_H = 72
+const PLATE_W = 240
+const PLATE_H = 96
 
 /* --- Small drawing helpers ------------------------------------------------- */
 
@@ -172,9 +172,8 @@ function AgentPlate({
         />
       )}
       <Panel box={box} radius={13} stroke="var(--accent)" strokeWidth={1 + glow * 0.6} lift="strong" />
-      <Caption x={box.x + 14} y={box.y + 21} text={label} size={13.5} weight={600} fill="var(--text)" />
-      <foreignObject x={box.x + 14} y={box.y + 30} width={box.w - 28} height={box.h - 36}>
-        <div className="film__plate-note">{summary}</div>
+      <foreignObject x={box.x + 16} y={box.y + 12} width={box.w - 32} height={box.h - 24}>
+        <div className="film__agent-copy"><strong>{label}</strong><span>{summary}</span></div>
       </foreignObject>
     </g>
   )
@@ -207,12 +206,7 @@ function StepNode({
 }) {
   if (appear <= 0 || !box) return null
   const fam = `var(--fam-${step.familyIndex})`
-  const titleSize = compact ? 11.5 : 12
-  // Left padding plus the status mark on the right, and nothing more: the old
-  // reserve was wide enough to truncate names that had room to spare.
-  const room = box.w - 46
-  const dim = state === 'pending' ? 0.42 : state === 'queued' ? 0.78 : 1
-  const offset = compact ? 7 : 9
+  const dim = state === 'pending' ? 0.82 : state === 'queued' ? 0.9 : 1
   return (
     <g opacity={appear * dim} transform={`translate(0 ${(1 - appear) * 10})`}>
       <Panel
@@ -224,21 +218,12 @@ function StepNode({
         fill={state === 'failed' ? 'var(--caution-soft)' : 'var(--bg-elevated)'}
       />
       <rect x={box.x} y={box.y + 7} width={3} height={Math.max(4, box.h - 14)} rx={1.5} fill={fam} />
-      <Caption
-        x={box.x + 12}
-        y={box.y + box.h / 2 - offset}
-        text={fit(step.toolName, room, titleSize)}
-        size={titleSize}
-        weight={600}
-        fill="var(--text)"
-      />
-      <Caption
-        x={box.x + 12}
-        y={box.y + box.h / 2 + offset}
-        text={fit(step.subject, room, 10.5)}
-        size={10.5}
-        fill="var(--text-muted)"
-      />
+      <foreignObject x={box.x + 12} y={box.y + 5} width={box.w - 34} height={box.h - 10}>
+        <div className="film__step-copy" data-compact={compact}>
+          <strong>{step.toolName.split(/(?=[A-Z][a-z])/).map((part, index) => <span key={index}>{index > 0 && <wbr />}{part}</span>)}</strong>
+          <span>{step.subject}</span>
+        </div>
+      </foreignObject>
       {state === 'running' && (
         <rect
           x={box.x + 1}
@@ -252,9 +237,7 @@ function StepNode({
       {state === 'done' && <Mark kind="check" x={box.x + box.w - 15} y={box.y + box.h / 2} />}
       {state === 'failed' && <Mark kind="warn" x={box.x + box.w - 15} y={box.y + box.h / 2} />}
       {state === 'running' && (
-        <circle cx={box.x + box.w - 15} cy={box.y + box.h / 2} r={3.5} fill="var(--accent)">
-          <animate attributeName="opacity" values="1;0.25;1" dur="1.2s" repeatCount="indefinite" />
-        </circle>
+        <circle cx={box.x + box.w - 15} cy={box.y + box.h / 2} r={3.5} fill="var(--accent)" opacity={0.5 + 0.5 * Math.sin(progress * Math.PI * 8)} />
       )}
     </g>
   )
@@ -299,87 +282,32 @@ function Mark({ kind, x, y, size = 5 }: { kind: 'check' | 'warn' | 'cross'; x: n
   )
 }
 
-/** A dependency edge, drawn on as `draw` runs from 0 to 1. */
-function Edge({ id, from, to, draw, compact }: { id: string; from: Box; to: Box; draw: number; compact?: boolean }) {
+/** Markers share the film clock. Pausing and scrubbing stop them exactly. */
+function Edge({ id, from, to, draw, travel, compact }: { id: string; from: Box; to: Box; draw: number; travel: number; compact?: boolean }) {
   if (draw <= 0 || !from || !to) return null
-  const bend = compact ? 14 : Math.max(16, (to.x - (from.x + from.w)) * 0.6)
-  const path = compact
-    ? `M ${from.x + from.w / 2} ${from.y + from.h} C ${from.x + from.w / 2} ${from.y + from.h + bend}, ${
-        to.x + to.w / 2
-      } ${to.y - bend}, ${to.x + to.w / 2} ${to.y}`
-    : `M ${from.x + from.w} ${from.y + from.h / 2} C ${from.x + from.w + bend} ${from.y + from.h / 2}, ${
-        to.x - bend
-      } ${to.y + to.h / 2}, ${to.x} ${to.y + to.h / 2}`
-  const complete = clamp01(draw) >= 0.999
-  const startX = compact ? from.x + from.w / 2 : from.x + from.w
-  const startY = compact ? from.y + from.h : from.y + from.h / 2
-  return (
-    <g>
-      <path
-        id={id}
-        d={path}
-        fill="none"
-        stroke="var(--line-strong)"
-        strokeWidth={1}
-        pathLength={1}
-        strokeDasharray={1}
-        strokeDashoffset={1 - clamp01(draw)}
-        opacity={0.85}
-      />
-      {/* Direction, once the line has finished drawing. A static curve between
-          two boxes says they are related but not which way the work flows, and
-          on a graph with two fusion layers that is the whole point. Markers
-          ride the path itself, so they follow whatever curve it takes. */}
-      {complete &&
-        [0, 1, 2].map((slot) => (
-          // Parked on the edge's origin rather than at the default 0,0: if the
-          // motion never runs, a marker should sit where the work starts, not
-          // in the corner of the stage.
-          <circle
-            key={slot}
-            cx={startX}
-            cy={startY}
-            r={compact ? 1.8 : 2.1}
-            fill="var(--accent)"
-            opacity={0.9}
-          >
-            <animateMotion
-              dur="1.9s"
-              begin={`${slot * 0.63}s`}
-              repeatCount="indefinite"
-              keyPoints="0;1"
-              keyTimes="0;1"
-              calcMode="linear"
-            >
-              <mpath href={`#${id}`} />
-            </animateMotion>
-            <animate
-              attributeName="opacity"
-              dur="1.9s"
-              begin={`${slot * 0.63}s`}
-              repeatCount="indefinite"
-              values="0;0.95;0.95;0"
-              keyTimes="0;0.15;0.8;1"
-            />
-          </circle>
-        ))}
-    </g>
-  )
-}
-
-/** A short connector between an agent plate and the thing it produces. */
-function Feed({ from, to, y, draw }: { from: number; to: number; y: number; draw: number }) {
-  if (draw <= 0) return null
-  return (
-    <path
-      d={`M ${from} ${y} L ${to} ${y}`}
-      stroke="var(--line-strong)"
-      strokeWidth={1}
-      pathLength={1}
-      strokeDasharray={1}
-      strokeDashoffset={1 - clamp01(draw)}
-    />
-  )
+  const bend = compact ? 18 : Math.max(16, (to.x - (from.x + from.w)) * 0.6)
+  const start = compact ? { x: from.x + from.w / 2, y: from.y + from.h } : { x: from.x + from.w, y: from.y + from.h / 2 }
+  const end = compact ? { x: to.x + to.w / 2, y: to.y } : { x: to.x, y: to.y + to.h / 2 }
+  const c1 = compact ? { x: start.x, y: start.y + bend } : { x: start.x + bend, y: start.y }
+  const c2 = compact ? { x: end.x, y: end.y - bend } : { x: end.x - bend, y: end.y }
+  const path = `M ${start.x} ${start.y} C ${c1.x} ${c1.y}, ${c2.x} ${c2.y}, ${end.x} ${end.y}`
+  const cubic = (a: number, b: number, c: number, d: number, t: number) =>
+    (1 - t) ** 3 * a + 3 * (1 - t) ** 2 * t * b + 3 * (1 - t) * t * t * c + t ** 3 * d
+  return <g>
+    <path id={id} d={path} fill="none" stroke="var(--line-strong)" strokeWidth={1.2}
+      pathLength={1} strokeDasharray={1} strokeDashoffset={1 - clamp01(draw)} opacity={0.85} />
+    {draw >= 0.999 && <>
+      <path d={compact ? `M ${end.x - 3} ${end.y - 5} L ${end.x} ${end.y} L ${end.x + 3} ${end.y - 5}` : `M ${end.x - 5} ${end.y - 3} L ${end.x} ${end.y} L ${end.x - 5} ${end.y + 3}`}
+        fill="none" stroke="var(--accent)" strokeWidth={1.2} opacity={0.65} />
+      {[0].map((slot) => {
+        const offset = Array.from(id).reduce((sum, ch) => sum + ch.charCodeAt(0), 0) * 0.037
+        const t = (travel * 3 + offset) % 1
+        return <circle key={slot} className="film__traveler" r={2.3}
+          cx={cubic(start.x, c1.x, c2.x, end.x, t)} cy={cubic(start.y, c1.y, c2.y, end.y, t)}
+          fill="var(--accent)" opacity={Math.min(1, t * 8, (1 - t) * 8) * 0.9} />
+      })}
+    </>}
+  </g>
 }
 
 /* --- Shared plan geometry -------------------------------------------------- */
@@ -401,7 +329,7 @@ export function planGeometry(L: StageLayout, steps: ResolvedStep[]): PlanGeometr
   for (const step of steps) byWave[step.wave]?.push(step)
 
   if (L.wide) {
-    const colGap = 20
+    const colGap = 36
     // The agent moves above the graph unless the columns can still hold a full
     // tool name beside it. `ClinicalRelevanceRanker` is the longest the engine
     // ships, and a column narrower than this had it rendering as an ellipsis,
@@ -421,11 +349,10 @@ export function planGeometry(L: StageLayout, steps: ResolvedStep[]): PlanGeometr
     const maxRows = byWave.reduce((max, rows) => Math.max(max, rows.length), 1)
     // The tallest column decides the row size, so a wave of six reads at the
     // same rhythm as a wave of two instead of running off the stage.
-    const nodeH = maxRows >= 6 ? 38 : maxRows === 5 ? 42 : 46
-    const rowGap = maxRows >= 6 ? 9 : maxRows === 5 ? 11 : 14
+    const nodeH = nodeW >= 224 ? 52 : 64
+    const rowGap = 18
     const blockH = maxRows * nodeH + (maxRows - 1) * rowGap
-    const bound = L.work.y + (agentAbove ? PLATE_H + 16 : 0)
-    const top = bound + Math.max(18, (L.work.y + L.work.h - bound - blockH) / 2)
+    const top = L.work.y + (agentAbove ? PLATE_H + 38 : 28)
 
     byWave.forEach((rows, wave) => {
       const x = originX + wave * (nodeW + colGap)
@@ -441,16 +368,16 @@ export function planGeometry(L: StageLayout, steps: ResolvedStep[]): PlanGeometr
       pos,
       waves,
       agent: agentAbove
-        ? { x: L.work.x, y: L.work.y, w: PLATE_W, h: PLATE_H }
+        ? { x: L.work.x + (L.work.w - PLATE_W) / 2, y: L.work.y, w: PLATE_W, h: PLATE_H }
         : { x: L.work.x, y: top + blockH / 2 - PLATE_H / 2, w: PLATE_W, h: PLATE_H },
     }
   }
 
   const nodeW = L.work.w
-  const nodeH = 34
-  const gap = 5
+  const nodeH = 58
+  const gap = 9
   const labelH = 20
-  let cursor = L.work.y + PLATE_H - 4
+  let cursor = L.work.y + PLATE_H + 16
   byWave.forEach((rows, wave) => {
     waves.push({ letter: WAVE_LETTERS[wave] ?? String(wave + 1), count: rows.length, x: L.work.x, y: cursor, w: nodeW })
     cursor += labelH
@@ -463,6 +390,26 @@ export function planGeometry(L: StageLayout, steps: ResolvedStep[]): PlanGeometr
   return { pos, waves, agent: { x: L.work.x, y: L.work.y, w: PLATE_W, h: PLATE_H - 16 } }
 }
 
+/** Tiny diagrams illustrate the actual output structures without renaming them. */
+function TaskShapeGlyph({ value, x, y, selected }: { value: string; x: number; y: number; selected: boolean }) {
+  const color = selected ? 'var(--accent)' : 'var(--text-muted)'
+  const dot = (cx: number, cy: number, key: number) => <circle key={key} cx={cx} cy={cy} r={5} fill="var(--bg-elevated)" stroke={color} strokeWidth={1.5} />
+  if (value === 'hierarchical') return <g transform={`translate(${x} ${y})`}>
+    <path d="M 0 -13 V 0 H -25 V 13 M 0 0 H 25 V 13" fill="none" stroke={color} strokeWidth={1.5} />
+    {dot(0, -13, 0)}{dot(-25, 13, 1)}{dot(25, 13, 2)}
+  </g>
+  if (value.startsWith('regression')) return <g transform={`translate(${x} ${y})`}>
+    <path d="M -29 -16 V 18 H 30" fill="none" stroke="var(--line-strong)" />
+    <path d="M -23 10 L -9 3 L 8 5 L 26 -12" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" />
+    {value === 'regression_multivariate' && <path d="M -23 -7 L -7 -1 L 9 -10 L 26 -3" fill="none" stroke="var(--fam-1)" strokeWidth={1.5} strokeLinecap="round" />}
+  </g>
+  const count = value === 'binary' ? 2 : 3
+  return <g transform={`translate(${x} ${y})`}>{Array.from({ length: count }, (_, i) =>
+    <rect key={i} x={(i - (count - 1) / 2) * 27 - 9} y={-10} width={18} height={22} rx={5}
+      fill={i === 0 ? 'var(--accent-50)' : 'var(--bg-elevated)'} stroke={i === 0 ? color : 'var(--line-strong)'} strokeWidth={1.5} />
+  )}</g>
+}
+
 /* --- Act 1: the question --------------------------------------------------- */
 
 export function SceneQuestion({ p, L, v }: SceneProps): JSX.Element {
@@ -470,39 +417,42 @@ export function SceneQuestion({ p, L, v }: SceneProps): JSX.Element {
   const chosen = v.chosenShape
   const count = Math.max(1, shapes.length)
   const gap = L.wide ? 14 : 10
-  const columns = L.wide ? count : 2
+  const columns = L.scene.w >= 1150 ? count : L.scene.w >= 600 ? 3 : L.scene.w >= 380 ? 2 : 1
   const rows = Math.ceil(count / columns)
   const cardW = (L.scene.w - gap * (columns - 1)) / columns
-  const cardH = L.wide ? 118 : 84
+  const cardH = 158
   const gridH = rows * cardH + (rows - 1) * gap
   // The grid is the whole act now, so it sits in the middle of the stage
   // rather than at the top of a column it used to share with a contract panel.
   const top = L.scene.y + Math.max(6, (L.scene.h - gridH) / 2)
 
   const boxFor = (index: number): Box => ({
-    x: L.scene.x + (index % columns) * (cardW + gap),
+    x: L.scene.x + (index % columns) * (cardW + gap) + (Math.floor(index / columns) === rows - 1 ? (columns - (count - (rows - 1) * columns)) * (cardW + gap) / 2 : 0),
     y: top + Math.floor(index / columns) * (cardH + gap),
     w: cardW,
     h: cardH,
   })
 
-  // The highlight visits a few shapes before it settles on the chosen one.
-  const tour = [count - 1, Math.max(0, count - 3), 1, chosen, chosen]
-  const travel = seg(p, 0.3, 0.66)
-  const legIndex = Math.min(tour.length - 2, Math.floor(travel * (tour.length - 1)))
-  const legT = easeInOut(clamp01(travel * (tour.length - 1) - legIndex))
-  const fromBox = boxFor(tour[legIndex])
-  const toBox = boxFor(tour[legIndex + 1])
+  // Visit every actual task type from right to left. Each stop gets a dwell
+  // before the next movement, so multivariate regression cannot be skipped.
+  const tour = Array.from({ length: count }, (_, i) => count - 1 - i)
+  if (tour[tour.length - 1] !== chosen) tour.push(chosen)
+  const travel = seg(p, 0.22, 0.88)
+  const leg = travel * Math.max(1, tour.length - 1)
+  const legIndex = Math.min(tour.length - 2, Math.floor(leg))
+  const legT = easeInOut(seg(leg - legIndex, 0.38, 1))
+  const fromBox = boxFor(tour[Math.max(0, legIndex)])
+  const toBox = boxFor(tour[Math.min(tour.length - 1, legIndex + 1)])
   const highlight = { x: lerp(fromBox.x, toBox.x, legT), y: lerp(fromBox.y, toBox.y, legT) }
-  const settled = seg(p, 0.62, 0.78)
+  const settled = seg(p, 0.90, 0.99)
 
   return (
     <g>
       {shapes.map((shape, index) => {
         const box = boxFor(index)
-        const enter = rise(p, 0.02 + index * 0.05, 0.3 + index * 0.05)
+        const enter = rise(p, 0.02 + index * 0.02, 0.12 + index * 0.02)
         const isChosen = index === chosen
-        const fade = isChosen ? 1 : lerp(1, 0.28, settled)
+        const fade = isChosen ? 1 : lerp(1, 0.86, settled)
         return (
           <g key={shape.value} opacity={enter * fade} transform={`translate(0 ${(1 - enter) * 12})`}>
             <Panel
@@ -511,24 +461,17 @@ export function SceneQuestion({ p, L, v }: SceneProps): JSX.Element {
               stroke={isChosen && settled > 0.4 ? 'var(--accent)' : 'var(--line)'}
               lift={isChosen && settled > 0.4 ? 'soft' : 'none'}
             />
-            <Caption
-              x={box.x + box.w / 2}
-              y={box.y + box.h / 2 - 12}
-              text={fit(shape.label, box.w - 24, 13)}
-              size={13}
-              weight={600}
-              anchor="middle"
-              fill="var(--text)"
-            />
-            <foreignObject x={box.x + 12} y={box.y + box.h / 2 - 2} width={Math.max(10, box.w - 24)} height={L.wide ? 44 : 30}>
-              <div className="film__card-note film__card-note--center">{shape.summary}</div>
+            <TaskShapeGlyph value={shape.value} x={box.x + box.w / 2} y={box.y + 34} selected={isChosen && settled > 0.4} />
+            <foreignObject x={box.x + 12} y={box.y + 64} width={Math.max(10, box.w - 24)} height={84}>
+              <div className="film__shape-copy"><strong>{shape.label}</strong><span>{shape.summary}</span></div>
             </foreignObject>
           </g>
         )
       })}
 
-      {travel > 0 && settled < 1 && (
+      {p >= 0.18 && settled < 1 && (
         <rect
+          className="film__shape-highlight"
           x={highlight.x - 3}
           y={highlight.y - 3}
           width={cardW + 6}
@@ -682,7 +625,8 @@ export function SceneOrchestration({ p, L, v }: SceneProps): JSX.Element {
               id={`plan-${dep}-${step.id}`}
               from={geometry.pos[dep]}
               to={geometry.pos[step.id]}
-              draw={rise(p, 0.24 + index * 0.05, 0.4 + index * 0.05)}
+              draw={rise(p, 0.18 + index * 0.035, 0.34 + index * 0.035)}
+              travel={p}
               compact={!L.wide}
             />
           )
@@ -695,7 +639,7 @@ export function SceneOrchestration({ p, L, v }: SceneProps): JSX.Element {
           step={step}
           box={geometry.pos[step.id]}
           state="pending"
-          appear={rise(p, 0.18 + index * 0.05, 0.34 + index * 0.05)}
+          appear={rise(p, 0.12 + index * 0.035, 0.28 + index * 0.035)}
           compact={!L.wide}
         />
       ))}
@@ -758,6 +702,8 @@ export function SceneExecution({ p, L, v }: SceneProps): JSX.Element {
 
   return (
     <g>
+      <AgentPlate x={geometry.agent.x} y={geometry.agent.y} label={v.agents.executor.label}
+        summary={v.agents.executor.summary} appear={1} />
       {v.steps.map((step) =>
         step.deps.map((dep) => (
           <Edge
@@ -766,6 +712,7 @@ export function SceneExecution({ p, L, v }: SceneProps): JSX.Element {
             from={geometry.pos[dep]}
             to={geometry.pos[step.id]}
             draw={1}
+            travel={p}
             compact={!L.wide}
           />
         )),
@@ -896,471 +843,167 @@ export function SceneExecution({ p, L, v }: SceneProps): JSX.Element {
 
 /* --- Act 5: integration ---------------------------------------------------- */
 
-interface SpineSlot {
-  key: string
-  step: ResolvedStep
-  label: string
-  box: Box
-  arrive: number
-}
-
-function spineSlots(L: StageLayout, steps: ResolvedStep[]): SpineSlot[] {
-  const segments: { step: ResolvedStep; label: string }[] = []
-  for (const step of steps) {
-    if (step.chunked) {
-      segments.push({ step, label: `${step.toolName}, chunk 1/2` })
-      segments.push({ step, label: `${step.toolName}, chunk 2/2` })
-    } else {
-      segments.push({ step, label: step.toolName })
-    }
-  }
-  const h = 18
-  const gap = 4
-  const blockH = segments.length * h + (segments.length - 1) * gap
-  const w = L.wide ? 300 : Math.min(320, L.scene.w - 24)
-  const x = L.scene.x + L.scene.w / 2 - w / 2
-  const top = L.scene.y + Math.max(14, (L.scene.h - blockH) / 2 - 8)
-  return segments.map((segment, index) => ({
-    key: `${segment.step.id}-${index}`,
-    step: segment.step,
-    label: segment.label,
-    box: { x, y: top + index * (h + gap), w, h },
-    arrive: 0.1 + index * 0.05,
-  }))
-}
-
 export function SceneIntegration({ p, L, v }: SceneProps): JSX.Element {
-  const geometry = planGeometry(L, v.steps)
-  const slots = spineSlots(L, v.steps)
-  const agent = v.agents.integrator
-  const first = slots[0].box
-  const last = slots[slots.length - 1].box
-  const spineTop = first.y - 10
-  const spineBottom = last.y + last.h + 10
-  const middle = (spineTop + spineBottom) / 2
-
-  return (
-    <g>
-      <rect
-        x={first.x - 10}
-        y={spineTop}
-        width={first.w + 20}
-        height={spineBottom - spineTop}
-        rx={12}
-        fill="var(--bg-inset)"
-        stroke="var(--line-faint)"
-        opacity={rise(p, 0, 0.12)}
-      />
-
-      {slots.map((slot) => {
-        const from = geometry.pos[slot.step.id]
-        const travel = easeInOut(seg(p, slot.arrive, slot.arrive + 0.18))
-        if (travel <= 0 || !from) return null
-        const box: Box = {
-          x: lerp(from.x, slot.box.x, travel),
-          y: lerp(from.y, slot.box.y, travel),
-          w: lerp(from.w, slot.box.w, travel),
-          h: lerp(from.h, slot.box.h, travel),
-        }
-        const arrived = travel > 0.98
-        return (
-          <g key={slot.key}>
-            <rect
-              x={box.x}
-              y={box.y}
-              width={box.w}
-              height={box.h}
-              rx={lerp(9, 5, travel)}
-              fill="var(--bg-elevated)"
-              stroke={arrived ? 'var(--line-faint)' : 'var(--line)'}
-            />
-            <rect
-              x={box.x}
-              y={box.y + 3}
-              width={3}
-              height={Math.max(2, box.h - 6)}
-              rx={1.5}
-              fill={`var(--fam-${slot.step.familyIndex})`}
-            />
-            <Caption
-              x={box.x + 11}
-              y={box.y + box.h / 2}
-              text={fit(arrived ? slot.label : slot.step.toolName, box.w - 66, 10.5)}
-              size={10.5}
-              fill="var(--text-secondary)"
-              opacity={travel}
-            />
-            <Caption
-              x={box.x + box.w - 9}
-              y={box.y + box.h / 2}
-              text={slot.step.chunked ? 'split' : ''}
-              size={9.5}
-              anchor="end"
-              mono
-              fill="var(--text-faint)"
-              opacity={travel}
-            />
-          </g>
-        )
-      })}
-
-      {L.wide && (
-        <>
-          <AgentPlate
-            x={first.x - 34 - PLATE_W}
-            y={middle - PLATE_H / 2}
-            label={agent.label}
-            summary={agent.summary}
-            appear={rise(p, 0.04, 0.2)}
-          />
-          <g opacity={rise(p, 0.5, 0.68)}>
-            <Caption
-              x={first.x + first.w + 24}
-              y={middle + 4}
-              text="one output too large to pass whole"
-              size={10.5}
-              fill="var(--caution)"
-              weight={600}
-            />
-            <Caption x={first.x + first.w + 24} y={middle + 20} text="is split into two chunks" size={10.5} />
-          </g>
-        </>
-      )}
-
-      <Caption
-        x={L.scene.x + L.scene.w / 2}
-        y={Math.min(spineBottom + 22, L.scene.y + L.scene.h - 8)}
-        text={`one evidence bundle, ${slots.length} blocks`}
-        size={11.5}
-        anchor="middle"
-        opacity={rise(p, 0.82, 1)}
-      />
+  const columns = 3
+  const gap = 32
+  const nodeW = (L.scene.w - gap * (columns - 1) - 24) / columns
+  const nodeH = 64
+  const rowGap = 18
+  const gridX = L.scene.x + 12
+  const gridY = L.scene.y + PLATE_H + 42
+  const rows = Math.ceil(v.steps.length / columns)
+  const gridH = rows * nodeH + (rows - 1) * rowGap
+  const bundle: Box = { x: L.scene.x + (L.scene.w - 430) / 2, y: gridY + gridH + 52, w: 430, h: 78 }
+  const bundleIn = rise(p, 0.66, 0.86)
+  return <g>
+    <AgentPlate x={L.scene.x + (L.scene.w - PLATE_W) / 2} y={L.scene.y}
+      label={v.agents.integrator.label} summary={v.agents.integrator.summary} appear={rise(p, 0, 0.14)} />
+    {Array.from({ length: columns }, (_, column) => {
+      const source: Box = { x: gridX + column * (nodeW + gap), y: gridY, w: nodeW, h: gridH }
+      return <g key={column}>
+        <Panel box={{ x: source.x - 7, y: source.y - 8, w: source.w + 14, h: source.h + 16 }} radius={13}
+          fill="var(--bg-sunken)" stroke="var(--line-faint)" opacity={rise(p, 0.03, 0.15)} />
+        <Edge id={`integrate-${column}`} from={{ ...source, h: source.h + 8 }}
+          to={{ x: bundle.x + bundle.w * (column + 0.5) / columns - 1, y: bundle.y, w: 2, h: bundle.h }}
+          draw={rise(p, 0.57 + column * 0.04, 0.76 + column * 0.04)} travel={p} compact />
+      </g>
+    })}
+    {v.steps.map((step, index) => {
+      const column = Math.floor(index / rows)
+      const row = index % rows
+      return <StepNode key={step.id} step={step} state="done"
+        box={{ x: gridX + column * (nodeW + gap), y: gridY + row * (nodeH + rowGap), w: nodeW, h: nodeH }}
+        appear={rise(p, 0.06 + index * 0.035, 0.22 + index * 0.035)} />
+    })}
+    <g opacity={bundleIn}>
+      <Panel box={bundle} radius={14} fill="var(--accent-50)" stroke="var(--accent-200)" lift="soft" />
+      <Caption x={bundle.x + bundle.w / 2} y={bundle.y + 27} text="INTEGRATED EVIDENCE BUNDLE" size={12} weight={650} fill="var(--accent)" anchor="middle" />
+      <Caption x={bundle.x + bundle.w / 2} y={bundle.y + 51} text="Step outputs combined, source references retained" size={11.5} anchor="middle" />
     </g>
-  )
+  </g>
 }
 
 /* --- Act 6: prediction ----------------------------------------------------- */
 
 export function ScenePrediction({ p, L, v }: SceneProps): JSX.Element {
-  const agent = v.agents.predictor
+  const gap = 54
+  const cardW = Math.min(450, (L.scene.w - gap) / 2)
+  const groupX = L.scene.x + (L.scene.w - cardW * 2 - gap) / 2
+  const cardY = L.scene.y + PLATE_H + 62
+  const cardH = 336
+  const left = { x: groupX, y: cardY, w: cardW, h: cardH }
+  const right = { x: groupX + cardW + gap, y: cardY, w: cardW, h: cardH }
+  const agentX = L.scene.x + (L.scene.w - PLATE_W) / 2
+  const agentY = L.scene.y
+  const frame = rise(p, 0.02, 0.18)
+  const bar = easeInOut(seg(p, 0.28, 0.62))
+  const confidence = rise(p, 0.72, 0.95)
   const shape = v.shapes[v.chosenShape]
-  const laneH = 34
-  const laneGap = 8
-  const laneW = L.wide ? 250 : L.scene.w
-  const laneX = L.scene.x
-  const laneBlock = LANES.length * laneH + (LANES.length - 1) * laneGap
-
-  const cardW = L.wide ? Math.min(430, L.scene.w - laneW - 300) : L.scene.w
-  const cardX = L.scene.x + L.scene.w - cardW
-  const cardH = 250
-  const cardY = L.wide ? L.scene.y + (L.scene.h - cardH) / 2 : L.scene.y + laneBlock + 44
-  const laneTop = L.wide ? cardY + cardH / 2 - laneBlock / 2 : L.scene.y
-
-  const plateX = laneX + laneW + (cardX - laneX - laneW - PLATE_W) / 2
-  const plateY = cardY + cardH / 2 - PLATE_H / 2
-  const frame = rise(p, 0, 0.16)
-  const decided = seg(p, 0.2, 0.42)
-  const bar = easeInOut(seg(p, 0.32, 0.6))
-  const tail = rise(p, 0.88, 1)
-  const rowY = (index: number) => cardY + 142 + index * 30
-
-  return (
-    <g>
+  const incoming = `M ${left.x + left.w / 2} ${left.y} C ${left.x + left.w / 2} ${agentY + PLATE_H / 2}, ${agentX - 28} ${agentY + PLATE_H / 2}, ${agentX} ${agentY + PLATE_H / 2}`
+  const outgoing = `M ${agentX + PLATE_W} ${agentY + PLATE_H / 2} C ${right.x + right.w / 2} ${agentY + PLATE_H / 2}, ${right.x + right.w / 2} ${right.y - 28}, ${right.x + right.w / 2} ${right.y}`
+  return <g>
+    <path d={incoming} fill="none" stroke="var(--accent)" strokeWidth={1.5} pathLength={1} strokeDasharray={1} strokeDashoffset={1 - rise(p, 0.12, 0.35)} opacity={0.55} />
+    <path d={outgoing} fill="none" stroke="var(--accent)" strokeWidth={1.5} pathLength={1} strokeDasharray={1} strokeDashoffset={1 - rise(p, 0.28, 0.48)} opacity={0.55} />
+    <path d={`M ${right.x + right.w / 2 - 4} ${right.y - 6} l 4 6 l 4 -6`} fill="none" stroke="var(--accent)" strokeWidth={1.5} opacity={rise(p, 0.4, 0.5)} />
+    <AgentPlate x={agentX} y={agentY} label={v.agents.predictor.label} summary={v.agents.predictor.summary} appear={rise(p, 0, 0.14)} />
+    <g opacity={frame}>
+      <Panel box={left} radius={16} lift="soft" />
+      <Caption x={left.x + left.w / 2} y={left.y + 28} text="EVIDENCE CHAIN" size={10.5} weight={650} anchor="middle" />
       {LANES.map((lane, index) => {
-        const y = laneTop + index * (laneH + laneGap)
-        const cited = EVIDENCE.findIndex((row) => row.lane === lane.key)
-        const lit = cited >= 0 ? rise(p, 0.46 + cited * 0.12, 0.62 + cited * 0.12) : 0
-        return (
-          <g key={lane.key} opacity={frame}>
-            <Panel
-              box={{ x: laneX, y, w: laneW, h: laneH }}
-              radius={8}
-              stroke={lit > 0.5 ? 'var(--accent)' : 'var(--line-faint)'}
-              fill={lit > 0.5 ? 'var(--accent-50)' : 'var(--bg-elevated)'}
-            />
-            <Caption
-              x={laneX + 12}
-              y={y + laneH / 2}
-              text={fit(cited >= 0 ? EVIDENCE[cited].leaf : lane.label, laneW - 24, 11.5)}
-              size={11.5}
-              weight={cited >= 0 ? 600 : 400}
-              fill={cited >= 0 ? 'var(--text)' : 'var(--text-muted)'}
-            />
-          </g>
-        )
+        const evidence = EVIDENCE.find((row) => row.lane === lane.key)
+        const y = left.y + 64 + index * 51
+        const appear = rise(p, 0.10 + index * 0.07, 0.25 + index * 0.07)
+        return <g key={lane.key} opacity={appear}>
+          <line x1={left.x + 22} y1={y - 16} x2={left.x + left.w - 22} y2={y - 16} stroke="var(--line-faint)" />
+          <circle cx={left.x + 28} cy={y + 6} r={4} fill={`var(--fam-${index})`} />
+          <Caption x={left.x + 43} y={y} text={evidence?.leaf ?? lane.label} size={12} weight={550} fill="var(--text)" />
+          <Caption x={left.x + 43} y={y + 18} text={evidence?.reading ?? lane.key} size={10.5} />
+        </g>
       })}
-
-      {/* Evidence flows through the Predictor, which is why the plate sits on
-          the path rather than beside it. */}
-      {L.wide &&
-        EVIDENCE.map((row, index) => {
-          const laneIndex = LANES.findIndex((lane) => lane.key === row.lane)
-          if (laneIndex < 0) return null
-          const fromY = laneTop + laneIndex * (laneH + laneGap) + laneH / 2
-          const toY = plateY + 18 + index * 18
-          const draw = rise(p, 0.44 + index * 0.1, 0.64 + index * 0.1)
-          return (
-            <path
-              key={row.leaf}
-              d={`M ${laneX + laneW} ${fromY} C ${laneX + laneW + 40} ${fromY}, ${plateX - 40} ${toY}, ${plateX} ${toY}`}
-              fill="none"
-              stroke="var(--accent)"
-              strokeWidth={1.2}
-              opacity={0.5}
-              pathLength={1}
-              strokeDasharray={1}
-              strokeDashoffset={1 - draw}
-            />
-          )
-        })}
-
-      {L.wide && (
-        <>
-          <AgentPlate x={plateX} y={plateY} label={agent.label} summary={agent.summary} appear={rise(p, 0.04, 0.2)} />
-          <Feed from={plateX + PLATE_W} to={cardX} y={plateY + PLATE_H / 2} draw={rise(p, 0.2, 0.34)} />
-        </>
-      )}
-
-      <g opacity={frame}>
-        <Panel box={{ x: cardX, y: cardY, w: cardW, h: cardH }} radius={12} />
-        <Caption
-          x={cardX + 18}
-          y={cardY + 22}
-          text={fit((shape?.label ?? 'Prediction').toUpperCase(), cardW - 36, 9.5)}
-          size={9.5}
-          weight={700}
-        />
-        <Caption
-          x={cardX + 18}
-          y={cardY + 48}
-          text={decided < 0.5 ? 'resolving' : 'Predicted label: target'}
-          size={16}
-          weight={650}
-          fill={decided < 0.5 ? 'var(--text-faint)' : 'var(--text)'}
-        />
-        <rect x={cardX + 18} y={cardY + 66} width={cardW - 36} height={8} rx={4} fill="var(--bg-inset)" />
-        <rect
-          x={cardX + 18}
-          y={cardY + 66}
-          width={Math.max(0, (cardW - 36) * PREDICTION.probability * bar)}
-          height={8}
-          rx={4}
-          fill="var(--accent)"
-        />
-        <Caption
-          x={cardX + 18}
-          y={cardY + 88}
-          text={`probability ${(PREDICTION.probability * bar).toFixed(2)}`}
-          size={11}
-          mono
-          fill="var(--text-secondary)"
-        />
-        <Caption
-          x={cardX + cardW - 18}
-          y={cardY + 88}
-          text={`confidence ${(PREDICTION.confidence * tail).toFixed(2)}`}
-          size={11}
-          mono
-          anchor="end"
-          fill="var(--text-secondary)"
-          opacity={tail}
-        />
-        <line x1={cardX + 18} y1={cardY + 104} x2={cardX + cardW - 18} y2={cardY + 104} stroke="var(--line-faint)" />
-        <Caption x={cardX + 18} y={cardY + 120} text="EVIDENCE CHAIN" size={9.5} weight={700} />
-
-        {EVIDENCE.map((row, index) => {
-          const y = rowY(index)
-          const appear = rise(p, 0.56 + index * 0.1, 0.72 + index * 0.1)
-          return (
-            <g key={row.leaf} opacity={appear}>
-              <circle cx={cardX + 24} cy={y} r={3.5} fill="var(--accent)" />
-              <Caption x={cardX + 36} y={y - 6} text={fit(row.leaf, cardW - 124, 11.5)} size={11.5} weight={600} fill="var(--text)" />
-              <Caption x={cardX + 36} y={y + 8} text={fit(row.reading, cardW - 124, 10.5)} size={10.5} />
-              <rect x={cardX + cardW - 62} y={y - 3} width={44} height={6} rx={3} fill="var(--bg-inset)" />
-              <rect x={cardX + cardW - 62} y={y - 3} width={44 * row.weight * appear} height={6} rx={3} fill="var(--accent)" opacity={0.7} />
-            </g>
-          )
-        })}
-
-        <Caption
-          x={cardX + 18}
-          y={cardY + cardH - 16}
-          text={`${PREDICTION.supporting} supporting, ${PREDICTION.contradicting} contradicting`}
-          size={10.5}
-          fill="var(--text-faint)"
-          opacity={tail}
-        />
+      <Panel box={right} radius={16} lift="soft" stroke="var(--accent-200)" />
+      <Caption x={right.x + right.w / 2} y={right.y + 28} text={shape?.label ?? 'Prediction'} size={12} weight={650} anchor="middle" fill="var(--accent)" />
+      <Caption x={right.x + right.w / 2} y={right.y + 66} text={bar < 0.15 ? 'Resolving prediction' : 'Predicted label: target'} size={17} weight={550} anchor="middle" fill="var(--text)" />
+      <Caption x={right.x + right.w / 2} y={right.y + 124} text={(PREDICTION.probability * bar).toFixed(2)} size={46} weight={500} anchor="middle" fill="var(--text)" />
+      <Caption x={right.x + right.w / 2} y={right.y + 158} text="PROBABILITY" size={9.5} weight={650} anchor="middle" />
+      <rect x={right.x + 30} y={right.y + 184} width={right.w - 60} height={7} rx={3.5} fill="var(--bg-inset)" />
+      <rect x={right.x + 30} y={right.y + 184} width={(right.w - 60) * PREDICTION.probability * bar} height={7} rx={3.5} fill="var(--accent)" />
+      <line x1={right.x + 24} y1={right.y + 214} x2={right.x + right.w - 24} y2={right.y + 214} stroke="var(--line)" />
+      <g opacity={confidence}>
+        <Caption x={right.x + right.w / 2} y={right.y + 247} text={`Confidence ${(PREDICTION.confidence * confidence).toFixed(2)}`} size={15} weight={550} anchor="middle" fill="var(--text)" />
+        <Caption x={right.x + right.w / 2} y={right.y + 276} text="Probability and confidence are distinct estimates." size={10.5} anchor="middle" />
+        <Caption x={right.x + right.w / 2} y={right.y + 309} text={`${PREDICTION.supporting} supporting, ${PREDICTION.contradicting} contradicting`} size={11} anchor="middle" />
       </g>
     </g>
-  )
+  </g>
 }
 
 /* --- Act 7: evaluation ----------------------------------------------------- */
 
 export function SceneEvaluation({ p, L, v }: SceneProps): JSX.Element {
-  const agent = v.agents.critic
-  const rowH = 32
-  const listW = L.wide ? Math.min(460, L.scene.w - 340) : L.scene.w
-  const listX = L.wide ? L.scene.x + L.scene.w - listW - 40 : L.scene.x
-  const listH = CHECKLIST.length * rowH + 84
-  const listY = L.scene.y + Math.max(10, (L.scene.h - listH) / 2 - 14)
-
-  const secondPass = p >= 0.6
-  const verdictOne = rise(p, 0.4, 0.5)
-  const loop = rise(p, 0.48, 0.64)
-  const verdictTwo = rise(p, 0.88, 1)
-  const verdictW = secondPass ? 148 : 172
-  const verdictX = listX + listW - 16 - verdictW
-  const verdictY = listY + listH - 44
-  const loopY = listY + listH - 12
-  const loopEndX = L.wide ? L.scene.x + 24 : L.scene.x + 6
-
-  return (
-    <g>
-      <g opacity={rise(p, 0, 0.12)}>
-        <Panel box={{ x: listX, y: listY, w: listW, h: listH }} radius={12} />
-        <Caption
-          x={listX + 18}
-          y={listY + 24}
-          text={secondPass ? 'CHECKLIST, SECOND PASS' : 'CHECKLIST, FIRST PASS'}
-          size={9.5}
-          weight={700}
-        />
-        {CHECKLIST.map((item, index) => {
-          const y = listY + 52 + index * rowH
-          const from = secondPass ? 0.64 + index * 0.05 : 0.12 + index * 0.05
-          const resolved = seg(p, from, from + 0.08)
-          const outcome = secondPass ? item.second : item.first
-          return (
-            <g key={item.label}>
-              <Caption
-                x={listX + 42}
-                y={y}
-                text={fit(item.label, listW - 70, 12)}
-                size={12}
-                fill={resolved > 0.5 ? 'var(--text)' : 'var(--text-faint)'}
-              />
-              {resolved > 0.5 ? (
-                <Mark kind={outcome === 'pass' ? 'check' : 'cross'} x={listX + 24} y={y} />
-              ) : (
-                <circle cx={listX + 24} cy={y} r={5} fill="none" stroke="var(--line-strong)" strokeDasharray="2 2" />
-              )}
-            </g>
-          )
-        })}
-      </g>
-
-      {!secondPass && verdictOne > 0 && (
-        <g opacity={verdictOne}>
-          <Panel
-            box={{ x: verdictX, y: verdictY, w: verdictW, h: 28 }}
-            radius={14}
-            fill="var(--caution-soft)"
-            stroke="var(--caution)"
-          />
-          <Caption
-            x={verdictX + verdictW / 2}
-            y={verdictY + 14}
-            text="NEEDS WORK, ITERATE"
-            size={11}
-            weight={700}
-            anchor="middle"
-            fill="var(--caution)"
-          />
+  const centre = L.scene.x + L.scene.w / 2
+  const listW = Math.min(620, L.scene.w - 80)
+  const listX = centre - listW / 2
+  const listY = L.scene.y + PLATE_H + 36
+  const rowH = 36
+  const listH = CHECKLIST.length * rowH + 62
+  const secondPass = p >= 0.64
+  const routeY = listY + listH + 84
+  const leftX = L.scene.x + L.scene.w * 0.25 - PLATE_W / 2
+  const rightX = L.scene.x + L.scene.w * 0.75 - PLATE_W / 2
+  const feedback = rise(p, 0.43, 0.61)
+  const accepted = rise(p, 0.86, 0.98)
+  return <g>
+    <AgentPlate x={centre - PLATE_W / 2} y={L.scene.y} label={v.agents.critic.label}
+      summary={v.agents.critic.summary} appear={rise(p, 0, 0.12)} glow={p < 0.45 ? 0.3 : 0} />
+    <path d={`M ${centre} ${L.scene.y + PLATE_H} V ${listY}`} stroke="var(--accent)" strokeWidth={1.4} opacity={rise(p, 0.08, 0.2) * 0.5} />
+    <g opacity={rise(p, 0.04, 0.16)}>
+      <Panel box={{ x: listX, y: listY, w: listW, h: listH }} radius={16} lift="soft" />
+      <Caption x={centre} y={listY + 26} text={secondPass ? 'CHECKLIST, SECOND PASS' : 'CHECKLIST, FIRST PASS'} size={10.5} weight={650} anchor="middle" />
+      {CHECKLIST.map((item, index) => {
+        const y = listY + 48 + index * rowH
+        const start = secondPass ? 0.65 + index * 0.045 : 0.12 + index * 0.05
+        const resolved = seg(p, start, start + 0.05)
+        const passed = secondPass || item.first === 'pass'
+        return <g key={item.label}>
+          {!passed && resolved > 0.5 && <rect x={listX + 13} y={y - 5} width={listW - 26} height={32} rx={7} fill="var(--caution-soft)" opacity={0.55} />}
+          {resolved > 0.5 ? <Mark kind={passed ? 'check' : 'warn'} x={listX + 31} y={y + 10} /> : <circle cx={listX + 31} cy={y + 10} r={5} fill="none" stroke="var(--line-strong)" />}
+          <foreignObject x={listX + 51} y={y - 3} width={listW - 118} height={30}>
+            <div className="film__check-label">{item.label}</div>
+          </foreignObject>
+          {resolved > 0.5 && <Caption x={listX + listW - 22} y={y + 10} text={passed ? 'pass' : 'revise'} size={10} anchor="end" fill={passed ? 'var(--text-muted)' : 'var(--caution)'} />}
         </g>
-      )}
-
-      {verdictTwo > 0 && (
-        <g opacity={verdictTwo}>
-          <Panel
-            box={{ x: verdictX, y: verdictY, w: verdictW, h: 28 }}
-            radius={14}
-            fill="var(--positive-soft)"
-            stroke="var(--positive)"
-          />
-          <Caption
-            x={verdictX + verdictW / 2}
-            y={verdictY + 14}
-            text="SATISFACTORY"
-            size={11}
-            weight={700}
-            anchor="middle"
-            fill="var(--positive)"
-          />
-        </g>
-      )}
-
-      {!secondPass && loop > 0 && (
-        <g>
-          <path
-            d={`M ${listX} ${loopY} C ${listX - 60} ${loopY + 34}, ${loopEndX - 20} ${loopY + 34}, ${loopEndX} ${
-              loopY - 2
-            }`}
-            fill="none"
-            stroke="var(--caution)"
-            strokeWidth={1.4}
-            pathLength={1}
-            strokeDasharray={1}
-            strokeDashoffset={1 - loop}
-          />
-          <path
-            d={`M ${loopEndX - 4} ${loopY + 6} L ${loopEndX} ${loopY - 4} L ${loopEndX + 5} ${loopY + 5}`}
-            fill="none"
-            stroke="var(--caution)"
-            strokeWidth={1.4}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity={seg(loop, 0.86, 1)}
-          />
-          <Caption
-            x={loopEndX + 14}
-            y={loopY + 30}
-            text="back to the Orchestrator"
-            size={10.5}
-            weight={600}
-            fill="var(--caution)"
-            opacity={seg(loop, 0.5, 0.9)}
-          />
-        </g>
-      )}
-
-      {L.wide && (
-        <AgentPlate
-          x={L.scene.x}
-          y={listY + listH / 2 - PLATE_H / 2}
-          label={agent.label}
-          summary={agent.summary}
-          appear={rise(p, 0.02, 0.16)}
-        />
-      )}
-
-      <Caption
-        x={listX + listW / 2}
-        y={listY - 20}
-        text={
-          secondPass
-            ? 'The second pass clears every check, so the run moves on.'
-            : 'Two checks fail, so the plan is revisited rather than the answer being shipped.'
-        }
-        size={11.5}
-        anchor="middle"
-        opacity={rise(p, 0.24, 0.36)}
-      />
+      })}
     </g>
-  )
+    {[false, true].map((positive) => {
+      const x = positive ? rightX : leftX
+      const colour = positive ? 'var(--positive)' : 'var(--caution)'
+      const amount = positive ? Math.max(feedback * 0.25, accepted) : feedback * (secondPass ? 0.58 : 1)
+      const startX = listX + listW * (positive ? 0.75 : 0.25)
+      return <g key={String(positive)} opacity={amount}>
+        <path d={`M ${startX} ${listY + listH} C ${startX} ${routeY - 30}, ${x + PLATE_W / 2} ${routeY - 30}, ${x + PLATE_W / 2} ${routeY}`}
+          fill="none" stroke={colour} strokeWidth={1.5} />
+        <path d={`M ${x + PLATE_W / 2 - 4} ${routeY - 6} l 4 6 l 4 -6`} fill="none" stroke={colour} strokeWidth={1.5} />
+        <rect x={x + 38} y={routeY - 49} width={PLATE_W - 76} height={24} rx={12} fill="var(--bg-elevated)" stroke={colour} />
+        <Caption x={x + PLATE_W / 2} y={routeY - 37} text={positive ? 'SATISFACTORY' : 'UNSATISFACTORY'} size={10} weight={650} fill={colour} anchor="middle" />
+        <AgentPlate x={x} y={routeY} label={positive ? v.agents.communicator.label : v.agents.orchestrator.label}
+          summary={positive ? v.agents.communicator.summary : 'Revises the plan using the Critic’s feedback.'} appear={1} glow={positive ? accepted * 0.2 : 0} />
+      </g>
+    })}
+    <Caption x={centre} y={routeY + PLATE_H + 28} text="Feedback returns to planning when another pass is allowed." size={11} anchor="middle" opacity={feedback} />
+  </g>
 }
 
 /* --- Act 8: communication -------------------------------------------------- */
 
 export function SceneCommunication({ p, L, v }: SceneProps): JSX.Element {
   const agent = v.agents.communicator
-  const pageW = L.wide ? Math.min(440, L.scene.w - 320) : L.scene.w
-  const pageH = Math.min(L.scene.h - 12, 430)
-  const pageX = L.scene.x + L.scene.w - pageW - (L.wide ? 24 : 0)
-  const pageY = L.scene.y + (L.scene.h - pageH) / 2
+  const pageW = Math.min(530, L.scene.w)
+  const pageH = 500
+  const pageX = L.scene.x + (L.scene.w - pageW) / 2
+  const pageY = L.scene.y + PLATE_H + 32
   const frame = rise(p, 0, 0.12)
-  const plateX = pageX - 40 - PLATE_W
-  const plateY = pageY + pageH / 2 - PLATE_H / 2
+  const plateX = L.scene.x + (L.scene.w - PLATE_W) / 2
+  const plateY = L.scene.y
 
   let cursor = pageY + 52
   const blocks: ReactNode[] = []
@@ -1430,21 +1073,23 @@ export function SceneCommunication({ p, L, v }: SceneProps): JSX.Element {
 
   UNKNOWNS.forEach((unknown, index) => {
     const appear = rise(p, 0.72 + index * 0.07, 0.86 + index * 0.07)
-    const y = cursor + 9
+    const y = cursor + 14
     blocks.push(
       <g key={unknown} opacity={appear}>
         <Panel
-          box={{ x: pageX + 24, y: cursor, w: pageW - 48, h: 18 }}
+          box={{ x: pageX + 24, y: cursor, w: pageW - 48, h: 28 }}
           radius={9}
           fill="var(--bg-sunken)"
           stroke="var(--line-strong)"
           dashed
         />
         <rect x={pageX + 33} y={y - 4} width={8} height={8} rx={2} fill="none" stroke="var(--text-faint)" strokeDasharray="2 2" />
-        <Caption x={pageX + 48} y={y} text={fit(unknown, pageW - 82, 10.5)} size={10.5} />
+        <foreignObject x={pageX + 48} y={cursor + 2} width={pageW - 72} height={24}>
+          <div className="film__unknown-label">{unknown}</div>
+        </foreignObject>
       </g>,
     )
-    cursor += 22
+    cursor += 32
   })
 
   return (
@@ -1455,26 +1100,12 @@ export function SceneCommunication({ p, L, v }: SceneProps): JSX.Element {
         {blocks}
       </g>
 
-      {L.wide && (
-        <>
-          <AgentPlate x={plateX} y={plateY} label={agent.label} summary={agent.summary} appear={rise(p, 0.02, 0.16)} />
-          <Feed from={plateX + PLATE_W} to={pageX} y={plateY + PLATE_H / 2} draw={rise(p, 0.1, 0.24)} />
-          <Caption
-            x={plateX}
-            y={plateY + PLATE_H + 24}
-            text={`Written from ${v.steps.length} step outputs,`}
-            size={11.5}
-            opacity={rise(p, 0.84, 1)}
-          />
-          <Caption
-            x={plateX}
-            y={plateY + PLATE_H + 40}
-            text={`with ${UNKNOWNS.length} gaps marked unknown.`}
-            size={11.5}
-            opacity={rise(p, 0.86, 1)}
-          />
-        </>
-      )}
+      <AgentPlate x={plateX} y={plateY} label={agent.label} summary={agent.summary} appear={rise(p, 0.02, 0.16)} />
+      <path d={`M ${plateX + PLATE_W / 2} ${plateY + PLATE_H} V ${pageY}`}
+        fill="none" stroke="var(--accent)" strokeWidth={1.4} opacity={rise(p, 0.1, 0.24) * 0.6} />
+      <foreignObject x={pageX} y={pageY + pageH + 12} width={pageW} height={38} opacity={rise(p, 0.84, 1)}>
+        <div className="film__report-caption">Written from {v.steps.length} step outputs, with {UNKNOWNS.length} gaps marked unknown.</div>
+      </foreignObject>
     </g>
   )
 }

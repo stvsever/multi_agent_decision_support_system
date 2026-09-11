@@ -44,10 +44,6 @@ export const StageRail = memo(function StageRail({
   )
 
   const total = timings.totals.reduce((sum, value) => sum + value, 0)
-  const timed = timings.totals.filter((value) => value > 0).length
-  // With a single timed stage there is nothing to be slower than.
-  const slowest =
-    timed > 1 ? timings.totals.reduce((best, value, index) => (value > timings.totals[best] ? index : best), 0) : -1
 
   return (
     <section className="run-rail" aria-label="Pipeline stages">
@@ -87,7 +83,6 @@ export const StageRail = memo(function StageRail({
                         ? 'stopped here'
                         : 'starting'
                       : '-'}
-                  {seconds > 0 && index === slowest && <span className="run-stage__flag"> slowest</span>}
                 </span>
                 <span className="run-stage__bar" aria-hidden>
                   <span className="run-stage__bar-fill" style={{ width: `${Math.round(share * 100)}%` }} />
