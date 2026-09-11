@@ -235,10 +235,26 @@ class EventStore:
                 self.state["status"] = "Step Complete"
                 
             elif event_type == "STEP_FAIL":
-                for s in self.state["steps"]:
-                    if s["id"] == data["id"]:
-                        s["status"] = "failed"
-                        s["error"] = data["error"]
+                existing = next((s for s in self.state["steps"] if s["id"] == data["id"]), None)
+                if existing:
+                    existing["status"] = "failed"
+                    existing["error"] = data["error"]
+                else:
+                    # A step whose dependencies never finished is failed without
+                    # ever having started, so there is no row to update. Without
+                    # one the failure never reached the screen, and the run read
+                    # as though those steps had not been planned at all.
+                    self.state["steps"].append({
+                        "id": data["id"],
+                        "tool": data.get("tool", ""),
+                        "desc": data.get("desc", ""),
+                        "status": "failed",
+                        "error": data["error"],
+                        "tokens": 0,
+                        "startTime": time.time(),
+                        "duration": 0,
+                        "iteration": self.state.get("iteration", 1),
+                    })
                 self.state["status"] = "Step Failed"
             
             elif event_type == "REPAIR":
@@ -308,7 +324,11 @@ class EventStore:
             elif event_type == "COMPLETE":
                 # Ensure we don't duplicate logic, just set status
                 self.state["status"] = "Pipeline Completed"
-                self.state["progress"] = self.state["max_steps"] 
+                # What finished, not the size of the plan. Snapping progress to
+                # max_steps is what made a run that lost three steps report
+                # "20 of 20 steps".
+                finished = sum(1 for s in self.state["steps"] if s.get("status") == "complete")
+                self.state["progress"] = max(self.state.get("progress", 0), finished)
                 # Always snap to final stage in case new stages are added (e.g., Communication)
                 self.state["current_stage"] = max(0, len(self.state.get("stages", [])) - 1)
                 self.state["completed"] = True
@@ -437,8 +457,13 @@ class RunEventEmitter:
             {"id": step_id, "tokens": tokens, "duration_ms": duration_ms, "preview": preview},
         )
 
-    def on_step_failed(self, step_id, error):
-        _event_store.add_event("STEP_FAIL", {"id": step_id, "error": str(error)})
+    def on_step_failed(self, step_id, error, tool_name=None, description=None):
+        payload: Dict[str, Any] = {"id": step_id, "error": str(error)}
+        if tool_name:
+            payload["tool"] = tool_name
+        if description:
+            payload["desc"] = description
+        _event_store.add_event("STEP_FAIL", payload)
 
     def on_auto_repair(self, step_id, strategy):
         _event_store.add_event("REPAIR", {"id": step_id, "strategy": strategy})

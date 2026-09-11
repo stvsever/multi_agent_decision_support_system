@@ -106,6 +106,15 @@ class PlanExecutor:
                     logger.error(f"Stuck with {len(pending)} pending steps")
                     for step in pending:
                         step.mark_failed("Unresolvable dependencies")
+                        # Tell the dashboard, too. These steps never started,
+                        # so this is the only event that will ever mention them.
+                        if self.ui.enabled:
+                            self.ui.on_step_failed(
+                                step.step_id,
+                                "Did not run: a step it depends on never completed.",
+                                tool_name=getattr(step.tool_name, "value", step.tool_name),
+                                description=step.description,
+                            )
                 break
             
             # Execute steps in parallel where possible

@@ -22,6 +22,12 @@ from ..utils.validation import validate_execution_plan
 logger = logging.getLogger("compass.orchestrator")
 
 
+#: How many times the Orchestrator is sent back to fix a plan that cannot execute
+#: before the run is failed. Each round costs one planning call, and a model that
+#: invents a tool twice in a row is not going to stop on the third.
+PLAN_REPAIR_ATTEMPTS = 2
+
+
 class Orchestrator(BaseAgent):
     """
     The Orchestrator creates execution plans for processing participant data.
@@ -98,6 +104,43 @@ class Orchestrator(BaseAgent):
             raw_plan_data=raw_plan_data,
             target_condition=target_condition,
         )
+
+        # A plan can parse and still be impossible to run. The parser drops a
+        # step whose tool does not exist, and every step that depended on it is
+        # then left waiting on something that will never finish; the executor
+        # reports those as unresolvable only after the rest of the plan has run,
+        # and the run is scored as though they had never been planned. So the
+        # plan is checked as a graph here, and sent back with the exact defects
+        # while there is still time to fix it rather than silently executed short.
+        defects = self._plan_defects(plan_data)
+        repair_round = 0
+        while defects and repair_round < PLAN_REPAIR_ATTEMPTS:
+            repair_round += 1
+            print(
+                f"[Orchestrator] Plan cannot execute as written ({len(defects)} defect"
+                f"{'s' if len(defects) != 1 else ''}); repair round {repair_round}/{PLAN_REPAIR_ATTEMPTS}"
+            )
+            for defect in defects:
+                print(f"[Orchestrator]   - {defect}")
+            repair_prompt = self._build_prompt(
+                participant_data=participant_data,
+                target_condition=target_condition,
+                control_condition=control_condition,
+                prediction_task_spec=prediction_task_spec,
+                token_budget=token_budget or self.settings.token_budget.total_budget,
+                previous_feedback=self._repair_feedback(defects, previous_feedback),
+            )
+            raw_plan_data = self._call_llm(repair_prompt)
+            plan_data = self._normalize_plan_data(
+                raw_plan_data=raw_plan_data,
+                target_condition=target_condition,
+            )
+            defects = self._plan_defects(plan_data)
+        if defects:
+            raise RuntimeError(
+                "The Orchestrator could not produce an executable plan after "
+                f"{PLAN_REPAIR_ATTEMPTS} repair rounds: " + " ".join(defects)
+            )
         
         # Validate plan
         is_valid, errors = validate_execution_plan(plan_data)
@@ -490,6 +533,69 @@ Return a JSON object with:
         keys = set(data.keys())
         step_markers = {"tool_name", "tool", "description", "parameters", "input_domains"}
         return bool(keys & step_markers)
+
+    def _plan_defects(self, plan_data: Dict[str, Any]) -> List[str]:
+        """
+        What stops this plan from executing, in words the Orchestrator can act on.
+
+        Two things break a plan that otherwise parses: a step naming a tool the
+        engine does not have, and a step depending on a step that is not there.
+        A step with an unknown tool is counted as absent, because the parser
+        drops it, so anything depending on it is reported against that step by
+        number. Only direct defects are listed; a step that merely waits on a
+        step which is itself sound is left alone, so fixing the listed steps is
+        enough to make the whole graph runnable.
+        """
+        raw_steps = [step for step in plan_data.get("steps", []) if isinstance(step, dict)]
+
+        def step_id(step: Dict[str, Any]) -> Optional[int]:
+            try:
+                return int(step.get("step_id"))
+            except (TypeError, ValueError):
+                return None
+
+        defects: List[str] = []
+        runnable: set = set()
+        for step in raw_steps:
+            identifier = step_id(step)
+            if identifier is None:
+                continue
+            if self._coerce_tool_name(step) is None:
+                named = step.get("tool_name") or step.get("tool") or step.get("name")
+                defects.append(f"Step {identifier} uses the tool '{named}', which does not exist.")
+            else:
+                runnable.add(identifier)
+
+        for step in raw_steps:
+            identifier = step_id(step)
+            if identifier is None or identifier not in runnable:
+                continue
+            depends_on = step.get("depends_on", [])
+            if isinstance(depends_on, (int, str)):
+                depends_on = [depends_on]
+            for dependency in depends_on if isinstance(depends_on, list) else []:
+                try:
+                    target = int(dependency)
+                except (TypeError, ValueError):
+                    continue
+                if target not in runnable:
+                    defects.append(
+                        f"Step {identifier} depends on step {target}, which is not a runnable step in this plan."
+                    )
+        return defects
+
+    def _repair_feedback(self, defects: List[str], previous_feedback: Optional[str]) -> str:
+        """The defects, the tools that do exist, and any critic feedback already in play."""
+        tools = ", ".join(tool.value for tool in ToolName)
+        lines = [
+            "Your previous plan cannot be executed as written. Fix exactly these problems:",
+            *[f"- {defect}" for defect in defects],
+            f"Use only these tool names, spelled exactly: {tools}.",
+            "Every depends_on entry must be the step_id of another step in the same plan.",
+        ]
+        if previous_feedback:
+            lines.extend(["", "Earlier feedback that still applies:", previous_feedback])
+        return "\n".join(lines)
 
     def _coerce_tool_name(self, step_data: Dict[str, Any]) -> Optional[ToolName]:
         alias_map: Dict[str, ToolName] = {}

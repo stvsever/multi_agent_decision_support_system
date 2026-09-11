@@ -351,6 +351,15 @@ function RunHeader({ detail, connected, running }: { detail: RunDetail; connecte
             </span>
             <span className="stat__meta tabular">
               {state.progress ?? 0} of {state.max_steps ?? 0} steps
+              {/* A step that never ran is not a detail to leave in the
+                  timeline: a run that silently lost its reasoning steps read as
+                  complete from this line alone. */}
+              {(state.steps ?? []).some((step) => step.status === 'failed') && (
+                <span style={{ color: 'var(--caution)' }}>
+                  {' · '}
+                  {(state.steps ?? []).filter((step) => step.status === 'failed').length} did not run
+                </span>
+              )}
             </span>
           </div>
           <div className="stat">
