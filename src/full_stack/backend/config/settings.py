@@ -202,6 +202,65 @@ class ExplainabilityConfig:
     hybrid_temperature: float = 0.3
 
 
+ORCHESTRATION_MODES = ("auto", "always", "never")
+
+
+@dataclass
+class OrchestrationConfig:
+    """
+    When the multi-agent orchestration workflow (Orchestrator, Executor tools,
+    Integrator) runs before the Predictor.
+
+    auto:   run it only when the participant record does not fit the Predictor's
+            input budget; a record that fits goes straight to the Predictor.
+    always: run it on every attempt, also for records that would fit, to
+            re-represent the phenotype before prediction.
+    never:  never run it; a record that does not fit is packed to the budget and
+            the coverage loss is recorded.
+
+    `threshold_tokens` overrides the budget used by `auto` (0 means the
+    Predictor's own input budget).
+    """
+
+    mode: str = field(default_factory=lambda: os.getenv("COMPASS_ORCHESTRATION", "auto"))
+    threshold_tokens: int = 0
+
+
+@dataclass
+class DecisionConfig:
+    """
+    Settings for structured decision models (System One models such as TypeSafe
+    Jev) serving the Predictor role. Every other role stays a conventional LLM.
+    """
+
+    # Transport: "openrouter" (OPENROUTER_API_KEY) or "typesafe" (TYPESAFE_API_KEY).
+    provider: str = field(default_factory=lambda: os.getenv("COMPASS_DECISION_PROVIDER", "openrouter"))
+    # Option orders asked per Choice. The answers are averaged, which removes the
+    # first-option preference the model card documents.
+    choice_orders: int = 3
+    # Levels per regression Score (the API accepts at most 10).
+    score_levels: int = 10
+    # A second, zoomed Score pass for continuous outputs, so the estimate is not
+    # limited to the width of one coarse level.
+    regression_refine: bool = True
+    # The decision critic rejects an attempt when the answers move more than this
+    # between option orders (mean total variation distance) ...
+    stability_threshold: float = 0.20
+    # Evidence sufficiency (a Noul asked in the same request) is always reported.
+    # It only gates when this threshold is above 0: a record can be genuinely
+    # uninformative for a target (a demographics-only tier, for example), and no
+    # other evidence route can add information the record does not hold.
+    sufficiency_threshold: float = 0.0
+    # Provider tokens per cl100k token, used to keep the state inside the model's
+    # limit. Measured at 1.14 on jev-1.13; 1.2 leaves a margin.
+    tokenizer_ratio: float = 1.2
+    request_timeout_seconds: float = 120.0
+    max_retries: int = 3
+    # Conventional LLM that writes the question book (label definitions and
+    # output scales) once per task. Empty means the Orchestrator's model.
+    compiler_model: str = ""
+
+
 @dataclass
 class PathConfig:
     """File and directory paths configuration."""
@@ -233,6 +292,8 @@ class Settings:
     retry: RetryConfig = field(default_factory=RetryConfig)
     token_budget: TokenBudgetConfig = field(default_factory=TokenBudgetConfig)
     explainability: ExplainabilityConfig = field(default_factory=ExplainabilityConfig)
+    orchestration: OrchestrationConfig = field(default_factory=OrchestrationConfig)
+    decision: DecisionConfig = field(default_factory=DecisionConfig)
     paths: PathConfig = field(default_factory=PathConfig)
     
     # API Configuration
@@ -241,7 +302,8 @@ class Settings:
     openrouter_base_url: str = field(default_factory=lambda: os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1"))
     openrouter_site_url: str = field(default_factory=lambda: os.getenv("OPENROUTER_SITE_URL", ""))
     openrouter_app_name: str = field(default_factory=lambda: os.getenv("OPENROUTER_APP_NAME", "COMPASS"))
-    
+    typesafe_api_key: str = field(default_factory=lambda: _resolve_secret_from_env_or_dotenv("TYPESAFE_API_KEY"))
+
     # Reasoning effort forwarded to providers that support it. Providers that do
     # not support it ignore the field. Reasoning tokens are billed as output and
     # count against the output ceiling, so on a reasoning model they can consume
@@ -284,6 +346,14 @@ class Settings:
             if local_len > 0:
                 return local_len
             return max(1024, int(getattr(self.models, "local_max_tokens", 32768) or 32768))
+
+        # A structured decision model has a small, fixed state limit counted in
+        # its own tokens. Report it in the cl100k tokens the engine counts with.
+        from ..decision.registry import get_decision_model_spec
+
+        decision_spec = get_decision_model_spec(model_name)
+        if decision_spec is not None:
+            return decision_spec.state_budget_cl100k(ratio=float(self.decision.tokenizer_ratio))
 
         public_ctx = int(getattr(self.models, "public_max_context_tokens", 0) or 0)
         normalized_public = self._normalize_model_name(self.models.public_model_name)

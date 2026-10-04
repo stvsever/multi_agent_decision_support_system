@@ -31,6 +31,15 @@ class PredictionTaskNode(BaseModel):
     class_labels: List[str] = Field(default_factory=list)
     regression_outputs: List[str] = Field(default_factory=list)
     unit_by_output: Dict[str, str] = Field(default_factory=dict)
+    # Optional measurement scale per regression output, for example
+    # {"madrs_total": {"min": 0, "max": 60, "integer": true, "unit": "points"}}.
+    # Accepted keys: min, max, integer, unit, description, low_meaning,
+    # high_meaning, reference_mean, reference_sd. A structured decision model
+    # uses it to place the estimate on the right range; LLM predictors see it in
+    # the task specification. Outputs without one get a compiled scale.
+    output_scales: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
+    # Optional plain-language definition per class label, used the same way.
+    class_definitions: Dict[str, str] = Field(default_factory=dict)
     required: bool = True
     children: List["PredictionTaskNode"] = Field(default_factory=list)
 

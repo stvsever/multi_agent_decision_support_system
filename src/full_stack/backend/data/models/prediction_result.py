@@ -82,6 +82,9 @@ class RegressionPrediction(BaseModel):
     """Node-level regression output."""
 
     values: Dict[str, float] = Field(default_factory=dict)
+    # Optional predictive distribution per output (mean, sd, q05, q25, median,
+    # q75, q95). Filled by structured decision models; values[output] is the mean.
+    uncertainty: Dict[str, Dict[str, float]] = Field(default_factory=dict)
 
     @validator("values")
     def validate_values(cls, value: Dict[str, float]) -> Dict[str, float]:
@@ -109,6 +112,9 @@ class NodePrediction(BaseModel):
     supporting_evidence_against: List[str] = Field(default_factory=list)
     uncertainty_factors: List[str] = Field(default_factory=list)
     children: List["NodePrediction"] = Field(default_factory=list)
+    # Structured decision models: per-order answers, stability, level
+    # distributions and evidence sufficiency for this node.
+    decision_details: Dict[str, Any] = Field(default_factory=dict)
 
     @root_validator(skip_on_failure=True)
     def validate_output_shape(cls, values: Dict[str, Any]) -> Dict[str, Any]:
@@ -180,6 +186,15 @@ class PredictionResult(BaseModel):
     domains_processed: List[str] = Field(default_factory=list)
     total_tokens_used: int = 0
     iteration: int = 1
+
+    # Which kind of model produced the outputs: "llm" or "decision".
+    predictor_kind: str = "llm"
+    predictor_model: str = ""
+    # How the participant record reached the Predictor: "direct" or "orchestrated".
+    input_route: str = "orchestrated"
+    # Decision models only: question book, questions asked, state packing,
+    # per-request usage and the quality metrics the decision critic reads.
+    decision_report: Dict[str, Any] = Field(default_factory=dict)
     
     @validator("probability_score")
     def validate_probability(cls, v, values):
@@ -324,6 +339,9 @@ class EvaluationChecklist(BaseModel):
     clinically_relevant: bool = False
     logically_coherent: bool = False
     critical_domains_processed: bool = False
+    # Structured decision model checks.
+    decision_stable: bool = False
+    evidence_sufficient: bool = False
     active_checks: List[str] = Field(default_factory=list, description="Checklist keys applicable for this run")
 
     @root_validator(skip_on_failure=True)
@@ -358,13 +376,16 @@ class EvaluationChecklist(BaseModel):
             "clinically_relevant",
             "logically_coherent",
             "critical_domains_processed",
+            "decision_stable",
+            "evidence_sufficient",
         ]
 
     @property
     def _required_keys(self) -> List[str]:
         if self.active_checks:
             return list(self.active_checks)
-        return self._all_generalized_keys()
+        # Decision-model checks only count when a decision evaluation activates them.
+        return [k for k in self._all_generalized_keys() if k not in ("decision_stable", "evidence_sufficient")]
     
     @property
     def all_passed(self) -> bool:

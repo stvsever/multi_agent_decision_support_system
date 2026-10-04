@@ -370,13 +370,25 @@ class DataLoader:
                     # Create feature dict matching FeatureValue schema
                     # Generate a simple ID from feature name
                     feature_id = feature_name.replace(" ", "_").replace("(", "").replace(")", "").lower()[:50]
+
+                    # Keep the measured value when the leaf carries one. When the
+                    # label already spells it out (inline values), or there is
+                    # none, the z-score stands in, as before.
+                    raw_value = leaf.get("value")
+                    if isinstance(raw_value, (dict, list)) or raw_value is None or str(raw_value).strip() == "":
+                        leaf_value = z_score
+                    elif str(raw_value).strip() in str(feature_name):
+                        leaf_value = z_score
+                    else:
+                        leaf_value = raw_value
+                    unit = leaf.get("unit")
                     
                     feature_dict = {
                         "feature_id": feature_id,
                         "field_name": feature_name,
-                        "value": z_score,  # Using z-score as value since raw value missing
+                        "value": leaf_value,
                         "z_score": z_score,
-                        "unit": None,
+                        "unit": str(unit) if unit not in (None, "") else None,
                         "domain": domain_name,
                         "path_in_hierarchy": path
                     }

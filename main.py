@@ -63,6 +63,14 @@ from src.full_stack.backend.data.models.prediction_task import (
     parse_csv_list,
 )
 from src.full_stack.backend.runtime.event_bus import get_ui
+from src.full_stack.backend.data.models.execution_plan import ExecutionPlan
+from src.full_stack.backend.decision import enforce_role_models, get_decision_model_spec, is_decision_model
+from src.full_stack.backend.decision.predictor import DecisionPredictor
+from src.full_stack.backend.utils.core.input_routing import (
+    build_direct_executor_output,
+    decide_route,
+    normalize_mode as normalize_orchestration_mode,
+)
 
 
 def _resolve_output_dir(participant_dir: Path, participant_id: str, settings) -> Path:
@@ -491,6 +499,130 @@ def _prediction_display_probability(prediction: Any) -> Optional[float]:
     return None
 
 
+def _decision_orchestrator_note(settings, prediction_task_spec: PredictionTaskSpec) -> str:
+    """Planning guidance when the Predictor is a structured decision model."""
+    spec = get_decision_model_spec(settings.models.predictor_model)
+    budget = spec.state_budget_cl100k(ratio=float(settings.decision.tokenizer_ratio)) if spec else 26000
+    label = spec.label if spec else settings.models.predictor_model
+    nodes = ", ".join(str(n.display_name or n.node_id) for n in prediction_task_spec.root.walk())
+    return (
+        f"The Predictor in this run is a structured decision model ({label}). It writes no text: it reads one "
+        f"evidence state of at most about {budget:,} tokens and answers typed questions with calibrated "
+        f"probabilities for: {nodes}. Long records full of unrelated detail lower its accuracy. Plan steps that "
+        "distil the record into compact, decision-relevant evidence for every output: a phenotype "
+        "representation, a feature synthesis of the findings that bear on the outputs with their values, and "
+        "compressions of large domains. Keep explicit scores and values; drop detail that does not bear on the outputs."
+    )
+
+
+def _direct_plan(
+    *,
+    participant_id: str,
+    target_condition: str,
+    control_condition: str,
+    prediction_task_spec: PredictionTaskSpec,
+    domains: List[str],
+    reason: str,
+    iteration: int,
+) -> ExecutionPlan:
+    """An empty plan that records a direct attempt in the logs and reports."""
+    return ExecutionPlan(
+        plan_id=f"direct-{iteration}",
+        participant_id=participant_id,
+        target_condition=target_condition,
+        control_condition=control_condition,
+        prediction_task_spec=prediction_task_spec,
+        priority_domains=list(domains),
+        fusion_strategy="direct",
+        user_facing_explanation="The full record fits the Predictor input, so it was passed on without orchestration.",
+        reasoning=reason,
+        steps=[],
+        iteration=iteration,
+    )
+
+
+def _run_orchestrated_attempt(
+    *,
+    orchestrator: Orchestrator,
+    executor: Executor,
+    participant_data,
+    target_condition: str,
+    control_condition: str,
+    prediction_task_spec: PredictionTaskSpec,
+    previous_feedback: Optional[str],
+    iteration: int,
+    runtime_agent_instructions: Dict[str, str],
+    exec_logger: ExecutionLogger,
+    decision_trace: DecisionTrace,
+    interactive_ui: bool,
+    settings,
+) -> Tuple[Any, Dict[str, Any]]:
+    """Orchestrator plans, the Executor runs the tools and the Integrator fuses."""
+    ui = get_ui()
+    if interactive_ui:
+        ui.set_status("Orchestrator creating execution plan...", stage=1, iteration=iteration)
+    print(f"\n[3/5] Orchestrator creating execution plan...")
+    print(
+        f"[Orchestrator] Runtime config: model={settings.models.orchestrator_model}, "
+        f"max_tokens={settings.models.orchestrator_max_tokens}, temp={settings.models.orchestrator_temperature}, "
+        f"agent_in={settings.token_budget.max_agent_input_tokens}, "
+        f"agent_out={settings.token_budget.max_agent_output_tokens}, "
+        f"tool_in={settings.token_budget.max_tool_input_tokens}, "
+        f"tool_out={settings.token_budget.max_tool_output_tokens}"
+    )
+    orchestrator_started = time.time()
+    plan = orchestrator.execute(
+        participant_data=participant_data,
+        target_condition=target_condition,
+        control_condition=control_condition,
+        prediction_task_spec=prediction_task_spec,
+        previous_feedback=previous_feedback,
+        iteration=iteration,
+    )
+    orchestrator_elapsed = int((time.time() - orchestrator_started) * 1000)
+    print(
+        f"[Orchestrator] Plan created in {orchestrator_elapsed}ms "
+        f"(steps={plan.total_steps}, est_tokens={plan.total_estimated_tokens})"
+    )
+    exec_logger.log_orchestrator(
+        {"plan_id": plan.plan_id, "total_steps": plan.total_steps, "priority_domains": plan.priority_domains}
+    )
+    decision_trace.record_orchestrator_plan(
+        domains=plan.priority_domains,
+        num_steps=plan.total_steps,
+        reasoning=plan.reasoning[:500],
+    )
+
+    print(f"\n[4/5] Executor processing plan...")
+    executor_started = time.time()
+    executor_output = executor.execute(
+        plan=plan,
+        participant_data=participant_data,
+        target_condition=target_condition,
+        control_condition=control_condition,
+        prediction_task_spec=prediction_task_spec,
+        agent_instructions=runtime_agent_instructions,
+    )
+    executor_output["route"] = "orchestrated"
+    print(f"[Executor] Completed in {int((time.time() - executor_started) * 1000)}ms")
+
+    exec_result = executor_output.get("execution_result")
+    if exec_result and hasattr(exec_result, "step_statuses"):
+        for step_id, status in exec_result.step_statuses.items():
+            exec_logger.log_executor_step(
+                step_id=step_id,
+                tool_name=status.get("tool_name", "unknown"),
+                status=status.get("status", "UNKNOWN"),
+                tokens=status.get("tokens", 0),
+            )
+
+    # The FUSION event sets the status to "Fusion complete", so the caller sets
+    # the prediction status after this returns.
+    if interactive_ui and "predictor_input" in executor_output:
+        ui.on_fusion_complete(executor_output["predictor_input"])
+    return plan, executor_output
+
+
 def _generate_deep_phenotype_report(
     *,
     communicator: Communicator,
@@ -724,6 +856,8 @@ def run_compass_pipeline(
     generate_xai_report: bool = False,
     deep_report_focus_modalities: str = "",
     deep_report_general_instruction: str = "",
+    orchestration_mode: Optional[str] = None,
+    orchestration_threshold_tokens: Optional[int] = None,
 ) -> dict:
     """
     Run the complete COMPASS pipeline for a participant.
@@ -733,8 +867,12 @@ def run_compass_pipeline(
         target_condition: Target phenotype string (legacy compatibility)
         control_condition: Control comparator string (legacy compatibility)
         prediction_task_spec: Canonical task specification (hierarchical/mixed)
-        max_iterations: Maximum orchestration iterations
+        max_iterations: Maximum actor-critic iterations
         verbose: Enable verbose output
+        orchestration_mode: "auto" (default from settings): orchestrate only when the
+            record does not fit the Predictor input; "always"; or "never".
+        orchestration_threshold_tokens: replace the Predictor input budget used by
+            "auto" with a fixed token count (it cannot exceed the budget).
     
     Returns:
         Dictionary with prediction result and metadata
@@ -846,14 +984,28 @@ def run_compass_pipeline(
     # Initialize agents
     if interactive_ui: ui.set_status("Initializing Agents...", stage=0)
     print(f"\n[2/5] Initializing COMPASS agents...")
+    enforce_role_models(settings)
+    predictor_kind = "decision" if is_decision_model(settings.models.predictor_model) else "llm"
     orchestrator = Orchestrator(token_manager=token_manager)
     executor = Executor(token_manager=token_manager)
-    predictor = Predictor(token_manager=token_manager)
+    if predictor_kind == "decision":
+        predictor = DecisionPredictor(token_manager=token_manager)
+        print(
+            f"[Init] Predictor: structured decision model {settings.models.predictor_model}; "
+            f"other roles: {settings.models.orchestrator_model}"
+        )
+    else:
+        predictor = Predictor(token_manager=token_manager)
     critic = Critic(token_manager=token_manager)
     communicator = Communicator(token_manager=token_manager)
-    orchestrator.set_runtime_instruction(
-        _combine_instruction(runtime_agent_instructions.get("global", ""), runtime_agent_instructions.get("orchestrator", ""))
+    orchestrator_instruction = _combine_instruction(
+        runtime_agent_instructions.get("global", ""), runtime_agent_instructions.get("orchestrator", "")
     )
+    if predictor_kind == "decision":
+        orchestrator_instruction = _combine_instruction(
+            orchestrator_instruction, _decision_orchestrator_note(settings, prediction_task_spec)
+        )
+    orchestrator.set_runtime_instruction(orchestrator_instruction)
     predictor.set_runtime_instruction(
         _combine_instruction(runtime_agent_instructions.get("global", ""), runtime_agent_instructions.get("predictor", ""))
     )
@@ -867,7 +1019,44 @@ def run_compass_pipeline(
         _combine_instruction(runtime_agent_instructions.get("global", ""), runtime_agent_instructions.get("integrator", ""))
     )
     
-    # Main loop: Orchestrator -> Executor -> Predictor -> Critic
+    # Evidence route. The direct executor output needs no model call, so the
+    # decision is made up front: a record that fits the Predictor's input goes
+    # straight to it; a larger one goes through the orchestration workflow.
+    mode = normalize_orchestration_mode(
+        orchestration_mode if orchestration_mode is not None else settings.orchestration.mode
+    )
+    threshold_override = int(
+        orchestration_threshold_tokens
+        if orchestration_threshold_tokens is not None
+        else (settings.orchestration.threshold_tokens or 0)
+    )
+    direct_output = build_direct_executor_output(
+        participant_data,
+        target_condition=target_condition,
+        control_condition=control_condition,
+        prediction_task_spec=prediction_task_spec,
+        agent_instructions=runtime_agent_instructions,
+        model_hint=settings.models.predictor_model or "gpt-5",
+    )
+    if interactive_ui:
+        ui.set_status("Measuring the record against the Predictor input...", stage=0)
+    measurement = predictor.measure_direct(
+        dict(direct_output),
+        target_condition=target_condition,
+        control_condition=control_condition,
+        prediction_task_spec=prediction_task_spec,
+    )
+    initial_route = decide_route(
+        mode=mode,
+        measurement=measurement,
+        threshold_override=threshold_override,
+        predictor_kind=predictor_kind,
+    )
+    print(f"\n[Route] {initial_route.route.upper()}: {initial_route.reason}")
+    current_route = initial_route.route
+    route_history: List[Dict[str, Any]] = []
+
+    # Main loop: [Orchestrator -> Executor ->] Predictor -> Critic
     iteration = 1
     previous_feedback = None
     final_prediction = None
@@ -875,90 +1064,79 @@ def run_compass_pipeline(
     final_executor_output = None
     final_plan = None
     attempts: List[Dict[str, Any]] = []
-    
+
     while iteration <= max_iterations:
         print(f"\n{'='*70}")
-        print(f"  ITERATION {iteration}/{max_iterations}")
+        print(f"  ITERATION {iteration}/{max_iterations} ({current_route} route)")
         print(f"{'='*70}")
-        
-        # Step 3: Orchestrator creates plan
-        if interactive_ui: 
-            ui.set_status("Orchestrator creating execution plan...", stage=1, iteration=iteration)
-        print(f"\n[3/5] Orchestrator creating execution plan...")
-        print(
-            f"[Orchestrator] Runtime config: model={settings.models.orchestrator_model}, "
-            f"max_tokens={settings.models.orchestrator_max_tokens}, temp={settings.models.orchestrator_temperature}, "
-            f"agent_in={settings.token_budget.max_agent_input_tokens}, "
-            f"agent_out={settings.token_budget.max_agent_output_tokens}, "
-            f"tool_in={settings.token_budget.max_tool_input_tokens}, "
-            f"tool_out={settings.token_budget.max_tool_output_tokens}"
-        )
-        orchestrator_started = time.time()
-        plan = orchestrator.execute(
-            participant_data=participant_data,
-            target_condition=target_condition,
-            control_condition=control_condition,
-            prediction_task_spec=prediction_task_spec,
-            previous_feedback=previous_feedback,
-            iteration=iteration
-        )
-        orchestrator_elapsed = int((time.time() - orchestrator_started) * 1000)
-        print(
-            f"[Orchestrator] Plan created in {orchestrator_elapsed}ms "
-            f"(steps={plan.total_steps}, est_tokens={plan.total_estimated_tokens})"
-        )
-        
-        exec_logger.log_orchestrator({
-            "plan_id": plan.plan_id,
-            "total_steps": plan.total_steps,
-            "priority_domains": plan.priority_domains
-        })
-        
-        decision_trace.record_orchestrator_plan(
-            domains=plan.priority_domains,
-            num_steps=plan.total_steps,
-            reasoning=plan.reasoning[:500]
-        )
-        
-        # Step 4: Executor runs plan
-        print(f"\n[4/5] Executor processing plan...")
-        executor_started = time.time()
-        executor_output = executor.execute(
-            plan=plan,
-            participant_data=participant_data,
-            target_condition=target_condition,
-            control_condition=control_condition,
-            prediction_task_spec=prediction_task_spec,
-            agent_instructions=runtime_agent_instructions,
-        )
-        print(f"[Executor] Completed in {int((time.time() - executor_started) * 1000)}ms")
-        final_executor_output = executor_output
-        final_plan = plan
-        
-        # Log each step
-        exec_result = executor_output.get("execution_result")
-        if exec_result and hasattr(exec_result, 'step_statuses'):
-            for step_id, status in exec_result.step_statuses.items():
-                exec_logger.log_executor_step(
-                    step_id=step_id,
-                    tool_name=status.get("tool_name", "unknown"),
-                    status=status.get("status", "UNKNOWN"),
-                    tokens=status.get("tokens", 0)
-                )
-        
-        # Send fused input to UI for inspection
-        # This event sets status to "Fusion Complete", so we must set prediction status AFTER it
-        if interactive_ui and "predictor_input" in executor_output:
-            ui.on_fusion_complete(executor_output["predictor_input"])
+
+        attempt_route = initial_route.to_dict()
+        attempt_route["route"] = current_route
+        attempt_route["escalated"] = current_route != initial_route.route
+        if attempt_route["escalated"]:
+            attempt_route["reason"] = "The critic rejected the direct attempt; distilling the record with the orchestration workflow."
+        attempt_route["iteration"] = iteration
+        route_history.append(attempt_route)
+        if interactive_ui:
+            ui.on_route_decision(attempt_route, iteration=iteration)
+
+        if current_route == "direct":
+            plan = _direct_plan(
+                participant_id=participant_id,
+                target_condition=target_condition,
+                control_condition=control_condition,
+                prediction_task_spec=prediction_task_spec,
+                domains=list(direct_output.get("domains_processed") or []),
+                reason=attempt_route["reason"],
+                iteration=iteration,
+            )
+            executor_output = dict(direct_output)
+            final_executor_output = executor_output
+            final_plan = plan
+            exec_logger.log_orchestrator(
+                {"plan_id": plan.plan_id, "total_steps": 0, "priority_domains": plan.priority_domains}
+            )
+            decision_trace.record_orchestrator_plan(
+                domains=plan.priority_domains, num_steps=0, reasoning=plan.reasoning[:500]
+            )
+            print(f"\n[3/5] Orchestration skipped ({attempt_route['reason']})")
+        else:
+            plan, executor_output = _run_orchestrated_attempt(
+                orchestrator=orchestrator,
+                executor=executor,
+                participant_data=participant_data,
+                target_condition=target_condition,
+                control_condition=control_condition,
+                prediction_task_spec=prediction_task_spec,
+                previous_feedback=previous_feedback,
+                iteration=iteration,
+                runtime_agent_instructions=runtime_agent_instructions,
+                exec_logger=exec_logger,
+                decision_trace=decision_trace,
+                interactive_ui=interactive_ui,
+                settings=settings,
+            )
+            final_executor_output = executor_output
+            final_plan = plan
 
         # Step 5: Predictor makes prediction
         if interactive_ui:
-            ui.set_status("Predictor generating phenotype outputs...", stage=4)
+            ui.set_status(
+                "Predictor generating phenotype outputs..."
+                if predictor_kind == "llm"
+                else "Decision model answering typed questions...",
+                stage=4,
+                iteration=iteration,
+            )
         if interactive_ui:
             ui.on_step_start(
                 step_id=910 + iteration,
                 tool_name="Predictor Agent",
-                description="Evaluating integrated evidence for final phenotype prediction...",
+                description=(
+                    "Evaluating integrated evidence for final phenotype prediction..."
+                    if predictor_kind == "llm"
+                    else f"Structured decision on {settings.models.predictor_model}..."
+                ),
                 stage=4,
             )
 
@@ -1091,6 +1269,7 @@ def run_compass_pipeline(
                 "evaluation": evaluation,
                 "executor_output": executor_output,
                 "plan": plan,
+                "route": current_route,
             }
         )
         
@@ -1104,9 +1283,30 @@ def run_compass_pipeline(
             # Final attempt reached; do not increment `iteration` (keeps accurate count for reports/UI).
             break
 
-        print(f"  Re-orchestrating with critic feedback...")
-        previous_feedback = _format_feedback(evaluation)
+        feedback = _format_feedback(evaluation)
+        if current_route == "orchestrated":
+            print(f"  Re-orchestrating with critic feedback...")
+            previous_feedback = feedback
+        elif predictor_kind == "llm":
+            # Actor-critic on the direct route: the same complete record, with
+            # the critic's feedback appended to the Predictor's next prompt.
+            print(f"  Revising the direct prediction with critic feedback...")
+            predictor.set_revision_feedback(feedback)
+        elif mode == "never":
+            # A decision model answers the same state the same way; without
+            # orchestration there is no other evidence route to try.
+            print("  Orchestration is disabled, so a decision model has no other evidence route; stopping.")
+            break
+        else:
+            # Decision critic rejected the direct attempt: escalate to the
+            # orchestrated route so the workflow distils the record.
+            print(f"  Escalating to the orchestrated route with critic feedback...")
+            current_route = "orchestrated"
+            previous_feedback = feedback
         iteration += 1
+
+    if hasattr(predictor, "set_revision_feedback"):
+        predictor.set_revision_feedback("")
 
     selected_attempt, selection_reason = _select_best_attempt(attempts)
     if not selected_attempt:
@@ -1250,6 +1450,18 @@ def run_compass_pipeline(
             "total_steps": final_plan.total_steps if final_plan else plan.total_steps,
             "priority_domains": final_plan.priority_domains if final_plan else plan.priority_domains,
         },
+        "routing": {
+            "mode": mode,
+            "initial": initial_route.to_dict(),
+            "attempts": route_history,
+            "selected_route": selected_attempt.get("route"),
+        },
+        "predictor": {
+            "kind": predictor_kind,
+            "model": settings.models.predictor_model,
+            "companion_model": settings.models.orchestrator_model if predictor_kind == "decision" else None,
+        },
+        "decision": dict(getattr(final_prediction, "decision_report", {}) or {}),
         "explainability": explainability_result,
     }
     
@@ -1383,6 +1595,9 @@ def run_compass_pipeline(
         ),
         "control_condition": control_condition,
         "coverage_summary": coverage_summary,
+        "input_route": selected_attempt.get("route"),
+        "predictor_kind": predictor_kind,
+        "routing": performance_report.get("routing"),
         "duration_seconds": duration,
         "output_dir": str(base_output_dir),
         "report": report,
@@ -1706,6 +1921,19 @@ def _run_explainability_for_selected_attempt(
             "methods_requested": [],
             "methods": {},
         }
+    if getattr(selected_attempt.get("prediction"), "predictor_kind", "llm") == "decision":
+        result = {
+            "enabled": True,
+            "status": "skipped",
+            "reason": "XAI attribution methods need a text-generating Predictor; a structured decision model reports per-order answers and probabilities instead.",
+            "methods_requested": list(getattr(settings.explainability, "methods", []) or []),
+            "methods": {},
+        }
+        try:
+            exec_logger.log_explainability(result)
+        except Exception:
+            pass
+        return result
     if prediction_task_spec is not None and not prediction_task_spec.is_pure_binary_root():
         result = {
             "enabled": True,
@@ -1781,6 +2009,68 @@ def _select_best_attempt(attempts: List[Dict[str, Any]]) -> Tuple[Optional[Dict[
     )
 
 
+DEFAULT_COMPANION_MODEL = "deepseek/deepseek-v4-flash-0731"
+
+
+def _ask_companion_model(decision_model: str) -> str:
+    """Ask which conventional LLM runs the other roles (terminal only)."""
+    prompt = (
+        f"\n{decision_model} is a structured decision model: it can only serve the Predictor.\n"
+        "The Orchestrator, tools, Integrator, Critic and Communicator need a conventional LLM.\n"
+        f"Companion LLM [{DEFAULT_COMPANION_MODEL}]: "
+    )
+    if not sys.stdin or not sys.stdin.isatty():
+        print(f"[Init] {decision_model} serves the Predictor; other roles use {DEFAULT_COMPANION_MODEL}.")
+        return DEFAULT_COMPANION_MODEL
+    try:
+        answer = input(prompt).strip()
+    except EOFError:
+        answer = ""
+    return answer or DEFAULT_COMPANION_MODEL
+
+
+def _apply_predictor_choice(settings, args: argparse.Namespace) -> None:
+    """Resolve the Predictor model, the companion LLM and the routing options from the CLI."""
+    predictor_model = str(getattr(args, "predictor_model", None) or "").strip()
+    companion = str(getattr(args, "companion_model", None) or "").strip()
+    public = str(getattr(args, "public_model", "") or "").strip()
+    if settings.models.backend != LLMBackend.LOCAL and is_decision_model(public):
+        predictor_model = predictor_model or public
+        if not companion:
+            companion = _ask_companion_model(public)
+    if companion:
+        if is_decision_model(companion):
+            raise ValueError(f"--companion_model must be a conventional LLM, not the decision model {companion}.")
+        for role in ("orchestrator", "critic", "integrator", "communicator", "tool"):
+            setattr(settings.models, f"{role}_model", companion)
+        settings.models.public_model_name = companion
+        if is_decision_model(settings.models.predictor_model):
+            settings.models.predictor_model = companion
+    if predictor_model:
+        settings.models.predictor_model = predictor_model
+    enforce_role_models(settings)
+
+    if getattr(args, "orchestration", None):
+        settings.orchestration.mode = normalize_orchestration_mode(args.orchestration)
+    if getattr(args, "orchestration_threshold", None) is not None:
+        settings.orchestration.threshold_tokens = max(0, int(args.orchestration_threshold))
+    if getattr(args, "decision_provider", None):
+        settings.decision.provider = str(args.decision_provider)
+    if getattr(args, "decision_choice_orders", None) is not None:
+        settings.decision.choice_orders = max(1, int(args.decision_choice_orders))
+    if getattr(args, "decision_score_levels", None) is not None:
+        settings.decision.score_levels = max(2, min(10, int(args.decision_score_levels)))
+    if getattr(args, "decision_refine", None) is not None:
+        settings.decision.regression_refine = bool(args.decision_refine)
+    if is_decision_model(settings.models.predictor_model):
+        spec = get_decision_model_spec(settings.models.predictor_model)
+        print(
+            f"[Init] Predictor: {spec.label} (structured decision model, state limit "
+            f"{spec.state_context_tokens:,} tokens); companion LLM: {settings.models.orchestrator_model}; "
+            f"orchestration: {settings.orchestration.mode}"
+        )
+
+
 def main():
     """CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -1789,6 +2079,8 @@ def main():
         epilog="""
 Examples:
   python main.py /path/to/participant_001 --prediction_type binary --target_label CASE --control_label CONTROL
+  python main.py /path/to/participant_001 --prediction_type binary --target_label CASE --control_label CONTROL --predictor_model typesafe/jev-1.13
+  python main.py /path/to/participant_001 --prediction_type binary --target_label CASE --control_label CONTROL --orchestration always
   python main.py /path/to/participant_001 --prediction_type multiclass --target_label personality_type --class_labels A,B,C,D
   python main.py /path/to/participant_001 --prediction_type regression_univariate --target_label total_iq --regression_output total_iq
   python main.py /path/to/participant_001 --prediction_type regression_multivariate --target_label personality_traits --regression_outputs openness,conscientiousness,extraversion,agreeableness,neuroticism
@@ -2060,6 +2352,67 @@ Examples:
         help="Transformers attention implementation (auto|flash_attention_2|sdpa|eager)"
     )
     
+    # --- PREDICTOR AND ORCHESTRATION ---
+    parser.add_argument(
+        "--predictor_model",
+        type=str,
+        default=None,
+        help=(
+            "Model for the Predictor role only. May be a conventional LLM or a structured decision model "
+            "such as typesafe/jev-1.13 (every other role then keeps --public_model)."
+        ),
+    )
+    parser.add_argument(
+        "--companion_model",
+        type=str,
+        default=None,
+        help=(
+            "Conventional LLM for every role except the Predictor. Needed when --public_model is a decision "
+            "model; asked for interactively when missing on a terminal, else defaults to deepseek/deepseek-v4-flash-0731."
+        ),
+    )
+    parser.add_argument(
+        "--orchestration",
+        type=str,
+        default=None,
+        choices=["auto", "always", "never"],
+        help=(
+            "auto (default): run the multi-agent orchestration only when the participant record does not fit "
+            "the Predictor input; always: run it on every attempt; never: always predict directly."
+        ),
+    )
+    parser.add_argument(
+        "--orchestration_threshold",
+        type=int,
+        default=None,
+        help="Token count above which auto mode orchestrates (default and maximum: the Predictor input budget).",
+    )
+    parser.add_argument(
+        "--decision_provider",
+        type=str,
+        default=None,
+        choices=["openrouter", "typesafe"],
+        help="Route for decision model calls: openrouter (OPENROUTER_API_KEY, default) or typesafe (TYPESAFE_API_KEY).",
+    )
+    parser.add_argument(
+        "--decision_choice_orders",
+        type=int,
+        default=None,
+        help="Decision models: option orders asked per Choice and averaged (default 3).",
+    )
+    parser.add_argument(
+        "--decision_score_levels",
+        type=int,
+        default=None,
+        help="Decision models: levels per regression Score, at most 10 (default 10).",
+    )
+    parser.add_argument(
+        "--decision_refine",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Decision models: zoomed second Score pass for continuous outputs (default on).",
+    )
+
     # --- TOKEN CONTROLS ---
     parser.add_argument(
         "--reasoning_effort",
@@ -2306,6 +2659,8 @@ Examples:
                 settings.models.integrator_model = args.public_model
                 settings.models.communicator_model = args.public_model
                 settings.models.tool_model = args.public_model
+
+            _apply_predictor_choice(settings, args)
 
             # Apply Token Limits (CLI)
             _apply_token_budget_defaults(

@@ -186,6 +186,25 @@ class EventStore:
                 self.state["critic"] = None
                 self.state["progress"] = 0
                 
+            elif event_type == "ROUTE":
+                # Evidence route chosen for this attempt (direct or orchestrated).
+                if "iteration" in data:
+                    self.state["iteration"] = data["iteration"]
+                self.state["route"] = data
+                self.state.setdefault("routes", []).append(data)
+                if data.get("route") == "direct":
+                    # A direct attempt has no plan, so reset per-attempt state here.
+                    if self.state.get("steps"):
+                        self.state.setdefault("history", []).extend(self.state["steps"])
+                    self.state["steps"] = []
+                    self.state["prediction"] = None
+                    self.state["critic_summary"] = None
+                    self.state["critic"] = None
+                    self.state["progress"] = 0
+                    self.state["max_steps"] = 0
+                    self.state["status"] = "Direct prediction: orchestration skipped"
+                    self.state["current_stage"] = 4
+
             elif event_type == "STEP_START":
                 existing = next((s for s in self.state["steps"] if s["id"] == data["id"]), None)
                 if not existing:
@@ -471,6 +490,13 @@ class RunEventEmitter:
     def on_fusion_complete(self, fusion_data):
         _event_store.add_event("FUSION", fusion_data)
 
+    def on_route_decision(self, decision, iteration=None):
+        """Which evidence route an attempt takes; payload is RouteDecision.to_dict()."""
+        payload = dict(decision or {})
+        if iteration is not None:
+            payload["iteration"] = iteration
+        _event_store.add_event("ROUTE", payload)
+
     # -- results --------------------------------------------------------------
 
     def on_prediction(self, classification, probability, confidence, prediction_payload=None):
@@ -482,7 +508,7 @@ class RunEventEmitter:
                 "label": result_text,
                 "prob": probability,
                 "confidence": confidence,
-                "payload": prediction_payload,
+                "payload": _with_output_kind(prediction_payload),
             },
         )
         if isinstance(probability, (int, float)):
@@ -560,6 +586,33 @@ class RunEventEmitter:
     def emit(self, event_type: str, data: Dict[str, Any]) -> None:
         """Escape hatch for events the service layer adds around a run."""
         _event_store.add_event(event_type, data)
+
+
+_CLASSIFICATION_MODES = ("binary_classification", "multiclass_classification")
+
+
+def _with_output_kind(payload: Any) -> Any:
+    """
+    A prediction payload that says whether its primary output is a class or a value.
+
+    `primary_output_kind` is a property of PredictionResult, so `model_dump()`
+    leaves it out; it is derived here from the primary node the same way.
+    """
+    kind = getattr(payload, "primary_output_kind", None)
+    if hasattr(payload, "model_dump"):
+        payload = payload.model_dump()
+    if not isinstance(payload, dict) or payload.get("primary_output_kind"):
+        return payload
+    if not kind:
+        flat = payload.get("flat_predictions") or []
+        node = payload.get("root_prediction") or (flat[0] if flat else None)
+        mode = node.get("mode") if isinstance(node, dict) else None
+        mode = getattr(mode, "value", mode)
+        if not mode:
+            kind = "unknown"
+        else:
+            kind = "classification" if str(mode) in _CLASSIFICATION_MODES else "regression"
+    return {**payload, "primary_output_kind": kind}
 
 
 def get_ui(enabled: bool = False) -> RunEventEmitter:

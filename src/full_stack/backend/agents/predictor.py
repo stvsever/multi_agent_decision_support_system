@@ -63,6 +63,7 @@ class Predictor(BaseAgent):
         self.settings = get_settings()
         self._prompt_compaction_meta: Dict[str, Any] = {}
         self._active_prediction_task_spec: Optional[PredictionTaskSpec] = None
+        self.revision_feedback: str = ""
 
         self.LLM_MODEL = self.settings.models.predictor_model
         self.LLM_MAX_TOKENS = self.settings.models.predictor_max_tokens
@@ -122,6 +123,85 @@ class Predictor(BaseAgent):
             chunk_evidence=chunk_evidence,
         )
         executor_output["coverage_summary"] = coverage_summary
+        final_prompt, predictor_call_context = self._compose_final_prompt(
+            executor_output=executor_output,
+            predictor_input=predictor_input,
+            target_condition=target_condition,
+            control_condition=control_condition,
+            prediction_task_spec=prediction_task_spec,
+            coverage_summary=coverage_summary,
+            chunk_evidence=chunk_evidence,
+            chunking_skipped=chunking_skipped,
+        )
+        if self.revision_feedback:
+            final_prompt = (
+                f"{final_prompt}\n\n## Critic feedback on the previous attempt\n{self.revision_feedback}\n"
+                "Revise the prediction so these issues are resolved, keeping the same JSON contract."
+            )
+        prompt_tokens = self._token_count(final_prompt or "")
+        predictor_call_context["final_prompt_char_count"] = len(final_prompt or "")
+        predictor_call_context["final_prompt_token_estimate"] = prompt_tokens
+        if self._prompt_compaction_meta:
+            predictor_call_context["prompt_compaction"] = dict(self._prompt_compaction_meta)
+        executor_output["predictor_call_context"] = predictor_call_context
+
+        prediction_data = self._call_predictor_json(
+            system_prompt=self.system_prompt,
+            user_prompt=final_prompt,
+            max_retries=2,
+        )
+
+        if prediction_task_spec.is_pure_binary_root():
+            result = self._parse_prediction(
+                prediction_data=prediction_data,
+                participant_id=participant_id,
+                target_condition=target_condition,
+                control_condition=control_condition,
+                executor_output=executor_output,
+                iteration=iteration,
+                coverage_summary=coverage_summary,
+            )
+        else:
+            result = self._parse_generalized_prediction(
+                prediction_data=prediction_data,
+                participant_id=participant_id,
+                target_condition=target_condition,
+                control_condition=control_condition,
+                prediction_task_spec=prediction_task_spec,
+                executor_output=executor_output,
+                iteration=iteration,
+                coverage_summary=coverage_summary,
+            )
+
+        result.predictor_kind = "llm"
+        result.predictor_model = str(self.LLM_MODEL or "")
+        result.input_route = str(executor_output.get("route") or "orchestrated")
+
+        if result.binary_classification is not None and result.probability_score is not None:
+            self._log_complete(
+                f"{result.binary_classification.value} (p={result.probability_score:.3f}, "
+                f"confidence={result.confidence_level.value})"
+            )
+        else:
+            self._log_complete(
+                f"non-binary output ({prediction_task_spec.root.mode.value}, confidence={result.confidence_level.value})"
+            )
+        self._print_prediction_summary(result)
+        return result
+
+    def _compose_final_prompt(
+        self,
+        *,
+        executor_output: Dict[str, Any],
+        predictor_input: Dict[str, Any],
+        target_condition: str,
+        control_condition: str,
+        prediction_task_spec: PredictionTaskSpec,
+        coverage_summary: Dict[str, Any],
+        chunk_evidence: List[Dict[str, Any]],
+        chunking_skipped: bool,
+    ) -> Tuple[str, Dict[str, Any]]:
+        """Build the synthesis prompt for the current evidence route."""
         high_priority_context = self._build_high_priority_context(predictor_input, executor_output)
         self._prompt_compaction_meta = {}
 
@@ -184,52 +264,50 @@ class Predictor(BaseAgent):
                 "chunk_evidence_count": len(chunk_evidence),
                 "chunking_skipped": False,
             }
-        prompt_tokens = self._token_count(final_prompt or "")
-        predictor_call_context["final_prompt_char_count"] = len(final_prompt or "")
-        predictor_call_context["final_prompt_token_estimate"] = prompt_tokens
-        if self._prompt_compaction_meta:
-            predictor_call_context["prompt_compaction"] = dict(self._prompt_compaction_meta)
-        executor_output["predictor_call_context"] = predictor_call_context
+        return final_prompt, predictor_call_context
 
-        prediction_data = self._call_predictor_json(
-            system_prompt=self.system_prompt,
-            user_prompt=final_prompt,
-            max_retries=2,
+    def set_revision_feedback(self, text: Optional[str]) -> None:
+        """Critic feedback appended to the next attempt's prompt (direct route revisions)."""
+        self.revision_feedback = str(text or "").strip()
+
+    def input_budget_tokens(self) -> int:
+        return int(self._predictor_input_budget_tokens(max_completion_tokens=int(self.LLM_MAX_TOKENS or 4096)))
+
+    def measure_direct(
+        self,
+        executor_output: Dict[str, Any],
+        *,
+        target_condition: str,
+        control_condition: str,
+        prediction_task_spec: PredictionTaskSpec,
+    ) -> Dict[str, Any]:
+        """Tokens of the direct-route prompt (system plus user) versus the input budget."""
+        self._active_prediction_task_spec = prediction_task_spec
+        predictor_input = executor_output.get("predictor_input", {}) or {}
+        coverage_ledger = executor_output.get("coverage_ledger") or predictor_input.get("coverage_ledger") or {}
+        coverage_summary = self._validate_feature_representation(
+            coverage_ledger=coverage_ledger,
+            predictor_input=predictor_input,
+            chunk_evidence=[],
         )
-
-        if prediction_task_spec.is_pure_binary_root():
-            result = self._parse_prediction(
-                prediction_data=prediction_data,
-                participant_id=participant_id,
-                target_condition=target_condition,
-                control_condition=control_condition,
-                executor_output=executor_output,
-                iteration=iteration,
-                coverage_summary=coverage_summary,
-            )
-        else:
-            result = self._parse_generalized_prediction(
-                prediction_data=prediction_data,
-                participant_id=participant_id,
-                target_condition=target_condition,
-                control_condition=control_condition,
-                prediction_task_spec=prediction_task_spec,
-                executor_output=executor_output,
-                iteration=iteration,
-                coverage_summary=coverage_summary,
-            )
-
-        if result.binary_classification is not None and result.probability_score is not None:
-            self._log_complete(
-                f"{result.binary_classification.value} (p={result.probability_score:.3f}, "
-                f"confidence={result.confidence_level.value})"
-            )
-        else:
-            self._log_complete(
-                f"non-binary output ({prediction_task_spec.root.mode.value}, confidence={result.confidence_level.value})"
-            )
-        self._print_prediction_summary(result)
-        return result
+        prompt, _ = self._compose_final_prompt(
+            executor_output=executor_output,
+            predictor_input=predictor_input,
+            target_condition=target_condition,
+            control_condition=control_condition,
+            prediction_task_spec=prediction_task_spec,
+            coverage_summary=coverage_summary,
+            chunk_evidence=[],
+            chunking_skipped=True,
+        )
+        tokens = self._token_count(prompt) + self._token_count(self.system_prompt or "")
+        return {
+            "input_tokens": int(tokens),
+            "budget_tokens": self.input_budget_tokens(),
+            "unit": "tokens of the Predictor prompt",
+            "predictor_kind": "llm",
+            "model": self.LLM_MODEL,
+        }
 
     def _call_predictor_json(
         self,
@@ -691,6 +769,10 @@ class Predictor(BaseAgent):
         overview = executor_output.get("data_overview") or {}
 
         per_section_cap = 900 if self._is_local_backend() else 2500
+        if str(executor_output.get("route") or "") == "direct":
+            # The direct route was chosen because the whole record fits the
+            # input budget, so nothing is cut here.
+            per_section_cap = 10**9
 
         def _limit(text: str, max_tokens: Optional[int] = None) -> str:
             raw = str(text or "")

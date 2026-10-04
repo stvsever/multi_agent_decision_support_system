@@ -99,6 +99,19 @@ class Critic(BaseAgent):
         if prediction.probability_score is not None:
             print(f"[Critic] Target probability: {prediction.probability_score:.3f}")
 
+        if active_task_spec is not None and getattr(prediction, "predictor_kind", "llm") == "decision":
+            from ..decision.quality import evaluate_decision_prediction
+
+            evaluation = evaluate_decision_prediction(
+                prediction,
+                active_task_spec,
+                stability_threshold=float(self.settings.decision.stability_threshold),
+                sufficiency_threshold=float(self.settings.decision.sufficiency_threshold),
+            )
+            self._log_complete(f"{evaluation.verdict.value} (decision critic, score {evaluation.composite_score:.2f})")
+            self._print_evaluation_summary(evaluation)
+            return evaluation
+
         if active_task_spec is not None:
             evaluation = self._evaluate_generalized_prediction(
                 prediction=prediction,
@@ -1550,8 +1563,10 @@ class Critic(BaseAgent):
             ("clinically_relevant", "Clinically relevant"),
             ("logically_coherent", "Logically coherent"),
             ("critical_domains_processed", "Critical domains processed"),
+            ("decision_stable", "Stable across presentation orders"),
+            ("evidence_sufficient", "Evidence judged sufficient"),
         ]
-        active = set(checklist.active_checks or [key for key, _ in ordered_checks])
+        active = set(checklist.active_checks or [key for key, _ in ordered_checks[:-2]])
         for key, label in ordered_checks:
             if key in active:
                 print(f"  {status(bool(getattr(checklist, key, False)))} {label}")
