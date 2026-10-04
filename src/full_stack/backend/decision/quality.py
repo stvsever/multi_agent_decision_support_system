@@ -241,6 +241,16 @@ def evaluate_decision_prediction(
             + ("" if len(placeholders) <= 6 else f" and {len(placeholders) - 6} more")
             + "; add class_definitions or check the companion LLM."
         )
+    guessed = []
+    for node_id, node in dict((report.get("question_book") or {}).get("nodes") or {}).items():
+        for out, scale in dict(node.get("scales") or {}).items():
+            if isinstance(scale, dict) and scale.get("source") == "compiler":
+                guessed.append(f"{out} ({scale.get('minimum'):g} to {scale.get('maximum'):g})")
+    if guessed:
+        weaknesses.append(
+            "The range of " + ", ".join(guessed[:6]) + " was proposed by the companion LLM, not given in the task; "
+            "set output_scales to the instrument's real range if it is wrong."
+        )
     unassessed = [nid for nid, s in dict(quality.get("per_node") or {}).items() if s.get("unassessed")]
     if unassessed:
         weaknesses.append(

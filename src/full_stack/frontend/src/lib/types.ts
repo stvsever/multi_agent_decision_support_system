@@ -366,6 +366,8 @@ export interface TaskSpecInput {
   control_label: string
   class_labels: string[]
   regression_outputs: string[]
+  /** Optional range per regression output (flat regression tasks). */
+  output_scales?: Record<string, OutputScale>
   root?: TaskNodeInput | null
 }
 

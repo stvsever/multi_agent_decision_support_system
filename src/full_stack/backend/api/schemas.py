@@ -375,6 +375,9 @@ class TaskSpecInput(BaseModel):
     control_label: str = "non_target_comparator"
     class_labels: List[str] = Field(default_factory=list)
     regression_outputs: List[str] = Field(default_factory=list)
+    # Optional range per regression output for flat regression tasks
+    # ({output: {"min": .., "max": .., "integer": ..}}).
+    output_scales: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
     root: Optional[TaskNodeInput] = None
 
 

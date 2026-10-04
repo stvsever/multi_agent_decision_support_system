@@ -13,6 +13,7 @@ import { useId, useState, type AriaAttributes, type ReactNode } from 'react'
 import { Badge, Button, EmptyState, Field, Input } from '@/components/ui/primitives'
 import type { PredictionType, TaskNodeInput, TaskSpecInput } from '@/lib/types'
 import { ChipList } from './ChipList'
+import { ScaleFields } from './ScaleFields'
 import { TaskTree, newNode } from './TaskTree'
 import { TaskTreeSource } from './TaskTreeSource'
 import {
@@ -203,6 +204,35 @@ export function TaskDesigner({
                   onBlurCapture={() => touch('regression_outputs')}
                   placeholder="Add an output, then Enter"
                 />
+              )}
+            </TaskField>
+          )}
+
+          {task.prediction_type.startsWith('regression') && task.regression_outputs.length > 0 && (
+            <TaskField
+              label="Range, optional"
+              hint="The instrument's real minimum and maximum. A structured decision model places its estimate on this range; left empty, the companion LLM proposes one."
+            >
+              {() => (
+                <div className="stack gap-2">
+                  {task.regression_outputs.map((output) => (
+                    <div key={output} className="row gap-2">
+                      <span className="t-tiny mono truncate" style={{ width: 150, flex: 'none' }}>
+                        {output}
+                      </span>
+                      <ScaleFields
+                        output={output}
+                        scale={task.output_scales?.[output]}
+                        onChange={(scale) => {
+                          const next = { ...(task.output_scales ?? {}) }
+                          if (scale) next[output] = scale
+                          else delete next[output]
+                          onChange({ output_scales: next })
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
               )}
             </TaskField>
           )}

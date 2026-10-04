@@ -131,13 +131,19 @@ def build_task_spec(task: TaskSpecInput) -> PredictionTaskSpec:
         if task.root is None:
             raise ValueError("A hierarchical task needs a root node.")
         return PredictionTaskSpec(root=_to_engine_node(task.root))
-    return build_task_spec_from_flat_args(
+    spec = build_task_spec_from_flat_args(
         prediction_type=task.prediction_type,
         target_label=task.target_label,
         control_label=task.control_label,
         class_labels=list(task.class_labels or []),
         regression_outputs=list(task.regression_outputs or []),
     )
+    scales = {k: v for k, v in (task.output_scales or {}).items() if k in spec.root.regression_outputs and v}
+    if scales:
+        payload = spec.model_dump()
+        payload["root"]["output_scales"] = scales
+        spec = PredictionTaskSpec(**payload)
+    return spec
 
 
 def _to_engine_node(node: Any) -> PredictionTaskNode:

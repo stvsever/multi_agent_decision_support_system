@@ -138,6 +138,15 @@ function readNode(
     }
   }
 
+  let scales: TaskNodeInput['output_scales']
+  if (raw.output_scales !== undefined && raw.output_scales !== null) {
+    if (!isRecord(raw.output_scales)) {
+      issues.push({ path: `${where}.output_scales`, message: 'Expected an object mapping an output name to {min, max}.' })
+    } else {
+      scales = raw.output_scales as TaskNodeInput['output_scales']
+    }
+  }
+
   if (raw.required !== undefined && typeof raw.required !== 'boolean') {
     issues.push({ path: `${where}.required`, message: 'Expected true or false.' })
   }
@@ -163,6 +172,7 @@ function readNode(
     class_labels: classLabels,
     regression_outputs: regressionOutputs,
     unit_by_output: units,
+    ...(scales ? { output_scales: scales } : {}),
     required: raw.required === undefined ? true : Boolean(raw.required),
     children,
   }
@@ -229,6 +239,7 @@ export function serialiseTaskTree(root: TaskNodeInput): string {
     if (input.mode.endsWith('classification')) out.class_labels = input.class_labels
     else out.regression_outputs = input.regression_outputs
     if (Object.keys(input.unit_by_output ?? {}).length > 0) out.unit_by_output = input.unit_by_output
+    if (Object.keys(input.output_scales ?? {}).length > 0) out.output_scales = input.output_scales
     out.required = input.required
     out.children = (input.children ?? []).map(node)
     return out

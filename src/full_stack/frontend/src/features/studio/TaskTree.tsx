@@ -13,6 +13,7 @@ import { useId, useState } from 'react'
 import { Badge, Button, Input, Select, Toggle, Tooltip } from '@/components/ui/primitives'
 import type { NodeMode, TaskNodeInput } from '@/lib/types'
 import { ChipList } from './ChipList'
+import { ScaleFields } from './ScaleFields'
 import { MODE_LABELS, MODE_ORDER, cleanList, nodeField, problemsFor, slugify, type TaskProblem } from './taskValidation'
 
 export function newNode(seed: Partial<TaskNodeInput> = {}): TaskNodeInput {
@@ -294,7 +295,7 @@ function TreeNode({
 
             {!needsClasses && outputs.length > 0 && (
               <div className="ttree__units">
-                <span className="t-micro muted">Units, optional</span>
+                <span className="t-micro muted">Unit and range, optional (the range keeps a decision model on the right scale)</span>
                 {outputs.map((output) => (
                   <div key={output} className="row gap-2">
                     <span className="t-tiny mono truncate" style={{ width: 150, flex: 'none' }}>
@@ -308,6 +309,16 @@ function TreeNode({
                           unit_by_output: { ...node.unit_by_output, [output]: event.target.value },
                         })
                       }
+                    />
+                    <ScaleFields
+                      output={output}
+                      scale={node.output_scales?.[output]}
+                      onChange={(scale) => {
+                        const next = { ...(node.output_scales ?? {}) }
+                        if (scale) next[output] = scale
+                        else delete next[output]
+                        onPatch(nodeKey, { output_scales: next })
+                      }}
                     />
                   </div>
                 ))}

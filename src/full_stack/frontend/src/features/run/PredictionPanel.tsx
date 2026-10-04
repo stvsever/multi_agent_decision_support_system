@@ -93,7 +93,9 @@ export const PredictionPanel = memo(function PredictionPanel({ prediction }: Pre
             <span className="run-meter" aria-hidden>
               <span className="run-meter__fill" style={{ width: `${Math.round(Math.max(0, Math.min(1, probability)) * 100)}%` }} />
             </span>
-            <span className="t-micro muted">probability</span>
+            <span className="t-micro muted">
+              {(kind || asText(root.mode)).includes('regression') ? 'model confidence' : 'probability'}
+            </span>
           </div>
         )}
       </div>
