@@ -187,16 +187,29 @@ export function DecisionModelSettings() {
 
       <Grid>
         <Field
-          label="Stability threshold"
-          hint="The Critic rejects a prediction whose answers move more than this between option orders."
+          label="Stability threshold, classification"
+          hint="The Critic rejects a prediction whose class probabilities shift more than this between two option orders."
         >
           <SliderControl
             value={decision.stability_threshold}
             min={0.05}
-            max={0.5}
+            max={0.6}
             step={0.01}
             format={(value) => value.toFixed(2)}
             onCommit={(next) => update('decision', { stability_threshold: next })}
+          />
+        </Field>
+        <Field
+          label="Stability threshold, regression"
+          hint="The Critic rejects an estimate that moves more than this many reference standard deviations between level orders."
+        >
+          <SliderControl
+            value={decision.regression_stability_threshold ?? 0.5}
+            min={0.1}
+            max={2}
+            step={0.05}
+            format={(value) => `${value.toFixed(2)} SD`}
+            onCommit={(next) => update('decision', { regression_stability_threshold: next })}
           />
         </Field>
         <Field

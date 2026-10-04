@@ -282,6 +282,7 @@ def apply_config_to_settings(config: DashboardConfig) -> Any:
     settings.decision.score_levels = int(decision.score_levels)
     settings.decision.regression_refine = bool(decision.regression_refine)
     settings.decision.stability_threshold = float(decision.stability_threshold)
+    settings.decision.regression_stability_threshold = float(decision.regression_stability_threshold)
     settings.decision.sufficiency_threshold = float(decision.sufficiency_threshold)
     settings.decision.compiler_model = decision.compiler_model.strip()
 

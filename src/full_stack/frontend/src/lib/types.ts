@@ -68,8 +68,10 @@ export interface DecisionConfig {
   score_levels: number
   /** A second, zoomed Score pass for continuous outputs. */
   regression_refine: boolean
-  /** Mean change across presentation orders above which the Critic rejects. */
+  /** Largest probability shift between two option orders above which the Critic rejects. */
   stability_threshold: number
+  /** Largest regression gap between level orders, in reference SDs, above which the Critic rejects. */
+  regression_stability_threshold: number
   /** Zero reports evidence sufficiency only; above zero it gates the Critic. */
   sufficiency_threshold: number
   /** Conventional LLM that compiles the question book. Empty is the Orchestrator model. */
@@ -466,6 +468,8 @@ export interface RouteDecision {
   predictor_kind: PredictorKind | string
   reason: string
   escalated: boolean
+  /** Why the route was chosen: the initial measurement, a critic rejection, or a provider length error. */
+  cause?: 'measurement' | 'critic' | 'context_length' | string
   iteration?: number
 }
 

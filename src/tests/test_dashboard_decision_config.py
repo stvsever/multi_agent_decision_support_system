@@ -53,7 +53,10 @@ def test_the_new_sections_have_the_agreed_defaults():
         "choice_orders": 3,
         "score_levels": 10,
         "regression_refine": True,
-        "stability_threshold": 0.20,
+        # Largest pairwise probability shift (classification) and the gap
+        # between level orders in reference SDs (regression).
+        "stability_threshold": 0.25,
+        "regression_stability_threshold": 0.5,
         "sufficiency_threshold": 0.0,
         "compiler_model": "",
     }
@@ -94,6 +97,8 @@ def test_the_question_book_compiler_must_be_a_conventional_llm():
         ({"decision": {"choice_orders": 7}}, "choice_orders"),
         ({"decision": {"score_levels": 11}}, "score_levels"),
         ({"decision": {"stability_threshold": 0.01}}, "stability_threshold"),
+        ({"decision": {"regression_stability_threshold": 0.05}}, "regression_stability_threshold"),
+        ({"decision": {"regression_stability_threshold": 2.5}}, "regression_stability_threshold"),
         ({"decision": {"sufficiency_threshold": 0.95}}, "sufficiency_threshold"),
     ],
 )
@@ -195,6 +200,7 @@ def test_orchestration_and_decision_settings_reach_the_engine(engine_settings):
                 "score_levels": 6,
                 "regression_refine": False,
                 "stability_threshold": 0.3,
+                "regression_stability_threshold": 0.8,
                 "sufficiency_threshold": 0.4,
                 "compiler_model": " vendor/compiler ",
             },
@@ -208,6 +214,7 @@ def test_orchestration_and_decision_settings_reach_the_engine(engine_settings):
     assert settings.decision.score_levels == 6
     assert settings.decision.regression_refine is False
     assert settings.decision.stability_threshold == pytest.approx(0.3)
+    assert settings.decision.regression_stability_threshold == pytest.approx(0.8)
     assert settings.decision.sufficiency_threshold == pytest.approx(0.4)
     assert settings.decision.compiler_model == "vendor/compiler"
     assert settings.models.predictor_model == JEV

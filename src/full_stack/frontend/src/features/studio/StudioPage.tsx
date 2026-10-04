@@ -740,15 +740,28 @@ export function StudioPage() {
 
           <Card title="What happens next">
             <ol className="studio__steps">
-              {(capabilities?.agents ?? []).map((agent) => (
-                <li key={agent.role}>
-                  <span className="studio__steps-dot" />
-                  <span className="stack gap-1">
-                    <span className="semibold t-small">{agent.label}</span>
-                    <span className="t-tiny muted">{agent.summary}</span>
-                  </span>
-                </li>
-              ))}
+              {(capabilities?.agents ?? []).map((agent) => {
+                // On the direct route the record goes straight to the Predictor.
+                const skipped =
+                  assumedRoute?.label === 'Direct route' &&
+                  ['orchestrator', 'executor', 'integrator'].includes(agent.role)
+                const summary = skipped
+                  ? 'Skipped for this record: it fits the Predictor input, so it goes there directly.'
+                  : agent.role === 'predictor' && predictorIsDecision
+                    ? 'A structured decision model answers typed questions in several option orders and returns calibrated probabilities, with no written rationale.'
+                    : agent.role === 'critic' && predictorIsDecision
+                      ? 'Checks that the answers hold across option orders and that the record fit the decision state; a rejected direct attempt is re-run through orchestration.'
+                      : agent.summary
+                return (
+                  <li key={agent.role} style={skipped ? { opacity: 0.55 } : undefined}>
+                    <span className="studio__steps-dot" />
+                    <span className="stack gap-1">
+                      <span className="semibold t-small">{agent.label}</span>
+                      <span className="t-tiny muted">{summary}</span>
+                    </span>
+                  </li>
+                )
+              })}
             </ol>
           </Card>
         </aside>

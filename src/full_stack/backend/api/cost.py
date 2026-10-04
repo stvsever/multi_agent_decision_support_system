@@ -81,8 +81,9 @@ ESTIMATE_SPREAD = 0.35
 DECISION_REQUESTS_PER_ATTEMPT = 2
 #: The typed questions of one request, on top of the state.
 DECISION_QUESTION_TOKENS = 10_000
-#: What the state budget keeps back for the longest single question.
-DECISION_STATE_QUESTION_RESERVE = 4_000
+#: What the state budget keeps back for the longest single question plus the
+#: engine's margin (a 10-level Score is about 300 to 550 tokens, the margin 256).
+DECISION_STATE_QUESTION_RESERVE = 800
 #: Provider tokens per cl100k token, as the engine's decision settings assume.
 DECISION_TOKENIZER_RATIO = 1.2
 #: The question book is compiled once per task by a conventional LLM.

@@ -17,7 +17,7 @@ import { DECISION_TOOLTIP } from '@/lib/decision'
 import { duration as formatDuration, elapsedSince, tokens as formatTokens, usd } from '@/lib/format'
 import { queryKeys, useNow, useRunStream, useSettings } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
-import type { GraphNode, RunDetail, RunState, RunStatus } from '@/lib/types'
+import type { GraphNode, RouteDecision, RunDetail, RunState, RunStatus } from '@/lib/types'
 import { AuditView } from './AuditView'
 import { CostPanel } from './CostPanel'
 import { CriticPanel } from './CriticPanel'
@@ -382,7 +382,9 @@ function RunHeader({
               <LiveElapsed startedAt={detail.started_at} finishedAt={detail.finished_at} running={running} />
             </span>
             <span className="stat__meta tabular">
-              {state.progress ?? 0} of {state.max_steps ?? 0} steps
+              {state.route?.route === 'direct' && !(state.max_steps ?? 0)
+                ? 'direct route, no plan steps'
+                : `${state.progress ?? 0} of ${state.max_steps ?? 0} steps`}
               {/* A step that never ran is not a detail to leave in the
                   timeline: a run that silently lost its reasoning steps read as
                   complete from this line alone. */}
@@ -448,12 +450,7 @@ function RouteBadges({ routing, model }: { routing: RunRouting; model: string })
         </span>
       )}
       <span>Orchestration mode: {latest.mode}</span>
-      {routing.escalated && (
-        <span>
-          The decision Predictor was rejected on the direct route, so the next attempt ran through the
-          orchestration workflow.
-        </span>
-      )}
+      {routing.escalated && <span>{escalationText(routing.history)}</span>}
     </span>
   ) : routing.route === 'direct' ? (
     'The record went straight to the Predictor.'
@@ -471,7 +468,7 @@ function RouteBadges({ routing, model }: { routing: RunRouting; model: string })
         </Tooltip>
       )}
       {routing.escalated && (
-        <Tooltip content="A decision Predictor rejected on the direct route was sent through orchestration.">
+        <Tooltip content={escalationText(routing.history)}>
           <Badge tone="caution">Escalated</Badge>
         </Tooltip>
       )}
@@ -517,4 +514,16 @@ function ConnectionDot({ connected, running }: { connected: boolean; running: bo
       </span>
     </Tooltip>
   )
+}
+
+/** Why a run left the direct route, in the words of the route entry that escalated. */
+function escalationText(history: RouteDecision[]): string {
+  const escalated = history.find((row) => row.escalated)
+  if (escalated?.cause === 'context_length') {
+    return 'The provider rejected the direct prompt as too long, so the attempt ran through the orchestration workflow.'
+  }
+  if (escalated?.predictor_kind === 'decision' || escalated?.cause === 'critic') {
+    return 'The Critic rejected the direct attempt, so the next attempt ran through the orchestration workflow.'
+  }
+  return 'The run left the direct route and ran through the orchestration workflow.'
 }

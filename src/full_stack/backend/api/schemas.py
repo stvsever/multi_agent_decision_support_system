@@ -149,7 +149,10 @@ class DecisionConfig(BaseModel):
     choice_orders: int = Field(3, ge=1, le=6)
     score_levels: int = Field(10, ge=2, le=10)
     regression_refine: bool = True
-    stability_threshold: float = Field(0.20, ge=0.05, le=0.5)
+    # Largest probability shift between two presentation orders (classification).
+    stability_threshold: float = Field(0.25, ge=0.05, le=0.6)
+    # Largest gap between ascending and descending level orders, in reference SDs (regression).
+    regression_stability_threshold: float = Field(0.5, ge=0.1, le=2.0)
     sufficiency_threshold: float = Field(0.0, ge=0.0, le=0.9)
     compiler_model: str = Field("", description="Blank uses the Orchestrator model")
 

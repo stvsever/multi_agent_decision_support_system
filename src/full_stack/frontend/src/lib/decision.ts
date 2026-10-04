@@ -23,7 +23,8 @@ export const DECISION_DEFAULTS: DecisionConfig = {
   choice_orders: 3,
   score_levels: 10,
   regression_refine: true,
-  stability_threshold: 0.2,
+  stability_threshold: 0.25,
+  regression_stability_threshold: 0.5,
   sufficiency_threshold: 0,
   compiler_model: '',
 }

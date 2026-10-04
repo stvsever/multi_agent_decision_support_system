@@ -15,7 +15,8 @@ import { percent, titleCase, tokens as formatTokens, usd } from '@/lib/format'
 import { asArray, asNumber, asRecord, asStringList, asText } from './runUtils'
 
 /** Above this mean change between presentation orders an answer reads as unstable. */
-const INSTABILITY_CAUTION = 0.2
+/** Instability is reported as a multiple of its threshold; above 1 the Critic rejects. */
+const INSTABILITY_CAUTION = 1
 
 /** What each node needs from the run as a whole while it renders. */
 interface NodeContext {
@@ -287,10 +288,15 @@ function DecisionQuality({ report }: { report: Record<string, unknown> }) {
         />
       </div>
       <dl className="kv">
-        <dt>Instability across orders</dt>
+        <dt>
+          <Tooltip content="How far the answers moved when the options were shown in another order, as a multiple of the threshold. Above 1 the Critic rejects.">
+            <span>Instability across orders</span>
+          </Tooltip>
+        </dt>
         <dd className="tabular" style={unstable ? { color: 'var(--caution)' } : undefined}>
-          {meanInstability !== null ? `mean ${meanInstability.toFixed(3)}` : '-'}
-          {maxInstability !== null ? `, max ${maxInstability.toFixed(3)}` : ''}
+          {meanInstability !== null ? `mean ${meanInstability.toFixed(2)}` : '-'}
+          {maxInstability !== null ? `, max ${maxInstability.toFixed(2)}` : ''}
+          {' of threshold'}
         </dd>
         <dt>Requests</dt>
         <dd className="tabular">
@@ -348,8 +354,12 @@ function NodeView({ node, depth, context }: { node: Record<string, unknown>; dep
   const units = context.units.get(nodeId) ?? {}
   const details = asRecord(node.decision_details)
   const nodeStats = asRecord(context.perNode[nodeId])
+  const unassessed = details.unassessed === true || nodeStats.unassessed === true
+  const rawInstability = asNumber(details.instability) ?? asNumber(nodeStats.instability)
+  const instabilityThreshold = asNumber(details.instability_threshold) ?? asNumber(nodeStats.threshold)
   const instability =
-    asNumber(details.stability_tv) ?? asNumber(details.stability_range_fraction) ?? asNumber(nodeStats.stability)
+    asNumber(nodeStats.instability_ratio) ??
+    (rawInstability !== null && instabilityThreshold ? rawInstability / instabilityThreshold : null)
   const sufficiency = asNumber(details.evidence_sufficiency)
   const confidenceScore = asNumber(node.confidence_score)
   const confidenceLevel = asText(node.confidence_level)
@@ -369,13 +379,24 @@ function NodeView({ node, depth, context }: { node: Record<string, unknown>; dep
           {confidenceLevel && <Badge outline>{titleCase(confidenceLevel)}</Badge>}
         </div>
         <span className="row gap-3">
-          {instability !== null && (
-            <Tooltip content="Stability across presentation orders: how much the answer moved when the options were reordered. 0 is identical in every order.">
+          {unassessed && (
+            <Tooltip content="Not every presentation order was answered, so stability could not be measured. The Critic treats this as unstable.">
+              <span className="t-tiny tabular" style={{ color: 'var(--caution)' }}>
+                stability not assessed
+              </span>
+            </Tooltip>
+          )}
+          {!unassessed && instability !== null && (
+            <Tooltip
+              content={`How much the answer moved when the options were reordered, as a multiple of its threshold${
+                rawInstability !== null ? ` (raw ${rawInstability.toFixed(3)})` : ''
+              }. 0 is identical in every order; above 1 the Critic rejects.`}
+            >
               <span
                 className="t-tiny tabular"
                 style={{ color: instability > INSTABILITY_CAUTION ? 'var(--caution)' : 'var(--text-muted)' }}
               >
-                instability {instability.toFixed(3)}
+                instability {instability.toFixed(2)}
               </span>
             </Tooltip>
           )}

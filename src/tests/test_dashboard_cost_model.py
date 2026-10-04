@@ -63,6 +63,10 @@ def test_projection_lands_within_the_stated_spread_of_recorded_runs(priced):
         directory = PSEUDO_INPUTS / report["participant_id"]
         if not directory.is_dir():
             continue
+        if (report.get("routing") or {}).get("selected_route", "orchestrated") != "orchestrated":
+            # A run on the direct route (no orchestration) is not a sample of
+            # the orchestrated route these ledgers calibrate.
+            continue
         deep = bool((report.get("deep_phenotype") or {}).get("generated"))
         if deep:
             # The ledger in the report excludes the communicator pass, so that
