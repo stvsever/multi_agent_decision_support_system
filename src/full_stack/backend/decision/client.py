@@ -42,7 +42,16 @@ class DecisionRequestError(RuntimeError):
     @property
     def looks_like_length_error(self) -> bool:
         text = f"{self} {self.body}".lower()
-        markers = ("context", "too long", "token", "length", "exceed", "maximum")
+        markers = (
+            "context length",
+            "context window",
+            "maximum context",
+            "too long",
+            "too many tokens",
+            "token limit",
+            "exceeds the limit",
+            "exceeds the maximum",
+        )
         return self.status in (400, 413, 422) and any(m in text for m in markers)
 
 
@@ -114,7 +123,8 @@ class DecisionClient:
                 headers["X-Title"] = self.settings.openrouter_app_name
         body = {"model": route["model"], "state": state, "questions": questions}
         timeout = float(getattr(self.settings.decision, "request_timeout_seconds", 120.0) or 120.0)
-        attempts = max(1, int(getattr(self.settings.decision, "max_retries", 3) or 3))
+        retries = getattr(self.settings.decision, "max_retries", 3)
+        attempts = max(1, int(3 if retries is None else retries))
 
         last_error: Optional[DecisionRequestError] = None
         for attempt in range(1, attempts + 1):
@@ -127,8 +137,15 @@ class DecisionClient:
                 continue
             latency_ms = int((time.time() - started) * 1000)
             if resp.status_code == 200:
-                payload = resp.json()
-                answers = payload.get("answers")
+                try:
+                    payload = resp.json()
+                except ValueError:
+                    last_error = DecisionRequestError(
+                        "Decision response was not JSON.", status=200, body=resp.text[:2000]
+                    )
+                    self._sleep(attempt, None)
+                    continue
+                answers = payload.get("answers") if isinstance(payload, dict) else None
                 if not isinstance(answers, dict):
                     raise DecisionRequestError("Decision response has no answers map.", status=200, body=resp.text[:2000])
                 usage_raw = payload.get("usage") or {}

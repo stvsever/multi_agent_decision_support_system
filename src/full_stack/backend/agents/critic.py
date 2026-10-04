@@ -105,7 +105,6 @@ class Critic(BaseAgent):
             evaluation = evaluate_decision_prediction(
                 prediction,
                 active_task_spec,
-                stability_threshold=float(self.settings.decision.stability_threshold),
                 sufficiency_threshold=float(self.settings.decision.sufficiency_threshold),
             )
             self._log_complete(f"{evaluation.verdict.value} (decision critic, score {evaluation.composite_score:.2f})")

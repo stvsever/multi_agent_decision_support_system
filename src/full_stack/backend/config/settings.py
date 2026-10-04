@@ -243,9 +243,12 @@ class DecisionConfig:
     # A second, zoomed Score pass for continuous outputs, so the estimate is not
     # limited to the width of one coarse level.
     regression_refine: bool = True
-    # The decision critic rejects an attempt when the answers move more than this
-    # between option orders (mean total variation distance) ...
-    stability_threshold: float = 0.20
+    # The decision critic rejects an attempt when a classification moves more than
+    # this between two presentation orders (largest total variation distance) ...
+    stability_threshold: float = 0.25
+    # ... or a regression estimate moves more than this many reference standard
+    # deviations between the ascending and descending level orders ...
+    regression_stability_threshold: float = 0.5
     # Evidence sufficiency (a Noul asked in the same request) is always reported.
     # It only gates when this threshold is above 0: a record can be genuinely
     # uninformative for a target (a demographics-only tier, for example), and no
@@ -341,19 +344,20 @@ class Settings:
         return normalized
 
     def effective_context_window(self, model_name: Optional[str] = None) -> int:
-        if self.models.backend == LLMBackend.LOCAL:
-            local_len = int(getattr(self.models, "local_max_model_len", 0) or 0)
-            if local_len > 0:
-                return local_len
-            return max(1024, int(getattr(self.models, "local_max_tokens", 32768) or 32768))
-
         # A structured decision model has a small, fixed state limit counted in
-        # its own tokens. Report it in the cl100k tokens the engine counts with.
+        # its own tokens, on any backend. Report it in the cl100k tokens the
+        # engine counts with.
         from ..decision.registry import get_decision_model_spec
 
         decision_spec = get_decision_model_spec(model_name)
         if decision_spec is not None:
             return decision_spec.state_budget_cl100k(ratio=float(self.decision.tokenizer_ratio))
+
+        if self.models.backend == LLMBackend.LOCAL:
+            local_len = int(getattr(self.models, "local_max_model_len", 0) or 0)
+            if local_len > 0:
+                return local_len
+            return max(1024, int(getattr(self.models, "local_max_tokens", 32768) or 32768))
 
         public_ctx = int(getattr(self.models, "public_max_context_tokens", 0) or 0)
         normalized_public = self._normalize_model_name(self.models.public_model_name)
@@ -376,8 +380,15 @@ class Settings:
             "gpt-4o": 128000,
             "gpt-4o-mini": 128000,
         }
+        # The dashboard's cached provider catalog is more current than the table.
+        catalog_ctx = _catalog_context_length(model_name)
+        if catalog_ctx:
+            return catalog_ctx
         if normalized in known_ctx:
             return known_ctx[normalized]
+        # Unknown model: the configured public window. If the provider's real
+        # window is smaller, a direct prompt is rejected as too long and the
+        # pipeline orchestrates that attempt instead.
         return max(8192, int(self.models.public_max_context_tokens or 128000))
 
     def auto_output_token_limit(self, model_name: Optional[str] = None) -> int:
@@ -406,6 +417,37 @@ class Settings:
             "non_numerical_data": participant_dir / self.non_numerical_data_file,
             "hierarchical_deviation": participant_dir / self.hierarchical_deviation_file,
         }
+
+
+def _catalog_context_length(model_name: Optional[str]) -> int:
+    """Context window from the dashboard's cached OpenRouter catalog, 0 when unknown."""
+    if not model_name:
+        return 0
+    override = os.getenv("COMPASS_HOME", "").strip()
+    path = (Path(override).expanduser() if override else Path.home() / ".compass") / "model_catalog.json"
+    try:
+        mtime = path.stat().st_mtime
+    except OSError:
+        return 0
+    cached = _CATALOG_CONTEXT_CACHE.get("index")
+    stamp = (str(path), mtime)
+    if cached is None or _CATALOG_CONTEXT_CACHE.get("stamp") != stamp:
+        try:
+            import json
+
+            rows = json.loads(path.read_text()).get("models") or []
+            cached = {
+                str(r.get("id") or "").lower(): int(r.get("context_length") or 0)
+                for r in rows
+                if isinstance(r, dict)
+            }
+        except Exception:
+            cached = {}
+        _CATALOG_CONTEXT_CACHE.update({"index": cached, "stamp": stamp})
+    return int(cached.get(str(model_name).strip().lower().lstrip("~"), 0) or 0)
+
+
+_CATALOG_CONTEXT_CACHE: Dict[str, object] = {}
 
 
 # Singleton pattern for settings

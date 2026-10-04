@@ -12,6 +12,8 @@ import io
 import json
 import socket
 import sys
+import threading
+import time
 from pathlib import Path
 
 import pytest
@@ -24,6 +26,9 @@ from src.full_stack.backend.data.models.prediction_task import (
     PredictionTaskNode,
     PredictionTaskSpec,
 )
+from src.full_stack.backend.decision import questions as questions_module
+from src.full_stack.backend.decision import state as state_module
+from src.full_stack.backend.utils.core import record_rendering
 from src.full_stack.backend.decision.questions import (
     COMPILER_SYSTEM_PROMPT,
     QuestionBook,
@@ -33,11 +38,14 @@ from src.full_stack.backend.decision.questions import (
     build_question_book,
     cache_dir,
     deterministic_book,
+    placeholder_definition,
     round_one_questions,
     task_hash,
 )
 from src.full_stack.backend.decision.state import (
+    PACKING_LADDER,
     PackedState,
+    StateSection,
     build_sections,
     measurement_rows,
     pack_state,
@@ -63,6 +71,7 @@ def _offline(monkeypatch, tmp_path):
     monkeypatch.setattr(socket.socket, "connect", _blocked)
     monkeypatch.setattr(socket, "create_connection", _blocked)
     monkeypatch.setenv("COMPASS_CACHE_DIR", str(tmp_path / "cache"))
+    monkeypatch.setenv("COMPASS_HOME", str(tmp_path / "compass_home"))
 
 
 def _cl100k(text: str) -> int:
@@ -167,28 +176,61 @@ def _of_kind(qs: QuestionSet, kind: str, node_id: str = None):
 # ---------------------------------------------------------------------------
 # Question sets
 # ---------------------------------------------------------------------------
-def test_binary_node_gets_one_noul_and_the_choice_in_both_orders():
+def test_binary_node_gets_a_noul_per_label_and_the_choice_in_both_orders():
     spec = _binary_spec(class_definitions={"MDD": "Meets DSM-5 criteria.", "CONTROL": "No diagnosis."})
     qs = round_one_questions(spec, deterministic_book(spec), choice_orders=3, score_levels=10)
 
     nouls = _of_kind(qs, "binary_noul", "dx")
     choices = _of_kind(qs, "choice", "dx")
-    assert len(nouls) == 1
-    noul = nouls[0]
-    assert noul.payload["type"] == "noul"
-    assert noul.order == ["MDD", "CONTROL"]
-    assert set(noul.payload["criteria"]) == {"true", "false"}
-    assert noul.payload["criteria"]["true"] == "MDD: Meets DSM-5 criteria."
-    assert noul.payload["criteria"]["false"] == "CONTROL: No diagnosis."
+    # One Noul per label, each a single literal condition.
+    assert [q.variant for q in nouls] == ["noul_1", "noul_2"]
+    first, second = nouls
+    assert first.order == ["MDD", "CONTROL"]
+    assert second.order == ["CONTROL", "MDD"]
+    for q in nouls:
+        assert q.payload["type"] == "noul"
+        assert set(q.payload["criteria"]) == {"true", "false"}
+    # Label neutral: the node's question (which may lean toward one label) is not part of a Noul.
+    assert first.payload["instructions"] == (
+        "Does this participant belong to the 'MDD' group? "
+        "Use `task_context` for definitions and the participant record for evidence."
+    )
+    assert first.payload["criteria"] == {"true": "MDD: Meets DSM-5 criteria.", "false": "CONTROL: No diagnosis."}
+    assert second.payload["instructions"] == (
+        "Does this participant belong to the 'CONTROL' group? "
+        "Use `task_context` for definitions and the participant record for evidence."
+    )
+    assert second.payload["criteria"] == {"true": "CONTROL: No diagnosis.", "false": "MDD: Meets DSM-5 criteria."}
 
-    assert len(choices) == 2
+    assert [q.variant for q in choices] == ["order1", "order2"]
     assert [q.order for q in choices] == [["MDD", "CONTROL"], ["CONTROL", "MDD"]]
     for q in choices:
         assert q.payload["type"] == "choice"
         # The criteria map is presented in the question's order.
         assert list(q.payload["criteria"]) == q.order
         assert q.payload["criteria"]["MDD"] == "Meets DSM-5 criteria."
-    assert len(qs) == 1 + 2 + 1  # noul, two choices, evidence sufficiency
+    # Four questions per binary node, then the evidence sufficiency Noul.
+    assert [q.kind for q in qs.items] == ["binary_noul", "binary_noul", "choice", "choice", "sufficiency"]
+    assert len(qs) == 2 + 2 + 1
+
+
+def test_binary_noul_without_definitions_uses_the_generic_group_text():
+    spec = _binary_spec()
+    nouls = _of_kind(round_one_questions(spec, deterministic_book(spec), choice_orders=3, score_levels=10), "binary_noul")
+    assert nouls[0].payload["criteria"] == {
+        "true": "MDD: The participant belongs to the 'MDD' group.",
+        "false": "CONTROL: The participant belongs to the 'CONTROL' group.",
+    }
+
+
+def test_more_than_255_class_labels_are_refused_before_any_request():
+    labels = [f"label_{i:03d}" for i in range(256)]
+    spec = _multiclass_spec(labels=labels)
+    with pytest.raises(ValueError, match="256 class labels.*at most 255"):
+        round_one_questions(spec, deterministic_book(spec), choice_orders=3, score_levels=10)
+    ok = _multiclass_spec(labels=labels[:255])
+    qs = round_one_questions(ok, deterministic_book(ok), choice_orders=3, score_levels=10)
+    assert all(len(q.payload["criteria"]) == 255 for q in _of_kind(qs, "choice"))
 
 
 def test_binary_node_always_asks_both_orders_even_with_one_choice_order():
@@ -248,10 +290,38 @@ def test_regression_gets_ascending_and_descending_mirror_scores():
     assert len(asc.payload["criteria"]) == 10
     assert desc.payload["criteria"] == list(reversed(asc.payload["criteria"]))
     assert asc.payload["instructions"] == desc.payload["instructions"]
-    assert asc.payload["criteria"][0].startswith("0 to 6 points")
-    assert desc.payload["criteria"][0].startswith("54 to 60 points")
-    assert "ranges from 0 to 60 points" in asc.payload["instructions"]
+    # Integer levels: 0 to 6 (seven values), then six values each up to 55 to 60.
+    assert asc.payload["criteria"][0].startswith("0 to 6 points; ")
+    assert asc.payload["criteria"][1].startswith("7 to 12 points; ")
+    assert desc.payload["criteria"][0].startswith("55 to 60 points; ")
+    assert asc.payload["instructions"] == (
+        "Where does this participant's madrs total (madrs_total) lie on its range of 0 to 60 points? "
+        "Choose the level that describes the participant's value, using `task_context` and the participant record."
+    )
     assert [b.center for b in asc.bins] == [b.center for b in desc.bins]
+
+
+def test_coarse_score_instruction_states_the_meaning_of_the_ends():
+    spec = _regression_spec(
+        {
+            "min": 0,
+            "max": 60,
+            "integer": True,
+            "unit": "points",
+            "description": "MADRS total score",
+            "low_meaning": "no symptoms",
+            "high_meaning": "most severe",
+        }
+    )
+    asc = _of_kind(round_one_questions(spec, deterministic_book(spec), choice_orders=3, score_levels=10), "score_coarse")[0]
+    assert asc.payload["instructions"] == (
+        "Where does this participant's MADRS total score (madrs_total) lie on its range of 0 to 60 points? "
+        "Low values mean no symptoms; high values mean most severe. "
+        "Choose the level that describes the participant's value, using `task_context` and the participant record."
+    )
+    assert asc.payload["criteria"][0].endswith("; low end: no symptoms")
+    assert asc.payload["criteria"][-1].endswith("; high end: most severe")
+    assert not any("end:" in c for c in asc.payload["criteria"][1:-1])
 
 
 def test_exact_integer_output_gets_one_level_per_value():
@@ -263,28 +333,23 @@ def test_exact_integer_output_gets_one_level_per_value():
     assert desc.payload["criteria"] == list(reversed(asc.payload["criteria"]))
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "BUG: decision/questions.py _scale_instruction formats the range with width=span/10, so an integer "
-        "0 to 6 scale is announced as 'ranges from 0.00 to 6.00' while its levels read 0, 1, ..., 6"
-    ),
-)
 def test_integer_scale_instruction_announces_integer_bounds():
     spec = _regression_spec({"min": 0, "max": 6, "integer": True})
     qs = round_one_questions(spec, deterministic_book(spec), choice_orders=3, score_levels=10)
     asc = _of_kind(qs, "score_coarse")[0]
-    assert "ranges from 0 to 6" in asc.payload["instructions"]
+    assert "lie on its range of 0 to 6? " in asc.payload["instructions"]
+    assert "0.00" not in asc.payload["instructions"]
 
 
 def test_regression_without_a_scale_uses_the_default_standardized_scale():
     spec = _regression_spec()
     book = deterministic_book(spec)
     assert book.nodes["madrs"].scales["madrs_total"].source == "default"
+    assert book.default_scale_outputs() == ["madrs.madrs_total"]
     qs = round_one_questions(spec, book, choice_orders=3, score_levels=10)
     asc = _of_kind(qs, "score_coarse")[0]
     assert len(asc.payload["criteria"]) == 10
-    assert "standardized units" in asc.payload["instructions"]
+    assert "lie on its range of -3.00 to 3.00 standardized units?" in asc.payload["instructions"]
 
 
 def test_every_request_carries_one_evidence_sufficiency_noul():
@@ -307,8 +372,10 @@ def test_hierarchical_round_one_covers_every_node():
     spec = _hierarchical_spec()
     qs = round_one_questions(spec, deterministic_book(spec), choice_orders=3, score_levels=10)
     assert len(_of_kind(qs, "choice", "severity")) == 3
-    assert len(_of_kind(qs, "binary_noul", "response")) == 1
+    assert len(_of_kind(qs, "binary_noul", "response")) == 2
     assert len(_of_kind(qs, "choice", "response")) == 2
+    # 3 severity choices, 2 x 2 coarse scores, 4 response questions, sufficiency.
+    assert len(qs) == 3 + 4 + 4 + 1
     coarse = _of_kind(qs, "score_coarse", "scores")
     assert sorted({q.output for q in coarse}) == ["hamd_total", "madrs_total"]
     assert len(coarse) == 4
@@ -323,9 +390,13 @@ def test_question_ids_are_unique_across_question_set_prefixes():
     round_one = round_one_questions(spec, book, choice_orders=3, score_levels=10)
     scores_node = spec.root.children[0]
     scale = book.nodes["scores"].scales["madrs_total"]
+    coarse = scale.coarse_grid(10)
+    # The window of coarse levels 2 to 4 (13 to 18, 19 to 24, 25 to 30).
+    lo, hi = coarse[2].lo, coarse[4].hi
+    assert (lo, hi) == (12.5, 30.5)
     round_two = QuestionSet(prefix="r")
-    fine = scale.fine_grid(12.0, 30.0, 10)
-    add_fine_regression_questions(round_two, scores_node, "madrs_total", scale, fine, 12.0, 30.0)
+    fine = scale.fine_grid(lo, hi, 10)
+    add_fine_regression_questions(round_two, scores_node, "madrs_total", scale, fine, lo, hi)
     hamd = book.nodes["scores"].scales["hamd_total"]
     add_fine_regression_questions(round_two, scores_node, "hamd_total", hamd, hamd.fine_grid(-1.2, 0.6, 10), -1.2, 0.6)
 
@@ -343,8 +414,20 @@ def test_question_ids_are_unique_across_question_set_prefixes():
     assert [q.kind for q in fine_qs] == ["score_fine", "score_fine"]
     assert [q.variant for q in fine_qs] == ["ascending", "descending"]
     assert fine_qs[1].payload["criteria"] == list(reversed(fine_qs[0].payload["criteria"]))
-    assert "most likely lies between 12 and 30 points" in fine_qs[0].payload["instructions"]
+    # The window [12.5, 30.5] holds the integers 13 to 30, printed as integers.
+    assert fine_qs[0].payload["instructions"] == (
+        "Suppose this participant's madrs total (madrs_total) is somewhere from 13 to 30 points. "
+        "Within that part of the range, choose the level that describes the participant's value, "
+        "using `task_context` and the participant record."
+    )
     assert len(fine_qs[0].payload["criteria"]) == 10
+    assert fine_qs[0].payload["criteria"][0] == "13 to 14 points; in the low part of the scale"
+    assert fine_qs[0].payload["criteria"][-1] == "30 points; in the middle of the scale"
+    # A continuous window is printed at a tenth of its width (0.18 wide: two decimals).
+    hamd_qs = [q for q in round_two.items if q.output == "hamd_total"]
+    assert hamd_qs[0].payload["instructions"].startswith(
+        "Suppose this participant's hamd total (hamd_total) is somewhere from -1.20 to 0.60 standardized units. "
+    )
 
 
 def test_question_set_size_helpers():
@@ -391,11 +474,22 @@ def _compiled_payload():
                 },
             },
             "response": {
-                "question": "",
-                "label_definitions": {"responder": "At least 50 percent MADRS reduction."},
+                "question": "Will this participant respond to treatment?",
+                "label_definitions": {
+                    "responder": "At least 50 percent MADRS reduction.",
+                    "non_responder": "Less than 50 percent MADRS reduction.",
+                },
             },
         }
     }
+
+
+def _placeholder_payload():
+    """Every scale compiles, but one question and one class definition stay generic."""
+    payload = _compiled_payload()
+    payload["nodes"]["response"]["question"] = ""
+    del payload["nodes"]["response"]["label_definitions"]["non_responder"]
+    return payload
 
 
 def _book_files():
@@ -456,10 +550,76 @@ def test_compiled_book_keeps_task_spec_definitions_and_scales():
     assert hamd.unit == "points" and hamd.description == "HAM-D 17 total"
 
     response = book.nodes["response"]
-    # An empty compiled question keeps the default wording.
+    assert response.question == "Will this participant respond to treatment?"
+    assert response.question_is_default is False
+    assert response.label_definitions["non_responder"] == "Less than 50 percent MADRS reduction."
+    # Complete: no default scale, no generic wording left.
+    assert book.default_scale_outputs() == [] and book.placeholder_items() == []
+    assert book.notes == []
+
+
+def test_deterministic_book_lists_its_placeholders():
+    book = deterministic_book(_hierarchical_spec())
+    # A new book version, so books cached before these rules are not reused.
+    assert book.version == "2026-10-04.2"
+    assert all(node.question_is_default for node in book.nodes.values())
+    assert book.placeholder_items() == [
+        "severity: question",
+        "severity.none: definition",
+        "severity.mild: definition",
+        "severity.severe: definition",
+        "scores: question",
+        "response: question",
+        "response.responder: definition",
+        "response.non_responder: definition",
+    ]
+    assert placeholder_definition("mild") == "The participant belongs to the 'mild' group."
+    # Definitions given in the task specification are not placeholders.
+    spec_defs = deterministic_book(_hierarchical_spec(root_defs={"none": "MADRS below 7."}))
+    assert "severity.none: definition" not in spec_defs.placeholder_items()
+    # question_is_default survives the cache format.
+    clone = QuestionBook.from_dict(json.loads(json.dumps(book.to_dict())))
+    assert clone.placeholder_items() == book.placeholder_items()
+
+
+def test_placeholder_only_compile_is_retried_and_never_cached():
+    spec = _hierarchical_spec()
+    compiler = _CompilerStub(_placeholder_payload())
+    book = build_question_book(spec, context="ctx", llm_json=compiler, compiler_label="stub")
+    # Every scale compiled; still incomplete because of the generic wording.
+    assert len(compiler.calls) == 2
+    assert book.default_scale_outputs() == []
+    assert book.placeholder_items() == ["response: question", "response.non_responder: definition"]
+    # The last merged book is returned: what did compile is kept.
+    assert book.compiled_by == "stub"
+    response = book.nodes["response"]
     assert response.question.startswith("Which group does this participant belong to")
+    assert response.question_is_default is True
     assert response.label_definitions["responder"] == "At least 50 percent MADRS reduction."
-    assert response.label_definitions["non_responder"] == "The participant belongs to the 'non_responder' group."
+    assert book.notes == [
+        "Compilation incomplete (ValueError: compiled book left response: question, "
+        "response.non_responder: definition undefined)."
+    ]
+    assert _book_files() == []
+
+
+def test_compiled_reply_without_the_nodes_wrapper_is_accepted():
+    spec = _hierarchical_spec()
+    unwrapped = _compiled_payload()["nodes"]
+    compiler = _CompilerStub(unwrapped)
+    book = build_question_book(spec, context="ctx", llm_json=compiler, compiler_label="stub")
+    assert len(compiler.calls) == 1
+    assert book.notes == []
+    assert book.nodes["severity"].label_definitions["mild"] == "COMPILED mild"
+    assert book.nodes["scores"].scales["hamd_total"].source == "compiler"
+    assert [f.name for f in _book_files()] == [f"{book.task_hash}.json"]
+
+
+def test_cached_book_file_is_readable_by_others():
+    spec = _hierarchical_spec()
+    book = build_question_book(spec, context="ctx", llm_json=_CompilerStub(_compiled_payload()), compiler_label="stub")
+    path = cache_dir() / f"{book.task_hash}.json"
+    assert (path.stat().st_mode & 0o777) == 0o644
 
 
 def test_compiled_book_is_cached_and_reused_without_a_second_call():
@@ -491,31 +651,197 @@ def test_cached_book_is_used_even_without_a_compiler():
     assert again.to_dict() == compiled.to_dict()
 
 
-def test_compiler_failure_falls_back_to_the_deterministic_book():
+INCOMPLETE_SCALE_NOTE = "Compilation incomplete (ValueError: compiled book left scores.hamd_total undefined)."
+GARBAGE_NOTE = (
+    "Compilation incomplete (ValueError: compiled book left scores.hamd_total, severity: question, "
+    "severity.none: definition, severity.mild: definition, severity.severe: definition, scores: question, "
+    "response: question, response.responder: definition and more undefined)."
+)
+
+
+def test_compiler_failure_is_retried_once_then_falls_back_uncached():
     spec = _hierarchical_spec()
-    book = build_question_book(spec, context="ctx", llm_json=_CompilerStub(error=RuntimeError("provider down")))
+    compiler = _CompilerStub(error=RuntimeError("provider down"))
+    book = build_question_book(spec, context="ctx", llm_json=compiler)
+    # One retry, so two calls in all.
+    assert len(compiler.calls) == 2
     assert book.compiled_by == "deterministic"
-    assert any("Compilation failed (RuntimeError)" in note for note in book.notes)
+    assert book.notes == ["Compilation incomplete (RuntimeError: provider down)."]
     assert book.nodes["severity"].label_definitions["mild"] == "The participant belongs to the 'mild' group."
     assert book.nodes["scores"].scales["madrs_total"].source == "task_spec"
+    assert book.default_scale_outputs() == ["scores.hamd_total"]
+    # A failed compilation is never cached: the next participant tries again.
+    assert _book_files() == []
+    again = _CompilerStub(_compiled_payload())
+    compiled = build_question_book(spec, context="ctx", llm_json=again, compiler_label="stub")
+    assert len(again.calls) == 1
+    assert compiled.compiled_by == "stub"
+    assert [f.name for f in _book_files()] == [f"{compiled.task_hash}.json"]
+
+
+def test_compiler_succeeding_on_the_retry_is_cached():
+    spec = _hierarchical_spec()
+
+    class _FlakyCompiler(_CompilerStub):
+        def __call__(self, system_prompt, user_prompt):
+            self.calls.append((system_prompt, user_prompt))
+            if len(self.calls) == 1:
+                raise TimeoutError("slow provider")
+            return json.loads(json.dumps(_compiled_payload()))
+
+    compiler = _FlakyCompiler()
+    book = build_question_book(spec, context="ctx", llm_json=compiler, compiler_label="stub")
+    assert len(compiler.calls) == 2
+    assert book.compiled_by == "stub"
+    assert book.notes == []
+    assert book.nodes["scores"].scales["hamd_total"].source == "compiler"
+    assert book.default_scale_outputs() == []
+    assert [f.name for f in _book_files()] == [f"{book.task_hash}.json"]
+
+
+HAMD_MERGE_NOTE = "No usable compiled scale for 'scores.hamd_total'; default scale kept."
+
+
+def test_compiler_returning_garbage_keeps_defaults_and_is_not_cached():
+    spec = _hierarchical_spec()
+    compiler = _CompilerStub({"unexpected": True})
+    book = build_question_book(spec, context="ctx", llm_json=compiler, compiler_label="stub")
+    # The merged book still had hamd_total on the default scale: retried once,
+    # then the last merged book is returned with both notes, and not cached.
+    assert len(compiler.calls) == 2
+    assert book.compiled_by == "stub"
+    assert book.nodes["scores"].scales["hamd_total"].source == "default"
+    # Only the notes of the last attempt (each attempt merges into a fresh book);
+    # the incomplete note names the first eight gaps.
+    assert book.notes == [HAMD_MERGE_NOTE, GARBAGE_NOTE]
+    assert book.default_scale_outputs() == ["scores.hamd_total"]
+    assert len(book.placeholder_items()) == 8
     assert _book_files() == []
 
 
-def test_compiler_returning_garbage_keeps_defaults():
-    spec = _hierarchical_spec()
-    book = build_question_book(spec, context="ctx", llm_json=_CompilerStub({"unexpected": True}), compiler_label="stub")
-    assert book.compiled_by == "stub"
-    assert book.nodes["scores"].scales["hamd_total"].source == "default"
-    assert any("No usable compiled scale for 'scores.hamd_total'" in note for note in book.notes)
-
-
-def test_unusable_compiled_scale_keeps_the_default_scale():
+def test_unusable_compiled_scale_keeps_the_compiled_questions_but_is_not_cached():
     spec = _hierarchical_spec()
     payload = _compiled_payload()
     payload["nodes"]["scores"]["scales"]["hamd_total"] = {"min": 10, "max": 10}
-    book = build_question_book(spec, context="ctx", llm_json=_CompilerStub(payload), compiler_label="stub")
+    compiler = _CompilerStub(payload)
+    book = build_question_book(spec, context="ctx", llm_json=compiler, compiler_label="stub")
+    assert len(compiler.calls) == 2
+    assert book.compiled_by == "stub"
     assert book.nodes["scores"].scales["hamd_total"].source == "default"
-    assert any("No usable compiled scale for 'scores.hamd_total'" in note for note in book.notes)
+    # What did compile is kept: questions, definitions, the other scale.
+    assert book.nodes["severity"].question == "How severe is this participant's depression?"
+    assert book.nodes["severity"].label_definitions["mild"] == "COMPILED mild"
+    assert book.nodes["response"].label_definitions["responder"] == "At least 50 percent MADRS reduction."
+    assert book.nodes["scores"].scales["madrs_total"].source == "task_spec"
+    assert book.notes == [HAMD_MERGE_NOTE, INCOMPLETE_SCALE_NOTE]
+    assert _book_files() == []
+    # The next participant compiles again; once complete, the book is cached.
+    good = _CompilerStub(_compiled_payload())
+    again = build_question_book(spec, context="ctx", llm_json=good, compiler_label="stub")
+    assert len(good.calls) == 1
+    assert again.notes == []
+    assert [f.name for f in _book_files()] == [f"{again.task_hash}.json"]
+
+
+def test_a_merged_book_survives_a_failed_retry():
+    spec = _hierarchical_spec()
+
+    class _MergedThenDown(_CompilerStub):
+        def __call__(self, system_prompt, user_prompt):
+            self.calls.append((system_prompt, user_prompt))
+            if len(self.calls) == 1:
+                payload = _compiled_payload()
+                del payload["nodes"]["scores"]["scales"]["hamd_total"]
+                return payload
+            raise RuntimeError("provider down")
+
+    compiler = _MergedThenDown()
+    book = build_question_book(spec, context="ctx", llm_json=compiler, compiler_label="stub")
+    assert len(compiler.calls) == 2
+    # The first attempt's merged book, with the second attempt's error.
+    assert book.compiled_by == "stub"
+    assert book.nodes["severity"].label_definitions["severe"] == "COMPILED severe"
+    assert book.notes == [HAMD_MERGE_NOTE, "Compilation incomplete (RuntimeError: provider down)."]
+    assert _book_files() == []
+    # Without a compiler the next call finds no cached book.
+    assert build_question_book(spec, context="ctx", llm_json=None).compiled_by == "deterministic"
+
+
+def test_book_content_hash_and_default_scale_outputs():
+    spec = _hierarchical_spec()
+    base = deterministic_book(spec, "ctx")
+    same = deterministic_book(spec, "ctx")
+    assert base.content_hash() == same.content_hash()
+    assert len(base.content_hash()) == 16
+    assert all(c in "0123456789abcdef" for c in base.content_hash())
+    # The hash fingerprints the instrument (the nodes), not notes or provenance.
+    same.notes.append("a note")
+    same.compiled_by = "someone else"
+    assert same.content_hash() == base.content_hash()
+    changed = deterministic_book(spec, "ctx")
+    changed.nodes["severity"].label_definitions["mild"] = "MADRS 7 to 19."
+    assert changed.content_hash() != base.content_hash()
+    # The hash survives a round trip through the cache format.
+    assert QuestionBook.from_dict(json.loads(json.dumps(base.to_dict()))).content_hash() == base.content_hash()
+
+    assert base.default_scale_outputs() == ["scores.hamd_total"]
+    assert deterministic_book(_hierarchical_spec(madrs_scale=False)).default_scale_outputs() == [
+        "scores.madrs_total",
+        "scores.hamd_total",
+    ]
+    assert deterministic_book(_fully_specified_spec()).default_scale_outputs() == []
+
+
+def test_failed_cache_write_leaves_no_file_behind(monkeypatch):
+    spec = _hierarchical_spec()
+
+    def _no_replace(*_args, **_kwargs):
+        raise OSError("disk full")
+
+    monkeypatch.setattr(questions_module.os, "replace", _no_replace)
+    book = build_question_book(spec, context="ctx", llm_json=_CompilerStub(_compiled_payload()), compiler_label="stub")
+    # The book is still returned; neither the cache file nor a temporary file remains.
+    assert book.compiled_by == "stub"
+    assert _book_files() == []
+    assert not list(cache_dir().glob("*.tmp"))
+    # The lock file of the task stays (it is reused by the next compilation).
+    assert (cache_dir() / f"{book.task_hash}.lock").exists()
+
+
+def test_cache_write_is_atomic_and_readable():
+    spec = _hierarchical_spec()
+    book = build_question_book(spec, context="ctx", llm_json=_CompilerStub(_compiled_payload()), compiler_label="stub")
+    path = cache_dir() / f"{book.task_hash}.json"
+    assert QuestionBook.from_dict(json.loads(path.read_text())).to_dict() == book.to_dict()
+    assert not list(cache_dir().glob("*.tmp"))
+
+
+def test_parallel_workers_compile_a_book_only_once():
+    spec = _hierarchical_spec()
+    calls = []
+    start = threading.Barrier(2)
+
+    def _slow_compiler(system_prompt, user_prompt):
+        calls.append(user_prompt)
+        time.sleep(0.3)  # long enough for the other worker to reach the lock
+        return json.loads(json.dumps(_compiled_payload()))
+
+    books = []
+
+    def _worker():
+        start.wait()
+        books.append(build_question_book(spec, context="ctx", llm_json=_slow_compiler, compiler_label="stub"))
+
+    threads = [threading.Thread(target=_worker) for _ in range(2)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join(timeout=20)
+    assert len(books) == 2
+    # The second worker waited on the lock and then read the cached book.
+    assert len(calls) == 1
+    assert books[0].to_dict() == books[1].to_dict()
+    assert len(_book_files()) == 1
 
 
 def test_use_cache_false_never_touches_the_cache():
@@ -575,7 +901,14 @@ def test_build_sections_from_a_direct_executor_output(direct_output):
     assert total == len(direct_output["coverage_ledger"]["all_features"]) > 0
     by_key = {s.key: s for s in sections}
     assert by_key["task_context"].variants[0] == "Adult MDD cohort."
-    assert by_key["clinical_record"].variants[0] == str(direct_output["predictor_input"]["non_numerical_data_raw"]).strip()
+    record = by_key["clinical_record"]
+    assert record.variants[0] == str(direct_output["predictor_input"]["non_numerical_data_raw"]).strip()
+    assert record.variant_labels == ["full", "first half", "first quarter"]
+    size = _cl100k(record.variants[0])
+    assert _cl100k(record.variants[1]) <= max(400, size // 2)
+    assert _cl100k(record.variants[2]) <= max(300, size // 4)
+    # The direct route's compact record and the decision state render leaves alike.
+    assert by_key["measurements"].variants[0] == direct_output["direct_record"]["measurements"]
 
     measurements = by_key["measurements"]
     assert measurements.variant_labels[0] == "all leaves"
@@ -592,6 +925,12 @@ def test_build_sections_without_task_context(direct_output):
     assert "task_context" not in [s.key for s in sections]
 
 
+def test_state_uses_the_shared_record_renderers():
+    assert state_module.measurement_rows is record_rendering.measurement_rows
+    assert state_module.render_measurements is record_rendering.render_measurements
+    assert state_module.render_deviation_profile is record_rendering.render_deviation_profile
+
+
 def test_measurement_rows_keep_value_unit_and_z():
     multimodal = {
         "COGNITION": [
@@ -599,6 +938,8 @@ def test_measurement_rows_keep_value_unit_and_z():
             {"feature_id": "tmt", "field_name": "TMT-B", "value": 1.5, "z_score": 1.5, "domain": "COGNITION", "path_in_hierarchy": ["executive"]},
             {"feature_id": "smoke", "field_name": "Smoking status", "value": "former", "z_score": None, "domain": "COGNITION", "path_in_hierarchy": []},
             {"feature_id": "cer", "field_name": "Cer(d18:1/16:0) High", "value": "High", "z_score": 2.4, "domain": "COGNITION", "path_in_hierarchy": ["lipids"]},
+            {"feature_id": "sex", "field_name": "Sex: Female", "value": "Female", "z_score": None, "domain": "COGNITION", "path_in_hierarchy": []},
+            {"feature_id": "phq", "field_name": "PHQ-9 total score", "value": 9, "z_score": 1.1, "domain": "COGNITION", "path_in_hierarchy": ["mood"]},
         ]
     }
     rows = measurement_rows(multimodal)
@@ -606,16 +947,53 @@ def test_measurement_rows_keep_value_unit_and_z():
     # The loader falls back to the z-score as value; it is not printed twice.
     assert rows[1] == ("COGNITION > executive", "TMT-B (z +1.50)", 1.5)
     assert rows[2] == ("COGNITION", "Smoking status = former", None)
-    # A value the label already spells out is not repeated.
-    assert rows[3] == ("COGNITION > lipids", "Cer(d18:1/16:0) High (z +2.40)", 2.4)
+    # Only a label that ENDS with the value after ":" or "=" states it; "High"
+    # merely appearing at the end of a lipid name does not.
+    assert rows[3] == ("COGNITION > lipids", "Cer(d18:1/16:0) High = High (z +2.40)", 2.4)
+    assert rows[4] == ("COGNITION", "Sex: Female", None)
+    # "9" is inside "PHQ-9", but the label does not state the value: it is kept.
+    assert rows[5] == ("COGNITION > mood", "PHQ-9 total score = 9 (z +1.10)", 1.1)
 
     text, kept = render_measurements(rows, min_abs_z=1.5)
-    assert kept == 3  # |z| 1.5 and 2.4, plus the categorical leaf
-    assert "RAVLT" not in text and "Smoking status = former" in text
+    assert kept == 4  # |z| 1.5 and 2.4, plus the two categorical leaves
+    assert "RAVLT" not in text and "Smoking status = former" in text and "PHQ-9" not in text
 
 
-def test_render_deviation_profile_lists_internal_groups_only():
-    deviation = {
+@pytest.mark.parametrize(
+    "label, value, states",
+    [
+        ("PHQ-9 total score", 9, False),
+        ("Age: 58.2 years", "58.2 years", True),
+        ("Sex = Female", "Female", True),
+        ("Sex=Female", "Female", True),
+        ("Female", "Female", True),
+        ("Handedness: Right", "Left", False),
+        ("Cer(d18:1/16:0) High", "High", False),
+        ("Smoking status", "former", False),
+        ("Score: 12", "2", False),
+        ("anything", "", True),
+    ],
+)
+def test_label_states_value_is_anchored_at_the_end(label, value, states):
+    assert record_rendering.label_states_value(label, value) is states
+
+
+def test_leaf_lines_append_their_qualifiers():
+    feat = {
+        "field_name": "fasting_glucose",
+        "value": "92 mg/dL",
+        "z_score": -0.2,
+        "qualifiers": {"ref_range": "70-99", "percentile": 42},
+    }
+    line, z = record_rendering.leaf_line(feat)
+    assert line == "fasting_glucose = 92 mg/dL (z -0.20) [ref range 70-99; percentile 42]"
+    assert z == -0.2
+    # No qualifiers, no brackets.
+    assert record_rendering.leaf_line({"field_name": "HDL", "value": 56, "z_score": 0.2, "qualifiers": {}})[0] == "HDL = 56 (z +0.20)"
+
+
+def _deviation_tree():
+    return {
         "root": {
             "node_name": "root",
             "z_score": 0.4,
@@ -628,22 +1006,134 @@ def test_render_deviation_profile_lists_internal_groups_only():
                             "node_name": "memory",
                             "z_score": -1.3,
                             "children": [
-                                {"node_name": "verbal", "z_score": -1.6, "children": [{"node_name": "leaf", "z_score": -2.0}]}
+                                {"node_name": "verbal", "z_score": -1.6, "children": [{"node_name": "leaf", "z_score": -2.0}]},
+                                {"node_name": "visual", "z_score": None, "children": []},
                             ],
                         }
+                    ],
+                },
+                {"node_name": "SLEEP", "z_score": 0.7, "children": []},
+            ],
+        }
+    }
+
+
+def test_render_deviation_profile_lists_every_scored_node():
+    full = render_deviation_profile(_deviation_tree())
+    # The root is not named; unscored nodes are skipped; childless scored nodes
+    # are listed when nothing marks them as measurement leaves.
+    assert full.splitlines() == [
+        "COGNITION: +1.10",
+        "COGNITION > memory: -1.30",
+        "COGNITION > memory > verbal: -1.60",
+        "COGNITION > memory > verbal > leaf: -2.00",
+        "SLEEP: +0.70",
+    ]
+    assert render_deviation_profile(_deviation_tree(), max_depth=2).splitlines() == [
+        "COGNITION: +1.10",
+        "COGNITION > memory: -1.30",
+        "SLEEP: +0.70",
+    ]
+    assert render_deviation_profile({}) == ""
+    assert render_deviation_profile(None) == ""
+
+
+def test_render_deviation_profile_skips_leaves_listed_in_the_measurements():
+    # "COGNITION > memory > verbal" holds feature leaves in the measurements, so
+    # its childless children duplicate them; the group itself stays.
+    lines = render_deviation_profile(_deviation_tree(), leaf_groups={"COGNITION > memory > verbal"}).splitlines()
+    assert lines == ["COGNITION: +1.10", "COGNITION > memory: -1.30", "COGNITION > memory > verbal: -1.60", "SLEEP: +0.70"]
+    # A childless node that is itself a measurement group is not a leaf duplicate.
+    groups = {"COGNITION > memory > verbal", "COGNITION > memory > verbal > leaf"}
+    assert "COGNITION > memory > verbal > leaf: -2.00" in render_deviation_profile(_deviation_tree(), leaf_groups=groups)
+
+
+def test_render_deviation_profile_prints_mean_absolute_scores_as_magnitudes():
+    tree = {
+        "root": {
+            "node_name": "ROOT",
+            "children": [
+                {
+                    "node_name": "BRAIN",
+                    "z_score": 1.386,
+                    "score_kind": "mean_abs",
+                    "children": [
+                        {"node_name": "Morphologics", "z_score": 0.9, "score_kind": "mean_abs", "children": []},
+                        {"node_name": "Connectivity", "z_score": -0.5, "score_kind": "signed", "children": []},
                     ],
                 }
             ],
         }
     }
-    full = render_deviation_profile(deviation)
-    assert full.splitlines() == [
-        "COGNITION: +1.10",
-        "COGNITION > memory: -1.30",
-        "COGNITION > memory > verbal: -1.60",
+    assert render_deviation_profile(tree).splitlines() == [
+        "BRAIN: mean |z| 1.39",
+        "BRAIN > Morphologics: mean |z| 0.90",
+        "BRAIN > Connectivity: -0.50",
     ]
-    assert render_deviation_profile(deviation, max_depth=2).splitlines() == full.splitlines()[:2]
-    assert render_deviation_profile({}) == ""
+
+
+def test_render_deviation_profile_falls_back_to_numeric_domain_summaries():
+    summaries = {
+        "domain_summaries": {
+            "BRAIN": {"mean_abs_score": 1.234, "n_leaves": 4},
+            "COGNITION": {"mean_abs_score": None, "n_leaves": 2},
+            "GENOMICS": {"mean_abs_score": "high"},
+            "SLEEP": "not a summary",
+        }
+    }
+    assert render_deviation_profile(summaries) == "BRAIN: mean |z| 1.23"
+    assert render_deviation_profile({"domain_summaries": {"COGNITION": {"mean_abs_score": None}}}) == ""
+
+
+def test_render_deviation_profile_reads_the_parsed_model(tmp_path):
+    path = tmp_path / "hierarchical_deviation_map.json"
+    path.write_text(
+        json.dumps(
+            {
+                "BRAIN": {
+                    "_stats": {"mean_abs_score": 1.386, "n_leaves": 3},
+                    "Morphologics": {
+                        "_stats": {"mean_abs_score": 0.9},
+                        "left_hippocampus_volume": {"z_score": -1.2},
+                    },
+                },
+                "COGNITION": {"memory": {"z_score": 0.4}},
+            }
+        )
+    )
+    with contextlib.redirect_stdout(io.StringIO()):
+        tree = DataLoader()._load_hierarchical_deviation(path)
+    brain = tree.root.children[0]
+    assert (brain.node_name, brain.score_kind, brain.z_score) == ("BRAIN", "mean_abs", 1.386)
+    leaf = brain.children[0].children[0]
+    assert (leaf.node_name, leaf.score_kind) == ("left_hippocampus_volume", "signed")
+    assert render_deviation_profile(tree).splitlines() == [
+        "BRAIN: mean |z| 1.39",
+        "BRAIN > Morphologics: mean |z| 0.90",
+        "BRAIN > Morphologics > left_hippocampus_volume: -1.20",
+        "COGNITION > memory: +0.40",
+    ]
+    # The hippocampus leaf is also a measurement leaf under "BRAIN > Morphologics".
+    assert render_deviation_profile(tree, leaf_groups={"BRAIN > Morphologics"}).splitlines() == [
+        "BRAIN: mean |z| 1.39",
+        "BRAIN > Morphologics: mean |z| 0.90",
+        "COGNITION > memory: +0.40",
+    ]
+
+
+def test_build_sections_prefers_the_parsed_deviation_tree():
+    output = _synthetic_output()
+    output["deviation_tree"] = {
+        "root": {"node_name": "ROOT", "children": [{"node_name": "COGNITION", "z_score": 1.25, "score_kind": "mean_abs", "children": []}]}
+    }
+    sections, _total = build_sections(executor_output=output, task_context="ctx", count=_chars)
+    deviation = next(s for s in sections if s.key == "deviation_profile")
+    assert deviation.variants[0] == "COGNITION: mean |z| 1.25"
+    # Without it, the serialized map in the Predictor input is used.
+    del output["deviation_tree"]
+    sections, _total = build_sections(executor_output=output, task_context="ctx", count=_chars)
+    deviation = next(s for s in sections if s.key == "deviation_profile")
+    assert deviation.variants[0].splitlines()[0] == "COGNITION: +1.20"
 
 
 # ---------------------------------------------------------------------------
@@ -778,18 +1268,190 @@ def test_pack_state_compacts_the_least_important_section_first():
     assert packed.feature_coverage == 1.0
 
 
+def test_packing_ladder_is_the_documented_order():
+    assert PACKING_LADDER == (
+        ("deviation_profile", "next"),
+        ("phenotype_synthesis", "next"),
+        ("chunk_evidence", "next"),
+        ("deviation_profile", "drop"),
+        ("task_context", "next"),
+        ("measurements", "next"),
+        ("measurements", "next"),
+        ("measurements", "next"),
+        ("measurements", "next"),
+        ("chunk_evidence", "next"),
+        ("phenotype_synthesis", "next"),
+        ("clinical_record", "next"),
+        ("clinical_record", "next"),
+        ("chunk_evidence", "drop"),
+        ("phenotype_synthesis", "drop"),
+    )
+
+
+PHENOTYPE_QUARTER = "first quarter (at most 3000 tokens)"
+
+
+def test_synthetic_section_renderings():
+    sections, _total = _sections()
+    by_key = {s.key: s for s in sections}
+    sizes = {s.key: [len(v) for v in s.variants] for s in sections}
+    # 1799 characters of notes: halves and quarters are cut at max(400, 899) and max(300, 449).
+    assert by_key["clinical_record"].variant_labels == ["full", "first half", "first quarter"]
+    assert sizes["clinical_record"] == [1799, 898, 448]
+    record = by_key["clinical_record"]
+    assert record.variants[1].endswith(TRUNCATION_MARK) and record.variants[2].endswith(TRUNCATION_MARK)
+    # 2013 characters of tool syntheses: first half at max(1500, 1006), first
+    # quarter at min(3000, max(750, 503)).
+    assert by_key["phenotype_synthesis"].variant_labels == ["full", "first half", PHENOTYPE_QUARTER]
+    assert sizes["phenotype_synthesis"] == [2013, 1500, 750]
+    assert by_key["chunk_evidence"].variant_labels == ["full", "compact rows", "compact rows, first half"]
+    assert by_key["deviation_profile"].variant_labels == ["all groups", "top two levels"]
+    # A 239 character study context is not shortened by a 1500 token cut, so
+    # that rendering would not shrink and is left out.
+    assert by_key["task_context"].variant_labels == ["full"]
+    assert sizes["task_context"] == [239]
+
+
+def test_every_kept_rendering_is_strictly_smaller_than_the_one_before():
+    outputs = [
+        _synthetic_output(),
+        _synthetic_output(notes="Short note.", extra_strong=80),
+        _synthetic_output(notes="Visit note: low mood, poor sleep. " * 400),
+    ]
+    for output in outputs:
+        sections, _total = _sections(output)
+        for s in sections:
+            sizes = [len(v) for v in s.variants]
+            assert all(a > b for a, b in zip(sizes, sizes[1:])), s.key
+            assert len(s.variant_labels) == len(s.variants)
+            if s.feature_counts:
+                assert len(s.feature_counts) == len(s.variants)
+
+
+def test_keep_shrinking_filters_labels_and_feature_counts_alongside():
+    section = StateSection(
+        key="measurements",
+        priority=4,
+        variants=["aaaa", "aaaa", "aa", "aaa", "a"],
+        variant_labels=["l0", "l1", "l2", "l3", "l4"],
+        feature_counts=[5, 4, 3, 2, 1],
+    )
+    state_module._keep_shrinking(section, _chars)
+    # "aaaa" again does not shrink, nor does "aaa" after "aa".
+    assert section.variants == ["aaaa", "aa", "a"]
+    assert section.variant_labels == ["l0", "l2", "l4"]
+    assert section.feature_counts == [5, 3, 1]
+
+
+def test_a_short_record_keeps_only_its_full_rendering_and_is_never_stepped():
+    output = _synthetic_output(notes="Short note.", extra_strong=80)
+    sections, total = build_sections(executor_output=output, task_context="ctx", count=_chars)
+    by_key = {s.key: s for s in sections}
+    assert by_key["clinical_record"].variant_labels == ["full"]
+    assert by_key["task_context"].variant_labels == ["full"]
+    # The packer walks the whole ladder; the record stays "full" until cut.
+    most_compact = {s.key: len(s.variants) - 1 for s in sections}
+    core_only = _size(sections, most_compact, dropped=("deviation_profile", "chunk_evidence", "phenotype_synthesis"))
+    packed = pack_state(sections, budget_tokens=core_only, count=_chars, features_total=total)
+    assert _rendering(packed)["clinical_record"] == "full"
+    assert packed.state["clinical_record"] == "Short note."
+    assert packed.truncated is False
+
+
+# Each case: the ladder step the packer must stop at, the rendering levels and
+# dropped sections at that step, and the expected rendering labels. Step 5
+# (task_context next) has no smaller rendering to step to on this record.
+LADDER_CASES = [
+    (
+        1,
+        {"deviation_profile": 1},
+        (),
+        {"deviation_profile": "top two levels", "phenotype_synthesis": "full", "chunk_evidence": "full", "measurements": "all leaves"},
+    ),
+    (
+        2,
+        {"deviation_profile": 1, "phenotype_synthesis": 1},
+        (),
+        {"deviation_profile": "top two levels", "phenotype_synthesis": "first half", "chunk_evidence": "full"},
+    ),
+    (
+        3,
+        {"deviation_profile": 1, "phenotype_synthesis": 1, "chunk_evidence": 1},
+        (),
+        {"chunk_evidence": "compact rows", "task_context": "full", "measurements": "all leaves"},
+    ),
+    (
+        4,
+        {"phenotype_synthesis": 1, "chunk_evidence": 1},
+        ("deviation_profile",),
+        {"deviation_profile": "dropped", "task_context": "full", "measurements": "all leaves"},
+    ),
+    (
+        10,
+        {"phenotype_synthesis": 1, "chunk_evidence": 2, "measurements": 4},
+        ("deviation_profile",),
+        {
+            "chunk_evidence": "compact rows, first half",
+            "phenotype_synthesis": "first half",
+            "measurements": "|z| >= 2 and categorical",
+            "clinical_record": "full",
+            "task_context": "full",
+        },
+    ),
+    (
+        11,
+        {"phenotype_synthesis": 2, "chunk_evidence": 2, "measurements": 4},
+        ("deviation_profile",),
+        {"phenotype_synthesis": PHENOTYPE_QUARTER, "clinical_record": "full", "chunk_evidence": "compact rows, first half"},
+    ),
+    (
+        12,
+        {"phenotype_synthesis": 2, "chunk_evidence": 2, "measurements": 4, "clinical_record": 1},
+        ("deviation_profile",),
+        {"phenotype_synthesis": PHENOTYPE_QUARTER, "clinical_record": "first half", "chunk_evidence": "compact rows, first half"},
+    ),
+    (
+        13,
+        {"phenotype_synthesis": 2, "chunk_evidence": 2, "measurements": 4, "clinical_record": 2},
+        ("deviation_profile",),
+        {"clinical_record": "first quarter", "chunk_evidence": "compact rows, first half"},
+    ),
+]
+
+
+@pytest.mark.parametrize("step, levels, dropped, expected", LADDER_CASES, ids=[f"step{c[0]}" for c in LADDER_CASES])
+def test_pack_state_walks_the_ladder_and_stops_once_it_fits(step, levels, dropped, expected):
+    sections, total = _sections()
+    budget = _size(sections, levels, dropped)
+    packed = pack_state(sections, budget_tokens=budget, count=_chars, features_total=total)
+    rendering = _rendering(packed)
+    for key, label in expected.items():
+        assert rendering[key] == label, key
+    assert set(packed.state) == {s.key for s in sections} - set(dropped)
+    assert packed.tokens == budget
+    assert packed.truncated is False
+
+
 @pytest.mark.parametrize("step, label", [(1, "|z| >= 0.5 and categorical"), (2, "|z| >= 1 and categorical"), (3, "|z| >= 1.5 and categorical"), (4, "|z| >= 2 and categorical")])
 def test_pack_state_steps_measurements_down_by_deviation(step, label):
     sections, total = _sections()
-    budget = _size(sections, {"deviation_profile": 1, "measurements": step})
+    # Before the measurements, the ladder compacts the group aggregates (then
+    # drops them), the tool syntheses and the chunk rows (the study context has
+    # no smaller rendering here).
+    budget = _size(
+        sections,
+        {"phenotype_synthesis": 1, "chunk_evidence": 1, "measurements": step},
+        dropped=("deviation_profile",),
+    )
     packed = pack_state(sections, budget_tokens=budget, count=_chars, features_total=total)
     rendering = _rendering(packed)
     assert rendering["measurements"] == label
-    # Measurements are compacted before the tool syntheses and chunk evidence.
-    assert rendering["chunk_evidence"] == "full"
-    assert rendering["phenotype_synthesis"] == "full"
-    assert rendering["clinical_record"] == "full"
+    assert rendering["deviation_profile"] == "dropped"
+    assert rendering["phenotype_synthesis"] == "first half"
+    assert rendering["chunk_evidence"] == "compact rows"
     assert rendering["task_context"] == "full"
+    # The clinical record is compacted only after the measurements.
+    assert rendering["clinical_record"] == "full"
     assert packed.truncated is False
     assert packed.tokens == budget
     assert packed.features_included == EXPECTED_COUNTS[step]
@@ -804,25 +1466,71 @@ def test_pack_state_steps_measurements_down_by_deviation(step, label):
 def test_pack_state_drops_optional_sections_before_the_core_ones():
     sections, total = _sections()
     most_compact = {s.key: len(s.variants) - 1 for s in sections}
-    # Room for the core sections and the tool syntheses, at their most compact.
+    # Ladder step 14: chunk evidence dropped, tool syntheses still in.
     budget = _size(sections, most_compact, dropped=("deviation_profile", "chunk_evidence"))
     packed = pack_state(sections, budget_tokens=budget, count=_chars, features_total=total)
     rendering = _rendering(packed)
     assert rendering["deviation_profile"] == "dropped"
     assert rendering["chunk_evidence"] == "dropped"
-    assert rendering["phenotype_synthesis"] == "first 3000 tokens"
-    assert rendering["clinical_record"] == "first half"
-    assert rendering["task_context"] == "first 1500 tokens"
+    assert rendering["phenotype_synthesis"] == PHENOTYPE_QUARTER
+    assert rendering["clinical_record"] == "first quarter"
+    assert rendering["task_context"] == "full"
     assert rendering["measurements"] == "|z| >= 2 and categorical"
     assert set(packed.state) == {"task_context", "clinical_record", "phenotype_synthesis", "measurements"}
     assert packed.truncated is False
+    assert packed.tokens == budget
     assert packed.features_included == EXPECTED_COUNTS[-1]
 
+    # Ladder step 15: only the study context, the record and the measurements remain.
     core_only = _size(sections, most_compact, dropped=("deviation_profile", "chunk_evidence", "phenotype_synthesis"))
     packed = pack_state(sections, budget_tokens=core_only, count=_chars, features_total=total)
     assert set(packed.state) == {"task_context", "clinical_record", "measurements"}
     assert _rendering(packed)["phenotype_synthesis"] == "dropped"
     assert packed.truncated is False
+    assert packed.tokens == core_only
+
+
+def _ladder_sizes(sections):
+    """State size after each ladder step that changed something."""
+    by_key = {s.key: s for s in sections}
+    levels = {s.key: 0 for s in sections}
+    dropped = set()
+    sizes = [_size(sections, levels)]
+    for key, action in PACKING_LADDER:
+        if key not in by_key or key in dropped:
+            continue
+        if action == "drop":
+            dropped.add(key)
+        elif levels[key] < len(by_key[key].variants) - 1:
+            levels[key] += 1
+        else:
+            continue
+        sizes.append(_size(sections, levels, tuple(dropped)))
+    return sizes
+
+
+def test_no_ladder_step_grows_the_state():
+    sections, _total = _sections()
+    sizes = _ladder_sizes(sections)
+    # Every step that changes the state shrinks it. On this record: 10299,
+    # then step by step down to 864 characters of study context, record and
+    # measurements.
+    assert all(a > b for a, b in zip(sizes, sizes[1:]))
+    assert sizes[0] == 10299 and sizes[-1] == 864
+    # Concretely: a budget of 4394 characters is met once the record is halved
+    # (step 12, 3642 characters), with the chunk evidence kept.
+    budget = _size(
+        sections,
+        {"phenotype_synthesis": 1, "chunk_evidence": 2, "measurements": 4, "clinical_record": 1},
+        dropped=("deviation_profile",),
+    )
+    assert budget == 4394
+    packed = pack_state(sections, budget_tokens=budget, count=_chars, features_total=10)
+    assert "chunk_evidence" in packed.state
+    assert packed.tokens == 3642
+    rendering = _rendering(packed)
+    assert rendering["phenotype_synthesis"] == PHENOTYPE_QUARTER
+    assert rendering["clinical_record"] == "first half"
 
 
 def test_pack_state_truncates_the_largest_core_section_as_a_last_resort():
@@ -843,6 +1551,13 @@ def test_pack_state_truncates_the_largest_core_section_as_a_last_resort():
     # Measurements were not cut, so the coverage is that of their rendering.
     assert packed.features_included == EXPECTED_COUNTS[-1]
     assert packed.report()["truncated"] is True
+    rendering = _rendering(packed)
+    assert rendering["clinical_record"] == "first quarter, truncated"
+    assert rendering["measurements"] == "|z| >= 2 and categorical"
+    assert rendering["task_context"] == "full"
+    # The truncated record is cut, as a section, to what the budget leaves it.
+    record_row = next(r for r in packed.sections if r["section"] == "clinical_record")
+    assert record_row["tokens"] == len(packed.state["clinical_record"])
 
 
 def test_truncated_measurements_report_the_leaves_that_survived():
@@ -861,13 +1576,6 @@ def test_truncated_measurements_report_the_leaves_that_survived():
     assert packed.feature_coverage == pytest.approx(survivors / 90.0)
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "BUG: decision/state.py pack_state recounts features_included after the last-resort truncation "
-        "but leaves the measurements section row at the pre-truncation count (row['features'] 83 vs 40 kept)"
-    ),
-)
 def test_truncated_measurements_section_row_matches_the_survivors():
     output = _synthetic_output(notes="Short note.", extra_strong=80)
     sections, total = build_sections(executor_output=output, task_context="ctx", count=_chars)
@@ -876,7 +1584,28 @@ def test_truncated_measurements_section_row_matches_the_survivors():
     packed = pack_state(sections, budget_tokens=core_only // 2, count=_chars, features_total=total)
     assert packed.truncated is True
     row = next(r for r in packed.sections if r["section"] == "measurements")
-    assert row["features"] == packed.features_included
+    survivors = sum(1 for line in packed.state["measurements"].splitlines() if line.startswith("- "))
+    assert row["features"] == packed.features_included == survivors
+    assert row["rendering"] == "|z| >= 2 and categorical, truncated"
+    assert packed.tokens <= core_only // 2
+
+
+def test_last_resort_truncation_repeats_until_the_state_fits():
+    # A budget far below the most compact core: the largest section is cut, then
+    # the next largest, until the whole state fits.
+    output = _synthetic_output(notes="Visit note: low mood and poor sleep. " * 60, extra_strong=40)
+    sections, total = build_sections(executor_output=output, task_context="Study context. " * 40, count=_chars)
+    most_compact = {s.key: len(s.variants) - 1 for s in sections}
+    core_only = _size(sections, most_compact, dropped=("deviation_profile", "chunk_evidence", "phenotype_synthesis"))
+    budget = core_only // 3
+    packed = pack_state(sections, budget_tokens=budget, count=_chars, features_total=total)
+    assert packed.truncated is True
+    assert packed.tokens <= budget
+    assert packed.tokens == len(json.dumps(packed.state, ensure_ascii=False))
+    cut = [row["section"] for row in packed.sections if row["rendering"].endswith(", truncated")]
+    assert len(cut) >= 2
+    for key in cut:
+        assert packed.state[key].endswith(TRUNCATION_MARK)
 
 
 def test_pack_state_with_real_tokens_on_a_pseudo_participant(direct_output):

@@ -27,16 +27,8 @@ from ...config.settings import ORCHESTRATION_MODES
 from ...data.models.prediction_task import PredictionTaskSpec
 from .data_loader import ParticipantData
 from .fusion_layer import FusionLayer, FusionResult
-from .predictor_input_assembler import PredictorInputAssembler
-
-_CORE_SECTIONS = {
-    "non_numerical_data_raw",
-    "hierarchical_deviation_raw",
-    "data_overview",
-    "phenotype_representation",
-    "feature_synthesizer",
-    "differential_diagnosis",
-}
+from .record_rendering import DIRECT_RECORD_HEADER, render_direct_record
+from ..token_packer import count_tokens
 
 
 @dataclass
@@ -118,6 +110,11 @@ def build_direct_executor_output(
     The executor output a Predictor receives on the direct route: the complete
     record in the same pass-through layout the Integrator produces when the
     record fits, with no tool outputs and no chunk evidence.
+
+    The Predictor reads it through the compact, lossless rendering in
+    `direct_record` (see record_rendering): every leaf once, with its value
+    and z, under its ontology path. That is about half the tokens of the
+    generic JSON rendering, so more records fit and none is cut.
     """
     from ...agents.executor import Executor  # local import: agents import this package
 
@@ -162,19 +159,28 @@ def build_direct_executor_output(
     )
     predictor_input["coverage_ledger"] = coverage_ledger
 
-    assembler = PredictorInputAssembler(max_chunk_tokens=10**9, model_hint=model_hint)
-    sections = assembler.build_sections(
-        executor_output={
-            "step_outputs": {},
-            "data_overview": context.get("data_overview") or {},
-            "hierarchical_deviation": context.get("hierarchical_deviation") or {},
-            "non_numerical_data": context.get("non_numerical_data") or "",
-        },
-        predictor_input=predictor_input,
-        coverage_ledger=coverage_ledger,
+    # The parsed tree (not its serialization) knows which scores are signed and
+    # which are a group's mean absolute deviation.
+    deviation_tree = participant_data.hierarchical_deviation
+    direct_record = render_direct_record(
+        multimodal=tree,
+        deviation=deviation_tree if deviation_tree is not None else (context.get("hierarchical_deviation") or {}),
+        overview=context.get("data_overview") or {},
+        notes=context.get("non_numerical_data") or "",
     )
-    non_core = [s for s in sections if s.name.split("#", 1)[0] not in _CORE_SECTIONS]
-    non_core_text = assembler.chunk_to_text(non_core, 1, 1) if non_core else ""
+    non_core_text = f"## measurements\n{DIRECT_RECORD_HEADER}\n\n{direct_record['measurements']}"
+    non_core_tokens = count_tokens(non_core_text, model_hint=model_hint)
+    record_tokens = non_core_tokens + sum(
+        count_tokens(direct_record[key], model_hint=model_hint)
+        for key in ("clinical_record", "deviation_profile", "data_overview")
+    )
+    # A copy, so the estimate does not also land in fusion_result.context_fill_report.
+    predictor_input["context_fill_report"] = dict(predictor_input.get("context_fill_report") or {})
+    predictor_input["context_fill_report"]["predictor_payload_estimate"] = {
+        "final_tokens": record_tokens,
+        "strategy": "direct_route_compact_record",
+        "chunked_two_pass_required": False,
+    }
 
     overview = context.get("data_overview") or {}
     domains = [
@@ -194,7 +200,10 @@ def build_direct_executor_output(
         "chunking_skipped": True,
         "chunking_reason": "direct_route",
         "non_core_context_text": non_core_text,
-        "non_core_context_tokens": 0,
+        "non_core_context_tokens": non_core_tokens,
+        "direct_record": direct_record,
+        "direct_fits": True,
+        "deviation_tree": deviation_tree,
         "processed_raw_excluded": False,
         "data_overview": overview,
         "hierarchical_deviation": context.get("hierarchical_deviation") or {},

@@ -119,6 +119,9 @@ class DeviationNode(BaseModel):
     is_leaf: bool = False
     unit: Optional[str] = None  # Added unit field
     severity: Optional[str] = None  # Pre-computed severity
+    # "mean_abs" when z_score is a group's mean absolute deviation (a magnitude,
+    # no direction); "signed" when it is a signed score.
+    score_kind: Optional[str] = None
     
     @property
     def is_abnormal(self) -> bool:
@@ -200,6 +203,8 @@ class FeatureValue(BaseModel):
     unit: Optional[str] = None
     domain: str
     path_in_hierarchy: List[str] = Field(default_factory=list)
+    # Other qualifiers a leaf carries in the input (reference range, percentile, ...).
+    qualifiers: Dict[str, Any] = Field(default_factory=dict)
 
 
 class MultimodalData(BaseModel):

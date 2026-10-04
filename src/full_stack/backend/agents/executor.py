@@ -362,7 +362,10 @@ class Executor(BaseAgent):
                     if isinstance(feat, dict):
                         serial.append(feat)
                     elif hasattr(feat, "model_dump"):  # Pydantic v2
-                        serial.append(feat.model_dump())
+                        row = feat.model_dump()
+                        if not row.get("qualifiers"):
+                            row.pop("qualifiers", None)  # keep the usual leaf shape when there are none
+                        serial.append(row)
                     elif hasattr(feat, "dict"):  # Pydantic v1
                         serial.append(feat.dict())
                     elif hasattr(feat, "__dict__"):

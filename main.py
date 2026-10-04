@@ -40,7 +40,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.full_stack.backend.config.settings import get_settings, LLMBackend
 from src.full_stack.backend.utils.core.data_loader import DataLoader
 from src.full_stack.backend.utils.core.token_manager import TokenManager
-from src.full_stack.backend.utils.llm_client import get_llm_client, reset_llm_client
+from src.full_stack.backend.utils.llm_client import get_llm_client, is_context_length_error, reset_llm_client
 from src.full_stack.backend.utils.core.fusion_layer import FusionLayer, FusionResult
 from src.full_stack.backend.utils.core.predictor_input_assembler import PredictorInputAssembler
 from src.full_stack.backend.utils.core.explainability_feature_space import build_feature_space
@@ -66,6 +66,7 @@ from src.full_stack.backend.runtime.event_bus import get_ui
 from src.full_stack.backend.data.models.execution_plan import ExecutionPlan
 from src.full_stack.backend.decision import enforce_role_models, get_decision_model_spec, is_decision_model
 from src.full_stack.backend.decision.predictor import DecisionPredictor
+from src.full_stack.backend.decision.quality import route_can_help as decision_route_can_help
 from src.full_stack.backend.utils.core.input_routing import (
     build_direct_executor_output,
     decide_route,
@@ -990,9 +991,11 @@ def run_compass_pipeline(
     executor = Executor(token_manager=token_manager)
     if predictor_kind == "decision":
         predictor = DecisionPredictor(token_manager=token_manager)
+        spec = get_decision_model_spec(settings.models.predictor_model)
         print(
-            f"[Init] Predictor: structured decision model {settings.models.predictor_model}; "
-            f"other roles: {settings.models.orchestrator_model}"
+            f"[Init] Predictor: {spec.label if spec else settings.models.predictor_model} (structured decision "
+            f"model, state limit {spec.state_context_tokens if spec else 0:,} tokens); companion LLM for the other "
+            f"roles: {settings.models.orchestrator_model}"
         )
     else:
         predictor = Predictor(token_manager=token_manager)
@@ -1040,20 +1043,33 @@ def run_compass_pipeline(
     )
     if interactive_ui:
         ui.set_status("Measuring the record against the Predictor input...", stage=0)
-    measurement = predictor.measure_direct(
-        dict(direct_output),
-        target_condition=target_condition,
-        control_condition=control_condition,
-        prediction_task_spec=prediction_task_spec,
-    )
+    try:
+        measurement = predictor.measure_direct(
+            dict(direct_output),
+            target_condition=target_condition,
+            control_condition=control_condition,
+            prediction_task_spec=prediction_task_spec,
+        )
+    except Exception as exc:
+        # Without a measurement, auto mode orchestrates; never mode still goes direct.
+        print(f"[Route] Could not measure the direct input ({type(exc).__name__}: {exc}); assuming it does not fit.")
+        measurement = None
     initial_route = decide_route(
         mode=mode,
         measurement=measurement,
         threshold_override=threshold_override,
         predictor_kind=predictor_kind,
     )
+    # Whether the record fits the Predictor itself (a lower routing threshold
+    # decides the route, not whether a direct prompt may be cut).
+    direct_output["direct_fits"] = bool(
+        measurement is not None
+        and int(measurement.get("input_tokens") or 0) <= int(measurement.get("budget_tokens") or 0)
+    )
     print(f"\n[Route] {initial_route.route.upper()}: {initial_route.reason}")
     current_route = initial_route.route
+    route_reason = initial_route.reason
+    route_cause = "measurement"
     route_history: List[Dict[str, Any]] = []
 
     # Main loop: [Orchestrator -> Executor ->] Predictor -> Critic
@@ -1073,8 +1089,8 @@ def run_compass_pipeline(
         attempt_route = initial_route.to_dict()
         attempt_route["route"] = current_route
         attempt_route["escalated"] = current_route != initial_route.route
-        if attempt_route["escalated"]:
-            attempt_route["reason"] = "The critic rejected the direct attempt; distilling the record with the orchestration workflow."
+        attempt_route["reason"] = route_reason
+        attempt_route["cause"] = route_cause
         attempt_route["iteration"] = iteration
         route_history.append(attempt_route)
         if interactive_ui:
@@ -1118,6 +1134,8 @@ def run_compass_pipeline(
             )
             final_executor_output = executor_output
             final_plan = plan
+            # The parsed deviation tree carries the score kinds the renderers need.
+            executor_output.setdefault("deviation_tree", direct_output.get("deviation_tree"))
 
         # Step 5: Predictor makes prediction
         if interactive_ui:
@@ -1140,13 +1158,57 @@ def run_compass_pipeline(
                 stage=4,
             )
 
-        prediction = predictor.execute(
-            executor_output=executor_output,
-            target_condition=target_condition,
-            control_condition=control_condition,
-            prediction_task_spec=prediction_task_spec,
-            iteration=iteration
-        )
+        try:
+            prediction = predictor.execute(
+                executor_output=executor_output,
+                target_condition=target_condition,
+                control_condition=control_condition,
+                prediction_task_spec=prediction_task_spec,
+                iteration=iteration
+            )
+        except Exception as exc:
+            if current_route != "direct" or mode == "never" or not is_context_length_error(exc):
+                raise
+            # The provider rejected the direct prompt as too long (its real window
+            # is smaller than the configured one): orchestrate this attempt instead.
+            print(f"[Route] Direct prompt rejected as too long ({exc}); orchestrating this attempt.")
+            if interactive_ui:
+                ui.on_step_failed(step_id=910 + iteration, error=f"Direct prompt rejected as too long: {exc}")
+            current_route = "orchestrated"
+            route_reason = "The provider rejected the direct prompt as too long; orchestrating."
+            route_cause = "context_length"
+            route_history[-1].update(route="orchestrated", reason=route_reason, cause=route_cause, escalated=True)
+            # Critic feedback meant for a direct revision goes to the Orchestrator now.
+            if getattr(predictor, "revision_feedback", ""):
+                previous_feedback = previous_feedback or predictor.revision_feedback
+                predictor.set_revision_feedback("")
+            if interactive_ui:
+                ui.on_route_decision(route_history[-1], iteration=iteration)
+            plan, executor_output = _run_orchestrated_attempt(
+                orchestrator=orchestrator,
+                executor=executor,
+                participant_data=participant_data,
+                target_condition=target_condition,
+                control_condition=control_condition,
+                prediction_task_spec=prediction_task_spec,
+                previous_feedback=previous_feedback,
+                iteration=iteration,
+                runtime_agent_instructions=runtime_agent_instructions,
+                exec_logger=exec_logger,
+                decision_trace=decision_trace,
+                interactive_ui=interactive_ui,
+                settings=settings,
+            )
+            final_executor_output = executor_output
+            final_plan = plan
+            executor_output.setdefault("deviation_tree", direct_output.get("deviation_tree"))
+            prediction = predictor.execute(
+                executor_output=executor_output,
+                target_condition=target_condition,
+                control_condition=control_condition,
+                prediction_task_spec=prediction_task_spec,
+                iteration=iteration
+            )
         print(f"[Predictor] Completed for iteration {iteration}")
 
         dataflow_summary = _build_dataflow_summary(
@@ -1297,11 +1359,18 @@ def run_compass_pipeline(
             # orchestration there is no other evidence route to try.
             print("  Orchestration is disabled, so a decision model has no other evidence route; stopping.")
             break
+        elif not decision_route_can_help(evaluation):
+            # The only problem is one the evidence route cannot change (an output
+            # without a measurement scale): orchestrating would only add cost.
+            print("  The rejection is not about the evidence (missing output scale); stopping.")
+            break
         else:
             # Decision critic rejected the direct attempt: escalate to the
             # orchestrated route so the workflow distils the record.
             print(f"  Escalating to the orchestrated route with critic feedback...")
             current_route = "orchestrated"
+            route_reason = "The critic rejected the direct attempt; distilling the record with the orchestration workflow."
+            route_cause = "critic"
             previous_feedback = feedback
         iteration += 1
 
@@ -2062,13 +2131,6 @@ def _apply_predictor_choice(settings, args: argparse.Namespace) -> None:
         settings.decision.score_levels = max(2, min(10, int(args.decision_score_levels)))
     if getattr(args, "decision_refine", None) is not None:
         settings.decision.regression_refine = bool(args.decision_refine)
-    if is_decision_model(settings.models.predictor_model):
-        spec = get_decision_model_spec(settings.models.predictor_model)
-        print(
-            f"[Init] Predictor: {spec.label} (structured decision model, state limit "
-            f"{spec.state_context_tokens:,} tokens); companion LLM: {settings.models.orchestrator_model}; "
-            f"orchestration: {settings.orchestration.mode}"
-        )
 
 
 def main():
@@ -2398,7 +2460,10 @@ Examples:
         "--decision_choice_orders",
         type=int,
         default=None,
-        help="Decision models: option orders asked per Choice and averaged (default 3).",
+        help=(
+            "Decision models: option orders asked and averaged for multiclass nodes (default 3). "
+            "Binary nodes always get both orders plus a Noul per label."
+        ),
     )
     parser.add_argument(
         "--decision_score_levels",

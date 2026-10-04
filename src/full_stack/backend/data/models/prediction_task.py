@@ -61,6 +61,9 @@ class PredictionTaskNode(BaseModel):
         for label in labels:
             if label not in dedup:
                 dedup.append(label)
+        folded = [" ".join(label.split()).casefold() for label in dedup]
+        if len(set(folded)) != len(folded):
+            raise ValueError("class_labels must differ by more than letter case or spacing")
         return dedup
 
     @validator("regression_outputs", pre=True, always=True)
@@ -135,6 +138,20 @@ class PredictionTaskSpec(BaseModel):
     schema_version: str = "1.0"
     task_id: Optional[str] = None
     root: PredictionTaskNode
+
+    @root_validator(skip_on_failure=True)
+    def _validate_unique_node_ids(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        root = values.get("root")
+        if root is None:
+            return values
+        seen: List[str] = []
+        for node in root.walk():
+            if node.node_id in seen:
+                raise ValueError(
+                    f"node_id '{node.node_id}' appears more than once in the task tree; node ids must be unique"
+                )
+            seen.append(node.node_id)
+        return values
 
     def node_index(self) -> Dict[str, PredictionTaskNode]:
         return {node.node_id: node for node in self.root.walk()}

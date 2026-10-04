@@ -161,6 +161,8 @@ class EventStore:
                 self.state["deep_report_available"] = False
                 self.state["deep_report_error"] = None
                 self.state["deep_report_last_generated_at"] = None
+                self.state["route"] = None
+                self.state["routes"] = []
                 
             elif event_type == "PLAN":
                 current_iter = self.state.get("iteration", 1)

@@ -20,6 +20,7 @@ from ...data.models.schemas import (
     NonNumericalData,
 )
 from ..validation import validate_participant_files
+from .record_rendering import label_states_value
 
 logger = logging.getLogger("compass.data_loader")
 
@@ -242,8 +243,13 @@ class DataLoader:
         """Parse a single UKB deviation node and its children."""
         stats = data.get("_stats", {}) if isinstance(data, dict) else {}
         mean_score = stats.get("mean_abs_score")
+        score_kind = "mean_abs" if mean_score is not None else None
         if mean_score is None:
             mean_score = self._extract_numeric_score(data)
+            if mean_score is not None:
+                score_kind = "mean_abs" if any(k in data for k in ("mean_abs_score", "mean_abs")) and not any(
+                    k in data for k in ("z_score", "score")
+                ) else "signed"
         n_leaves = stats.get("n_leaves", 0)
         
         # Parse children recursively
@@ -270,7 +276,8 @@ class DataLoader:
             level=level,
             z_score=mean_score,  # Using mean_abs_score as representative z_score
             children=children,
-            is_leaf=is_leaf
+            is_leaf=is_leaf,
+            score_kind=score_kind,
         )
 
     def _extract_numeric_score(self, node_data: Dict[str, Any]) -> Optional[float]:
@@ -372,16 +379,22 @@ class DataLoader:
                     feature_id = feature_name.replace(" ", "_").replace("(", "").replace(")", "").lower()[:50]
 
                     # Keep the measured value when the leaf carries one. When the
-                    # label already spells it out (inline values), or there is
+                    # label already ends with it (inline values), or there is
                     # none, the z-score stands in, as before.
                     raw_value = leaf.get("value")
                     if isinstance(raw_value, (dict, list)) or raw_value is None or str(raw_value).strip() == "":
                         leaf_value = z_score
-                    elif str(raw_value).strip() in str(feature_name):
+                    elif label_states_value(str(feature_name), raw_value):
                         leaf_value = z_score
                     else:
                         leaf_value = raw_value
                     unit = leaf.get("unit")
+                    qualifiers = {
+                        str(k): v
+                        for k, v in leaf.items()
+                        if k not in ("feature", "value", "z_score", "unit") and not isinstance(v, (dict, list))
+                        and v not in (None, "")
+                    }
                     
                     feature_dict = {
                         "feature_id": feature_id,
@@ -390,7 +403,8 @@ class DataLoader:
                         "z_score": z_score,
                         "unit": str(unit) if unit not in (None, "") else None,
                         "domain": domain_name,
-                        "path_in_hierarchy": path
+                        "path_in_hierarchy": path,
+                        "qualifiers": qualifiers,
                     }
                     results.append(feature_dict)
                     

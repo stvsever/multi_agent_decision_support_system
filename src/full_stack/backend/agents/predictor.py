@@ -34,6 +34,7 @@ from ..data.models.prediction_task import (
 )
 from ..utils.core.multimodal_coverage import feature_key_set
 from ..utils.json_parser import parse_json_response
+from ..utils.llm_client import is_context_length_error
 from ..utils.toon import json_to_toon
 
 logger = logging.getLogger("compass.predictor")
@@ -64,6 +65,7 @@ class Predictor(BaseAgent):
         self._prompt_compaction_meta: Dict[str, Any] = {}
         self._active_prediction_task_spec: Optional[PredictionTaskSpec] = None
         self.revision_feedback: str = ""
+        self._keep_full_prompt: bool = False
 
         self.LLM_MODEL = self.settings.models.predictor_model
         self.LLM_MAX_TOKENS = self.settings.models.predictor_max_tokens
@@ -145,6 +147,7 @@ class Predictor(BaseAgent):
             predictor_call_context["prompt_compaction"] = dict(self._prompt_compaction_meta)
         executor_output["predictor_call_context"] = predictor_call_context
 
+        self._keep_full_prompt = self._direct_uncapped(executor_output)
         prediction_data = self._call_predictor_json(
             system_prompt=self.system_prompt,
             user_prompt=final_prompt,
@@ -227,6 +230,7 @@ class Predictor(BaseAgent):
                     coverage_summary=coverage_summary,
                     non_core_context=non_core_context,
                     chunking_skipped=True,
+                    uncapped=self._direct_uncapped(executor_output),
                 )
             predictor_call_context = {
                 "mode": "direct",
@@ -265,6 +269,11 @@ class Predictor(BaseAgent):
                 "chunking_skipped": False,
             }
         return final_prompt, predictor_call_context
+
+    @staticmethod
+    def _direct_uncapped(executor_output: Dict[str, Any]) -> bool:
+        """A direct record that was measured to fit is passed on without any cut."""
+        return str(executor_output.get("route") or "") == "direct" and bool(executor_output.get("direct_fits", True))
 
     def set_revision_feedback(self, text: Optional[str]) -> None:
         """Critic feedback appended to the next attempt's prompt (direct route revisions)."""
@@ -326,6 +335,9 @@ class Predictor(BaseAgent):
 
         for attempt in range(effective_retries + 1):
             keep_ratio = self._retry_keep_ratio(attempt=attempt, local_backend=backend_is_local)
+            if self._keep_full_prompt and not self._is_length_error(last_error):
+                # Direct route: a schema or parse error is no reason to drop raw record.
+                keep_ratio = 1.0
             prompt = base_prompt
             if keep_ratio < 0.999:
                 prompt = self._truncate_prompt_for_retry(base_prompt, keep_ratio=keep_ratio)
@@ -376,6 +388,11 @@ class Predictor(BaseAgent):
                 self._validate_predictor_payload(parsed)
                 return parsed
             except Exception as e:
+                if self._keep_full_prompt and is_context_length_error(e):
+                    # Direct route: the whole record does not fit this provider after
+                    # all. Retrying the same prompt cannot help; the pipeline
+                    # orchestrates the attempt instead.
+                    raise
                 last_error = str(e)
                 if self._is_length_error(last_error):
                     max_tokens = max(768, int(max_tokens * 0.75))
@@ -482,8 +499,9 @@ class Predictor(BaseAgent):
         current = self._token_count(prompt)
         if current <= budget:
             return prompt
-        ratio = max(0.25, float(budget) / float(max(1, current)))
-        trimmed = self._truncate_prompt_for_retry(prompt, keep_ratio=ratio)
+        # Leave room for the truncation marker so the result really fits.
+        ratio = max(0.0, float(budget - 32)) / float(max(1, current))
+        trimmed = self._truncate_prompt_for_retry(prompt, keep_ratio=ratio, min_ratio=0.0)
         logger.warning(
             "[Predictor] Prompt exceeded input budget (%s > %s tokens). Truncated with ratio=%.3f.",
             current,
@@ -529,11 +547,11 @@ class Predictor(BaseAgent):
         text = str(error_text or "").lower()
         return ("finish_reason=length" in text) or ("empty response" in text and "length" in text)
 
-    def _truncate_prompt_for_retry(self, prompt: str, keep_ratio: float) -> str:
+    def _truncate_prompt_for_retry(self, prompt: str, keep_ratio: float, min_ratio: float = 0.2) -> str:
         raw_prompt = str(prompt or "")
         if not raw_prompt:
             return ""
-        ratio = min(0.95, max(0.2, float(keep_ratio)))
+        ratio = min(0.95, max(float(min_ratio), float(keep_ratio)))
 
         if self._encoder is not None:
             try:
@@ -769,7 +787,7 @@ class Predictor(BaseAgent):
         overview = executor_output.get("data_overview") or {}
 
         per_section_cap = 900 if self._is_local_backend() else 2500
-        if str(executor_output.get("route") or "") == "direct":
+        if self._direct_uncapped(executor_output):
             # The direct route was chosen because the whole record fits the
             # input budget, so nothing is cut here.
             per_section_cap = 10**9
@@ -782,6 +800,19 @@ class Predictor(BaseAgent):
                 return raw
             ratio = float(cap) / float(max(1, tok_count))
             return self._truncate_prompt_for_retry(raw, keep_ratio=ratio)
+
+        direct_record = executor_output.get("direct_record") if executor_output.get("route") == "direct" else None
+        if isinstance(direct_record, dict) and direct_record:
+            # Direct route: the compact, lossless rendering of the record. The
+            # measurements follow as the non-core context; there are no tool outputs.
+            return "\n\n".join(
+                [
+                    f"## clinical_record (free text)\n{_limit(direct_record.get('clinical_record') or 'Not provided')}",
+                    "## deviation_profile (aggregate z of each ontology group; leaf values follow in the measurements)\n"
+                    f"{_limit(direct_record.get('deviation_profile') or 'Not provided')}",
+                    f"## data_overview (leaves present per domain)\n{_limit(direct_record.get('data_overview') or 'Not provided')}",
+                ]
+            )
 
         step_outputs = executor_output.get("step_outputs", {}) or {}
 
@@ -864,7 +895,7 @@ class Predictor(BaseAgent):
             non_core_context = executor_output.get("non_core_context_text") or "Not provided"
         coverage_text = json_to_toon(self._compact_coverage_summary(coverage_summary))
 
-        if self._is_local_backend():
+        if self._is_local_backend() and not self._direct_uncapped(executor_output):
             non_core_tokens = self._token_count(str(non_core_context or ""))
             non_core_budget = max(2000, min(8000, int(self._predictor_input_budget_tokens(max_completion_tokens=int(self.LLM_MAX_TOKENS or 4096)) * 0.35)))
             if non_core_tokens > non_core_budget:
@@ -928,6 +959,7 @@ class Predictor(BaseAgent):
         coverage_summary: Dict[str, Any],
         non_core_context: str,
         chunking_skipped: bool,
+        uncapped: bool = False,
     ) -> str:
         task_spec_text = (
             prediction_task_spec.model_dump_json(indent=2)
@@ -937,7 +969,7 @@ class Predictor(BaseAgent):
         coverage_text = json_to_toon(self._compact_coverage_summary(coverage_summary))
         chunk_text = self._render_chunk_evidence_for_prompt(chunk_evidence) if chunk_evidence else "Not provided"
         non_core = str(non_core_context or "Not provided")
-        if self._is_local_backend() and len(non_core) > 60000:
+        if self._is_local_backend() and len(non_core) > 60000 and not uncapped:
             non_core = self._truncate_prompt_for_retry(non_core, keep_ratio=0.4)
 
         prompt = "\n".join(

@@ -13,13 +13,14 @@ The instrument is built in two steps.
    is what makes decision-model outputs comparable across participants.
 
 2. A question set per request, compiled from the book:
-   - binary node:      one Noul (P of the first label) plus the two-option Choice
-                       asked in both option orders;
+   - binary node:      a Noul for each label ("does the participant belong to
+                       A?", "... to B?") plus the two-option Choice asked in
+                       both option orders;
    - multiclass node:  the Choice asked in up to `choice_orders` rotated orders;
    - regression output: a coarse Score asked in ascending and descending level
                        order, then (second request) a zoomed Score over the
                        most likely region, again in both orders;
-   - every request:    one Noul on whether the record holds enough evidence.
+   - first request:    one Noul on whether the record holds enough evidence.
 
 Asking every judgement in more than one presentation order and averaging is the
 documented remedy for the model's preference for the first option, and the
@@ -32,6 +33,8 @@ import hashlib
 import json
 import logging
 import os
+import tempfile
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Sequence
@@ -41,7 +44,7 @@ from .scales import OutputScale, ScaleBin, default_scale, scale_from_mapping
 
 logger = logging.getLogger("compass.decision.questions")
 
-BOOK_VERSION = "2026-10-04.1"
+BOOK_VERSION = "2026-10-04.2"
 
 
 # ----------------------------------------------------------------------------
@@ -53,11 +56,13 @@ class NodeBook:
     question: str
     label_definitions: Dict[str, str] = field(default_factory=dict)
     scales: Dict[str, OutputScale] = field(default_factory=dict)
+    question_is_default: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             "node_id": self.node_id,
             "question": self.question,
+            "question_is_default": self.question_is_default,
             "label_definitions": dict(self.label_definitions),
             "scales": {k: v.to_dict() for k, v in self.scales.items()},
         }
@@ -80,6 +85,32 @@ class QuestionBook:
             "nodes": {k: v.to_dict() for k, v in self.nodes.items()},
         }
 
+    def content_hash(self) -> str:
+        """Fingerprint of the instrument itself, recorded with every prediction."""
+        body = {k: v.to_dict() for k, v in sorted(self.nodes.items())}
+        blob = json.dumps(body, sort_keys=True, default=str)
+        return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:16]
+
+    def default_scale_outputs(self) -> List[str]:
+        """Regression outputs that fell back to the generic standardized scale."""
+        return [
+            f"{node_id}.{out}"
+            for node_id, node in self.nodes.items()
+            for out, scale in node.scales.items()
+            if scale.source == "default"
+        ]
+
+    def placeholder_items(self) -> List[str]:
+        """Class labels still on the generic definition and nodes still on the generic question."""
+        items: List[str] = []
+        for node_id, node in self.nodes.items():
+            if node.question_is_default:
+                items.append(f"{node_id}: question")
+            for label, text in node.label_definitions.items():
+                if text == placeholder_definition(label):
+                    items.append(f"{node_id}.{label}: definition")
+        return items
+
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "QuestionBook":
         nodes: Dict[str, NodeBook] = {}
@@ -92,6 +123,7 @@ class QuestionBook:
                 question=str(raw.get("question") or ""),
                 label_definitions=dict(raw.get("label_definitions") or {}),
                 scales=scales,
+                question_is_default=bool(raw.get("question_is_default", False)),
             )
         return cls(
             version=str(data.get("version") or ""),
@@ -117,17 +149,27 @@ def _default_question(node: PredictionTaskNode) -> str:
     return f"What is this participant's {name}?"
 
 
+def placeholder_definition(label: str) -> str:
+    return f"The participant belongs to the '{label}' group."
+
+
 def _deterministic_node_book(node: PredictionTaskNode) -> NodeBook:
     labels = {}
     for label in node.class_labels:
         given = str((node.class_definitions or {}).get(label) or "").strip()
-        labels[label] = given or f"The participant belongs to the '{label}' group."
+        labels[label] = given or placeholder_definition(label)
     scales: Dict[str, OutputScale] = {}
     for out in node.regression_outputs:
         unit = str((node.unit_by_output or {}).get(out) or "")
         given = scale_from_mapping(out, (node.output_scales or {}).get(out) or {}, source="task_spec", unit=unit)
         scales[out] = given or default_scale(out, unit=unit)
-    return NodeBook(node_id=node.node_id, question=_default_question(node), label_definitions=labels, scales=scales)
+    return NodeBook(
+        node_id=node.node_id,
+        question=_default_question(node),
+        label_definitions=labels,
+        scales=scales,
+        question_is_default=True,
+    )
 
 
 def deterministic_book(task_spec: PredictionTaskSpec, context: str = "") -> QuestionBook:
@@ -198,13 +240,20 @@ def _compiler_prompt(task_spec: PredictionTaskSpec, context: str) -> str:
 
 
 def _merge_compiled(task_spec: PredictionTaskSpec, base: QuestionBook, compiled: Dict[str, Any]) -> QuestionBook:
-    nodes_raw = dict((compiled or {}).get("nodes") or {})
+    compiled = compiled if isinstance(compiled, dict) else {}
+    nodes_raw = compiled.get("nodes")
+    if not isinstance(nodes_raw, dict):
+        # Accept a reply keyed directly by node id (no "nodes" wrapper).
+        nodes_raw = {k: v for k, v in compiled.items() if isinstance(v, dict)}
     for node in task_spec.root.walk():
         entry = nodes_raw.get(node.node_id) or {}
+        if not isinstance(entry, dict):
+            entry = {}
         book = base.nodes[node.node_id]
         question = str(entry.get("question") or "").strip()
         if question:
             book.question = question
+            book.question_is_default = False
         defs = dict(entry.get("label_definitions") or {})
         for label in node.class_labels:
             if str((node.class_definitions or {}).get(label) or "").strip():
@@ -232,6 +281,54 @@ def cache_dir() -> Path:
     return Path(__file__).resolve().parents[4] / ".compass_cache" / "decision_question_books"
 
 
+@contextmanager
+def _book_lock(path: Path):
+    """Inter-process lock so parallel workers compile a task's book only once."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = open(path.with_suffix(".lock"), "a+")
+    try:
+        try:
+            import fcntl
+
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        except (ImportError, OSError):
+            pass
+        yield
+    finally:
+        try:
+            import fcntl
+
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+        except (ImportError, OSError):
+            pass
+        handle.close()
+
+
+def _read_cached_book(path: Path) -> Optional[QuestionBook]:
+    if not path.exists():
+        return None
+    try:
+        return QuestionBook.from_dict(json.loads(path.read_text()))
+    except Exception as exc:
+        logger.warning("Ignoring unreadable question book cache %s: %s", path, exc)
+        return None
+
+
+def _write_cached_book(path: Path, book: QuestionBook) -> None:
+    fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=path.stem, suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w") as handle:
+            handle.write(json.dumps(book.to_dict(), indent=1))
+        os.chmod(tmp, 0o644)  # readable by other users and containers sharing the cache
+        os.replace(tmp, path)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+
 def build_question_book(
     task_spec: PredictionTaskSpec,
     *,
@@ -255,29 +352,56 @@ def build_question_book(
     # matters to a model that reads literally. Definitions and scales given in
     # the task specification are kept as given.
     path = cache_dir() / f"{base.task_hash}.json"
-    if use_cache and path.exists():
-        try:
-            return QuestionBook.from_dict(json.loads(path.read_text()))
-        except Exception as exc:
-            logger.warning("Ignoring unreadable question book cache %s: %s", path, exc)
     if llm_json is None:
+        cached = _read_cached_book(path) if use_cache else None
+        if cached is not None:
+            return cached
         base.notes.append("No companion LLM available; generic label definitions and default scales used.")
         return base
-    try:
-        compiled = llm_json(COMPILER_SYSTEM_PROMPT, _compiler_prompt(task_spec, context))
-        book = _merge_compiled(task_spec, base, compiled)
-        book.compiled_by = compiler_label or "companion_llm"
-    except Exception as exc:
-        logger.warning("Question book compilation failed, using deterministic book: %s", exc)
-        base.notes.append(f"Compilation failed ({type(exc).__name__}); generic definitions used.")
-        return base
-    if use_cache:
-        try:
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(book.to_dict(), indent=1))
-        except Exception as exc:
-            logger.warning("Could not cache question book: %s", exc)
-    return book
+
+    def compile_once() -> QuestionBook:
+        best: Optional[QuestionBook] = None
+        last_error: Optional[Exception] = None
+        for _attempt in range(2):
+            fresh = deterministic_book(task_spec, context)
+            try:
+                compiled = llm_json(COMPILER_SYSTEM_PROMPT, _compiler_prompt(task_spec, context))
+                book = _merge_compiled(task_spec, fresh, compiled)
+                book.compiled_by = compiler_label or "companion_llm"
+                gaps = book.default_scale_outputs() + book.placeholder_items()
+                if not gaps:
+                    return book
+                best = book  # keep what it did compile
+                last_error = ValueError(
+                    "compiled book left " + ", ".join(gaps[:8]) + (" and more" if len(gaps) > 8 else "") + " undefined"
+                )
+            except Exception as exc:
+                last_error = exc
+        result = best or deterministic_book(task_spec, context)
+        logger.warning("Question book compilation incomplete: %s", last_error)
+        result.notes.append(f"Compilation incomplete ({type(last_error).__name__}: {last_error}).")
+        return result
+
+    if not use_cache:
+        return compile_once()
+    with _book_lock(path):
+        cached = _read_cached_book(path)
+        if cached is not None:
+            return cached
+        book = compile_once()
+        # An incomplete book is never cached, so the next participant retries.
+        complete = not any(note.startswith("Compilation incomplete") for note in book.notes)
+        if (
+            complete
+            and book.compiled_by not in ("deterministic", "task_spec")
+            and not book.default_scale_outputs()
+            and not book.placeholder_items()
+        ):
+            try:
+                _write_cached_book(path, book)
+            except Exception as exc:
+                logger.warning("Could not cache question book: %s", exc)
+        return book
 
 
 # ----------------------------------------------------------------------------
@@ -350,25 +474,37 @@ def _record_ref(node_book: NodeBook) -> str:
     return f"{node_book.question} Use `task_context` for study definitions and the participant record for evidence."
 
 
+MAX_CHOICE_OPTIONS = 255
+
+
 def add_classification_questions(qs: QuestionSet, node: PredictionTaskNode, book: NodeBook, *, choice_orders: int) -> None:
     labels = list(node.class_labels)
+    if len(labels) > MAX_CHOICE_OPTIONS:
+        raise ValueError(
+            f"Node '{node.node_id}' has {len(labels)} class labels; a decision model Choice accepts at most "
+            f"{MAX_CHOICE_OPTIONS}. Split the node into a hierarchy of smaller choices."
+        )
     defs = {label: book.label_definitions.get(label) or f"The participant belongs to the '{label}' group." for label in labels}
     if node.mode == PredictionMode.BINARY_CLASSIFICATION and len(labels) == 2:
-        first, second = labels
-        qs.add(
-            node_id=node.node_id,
-            kind="binary_noul",
-            variant="noul",
-            order=[first, second],
-            payload={
-                "type": "noul",
-                "instructions": (
-                    f"{book.question} Is it more likely that the participant belongs to '{first}' "
-                    f"than to '{second}'? Answer for this participant using `task_context` and the participant record."
-                ),
-                "criteria": {"true": f"{first}: {defs[first]}", "false": f"{second}: {defs[second]}"},
-            },
-        )
+        # One Noul per label, each a single literal condition, so a lean toward
+        # "yes" cancels out when P(first) = mean(p_first, 1 - p_second).
+        for index, (label, other) in enumerate(((labels[0], labels[1]), (labels[1], labels[0]))):
+            qs.add(
+                node_id=node.node_id,
+                kind="binary_noul",
+                variant=f"noul_{index + 1}",
+                order=[label, other],
+                payload={
+                    "type": "noul",
+                    # Label-neutral on purpose: the node's question may be phrased
+                    # toward one label, which would invert the Noul for the other.
+                    "instructions": (
+                        f"Does this participant belong to the '{label}' group? "
+                        "Use `task_context` for definitions and the participant record for evidence."
+                    ),
+                    "criteria": {"true": f"{label}: {defs[label]}", "false": f"{other}: {defs[other]}"},
+                },
+            )
         orders = _rotations(labels, 2)
     else:
         orders = _rotations(labels, choice_orders)
@@ -395,14 +531,12 @@ def _score_payload(scale: OutputScale, bins: Sequence[ScaleBin], order: Sequence
 def _scale_instruction(node: PredictionTaskNode, book: NodeBook, scale: OutputScale) -> str:
     what = scale.description or scale.output.replace("_", " ")
     unit = f" {scale.unit}" if scale.unit else ""
-    lo = scale.format_value(scale.minimum, width=scale.span / 10.0)
-    hi = scale.format_value(scale.maximum, width=scale.span / 10.0)
     meaning = ""
     if scale.low_meaning or scale.high_meaning:
         meaning = f" Low values mean {scale.low_meaning or 'less'}; high values mean {scale.high_meaning or 'more'}."
     return (
-        f"Estimate this participant's {what} ({scale.output}), which ranges from {lo} to {hi}{unit}.{meaning} "
-        f"Choose the level that contains the participant's most likely value, using `task_context` and the participant record."
+        f"Where does this participant's {what} ({scale.output}) lie on its range of {scale.range_text()}{unit}?{meaning} "
+        "Choose the level that describes the participant's value, using `task_context` and the participant record."
     )
 
 
@@ -436,13 +570,16 @@ def add_fine_regression_questions(
     window_hi: float,
 ) -> None:
     unit = f" {scale.unit}" if scale.unit else ""
-    width = (window_hi - window_lo) / 10.0
     what = scale.description or scale.output.replace("_", " ")
+    if scale.integer:
+        lo_text, hi_text = str(int(round(window_lo + 0.5))), str(int(round(window_hi - 0.5)))
+    else:
+        width = (window_hi - window_lo) / 10.0
+        lo_text, hi_text = scale.format_value(window_lo, width=width), scale.format_value(window_hi, width=width)
     instructions = (
-        f"The participant's {what} ({scale.output}) most likely lies between "
-        f"{scale.format_value(window_lo, width=width)} and {scale.format_value(window_hi, width=width)}{unit}. "
-        f"Within that range, choose the level that contains the participant's most likely value, "
-        f"using `task_context` and the participant record."
+        f"Suppose this participant's {what} ({scale.output}) is somewhere from {lo_text} to {hi_text}{unit}. "
+        "Within that part of the range, choose the level that describes the participant's value, "
+        "using `task_context` and the participant record."
     )
     ascending = list(range(len(fine_bins)))
     for variant, order in (("ascending", ascending), ("descending", list(reversed(ascending)))):

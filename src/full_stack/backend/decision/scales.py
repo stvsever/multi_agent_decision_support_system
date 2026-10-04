@@ -69,6 +69,18 @@ class OutputScale:
         self.minimum, self.maximum = lo, hi
         if self.reference_sd is not None and (not math.isfinite(float(self.reference_sd)) or float(self.reference_sd) <= 0):
             self.reference_sd = None
+        # Reference statistics that contradict the scale would mislabel every
+        # level ("far above the mean"); keep the scale's own words instead.
+        if self.reference_mean is not None and not (lo <= float(self.reference_mean) <= hi):
+            self._note(f"reference_mean {self.reference_mean} lies outside the scale and was ignored")
+            self.reference_mean = None
+        if self.reference_sd is not None and float(self.reference_sd) < (hi - lo) / 20.0:
+            self._note(f"reference_sd {self.reference_sd} is below a twentieth of the range and was ignored")
+            self.reference_sd = None
+
+    def _note(self, text: str) -> None:
+        if text not in self.notes:
+            self.notes.append(text)
 
     @property
     def span(self) -> float:
@@ -79,6 +91,7 @@ class OutputScale:
 
     # ------------------------------------------------------------------ grids
     def exact_integer_levels(self, max_levels: int) -> bool:
+        """True when every possible value gets its own level (no refinement needed)."""
         if not self.integer:
             return False
         count = int(round(self.maximum)) - int(round(self.minimum)) + 1
@@ -86,19 +99,19 @@ class OutputScale:
 
     def coarse_grid(self, levels: int) -> List[ScaleBin]:
         levels = max(2, min(10, int(levels)))
-        if self.exact_integer_levels(levels):
-            start = int(round(self.minimum))
-            stop = int(round(self.maximum))
-            return [ScaleBin(lo=v - 0.5, hi=v + 0.5, center=float(v), exact=True) for v in range(start, stop + 1)]
+        if self.integer:
+            return integer_bins(int(round(self.minimum)), int(round(self.maximum)), levels)
         return equal_width_bins(self.minimum, self.maximum, levels)
 
     def fine_grid(self, lo: float, hi: float, levels: int) -> List[ScaleBin]:
+        """Levels inside a refinement window [lo, hi] of the coarse grid."""
         levels = max(2, min(10, int(levels)))
         if self.integer:
-            first = int(math.ceil(lo - 1e-9))
-            last = int(math.floor(hi + 1e-9))
-            if first < last and (last - first + 1) <= levels:
-                return [ScaleBin(lo=v - 0.5, hi=v + 0.5, center=float(v), exact=True) for v in range(first, last + 1)]
+            # Coarse integer bins span [first - 0.5, last + 0.5].
+            first = int(math.ceil(lo))
+            last = int(math.floor(hi))
+            if first <= last:
+                return integer_bins(first, last, levels)
         return equal_width_bins(lo, hi, levels)
 
     # ----------------------------------------------------------------- labels
@@ -110,8 +123,9 @@ class OutputScale:
             decimals = 0
         elif magnitude >= 1:
             decimals = 1
-        elif magnitude >= 0.1:
-            decimals = 2
+        elif magnitude > 0:
+            # Enough decimals that neighbouring level bounds never print alike.
+            decimals = max(2, int(math.ceil(-math.log10(magnitude))) + 1)
         else:
             decimals = 3
         return f"{value:.{decimals}f}"
@@ -157,17 +171,53 @@ class OutputScale:
         unit = f" {self.unit}" if self.unit else ""
         if b.exact:
             core = f"{self.format_value(b.center, width=1.0)}{unit}"
+        elif self.integer:
+            first, last = int(math.ceil(b.lo)), int(math.floor(b.hi))
+            core = f"{first}{unit}" if first == last else f"{first} to {last}{unit}"
         else:
             core = (
                 f"{self.format_value(b.lo, width=b.width)} to "
                 f"{self.format_value(b.hi, width=b.width)}{unit}"
             )
         parts = [core, self.band(b.center)]
-        if index == 0 and self.low_meaning:
+        # End meanings belong to the ends of the whole scale, not of a zoom window.
+        if self.low_meaning and self._touches_minimum(b):
             parts.append(f"low end: {self.low_meaning}")
-        if index == total - 1 and self.high_meaning:
+        if self.high_meaning and self._touches_maximum(b):
             parts.append(f"high end: {self.high_meaning}")
         return "; ".join(parts)
+
+    def _touches_minimum(self, b: ScaleBin) -> bool:
+        edge = b.center if b.exact else (b.lo + 0.5 if self.integer else b.lo)
+        return edge <= self.minimum + 1e-9
+
+    def _touches_maximum(self, b: ScaleBin) -> bool:
+        edge = b.center if b.exact else (b.hi - 0.5 if self.integer else b.hi)
+        return edge >= self.maximum - 1e-9
+
+    def range_text(self) -> str:
+        width = 1.0 if self.integer else self.span / 10.0
+        return f"{self.format_value(self.minimum, width=width)} to {self.format_value(self.maximum, width=width)}"
+
+
+def integer_bins(first: int, last: int, levels: int) -> List[ScaleBin]:
+    """
+    Levels over the integers first..last. With at most `levels` values each value
+    is its own exact level; otherwise contiguous, non-overlapping integer ranges of
+    near-equal size, each a uniform interval [a - 0.5, b + 0.5].
+    """
+    values = list(range(int(first), int(last) + 1))
+    if len(values) <= levels:
+        return [ScaleBin(lo=v - 0.5, hi=v + 0.5, center=float(v), exact=True) for v in values]
+    bins: List[ScaleBin] = []
+    size, extra = divmod(len(values), levels)
+    start = 0
+    for i in range(levels):
+        stop = start + size + (1 if i < extra else 0)
+        a, b = values[start], values[stop - 1]
+        bins.append(ScaleBin(lo=a - 0.5, hi=b + 0.5, center=(a + b) / 2.0))
+        start = stop
+    return bins
 
 
 def equal_width_bins(lo: float, hi: float, levels: int) -> List[ScaleBin]:
@@ -192,15 +242,22 @@ class DensityPiece:
 
 
 def best_window(probs: Sequence[float], width: int = 3) -> Tuple[int, int]:
-    """Indices [start, stop) of the `width` adjacent levels with the most mass."""
+    """
+    Indices [start, stop) of the `width` adjacent levels with the most mass. Ties
+    go to the window whose middle is closest to the most likely level, so a
+    single peak sits in the middle of the window rather than on its edge.
+    """
     n = len(probs)
     if n <= width:
         return 0, n
-    best_start, best_mass = 0, -1.0
+    peak = max(range(n), key=lambda i: (float(probs[i]), -i))
+    best_start, best_key = 0, None
     for start in range(0, n - width + 1):
         mass = float(sum(probs[start : start + width]))
-        if mass > best_mass + 1e-12:
-            best_start, best_mass = start, mass
+        middle = start + (width - 1) / 2.0
+        key = (round(mass, 9), -abs(middle - peak))
+        if best_key is None or key > best_key:
+            best_start, best_key = start, key
     return best_start, best_start + width
 
 

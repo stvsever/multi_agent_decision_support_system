@@ -20,6 +20,27 @@ except ImportError:
 logger = logging.getLogger("compass.llm_client")
 
 
+_CONTEXT_LENGTH_MARKERS = (
+    "context length",
+    "context window",
+    "maximum context",
+    "too many tokens",
+    "prompt is too long",
+    "context_length_exceeded",
+    "request too long",
+    "token limit",
+    "exceeds the maximum",
+)
+
+
+def is_context_length_error(exc: BaseException) -> bool:
+    """A provider rejected the request because the input is too long for the model."""
+    if getattr(exc, "looks_like_length_error", False):
+        return True
+    text = str(exc).lower()
+    return any(marker in text for marker in _CONTEXT_LENGTH_MARKERS)
+
+
 @dataclass
 class LLMResponse:
     """Structured response from LLM."""

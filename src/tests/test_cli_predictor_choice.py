@@ -121,7 +121,8 @@ def test_decision_public_model_without_terminal_uses_the_default_companion(no_te
     assert s.models.public_model_name == DEFAULT_COMPANION_MODEL
     out = capsys.readouterr().out
     assert f"other roles use {DEFAULT_COMPANION_MODEL}" in out
-    assert "Predictor: TypeSafe Jev 1.13 (structured decision model" in out
+    # The Predictor summary line is printed once, when the pipeline initializes its agents.
+    assert "(structured decision model, state limit" not in out
 
 
 def test_decision_public_model_asks_for_the_companion_on_a_terminal(terminal):
