@@ -46,7 +46,7 @@ The Executor runs independent tool steps concurrently against a hosted API, and 
 
 Each attempt reaches the Predictor by one of two routes:
 
-- **Direct**: the complete participant record (clinical notes, deviation map, data overview, and every feature leaf) goes to the Predictor unchanged. The Orchestrator, Executor, and Integrator are not called.
+- **Direct**: the complete participant record (clinical notes, deviation map, data overview, and every feature leaf) goes to the Predictor in a compact, lossless rendering. The Orchestrator, Executor, and Integrator are not called.
 - **Orchestrated**: the Orchestrator plans tool steps, the Executor runs them, and the Integrator fuses their outputs, extracting chunk evidence when needed, before the Predictor reads them.
 
 Before the first attempt COMPASS builds the direct record and measures it against the Predictor's own input budget. Building and measuring it calls no model, except that a decision Predictor compiles its question book at this point, once per task.
@@ -55,6 +55,8 @@ Before the first attempt COMPASS builds the direct record and measures it agains
 | --- | --- | --- |
 | LLM | Tokens of the complete direct-route prompt, system prompt included | Context window minus an output reserve, capped by `max_agent_input_tokens` |
 | Structured decision model | cl100k tokens of the complete, unpacked decision state | The model's state limit converted to cl100k tokens, minus the longest question and a small margin |
+
+The direct rendering (`utils/core/record_rendering.py`) lists every feature leaf once, as `label = value (z +1.23) [qualifiers such as a reference range]` under its ontology path, gives the deviation map as the score of every scored ontology group (a group's mean absolute deviation as `mean |z| 1.39`, which has no direction, and a signed score as `+1.39`; leaf scores already in the measurements are not repeated), and the data overview as one coverage line per domain. No leaf is summarised or left out (z-scores are printed with two decimals), and a large multimodal record takes several times fewer tokens than the generic JSON rendering, so far more records fit the Predictor directly.
 
 | Mode | Route per attempt |
 | --- | --- |
@@ -72,7 +74,9 @@ When the Critic rejects an attempt, the next one depends on the route and on the
 | --- | --- |
 | Orchestrated, any Predictor | Re-orchestrates: the Orchestrator plans again with the critic's feedback |
 | Direct, LLM Predictor | Revises: the same complete record, with the critic's feedback appended to the Predictor prompt |
-| Direct, decision Predictor | Escalates to the orchestrated route with the feedback, because a decision model shown the same state gives the same answers; in `never` mode the loop stops instead |
+| Direct, decision Predictor | Escalates to the orchestrated route with the feedback, because a decision model shown the same state gives the same answers; in `never` mode, or when the only problem is an output without a measurement scale, the loop stops instead |
+
+If the provider rejects a direct prompt as too long (its real context window is smaller than the configured one), the same attempt is rerun on the orchestrated route instead of failing, unless the mode is `never`. The Predictor's context window comes from the dashboard's cached provider catalog when available, then from a built-in table, then from the configured public window.
 
 Attempt selection compares attempts across routes. Every attempt's route and the reason for it are recorded under `routing` (see [Reference](#reference)).
 
@@ -91,25 +95,25 @@ When the Predictor is a decision model, the Orchestrator is told so and asked to
 
 ### From task to typed questions
 
-**Question book.** Once per task, COMPASS writes for every node of the task tree one literal question, an operational definition per class label, and a measurement scale per regression output. Definitions and scales given in the task specification (`class_definitions`, `output_scales`) are used as given. The companion LLM writes the rest, and the question wording, from the task specification and the study context (`--global_instruction` and `--predictor_instruction`), never from participant data. The book is cached under `.compass_cache/decision_question_books/`, keyed by a hash of the task specification and the study context, and reused for every participant, so a cohort is scored with identical questions. If compilation fails, generic definitions and a standardized -3 to 3 scale are used and the book notes it.
+**Question book.** Once per task, COMPASS writes for every node of the task tree one literal question, an operational definition per class label, and a measurement scale per regression output. Definitions and scales given in the task specification (`class_definitions`, `output_scales`) are used as given. The companion LLM writes the rest, and the question wording, from the task specification and the study context (`--global_instruction` and `--predictor_instruction`), never from participant data. The book is cached under `.compass_cache/decision_question_books/`, keyed by a hash of the task specification and the study context, and reused for every participant, so a cohort is scored with identical questions; parallel workers take a file lock, so one compiles and the others read its result. Every prediction records the book's content hash (`decision_report.question_book_hash`). A failed or incomplete compilation (a node without a compiled question, a class label still on the generic definition, or a regression output without a scale) is retried once; a book that is still incomplete keeps whatever was compiled, is never cached, and is compiled again on the next attempt. An output without a scale falls back to a standardized -3 to 3 scale, and the decision critic rejects the prediction until `output_scales` is defined or compilation succeeds; generic wording is reported as a weakness. Reference statistics that contradict a scale (a mean outside its range, an SD below a twentieth of it) are ignored with a note.
 
 **Questions per request.**
 
 | Task node | Questions |
 | --- | --- |
-| Binary classification | One Noul (first label against the second) plus the two-option Choice in both option orders |
+| Binary classification | One label-neutral Noul per label ("does this participant belong to the '<label>' group?") plus the two-option Choice in both option orders |
 | Multiclass classification | The Choice in up to `choice_orders` option orders (default 3): rotations, the last one reversed |
 | Regression, per output | A Score over the output's range in ascending and descending level order; in a second request, a zoomed Score in both orders |
 | Whole task, first request | One Noul: does the record hold enough evidence for this judgement? |
 
 In a hierarchical or mixed tree every node, root and nested children alike, gets the questions of its own mode in the same request, and a multivariate node gets one pair of Scores per output. The answers are assembled into the same node tree an LLM Predictor returns.
 
-**Order-robust ensembles.** Every judgement is asked in more than one presentation order and the distributions are averaged at full precision, which removes the model's preference for the option shown first. The spread between orders is kept as the instability of the node: for classification, the mean total variation distance of each order from the averaged distribution; for regression, the gap between the ascending and descending means as a fraction of the output range. The predicted label is the one with the highest averaged probability.
+**Order-robust ensembles.** Every judgement is asked in more than one presentation and the distributions are averaged at full precision. This removes the model's preference for the option shown first; for binary nodes, asking a Noul for each label also cancels any general lean toward "yes". The spread between presentations is kept as the instability of the node: for classification, the largest total variation distance between any two presentations, where the two Nouls of a binary node count as one presentation (their general lean toward "yes" cancels in the average and is reported separately as `yes_bias`); for regression, the largest gap between the ascending and descending means (coarse or refined) in reference standard deviations (the scale's `reference_sd`, or a sixth of its range, never less than a twentieth of it). Every answer is checked before use (a Noul must be a finite probability, a Choice must name the class labels, a Score must carry probability mass on its levels, keyed by index or by level text); an unusable answer is re-asked once and then treated as missing, never as a uniform answer. A node answered in only one orientation or order is flagged `unassessed` and counts as unstable; a node with no usable answers abstains (a uniform distribution, confidence 0), so the critic rejects the attempt instead of the run failing. Class labels that differ only by letter case are rejected. The predicted label is the one with the highest averaged probability. A Choice accepts at most 255 options; a larger node is rejected before any request.
 
 ### Continuous regression at full resolution
 
-1. **Coarse pass**: the output's range is cut into `score_levels` equal-width levels (default 10). Each level shows its interval and its position in words, relative to `reference_mean` and `reference_sd` when known and on the scale otherwise; the end levels also state what a low or high value means, when the scale defines it.
-2. **Refinement pass**: the three adjacent coarse levels holding the most probability are cut into up to 10 finer levels and asked again.
+1. **Coarse pass**: the output's range is cut into `score_levels` levels (default 10): equal-width intervals for a continuous output, and contiguous, non-overlapping integer ranges for an integer output. Each level shows its interval and its position in words, relative to `reference_mean` and `reference_sd` when known and on the scale otherwise; the levels at the two ends of the whole scale also state what a low or high value means, when the scale defines it.
+2. **Refinement pass**: the three adjacent coarse levels holding the most probability (ties go to the window centred on the most likely level) are cut into up to 10 finer levels and asked again, framed as "suppose the value is somewhere in this part of the range". A flat coarse answer, whose best window holds little more than its share of the levels, is not refined.
 
 The refined distribution replaces the coarse window, scaled to its probability mass, which gives a piecewise-uniform density. Its mean is the point estimate, so the estimate is continuous and not snapped to a level centre. Its standard deviation and its 5th, 25th, 50th, 75th, and 95th percentiles are reported in `regression.uncertainty`. An integer output with at most `score_levels` possible values (a 0 to 6 item score, for example) gets one level per value and needs no refinement. `--no-decision_refine` keeps the coarse pass only.
 
@@ -124,7 +128,7 @@ The refined distribution replaces the coarse window, scaled to its probability m
 | `measurements` | Every feature leaf with label, value and unit, and z-score, grouped by ontology path | Both |
 | `deviation_profile` | Aggregate deviation of each ontology group | Both |
 
-For Jev the state must fit 32,000 provider tokens (26,666 cl100k tokens at the default `tokenizer_ratio` of 1.2, less the longest question), and the state plus all questions of one request must fit 64,000. Packing starts from the complete sections and, only while the state is too large, steps the least important section (the table read from the bottom up) to a more compact rendering. Measurements are compacted by deviation, never at random: leaves with an absolute z below 0.5 are left out first, then below 1, 1.5, and 2, while leaves without a z-score are kept. When every section is at its most compact, the deviation profile, chunk evidence, and phenotype synthesis can be dropped; the task context, clinical record, and measurements never are. As a last resort the largest section is truncated. If the provider still rejects the state as too long, it is repacked, each time to 80 percent of the previous budget, at most twice. `decision_report.state` records the rendering each section ended at and how many feature leaves the state holds, and lost feature leaves are listed as an uncertainty factor.
+For Jev the state must fit 32,000 provider tokens (26,666 cl100k tokens at the default `tokenizer_ratio` of 1.2, less the longest question), and the state plus all questions of one request must fit 64,000. Packing starts from the complete sections and, only while the state is too large, walks a fixed ladder one step at a time (`PACKING_LADDER` in `decision/state.py`): first it shortens what the critic does not measure (the deviation profile, then the tool text and chunk rows, then drops the deviation profile, then shortens the study context), then it compacts the measurements by deviation, never at random: leaves with an absolute z below 0.5 are left out first, then below 1, 1.5, and 2, while leaves without a z-score are kept. Only after that are the chunk evidence, tool text, and clinical notes shortened further, and the chunk evidence and tool text dropped; the task context, clinical record, and measurements are never dropped. As a last resort the largest remaining section is truncated, repeatedly, until the state fits. A question set too large to share one request with the full state is split over several requests. If the provider still rejects the state as too long, it is repacked, each time to 80 percent of the previous budget, at most twice. `decision_report.state` records the rendering each section ended at and how many feature leaves the state holds, and lost feature leaves are listed as an uncertainty factor.
 
 ### Decision critic
 
@@ -132,8 +136,8 @@ A decision model writes no rationale for the LLM critic to judge, so its predict
 
 | Check | Rule |
 | --- | --- |
-| Schema | Every required node present, probabilities sum to 1 (within 0.05), labels valid, regression values finite |
-| Stability | Largest node instability at most `stability_threshold` (default 0.20) |
+| Schema | Every required node present, probabilities sum to 1 (within 0.05), labels valid, regression values finite, every regression output on a real measurement scale |
+| Stability | Every node's instability at most its threshold: `stability_threshold` for classification (default 0.25, total variation) and `regression_stability_threshold` for regression (default 0.5 reference SD). `decision_report.quality` reports instability as a multiple of the threshold |
 | Coverage | At least 90 percent of feature leaves in the state |
 | Evidence sufficiency | Always reported; rejects only when `sufficiency_threshold` is above 0 (default 0) |
 | Confidence | Reported, never a reason to reject |
@@ -311,7 +315,8 @@ The performance report is `performance_report_<participant_id>.json` in the run'
 | `decision.choice_orders` | 3 | Option orders per multiclass Choice |
 | `decision.score_levels` | 10 | Levels per regression Score |
 | `decision.regression_refine` | true | Zoomed second Score pass |
-| `decision.stability_threshold` | 0.20 | Largest accepted instability across presentation orders |
+| `decision.stability_threshold` | 0.25 | Largest accepted probability shift between two presentation orders (classification) |
+| `decision.regression_stability_threshold` | 0.5 | Largest accepted gap between level orders, in reference SDs (regression) |
 | `decision.sufficiency_threshold` | 0.0 | Evidence sufficiency gate; 0 reports without gating |
 | `decision.tokenizer_ratio` | 1.2 | Provider tokens per cl100k token, used to keep the state inside the model's limit |
 | `decision.request_timeout_seconds` | 120 | Timeout per decision request |
@@ -358,6 +363,7 @@ Evidence routing and structured decision models, under `src/full_stack/backend/`
 
 | Path | Responsibility |
 | --- | --- |
+| `utils/core/record_rendering.py` | The compact, lossless record rendering shared by the direct-route LLM prompt and the decision state |
 | `utils/core/input_routing.py` | The direct-route executor output (`build_direct_executor_output`), the route decision (`decide_route`, `RouteDecision`) |
 | `decision/registry.py` | Which model ids are decision models, with their limits and prices |
 | `decision/client.py` | Transport to the OpenRouter Decisions API or the TypeSafe API, retries, per-call cost |
