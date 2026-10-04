@@ -7,14 +7,16 @@
  */
 
 import { ExternalLink, PlugZap, TriangleAlert, Undo2 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { ModelPicker } from '@/components/ui/ModelPicker'
 import { Badge, Button, Callout, Disclosure, Field, Segmented, Tooltip } from '@/components/ui/primitives'
+import { isDecisionModelId, useDecisionModels } from '@/lib/decision'
 import { compactNumber, tokens, usdPerMillion } from '@/lib/format'
 import { useCapabilities, useCatalog, useConnectivity } from '@/lib/hooks'
 import { AGENT_ROLES, type AgentRole, type BackendName, type ReasoningEffort, type RoleMap } from '@/lib/types'
 import { Grid, Group, NumberControl, NumberSetting, SectionHead, SliderControl, TextSetting } from '../controls'
 import { HuggingFaceKeyPanel, OpenRouterKeyPanel } from '../credentials'
+import { CompanionPanel, DecisionModelSettings, type CompanionRequest } from '../decision'
 import { DeploymentPlan, HfEmbeddingSearch, HfModelSearch, MachineFacts, SelfHostedRuntime } from '../deploy'
 import { useSettingsController } from '../state'
 
@@ -92,6 +94,12 @@ export function ComputeSection() {
 
   const roleSummary = (role: AgentRole) =>
     capabilities.data?.agents.find((agent) => agent.role === role)?.summary ?? ROLE_FALLBACK[role]
+
+  /* A decision model picked for the default or for any role but the Predictor
+     is held here, unsaved, until the companion step confirms or cancels it. */
+  const [companion, setCompanion] = useState<CompanionRequest | null>(null)
+  const decisionModels = useDecisionModels()
+  const predictorIsDecision = isDecisionModelId(models.role_models.predictor, decisionModels.ids)
 
   return (
     <>
@@ -174,8 +182,12 @@ export function ComputeSection() {
             <ModelPicker
               value={models.default_model}
               onChange={(next) => update('models', { default_model: next })}
+              onDecisionPick={(decisionId) => setCompanion({ decisionId, origin: 'default' })}
               placeholder="Choose the model every role falls back to"
             />
+            {companion?.origin === 'default' && (
+              <CompanionPanel request={companion} onDone={() => setCompanion(null)} />
+            )}
             {row && (
               <div className="row gap-2 wrap">
                 <Badge tone="accent" mono>
@@ -281,10 +293,12 @@ export function ComputeSection() {
         )}
       </Group>
 
+      {predictorIsDecision && <DecisionModelSettings />}
+
       <Disclosure
         title="Per role"
         subtitle="Override the model, output ceiling, and temperature for one agent"
-        defaultOpen={config.appearance.show_advanced_by_default}
+        defaultOpen={config.appearance.show_advanced_by_default || predictorIsDecision}
       >
         <table className="settings__roles">
           <thead>
@@ -298,69 +312,85 @@ export function ComputeSection() {
           </thead>
           <tbody>
             {AGENT_ROLES.map((role) => (
-              <tr key={role}>
-                <td>
-                  <div className="stack" style={{ gap: 1 }}>
-                    <span className="t-small semibold" style={{ textTransform: 'capitalize' }}>
-                      {role}
-                    </span>
-                    <span className="t-micro muted">{roleSummary(role)}</span>
-                  </div>
-                </td>
-                <td>
-                  <ModelPicker
-                    compact
-                    allowInherit
-                    value={models.role_models[role]}
-                    inheritLabel="Inherit default"
-                    onChange={(next) => update('models', { role_models: { ...models.role_models, [role]: next } })}
-                  />
-                </td>
-                <td>
-                  <NumberControl
-                    ariaLabel={`${role} max output tokens`}
-                    value={models.role_max_tokens[role]}
-                    min={0}
-                    max={1_000_000}
-                    step={500}
-                    onCommit={(next) =>
-                      update('models', { role_max_tokens: { ...models.role_max_tokens, [role]: next } })
-                    }
-                  />
-                </td>
-                <td>
-                  <SliderControl
-                    value={models.role_temperatures[role]}
-                    min={0}
-                    max={1}
-                    step={0.05}
-                    onCommit={(next) =>
-                      update('models', { role_temperatures: { ...models.role_temperatures, [role]: next } })
-                    }
-                  />
-                </td>
-                <td>
-                  <Tooltip content="Reset this row to the shipped default">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      iconOnly
-                      icon={<Undo2 size={13} />}
-                      aria-label={`Reset ${role} to default`}
-                      onClick={() =>
-                        update('models', {
-                          role_models: { ...models.role_models, [role]: ROLE_DEFAULTS.model[role] },
-                          role_max_tokens: { ...models.role_max_tokens, [role]: ROLE_DEFAULTS.maxTokens[role] },
-                          role_temperatures: {
-                            ...models.role_temperatures,
-                            [role]: ROLE_DEFAULTS.temperature[role],
-                          },
-                        })
+              <Fragment key={role}>
+                <tr>
+                  <td>
+                    <div className="stack" style={{ gap: 1 }}>
+                      <span className="t-small semibold" style={{ textTransform: 'capitalize' }}>
+                        {role}
+                      </span>
+                      <span className="t-micro muted">{roleSummary(role)}</span>
+                      {role === 'predictor' && (
+                        <span className="t-micro muted">Also accepts a structured decision model.</span>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <ModelPicker
+                      compact
+                      allowInherit
+                      value={models.role_models[role]}
+                      inheritLabel="Inherit default"
+                      acceptsDecision={role === 'predictor'}
+                      onDecisionPick={
+                        role === 'predictor' ? undefined : (decisionId) => setCompanion({ decisionId, origin: role })
+                      }
+                      onChange={(next) => update('models', { role_models: { ...models.role_models, [role]: next } })}
+                    />
+                  </td>
+                  <td>
+                    <NumberControl
+                      ariaLabel={`${role} max output tokens`}
+                      value={models.role_max_tokens[role]}
+                      min={0}
+                      max={1_000_000}
+                      step={500}
+                      onCommit={(next) =>
+                        update('models', { role_max_tokens: { ...models.role_max_tokens, [role]: next } })
                       }
                     />
-                  </Tooltip>
-                </td>
-              </tr>
+                  </td>
+                  <td>
+                    <SliderControl
+                      value={models.role_temperatures[role]}
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      onCommit={(next) =>
+                        update('models', { role_temperatures: { ...models.role_temperatures, [role]: next } })
+                      }
+                    />
+                  </td>
+                  <td>
+                    <Tooltip content="Reset this row to the shipped default">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        iconOnly
+                        icon={<Undo2 size={13} />}
+                        aria-label={`Reset ${role} to default`}
+                        onClick={() =>
+                          update('models', {
+                            role_models: { ...models.role_models, [role]: ROLE_DEFAULTS.model[role] },
+                            role_max_tokens: { ...models.role_max_tokens, [role]: ROLE_DEFAULTS.maxTokens[role] },
+                            role_temperatures: {
+                              ...models.role_temperatures,
+                              [role]: ROLE_DEFAULTS.temperature[role],
+                            },
+                          })
+                        }
+                      />
+                    </Tooltip>
+                  </td>
+                </tr>
+                {companion?.origin === role && (
+                  <tr>
+                    <td colSpan={5}>
+                      <CompanionPanel request={companion} onDone={() => setCompanion(null)} />
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
             ))}
           </tbody>
         </table>

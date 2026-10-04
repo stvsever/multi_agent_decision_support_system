@@ -68,12 +68,15 @@ def test_projection_lands_within_the_stated_spread_of_recorded_runs(priced):
             # The ledger in the report excludes the communicator pass, so that
             # run is not a like-for-like comparison here.
             continue
+        # These ledgers were recorded before routing existed, when every
+        # attempt was orchestrated, so they calibrate that route only.
         estimate = cost_module.estimate_run(
             config=priced,
             input_tokens=cost_module.participant_input_tokens(directory),
             iterations=report["iterations"],
             plan_steps=report["plan_summary"]["total_steps"],
             include_deep_report=False,
+            route="orchestrated",
         )
         actual = report["token_usage"]["total_tokens"]
         ratio = estimate["total_tokens"] / actual
@@ -85,12 +88,15 @@ def test_projection_lands_within_the_stated_spread_of_recorded_runs(priced):
 
 
 def test_projection_scales_with_plan_size_and_iterations(priced):
-    small = cost_module.estimate_run(config=priced, input_tokens=8680, iterations=1, plan_steps=9)
-    large = cost_module.estimate_run(config=priced, input_tokens=8680, iterations=1, plan_steps=16)
+    def run(**kwargs):
+        return cost_module.estimate_run(config=priced, input_tokens=8680, route="orchestrated", **kwargs)
+
+    small = run(iterations=1, plan_steps=9)
+    large = run(iterations=1, plan_steps=16)
     assert large["total_tokens"] > small["total_tokens"]
 
-    once = cost_module.estimate_run(config=priced, input_tokens=8680, iterations=1, plan_steps=9)
-    thrice = cost_module.estimate_run(config=priced, input_tokens=8680, iterations=3, plan_steps=9)
+    once = run(iterations=1, plan_steps=9)
+    thrice = run(iterations=3, plan_steps=9)
     assert thrice["total_tokens"] > 2 * once["total_tokens"]
 
 
@@ -106,7 +112,9 @@ def test_deep_report_is_the_largest_single_addition(priced):
 
 
 def test_usd_uses_the_per_million_prices(priced):
-    estimate = cost_module.estimate_run(config=priced, input_tokens=0, iterations=1, plan_steps=1)
+    estimate = cost_module.estimate_run(
+        config=priced, input_tokens=0, iterations=1, plan_steps=1, route="orchestrated"
+    )
     expected = sum(
         line["prompt_tokens"] / 1_000_000 * PRICE + line["completion_tokens"] / 1_000_000 * COMPLETION_PRICE
         for line in estimate["lines"]

@@ -6,11 +6,16 @@
  * defensively so a run that has emitted a single event still renders.
  */
 
-import { titleCase } from '@/lib/format'
+import { titleCase, tokens as formatTokens } from '@/lib/format'
 import type {
+  GraphNode,
+  InputRoute,
+  PredictorKind,
+  RouteDecision,
   RunDetail,
   RunEvent,
   RunGraph,
+  RunState,
   RunStatus,
   RunStep,
   TaskNodeInput,
@@ -127,6 +132,9 @@ export function eventStage(event: RunEvent, stageCount: number): number | null {
       return 0
     case 'PLAN':
       return 1
+    // A direct attempt has no plan: the service moves it straight to prediction.
+    case 'ROUTE':
+      return data.route === 'direct' ? 4 : null
     case 'FUSION':
       return 3
     case 'PREDICTION':
@@ -195,6 +203,22 @@ export function stageTimings(
   const end = nowMs ?? since
   if (current >= 0 && end > since) totals[current] += (end - since) / 1000
   return { totals, visited, current }
+}
+
+/* --- Graph ---------------------------------------------------------------- */
+
+/**
+ * The participant record that starts a direct graph. The service marks it as a
+ * `source` node; the other spellings keep an older or hand-built graph legible.
+ */
+export function isRecordNode(node: GraphNode): boolean {
+  return (
+    node.type === 'source' ||
+    node.role === 'record' ||
+    node.role === 'source' ||
+    node.id === 'record' ||
+    node.id.endsWith(':record')
+  )
 }
 
 /* --- Steps ---------------------------------------------------------------- */
@@ -304,6 +328,7 @@ export function eventTone(type: string): Tone {
       return 'accent'
     case 'PLAN':
     case 'INIT':
+    case 'ROUTE':
       return 'info'
     default:
       return 'neutral'
@@ -331,6 +356,21 @@ export function summariseEvent(event: RunEvent): string {
       const steps = asNumber(data.steps)
       const domains = asStringList(data.domains)
       return clip([steps !== null ? `${steps} steps` : '', domains.join(', ')].filter(Boolean).join(' - '))
+    }
+    case 'ROUTE': {
+      const route = asText(data.route)
+      const input = asNumber(data.input_tokens)
+      const budget = asNumber(data.budget_tokens)
+      return clip(
+        [
+          route === 'direct' ? 'Direct to the Predictor' : route ? 'Orchestrated' : '',
+          data.escalated === true ? 'escalated' : '',
+          input !== null && budget !== null ? `${formatTokens(input)} of ${formatTokens(budget)} tokens` : '',
+          asText(data.reason),
+        ]
+          .filter(Boolean)
+          .join(' - '),
+      )
     }
     case 'STEP_START':
       return clip(`#${asText(data.id)} ${asText(data.tool)}: ${asText(data.desc)}`)
@@ -395,6 +435,92 @@ export function summariseEvent(event: RunEvent): string {
       }
     }
   }
+}
+
+/* --- Evidence route -------------------------------------------------------- */
+
+function readRouteDecision(value: unknown): RouteDecision | null {
+  const data = asRecord(value)
+  const route = asText(data.route)
+  if (route !== 'direct' && route !== 'orchestrated') return null
+  return {
+    route,
+    mode: (asText(data.mode) || 'auto') as RouteDecision['mode'],
+    input_tokens: asNumber(data.input_tokens) ?? 0,
+    budget_tokens: asNumber(data.budget_tokens) ?? 0,
+    threshold_source: asText(data.threshold_source),
+    predictor_kind: asText(data.predictor_kind),
+    reason: asText(data.reason),
+    escalated: data.escalated === true,
+    iteration: asNumber(data.iteration) ?? undefined,
+  }
+}
+
+/**
+ * Every route decision the run made, in attempt order. The reduced state keeps
+ * them; the event stream is the fallback for a record written before it did.
+ */
+export function routeHistory(state: RunState | null | undefined, events: RunEvent[]): RouteDecision[] {
+  const fromState = asArray(state?.routes).map(readRouteDecision).filter((row): row is RouteDecision => row !== null)
+  if (fromState.length > 0) return fromState
+  const fromEvents = events
+    .filter((event) => event.type === 'ROUTE')
+    .map((event) => readRouteDecision(event.data))
+    .filter((row): row is RouteDecision => row !== null)
+  if (fromEvents.length > 0) return fromEvents
+  const latest = readRouteDecision(state?.route)
+  return latest ? [latest] : []
+}
+
+export interface RunRouting {
+  /** The latest decision, which is the route the run is on now. */
+  latest: RouteDecision | null
+  route: InputRoute | null
+  predictorKind: PredictorKind | null
+  /** A decision Predictor rejected on the direct route was sent through orchestration. */
+  escalated: boolean
+  history: RouteDecision[]
+}
+
+/** Route and predictor kind, from the summary first and the route events after. */
+export function readRouting(detail: RunDetail): RunRouting {
+  const history = routeHistory(detail.state, detail.events ?? [])
+  const latest = history[history.length - 1] ?? null
+  const payload = asRecord(asRecord(detail.state?.prediction).payload)
+  const route =
+    detail.input_route ??
+    latest?.route ??
+    ((asText(payload.input_route) || null) as InputRoute | null)
+  const kindText = detail.predictor_kind ?? asText(payload.predictor_kind)
+  const predictorKind = (kindText || latest?.predictor_kind || null) as PredictorKind | null
+  return {
+    latest,
+    route: route === 'direct' || route === 'orchestrated' ? route : null,
+    predictorKind: predictorKind === 'llm' || predictorKind === 'decision' ? predictorKind : null,
+    escalated: history.some((row) => row.escalated),
+    history,
+  }
+}
+
+/** Stages a direct attempt never enters: the plan, its execution, and the fusion of its outputs. */
+const SKIPPABLE_STAGES = ['orchestration', 'execution', 'integration']
+const SKIPPABLE_FALLBACK = [1, 2, 3]
+
+/**
+ * Which stages the run skipped. Only while the latest attempt is direct: an
+ * attempt escalated to the orchestrated route visits those stages, and until
+ * it does they are pending rather than skipped.
+ */
+export function skippedStages(stages: string[], routing: RunRouting, visited: boolean[]): boolean[] {
+  const skipped = stages.map(() => false)
+  if (routing.latest?.route !== 'direct' && !(routing.latest === null && routing.route === 'direct')) return skipped
+  const named = stages
+    .map((stage, index) => (SKIPPABLE_STAGES.includes(stage.trim().toLowerCase()) ? index : -1))
+    .filter((index) => index >= 0)
+  for (const index of named.length > 0 ? named : SKIPPABLE_FALLBACK) {
+    if (index < skipped.length && !visited[index]) skipped[index] = true
+  }
+  return skipped
 }
 
 /* --- Task ----------------------------------------------------------------- */

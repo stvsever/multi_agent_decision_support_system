@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
+from ..decision import decision_role_conflicts, is_decision_model
 from . import DEFAULT_MODEL
 
 
@@ -51,10 +52,13 @@ PredictionType = Literal[
     "hierarchical",
 ]
 BackendName = Literal["openrouter", "local"]
+OrchestrationMode = Literal["auto", "always", "never"]
+DecisionProvider = Literal["openrouter", "typesafe"]
 
 #: Providers the dashboard can store a key for. HuggingFace is here because
-#: gated weight repositories need a token before the local runtime can pull them.
-CredentialProvider = Literal["openrouter", "huggingface"]
+#: gated weight repositories need a token before the local runtime can pull them,
+#: and TypeSafe because its native route serves structured decision models.
+CredentialProvider = Literal["openrouter", "huggingface", "typesafe"]
 
 
 # --- configuration -----------------------------------------------------------
@@ -126,6 +130,28 @@ class EngineConfig(BaseModel):
     auto_repair_enabled: bool = True
     detailed_tool_logging: bool = False
     verbose: bool = True
+    # auto: orchestrate only when the record does not fit the Predictor input;
+    # always: orchestrate every attempt; never: always hand the record over directly.
+    orchestration_mode: OrchestrationMode = "auto"
+    orchestration_threshold_tokens: int = Field(0, ge=0, description="0 uses the Predictor input budget")
+
+
+class DecisionConfig(BaseModel):
+    """
+    Structured decision models (TypeSafe Jev) in the Predictor role.
+
+    Such a model writes no text: it answers typed questions with calibrated
+    probabilities, so these settings shape the questions rather than a prompt.
+    """
+
+    provider: DecisionProvider = "openrouter"
+    # Option orders asked per Choice; averaging them removes the first-option preference.
+    choice_orders: int = Field(3, ge=1, le=6)
+    score_levels: int = Field(10, ge=2, le=10)
+    regression_refine: bool = True
+    stability_threshold: float = Field(0.20, ge=0.05, le=0.5)
+    sufficiency_threshold: float = Field(0.0, ge=0.0, le=0.9)
+    compiler_model: str = Field("", description="Blank uses the Orchestrator model")
 
 
 class TokenBudgetConfig(BaseModel):
@@ -232,6 +258,7 @@ class DashboardConfig(BaseModel):
     connection: ConnectionConfig = Field(default_factory=ConnectionConfig)
     models: ModelConfig = Field(default_factory=ModelConfig)
     engine: EngineConfig = Field(default_factory=EngineConfig)
+    decision: DecisionConfig = Field(default_factory=DecisionConfig)
     token_budget: TokenBudgetConfig = Field(default_factory=TokenBudgetConfig)
     local: LocalBackendConfig = Field(default_factory=LocalBackendConfig)
     batch: BatchConfig = Field(default_factory=BatchConfig)
@@ -250,6 +277,32 @@ class DashboardConfig(BaseModel):
             raise ValueError("Choose a local model before switching the backend to Local.")
         return self
 
+    @model_validator(mode="after")
+    def _decision_models_only_predict(self) -> "DashboardConfig":
+        conflicts = decision_model_conflicts(self)
+        if conflicts:
+            raise ValueError(
+                "Structured decision models can only serve the Predictor role. "
+                f"Choose a conventional LLM for: {', '.join(conflicts)}."
+            )
+        return self
+
+
+def decision_model_conflicts(config: "DashboardConfig") -> List[str]:
+    """
+    Every setting that names a structured decision model where a conventional
+    LLM is needed: the default model (it fills every unset role), any role
+    other than the Predictor, and the model that writes the question book.
+    """
+    conflicts: List[str] = []
+    if is_decision_model(config.models.default_model):
+        conflicts.append("default model")
+    role_models = {role: getattr(config.models.role_models, role, "") for role in AGENT_ROLES}
+    conflicts.extend(decision_role_conflicts(role_models))
+    if is_decision_model(config.decision.compiler_model):
+        conflicts.append("question book compiler")
+    return conflicts
+
 
 class ConfigPatch(BaseModel):
     """Partial update. Only the sections present are merged."""
@@ -257,6 +310,7 @@ class ConfigPatch(BaseModel):
     connection: Optional[Dict[str, Any]] = None
     models: Optional[Dict[str, Any]] = None
     engine: Optional[Dict[str, Any]] = None
+    decision: Optional[Dict[str, Any]] = None
     token_budget: Optional[Dict[str, Any]] = None
     local: Optional[Dict[str, Any]] = None
     batch: Optional[Dict[str, Any]] = None
@@ -295,6 +349,10 @@ class TaskNodeInput(BaseModel):
     class_labels: List[str] = Field(default_factory=list)
     regression_outputs: List[str] = Field(default_factory=list)
     unit_by_output: Dict[str, str] = Field(default_factory=dict)
+    # Optional scale per regression output and definition per class label; a
+    # structured decision model reads them, an LLM Predictor sees them in the task.
+    output_scales: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
+    class_definitions: Dict[str, str] = Field(default_factory=dict)
     required: bool = True
     children: List["TaskNodeInput"] = Field(default_factory=list)
 
@@ -326,6 +384,7 @@ class RunOverrides(BaseModel):
     connection: Optional[Dict[str, Any]] = None
     models: Optional[Dict[str, Any]] = None
     engine: Optional[Dict[str, Any]] = None
+    decision: Optional[Dict[str, Any]] = None
     token_budget: Optional[Dict[str, Any]] = None
     local: Optional[Dict[str, Any]] = None
     instructions: Optional[Dict[str, str]] = None

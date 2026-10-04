@@ -21,6 +21,16 @@ export type NodeMode =
   | 'multivariate_regression'
 export type AgentRole = 'orchestrator' | 'integrator' | 'predictor' | 'critic' | 'communicator' | 'tool'
 export type RunStatus = 'queued' | 'running' | 'cancelling' | 'succeeded' | 'failed' | 'cancelled'
+/** When the Orchestrator, Executor, and Integrator run before the Predictor. */
+export type OrchestrationMode = 'auto' | 'always' | 'never'
+/** How the participant record reached the Predictor on one attempt. */
+export type InputRoute = 'direct' | 'orchestrated'
+/** A conventional text model, or a structured decision model answering typed questions. */
+export type PredictorKind = 'llm' | 'decision'
+export type ModelKind = 'llm' | 'decision' | 'embedding'
+export type DecisionProvider = 'openrouter' | 'typesafe'
+
+export const ORCHESTRATION_MODES: OrchestrationMode[] = ['auto', 'always', 'never']
 
 export const AGENT_ROLES: AgentRole[] = [
   'orchestrator',
@@ -44,6 +54,27 @@ export const INSTRUCTION_SLOTS = [
 export type InstructionSlot = (typeof INSTRUCTION_SLOTS)[number]
 
 export type RoleMap<T> = Record<AgentRole, T>
+
+/**
+ * Structured decision models serving the Predictor. Every other role stays a
+ * conventional LLM, so these settings only apply while the Predictor role is
+ * set to a decision model.
+ */
+export interface DecisionConfig {
+  provider: DecisionProvider
+  /** Option orders asked per Choice question, averaged to cancel position bias. */
+  choice_orders: number
+  /** Ordered levels per Score question (the provider accepts at most ten). */
+  score_levels: number
+  /** A second, zoomed Score pass for continuous outputs. */
+  regression_refine: boolean
+  /** Mean change across presentation orders above which the Critic rejects. */
+  stability_threshold: number
+  /** Zero reports evidence sufficiency only; above zero it gates the Critic. */
+  sufficiency_threshold: number
+  /** Conventional LLM that compiles the question book. Empty is the Orchestrator model. */
+  compiler_model: string
+}
 
 /**
  * Self-hosted inference. The fields past `trust_remote_code` describe where the
@@ -103,6 +134,9 @@ export interface DashboardConfig {
     auto_repair_enabled: boolean
     detailed_tool_logging: boolean
     verbose: boolean
+    orchestration_mode: OrchestrationMode
+    /** Zero means the Predictor input budget decides. */
+    orchestration_threshold_tokens: number
   }
   token_budget: {
     total_budget: number
@@ -119,6 +153,7 @@ export interface DashboardConfig {
     communicator_budget: number
   }
   local: LocalBackendConfig
+  decision: DecisionConfig
   batch: { concurrency: number; continue_on_error: boolean; run_timeout_seconds: number }
   cost: { warn_above_usd: number; block_above_usd: number; currency_decimals: number }
   workspace: { data_roots: string[]; output_dir: string; auto_open_report: boolean }
@@ -195,6 +230,27 @@ export interface ModelRow {
   supports_tools: boolean
   is_embedding: boolean
   created?: number
+  /**
+   * What the model is. Absent from a catalog cached before the service knew
+   * about decision models, so readers treat a missing value as an LLM.
+   */
+  kind?: ModelKind
+  /** Roles the model may serve. A decision model lists only the predictor. */
+  roles?: string[]
+}
+
+/** One structured decision model the service knows the limits of. */
+export interface DecisionModelSpec {
+  model_id: string
+  label: string
+  kind: 'decision'
+  state_context_tokens: number
+  request_context_tokens: number
+  max_choice_options: number
+  max_score_levels: number
+  input_price_per_million: number
+  output_price_per_million: number
+  roles: string[]
 }
 
 export interface CatalogResponse {
@@ -276,6 +332,19 @@ export interface BrowseResponse {
   roots: { label: string; path: string }[]
 }
 
+/** Measurement scale of one regression output, read by a decision model. */
+export interface OutputScale {
+  min?: number
+  max?: number
+  integer?: boolean
+  unit?: string
+  description?: string
+  low_meaning?: string
+  high_meaning?: string
+  reference_mean?: number
+  reference_sd?: number
+}
+
 export interface TaskNodeInput {
   node_id: string
   display_name: string
@@ -283,6 +352,8 @@ export interface TaskNodeInput {
   class_labels: string[]
   regression_outputs: string[]
   unit_by_output: Record<string, string>
+  output_scales?: Record<string, OutputScale>
+  class_definitions?: Record<string, string>
   required: boolean
   children: TaskNodeInput[]
 }
@@ -302,6 +373,7 @@ export interface RunOverrides {
   engine?: Record<string, unknown>
   token_budget?: Record<string, unknown>
   local?: Record<string, unknown>
+  decision?: Record<string, unknown>
   instructions?: Record<string, string>
 }
 
@@ -333,6 +405,9 @@ export interface Estimate {
   fully_priced: boolean
   lines: EstimateLine[]
   budget_utilisation: number | null
+  /** The route the projection assumed. Absent from a service that predates routing. */
+  route?: InputRoute
+  predictor_kind?: PredictorKind
 }
 
 export interface EstimateResponse {
@@ -380,6 +455,20 @@ export interface RunStep {
   iteration?: number
 }
 
+/** Why one attempt went direct or orchestrated, as the engine decided it. */
+export interface RouteDecision {
+  route: InputRoute
+  mode: OrchestrationMode
+  /** Measured Predictor input for the complete record. */
+  input_tokens: number
+  budget_tokens: number
+  threshold_source: 'predictor_budget' | 'override' | string
+  predictor_kind: PredictorKind | string
+  reason: string
+  escalated: boolean
+  iteration?: number
+}
+
 export interface RunState {
   participant_id?: string
   target?: string
@@ -401,6 +490,9 @@ export interface RunState {
   completion?: Record<string, unknown> | null
   fusion_data?: Record<string, unknown>
   plans?: Record<string, unknown>
+  /** Latest route decision, and every one in attempt order. */
+  route?: RouteDecision | null
+  routes?: RouteDecision[]
 }
 
 export interface RunEvent {
@@ -413,7 +505,8 @@ export interface RunEvent {
 
 export interface GraphNode {
   id: string
-  type: 'agent' | 'tool'
+  /** `source` is the participant record on the direct route. */
+  type: 'agent' | 'tool' | 'source'
   label: string
   role?: string
   family?: string
@@ -451,6 +544,11 @@ export interface RunGraph {
     reasoning: string
     fusion_strategy: string
     estimated_tokens: number
+    route?: InputRoute
+    /** Direct graphs only: the route decision that produced them. */
+    predictor_kind?: PredictorKind | string
+    input_tokens?: number
+    budget_tokens?: number
   }
 }
 
@@ -493,6 +591,9 @@ export interface RunSummary {
   verdict?: string
   prediction?: string
   audit_summary?: AuditSummary | null
+  /** Null until the first route decision lands; absent on an older record. */
+  input_route?: InputRoute | null
+  predictor_kind?: PredictorKind | null
 }
 
 /** What a structural audit produces. No model is called, so there is no cost. */
@@ -667,6 +768,87 @@ export interface Capabilities {
   prediction_types: { value: PredictionType; label: string; summary: string; needs: string[] }[]
   cost_model: Record<string, unknown>
   provider_links: Record<string, string>
+  decision_models?: DecisionModelSpec[]
+  orchestration_modes?: OrchestrationMode[]
+}
+
+/* --- Prediction payload ---------------------------------------------------- */
+
+/**
+ * The parts of `PredictionResult.model_dump()` the console reads by name. The
+ * payload arrives untyped on `state.prediction.payload`, so these describe what
+ * may be there rather than what is guaranteed.
+ */
+export interface RegressionUncertainty {
+  mean: number
+  sd: number
+  q05: number
+  q25: number
+  median: number
+  q75: number
+  q95: number
+}
+
+export interface DecisionNodeStats {
+  stability?: number
+  confidence?: number
+  [key: string]: unknown
+}
+
+export interface DecisionQuality {
+  evidence_sufficiency: number | null
+  mean_instability: number
+  max_instability: number
+  mean_confidence: number
+  feature_coverage: number
+  per_node: Record<string, DecisionNodeStats>
+}
+
+export interface DecisionRequest {
+  round: string
+  questions: number
+  input_tokens: number
+  output_tokens: number
+  cost_usd: number | null
+  latency_ms?: number
+  served_by?: string
+  request_id?: string
+}
+
+export interface DecisionReport {
+  model: string
+  model_label?: string
+  route: InputRoute
+  question_book: Record<string, unknown>
+  questions: Record<string, unknown>[]
+  state: Record<string, unknown>
+  requests: DecisionRequest[]
+  cost_usd: number
+  input_tokens: number
+  quality: DecisionQuality
+  settings: Record<string, unknown>
+}
+
+export interface NodePredictionPayload {
+  node_id: string
+  path?: string
+  mode?: NodeMode
+  classification?: { predicted_label: string; probabilities: Record<string, number> } | null
+  regression?: { values: Record<string, number>; uncertainty?: Record<string, RegressionUncertainty> } | null
+  confidence_score?: number
+  confidence_level?: string
+  decision_details?: Record<string, unknown>
+  children?: NodePredictionPayload[]
+}
+
+export interface PredictionPayload {
+  predictor_kind?: PredictorKind
+  predictor_model?: string
+  input_route?: InputRoute
+  decision_report?: Partial<DecisionReport>
+  primary_output_kind?: 'classification' | 'regression' | 'unknown'
+  root_prediction?: NodePredictionPayload | null
+  flat_predictions?: NodePredictionPayload[]
 }
 
 

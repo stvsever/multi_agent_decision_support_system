@@ -18,8 +18,16 @@ from ..data.models.prediction_task import (
     PredictionTaskSpec,
     build_task_spec_from_flat_args,
 )
-from .config_store import get_credential
-from .schemas import AGENT_ROLES, INSTRUCTION_SLOTS, DashboardConfig, RunOverrides, TaskSpecInput
+from ..decision import is_decision_model
+from .config_store import get_credential, resolve_predictor_kind, resolve_role
+from .schemas import (
+    AGENT_ROLES,
+    INSTRUCTION_SLOTS,
+    DashboardConfig,
+    RunOverrides,
+    TaskSpecInput,
+    decision_model_conflicts,
+)
 
 _ROLE_TO_SETTINGS = {
     "orchestrator": "orchestrator",
@@ -79,6 +87,30 @@ def run_blockers(config: DashboardConfig, audit: bool = False) -> List[str]:
             "Add an OpenRouter key in Settings before starting a run, or switch the backend to Local."
         )
 
+    # Validation already refuses these, but a config can be edited in place
+    # after it was validated, and the engine would refuse it minutes later.
+    conflicts = decision_model_conflicts(config)
+    if conflicts:
+        problems.append(
+            "Structured decision models can only serve the Predictor role. "
+            f"Choose a conventional LLM for: {', '.join(conflicts)}."
+        )
+
+    if resolve_predictor_kind(config) == "decision":
+        model = resolve_role(config, "predictor")
+        if config.decision.provider == "typesafe":
+            if not get_credential("typesafe"):
+                problems.append(
+                    f"The Predictor {model} is called through TypeSafe: add a TypeSafe key "
+                    "(TYPESAFE_API_KEY) or switch the decision provider to OpenRouter."
+                )
+        elif backend == "local" and not get_credential("openrouter"):
+            # On OpenRouter the missing key is already reported above.
+            problems.append(
+                f"The Predictor {model} is called through OpenRouter even on the Local backend: "
+                "add an OpenRouter key, or switch the decision provider to TypeSafe."
+            )
+
     return problems
 
 
@@ -116,6 +148,8 @@ def _to_engine_node(node: Any) -> PredictionTaskNode:
         class_labels=list(node.class_labels or []),
         regression_outputs=list(node.regression_outputs or []),
         unit_by_output=dict(node.unit_by_output or {}),
+        output_scales={key: dict(value or {}) for key, value in (node.output_scales or {}).items()},
+        class_definitions=dict(node.class_definitions or {}),
         required=bool(node.required),
         children=[_to_engine_node(child) for child in node.children or []],
     )
@@ -176,6 +210,7 @@ def apply_config_to_settings(config: DashboardConfig) -> Any:
     settings.models.backend = LLMBackend.LOCAL if backend_name == "local" else LLMBackend.OPENROUTER
 
     settings.openrouter_api_key = get_credential("openrouter")
+    settings.typesafe_api_key = get_credential("typesafe")
     settings.openrouter_base_url = config.connection.openrouter_base_url
     settings.openrouter_site_url = config.connection.openrouter_site_url
     settings.openrouter_app_name = config.connection.openrouter_app_name
@@ -222,6 +257,12 @@ def apply_config_to_settings(config: DashboardConfig) -> Any:
         settings.models.local_trust_remote_code = local.trust_remote_code
         for role in AGENT_ROLES:
             setattr(settings.models, f"{_ROLE_TO_SETTINGS[role]}_model", local.model_name)
+        # A structured decision model is a remote service the local runtime
+        # cannot serve, so a Predictor set to one keeps it rather than being
+        # silently replaced; its own client calls OpenRouter or TypeSafe.
+        chosen_predictor = str(config.models.role_models.predictor or "").strip()
+        if is_decision_model(chosen_predictor):
+            settings.models.predictor_model = chosen_predictor
     else:
         for role in AGENT_ROLES:
             chosen = str(getattr(config.models.role_models, role, "") or "").strip() or default_model
@@ -231,6 +272,18 @@ def apply_config_to_settings(config: DashboardConfig) -> Any:
         temperature = getattr(config.models.role_temperatures, role, None)
         if temperature is not None:
             setattr(settings.models, f"{_ROLE_TO_SETTINGS[role]}_temperature", float(temperature))
+
+    settings.orchestration.mode = config.engine.orchestration_mode
+    settings.orchestration.threshold_tokens = int(config.engine.orchestration_threshold_tokens)
+
+    decision = config.decision
+    settings.decision.provider = decision.provider
+    settings.decision.choice_orders = int(decision.choice_orders)
+    settings.decision.score_levels = int(decision.score_levels)
+    settings.decision.regression_refine = bool(decision.regression_refine)
+    settings.decision.stability_threshold = float(decision.stability_threshold)
+    settings.decision.sufficiency_threshold = float(decision.sufficiency_threshold)
+    settings.decision.compiler_model = decision.compiler_model.strip()
 
     budget = config.token_budget
     # A zero means "derive it"; anything else is an explicit choice that the
@@ -290,4 +343,12 @@ def effective_settings_snapshot(config: DashboardConfig) -> Dict[str, Any]:
         "max_iterations": config.engine.max_iterations,
         "total_budget": config.token_budget.total_budget,
         "embedding_model": config.models.embedding_model,
+        "orchestration_mode": config.engine.orchestration_mode,
+        "orchestration_threshold_tokens": config.engine.orchestration_threshold_tokens,
+        "predictor_kind": resolve_predictor_kind(config),
+        "decision": {
+            **config.decision.model_dump(mode="json"),
+            # Blank means the Orchestrator writes the question book.
+            "compiler_model": config.decision.compiler_model.strip() or resolve_role(config, "orchestrator"),
+        },
     }

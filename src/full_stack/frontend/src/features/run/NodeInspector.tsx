@@ -5,7 +5,7 @@ import { memo, useMemo } from 'react'
 import { Badge, Button, EmptyState } from '@/components/ui/primitives'
 import { duration as formatDuration, tokens as formatTokens, titleCase } from '@/lib/format'
 import type { GraphNode, RunStep } from '@/lib/types'
-import { asNumber, asRecord, asStringList, asText, stepTone } from './runUtils'
+import { asNumber, asRecord, asStringList, asText, isRecordNode, stepTone } from './runUtils'
 
 export interface NodeInspectorProps {
   node: GraphNode | null
@@ -40,6 +40,9 @@ export const NodeInspector = memo(function NodeInspector({ node, steps, onClose 
   const priority = asStringList(meta.priority_domains)
   const fusionStrategy = asText(meta.fusion_strategy)
   const totalSteps = asNumber(meta.total_steps)
+  const inputTokens = asNumber(meta.input_tokens)
+  const budgetTokens = asNumber(meta.budget_tokens)
+  const record = isRecordNode(node)
 
   return (
     <div className="run-inspector">
@@ -47,13 +50,17 @@ export const NodeInspector = memo(function NodeInspector({ node, steps, onClose 
         <div className="stack gap-1" style={{ minWidth: 0 }}>
           <div className="row gap-2 wrap">
             <span className="t-body semibold truncate">{node.label}</span>
-            <Badge tone={node.type === 'agent' ? 'info' : 'neutral'}>{node.type === 'agent' ? 'Agent' : 'Tool'}</Badge>
-            {node.role && <Badge tone="neutral">{titleCase(node.role)}</Badge>}
+            <Badge tone={node.type === 'agent' || record ? 'info' : 'neutral'}>
+              {record ? 'Input' : node.type === 'agent' ? 'Agent' : 'Tool'}
+            </Badge>
+            {node.role && !record && <Badge tone="neutral">{titleCase(node.role)}</Badge>}
             {node.family && node.family !== 'other' && <Badge outline>{titleCase(node.family)}</Badge>}
             {step && <Badge tone={stepTone(step.status)}>{titleCase(step.status)}</Badge>}
           </div>
+          {/* Same numbering as the canvas, which labels its ranks from the
+              service's zero-based stage index. */}
           <span className="t-tiny muted">
-            Stage {node.stage + 1}
+            Stage {node.stage}
             {node.step_id !== undefined ? ` - step ${node.step_id}` : ''}
             {` - rank ${node.rank}`}
           </span>
@@ -63,6 +70,12 @@ export const NodeInspector = memo(function NodeInspector({ node, steps, onClose 
 
       <div className="run-inspector__body">
         {node.detail && <p className="t-small secondary">{node.detail}</p>}
+
+        {record && !node.detail && (
+          <p className="t-small secondary">
+            The complete participant record, sent to the Predictor in one piece because it fits the Predictor input.
+          </p>
+        )}
 
         {node.reasoning && (
           <div className="run-block">
@@ -112,6 +125,18 @@ export const NodeInspector = memo(function NodeInspector({ node, steps, onClose 
         )}
 
         <dl className="kv">
+          {inputTokens !== null && (
+            <>
+              <dt>Record tokens</dt>
+              <dd className="tabular">{formatTokens(inputTokens)}</dd>
+            </>
+          )}
+          {budgetTokens !== null && (
+            <>
+              <dt>Predictor budget</dt>
+              <dd className="tabular">{formatTokens(budgetTokens)}</dd>
+            </>
+          )}
           {estimated !== null && (
             <>
               <dt>Estimated tokens</dt>

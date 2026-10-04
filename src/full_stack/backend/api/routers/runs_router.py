@@ -11,13 +11,13 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import StreamingResponse
 from pydantic import ValidationError
 
-from ..config_store import load_config
+from ..config_store import load_config, resolve_predictor_kind, resolve_role
 from ..cost import estimate_run, expected_plan_steps, participant_domain_count, participant_input_tokens
 from ..datasets import inspect_participant
 from ..engine_bridge import ConfigurationProblem, merge_overrides
 from ..run_manager import get_run_manager
 from ..safe_paths import to_path
-from ..schemas import AuditRequest, CostEstimateRequest, RunRequest
+from ..schemas import AGENT_ROLES, AuditRequest, CostEstimateRequest, RunRequest
 
 router = APIRouter(prefix="/runs", tags=["runs"])
 
@@ -46,15 +46,20 @@ def estimate(request: CostEstimateRequest) -> Dict[str, Any]:
     total_usd = 0.0
     total_tokens = 0
     priced = True
+    predictor_kind = resolve_predictor_kind(config)
 
     for raw in request.participant_dirs or []:
         directory = to_path(raw) or Path(str(raw))
         tokens = participant_input_tokens(directory) if directory.is_dir() else 0
+        # Each participant's own size decides whether its record goes to the
+        # Predictor directly or through the orchestration workflow.
         line = estimate_run(
             config=config,
             input_tokens=tokens,
             plan_steps=expected_plan_steps(participant_domain_count(directory)),
             include_deep_report=request.generate_deep_phenotype,
+            route="auto",
+            predictor_kind=predictor_kind,
         )
         per_participant.append({"participant_dir": str(directory), "id": directory.name, **line})
         total_tokens += line["total_tokens"]
@@ -62,6 +67,7 @@ def estimate(request: CostEstimateRequest) -> Dict[str, Any]:
             priced = False
         else:
             total_usd += line["usd"]
+    routes = {line["route"] for line in per_participant}
 
     warn = config.cost.warn_above_usd
     block = config.cost.block_above_usd
@@ -81,10 +87,11 @@ def estimate(request: CostEstimateRequest) -> Dict[str, Any]:
             "warns": bool(priced and warn and total_usd > warn),
             "blocks": bool(priced and block and total_usd > block),
         },
-        "effective_models": {
-            role: (str(getattr(config.models.role_models, role, "") or "").strip() or config.models.default_model)
-            for role in ("orchestrator", "integrator", "predictor", "critic", "communicator", "tool")
-        },
+        "effective_models": {role: resolve_role(config, role) for role in AGENT_ROLES},
+        # One route when every participant takes the same one, "mixed" when
+        # their sizes put them on different sides of the Predictor budget.
+        "route": (routes.pop() if len(routes) == 1 else "mixed") if routes else None,
+        "predictor_kind": predictor_kind,
     }
 
 

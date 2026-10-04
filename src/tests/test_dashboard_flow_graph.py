@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
-from src.full_stack.backend.api.flow import plan_to_graph
+from src.full_stack.backend.api.flow import direct_graph, plan_to_graph
 
 
 def _plan(steps, **extra):
@@ -106,3 +106,51 @@ def test_tool_family_and_plan_metadata_reach_the_client():
     assert graph["meta"]["priority_domains"] == ["BRAIN_MRI"]
     assert graph["meta"]["explanation"] == "why"
     assert graph["meta"]["estimated_tokens"] == 1234
+
+
+# --- evidence routes -----------------------------------------------------------
+
+
+def test_a_plan_graph_is_marked_as_the_orchestrated_route():
+    assert plan_to_graph(_plan([_step(1)]))["meta"]["route"] == "orchestrated"
+    assert plan_to_graph({})["meta"]["route"] == "orchestrated"
+
+
+def test_the_direct_graph_runs_the_record_straight_into_the_predictor():
+    graph = direct_graph(
+        {
+            "route": "direct",
+            "iteration": 2,
+            "input_tokens": 9_000,
+            "budget_tokens": 120_000,
+            "predictor_kind": "decision",
+            "reason": "The record fits.",
+        }
+    )
+    nodes = {n["id"]: n for n in graph["nodes"]}
+    assert list(nodes) == ["source:record", "agent:predictor", "agent:critic", "agent:communicator"]
+    record = nodes["source:record"]
+    assert (record["type"], record["stage"], record["label"]) == ("source", 0, "Participant record")
+    assert [nodes[i]["stage"] for i in ("agent:predictor", "agent:critic", "agent:communicator")] == [4, 5, 6]
+    assert [n["rank"] for n in graph["nodes"]] == [0, 1, 2, 3]
+
+    assert _edge(graph, "source:record", "agent:predictor")["kind"] == "sequential"
+    assert _edge(graph, "agent:predictor", "agent:critic")["kind"] == "sequential"
+    assert _edge(graph, "agent:critic", "agent:communicator")["kind"] == "sequential"
+    revise = _edge(graph, "agent:critic", "agent:predictor")
+    assert (revise["kind"], revise["label"]) == ("feedback", "revise")
+    # There is no Orchestrator to send feedback to on this route.
+    assert not any(e["target"] == "agent:orchestrator" for e in graph["edges"])
+
+    assert graph["iteration"] == 2
+    assert graph["meta"]["route"] == "direct"
+    assert graph["meta"]["step_count"] == 0
+    assert graph["meta"]["explanation"] == "The record fits."
+    assert graph["meta"]["predictor_kind"] == "decision"
+
+
+def test_the_direct_graph_degrades_without_a_route_payload():
+    graph = direct_graph(None)
+    assert graph["meta"]["route"] == "direct"
+    assert graph["iteration"] == 1
+    assert len(graph["lanes"]) == len(graph["nodes"]) == 4

@@ -8,6 +8,11 @@ sequential/parallel shape rather than an invented layout.
 
 The graph also carries the fixed actor-critic scaffold around the tool steps so
 the interface can show the whole workflow, including the critic feedback loop.
+
+A record that fits the Predictor's input skips orchestration altogether. That
+attempt has no plan, so :func:`direct_graph` draws the short route instead: the
+participant record straight into the Predictor, then the Critic, which sends a
+rejected attempt back to the Predictor rather than to an Orchestrator.
 """
 
 from __future__ import annotations
@@ -241,5 +246,81 @@ def plan_to_graph(plan: Dict[str, Any]) -> Dict[str, Any]:
             "reasoning": plan.get("reasoning") or "",
             "fusion_strategy": plan.get("fusion_strategy") or "",
             "estimated_tokens": plan.get("total_estimated_tokens") or 0,
+            "route": "orchestrated",
+        },
+    }
+
+
+def direct_graph(route: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """
+    The graph of a direct attempt, from the ROUTE event that announced it.
+
+    Node ids match the plan graph's agents, so a later escalation to the
+    orchestrated route replaces this graph without the Predictor, Critic and
+    Communicator re-mounting.
+    """
+    route = route if isinstance(route, dict) else {}
+    iteration = int(route.get("iteration") or 1)
+    input_tokens = int(route.get("input_tokens") or 0)
+    reason = str(route.get("reason") or "")
+    nodes: List[Dict[str, Any]] = [
+        {
+            "id": "source:record",
+            "type": "source",
+            "label": "Participant record",
+            "role": "record",
+            "stage": 0,
+            "rank": 0,
+            "lane": 0,
+            "detail": reason,
+            "meta": {
+                "input_tokens": input_tokens,
+                "budget_tokens": int(route.get("budget_tokens") or 0),
+                "threshold_source": route.get("threshold_source") or "",
+                "mode": route.get("mode") or "",
+            },
+        }
+    ]
+    agents = [a for a in AGENT_NODES if a["id"] in ("agent:predictor", "agent:critic", "agent:communicator")]
+    for index, agent in enumerate(agents, start=1):
+        meta: Dict[str, Any] = {}
+        if agent["id"] == "agent:predictor":
+            meta["predictor_kind"] = route.get("predictor_kind") or ""
+        nodes.append({**agent, "type": "agent", "rank": index, "lane": 0, "detail": "", "meta": meta})
+
+    chain = ["source:record", "agent:predictor", "agent:critic", "agent:communicator"]
+    edges: List[Dict[str, Any]] = [
+        {"id": f"e:{source}->{target}", "source": source, "target": target, "kind": "sequential"}
+        for source, target in zip(chain, chain[1:])
+    ]
+    edges.append(
+        {
+            "id": "e:critic->predictor",
+            "source": "agent:critic",
+            "target": "agent:predictor",
+            "kind": "feedback",
+            "label": "revise",
+        }
+    )
+
+    return {
+        "plan_id": f"direct-{iteration}",
+        "iteration": iteration,
+        "nodes": nodes,
+        "edges": edges,
+        "lanes": [{"rank": int(n["rank"]), "size": 1, "parallel": False} for n in nodes],
+        "meta": {
+            "step_count": 0,
+            "depth": 0,
+            "max_parallel": 0,
+            "priority_domains": [],
+            "explanation": reason,
+            "reasoning": "",
+            "fusion_strategy": "direct",
+            "estimated_tokens": input_tokens,
+            "route": "direct",
+            "predictor_kind": route.get("predictor_kind") or "",
+            "input_tokens": input_tokens,
+            "budget_tokens": int(route.get("budget_tokens") or 0),
         },
     }

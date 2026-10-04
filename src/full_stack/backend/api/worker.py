@@ -53,7 +53,12 @@ def emit(payload: Dict[str, Any]) -> None:
 
 
 def _usage_snapshot() -> Dict[str, Any]:
-    """Exact per-model token counts straight from the engine's LLM client."""
+    """
+    Exact per-model token counts straight from the engine's LLM client.
+
+    A structured decision model in the Predictor role records its requests on
+    the same tracker under its own model id, so its spend is counted here too.
+    """
     from src.full_stack.backend.utils.llm_client import _llm_client_instance
 
     client = _llm_client_instance
@@ -180,6 +185,8 @@ def main() -> int:
                 generate_xai_report=False,
                 deep_report_focus_modalities=str(job.get("focus_modalities") or ""),
                 deep_report_general_instruction=str(job.get("general_instruction") or ""),
+                orchestration_mode=config.engine.orchestration_mode,
+                orchestration_threshold_tokens=config.engine.orchestration_threshold_tokens,
             )
     except BaseException as exc:  # surfaced verbatim; the engine fails loudly by design
         stop.set()
@@ -193,6 +200,13 @@ def main() -> int:
 
     payload = dict(result or {})
     payload.pop("internal_context", None)  # live pydantic objects, not transportable
+    if not job.get("audit"):
+        # How the record reached the Predictor and what kind of model read it,
+        # so the run list can say so without opening the performance report.
+        routing = payload.get("routing") or {}
+        payload["input_route"] = payload.get("input_route") or routing.get("selected_route")
+        payload["predictor_kind"] = payload.get("predictor_kind")
+        payload["routing"] = routing or None
     emit({"t": "result", "result": payload})
     return 0
 

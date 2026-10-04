@@ -12,9 +12,16 @@ export interface TimelinePanelProps {
   steps: RunStep[]
   history: RunStep[]
   graph: RunGraph | null
+  /** The run is on the direct route, where no tool steps are dispatched at all. */
+  direct?: boolean
 }
 
-export const TimelinePanel = memo(function TimelinePanel({ steps, history, graph }: TimelinePanelProps) {
+export const TimelinePanel = memo(function TimelinePanel({
+  steps,
+  history,
+  graph,
+  direct = false,
+}: TimelinePanelProps) {
   const [expanded, setExpanded] = useState<Record<number, boolean>>({})
   const ranks = useMemo(() => ranksFromGraph(graph), [graph])
   const iterations = useMemo(
@@ -23,7 +30,12 @@ export const TimelinePanel = memo(function TimelinePanel({ steps, history, graph
   )
 
   if (iterations.length === 0) {
-    return (
+    return direct ? (
+      <EmptyState
+        title="No tool steps on the direct route"
+        body="The complete record went straight to the Predictor, so nothing was planned or dispatched. The prediction and the critic's verdict appear in their own tabs."
+      />
+    ) : (
       <EmptyState
         title="No steps yet"
         body="The orchestrator has not dispatched anything. Steps appear here the moment they start."

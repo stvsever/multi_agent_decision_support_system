@@ -297,6 +297,21 @@
 .run-stage--current .run-stage__bar-fill { background: var(--accent); }
 .run-stage--failed .run-stage__bar-fill { background: var(--critical); }
 .run-stage--done .run-stage__bar-fill { background: var(--positive); }
+/* Stages a direct attempt never enters. Dashed rather than faded, so the rail
+   says the stage was not needed instead of not reached yet. --st-skipped is
+   declared with the other lifecycle tokens in flow.css. */
+.run-stage--skipped { border-style: dashed; border-color: var(--st-skipped); }
+.run-stage--skipped .run-stage__marker {
+  border-style: dashed;
+  border-color: var(--st-skipped);
+  color: var(--text-faint);
+}
+.run-stage--skipped .run-stage__name { color: var(--text-muted); }
+.run-stage--skipped .run-stage__time { color: var(--text-faint); font-style: italic; }
+.run-stage--skipped .run-stage__bar {
+  background: repeating-linear-gradient(90deg, var(--st-skipped) 0 4px, transparent 4px 7px);
+  opacity: 0.7;
+}
 
 /* --- Two-column body ------------------------------------------------------ */
 

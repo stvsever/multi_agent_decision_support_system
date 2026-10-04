@@ -103,6 +103,20 @@ def load_bundle(participant_dir: Path, participant_id: str, output_override: str
     }
 
 
+def _decision_model_of(call: Dict[str, Any]) -> str:
+    """
+    The decision model a ledger entry belongs to, if any.
+
+    A structured decision model in the Predictor role records its requests as
+    "DecisionModel:<model id>:<round>", which is the only place the ledger
+    names it; without this its input-only spend would be priced as the hint.
+    """
+    tool = str(call.get("step_tool") or "")
+    if not tool.startswith("DecisionModel:"):
+        return ""
+    return tool.split(":")[1].strip()
+
+
 def usage_by_model_from_report(performance_report: Optional[Dict[str, Any]], model_hint: str = "") -> Dict[str, Dict[str, int]]:
     """
     Fold the engine's per-component token ledger into per-model counts.
@@ -116,7 +130,7 @@ def usage_by_model_from_report(performance_report: Optional[Dict[str, Any]], mod
         return {}
     bucket: Dict[str, Dict[str, int]] = {}
     for call in calls:
-        model = str(call.get("model") or model_hint or "unknown")
+        model = str(call.get("model") or _decision_model_of(call) or model_hint or "unknown")
         entry = bucket.setdefault(model, {"prompt": 0, "completion": 0, "calls": 0})
         entry["prompt"] += int(call.get("prompt_tokens") or 0)
         entry["completion"] += int(call.get("completion_tokens") or 0)

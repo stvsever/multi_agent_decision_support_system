@@ -22,10 +22,11 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 import { api } from '@/lib/api'
+import { DECISION_TOOLTIP, isDecisionModelId, isDecisionRow, rowFromSpec, useDecisionModels } from '@/lib/decision'
 import { compactNumber, dateTime, usdPerMillion } from '@/lib/format'
 import { queryKeys, useCatalog, useDebounced } from '@/lib/hooks'
 import type { ModelRow } from '@/lib/types'
-import { Badge, Button, Callout, Input, Spinner } from './primitives'
+import { Badge, Button, Callout, Input, Spinner, Tooltip } from './primitives'
 
 export interface ModelPickerProps {
   value: string
@@ -37,7 +38,20 @@ export interface ModelPickerProps {
   /** Offer an "Inherit default" row that emits an empty string. */
   allowInherit?: boolean
   inheritLabel?: string
+  /** What inheriting falls back to, said under the inherit row and on the trigger. */
+  inheritNote?: string
+  /**
+   * Whether this picker fills the Predictor role, the only one a structured
+   * decision model can serve. Elsewhere a decision model is listed but cannot
+   * be chosen, unless `onDecisionPick` takes it somewhere it can go.
+   */
+  acceptsDecision?: boolean
+  /** Receives a decision model picked here instead of `onChange`. */
+  onDecisionPick?: (modelId: string) => void
 }
+
+/** What picking a decision model in this picker does. */
+type DecisionPolicy = 'accept' | 'redirect' | 'block'
 
 const PAGE = 40
 const POPOVER_WIDTH = 520
@@ -50,6 +64,9 @@ export function ModelPicker({
   compact = false,
   allowInherit = false,
   inheritLabel = 'Inherit default',
+  inheritNote,
+  acceptsDecision = false,
+  onDecisionPick,
 }: ModelPickerProps): JSX.Element {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -70,9 +87,26 @@ export function ModelPicker({
   const client = useQueryClient()
   const params = useMemo(() => ({ embedding, limit: 500 }), [embedding])
   const catalog = useCatalog(params)
-  const rows = useMemo(() => catalog.data?.models ?? [], [catalog.data])
+  const decisionModels = useDecisionModels()
+  /* The service appends registry rows when the provider listing omits a
+     decision model; a catalog cached before that still gets them here. */
+  const rows = useMemo(() => {
+    const listed = catalog.data?.models ?? []
+    if (embedding || decisionModels.specs.length === 0) return listed
+    const present = new Set(listed.map((row) => row.id.toLowerCase()))
+    const missing = decisionModels.specs.filter((spec) => !present.has(spec.model_id.toLowerCase()))
+    return missing.length ? [...listed, ...missing.map(rowFromSpec)] : listed
+  }, [catalog.data, embedding, decisionModels.specs])
   const byId = useMemo(() => new Map(rows.map((row) => [row.id, row])), [rows])
   const selected = value ? byId.get(value) : undefined
+  const policy: DecisionPolicy = acceptsDecision ? 'accept' : onDecisionPick ? 'redirect' : 'block'
+  const isDecision = (option: Option) =>
+    option.kind === 'model'
+      ? isDecisionRow(option.row, decisionModels.ids)
+      : option.kind !== 'inherit' && isDecisionModelId(option.id, decisionModels.ids)
+  const selectedIsDecision =
+    Boolean(value) &&
+    (selected ? isDecisionRow(selected, decisionModels.ids) : isDecisionModelId(value, decisionModels.ids))
 
   const needle = useDebounced(search.trim().toLowerCase(), 140)
 
@@ -157,6 +191,15 @@ export function ModelPicker({
   }
 
   const commit = (option: Option) => {
+    if (isDecision(option)) {
+      // A blocked row stays open so the reason under it can be read.
+      if (policy === 'block') return
+      if (policy === 'redirect') {
+        onDecisionPick?.(option.id)
+        close()
+        return
+      }
+    }
     onChange(option.id)
     close()
   }
@@ -209,10 +252,12 @@ export function ModelPicker({
   const triggerLabel = value ? (selected?.name ?? value) : allowInherit ? inheritLabel : placeholder
   const triggerHint = value
     ? selected
-      ? `${compactNumber(selected.context_length)} ctx  ${usdPerMillion(selected.prompt_usd_per_mtok)} in  ${usdPerMillion(selected.completion_usd_per_mtok)} out`
+      ? selectedIsDecision
+        ? `${compactNumber(selected.context_length)} state  ${usdPerMillion(selected.prompt_usd_per_mtok)} in  output free`
+        : `${compactNumber(selected.context_length)} ctx  ${usdPerMillion(selected.prompt_usd_per_mtok)} in  ${usdPerMillion(selected.completion_usd_per_mtok)} out`
       : 'Not in the current catalog'
     : allowInherit
-      ? 'Uses the default model'
+      ? (inheritNote ?? 'Uses the default model')
       : ''
 
   return (
@@ -236,14 +281,21 @@ export function ModelPicker({
         }}
       >
         <span className="stack grow" style={{ gap: 0, minWidth: 0 }}>
-          <span
-            className="truncate"
-            style={{
-              fontSize: compact ? 'var(--t-tiny)' : 'var(--t-small)',
-              color: value ? 'var(--text)' : 'var(--text-muted)',
-            }}
-          >
-            {triggerLabel}
+          <span className="row gap-2" style={{ minWidth: 0 }}>
+            <span
+              className="truncate"
+              style={{
+                fontSize: compact ? 'var(--t-tiny)' : 'var(--t-small)',
+                color: value ? 'var(--text)' : 'var(--text-muted)',
+              }}
+            >
+              {triggerLabel}
+            </span>
+            {selectedIsDecision && (
+              <Badge tone="accent" style={{ flex: 'none' }}>
+                Decision model
+              </Badge>
+            )}
           </span>
           {!compact && triggerHint && (
             <span className="t-micro muted truncate tabular">{triggerHint}</span>
@@ -373,6 +425,8 @@ export function ModelPicker({
                         onHover={() => setActive(index)}
                         onPick={() => commit(option)}
                         inheritLabel={inheritLabel}
+                        inheritNote={inheritNote}
+                        decision={isDecision(option) ? policy : null}
                       />
                     )
                   })}
@@ -432,6 +486,23 @@ function groupByProvider(options: Option[]): { label: string; options: Option[] 
   return groups
 }
 
+/** What choosing a decision model does here, said under its id. */
+const DECISION_NOTE: Record<DecisionPolicy, string> = {
+  accept: '',
+  redirect: 'Becomes the Predictor; you choose an LLM for the rest',
+  block: 'Predictor role only',
+}
+
+function DecisionBadge() {
+  return (
+    <Tooltip content={DECISION_TOOLTIP}>
+      <Badge tone="accent" style={{ flex: 'none' }}>
+        Decision model
+      </Badge>
+    </Tooltip>
+  )
+}
+
 function Row({
   option,
   index,
@@ -440,6 +511,8 @@ function Row({
   onHover,
   onPick,
   inheritLabel,
+  inheritNote,
+  decision,
 }: {
   option: Option
   index: number
@@ -448,7 +521,11 @@ function Row({
   onHover: () => void
   onPick: () => void
   inheritLabel: string
+  inheritNote?: string
+  /** Set when the option is a decision model, to what picking it does here. */
+  decision: DecisionPolicy | null
 }) {
+  const blocked = decision === 'block'
   const base: CSSProperties = {
     display: 'flex',
     width: '100%',
@@ -457,23 +534,38 @@ function Row({
     padding: 'var(--s-2) var(--s-3)',
     border: 'none',
     background: active ? 'var(--bg-hover)' : 'transparent',
-    cursor: 'pointer',
+    cursor: blocked ? 'not-allowed' : 'pointer',
     textAlign: 'left',
+    opacity: blocked ? 0.6 : 1,
   }
 
   if (option.kind !== 'model') {
     const title =
       option.kind === 'inherit' ? inheritLabel : option.kind === 'orphan' ? option.id : `Use "${option.id}"`
     const note =
-      option.kind === 'inherit'
-        ? 'Falls back to the default model above'
-        : option.kind === 'orphan'
-          ? 'Saved earlier and not present in the current catalog'
-          : 'Sends this id to the provider exactly as typed'
+      decision && DECISION_NOTE[decision]
+        ? DECISION_NOTE[decision]
+        : option.kind === 'inherit'
+          ? (inheritNote ?? 'Falls back to the default model above')
+          : option.kind === 'orphan'
+            ? 'Saved earlier and not present in the current catalog'
+            : 'Sends this id to the provider exactly as typed'
     return (
-      <button type="button" data-index={index} style={base} onMouseEnter={onHover} onClick={onPick} role="option" aria-selected={chosen}>
+      <button
+        type="button"
+        data-index={index}
+        style={base}
+        onMouseEnter={onHover}
+        onClick={onPick}
+        role="option"
+        aria-selected={chosen}
+        aria-disabled={blocked || undefined}
+      >
         <span className="stack grow" style={{ gap: 1, minWidth: 0 }}>
-          <span className="t-small semibold truncate">{title}</span>
+          <span className="row gap-2" style={{ minWidth: 0 }}>
+            <span className="t-small semibold truncate">{title}</span>
+            {decision && <DecisionBadge />}
+          </span>
           <span className="t-micro muted truncate">{note}</span>
         </span>
         {chosen && <Check size={14} style={{ flex: 'none', color: 'var(--accent)' }} />}
@@ -482,21 +574,40 @@ function Row({
   }
 
   const row = option.row
+  const note = decision ? DECISION_NOTE[decision] : ''
   return (
-    <button type="button" data-index={index} style={base} onMouseEnter={onHover} onClick={onPick} role="option" aria-selected={chosen}>
+    <button
+      type="button"
+      data-index={index}
+      style={base}
+      onMouseEnter={onHover}
+      onClick={onPick}
+      role="option"
+      aria-selected={chosen}
+      aria-disabled={blocked || undefined}
+    >
       <span className="stack grow" style={{ gap: 2, minWidth: 0 }}>
         <span className="row gap-2" style={{ minWidth: 0 }}>
           <span className="t-small semibold truncate">{row.name}</span>
+          {decision && <DecisionBadge />}
           {row.is_free && <Badge tone="positive">free</Badge>}
           {row.supports_structured_output && <Badge tone="info">json</Badge>}
           {row.supports_tools && <Badge tone="neutral">tools</Badge>}
         </span>
-        <span className="t-micro faint truncate mono">{row.id}</span>
+        <span className="t-micro faint truncate mono">
+          {row.id}
+          {note && <span style={{ fontFamily: 'var(--font-sans)' }}>{`  ·  ${note}`}</span>}
+        </span>
       </span>
+      {/* A decision model reads a state rather than a context, and its output
+          is a set of answers that is not billed per token. */}
       <span className="stack" style={{ gap: 1, flex: 'none', alignItems: 'flex-end' }}>
-        <span className="t-micro muted tabular">{compactNumber(row.context_length)} ctx</span>
+        <span className="t-micro muted tabular">
+          {compactNumber(row.context_length)} {decision ? 'state' : 'ctx'}
+        </span>
         <span className="t-micro tabular" style={{ color: 'var(--text-secondary)' }}>
-          {usdPerMillion(row.prompt_usd_per_mtok)} in / {usdPerMillion(row.completion_usd_per_mtok)} out
+          {usdPerMillion(row.prompt_usd_per_mtok)} in /{' '}
+          {decision ? 'output free' : `${usdPerMillion(row.completion_usd_per_mtok)} out`}
         </span>
       </span>
       <Check

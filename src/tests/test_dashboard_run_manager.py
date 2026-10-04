@@ -455,3 +455,138 @@ def test_role_model_overrides_go_through_the_engine_helper(monkeypatch):
     assert settings.models.critic_model == "vendor/sharper"
     assert settings.models.predictor_model == "vendor/base"
     reload_settings()
+
+
+# --- evidence routing ----------------------------------------------------------
+
+
+def _route_event(event_id, route="direct", iteration=1, **extra):
+    data = {
+        "route": route,
+        "mode": "auto",
+        "input_tokens": 9_000,
+        "budget_tokens": 120_000,
+        "threshold_source": "predictor_budget",
+        "predictor_kind": "llm",
+        "reason": "The record fits.",
+        "escalated": False,
+        "iteration": iteration,
+        **extra,
+    }
+    state = {"current_stage": 4, "iteration": iteration, "route": data, "routes": [data]}
+    return {"t": "event", "event": {"id": event_id, "time": "t", "type": "ROUTE", "data": data}, "state": state}
+
+
+def _plan_event(event_id, iteration=1, state=None):
+    plan = {
+        "plan_id": f"P{iteration}",
+        "iteration": iteration,
+        "steps": [{"step_id": 1, "tool_name": "UnimodalCompressor", "description": "a", "depends_on": []}],
+    }
+    return {
+        "t": "event",
+        "event": {"id": event_id, "time": "t", "type": "PLAN", "data": {"steps": 1, "plan": plan}},
+        # The worker's event store carries the latest route forward in its state.
+        "state": {**(state or {}), "current_stage": 1, "iteration": iteration},
+    }
+
+
+def test_a_direct_route_draws_the_short_graph_and_reaches_subscribers(monkeypatch):
+    record = _record(monkeypatch)
+    seen: list = []
+    record.subscribe(seen.append)
+
+    record._handle(_route_event(1))
+    graph = record.graph
+    assert graph["meta"]["route"] == "direct"
+    ids = [n["id"] for n in graph["nodes"]]
+    assert ids == ["source:record", "agent:predictor", "agent:critic", "agent:communicator"]
+    assert next(m for m in seen if m["type"] == "event")["graph"]["meta"]["route"] == "direct"
+    assert record.summary()["input_route"] == "direct"
+    assert record.summary()["predictor_kind"] == "llm"
+
+
+def test_an_escalation_plan_replaces_the_direct_graph(monkeypatch):
+    record = _record(monkeypatch)
+    record._handle(_route_event(1, iteration=1))
+    record._handle(_route_event(2, route="orchestrated", iteration=2, escalated=True, predictor_kind="decision"))
+    # The orchestrated route has no graph until its plan arrives.
+    assert record.graph["meta"]["route"] == "direct"
+    record._handle(_plan_event(3, iteration=2, state=record.state))
+    assert record.graph["meta"]["route"] == "orchestrated"
+    assert record.graph["plan_id"] == "P2"
+    assert record.summary()["input_route"] == "orchestrated"
+    assert record.summary()["predictor_kind"] == "decision"
+
+
+def test_a_plan_already_drawn_for_the_attempt_is_not_replaced(monkeypatch):
+    record = _record(monkeypatch)
+    record._handle(_plan_event(1, iteration=1))
+    record._handle(_route_event(2, route="direct", iteration=1))
+    assert record.graph["meta"]["route"] == "orchestrated"
+    # The next attempt's direct route does draw its own graph.
+    record._handle(_route_event(3, route="direct", iteration=2))
+    assert record.graph["meta"]["route"] == "direct"
+    assert record.graph["iteration"] == 2
+
+
+def test_an_orchestrated_route_event_leaves_the_graph_to_the_plan(monkeypatch):
+    record = _record(monkeypatch)
+    seen: list = []
+    record.subscribe(seen.append)
+    record._handle(_route_event(1, route="orchestrated"))
+    assert record.graph is None
+    assert "graph" not in next(m for m in seen if m["type"] == "event")
+
+
+def test_the_result_names_the_selected_route_over_the_latest_event(monkeypatch):
+    record = _record(monkeypatch)
+    assert record.summary()["input_route"] is None
+    assert record.summary()["predictor_kind"] is None
+    record._handle(_route_event(1, route="orchestrated", iteration=2))
+    record._handle({"t": "result", "result": {"input_route": "direct", "predictor_kind": "decision"}})
+    summary = record.summary()
+    assert (summary["input_route"], summary["predictor_kind"]) == ("direct", "decision")
+    assert record.detail()["input_route"] == "direct"
+
+
+def test_archived_runs_keep_their_route(tmp_path):
+    _archive(tmp_path, "run_7", input_route="direct", predictor_kind="decision")
+    # A record written before routing existed still reads its result.
+    _archive(tmp_path, "run_8", result={"input_route": "orchestrated", "predictor_kind": "llm"})
+    manager = rm.RunManager()
+    rows = {r["id"]: r for r in manager.list_runs()}
+    assert (rows["run_7"]["input_route"], rows["run_7"]["predictor_kind"]) == ("direct", "decision")
+    assert (rows["run_8"]["input_route"], rows["run_8"]["predictor_kind"]) == ("orchestrated", "llm")
+    assert manager.get("run_7").detail()["input_route"] == "direct"
+
+
+def test_the_estimate_for_a_new_run_says_which_route_it_assumed(monkeypatch):
+    from src.full_stack.backend.api import cost as cost_module
+    from src.full_stack.backend.api import engine_bridge
+
+    monkeypatch.setattr(cost_module, "pricing_index", lambda cached_only=False: {})
+    monkeypatch.setattr(engine_bridge, "get_credential", lambda provider: "test-key")
+    manager = rm.RunManager(rehydrate=False)
+    request = RunRequest(
+        participant_dir=str(SUBJ_001),
+        task=TaskSpecInput(prediction_type="binary", target_label="T", control_label="C"),
+        overrides=RunOverrides(models={"role_models": {"predictor": "typesafe/jev-1.13"}}),
+    )
+    record = manager.create_run(request, autostart=False)
+    assert record.estimate["route"] == "direct"
+    assert record.estimate["predictor_kind"] == "decision"
+
+
+def test_the_worker_passes_routing_to_the_pipeline():
+    """The worker is a subprocess, so check its call against the pipeline signature."""
+    import inspect
+
+    import main as compass_main
+    from src.full_stack.backend.api import worker
+
+    parameters = inspect.signature(compass_main.run_compass_pipeline).parameters
+    source = inspect.getsource(worker.main)
+    for name in ("orchestration_mode", "orchestration_threshold_tokens"):
+        assert name in parameters
+        assert f"{name}=config.engine.{name}" in source

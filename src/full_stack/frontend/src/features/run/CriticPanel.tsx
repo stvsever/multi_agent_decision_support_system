@@ -13,6 +13,22 @@ export interface CriticPanelProps {
 
 const PRIORITY_TONE: Record<string, Tone> = { HIGH: 'critical', MEDIUM: 'caution', LOW: 'neutral' }
 
+/** Checklist keys that read poorly when only title-cased. Any other key is title-cased. */
+const CHECK_LABELS: Record<string, string> = {
+  decision_stable: 'Stable across presentation orders',
+  evidence_sufficient: 'Evidence judged sufficient',
+}
+
+/** Score breakdown keys the decision critic uses. Any other key is title-cased. */
+const BREAKDOWN_LABELS: Record<string, string> = {
+  stability: 'Stability across orders',
+  evidence_sufficiency: 'Evidence sufficiency',
+  coverage: 'Feature coverage',
+}
+
+const checkLabel = (key: string) => CHECK_LABELS[key] ?? titleCase(key)
+const breakdownLabel = (key: string) => BREAKDOWN_LABELS[key] ?? titleCase(key)
+
 export const CriticPanel = memo(function CriticPanel({ critic }: CriticPanelProps) {
   if (!critic || Object.keys(critic).length === 0) {
     return (
@@ -97,7 +113,7 @@ export const CriticPanel = memo(function CriticPanel({ critic }: CriticPanelProp
               const value = asNumber(raw) ?? 0
               return (
                 <div key={key} className="run-probrow">
-                  <span className="t-tiny truncate">{titleCase(key)}</span>
+                  <span className="t-tiny truncate">{breakdownLabel(key)}</span>
                   <span className="run-meter" aria-hidden>
                     <span
                       className={clsx('run-meter__fill', value < 0.7 && 'run-meter__fill--warn')}
@@ -123,7 +139,9 @@ export const CriticPanel = memo(function CriticPanel({ critic }: CriticPanelProp
                   <span className="run-check__icon" aria-hidden>
                     {ok ? <Check size={12} /> : <X size={12} />}
                   </span>
-                  <span className="t-tiny truncate">{titleCase(key)}</span>
+                  <span className="t-tiny truncate" title={checkLabel(key)}>
+                    {checkLabel(key)}
+                  </span>
                 </li>
               )
             })}

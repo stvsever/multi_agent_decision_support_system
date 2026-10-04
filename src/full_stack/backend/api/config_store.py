@@ -15,6 +15,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from ..config.settings import _resolve_secret_from_env_or_dotenv
+from ..decision import NON_PREDICTOR_ROLES, is_decision_model
+from . import DEFAULT_MODEL
 from .paths import config_dir, config_file
 from .schemas import ConfigPatch, CredentialStatus, DashboardConfig
 
@@ -24,6 +26,7 @@ _SECRET_FILE = "credentials.json"
 _PROVIDER_ENV: Dict[str, Tuple[str, ...]] = {
     "openrouter": ("OPENROUTER_API_KEY",),
     "huggingface": ("HF_TOKEN", "HUGGING_FACE_HUB_TOKEN"),
+    "typesafe": ("TYPESAFE_API_KEY",),
 }
 
 _lock = threading.RLock()
@@ -125,6 +128,34 @@ def _heal(raw: Dict[str, Any]) -> Tuple[Dict[str, Any], List[str]]:
         notices.append(
             f"The saved parallelism needs {needed} GPUs, so the GPU count was raised to match."
         )
+
+    # A structured decision model can only serve the Predictor. One stored as
+    # the default model (it fills every unset role) or for another role moves
+    # to the Predictor, and the rest of the workflow gets a conventional LLM.
+    models = _section(healed, "models", "model", notices)
+    role_models = models.get("role_models") if isinstance(models.get("role_models"), dict) else {}
+    role_models = dict(role_models)
+    default_model = models.get("default_model")
+    if isinstance(default_model, str) and is_decision_model(default_model):
+        if not str(role_models.get("predictor") or "").strip():
+            role_models["predictor"] = default_model
+        models["default_model"] = DEFAULT_MODEL
+        notices.append(
+            f"{default_model} is a structured decision model and can only serve the Predictor, "
+            f"so it was kept for the Predictor and the default model went back to {DEFAULT_MODEL}."
+        )
+    misplaced = [role for role in NON_PREDICTOR_ROLES if is_decision_model(role_models.get(role))]
+    for role in misplaced:
+        role_models[role] = ""
+    if misplaced:
+        notices.append(
+            "Structured decision models can only serve the Predictor, so the model for "
+            f"{', '.join(misplaced)} went back to the default model."
+        )
+    if role_models:
+        models["role_models"] = role_models
+    if models or "models" in healed:
+        healed["models"] = models
 
     healed["connection"] = connection
     healed["local"] = local
@@ -294,6 +325,11 @@ def resolve_role(config: DashboardConfig, role: str) -> str:
     return explicit or config.models.default_model
 
 
+def resolve_predictor_kind(config: DashboardConfig) -> str:
+    """Whether the Predictor is a structured decision model ("decision") or an LLM ("llm")."""
+    return "decision" if is_decision_model(resolve_role(config, "predictor")) else "llm"
+
+
 def worker_environment(config: DashboardConfig) -> Dict[str, str]:
     """Environment overlay handed to a run worker process."""
     env = dict(os.environ)
@@ -301,6 +337,10 @@ def worker_environment(config: DashboardConfig) -> Dict[str, str]:
     key = get_credential("openrouter")
     if key:
         env["OPENROUTER_API_KEY"] = key
+    typesafe_key = get_credential("typesafe")
+    if typesafe_key:
+        # Only the native decision route reads it; OpenRouter is the default.
+        env["TYPESAFE_API_KEY"] = typesafe_key
     hf_token = get_credential("huggingface")
     if hf_token:
         # Both names, because the hub client and the tooling around it disagree

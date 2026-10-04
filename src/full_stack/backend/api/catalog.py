@@ -4,6 +4,11 @@ Live OpenRouter model catalog, pricing, and account status.
 Pricing is what makes the cost estimate real rather than a guess, so the catalog
 is fetched from the provider, normalised to USD per million tokens, and cached
 on disk with a short TTL so the interface stays responsive offline.
+
+Every row says what kind of model it is ("llm", "decision" or "embedding") and
+which agent roles it may serve. Structured decision models can only serve the
+Predictor; their limits come from the engine's registry, and they are listed
+even when the provider catalog does not carry them yet.
 """
 
 from __future__ import annotations
@@ -15,8 +20,11 @@ from typing import Any, Dict, List, Optional
 
 import httpx
 
+from ..decision import DecisionModelSpec, get_decision_model_spec, list_decision_models
+from ..decision.registry import normalize_model_id
 from .config_store import get_credential, load_config
 from .paths import catalog_cache_file
+from .schemas import AGENT_ROLES
 
 CATALOG_TTL_SECONDS = 60 * 30
 _lock = threading.RLock()
@@ -65,6 +73,80 @@ def _is_embedding(model_id: str, modality: str, supported: List[str]) -> bool:
     return "embeddings" in {str(s).lower() for s in supported or []}
 
 
+def _classify(row: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Add `kind` and `roles` to a catalog row.
+
+    A decision model's provider row is trusted for its price but not for its
+    limits: the state limit is what bounds it, and a provider that omits the
+    completion price is not leaving it unpriced, because the output is free.
+    """
+    out = dict(row)
+    spec = get_decision_model_spec(str(out.get("id") or ""))
+    if spec is not None:
+        out["kind"] = "decision"
+        out["roles"] = ["predictor"]
+        out["context_length"] = spec.state_context_tokens
+        out["max_completion_tokens"] = None
+        if out.get("prompt_usd_per_mtok") is None:
+            out["prompt_usd_per_mtok"] = spec.input_price_per_million
+        if out.get("completion_usd_per_mtok") is None:
+            out["completion_usd_per_mtok"] = spec.output_price_per_million
+        out["is_free"] = out["prompt_usd_per_mtok"] == 0 and out["completion_usd_per_mtok"] == 0
+        out["is_embedding"] = False
+    elif out.get("is_embedding"):
+        out["kind"] = "embedding"
+        out["roles"] = []
+    else:
+        out["kind"] = "llm"
+        out["roles"] = list(AGENT_ROLES)
+    return out
+
+
+def _decision_row(spec: DecisionModelSpec) -> Dict[str, Any]:
+    """A registry entry in the shape of a catalog row, for a provider that does not list it."""
+    provider = spec.model_id.split("/", 1)[0] if "/" in spec.model_id else "other"
+    return _classify(
+        {
+            "id": spec.model_id,
+            "name": spec.label,
+            "provider": provider,
+            "description": (
+                "Structured decision model: answers typed questions with calibrated probabilities "
+                "and writes no text, so it can only serve the Predictor."
+            ),
+            "context_length": spec.state_context_tokens,
+            "max_completion_tokens": None,
+            "prompt_usd_per_mtok": spec.input_price_per_million,
+            "completion_usd_per_mtok": spec.output_price_per_million,
+            "is_free": False,
+            "modality": "text->decision",
+            "input_modalities": ["text"],
+            "supports_structured_output": False,
+            "supports_tools": False,
+            "is_embedding": False,
+            "created": None,
+        }
+    )
+
+
+def _with_kinds(catalog: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    The catalog with every row classified and the registry's decision models added.
+
+    Applied on read rather than stored, so a cache written by an older build is
+    classified too, and a decision model the provider starts listing replaces
+    its registry row instead of appearing twice.
+    """
+    rows = [_classify(row) for row in catalog.get("models") or [] if isinstance(row, dict) and row.get("id")]
+    listed = {normalize_model_id(row["id"]) for row in rows}
+    for spec in list_decision_models():
+        if normalize_model_id(spec.model_id) not in listed:
+            rows.append(_decision_row(spec))
+    rows.sort(key=lambda row: (str(row.get("provider") or ""), str(row["id"])))
+    return {**catalog, "models": rows}
+
+
 def _normalise(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     model_id = item.get("id")
     if not model_id:
@@ -78,7 +160,7 @@ def _normalise(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     completion_price = _to_per_million(pricing.get("completion"))
     context = int(item.get("context_length") or top_provider.get("context_length") or 0) or None
     provider = str(model_id).split("/", 1)[0] if "/" in str(model_id) else "other"
-    return {
+    row = {
         "id": model_id,
         "name": item.get("name") or model_id,
         "provider": provider,
@@ -95,6 +177,7 @@ def _normalise(item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         "is_embedding": _is_embedding(str(model_id), modality, supported),
         "created": item.get("created"),
     }
+    return _classify(row)
 
 
 def _read_disk_cache() -> Optional[Dict[str, Any]]:
@@ -126,7 +209,7 @@ def fetch_catalog(force: bool = False) -> Dict[str, Any]:
         cached = _memory.get("catalog") or _read_disk_cache()
         if cached and not force and (now - float(cached.get("fetched_at") or 0)) < CATALOG_TTL_SECONDS:
             _memory["catalog"] = cached
-            return {**cached, "stale": False}
+            return {**_with_kinds(cached), "stale": False}
 
     api_key = get_credential("openrouter")
     url = f"{_base_url()}/models"
@@ -137,7 +220,7 @@ def fetch_catalog(force: bool = False) -> Dict[str, Any]:
             payload = response.json()
     except Exception as exc:  # network, TLS, auth, malformed body
         if cached:
-            return {**cached, "stale": True, "error": str(exc)}
+            return {**_with_kinds(cached), "stale": True, "error": str(exc)}
         raise CatalogError(f"Could not reach the model catalog: {exc}") from exc
 
     models = [row for row in (_normalise(item) for item in payload.get("data") or []) if row]
@@ -146,14 +229,16 @@ def fetch_catalog(force: bool = False) -> Dict[str, Any]:
     with _lock:
         _memory["catalog"] = result
     _write_disk_cache(result)
-    return {**result, "stale": False}
+    return {**_with_kinds(result), "stale": False}
 
 
 def get_model(model_id: str) -> Optional[Dict[str, Any]]:
     try:
         catalog = fetch_catalog()
     except CatalogError:
-        return None
+        # A decision model's limits and prices are known without the network.
+        spec = get_decision_model_spec(model_id)
+        return _decision_row(spec) if spec is not None else None
     for row in catalog.get("models") or []:
         if row["id"] == model_id:
             return row
@@ -175,12 +260,12 @@ def pricing_index(cached_only: bool = False) -> Dict[str, Dict[str, Any]]:
     draining a running worker's output.
     """
     if cached_only:
-        catalog = cached_catalog() or {}
+        catalog = _with_kinds(cached_catalog() or {})
     else:
         try:
             catalog = fetch_catalog()
         except CatalogError:
-            return {}
+            catalog = _with_kinds({})
     return {row["id"]: row for row in catalog.get("models") or []}
 
 

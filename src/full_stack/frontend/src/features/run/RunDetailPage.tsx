@@ -13,6 +13,7 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Badge, Button, Callout, EmptyState, Skeleton, Tabs, Tooltip } from '@/components/ui/primitives'
 import { api } from '@/lib/api'
+import { DECISION_TOOLTIP } from '@/lib/decision'
 import { duration as formatDuration, elapsedSince, tokens as formatTokens, usd } from '@/lib/format'
 import { queryKeys, useNow, useRunStream, useSettings } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
@@ -28,7 +29,17 @@ import { NodeInspector } from './NodeInspector'
 import { PredictionPanel } from './PredictionPanel'
 import { StageRail } from './StageRail'
 import { TimelinePanel } from './TimelinePanel'
-import { STAGE_NAMES, isActive, statusTone, taskLine, taskModeLabel, taskSpecFromSummary, verdictTone } from './runUtils'
+import {
+  STAGE_NAMES,
+  isActive,
+  readRouting,
+  statusTone,
+  taskLine,
+  taskModeLabel,
+  taskSpecFromSummary,
+  verdictTone,
+  type RunRouting,
+} from './runUtils'
 import './run.css'
 
 type TabKey = 'timeline' | 'events' | 'prediction' | 'critic' | 'cost' | 'logs'
@@ -142,6 +153,10 @@ function RunConsole({
   const running = isActive(detail.status)
 
   const appearance = useSettings().data?.config.appearance
+  const routing = useMemo(() => readRouting(detail), [detail])
+  // The graph says which route it draws; without that, the latest decision does.
+  const graphRoute = detail.graph?.meta?.route
+  const direct = graphRoute ? graphRoute === 'direct' : (routing.latest?.route ?? routing.route) === 'direct'
 
   const stepCount = steps.length + history.length
   const tabs = useMemo(
@@ -167,7 +182,7 @@ function RunConsole({
 
   return (
     <div className="page page--wide run-page">
-      <RunHeader detail={detail} connected={connected} running={running} />
+      <RunHeader detail={detail} connected={connected} running={running} routing={routing} />
 
       {detail.status === 'failed' && <FailurePanel detail={detail} />}
 
@@ -186,6 +201,7 @@ function RunConsole({
         failed={detail.status === 'failed'}
         iteration={state.iteration ?? 1}
         maxIterations={state.max_iterations}
+        routing={routing}
       />
 
       <div className="run-body">
@@ -194,9 +210,11 @@ function RunConsole({
             <div className="stack" style={{ gap: 1, minWidth: 0 }}>
               <span className="card__title">Execution graph</span>
               <span className="t-tiny muted truncate">
-                {detail.graph
-                  ? `${detail.graph.meta.step_count} steps, depth ${detail.graph.meta.depth}, up to ${detail.graph.meta.max_parallel} in parallel`
-                  : 'The orchestrator has not published a plan yet'}
+                {direct
+                  ? 'Direct route: the complete record goes straight to the Predictor, with no plan'
+                  : detail.graph
+                    ? `${detail.graph.meta.step_count} steps, depth ${detail.graph.meta.depth}, up to ${detail.graph.meta.max_parallel} in parallel`
+                    : 'The orchestrator has not published a plan yet'}
               </span>
             </div>
           </header>
@@ -213,6 +231,7 @@ function RunConsole({
               showTokens={appearance?.flow_show_tokens ?? true}
               onSelectNode={onSelectNode}
               className="run-canvas__flow"
+              route={routing.latest}
             />
           </div>
           <NodeInspector node={selected} steps={steps} onClose={onCloseInspector} />
@@ -223,7 +242,9 @@ function RunConsole({
             <Tabs<TabKey> value={tab} options={tabs} onChange={onTab} spread />
           </header>
           <div className="run-side__body">
-            {tab === 'timeline' && <TimelinePanel steps={steps} history={history} graph={detail.graph} />}
+            {tab === 'timeline' && (
+              <TimelinePanel steps={steps} history={history} graph={detail.graph} direct={direct} />
+            )}
             {tab === 'events' && <EventsPanel events={events} />}
             {tab === 'prediction' && <PredictionPanel prediction={state.prediction} />}
             {tab === 'critic' && <CriticPanel critic={state.critic} />}
@@ -238,7 +259,17 @@ function RunConsole({
 
 /* --- Header --------------------------------------------------------------- */
 
-function RunHeader({ detail, connected, running }: { detail: RunDetail; connected: boolean; running: boolean }) {
+function RunHeader({
+  detail,
+  connected,
+  running,
+  routing,
+}: {
+  detail: RunDetail
+  connected: boolean
+  running: boolean
+  routing: RunRouting
+}) {
   const client = useQueryClient()
   const navigate = useNavigate()
   const notify = useApp((s) => s.notify)
@@ -334,6 +365,7 @@ function RunHeader({ detail, connected, running }: { detail: RunDetail; connecte
             <h1 className="page__title truncate">{detail.participant_id}</h1>
             <Badge tone={statusTone(detail.status)}>{STATUS_LABEL[detail.status]}</Badge>
             <Badge tone="neutral">{taskModeLabel(detail.task)}</Badge>
+            <RouteBadges routing={routing} model={predictorModel(detail)} />
             {detail.verdict && <Badge tone={verdictTone(detail.verdict)}>{detail.verdict}</Badge>}
           </div>
           <span className="t-small muted truncate">
@@ -385,6 +417,70 @@ function RunHeader({ detail, connected, running }: { detail: RunDetail; connecte
         </div>
       </div>
     </header>
+  )
+}
+
+/** The model that produced the prediction, when the payload names it. */
+function predictorModel(detail: RunDetail): string {
+  const prediction = detail.state?.prediction as Record<string, unknown> | null | undefined
+  const payload = (prediction?.payload ?? null) as Record<string, unknown> | null
+  return typeof payload?.predictor_model === 'string' ? payload.predictor_model : ''
+}
+
+/**
+ * How the record reached the Predictor, and what kind of model answered. Both
+ * are silent until the engine has decided, so a queued run shows neither.
+ */
+function RouteBadges({ routing, model }: { routing: RunRouting; model: string }) {
+  const latest = routing.latest
+  const tip = latest ? (
+    <span className="stack gap-1">
+      <span>
+        {latest.reason ||
+          (latest.route === 'direct'
+            ? 'The record went straight to the Predictor.'
+            : 'The record was orchestrated first.')}
+      </span>
+      {latest.input_tokens > 0 && (
+        <span className="tabular">
+          Record {formatTokens(latest.input_tokens)} tokens, Predictor budget {formatTokens(latest.budget_tokens)}
+          {latest.threshold_source === 'override' ? ' (threshold set in settings)' : ''}
+        </span>
+      )}
+      <span>Orchestration mode: {latest.mode}</span>
+      {routing.escalated && (
+        <span>
+          The decision Predictor was rejected on the direct route, so the next attempt ran through the
+          orchestration workflow.
+        </span>
+      )}
+    </span>
+  ) : routing.route === 'direct' ? (
+    'The record went straight to the Predictor.'
+  ) : (
+    'The record was orchestrated before the Predictor.'
+  )
+
+  return (
+    <>
+      {routing.route && (
+        <Tooltip content={tip}>
+          <Badge tone={routing.route === 'direct' ? 'info' : 'neutral'} outline={routing.route !== 'direct'}>
+            {routing.route === 'direct' ? 'Direct' : 'Orchestrated'}
+          </Badge>
+        </Tooltip>
+      )}
+      {routing.escalated && (
+        <Tooltip content="A decision Predictor rejected on the direct route was sent through orchestration.">
+          <Badge tone="caution">Escalated</Badge>
+        </Tooltip>
+      )}
+      {routing.predictorKind === 'decision' && (
+        <Tooltip content={model ? `${DECISION_TOOLTIP} Model: ${model}.` : DECISION_TOOLTIP}>
+          <Badge tone="accent">Decision model</Badge>
+        </Tooltip>
+      )}
+    </>
   )
 }
 

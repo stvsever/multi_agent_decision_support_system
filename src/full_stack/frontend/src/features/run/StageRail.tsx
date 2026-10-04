@@ -1,13 +1,13 @@
 /** The seven pipeline stages with the time each one has consumed. */
 
 import clsx from 'clsx'
-import { Check, X } from 'lucide-react'
+import { Check, Minus, X } from 'lucide-react'
 import { memo, useMemo } from 'react'
 import { Badge } from '@/components/ui/primitives'
 import { duration as formatDuration } from '@/lib/format'
 import { useNow } from '@/lib/hooks'
 import type { RunEvent } from '@/lib/types'
-import { stageTimings } from './runUtils'
+import { skippedStages, stageTimings, type RunRouting } from './runUtils'
 
 export interface StageRailProps {
   stages: string[]
@@ -20,7 +20,11 @@ export interface StageRailProps {
   maxIterations?: number
   /** ISO start of the run, so Initialization is timed from the run itself. */
   startedAt?: string | null
+  /** The evidence route, which decides whether a stage was skipped rather than run. */
+  routing?: RunRouting | null
 }
+
+const SKIPPED_HINT = 'Skipped: this attempt sent the complete record straight to the Predictor, with no plan to run.'
 
 export const StageRail = memo(function StageRail({
   stages,
@@ -31,6 +35,7 @@ export const StageRail = memo(function StageRail({
   iteration,
   maxIterations,
   startedAt,
+  routing,
 }: StageRailProps) {
   const now = useNow(running)
   const startedMs = useMemo(() => {
@@ -43,6 +48,13 @@ export const StageRail = memo(function StageRail({
     [events, stages.length, running, now, startedMs],
   )
 
+  const skipped = useMemo(
+    () => (routing ? skippedStages(stages, routing, timings.visited) : stages.map(() => false)),
+    [routing, stages, timings.visited],
+  )
+
+  const skippedHint = routing?.latest?.reason ? `${SKIPPED_HINT} ${routing.latest.reason}` : SKIPPED_HINT
+
   const total = timings.totals.reduce((sum, value) => sum + value, 0)
 
   return (
@@ -50,22 +62,27 @@ export const StageRail = memo(function StageRail({
       <ol className="run-rail__track">
         {stages.map((stage, index) => {
           const seconds = timings.totals[index] ?? 0
+          const isSkipped = skipped[index] && index !== currentStage
           const isCurrent = index === currentStage
-          const isDone = currentStage > index || (!running && timings.visited[index] && !isCurrent)
+          const isDone = !isSkipped && (currentStage > index || (!running && timings.visited[index] && !isCurrent))
           const share = total > 0 ? seconds / total : 0
           return (
             <li
               key={stage}
+              title={isSkipped ? skippedHint : undefined}
               className={clsx(
                 'run-stage',
                 isCurrent && !failed && 'run-stage--current',
                 isCurrent && failed && 'run-stage--failed',
                 isDone && 'run-stage--done',
-                !isCurrent && !isDone && 'run-stage--pending',
+                isSkipped && 'run-stage--skipped',
+                !isCurrent && !isDone && !isSkipped && 'run-stage--pending',
               )}
             >
               <span className="run-stage__marker" aria-hidden>
-                {isDone ? (
+                {isSkipped ? (
+                  <Minus size={12} />
+                ) : isDone ? (
                   <Check size={12} />
                 ) : isCurrent && failed ? (
                   <X size={12} />
@@ -76,13 +93,15 @@ export const StageRail = memo(function StageRail({
               <span className="run-stage__body">
                 <span className="run-stage__name truncate">{stage}</span>
                 <span className="run-stage__time tabular">
-                  {seconds > 0
-                    ? formatDuration(seconds)
-                    : isCurrent
-                      ? failed
-                        ? 'stopped here'
-                        : 'starting'
-                      : '-'}
+                  {isSkipped
+                    ? 'skipped'
+                    : seconds > 0
+                      ? formatDuration(seconds)
+                      : isCurrent
+                        ? failed
+                          ? 'stopped here'
+                          : 'starting'
+                        : '-'}
                 </span>
                 <span className="run-stage__bar" aria-hidden>
                   <span className="run-stage__bar-fill" style={{ width: `${Math.round(share * 100)}%` }} />

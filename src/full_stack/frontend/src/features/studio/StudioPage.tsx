@@ -25,10 +25,18 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, ApiError } from '@/lib/api'
-import { compactNumber, tokens, usd } from '@/lib/format'
+import {
+  DECISION_TOOLTIP,
+  DEFAULT_ORCHESTRATION_MODE,
+  ORCHESTRATION_CHOICES,
+  decisionLabel,
+  isDecisionModelId,
+  useDecisionModels,
+} from '@/lib/decision'
+import { compactNumber, titleCase, tokens, usd } from '@/lib/format'
 import { useCapabilities, useConnectivity, useDebounced, useSettings } from '@/lib/hooks'
 import { useApp } from '@/lib/store'
-import type { EstimateResponse, ReasoningEffort } from '@/lib/types'
+import type { EstimateLine, EstimateResponse, OrchestrationMode, ReasoningEffort } from '@/lib/types'
 import {
   Badge,
   Button,
@@ -42,6 +50,7 @@ import {
   SliderField,
   Textarea,
   Toggle,
+  Tooltip,
 } from '@/components/ui/primitives'
 import { ModelPicker } from '@/components/ui/ModelPicker'
 import { BatchOptions, type BatchSettings } from '@/features/batch/BatchOptions'
@@ -65,6 +74,40 @@ const REASONING_LABELS: Record<ReasoningEffort, string> = {
   medium: 'medium',
   high: 'high',
 }
+
+/** Estimate line roles that are not agent names. */
+const LINE_LABELS: Record<string, string> = {
+  question_book: 'Question book',
+  tool: 'Tools',
+}
+
+/** Which route a projection assumed, across every participant in it. */
+function routeSummary(estimate: EstimateResponse | null): { label: string; detail: string } | null {
+  const routes = (estimate?.participants ?? []).map((row) => row.route).filter(Boolean)
+  if (routes.length === 0) return null
+  const direct = routes.filter((route) => route === 'direct').length
+  const orchestrated = routes.length - direct
+  if (orchestrated === 0) {
+    return {
+      label: 'Direct route',
+      detail: 'The record fits the Predictor input, so the projection has no Orchestrator or tool calls.',
+    }
+  }
+  if (direct === 0) {
+    return {
+      label: 'Orchestrated',
+      detail: 'The projection includes the Orchestrator, the tool steps, and the Integrator before the Predictor.',
+    }
+  }
+  return {
+    label: `${direct} direct, ${orchestrated} orchestrated`,
+    detail: 'Records that fit the Predictor input go straight to it; the others are orchestrated first.',
+  }
+}
+
+/** A decision model reads its input and returns answers, so it is billed for input only. */
+const isInputOnly = (line: EstimateLine, decisionIds: ReadonlySet<string>) =>
+  isDecisionModelId(line.model, decisionIds) && line.completion_tokens === 0
 
 export function StudioPage() {
   const navigate = useNavigate()
@@ -90,6 +133,7 @@ export function StudioPage() {
   const [auditing, setAuditing] = useState(false)
   const [advanced, setAdvanced] = useState(settings?.config.appearance.show_advanced_by_default ?? false)
   const [batchOptions, setBatchOptions] = useState<BatchSettings | null>(null)
+  const decisionModels = useDecisionModels()
 
   const config = settings?.config
   const report = taskReport(task)
@@ -154,15 +198,45 @@ export function StudioPage() {
   const savedWorkers = config?.engine.executor_max_workers ?? 12
   const workers = (engine.executor_max_workers as number | undefined) ?? savedWorkers
 
+  const savedOrchestration = config?.engine.orchestration_mode ?? DEFAULT_ORCHESTRATION_MODE
+  const orchestrationOverride = engine.orchestration_mode as OrchestrationMode | undefined
+  const orchestration = orchestrationOverride ?? savedOrchestration
+
+  /* A decision model chosen for this run serves the Predictor only, so it is
+     carried as a predictor override and the other agents keep their model. */
+  const roleOverrides = (models.role_models ?? {}) as Record<string, string | undefined>
+  const predictorOverride = roleOverrides.predictor || ''
+  const effectivePredictor = predictorOverride || config?.models.role_models.predictor || ''
+  const predictorIsDecision = isDecisionModelId(effectivePredictor, decisionModels.ids)
+
   const activeOverrides = useMemo(() => {
     const names: string[] = []
     if (modelOverride) names.push('model')
+    if (predictorOverride) names.push('predictor')
     if (reasoningOverride) names.push('reasoning')
     if (engine.max_iterations !== undefined) names.push('iterations')
+    if (orchestrationOverride) names.push('orchestration')
     if (engine.executor_max_workers !== undefined) names.push('workers')
     if ((instructions.global ?? '').trim()) names.push('instruction')
     return names
-  }, [modelOverride, reasoningOverride, engine.max_iterations, engine.executor_max_workers, instructions.global])
+  }, [
+    modelOverride,
+    predictorOverride,
+    reasoningOverride,
+    engine.max_iterations,
+    orchestrationOverride,
+    engine.executor_max_workers,
+    instructions.global,
+  ])
+
+  const pickDecisionForRun = (decisionId: string) => {
+    setOverride('models', { role_models: { ...roleOverrides, predictor: decisionId } })
+    notify({
+      tone: 'info',
+      title: `${decisionLabel(decisionId, decisionModels.specs)} will serve the Predictor`,
+      body: `A decision model can only serve the Predictor, so the other agents keep ${effectiveModel || 'the saved default'} for this run.`,
+    })
+  }
 
   const launch = async () => {
     if (!ready) return
@@ -222,6 +296,7 @@ export function StudioPage() {
 
   const totals = estimate?.totals
   const guards = estimate?.guards
+  const assumedRoute = routeSummary(estimate)
   const offline = connectivity.data && (!connectivity.data.online || !connectivity.data.provider_reachable)
 
   return (
@@ -292,7 +367,7 @@ export function StudioPage() {
             icon={<Cpu size={15} />}
             title="Model and engine"
             done
-            summary={`${effectiveModel || 'no model'}, reasoning ${REASONING_LABELS[reasoning]}, ${iterations} iteration${iterations === 1 ? '' : 's'}`}
+            summary={`${effectiveModel || 'no model'}${predictorIsDecision ? ' with a decision Predictor' : ''}, reasoning ${REASONING_LABELS[reasoning]}, ${iterations} iteration${iterations === 1 ? '' : 's'}, orchestration ${orchestration}`}
             tour="studio-model"
           >
             <div className="stack gap-5">
@@ -308,6 +383,29 @@ export function StudioPage() {
                       ? `The saved default is ${savedModel || 'not set'}. It is untouched.`
                       : 'Applies to every agent role unless a role override is set in settings.'}
                   </span>
+                  {predictorIsDecision && (
+                    <span className="row gap-2 wrap t-tiny">
+                      <span className="muted">Predictor:</span>
+                      <span className="mono">{effectivePredictor}</span>
+                      <Tooltip content={DECISION_TOOLTIP}>
+                        <Badge tone="accent">Decision model</Badge>
+                      </Tooltip>
+                      {predictorOverride && (
+                        <>
+                          <Badge tone="accent">this run only</Badge>
+                          <button
+                            type="button"
+                            className="studio__reset"
+                            onClick={() =>
+                              setOverride('models', { role_models: { ...roleOverrides, predictor: undefined } })
+                            }
+                          >
+                            use the saved Predictor
+                          </button>
+                        </>
+                      )}
+                    </span>
+                  )}
                 </div>
                 <Button size="sm" icon={<Settings2 size={13} />} onClick={() => openSettings('compute')}>
                   Change models
@@ -322,6 +420,7 @@ export function StudioPage() {
                   <ModelPicker
                     value={modelOverride}
                     onChange={(default_model) => setOverride('models', { default_model: default_model || undefined })}
+                    onDecisionPick={pickDecisionForRun}
                     allowInherit
                     inheritLabel={savedModel ? `Saved default: ${savedModel}` : 'Saved default'}
                   />
@@ -387,6 +486,34 @@ export function StudioPage() {
                     max={10}
                     suffix={iterations === 1 ? 'pass' : 'passes'}
                     onChange={(max_iterations) => setOverride('engine', { max_iterations })}
+                  />
+                </Field>
+
+                <Field
+                  label={
+                    <OverrideLabel
+                      label="Orchestration"
+                      overridden={orchestrationOverride !== undefined}
+                      saved={savedOrchestration}
+                      onReset={() => setOverride('engine', { orchestration_mode: undefined })}
+                    />
+                  }
+                  hint={ORCHESTRATION_CHOICES.find((choice) => choice.value === orchestration)?.hint}
+                  info={
+                    <p>
+                      The Orchestrator, the tools, and the Integrator exist to fit a large record into what the
+                      Predictor can read. Auto skips them when the complete record already fits. The saved mode
+                      lives under Engine in settings; choosing one here changes this run only.
+                    </p>
+                  }
+                >
+                  <Segmented
+                    block
+                    value={orchestration}
+                    options={ORCHESTRATION_CHOICES.map(({ value, label }) => ({ value, label }))}
+                    onChange={(next) =>
+                      setOverride('engine', { orchestration_mode: next === savedOrchestration ? undefined : next })
+                    }
                   />
                 </Field>
 
@@ -495,6 +622,16 @@ export function StudioPage() {
                     {tokens(totals.total_tokens)} tokens across {totals.count} participant
                     {totals.count === 1 ? '' : 's'}
                   </span>
+                  {assumedRoute && (
+                    <span className="row gap-2 wrap">
+                      <span className="t-tiny muted">Assumes</span>
+                      <Tooltip content={assumedRoute.detail}>
+                        <Badge tone={assumedRoute.label === 'Orchestrated' ? 'neutral' : 'info'}>
+                          {assumedRoute.label}
+                        </Badge>
+                      </Tooltip>
+                    </span>
+                  )}
                 </div>
 
                 {estimate && estimate.participants.length > 0 && (
@@ -514,10 +651,13 @@ export function StudioPage() {
                       </InfoDot>
                     </span>
                     {estimate.participants[0].lines.map((line) => (
-                      <div key={line.role} className="row gap-2 t-tiny">
-                        <span className="grow truncate" style={{ textTransform: 'capitalize' }}>
-                          {line.role}
-                        </span>
+                      <div key={`${line.role}-${line.model}`} className="row gap-2 t-tiny">
+                        <span className="grow truncate">{LINE_LABELS[line.role] ?? titleCase(line.role)}</span>
+                        {isInputOnly(line, decisionModels.ids) && (
+                          <Tooltip content="A decision model is billed for its input only; its answers are free.">
+                            <Badge outline>input only</Badge>
+                          </Tooltip>
+                        )}
                         <span className="muted tabular">{compactNumber(line.total_tokens)}</span>
                         <span className="tabular" style={{ width: 62, textAlign: 'right' }}>
                           {line.usd === null ? 'n/a' : usd(line.usd)}

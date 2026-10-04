@@ -4,9 +4,10 @@
  * were always read together, so they are one.
  */
 
-import { Disclosure, Field } from '@/components/ui/primitives'
+import { Disclosure, Field, Segmented } from '@/components/ui/primitives'
+import { DEFAULT_ORCHESTRATION_MODE, ORCHESTRATION_CHOICES } from '@/lib/decision'
 import { duration, tokens } from '@/lib/format'
-import { Grid, Group, NumberSetting, SectionHead, SliderControl, SwitchRow } from '../controls'
+import { Grid, Group, NumberControl, NumberSetting, SectionHead, SliderControl, SwitchRow } from '../controls'
 import { useSettingsController } from '../state'
 
 const DERIVED = 'Zero derives this from the context window of the model in use.'
@@ -17,6 +18,8 @@ export function EngineSection() {
   const batch = config.batch
   const budget = config.token_budget
   const isLocal = config.connection.backend === 'local'
+  const orchestration = engine.orchestration_mode ?? DEFAULT_ORCHESTRATION_MODE
+  const threshold = engine.orchestration_threshold_tokens ?? 0
 
   return (
     <>
@@ -27,8 +30,57 @@ export function EngineSection() {
 
       <Group title="Actor-critic loop">
         <Field
+          label="Orchestration"
+          hint={ORCHESTRATION_CHOICES.find((choice) => choice.value === orchestration)?.hint}
+          info={
+            <>
+              <p>
+                The Orchestrator, the Executor tools, and the Integrator exist to fit a large record into what the
+                Predictor can read. When the complete record already fits, that workflow only adds cost and time, so
+                Auto sends it straight to the Predictor and orchestrates only when it does not.
+              </p>
+              <p>
+                Never packs a record that is too large down to the budget and records what was left out. Always
+                orchestrates every attempt, which can still help when a compressed, re-represented record reads
+                better than the raw one.
+              </p>
+            </>
+          }
+        >
+          <Segmented
+            value={orchestration}
+            options={ORCHESTRATION_CHOICES.map(({ value, label }) => ({ value, label }))}
+            onChange={(next) => update('engine', { orchestration_mode: next })}
+          />
+        </Field>
+        {orchestration === 'auto' && (
+          <Field
+            label="Orchestration threshold"
+            hint={
+              threshold > 0
+                ? `Records above ${tokens(threshold)} tokens are orchestrated, or above the Predictor input if that is smaller.`
+                : 'Zero uses the Predictor input budget: the model context less its output reserve.'
+            }
+          >
+            <div className="row gap-2">
+              <NumberControl
+                ariaLabel="Orchestration threshold"
+                value={threshold}
+                min={0}
+                max={4_000_000}
+                step={1000}
+                width={180}
+                onCommit={(next) => update('engine', { orchestration_threshold_tokens: next })}
+              />
+              <span className="t-tiny muted" style={{ flex: 'none' }}>
+                tokens
+              </span>
+            </div>
+          </Field>
+        )}
+        <Field
           label={`Max iterations: ${engine.max_iterations}`}
-          hint="One iteration is plan, execute, integrate, predict, critique."
+          hint="One iteration is plan, execute, integrate, predict, critique. On the direct route it is predict and critique."
           info={
             <p>
               The critic scores every prediction against a task checklist. When it is not satisfied, the orchestrator

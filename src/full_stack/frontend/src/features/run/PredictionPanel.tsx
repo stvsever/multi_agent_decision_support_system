@@ -7,16 +7,37 @@
  * payload still renders.
  */
 
-import { memo } from 'react'
-import { Badge, Disclosure, EmptyState } from '@/components/ui/primitives'
-import { percent, titleCase, tokens as formatTokens } from '@/lib/format'
+import clsx from 'clsx'
+import { memo, useMemo, type ReactNode } from 'react'
+import { Badge, Disclosure, EmptyState, Tooltip } from '@/components/ui/primitives'
+import { DECISION_TOOLTIP } from '@/lib/decision'
+import { percent, titleCase, tokens as formatTokens, usd } from '@/lib/format'
 import { asArray, asNumber, asRecord, asStringList, asText } from './runUtils'
+
+/** Above this mean change between presentation orders an answer reads as unstable. */
+const INSTABILITY_CAUTION = 0.2
+
+/** What each node needs from the run as a whole while it renders. */
+interface NodeContext {
+  /** Unit per regression output, keyed by node id. */
+  units: Map<string, Record<string, string>>
+  /** Per-node decision statistics from the decision report. */
+  perNode: Record<string, unknown>
+}
 
 export interface PredictionPanelProps {
   prediction: Record<string, unknown> | null | undefined
 }
 
 export const PredictionPanel = memo(function PredictionPanel({ prediction }: PredictionPanelProps) {
+  const context = useMemo<NodeContext>(() => {
+    const payload = asRecord(prediction?.payload)
+    return {
+      units: unitsByNode(asRecord(payload.prediction_task_spec)),
+      perNode: asRecord(asRecord(asRecord(payload.decision_report).quality).per_node),
+    }
+  }, [prediction])
+
   if (!prediction || Object.keys(prediction).length === 0) {
     return (
       <EmptyState
@@ -39,6 +60,11 @@ export const PredictionPanel = memo(function PredictionPanel({ prediction }: Pre
   const reasoning = asStringList(payload.reasoning_chain)
   const uncertainty = asStringList(payload.uncertainty_factors)
   const usedTokens = asNumber(payload.total_tokens_used)
+  const predictorKind = asText(payload.predictor_kind)
+  const predictorModel = asText(payload.predictor_model)
+  const inputRoute = asText(payload.input_route)
+  const report = asRecord(payload.decision_report)
+  const outputKind = kind || deriveOutputKind(root, flat)
 
   return (
     <div className="stack gap-4">
@@ -47,8 +73,16 @@ export const PredictionPanel = memo(function PredictionPanel({ prediction }: Pre
           <span className="stat__label">Predicted</span>
           <span className="t-h2 truncate">{label}</span>
           <div className="row gap-2 wrap">
-            {kind && <Badge tone="neutral">{titleCase(kind)}</Badge>}
+            {outputKind && outputKind !== 'unknown' && <Badge tone="neutral">{titleCase(outputKind)}</Badge>}
             {confidence && <Badge tone="info">{titleCase(confidence)} confidence</Badge>}
+            {predictorKind === 'decision' && (
+              <Tooltip content={predictorModel ? `${DECISION_TOOLTIP} Model: ${predictorModel}.` : DECISION_TOOLTIP}>
+                <Badge tone="accent">Decision model</Badge>
+              </Tooltip>
+            )}
+            {(inputRoute === 'direct' || inputRoute === 'orchestrated') && (
+              <Badge outline>{inputRoute === 'direct' ? 'Direct route' : 'Orchestrated'}</Badge>
+            )}
             {usedTokens !== null && <Badge outline>{formatTokens(usedTokens)} tokens</Badge>}
           </div>
         </div>
@@ -62,6 +96,8 @@ export const PredictionPanel = memo(function PredictionPanel({ prediction }: Pre
           </div>
         )}
       </div>
+
+      {predictorKind === 'decision' && Object.keys(report).length > 0 && <DecisionQuality report={report} />}
 
       {summary && (
         <div className="run-block">
@@ -116,12 +152,12 @@ export const PredictionPanel = memo(function PredictionPanel({ prediction }: Pre
         </div>
       )}
 
-      {Object.keys(root).length > 0 && <NodeView node={root} depth={0} />}
+      {Object.keys(root).length > 0 && <NodeView node={root} depth={0} context={context} />}
 
       {Object.keys(root).length === 0 && flat.length > 0 && (
         <div className="stack gap-3">
           {flat.map((node, index) => (
-            <NodeView key={asText(node.node_id) || index} node={node} depth={0} />
+            <NodeView key={asText(node.node_id) || index} node={node} depth={0} context={context} />
           ))}
         </div>
       )}
@@ -135,6 +171,162 @@ export const PredictionPanel = memo(function PredictionPanel({ prediction }: Pre
   )
 })
 
+/** The service adds this to the payload; an older payload is read off the root mode. */
+function deriveOutputKind(root: Record<string, unknown>, flat: Record<string, unknown>[]): string {
+  const mode = asText(root.mode) || asText(flat[0]?.mode)
+  if (mode.includes('classification')) return 'classification'
+  if (mode.includes('regression')) return 'regression'
+  return ''
+}
+
+/**
+ * Units per node and output, from the task the run was given. `unit_by_output`
+ * wins; a measurement scale's unit fills any output it leaves out.
+ */
+function unitsByNode(spec: Record<string, unknown>): Map<string, Record<string, string>> {
+  const out = new Map<string, Record<string, string>>()
+  const visit = (raw: unknown, depth: number) => {
+    const node = asRecord(raw)
+    const nodeId = asText(node.node_id)
+    if (nodeId) {
+      const units: Record<string, string> = {}
+      for (const [output, scale] of Object.entries(asRecord(node.output_scales))) {
+        const unit = asText(asRecord(scale).unit)
+        if (unit) units[output] = unit
+      }
+      for (const [output, unit] of Object.entries(asRecord(node.unit_by_output))) {
+        if (asText(unit)) units[output] = asText(unit)
+      }
+      out.set(nodeId, units)
+    }
+    // A malformed spec must not recurse forever.
+    if (depth < 32) for (const child of asArray(node.children)) visit(child, depth + 1)
+  }
+  visit(spec.root, 0)
+  return out
+}
+
+/** Full precision for a tooltip, without a float's trailing noise. */
+function precise(value: number | null): string {
+  if (value === null) return '-'
+  return Number.isInteger(value) ? String(value) : String(Number(value.toPrecision(10)))
+}
+
+function MeterRow({
+  label,
+  value,
+  warn,
+  note,
+}: {
+  label: ReactNode
+  value: number | null
+  warn: boolean
+  note?: string
+}) {
+  return (
+    <div className="run-probrow">
+      <span className="t-tiny truncate">{label}</span>
+      <span className="run-meter" aria-hidden>
+        <span
+          className={clsx('run-meter__fill', warn && 'run-meter__fill--warn')}
+          style={{ width: `${Math.round(Math.max(0, Math.min(1, value ?? 0)) * 100)}%` }}
+        />
+      </span>
+      <span className="t-tiny muted tabular">{value === null ? (note ?? '-') : percent(value, 0)}</span>
+    </div>
+  )
+}
+
+/**
+ * How far a decision model's answers can be trusted: whether it judged the
+ * record sufficient, how much the answers moved between presentation orders,
+ * how much of the record fit its state, and what the requests cost.
+ */
+function DecisionQuality({ report }: { report: Record<string, unknown> }) {
+  const quality = asRecord(report.quality)
+  const settings = asRecord(report.settings)
+  const sufficiency = asNumber(quality.evidence_sufficiency)
+  const meanInstability = asNumber(quality.mean_instability)
+  const maxInstability = asNumber(quality.max_instability)
+  const confidence = asNumber(quality.mean_confidence)
+  const coverage = asNumber(quality.feature_coverage)
+  const requests = asArray(report.requests)
+  const cost = asNumber(report.cost_usd)
+  const inputTokens = asNumber(report.input_tokens)
+  const modelId = asText(report.model)
+  const modelLabel = asText(report.model_label) || modelId
+  const orders = asNumber(settings.choice_orders)
+  const levels = asNumber(settings.score_levels)
+  const refine = settings.regression_refine
+
+  const unstable = (maxInstability ?? meanInstability ?? 0) > INSTABILITY_CAUTION
+
+  return (
+    <div className="run-block">
+      <span className="run-block__label">Decision quality</span>
+      <div className="stack gap-1">
+        <MeterRow
+          label={
+            <Tooltip content="The model's own answer to whether the record holds enough evidence for this task.">
+              <span>Evidence sufficiency</span>
+            </Tooltip>
+          }
+          value={sufficiency}
+          warn={sufficiency !== null && sufficiency < 0.5}
+          note="not asked"
+        />
+        <MeterRow label="Mean confidence" value={confidence} warn={confidence !== null && confidence < 0.5} />
+        <MeterRow
+          label={
+            <Tooltip content="Share of the record's features that fit into the decision model's state.">
+              <span>Feature coverage</span>
+            </Tooltip>
+          }
+          value={coverage}
+          warn={coverage !== null && coverage < 0.999}
+        />
+      </div>
+      <dl className="kv">
+        <dt>Instability across orders</dt>
+        <dd className="tabular" style={unstable ? { color: 'var(--caution)' } : undefined}>
+          {meanInstability !== null ? `mean ${meanInstability.toFixed(3)}` : '-'}
+          {maxInstability !== null ? `, max ${maxInstability.toFixed(3)}` : ''}
+        </dd>
+        <dt>Requests</dt>
+        <dd className="tabular">
+          {requests.length}
+          {inputTokens !== null ? `, ${formatTokens(inputTokens)} input tokens` : ''}
+        </dd>
+        <dt>Cost</dt>
+        <dd className="tabular">{cost === null ? 'n/a' : `${usd(cost)} (input only)`}</dd>
+        {modelLabel && (
+          <>
+            <dt>Model</dt>
+            <dd>
+              {modelLabel}
+              {modelId && modelId !== modelLabel && <span className="t-tiny muted mono">{`  ${modelId}`}</span>}
+            </dd>
+          </>
+        )}
+        {(orders !== null || levels !== null) && (
+          <>
+            <dt>Questioning</dt>
+            <dd className="t-tiny secondary">
+              {[
+                orders !== null ? `${orders} option order${orders === 1 ? '' : 's'}` : '',
+                levels !== null ? `${levels} score levels` : '',
+                typeof refine === 'boolean' ? (refine ? 'zoomed refinement on' : 'no refinement') : '',
+              ]
+                .filter(Boolean)
+                .join(', ')}
+            </dd>
+          </>
+        )}
+      </dl>
+    </div>
+  )
+}
+
 function safeJson(value: unknown): string {
   try {
     return JSON.stringify(value, null, 2)
@@ -143,7 +335,7 @@ function safeJson(value: unknown): string {
   }
 }
 
-function NodeView({ node, depth }: { node: Record<string, unknown>; depth: number }) {
+function NodeView({ node, depth, context }: { node: Record<string, unknown>; depth: number; context: NodeContext }) {
   const nodeId = asText(node.node_id) || 'root'
   const path = asText(node.path)
   const mode = asText(node.mode)
@@ -151,6 +343,14 @@ function NodeView({ node, depth }: { node: Record<string, unknown>; depth: numbe
   const regression = asRecord(node.regression)
   const probabilities = asRecord(classification.probabilities)
   const values = asRecord(regression.values)
+  const spread = asRecord(regression.uncertainty)
+  const hasSpread = Object.keys(values).some((key) => Object.keys(asRecord(spread[key])).length > 0)
+  const units = context.units.get(nodeId) ?? {}
+  const details = asRecord(node.decision_details)
+  const nodeStats = asRecord(context.perNode[nodeId])
+  const instability =
+    asNumber(details.stability_tv) ?? asNumber(details.stability_range_fraction) ?? asNumber(nodeStats.stability)
+  const sufficiency = asNumber(details.evidence_sufficiency)
   const confidenceScore = asNumber(node.confidence_score)
   const confidenceLevel = asText(node.confidence_level)
   const reasoning = asStringList(node.reasoning_chain)
@@ -168,9 +368,24 @@ function NodeView({ node, depth }: { node: Record<string, unknown>; depth: numbe
           {mode && <Badge tone="neutral">{titleCase(mode)}</Badge>}
           {confidenceLevel && <Badge outline>{titleCase(confidenceLevel)}</Badge>}
         </div>
-        {confidenceScore !== null && (
-          <span className="t-tiny muted tabular">confidence {confidenceScore.toFixed(2)}</span>
-        )}
+        <span className="row gap-3">
+          {instability !== null && (
+            <Tooltip content="Stability across presentation orders: how much the answer moved when the options were reordered. 0 is identical in every order.">
+              <span
+                className="t-tiny tabular"
+                style={{ color: instability > INSTABILITY_CAUTION ? 'var(--caution)' : 'var(--text-muted)' }}
+              >
+                instability {instability.toFixed(3)}
+              </span>
+            </Tooltip>
+          )}
+          {sufficiency !== null && (
+            <span className="t-tiny muted tabular">evidence {sufficiency.toFixed(2)}</span>
+          )}
+          {confidenceScore !== null && (
+            <span className="t-tiny muted tabular">confidence {confidenceScore.toFixed(2)}</span>
+          )}
+        </span>
       </header>
 
       {Object.keys(classification).length > 0 && (
@@ -201,22 +416,74 @@ function NodeView({ node, depth }: { node: Record<string, unknown>; depth: numbe
       )}
 
       {Object.keys(values).length > 0 && (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Output</th>
-              <th className="num">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(values).map(([key, raw]) => (
-              <tr key={key}>
-                <td>{key}</td>
-                <td className="num tabular">{asNumber(raw)?.toFixed(3) ?? asText(raw)}</td>
+        <div className="run-tablewrap">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Output</th>
+                <th className="num">Value</th>
+                {hasSpread && (
+                  <>
+                    <th className="num">SD</th>
+                    <th className="num">90% interval</th>
+                  </>
+                )}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {Object.entries(values).map(([key, raw]) => {
+                const value = asNumber(raw)
+                const dist = asRecord(spread[key])
+                const sd = asNumber(dist.sd)
+                const q05 = asNumber(dist.q05)
+                const q95 = asNumber(dist.q95)
+                const unit = units[key] ?? ''
+                const suffix = unit ? ` ${unit}` : ''
+                const tip = (
+                  <span className="stack gap-1 tabular">
+                    <span>
+                      {key}: {precise(value)}
+                      {suffix}
+                    </span>
+                    {sd !== null && <span>SD {precise(sd)}</span>}
+                    {asNumber(dist.median) !== null && <span>Median {precise(asNumber(dist.median))}</span>}
+                    {asNumber(dist.q25) !== null && asNumber(dist.q75) !== null && (
+                      <span>
+                        50% interval {precise(asNumber(dist.q25))} to {precise(asNumber(dist.q75))}
+                      </span>
+                    )}
+                    {q05 !== null && q95 !== null && (
+                      <span>
+                        90% interval {precise(q05)} to {precise(q95)}
+                      </span>
+                    )}
+                  </span>
+                )
+                return (
+                  <tr key={key}>
+                    <td>
+                      {key}
+                      {unit && <span className="t-tiny muted"> ({unit})</span>}
+                    </td>
+                    <td className="num tabular">
+                      <Tooltip content={tip}>
+                        <span>{value !== null ? value.toFixed(3) : asText(raw)}</span>
+                      </Tooltip>
+                    </td>
+                    {hasSpread && (
+                      <>
+                        <td className="num tabular">{sd !== null ? sd.toFixed(3) : '-'}</td>
+                        <td className="num tabular">
+                          {q05 !== null && q95 !== null ? `${q05.toFixed(3)} to ${q95.toFixed(3)}` : '-'}
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {findings.length > 0 && (
@@ -282,7 +549,7 @@ function NodeView({ node, depth }: { node: Record<string, unknown>; depth: numbe
       )}
 
       {children.map((child, index) => (
-        <NodeView key={asText(child.node_id) || index} node={child} depth={depth + 1} />
+        <NodeView key={asText(child.node_id) || index} node={child} depth={depth + 1} context={context} />
       ))}
     </div>
   )

@@ -22,6 +22,7 @@ export type ConfigSection = Extract<
   | 'engine'
   | 'token_budget'
   | 'local'
+  | 'decision'
   | 'batch'
   | 'cost'
   | 'workspace'

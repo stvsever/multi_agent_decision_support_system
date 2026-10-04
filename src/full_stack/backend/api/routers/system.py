@@ -8,8 +8,9 @@ from typing import Any, Dict
 
 from fastapi import APIRouter, HTTPException, Path as PathParam, Query
 
-from ...config.settings import COMPASS_FULL_NAME, COMPASS_VERSION
+from ...config.settings import COMPASS_FULL_NAME, COMPASS_VERSION, ORCHESTRATION_MODES
 from ...data.models.execution_plan import ToolName
+from ...decision import list_decision_models
 from ...runtime.event_bus import STAGE_NAMES
 from .. import DEFAULT_MODEL
 from ..catalog import connectivity
@@ -123,6 +124,10 @@ def capabilities() -> Dict[str, Any]:
              "summary": "Mixed modes arranged as a tree of dependent questions.", "needs": ["root"]},
         ],
         "cost_model": model_profile(),
+        # Structured decision models the Predictor can use (no other role can),
+        # and when the orchestration workflow runs before the Predictor.
+        "decision_models": [spec.as_dict() for spec in list_decision_models()],
+        "orchestration_modes": list(ORCHESTRATION_MODES),
         "provider_links": {
             "openrouter_keys": "https://openrouter.ai/settings/keys",
             "openrouter_models": "https://openrouter.ai/models",

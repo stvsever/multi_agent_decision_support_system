@@ -25,6 +25,7 @@
   --fam-ranking: var(--dev-high);
   --fam-other: var(--text-faint);
   --fam-agent: var(--accent);
+  --fam-source: var(--info);
 
   /* Step and agent lifecycle. */
   --st-pending: var(--text-faint);
@@ -32,6 +33,13 @@
   --st-complete: var(--positive);
   --st-failed: var(--critical);
   --st-repairing: var(--caution);
+}
+
+/* A stage the direct route never needed. The stage rail sits outside the
+   canvas and reads the same token, so it is declared for both surfaces. */
+.flow,
+.run-rail {
+  --st-skipped: var(--line-strong);
 }
 
 .flow--empty {
@@ -354,6 +362,31 @@
 @keyframes flow-ring {
   0%, 100% { transform: scale(1); opacity: 0.5; }
   50% { transform: scale(1.055); opacity: 0.12; }
+}
+
+/* --- Source node ---------------------------------------------------------- */
+
+/* The participant record on the direct route: data, not an agent, so it keeps
+   the card corner of a step while sharing the agent's icon and label slots. */
+.flow-node--source {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 0 var(--s-3);
+  border-radius: var(--r-md);
+  border-width: 1.5px;
+  border-color: color-mix(in srgb, var(--fam-source) 40%, var(--line-strong));
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+.flow-node--source .flow-node__icon {
+  border-radius: var(--r-sm);
+  background: var(--info-soft);
+  color: var(--fam-source);
+}
+.flow-node--source[data-status='pending'] .flow-node__icon {
+  background: var(--bg-inset);
+  color: var(--text-faint);
 }
 
 /* --- Rank bands and ruler ------------------------------------------------- */

@@ -21,7 +21,7 @@ from ..schemas import ConfigPatch, CredentialUpdate, DashboardConfig, readable_v
 
 router = APIRouter(prefix="/settings", tags=["settings"])
 
-CREDENTIAL_PROVIDERS = ("openrouter", "huggingface")
+CREDENTIAL_PROVIDERS = ("openrouter", "huggingface", "typesafe")
 
 #: Shared with the deployment planner so a rejected local backend reads the same
 #: on both screens.

@@ -1,9 +1,23 @@
 /** What the run actually cost, next to what it was projected to cost. */
 
 import { memo, useMemo } from 'react'
-import { Badge, EmptyState } from '@/components/ui/primitives'
+import { Badge, EmptyState, Tooltip } from '@/components/ui/primitives'
+import { isDecisionModelId, useDecisionModels } from '@/lib/decision'
 import { modelShortName, tokens as formatTokens, titleCase, usd } from '@/lib/format'
 import type { CostSummary, Estimate } from '@/lib/types'
+
+/** Projection roles that are not agent names. */
+const ROLE_LABELS: Record<string, string> = {
+  question_book: 'Question book',
+  tool: 'Tools',
+}
+
+const INPUT_ONLY_TIP = 'A decision model is billed for the state and questions it reads; its answers are free.'
+
+const ROUTE_TIP: Record<string, string> = {
+  direct: 'The projection assumed the record fits the Predictor input, so it has no Orchestrator or tool calls.',
+  orchestrated: 'The projection assumed the record is orchestrated: a plan, its tool steps, and the Integrator.',
+}
 
 export interface CostPanelProps {
   cost: CostSummary
@@ -13,6 +27,8 @@ export interface CostPanelProps {
 export const CostPanel = memo(function CostPanel({ cost, estimate }: CostPanelProps) {
   const actualLines = cost?.lines ?? []
   const projectedLines = estimate?.lines ?? []
+  const decisionModels = useDecisionModels()
+  const isDecision = (model: string) => isDecisionModelId(model, decisionModels.ids)
 
   const projectedByModel = useMemo(() => {
     const table = new Map<string, { tokens: number; usd: number | null }>()
@@ -58,6 +74,22 @@ export const CostPanel = memo(function CostPanel({ cost, estimate }: CostPanelPr
         </div>
       </div>
 
+      {estimate?.route && (
+        <div className="row gap-2 wrap">
+          <span className="t-tiny muted">The projection assumed</span>
+          <Tooltip content={ROUTE_TIP[estimate.route] ?? ''}>
+            <Badge tone={estimate.route === 'direct' ? 'info' : 'neutral'}>
+              {estimate.route === 'direct' ? 'Direct route' : 'Orchestrated'}
+            </Badge>
+          </Tooltip>
+          {estimate.predictor_kind === 'decision' && (
+            <Tooltip content={INPUT_ONLY_TIP}>
+              <Badge tone="accent">Decision Predictor</Badge>
+            </Tooltip>
+          )}
+        </div>
+      )}
+
       <div className="grid grid--2">
         <div className="run-block">
           <span className="run-block__label">Actual, by model</span>
@@ -86,7 +118,15 @@ export const CostPanel = memo(function CostPanel({ cost, estimate }: CostPanelPr
                           </span>
                         </td>
                         <td className="num tabular">{formatTokens(line.prompt_tokens)}</td>
-                        <td className="num tabular">{formatTokens(line.completion_tokens)}</td>
+                        <td className="num tabular">
+                          {isDecision(line.model) && line.completion_tokens === 0 ? (
+                            <Tooltip content={INPUT_ONLY_TIP}>
+                              <span className="muted">free</span>
+                            </Tooltip>
+                          ) : (
+                            formatTokens(line.completion_tokens)
+                          )}
+                        </td>
                         <td className="num tabular">{usd(line.usd)}</td>
                         <td className="num tabular muted">{forecast ? usd(forecast.usd) : '-'}</td>
                       </tr>
@@ -115,21 +155,31 @@ export const CostPanel = memo(function CostPanel({ cost, estimate }: CostPanelPr
                   </tr>
                 </thead>
                 <tbody>
-                  {projectedLines.map((line) => (
-                    <tr key={`${line.role}-${line.model}`}>
-                      <td>{titleCase(line.role)}</td>
-                      <td>
-                        <span className="truncate" title={line.model}>
-                          {modelShortName(line.model)}
-                        </span>
-                      </td>
-                      <td className="num tabular">{line.calls}</td>
-                      <td className="num tabular">{formatTokens(line.total_tokens)}</td>
-                      <td className="num tabular">
-                        {line.price_known ? usd(line.usd) : <Badge tone="caution">unpriced</Badge>}
-                      </td>
-                    </tr>
-                  ))}
+                  {projectedLines.map((line) => {
+                    const inputOnly = isDecision(line.model) && line.completion_tokens === 0
+                    return (
+                      <tr key={`${line.role}-${line.model}`}>
+                        <td>{ROLE_LABELS[line.role] ?? titleCase(line.role)}</td>
+                        <td>
+                          <span className="row gap-1" style={{ minWidth: 0 }}>
+                            <span className="truncate" title={line.model}>
+                              {modelShortName(line.model)}
+                            </span>
+                            {inputOnly && (
+                              <Tooltip content={INPUT_ONLY_TIP}>
+                                <Badge outline>input only</Badge>
+                              </Tooltip>
+                            )}
+                          </span>
+                        </td>
+                        <td className="num tabular">{line.calls}</td>
+                        <td className="num tabular">{formatTokens(line.total_tokens)}</td>
+                        <td className="num tabular">
+                          {line.price_known ? usd(line.usd) : <Badge tone="caution">unpriced</Badge>}
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>

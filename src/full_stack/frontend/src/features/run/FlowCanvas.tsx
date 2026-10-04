@@ -41,6 +41,7 @@ import {
   ArrowRightLeft,
   Check,
   Compass,
+  Database,
   FileText,
   Layers,
   List,
@@ -73,7 +74,8 @@ import {
 
 import { Badge, Button, Card, EmptyState, Tooltip } from '@/components/ui/primitives'
 import { duration as formatDuration, tokens as formatTokens, titleCase } from '@/lib/format'
-import type { GraphEdge, GraphNode, RunGraph, RunStep } from '@/lib/types'
+import type { GraphEdge, GraphNode, RouteDecision, RunGraph, RunStep } from '@/lib/types'
+import { isRecordNode } from './runUtils'
 
 /* --- Contract -------------------------------------------------------------- */
 
@@ -89,6 +91,8 @@ export interface FlowCanvasProps {
   showTokens?: boolean
   onSelectNode?: (node: GraphNode | null) => void
   className?: string
+  /** The latest route decision, so an empty canvas can say why there is no plan. */
+  route?: RouteDecision | null
 }
 
 type Direction = 'LR' | 'TB'
@@ -168,6 +172,12 @@ const EDGE_LEGEND: { kind: GraphEdge['kind']; body: string }[] = [
   { kind: 'feedback', body: 'critic sends the plan back' },
 ]
 
+/** A direct graph has no waves, so only the edges it can draw are explained. */
+const DIRECT_EDGE_LEGEND: { kind: GraphEdge['kind']; body: string }[] = [
+  { kind: 'sequential', body: 'one stage feeds the next' },
+  { kind: 'feedback', body: 'critic sends the prediction back' },
+]
+
 const STATUS_LEGEND: { status: FlowStatus; body: string }[] = [
   { status: 'pending', body: 'not dispatched yet' },
   { status: 'running', body: 'executing now' },
@@ -194,8 +204,18 @@ const TIP_PATH = 'M -3.2,-3 L 3.2,0 L -3.2,3 Z'
 /** SVG ids have to survive being used as a URL fragment in `mpath href`. */
 const slug = (value: string) => value.replace(/[^A-Za-z0-9_-]/g, '_')
 
+/** Agents and the record are drawn compact; only tool steps carry a body. */
+const isCompact = (node: GraphNode) => node.type !== 'tool' || isRecordNode(node)
+
+const isDirectGraph = (graph: RunGraph) =>
+  graph.meta?.route === 'direct' || (graph.nodes.some(isRecordNode) && !graph.nodes.some((n) => n.type === 'tool'))
+
 const familyVar = (node: GraphNode) =>
-  node.type === 'agent' ? 'var(--fam-agent)' : `var(--fam-${node.family || 'other'})`
+  isRecordNode(node)
+    ? 'var(--fam-source)'
+    : node.type === 'agent'
+      ? 'var(--fam-agent)'
+      : `var(--fam-${node.family || 'other'})`
 
 function planStatus(raw: string | undefined): FlowStatus {
   const value = String(raw ?? '').toLowerCase()
@@ -320,9 +340,9 @@ function layoutGraph(graph: RunGraph, direction: Direction): Layout {
   const lane = LANE_STEP[direction]
 
   const placed: Placed[] = graph.nodes.map((node) => {
-    const agent = node.type === 'agent'
-    const w = agent ? AGENT_W : NODE_W
-    const h = agent ? AGENT_H : NODE_H
+    const compact = isCompact(node)
+    const w = compact ? AGENT_W : NODE_W
+    const h = compact ? AGENT_H : NODE_H
     const along = (rankIndex.get(node.rank) ?? 0) * step
     // Lanes are centred on zero so a wave of seven grows symmetrically around
     // the spine instead of pushing every later rank downwards.
@@ -345,14 +365,14 @@ function layoutGraph(graph: RunGraph, direction: Direction): Layout {
   let wave = 0
   for (const rank of ranks) {
     const here = graph.nodes.filter((n) => n.rank === rank)
-    const tools = here.filter((n) => n.type === 'tool')
-    const agent = here.find((n) => n.type === 'agent')
+    const tools = here.filter((n) => !isCompact(n))
+    const anchor = here.find((n) => isCompact(n))
     const parallel = tools.length > 1
     let label: string
     let sub: string
-    if (agent) {
-      label = `Stage ${agent.stage}`
-      sub = agent.label
+    if (anchor) {
+      label = `Stage ${anchor.stage}`
+      sub = anchor.label
     } else {
       wave += 1
       label = `Wave ${wave}`
@@ -439,7 +459,11 @@ interface FlowNodeData extends Record<string, unknown> {
 
 type ToolNodeType = Node<FlowNodeData, 'tool'>
 type AgentNodeType = Node<FlowNodeData, 'agent'>
-type CanvasNode = ToolNodeType | AgentNodeType
+type SourceNodeType = Node<FlowNodeData, 'source'>
+type CanvasNode = ToolNodeType | AgentNodeType | SourceNodeType
+
+const canvasType = (node: GraphNode): CanvasNode['type'] =>
+  isRecordNode(node) ? 'source' : node.type === 'agent' ? 'agent' : 'tool'
 
 function statusMark(status: FlowStatus): ReactNode {
   if (status === 'running') return <LoaderCircle size={11} className="spin" />
@@ -556,7 +580,43 @@ function AgentNode({ data }: NodeProps<AgentNodeType>) {
   )
 }
 
-const NODE_TYPES: NodeTypes = { tool: ToolNode, agent: AgentNode }
+/**
+ * The participant record on the direct route. It is data rather than an agent,
+ * so it keeps the card corner of a step and the icon slot of an agent, and it
+ * only ever feeds the Predictor.
+ */
+function SourceNode({ data }: NodeProps<SourceNodeType>) {
+  const { node, status } = data
+  const { targetPosition, sourcePosition, selected, onKeyDown } = useNodeShell(node)
+  const inputTokens = Number(node.meta?.input_tokens ?? 0)
+
+  return (
+    <div
+      className="flow-node flow-node--source"
+      data-status={status}
+      data-selected={selected}
+      role="button"
+      tabIndex={0}
+      title={node.detail || node.label}
+      style={{ '--fam': 'var(--fam-source)', '--st': `var(--st-${status})` } as React.CSSProperties}
+      onKeyDown={onKeyDown}
+    >
+      <Handle type="target" id="in" position={targetPosition} isConnectable={false} />
+      <span className="flow-node__icon">
+        <Database size={14} />
+      </span>
+      <span className="flow-node__agent-text">
+        <span className="flow-node__agent-label truncate">{node.label || 'Participant record'}</span>
+        <span className="flow-node__agent-sub truncate">
+          {inputTokens > 0 ? `${formatTokens(inputTokens)} tokens` : 'complete record'}
+        </span>
+      </span>
+      <Handle type="source" id="out" position={sourcePosition} isConnectable={false} />
+    </div>
+  )
+}
+
+const NODE_TYPES: NodeTypes = { tool: ToolNode, agent: AgentNode, source: SourceNode }
 
 /* --- Edge components ------------------------------------------------------- */
 
@@ -778,7 +838,7 @@ function EdgeSample({ kind }: { kind: GraphEdge['kind'] }) {
   )
 }
 
-function Legend({ onClose }: { onClose: () => void }) {
+function Legend({ onClose, direct }: { onClose: () => void; direct: boolean }) {
   return (
     <Card
       className="flow-legend nopan nowheel"
@@ -788,7 +848,7 @@ function Legend({ onClose }: { onClose: () => void }) {
       }
     >
       <div className="flow-legend__group">
-        {EDGE_LEGEND.map((row) => (
+        {(direct ? DIRECT_EDGE_LEGEND : EDGE_LEGEND).map((row) => (
           <div key={row.kind} className="flow-legend__row">
             <EdgeSample kind={row.kind} />
             <span>
@@ -831,6 +891,7 @@ function Canvas({
   showTokens = true,
   onSelectNode,
   className,
+  route,
 }: CanvasProps): JSX.Element {
   const instanceId = slug(useId())
   const reduced = useReducedMotion()
@@ -881,7 +942,7 @@ function Canvas({
   const statusById = useMemo(() => {
     const map = new Map<string, FlowStatus>()
     for (const node of graph.nodes) {
-      if (node.type === 'agent') {
+      if (node.type !== 'tool' || isRecordNode(node)) {
         map.set(node.id, agentStatus(node.stage, currentStage, running))
       } else {
         const step = node.step_id === undefined ? undefined : stepsRef.current.get(node.step_id)
@@ -897,7 +958,7 @@ function Canvas({
     () =>
       layout.placed.map((p) => ({
         id: p.node.id,
-        type: p.node.type,
+        type: canvasType(p.node),
         position: { x: p.x, y: p.y },
         width: p.w,
         height: p.h,
@@ -1116,7 +1177,12 @@ function Canvas({
   const zoomPct = Math.round(zoomNow * 100)
 
   const totalTokens = steps.reduce((sum, step) => sum + (step.tokens || 0), 0)
-  const maxParallel = graph.meta.max_parallel || Math.max(1, ...graph.lanes.map((l) => l.size))
+  const maxParallel = graph.meta?.max_parallel || Math.max(1, ...(graph.lanes ?? []).map((l) => l.size))
+  const direct = isDirectGraph(graph)
+  const recordTokens =
+    route?.route === 'direct' && route.input_tokens > 0
+      ? route.input_tokens
+      : Number(graph.nodes.find(isRecordNode)?.meta?.input_tokens ?? 0)
 
   return (
     <div
@@ -1271,34 +1337,51 @@ function Canvas({
                   />
                 </Tooltip>
               </div>
-              {legendOpen && <Legend onClose={() => setLegendOpen(false)} />}
+              {legendOpen && <Legend direct={direct} onClose={() => setLegendOpen(false)} />}
             </Panel>
 
-            <Panel position="bottom-left" className="flow-stats nopan nowheel">
-              <span className="flow-stat">
-                <b>{graph.meta.step_count}</b> steps
-              </span>
-              <span className="flow-stats__sep" />
-              <span className="flow-stat">
-                <b>{graph.meta.depth}</b> deep
-              </span>
-              <span className="flow-stats__sep" />
-              <span className="flow-stat">
-                <Layers size={11} />
-                <b>{maxParallel}</b> parallel
-              </span>
-              <span className="flow-stats__sep" />
-              <span className="flow-stat">
-                <b>{formatTokens(totalTokens)}</b> tokens
-              </span>
-              {iteration > 1 && <Badge tone="caution">iteration {iteration}</Badge>}
-            </Panel>
+            {direct ? (
+              <Panel position="bottom-left" className="flow-stats nopan nowheel">
+                <Badge tone="info">Direct route</Badge>
+                <span className="flow-stat">no plan, no tool steps</span>
+                {recordTokens > 0 && (
+                  <>
+                    <span className="flow-stats__sep" />
+                    <span className="flow-stat">
+                      <b>{formatTokens(recordTokens)}</b> record tokens
+                      {route?.budget_tokens ? ` of ${formatTokens(route.budget_tokens)}` : ''}
+                    </span>
+                  </>
+                )}
+                {iteration > 1 && <Badge tone="caution">iteration {iteration}</Badge>}
+              </Panel>
+            ) : (
+              <Panel position="bottom-left" className="flow-stats nopan nowheel">
+                <span className="flow-stat">
+                  <b>{graph.meta.step_count}</b> steps
+                </span>
+                <span className="flow-stats__sep" />
+                <span className="flow-stat">
+                  <b>{graph.meta.depth}</b> deep
+                </span>
+                <span className="flow-stats__sep" />
+                <span className="flow-stat">
+                  <Layers size={11} />
+                  <b>{maxParallel}</b> parallel
+                </span>
+                <span className="flow-stats__sep" />
+                <span className="flow-stat">
+                  <b>{formatTokens(totalTokens)}</b> tokens
+                </span>
+                {iteration > 1 && <Badge tone="caution">iteration {iteration}</Badge>}
+              </Panel>
+            )}
 
             <MiniMap
               className="nopan"
               pannable
               zoomable
-              ariaLabel="Plan overview"
+              ariaLabel={direct ? 'Workflow overview' : 'Plan overview'}
               nodeBorderRadius={4}
               nodeStrokeWidth={0}
               maskColor="color-mix(in srgb, var(--bg-sunken) 74%, transparent)"
@@ -1319,13 +1402,24 @@ function Canvas({
 
 export function FlowCanvas(props: FlowCanvasProps): JSX.Element {
   if (!props.graph) {
+    // A direct attempt writes no plan, so waiting for the orchestrator would
+    // describe something that is never going to happen.
+    const direct = props.route?.route === 'direct'
     return (
       <div className={clsx('flow', 'flow--empty', props.className)}>
-        <EmptyState
-          icon={<Waypoints size={20} />}
-          title="No execution plan yet"
-          body="The orchestrator writes the plan before anything runs. Once it lands, every tool call, its dependencies, and the critic loop appear here and update live."
-        />
+        {direct ? (
+          <EmptyState
+            icon={<Database size={20} />}
+            title="Direct to the Predictor"
+            body="The complete participant record fits the Predictor input, so no plan is written and no tools run. The record goes straight to the Predictor, then the Critic, and the Critic can send the prediction back for revision."
+          />
+        ) : (
+          <EmptyState
+            icon={<Waypoints size={20} />}
+            title="No execution plan yet"
+            body="The orchestrator writes the plan before anything runs. Once it lands, every tool call, its dependencies, and the critic loop appear here and update live."
+          />
+        )}
       </div>
     )
   }

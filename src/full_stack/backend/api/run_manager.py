@@ -34,7 +34,7 @@ from .cost import (
 from .engine_bridge import build_task_spec, describe_task, ensure_runnable, merge_overrides
 from .paths import runs_dir
 from .schemas import DashboardConfig, RunRequest
-from .flow import plan_to_graph
+from .flow import direct_graph, plan_to_graph
 
 MAX_LIVE_EVENTS = 4000
 TERMINAL_STATES = {"succeeded", "failed", "cancelled"}
@@ -51,6 +51,22 @@ AUDIT_PHASES = (
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
+
+
+def _route_fields(result: Optional[Dict[str, Any]], state: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    How the record reached the Predictor, and what kind of model read it.
+
+    The worker's result names the attempt that was selected; before it lands,
+    the latest ROUTE event says which route the run is on.
+    """
+    result = result if isinstance(result, dict) else {}
+    latest = (state or {}).get("route") if isinstance(state, dict) else None
+    latest = latest if isinstance(latest, dict) else {}
+    return {
+        "input_route": result.get("input_route") or latest.get("route") or None,
+        "predictor_kind": result.get("predictor_kind") or latest.get("predictor_kind") or None,
+    }
 
 
 class RunRecord:
@@ -157,6 +173,7 @@ class RunRecord:
             "max_steps": self.state.get("max_steps"),
             "verdict": (self.result or {}).get("verdict"),
             "prediction": (self.result or {}).get("prediction"),
+            **_route_fields(self.result, self.state),
         }
 
     def detail(self, since_event: int = 0) -> Dict[str, Any]:
@@ -245,18 +262,41 @@ class RunRecord:
         return True
 
     def _append_event(self, event: Dict[str, Any], state: Dict[str, Any]) -> None:
+        graph_changed = False
         with self._lock:
             self.events.append(event)
             if len(self.events) > MAX_LIVE_EVENTS:
                 del self.events[: len(self.events) - MAX_LIVE_EVENTS]
             self.state = state
-            if event.get("type") == "PLAN":
+            kind = event.get("type")
+            if kind == "PLAN":
                 plan = (event.get("data") or {}).get("plan") or {}
                 self.graph = plan_to_graph(plan)
+                graph_changed = True
+            elif kind == "ROUTE":
+                graph_changed = self._apply_route(event.get("data") or {})
         payload = {"type": "event", "event": event, "state": state}
-        if event.get("type") == "PLAN":
+        if graph_changed:
             payload["graph"] = self.graph
         self._broadcast(payload)
+
+    def _apply_route(self, route: Dict[str, Any]) -> bool:
+        """
+        Draw the direct route when an attempt skips orchestration.
+
+        A direct attempt emits no PLAN, so without this the canvas would keep
+        showing the previous attempt's plan, or nothing. A plan graph already
+        drawn for the same attempt wins, and an escalation's PLAN replaces this.
+        """
+        if not isinstance(route, dict) or route.get("route") != "direct":
+            return False
+        iteration = int(route.get("iteration") or self.state.get("iteration") or 1)
+        current = self.graph or {}
+        planned = (current.get("meta") or {}).get("route") == "orchestrated"
+        if planned and int(current.get("iteration") or 1) == iteration:
+            return False
+        self.graph = direct_graph({**route, "iteration": iteration})
+        return True
 
     def _apply_usage(self, usage: Dict[str, Any]) -> None:
         # Priced from the cache only: this runs on the thread draining the
@@ -551,9 +591,13 @@ class ArchivedRun:
         keys = (
             "id", "label", "participant_id", "participant_dir", "status", "audit", "audit_summary",
             "batch_id", "created_at", "started_at", "finished_at", "error", "task", "estimate", "cost",
-            "stage", "progress", "max_steps", "verdict", "prediction",
+            "stage", "progress", "max_steps", "verdict", "prediction", "input_route", "predictor_kind",
         )
-        return {**{k: self._payload.get(k) for k in keys}, "archived": True}
+        summary = {k: self._payload.get(k) for k in keys}
+        # A record written before routing existed can still say it from its result.
+        for key, value in _route_fields(self.result, self.state).items():
+            summary[key] = summary.get(key) or value
+        return {**summary, "archived": True}
 
     def detail(self, since_event: int = 0) -> Dict[str, Any]:
         events = []
