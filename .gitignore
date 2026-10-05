@@ -26,21 +26,15 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
-# Runtime artifacts (engine root only; validation/ keeps its own results in git)
-/.compass_cache/
+# Runtime artifacts (engine root only)
+.compass_cache/
 /logs/
 /results/
 /outputs/
 *.sqlite3
 *.db
 src/full_stack/backend/data/pseudo_data/outputs/
-validation/**/__pycache__/
-validation/**/_cache/
 .ipynb_checkpoints/
-
-# Raw downloaded source imaging data (re-fetched by the dataset's own download
-# step in seconds; not worth tracking). Extracted/derived outputs are kept.
-validation/datasets/NUMERACY_STROKE/data/raw/
 
 # Local manuscript and generated report material
 report/
@@ -63,8 +57,17 @@ dist/
 node_modules/
 src/full_stack/frontend/dist/
 
-# Local only, never pushed. External validation against public datasets and the
-# manuscript sources both live beside the code rather than in it: they are the
-# team's working material, not part of what the engine ships.
+# Local only, never pushed. External validation against public datasets, the
+# manuscript sources and the launch-film material all live beside the code rather
+# than in it: they are the team's working material, not part of what the engine
+# ships.
 report/
-validation/
+/validation/
+/marketing/
+
+# Tests of the maintainer's own OpenNeuro validation (they import the local-only
+# validation/ tree); kept beside the public suite but never pushed.
+src/tests/test_aomic_validation_protocol.py
+src/tests/test_openneuro_batch_report.py
+src/tests/test_openneuro_*.py
+src/tests/test_validation_openneuro_*.py
