@@ -189,6 +189,10 @@ echo "  Venv Python:      ${VENV_DIR}/bin/python3"
   "vllm==${PIN_VLLM}" \
   "optimum" "autoawq>=0.2.6" "safetensors" "sentencepiece"
 
+# 3) Engine dependencies requirements.txt leaves to transitive installs: the
+#    structured decision model client (requests) for a Jev Predictor.
+"${VENV_DIR}/bin/python3" -m pip install --no-cache-dir "requests>=2.31"
+
 echo ""
 echo "  Freeze sanity:"
 "${VENV_DIR}/bin/python3" -m pip freeze | egrep -i '^(numpy|pandas|scipy|transformers|vllm|torch|autoawq|optimum|safetensors)=' || true
@@ -207,6 +211,8 @@ print("VERIFIED_TRANSFORMERS:", transformers.__version__)
 import vllm
 print("VERIFIED_VLLM:", getattr(vllm, "__version__", "unknown"))
 print("VLLM_FILE:", vllm.__file__)
+import fastapi, httpx, requests, tiktoken, dotenv, tenacity, openai
+print("VERIFIED_ENGINE_DEPS: fastapi, httpx, requests, tiktoken, dotenv, tenacity, openai")
 PY
 
 echo ""

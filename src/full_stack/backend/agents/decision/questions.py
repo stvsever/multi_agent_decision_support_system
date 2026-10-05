@@ -39,7 +39,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Sequence
 
-from ..data.models.prediction_task import PredictionMode, PredictionTaskNode, PredictionTaskSpec
+from ...data.models.prediction_task import PredictionMode, PredictionTaskNode, PredictionTaskSpec
 from .scales import OutputScale, ScaleBin, default_scale, scale_from_mapping
 
 logger = logging.getLogger("compass.decision.questions")
@@ -278,7 +278,7 @@ def cache_dir() -> Path:
     root = os.getenv("COMPASS_CACHE_DIR", "").strip()
     if root:
         return Path(root).expanduser() / "decision_question_books"
-    return Path(__file__).resolve().parents[4] / ".compass_cache" / "decision_question_books"
+    return Path(__file__).resolve().parents[5] / ".compass_cache" / "decision_question_books"
 
 
 @contextmanager

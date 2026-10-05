@@ -20,8 +20,8 @@ from typing import Any, Dict, List, Optional
 
 import httpx
 
-from ..decision import DecisionModelSpec, get_decision_model_spec, list_decision_models
-from ..decision.registry import normalize_model_id
+from ..agents.decision import DecisionModelSpec, get_decision_model_spec, list_decision_models
+from ..agents.decision.registry import normalize_model_id
 from .config_store import get_credential, load_config
 from .paths import catalog_cache_file
 from .schemas import AGENT_ROLES

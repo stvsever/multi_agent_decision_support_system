@@ -38,7 +38,7 @@
 
 The Executor runs independent tool steps concurrently against a hosted API, and sequentially against a self-hosted model to limit GPU memory pressure. After the final iteration COMPASS selects the strongest satisfactory attempt; if none is satisfactory it selects the highest-scoring attempt and records that status.
 
-Before the first attempt COMPASS measures the record against the Predictor's input budget. With `--orchestration auto` (the default) a record that fits goes straight to the Predictor in a compact, lossless rendering and the planning and tool steps are skipped; `always` and `never` force either route. The Predictor can also be a structured decision model such as TypeSafe Jev (`--predictor_model typesafe/jev-1.13`), which returns calibrated probabilities instead of text and keeps regression estimates continuous; every other agent then runs on a conventional LLM. Method and settings: [src/full_stack/backend/decision/README.md](src/full_stack/backend/decision/README.md).
+Before the first attempt COMPASS measures the record against the Predictor's input budget. With `--orchestration auto` (the default) a record that fits goes straight to the Predictor in a compact, lossless rendering and the planning and tool steps are skipped; `always` and `never` force either route. The Predictor can also be a structured decision model such as TypeSafe Jev (`--predictor_model typesafe/jev-1.13`), which returns calibrated probabilities instead of text and keeps regression estimates continuous; every other agent then runs on a conventional LLM. Method and settings: [src/full_stack/backend/agents/decision/README.md](src/full_stack/backend/agents/decision/README.md).
 
 ## <a id="dashboard"></a>🖥️ Dashboard
 
@@ -105,7 +105,14 @@ python3 main.py src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO \
 python3 main.py src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO \
   --prediction_type binary --target_label target_phenotype \
   --control_label non_target_comparator --predictor_model typesafe/jev-1.13
+
+# Check any of these offline first: per-role models and context windows, the Predictor
+# input budget, missing keys, and the route this record takes. No model is called.
+python3 main.py src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO \
+  --predictor_model typesafe/jev-1.13 --check_config
 ```
+
+Each role's context window comes from the cached OpenRouter catalog, then a built-in table, then `--public_max_context_tokens` for a model neither knows; `--context_window` or `--role_context_window predictor=128000` forces it, and on `--backend local` the served length (`--local_max_model_len`) is the window. The dashboard's cost estimate measures each record with the same engine code, so its route and Predictor input match the run.
 
 Other task modes take `--class_labels`, `--regression_output(s)`, or `--task_spec_file` for a hierarchical tree. `--xai_methods external,internal,hybrid` adds explainability, which currently covers root-level binary classification and records an explicit skip otherwise. `python3 main.py --help` lists every flag.
 
@@ -117,12 +124,12 @@ multi_agent_decision_support_system/
 ├── src/
 │   ├── full_stack/
 │   │   ├── backend/
-│   │   │   ├── agents/         # Agent implementations and prompts
+│   │   │   ├── agents/         # Agents, prompts, and decision/ (structured decision models as Predictor)
 │   │   │   ├── api/            # FastAPI service, run supervision, cost, PDF
-│   │   │   ├── config/         # Runtime and model configuration
+│   │   │   ├── assets/         # Figures
+│   │   │   ├── config/         # Runtime, model and context-window configuration
 │   │   │   ├── data/           # Typed models and pseudo-data
-│   │   │   ├── decision/       # Structured decision models as Predictor (see its README)
-│   │   │   ├── hpc/            # Slurm and Apptainer templates
+│   │   │   ├── hpc/            # Slurm, Apptainer and vLLM serving templates
 │   │   │   ├── runtime/        # Engine event bus consumed by the dashboard
 │   │   │   ├── tools/          # Clinical analysis tools and prompts
 │   │   │   └── utils/          # Core engine, validation, XAI, and logging

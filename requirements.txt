@@ -9,6 +9,8 @@ pydantic>=2.0.0
 
 python-dotenv>=1.0.0
 tenacity>=8.2.0
+# Structured decision-model client (agents/decision/client.py), imported when main.py starts
+requests>=2.31
 huggingface_hub>=0.20.0
 certifi>=2024.0.0
 

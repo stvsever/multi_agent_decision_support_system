@@ -99,11 +99,17 @@ class UnimodalCompressor(BaseTool):
 
         # Token-aware packing (avoid blunt character slicing).
         from src.full_stack.backend.config.settings import LLMBackend
+        tool_window = int(
+            self.settings.effective_context_window(getattr(self.settings.models, "tool_model", None), role="tool")
+        )
         if self.settings.models.backend == LLMBackend.LOCAL:
-            ctx_max = int(self.settings.models.local_max_tokens or 2048)
+            # The served window, which the local server enforces.
+            ctx_max = max(2048, tool_window)
             prompt_budget = max(512, int(ctx_max * 0.6))
         else:
-            ctx_max = 128000
+            # A compression step never needs more than 128K of input; a smaller
+            # tool window (role override, small model) lowers the cap.
+            ctx_max = min(128000, max(8192, tool_window))
 
             # Reserve space for the model completion + headers.
             overhead = 4000

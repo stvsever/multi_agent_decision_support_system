@@ -100,7 +100,7 @@ class Critic(BaseAgent):
             print(f"[Critic] Target probability: {prediction.probability_score:.3f}")
 
         if active_task_spec is not None and getattr(prediction, "predictor_kind", "llm") == "decision":
-            from ..decision.quality import evaluate_decision_prediction
+            from .decision.quality import evaluate_decision_prediction
 
             evaluation = evaluate_decision_prediction(
                 prediction,

@@ -27,13 +27,13 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
-from ..data.models.prediction_result import (
+from ...data.models.prediction_result import (
     ClassificationPrediction,
     ConfidenceLevel,
     NodePrediction,
     RegressionPrediction,
 )
-from ..data.models.prediction_task import PredictionMode, PredictionTaskNode
+from ...data.models.prediction_task import PredictionMode, PredictionTaskNode
 from .questions import AskedQuestion
 from .scales import OutputScale, ScaleBin, best_window, combine_density, density_summary
 

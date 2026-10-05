@@ -25,13 +25,14 @@ Use it as a starting point. For your cluster, adapt partition/GPU/path settings 
 
 ## What these scripts do
 
-- `00_deploy_and_run.sh`: optional helper to copy this repo (and optionally data) to an HPC and SSH in
+- `00_deploy_and_run.sh`: optional helper to copy this repo to `~/compass_pipeline/multi_agent_decision_support_system` (and optionally data); `.env` is never part of the bulk copy and is offered separately with mode 600, and the local-only `validation/` tree is left out unless `DEPLOY_EXCLUDE_LOCAL_ONLY=0`
 - `01_check_status.sh`: pre-flight checks (paths, models, Slurm/apptainer availability)
 - `02_setup_environment.sh`: create container + venv environment
 - `03_download_models.sh`: download/patch models in shared storage
 - `04_submit_single.sh`: submit one participant smoke test job
-- `05_submit_batch.sh`: submit sequential batch run across participant list in `src/full_stack/backend/utils/batch_run.py`
-- `06_serve_vllm.sh`: start a vLLM server for a HuggingFace model and print the base URL to point COMPASS at
+- `05_submit_batch.sh`: submit a sequential batch over the cohort built from `TARGETS_FILE` (`DISORDER_GROUPS`, `PER_GROUP_SIZE`)
+- `06_serve_vllm.sh`: start a vLLM server for a HuggingFace model and print the base URL and the `main.py` flags (including the served context window) to point COMPASS at
+- `lib_compass_run.sh`: sourced by 04 and 05: Predictor, evidence routing and decision-model options, the API key check
 - `apptainer.def`: definition for a container carrying CUDA, vLLM, and the engine dependencies
 - `HPC_Operational_Guide.ipynb`: didactic notebook explaining HPC components and the end-to-end workflow with these scripts
 
@@ -70,6 +71,58 @@ bash src/full_stack/backend/hpc/03_download_models.sh
 bash src/full_stack/backend/hpc/04_submit_single.sh
 bash src/full_stack/backend/hpc/05_submit_batch.sh
 bash src/full_stack/backend/hpc/06_serve_vllm.sh   # optional, server mode
+```
+
+## Predictor, evidence routing and API keys (steps 04 and 05)
+
+The local model serves every role by default. Both submission scripts also take
+the engine's Predictor and routing options as environment variables
+(`lib_compass_run.sh`), mapped onto the `main.py` flags of the same name:
+
+| Variable | Default | `main.py` flag |
+| --- | --- | --- |
+| `PREDICTOR_MODEL` | empty (the local model) | `--predictor_model`, for example `typesafe/jev-1.13` |
+| `ORCHESTRATION` | `auto` | `--orchestration auto\|always\|never` |
+| `ORCHESTRATION_THRESHOLD` | `0` (the Predictor input budget) | `--orchestration_threshold` |
+| `DECISION_PROVIDER` | `openrouter` | `--decision_provider openrouter\|typesafe` |
+| `DECISION_CHOICE_ORDERS`, `DECISION_SCORE_LEVELS` | engine defaults (3, 10) | `--decision_choice_orders`, `--decision_score_levels` |
+| `DECISION_REFINE` | `1` | `--decision_refine` / `--no-decision_refine` |
+| `PREFLIGHT_CHECK` | `1` | runs `main.py --check_config` before the run |
+| `COMPASS_ENV_FILE` | `${PROJECT_DIR}/.env` | file holding the API keys |
+
+`auto` routing sends a record that fits the Predictor input straight to the
+Predictor and orchestrates (Orchestrator, tools, Integrator) only a record that
+does not fit. With the local model the Predictor input budget follows the served
+context window (`MAX_TOKENS`, passed as `--local_max_model_len`).
+
+A structured decision model such as TypeSafe Jev can only serve the Predictor;
+the local model stays the companion for every other role and compiles the
+question book. Jev is a hosted service, so the compute nodes need outbound HTTPS
+to OpenRouter (`DECISION_PROVIDER=openrouter`, `OPENROUTER_API_KEY`) or TypeSafe
+(`DECISION_PROVIDER=typesafe`, `TYPESAFE_API_KEY`):
+
+```bash
+# keys go in a file only you can read; the engine loads ${PROJECT_DIR}/.env itself
+printf 'OPENROUTER_API_KEY=%s\n' "<your key>" > .env && chmod 600 .env
+PREDICTOR_MODEL=typesafe/jev-1.13 bash src/full_stack/backend/hpc/04_submit_single.sh
+PREDICTOR_MODEL=typesafe/jev-1.13 ORCHESTRATION=always bash src/full_stack/backend/hpc/05_submit_batch.sh
+```
+
+Keys are never echoed, never put on a command line and never passed with
+`--env KEY=value`, so they stay out of `ps`, the Slurm job record and the logs. A
+missing key stops the script on the login node, before the job waits in the
+queue. `01_check_status.sh` reports which key names the file holds and warns
+when its mode is not 600.
+
+Before each run the scripts call `main.py --check_config` (turn it off with
+`PREFLIGHT_CHECK=0`). It calls no model and needs no network: it prints every
+role's model, context window and where that window came from, the Predictor input
+budget, missing keys, and the measured record with the route it will take. Run
+it by hand inside the container the same way:
+
+```bash
+python3 main.py <participant_dir> --backend local --model "${HOME}/compass_models/Qwen_Qwen3-14B-AWQ" \
+    --local_max_model_len 32768 --predictor_model typesafe/jev-1.13 --check_config
 ```
 
 All submission scripts are login-node safe:
@@ -203,14 +256,25 @@ model=Qwen/Qwen3-14B-AWQ
 api_key=local-vllm
 ```
 
+The endpoint file also records `max_model_len` and a `compass_flags=` line.
 Point COMPASS at it. The engine speaks the OpenAI protocol, so a self-hosted
-server is configured the same way as a hosted provider:
+server is configured the same way as a hosted provider; `--public_model` names
+the served model and `--context_window` hands the engine the served length (the
+OpenRouter catalog is not consulted for a self-hosted endpoint, and a served
+length shorter than the model's native window would otherwise be overstated):
 
 ```bash
 export OPENROUTER_BASE_URL="http://gpu042.cluster.local:8000/v1"
-export OPENROUTER_API_KEY="local-vllm"
-python3 main.py <participant_dir> --backend openrouter --model "Qwen/Qwen3-14B-AWQ" ...
+export OPENROUTER_API_KEY="$(sed -n 's/^api_key=//p' logs/vllm_endpoint_<JOBID>.txt)"
+python3 main.py <participant_dir> --backend openrouter --public_model "Qwen/Qwen3-14B-AWQ" \
+    --context_window 32768 --check_config      # then drop --check_config to run
 ```
+
+In the dashboard, set the base URL under Settings, Connection and the context
+window per role under Settings, Compute, Per role. A structured decision model
+as Predictor next to a self-hosted companion needs `--decision_provider typesafe`
+(`TYPESAFE_API_KEY`): the OpenRouter decision route follows the base URL and
+would reach the vLLM server.
 
 From a laptop, tunnel through the login node first, then use
 `http://localhost:8000/v1` in the dashboard under Settings, Connection:
@@ -224,8 +288,10 @@ Stop the server with `scancel <JOBID>`.
 ## Container image (`apptainer.def`)
 
 `apptainer.def` builds the cluster twin of `docker/Dockerfile.gpu`: CUDA, vLLM,
-Ray, and the engine dependencies, with the same two roles (`serve` and
-`dashboard`). Steps 04 and 05 keep working with the NGC PyTorch container plus
+Ray, and the engine dependencies (including `requests` for the decision-model
+client, Transformers and sentence-transformers for the in-process backend and
+local embeddings), with the same two roles (`serve` and `dashboard`); any other
+command runs as given, for example `python3 main.py ... --check_config`. Steps 04 and 05 keep working with the NGC PyTorch container plus
 the venv from step 02; the definition file is there for clusters that want one
 self-contained image.
 
@@ -273,9 +339,10 @@ apptainer run --nv \
 
 ### `05_submit_batch.sh`
 
-- Runs the participant cohort defined in `src/full_stack/backend/utils/batch_run.py`.
+- Builds the cohort from `TARGETS_FILE` (`DISORDER_GROUPS`, `PER_GROUP_SIZE`; see the header of the script).
 - Keeps execution **sequential** (single GPU) by design.
-- Passes local runtime, token budgets, and prediction task flags through to `main.py` per participant:
+- Runs `main.py --check_config` per participant first (the log shows each record's route).
+- Passes local runtime, token budgets, Predictor and routing options (`lib_compass_run.sh`), and prediction task flags through to `main.py` per participant:
   - `PREDICTION_TYPE` (default `binary`)
   - `TARGETS_FILE` must be JSON for binary queue construction (`binary_targets.json` style)
   - Optional `CLASS_LABELS`, `REGRESSION_OUTPUT` (univariate), `REGRESSION_OUTPUTS` (multivariate), `TASK_SPEC_FILE`, `TASK_SPEC_JSON`
@@ -311,12 +378,11 @@ Non-binary detailed outputs include:
 
 ## Participant cohort definition
 
-`src/full_stack/backend/utils/batch_run.py` contains the participant subset (EIDs + expected label + target string):
-
-- Edit `PARTICIPANTS` in `src/full_stack/backend/utils/batch_run.py` to change the batch cohort.
-- Data folder is resolved from:
-  - `DATA_ROOT` env var if set, else
-  - `../data/__FEATURES__/HPC_data`
+`05_submit_batch.sh` reads the cohort from `TARGETS_FILE` (default
+`../data/__TARGETS__/binary_targets.json`) and the participant folders from
+`../data/__FEATURES__/HPC_data`. `src/full_stack/backend/utils/batch_run.py` is a
+Python alternative for a fixed participant list (`PARTICIPANTS`, `DATA_ROOT`)
+outside Slurm.
 
 Expected folder pattern:
 
@@ -331,6 +397,13 @@ The pipeline supports both:
 - Public API inference (OpenRouter/OpenAI)
 
 They are intentionally configurable independently. The HPC scripts in this folder are focused on the **local backend** path for clinical validation runs.
+
+Context windows resolve per role (`main.py --help`): a decision model's state
+limit, then `--role_context_window` / `--context_window`, then on the local
+backend the served length (`--local_max_model_len`, else `--max_tokens`), then the
+cached OpenRouter catalog, the built-in table, `--public_max_context_tokens`, and
+finally 128K tokens. Steps 04 and 05 pass `MAX_TOKENS` (clamped to the model's
+own limit) as the served length, so vLLM and the engine agree on the window.
 
 Note: Explainability (XAI) remains binary-root-only. Non-binary prediction modes run normally, but XAI steps are skipped with explicit status metadata.
 

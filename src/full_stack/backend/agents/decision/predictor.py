@@ -30,15 +30,15 @@ import uuid
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 
-from ..agents.base_agent import BaseAgent
-from ..data.models.prediction_result import (
+from ..base_agent import BaseAgent
+from ...data.models.prediction_result import (
     KeyFinding,
     NodePrediction,
     PredictionResult,
 )
-from ..data.models.prediction_task import PredictionTaskNode, PredictionTaskSpec, build_binary_task_spec
-from ..utils.json_parser import parse_json_response
-from ..utils.token_packer import count_tokens
+from ...data.models.prediction_task import PredictionTaskNode, PredictionTaskSpec, build_binary_task_spec
+from ...utils.json_parser import parse_json_response
+from ...utils.token_packer import count_tokens
 from .aggregate import (
     ClassificationAggregate,
     RegressionAggregate,

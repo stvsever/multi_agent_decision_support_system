@@ -29,7 +29,9 @@ pipeline parallelism, and Ray.
 
 - `Dockerfile`: CPU image for the dashboard and engine (curated dependencies)
 - `Dockerfile.full`: optional CPU image with the full `requirements.txt`
-- `Dockerfile.gpu`: CUDA image that serves models with vLLM and runs the dashboard
+- `Dockerfile.gpu`: CUDA image that serves models with vLLM and runs the dashboard;
+  it also installs the engine extras of the Apptainer image (`requests`, `matplotlib`,
+  `accelerate`, `sentence-transformers`), so `main.py` runs in it too
 - `docker-compose.yml`: the hosted-model path
 - `docker-compose.gpu.yml`: the self-hosted path (vLLM server plus dashboard)
 - `requirements.ui.txt`: curated dashboard and engine dependencies
@@ -249,8 +251,14 @@ the base URL to `http://localhost:8000/v1` with any non-empty key. From the CLI:
 ```bash
 export OPENROUTER_BASE_URL="http://localhost:8000/v1"
 export OPENROUTER_API_KEY="local-vllm"
-python3 main.py <participant_dir> --backend openrouter --model "Qwen/Qwen3-14B-AWQ" ...
+python3 main.py <participant_dir> --backend openrouter --public_model "Qwen/Qwen3-14B-AWQ" \
+    --context_window 32768 --check_config
 ```
+
+`--public_model` names the served model (`--model` applies to the in-process
+`--backend local` only), and `--context_window` passes the served length
+(`COMPASS_VLLM_MAX_MODEL_LEN`), which the catalog cannot know for a self-hosted
+endpoint. `--check_config` checks the configuration offline; drop it to run.
 
 ## Prediction task setup in the dashboard
 

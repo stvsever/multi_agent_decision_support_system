@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 import main as main_mod
 from main import DEFAULT_COMPANION_MODEL, _apply_predictor_choice
 from src.full_stack.backend.config.settings import LLMBackend, get_settings, reload_settings
-from src.full_stack.backend.decision import (
+from src.full_stack.backend.agents.decision import (
     NON_PREDICTOR_ROLES,
     decision_role_conflicts,
     enforce_role_models,
@@ -349,7 +349,7 @@ def test_command_line_with_a_decision_public_model(monkeypatch, no_terminal):
             "--decision_choice_orders",
             "2",
             "--decision_score_levels",
-            "25",
+            "9",
             "--no-decision_refine",
             "--quiet",
         ],
@@ -358,7 +358,7 @@ def test_command_line_with_a_decision_public_model(monkeypatch, no_terminal):
     assert all(captured["models"][role] == DEFAULT_COMPANION_MODEL for role in ROLES)
     assert captured["public_model_name"] == DEFAULT_COMPANION_MODEL
     assert captured["orchestration"] == ("never", 9000)
-    assert captured["decision"] == ("typesafe", 2, 10, False)
+    assert captured["decision"] == ("typesafe", 2, 9, False)
     # Token budgets follow the companion's context window, not the decision state limit.
     assert captured["max_agent_input"] > int(32_000 / 1.2)
 

@@ -12,7 +12,7 @@ import { ModelPicker } from '@/components/ui/ModelPicker'
 import { Badge, Button, Callout, Disclosure, Field, Segmented, Tooltip } from '@/components/ui/primitives'
 import { isDecisionModelId, useDecisionModels } from '@/lib/decision'
 import { compactNumber, tokens, usdPerMillion } from '@/lib/format'
-import { useCapabilities, useCatalog, useConnectivity } from '@/lib/hooks'
+import { useCapabilities, useCatalog, useConnectivity, useSettings } from '@/lib/hooks'
 import { AGENT_ROLES, type AgentRole, type BackendName, type ReasoningEffort, type RoleMap } from '@/lib/types'
 import { Grid, Group, NumberControl, NumberSetting, SectionHead, SliderControl, TextSetting } from '../controls'
 import { HuggingFaceKeyPanel, OpenRouterKeyPanel } from '../credentials'
@@ -43,10 +43,32 @@ const EFFORTS: { value: ReasoningEffort; label: string }[] = [
   { value: 'high', label: 'High' },
 ]
 
-const ROLE_DEFAULTS: { model: RoleMap<string>; maxTokens: RoleMap<number>; temperature: RoleMap<number> } = {
+const ROLE_DEFAULTS: {
+  model: RoleMap<string>
+  maxTokens: RoleMap<number>
+  contextWindow: RoleMap<number>
+  temperature: RoleMap<number>
+} = {
   model: { orchestrator: '', integrator: '', predictor: '', critic: '', communicator: '', tool: '' },
+  contextWindow: { orchestrator: 0, integrator: 0, predictor: 0, critic: 0, communicator: 0, tool: 0 },
   maxTokens: { orchestrator: 8000, integrator: 8000, predictor: 12000, critic: 6000, communicator: 16000, tool: 4000 },
   temperature: { orchestrator: 0.3, integrator: 0.3, predictor: 0.2, critic: 0.2, communicator: 0.2, tool: 0.5 },
+}
+
+/** Where the engine took a role's context window from, in the words of the settings screen. */
+const WINDOW_SOURCES: Record<string, string> = {
+  decision_state: 'decision state limit',
+  role_override: 'value set here',
+  local_served: 'served length',
+  catalog: 'catalog',
+  known_table: 'built-in table',
+  configured: 'context window above',
+  fallback: 'generic fallback',
+}
+
+interface ResolvedWindow {
+  tokens: number
+  source: string
 }
 
 const ROLE_FALLBACK: Record<AgentRole, string> = {
@@ -62,6 +84,8 @@ export function ComputeSection() {
   const { config, update } = useSettingsController()
   const capabilities = useCapabilities()
   const connectivity = useConnectivity()
+  const { data: saved } = useSettings()
+  const resolvedWindows = (saved?.effective?.context_windows ?? {}) as Partial<Record<AgentRole, ResolvedWindow>>
 
   const backend = config.connection.backend
   const models = config.models
@@ -276,8 +300,8 @@ export function ComputeSection() {
             label="Context window"
             hint={
               models.context_window > 0
-                ? `Forced to ${tokens(models.context_window)} tokens for every model, whatever the catalog says.`
-                : 'Zero resolves the window from the catalog entry for whichever model a role uses.'
+                ? `${tokens(models.context_window)} tokens for any model that neither the catalog nor the built-in table knows. A known model keeps its own window; force one per role below.`
+                : 'Each role resolves its window from the catalog, then the built-in table. Set this for a model neither knows (zero falls back to 128K tokens); force a window per role below.'
             }
           >
             <NumberControl
@@ -373,6 +397,10 @@ export function ComputeSection() {
                           update('models', {
                             role_models: { ...models.role_models, [role]: ROLE_DEFAULTS.model[role] },
                             role_max_tokens: { ...models.role_max_tokens, [role]: ROLE_DEFAULTS.maxTokens[role] },
+                            role_context_windows: {
+                              ...(models.role_context_windows ?? ROLE_DEFAULTS.contextWindow),
+                              [role]: 0,
+                            },
                             role_temperatures: {
                               ...models.role_temperatures,
                               [role]: ROLE_DEFAULTS.temperature[role],
@@ -394,9 +422,54 @@ export function ComputeSection() {
             ))}
           </tbody>
         </table>
+        <div className="stack gap-2" style={{ marginTop: 'var(--s-5)' }}>
+          <span className="eyebrow">Context window per role</span>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))',
+              gap: 'var(--s-3)',
+            }}
+          >
+            {AGENT_ROLES.map((role) => {
+              const resolved = resolvedWindows[role]
+              return (
+                <div key={role} className="stack" style={{ gap: 2 }}>
+                  <span className="t-small semibold" style={{ textTransform: 'capitalize' }}>
+                    {role}
+                  </span>
+                  <span className="t-micro muted tabular">
+                    {resolved
+                      ? `${tokens(resolved.tokens)} from the ${WINDOW_SOURCES[resolved.source] ?? resolved.source}`
+                      : 'Resolved when the settings are saved'}
+                  </span>
+                  <NumberControl
+                    ariaLabel={`${role} context window override`}
+                    value={models.role_context_windows?.[role] ?? 0}
+                    min={0}
+                    max={10_000_000}
+                    step={1024}
+                    width={150}
+                    onCommit={(next) =>
+                      update('models', {
+                        role_context_windows: {
+                          ...(models.role_context_windows ?? ROLE_DEFAULTS.contextWindow),
+                          // 0 resolves the window; a forced window is at least 1024 tokens (the API's floor)
+                          [role]: next > 0 && next < 1024 ? 1024 : next,
+                        },
+                      })
+                    }
+                  />
+                </div>
+              )
+            })}
+          </div>
+        </div>
         <p className="t-tiny muted" style={{ marginTop: 'var(--s-3)' }}>
           A max output of 0 derives the ceiling from the context window, which produces a very large number on a
-          long-context model. The shipped values are sized to what each role actually writes.
+          long-context model. The shipped values are sized to what each role actually writes. A context window of 0
+          resolves it (catalog, built-in table, then the window above); any other value forces it for that role, for
+          example the max model length of a self-hosted server. A structured decision model keeps its state limit.
         </p>
       </Disclosure>
 

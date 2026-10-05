@@ -90,6 +90,16 @@ From: nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04
     # Ray is what lets vLLM shard a model across nodes.
     /opt/venv/bin/pip install --no-cache-dir "ray[default]"
 
+    # What the engine itself imports beyond the dashboard list, so main.py runs
+    # in this image (in-process local backend, a structured decision model as
+    # Predictor, figures, local embeddings). vLLM already pinned torch and
+    # transformers; these only add what is missing.
+    /opt/venv/bin/pip install --no-cache-dir \
+        "requests>=2.31" \
+        "matplotlib>=3.7.0" \
+        "accelerate>=0.26.0" \
+        "sentence-transformers>=2.2.0"
+
     /opt/venv/bin/python3 -c "import importlib.util as u, torch; assert u.find_spec('vllm'); print('torch', torch.__version__, '+ vllm installed')"
 
 %environment
@@ -154,7 +164,7 @@ From: nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04
 
 %test
     # Import checks only, no vLLM execution: the build host usually has no GPU.
-    /opt/venv/bin/python3 -c "import importlib.util as u, fastapi, pydantic; assert u.find_spec('vllm'); print('image OK')"
+    /opt/venv/bin/python3 -c "import importlib.util as u, fastapi, pydantic, requests, tiktoken, transformers, matplotlib, dotenv, tenacity, openai; assert u.find_spec('vllm') and u.find_spec('sentence_transformers'); print('image OK')"
 
 %labels
     Author COMPASS
@@ -166,6 +176,11 @@ From: nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04
 
       apptainer run --nv <image>.sif serve       vLLM OpenAI-compatible server
       apptainer run --nv <image>.sif dashboard   COMPASS dashboard on port 5005
+      apptainer exec <image>.sif python3 main.py <participant_dir> [flags] --check_config
+                                                 offline configuration check, no model call
+      apptainer exec --nv <image>.sif python3 main.py <participant_dir> [flags]
+
+    Run from the repository root (bound), so main.py and src/ are found.
 
     Always pass --nv, and bind the project and model directories that live
     outside $HOME. See the comment block at the top of this definition file and

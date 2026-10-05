@@ -12,21 +12,25 @@ from src.full_stack.backend.utils.llm_client import LLMClient, TokenTracker
 import src.full_stack.backend.utils.core.explainability_runner as runner
 
 
-def test_effective_context_window_known_public_model():
+def test_effective_context_window_known_public_model(monkeypatch, tmp_path):
+    monkeypatch.setenv("COMPASS_HOME", str(tmp_path))
     settings = reload_settings()
     settings.models.backend = LLMBackend.OPENROUTER
     settings.models.public_model_name = "gpt-5-nano"
+    # A known model keeps its own window; the configured one is for unknown models.
     settings.models.public_max_context_tokens = 99999
-    assert settings.effective_context_window("gpt-5-nano") == 99999
+    assert settings.effective_context_window("gpt-5-nano") == 272_000
+    assert settings.effective_context_window("vendor/private-model") == 99999
 
 
-def test_effective_context_window_does_not_apply_public_ctx_to_other_model():
+def test_effective_context_window_does_not_apply_public_ctx_to_other_model(monkeypatch, tmp_path):
+    monkeypatch.setenv("COMPASS_HOME", str(tmp_path))
     settings = reload_settings()
     settings.models.backend = LLMBackend.OPENROUTER
     settings.models.public_model_name = "gpt-5-nano"
     settings.models.public_max_context_tokens = 400000
     # Communicator/model-specific context should not inherit gpt-5-nano's context
-    assert settings.effective_context_window("gpt-5-mini") == 128000
+    assert settings.effective_context_window("gpt-4o-mini") == 128000
 
 
 def test_effective_context_window_local_override():

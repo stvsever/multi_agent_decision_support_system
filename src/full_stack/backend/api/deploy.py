@@ -278,10 +278,12 @@ def _docker_prefix(local: LocalBackendConfig, image: str) -> str:
 
 
 def _apptainer_prefix(image: str) -> str:
+    # Apptainer passes the caller's environment through (no --cleanenv), so
+    # HF_TOKEN and the provider keys reach the container without being spelled
+    # out on a command line, where `ps` and the job record would show them.
     return (
         "apptainer exec --nv "
         f'--bind "$PWD":/workspace --bind "{HF_CACHE_HOST}":{HF_CACHE_CONTAINER} '
-        f'--env HF_TOKEN="$HF_TOKEN" --env HUGGING_FACE_HUB_TOKEN="$HF_TOKEN" '
         f"--pwd /workspace {shlex.quote(image)}"
     )
 

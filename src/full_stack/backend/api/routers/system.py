@@ -10,7 +10,7 @@ from fastapi import APIRouter, HTTPException, Path as PathParam, Query
 
 from ...config.settings import COMPASS_FULL_NAME, COMPASS_VERSION, ORCHESTRATION_MODES
 from ...data.models.execution_plan import ToolName
-from ...decision import list_decision_models
+from ...agents.decision import list_decision_models
 from ...runtime.event_bus import STAGE_NAMES
 from .. import DEFAULT_MODEL
 from ..catalog import connectivity

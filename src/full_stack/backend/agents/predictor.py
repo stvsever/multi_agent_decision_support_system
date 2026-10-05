@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 import tiktoken
 
 from .base_agent import BaseAgent
-from ..config.settings import get_settings, LLMBackend
+from ..config.settings import get_settings, LLMBackend, llm_predictor_input_budget
 from ..data.models.prediction_result import (
     BinaryClassification,
     ClassificationPrediction,
@@ -486,13 +486,9 @@ class Predictor(BaseAgent):
         return max(1, int(len(raw) / 4))
 
     def _predictor_input_budget_tokens(self, max_completion_tokens: int) -> int:
-        configured = int(getattr(self.settings.token_budget, "max_agent_input_tokens", 0) or 0)
-        context_window = int(self.settings.effective_context_window(self.LLM_MODEL))
-        reserve = max(1024, min(8192, int(max_completion_tokens) + 1024))
-        by_context = max(2048, context_window - reserve)
-        if configured > 0:
-            return max(2048, min(configured, by_context))
-        return by_context
+        return llm_predictor_input_budget(
+            self.settings, model=self.LLM_MODEL, max_completion_tokens=int(max_completion_tokens)
+        )
 
     def _fit_prompt_to_input_budget(self, prompt: str, *, max_completion_tokens: int) -> str:
         budget = self._predictor_input_budget_tokens(max_completion_tokens=max_completion_tokens)

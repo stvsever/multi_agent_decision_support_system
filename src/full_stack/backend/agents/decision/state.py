@@ -27,13 +27,13 @@ import json
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Sequence, Tuple
 
-from ..utils.core.record_rendering import (
+from ...utils.core.record_rendering import (
     measurement_groups,
     measurement_rows,
     render_deviation_profile,
     render_measurements,
 )
-from ..utils.toon import json_to_toon
+from ...utils.toon import json_to_toon
 
 TokenCounter = Callable[[str], int]
 

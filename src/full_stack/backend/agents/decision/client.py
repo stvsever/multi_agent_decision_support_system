@@ -22,7 +22,7 @@ from typing import Any, Dict, List, Optional
 
 import requests
 
-from ..config.settings import get_settings
+from ...config.settings import get_settings
 from .registry import get_decision_model_spec, native_model_id
 
 logger = logging.getLogger("compass.decision.client")

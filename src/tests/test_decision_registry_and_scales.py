@@ -18,8 +18,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.full_stack.backend.config import settings as settings_module
 from src.full_stack.backend.config.settings import LLMBackend, reload_settings
-from src.full_stack.backend.decision import registry
-from src.full_stack.backend.decision.registry import (
+from src.full_stack.backend.agents.decision import registry
+from src.full_stack.backend.agents.decision.registry import (
     DecisionModelSpec,
     get_decision_model_spec,
     is_decision_model,
@@ -28,7 +28,7 @@ from src.full_stack.backend.decision.registry import (
     normalize_model_id,
     register_decision_model,
 )
-from src.full_stack.backend.decision.scales import (
+from src.full_stack.backend.agents.decision.scales import (
     DensityPiece,
     OutputScale,
     ScaleBin,
@@ -182,33 +182,38 @@ def test_effective_context_window_is_the_cl100k_state_budget(settings):
 
 
 def test_effective_context_window_unchanged_for_llms(settings):
-    assert settings.models.public_max_context_tokens == 1_048_576
+    # Nothing configured: the public window only covers models nothing else knows.
+    assert settings.models.public_max_context_tokens == 0
     before = {
         name: settings.effective_context_window(name)
         for name in (None, "deepseek/deepseek-v4-flash-0731", "openai/gpt-5", "openai/gpt-4o-mini", "typesafe/jev-router")
     }
-    # The public model keeps its configured window.
+    # Without a catalog the built-in table decides.
     assert before[None] == 1_048_576
     assert before["deepseek/deepseek-v4-flash-0731"] == 1_048_576
-    assert before["openai/gpt-5"] == 128_000
+    assert before["openai/gpt-5"] == 272_000
     assert before["openai/gpt-4o-mini"] == 128_000
-    # Not a decision model and not in the table or the catalog: the configured
-    # public window (a provider that rejects a direct prompt as too long makes
-    # the pipeline orchestrate that attempt).
-    assert before["typesafe/jev-router"] == 1_048_576
+    # Not a decision model and not in the table or the catalog: the generic
+    # fallback (a provider that rejects a direct prompt as too long makes the
+    # pipeline orchestrate that attempt).
+    assert before["typesafe/jev-router"] == 128_000
 
     settings.decision.tokenizer_ratio = 2.0
     after = {name: settings.effective_context_window(name) for name in before}
     assert after == before
 
 
-def test_unknown_model_window_is_the_public_window(settings):
-    assert settings.effective_context_window("acme/unknown-model") == 1_048_576
+def test_unknown_model_window_is_the_configured_public_window(settings):
+    assert settings.effective_context_window("acme/unknown-model") == 128_000
+    assert settings.context_window_resolution("acme/unknown-model").source == "fallback"
     settings.models.public_max_context_tokens = 64_000
     assert settings.effective_context_window("acme/unknown-model") == 64_000
+    assert settings.context_window_resolution("acme/unknown-model").source == "configured"
     settings.models.public_max_context_tokens = 4_000
     # Never below 8192.
     assert settings.effective_context_window("acme/unknown-model") == 8192
+    # A model the table knows keeps its own window.
+    assert settings.effective_context_window("openai/gpt-4o") == 128_000
 
 
 def _write_catalog(home: Path, rows) -> None:
@@ -224,24 +229,47 @@ def test_unknown_model_window_comes_from_the_dashboard_catalog(settings, tmp_pat
             {"id": "Acme/Mixed-Case", "context_length": 65_536},
             {"id": "acme/no-length"},
             {"id": "openai/gpt-5", "context_length": 999},
-            {"id": "deepseek/deepseek-v4-flash-0731", "context_length": 999},
+            {"id": "deepseek/deepseek-v4-flash-0731", "context_length": 1_310_720},
+            {"id": "~acme/latest", "context_length": 77_000},
             "not a row",
         ],
     )
     assert settings.effective_context_window("acme/big-context") == 200_000
-    # Ids are matched case-insensitively and a leading "~" (latest alias) is ignored.
+    # Ids are matched case-insensitively and a leading "~" (latest alias) is ignored
+    # unless the catalog lists the alias itself.
     assert settings.effective_context_window("~acme/big-context") == 200_000
+    assert settings.effective_context_window("~acme/latest") == 77_000
     assert settings.effective_context_window("acme/mixed-case") == 65_536
+    # A ":variant" suffix falls back to the base id.
+    assert settings.effective_context_window("acme/big-context:free") == 200_000
     # A row without a context length, or a model the catalog does not list, falls
-    # back to the built-in table, then to the public window.
-    assert settings.effective_context_window("acme/no-length") == 1_048_576
-    assert settings.effective_context_window("acme/not-listed") == 1_048_576
+    # back to the built-in table, then to the generic fallback.
+    assert settings.effective_context_window("acme/no-length") == 128_000
+    assert settings.effective_context_window("acme/not-listed") == 128_000
     # The catalog is more current than the built-in table ...
     assert settings.effective_context_window("openai/gpt-5") == 999
+    assert settings.effective_context_window("gpt-5") == 999  # sent as openai/gpt-5
     assert settings.effective_context_window("openai/gpt-4o-mini") == 128_000
-    # ... but the public model keeps its configured window.
-    assert settings.effective_context_window(None) == 1_048_576
-    assert settings.effective_context_window("deepseek/deepseek-v4-flash-0731") == 1_048_576
+    # ... and it decides the public model's window too.
+    assert settings.effective_context_window(None) == 1_310_720
+    assert settings.context_window_resolution(None).source == "catalog"
+    # A configured public window does not override the catalog ...
+    settings.models.public_max_context_tokens = 32_000
+    assert settings.effective_context_window("deepseek/deepseek-v4-flash-0731") == 1_310_720
+    # ... a role override does.
+    settings.models.role_context_windows = {"predictor": 50_000}
+    assert settings.effective_context_window("deepseek/deepseek-v4-flash-0731", role="predictor") == 50_000
+    assert settings.effective_context_window("deepseek/deepseek-v4-flash-0731", role="critic") == 1_310_720
+
+
+def test_the_catalog_does_not_describe_a_self_hosted_endpoint(settings, tmp_path):
+    _write_catalog(tmp_path / "compass_home", [{"id": "qwen/qwen3-14b", "context_length": 131_072}])
+    assert settings.effective_context_window("qwen/qwen3-14b") == 131_072
+    settings.openrouter_base_url = "http://gpu042.cluster.local:8000/v1"
+    # A vLLM server behind the OpenAI protocol: the table's native window, or the forced one.
+    assert settings.effective_context_window("qwen/qwen3-14b") == 40_960
+    settings.models.role_context_windows = {"all": 32_768}
+    assert settings.effective_context_window("qwen/qwen3-14b", role="tool") == 32_768
 
 
 def test_catalog_cache_follows_the_catalog_path_not_only_its_mtime(settings, tmp_path, monkeypatch):
@@ -263,8 +291,8 @@ def test_unreadable_catalog_is_ignored(settings, tmp_path):
     home = tmp_path / "compass_home"
     home.mkdir(parents=True)
     (home / "model_catalog.json").write_text("{not json")
-    assert settings.effective_context_window("acme/big-context") == 1_048_576
-    assert settings.effective_context_window("openai/gpt-5") == 128_000
+    assert settings.effective_context_window("acme/big-context") == 128_000
+    assert settings.effective_context_window("openai/gpt-5") == 272_000
 
 
 def test_decision_model_window_holds_on_the_local_backend(settings):

@@ -12,16 +12,28 @@ fits the Predictor's input goes to it directly, with no Orchestrator and no tool
 steps; a larger one is orchestrated first. A structured decision model in the
 Predictor role bills its input only and answers a question book that a
 conventional LLM compiles once per task.
+
+Route and Predictor input come from the engine itself: the configuration is
+stamped onto an isolated engine Settings object (`engine_bridge.build_engine_settings`)
+and the record is measured offline by `utils.core.route_preview.measure_record`,
+the same DataLoader, direct executor output and `measure_direct` a run performs
+before its first attempt. The context windows, the LLM input budget
+(`config.settings.llm_predictor_input_budget`) and the decision state budget are
+therefore the engine's numbers, not a copy of its arithmetic. Only when a record
+cannot be read does the projection fall back to the overview size.
 """
 
 from __future__ import annotations
 
 import json
+import threading
+from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from ..decision import get_decision_model_spec
+from ..agents.decision import get_decision_model_spec, is_decision_model
+from ..config.settings import GENERIC_FALLBACK_CONTEXT_TOKENS
 from .catalog import pricing_index
 from .config_store import resolve_predictor_kind
 from .schemas import DashboardConfig
@@ -89,9 +101,16 @@ DECISION_TOKENIZER_RATIO = 1.2
 #: The question book is compiled once per task by a conventional LLM.
 QUESTION_BOOK_PROFILE = AgentProfile("question_book", 1, 4_000, 0.0, 1_600)
 
-#: The engine's fallback when nothing reports the Predictor's context window.
-FALLBACK_CONTEXT_TOKENS = 128_000
+#: The engine's fallback when nothing reports the Predictor's context window
+#: (kept as a name for callers; the engine's own constant decides).
+FALLBACK_CONTEXT_TOKENS = GENERIC_FALLBACK_CONTEXT_TOKENS
 ROUTES = ("direct", "orchestrated")
+
+#: Measurements of recent (record, configuration, task) combinations; the Studio
+#: re-estimates on every settled edit, and a record does not change in between.
+_MEASURE_CACHE: "OrderedDict[str, Optional[Dict[str, Any]]]" = OrderedDict()
+_MEASURE_CACHE_SIZE = 512
+_MEASURE_LOCK = threading.RLock()
 
 
 def participant_input_tokens(participant_dir: Path) -> int:
@@ -152,51 +171,104 @@ def _role_model(config: DashboardConfig, role: str) -> str:
     return explicit or config.models.default_model
 
 
+def engine_settings(config: DashboardConfig) -> Any:
+    """The engine Settings a run with this configuration uses, built in isolation."""
+    from .engine_bridge import build_engine_settings
+
+    return build_engine_settings(config)
+
+
 def predictor_input_budget(
     config: DashboardConfig,
     predictor_kind: str,
     prices: Optional[Dict[str, Dict[str, Any]]] = None,
+    settings: Any = None,
 ) -> int:
     """
     The input the Predictor accepts, in the cl100k tokens the engine counts.
 
-    Mirrors the engine: for an LLM, the context window minus the output
-    reserve, capped by the agent input limit; for a decision model, its state
-    limit converted to cl100k tokens minus what the longest question needs.
+    The engine's own arithmetic on the engine's own settings: for an LLM,
+    `llm_predictor_input_budget` (the role's context window minus the output
+    reserve, capped by the agent input limit); for a decision model, its state
+    limit in cl100k tokens minus what the longest question needs (the exact
+    figure needs the task's questions, so a measured record replaces it).
+    `prices` is accepted for compatibility; windows come from the engine.
     """
-    model_id = _role_model(config, "predictor")
+    from ..config.settings import llm_predictor_input_budget
+
+    settings = settings if settings is not None else engine_settings(config)
+    model_id = settings.models.predictor_model
     if predictor_kind == "decision":
-        spec = get_decision_model_spec(model_id)
+        spec = get_decision_model_spec(model_id) or get_decision_model_spec(_role_model(config, "predictor"))
         if spec is None:
             return 0
-        state = spec.state_budget_cl100k(ratio=DECISION_TOKENIZER_RATIO)
+        state = spec.state_budget_cl100k(ratio=float(settings.decision.tokenizer_ratio or DECISION_TOKENIZER_RATIO))
         return max(0, state - DECISION_STATE_QUESTION_RESERVE)
+    if is_decision_model(model_id):
+        # A what-if LLM estimate for a decision Predictor: the companion model.
+        model_id = settings.models.orchestrator_model
+    return llm_predictor_input_budget(settings, model=model_id)
 
-    if config.connection.backend == "local":
-        context = int(config.local.max_model_len or config.local.max_tokens)
-        default_context = context
-    else:
-        row = _price(prices or {}, model_id)
-        explicit = int(config.models.context_window or 0)
-        default_context = explicit or int(
-            _price(prices or {}, config.models.default_model)["context_length"] or FALLBACK_CONTEXT_TOKENS
+
+def _measure_key(config: DashboardConfig, directory: Path, task_json: str) -> str:
+    stamps = []
+    for name in ("data_overview.json", "multimodal_data.json", "non_numerical_data.txt", "hierarchical_deviation_map.json"):
+        try:
+            stat = (directory / name).stat()
+            stamps.append((name, stat.st_mtime_ns, stat.st_size))
+        except OSError:
+            stamps.append((name, 0, 0))
+    relevant = config.model_dump(
+        mode="json", include={"connection", "models", "engine", "decision", "token_budget", "local", "instructions"}
+    )
+    # A refreshed catalog can change a role's context window, and with it the budget.
+    try:
+        from ..config.settings import catalog_cache_path
+
+        stamps.append(("catalog", catalog_cache_path().stat().st_mtime_ns, 0))
+    except OSError:
+        stamps.append(("catalog", 0, 0))
+    return json.dumps([str(directory), stamps, relevant, task_json], sort_keys=True, default=str)
+
+
+def measure_participant(
+    config: DashboardConfig,
+    participant_dir: Path,
+    task_spec: Any = None,
+    *,
+    settings: Any = None,
+) -> Optional[Dict[str, Any]]:
+    """
+    The engine's offline measurement of one record under this configuration:
+    input tokens, Predictor budget, route, and for a decision model the question
+    load per request. None when the record cannot be loaded.
+    """
+    from ..utils.core.route_preview import measure_record
+    from .engine_bridge import normalise_instructions
+
+    directory = Path(participant_dir)
+    if not (directory / "data_overview.json").exists():
+        return None
+    task_json = task_spec.model_dump_json() if task_spec is not None and hasattr(task_spec, "model_dump_json") else ""
+    key = _measure_key(config, directory, task_json)
+    with _MEASURE_LOCK:
+        if key in _MEASURE_CACHE:
+            _MEASURE_CACHE.move_to_end(key)
+            return _MEASURE_CACHE[key]
+    try:
+        result: Optional[Dict[str, Any]] = measure_record(
+            directory,
+            settings=settings if settings is not None else engine_settings(config),
+            prediction_task_spec=task_spec,
+            agent_instructions=normalise_instructions(config.instructions),
         )
-        if explicit and model_id == config.models.default_model:
-            context = explicit
-        else:
-            context = int(row["context_length"] or default_context)
-
-    completion = int(config.models.role_max_tokens.predictor or 0) or 4096
-    reserve = max(1024, min(8192, completion + 1024))
-    by_context = max(2048, context - reserve)
-    cap = int(config.token_budget.max_agent_input_tokens or 0)
-    if not cap:
-        # The engine derives the agent input limit from the default model's window.
-        if config.connection.backend == "local":
-            cap = max(4096, min(int(default_context * 0.75), default_context - 16_000 - 2048))
-        else:
-            cap = int(default_context * 0.95)
-    return max(2048, min(cap, by_context))
+    except Exception:
+        result = None
+    with _MEASURE_LOCK:
+        _MEASURE_CACHE[key] = result
+        while len(_MEASURE_CACHE) > _MEASURE_CACHE_SIZE:
+            _MEASURE_CACHE.popitem(last=False)
+    return result
 
 
 def resolve_route(
@@ -206,16 +278,35 @@ def resolve_route(
     predictor_kind: str,
     route: str = "auto",
     prices: Optional[Dict[str, Dict[str, Any]]] = None,
+    measurement: Optional[Dict[str, Any]] = None,
+    settings: Any = None,
 ) -> Dict[str, Any]:
     """
     The evidence route a run will take, decided the way the engine decides it.
 
-    An explicit `route` is taken as given. Otherwise the configured mode
-    decides: `always` orchestrates, `never` goes direct, and `auto` goes direct
-    when the record fits the Predictor input budget (or the lower threshold the
-    configuration sets).
+    An explicit `route` is taken as given. With an engine `measurement` of the
+    record (`measure_participant`) the engine's own route decision stands.
+    Otherwise the configured mode decides: `always` orchestrates, `never` goes
+    direct, and `auto` goes direct when the record fits the Predictor input
+    budget (or the lower threshold the configuration sets).
     """
-    budget = predictor_input_budget(config, predictor_kind, prices)
+    if measurement is not None and measurement.get("predictor_kind") == predictor_kind:
+        budget = int(measurement.get("budget_tokens") or 0)
+        threshold = int(measurement.get("threshold_tokens") or budget)
+        if route in ROUTES:
+            chosen, reason = route, "Route requested for this estimate."
+        else:
+            chosen, reason = str(measurement["route"]), str(measurement.get("route_reason") or "")
+        return {
+            "route": chosen,
+            "mode": config.engine.orchestration_mode,
+            "budget_tokens": budget,
+            "threshold_tokens": threshold,
+            "reason": reason,
+            "measured": True,
+            "predictor_input_tokens": int(measurement.get("input_tokens") or 0),
+        }
+    budget = predictor_input_budget(config, predictor_kind, prices, settings=settings)
     mode = config.engine.orchestration_mode
     threshold = budget
     override = int(config.engine.orchestration_threshold_tokens or 0)
@@ -233,7 +324,15 @@ def resolve_route(
     else:
         chosen = "orchestrated"
         reason = f"The record ({input_tokens:,} tokens) exceeds the Predictor input ({threshold:,}); orchestrated."
-    return {"route": chosen, "mode": mode, "budget_tokens": budget, "threshold_tokens": threshold, "reason": reason}
+    return {
+        "route": chosen,
+        "mode": mode,
+        "budget_tokens": budget,
+        "threshold_tokens": threshold,
+        "reason": reason,
+        "measured": False,
+        "predictor_input_tokens": int(input_tokens),
+    }
 
 
 def estimate_run(
@@ -246,6 +345,7 @@ def estimate_run(
     chunking_expected: bool = False,
     route: str = "auto",
     predictor_kind: Optional[str] = None,
+    measurement: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
     Projected tokens and USD for one participant, broken down per agent.
@@ -253,12 +353,20 @@ def estimate_run(
     `route` is "direct", "orchestrated", or "auto" to decide it as the engine
     would; `predictor_kind` ("llm" or "decision") defaults to what the
     Predictor role is set to. The result says which route it assumed.
+
+    `input_tokens` is the record's overview size, which the fitted profiles of
+    the orchestrated roles scale with. `measurement` is the engine's offline
+    measurement of the same record (`measure_participant`): with it the route,
+    the Predictor budget, the direct Predictor prompt and a decision model's
+    state and question load are the engine's numbers.
     """
     iterations = int(iterations or config.engine.max_iterations)
     prices = pricing_index()
     kind = predictor_kind if predictor_kind in ("llm", "decision") else resolve_predictor_kind(config)
+    if measurement is not None and measurement.get("predictor_kind") != kind:
+        measurement = None
     routing = resolve_route(
-        config, input_tokens=input_tokens, predictor_kind=kind, route=route, prices=prices
+        config, input_tokens=input_tokens, predictor_kind=kind, route=route, prices=prices, measurement=measurement
     )
     direct = routing["route"] == "direct"
     lines: List[Dict[str, Any]] = []
@@ -322,27 +430,43 @@ def estimate_run(
             if direct
             else int(predictor.prompt_base + predictor.prompt_per_input * input_tokens * plan_scale)
         )
-        state = min(evidence, routing["budget_tokens"]) if routing["budget_tokens"] else evidence
-        requests = DECISION_REQUESTS_PER_ATTEMPT * iterations
-        add_line(
-            "predictor",
-            _role_model(config, "predictor"),
-            requests,
-            int(requests * (state + DECISION_QUESTION_TOKENS)),
-            0,
-        )
+        if measurement is not None:
+            # The engine's numbers: the state packed to the budget, the measured
+            # question load of each round-one request, and a zoomed round with
+            # the same load when a continuous output is refined.
+            measured_state = int(measurement.get("input_tokens") or 0)
+            evidence = measured_state if direct else evidence
+            state = min(evidence, routing["budget_tokens"]) if routing["budget_tokens"] else evidence
+            per_request = [int(v) for v in (measurement.get("question_tokens_per_request") or [])] or [
+                DECISION_QUESTION_TOKENS
+            ]
+            if measurement.get("round_two_expected"):
+                per_request = per_request + per_request
+            requests = len(per_request) * iterations
+            prompt = sum(state + q for q in per_request) * iterations
+        else:
+            state = min(evidence, routing["budget_tokens"]) if routing["budget_tokens"] else evidence
+            requests = DECISION_REQUESTS_PER_ATTEMPT * iterations
+            prompt = requests * (state + DECISION_QUESTION_TOKENS)
+        add_line("predictor", _role_model(config, "predictor"), requests, int(prompt), 0)
         compiler = str(config.decision.compiler_model or "").strip() or _role_model(config, "orchestrator")
         book = QUESTION_BOOK_PROFILE
         add_line(book.role, compiler, 1, book.prompt_base, book.completion_base)
         # The decision critic reads the answers' stability and calls no model.
     else:
         if direct:
-            # The Predictor reads the complete record plus its own instructions.
+            # The Predictor reads the complete record plus its own instructions:
+            # the engine's measured prompt when there is one.
+            prompt_per_attempt = (
+                int(measurement.get("input_tokens") or 0)
+                if measurement is not None
+                else predictor.prompt_base + input_tokens
+            )
             add_line(
                 "predictor",
                 _role_model(config, "predictor"),
                 iterations,
-                int((predictor.prompt_base + input_tokens) * iterations),
+                int(prompt_per_attempt * iterations),
                 int(predictor.completion_base * iterations),
             )
         else:
@@ -361,6 +485,9 @@ def estimate_run(
         "route_reason": routing["reason"],
         "predictor_kind": kind,
         "predictor_budget_tokens": routing["budget_tokens"],
+        "route_threshold_tokens": routing["threshold_tokens"],
+        "predictor_input_tokens": routing["predictor_input_tokens"],
+        "measured": bool(routing.get("measured")),
         "prompt_tokens": total_prompt,
         "completion_tokens": total_completion,
         "total_tokens": total_tokens,
@@ -461,8 +588,10 @@ def model_profile() -> Dict[str, Any]:
             "tokenizer_ratio": DECISION_TOKENIZER_RATIO,
         },
         "routing": (
-            "A record that fits the Predictor input is projected on the direct route: no "
-            "Orchestrator, no tool steps, and a Predictor prompt of the record plus its "
-            "instructions. A larger one is projected on the orchestrated route."
+            "The engine measures each record offline with the run's settings (the same "
+            "DataLoader, direct executor output and Predictor measurement a run performs) "
+            "and decides the route as the run will. A record that fits is projected on the "
+            "direct route: no Orchestrator, no tool steps, and the measured Predictor prompt. "
+            "A larger one is projected on the orchestrated route."
         ),
     }

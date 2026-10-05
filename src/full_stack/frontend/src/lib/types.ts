@@ -128,6 +128,8 @@ export interface DashboardConfig {
     embedding_model: string
     role_models: RoleMap<string>
     role_max_tokens: RoleMap<number>
+    /** Forced context window per role; 0 resolves it (catalog, built-in table, configured window). */
+    role_context_windows?: RoleMap<number>
     role_temperatures: RoleMap<number>
   }
   engine: {
@@ -411,7 +413,14 @@ export interface Estimate {
   budget_utilisation: number | null
   /** The route the projection assumed. Absent from a service that predates routing. */
   route?: InputRoute
+  route_reason?: string
   predictor_kind?: PredictorKind
+  /** True when the engine measured the record offline (route, input and budget are the engine's). */
+  measured?: boolean
+  /** Tokens of the Predictor input the engine measured (LLM prompt or decision state). */
+  predictor_input_tokens?: number
+  predictor_budget_tokens?: number
+  route_threshold_tokens?: number
 }
 
 export interface EstimateResponse {

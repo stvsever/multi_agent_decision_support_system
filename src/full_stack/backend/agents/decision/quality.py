@@ -34,7 +34,7 @@ import uuid
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from ..data.models.prediction_result import (
+from ...data.models.prediction_result import (
     CriticEvaluation,
     EvaluationChecklist,
     ImprovementPriority,
@@ -42,7 +42,7 @@ from ..data.models.prediction_result import (
     PredictionResult,
     Verdict,
 )
-from ..data.models.prediction_task import PredictionMode, PredictionTaskSpec
+from ...data.models.prediction_task import PredictionMode, PredictionTaskSpec
 
 
 def evaluate_decision_prediction(

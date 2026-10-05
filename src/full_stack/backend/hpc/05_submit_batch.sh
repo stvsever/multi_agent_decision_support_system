@@ -30,6 +30,12 @@
 #   ANNOTATIONS_JSON=~/compass_pipeline/data/__TARGETS__/annotated_targets.json \
 #   bash src/full_stack/backend/hpc/05_submit_batch.sh
 #
+#   # 7. TypeSafe Jev as Predictor, the local model as companion, always orchestrated
+#   #    (keys: OPENROUTER_API_KEY or TYPESAFE_API_KEY in ${PROJECT_DIR}/.env, chmod 600):
+#   PREDICTOR_MODEL=typesafe/jev-1.13 ORCHESTRATION=always bash src/full_stack/backend/hpc/05_submit_batch.sh
+#
+# Predictor, routing and decision-model options: see lib_compass_run.sh.
+#
 # =============================================================================
 
 #SBATCH --job-name=compass_batch
@@ -124,6 +130,15 @@ FIXED_CONTROL="${CONTROL_LABEL:-non-target comparator phenotype profile}"
 : "${PREDICTOR_INSTRUCTION:=}"
 : "${CRITIC_INSTRUCTION:=}"
 : "${COMMUNICATOR_INSTRUCTION:=}"
+
+# Predictor, routing and decision-model options plus the API key check.
+COMPASS_RUN_LIB="${PROJECT_DIR}/src/full_stack/backend/hpc/lib_compass_run.sh"
+if [[ ! -f "${COMPASS_RUN_LIB}" ]]; then
+    echo "✗ ERROR: ${COMPASS_RUN_LIB} not found; sync the repository to PROJECT_DIR first."
+    exit 1
+fi
+# shellcheck source=lib_compass_run.sh
+source "${COMPASS_RUN_LIB}"
 
 # Post-hoc analysis toggle
 : "${RUN_ANALYSIS:=1}"
@@ -330,6 +345,8 @@ resolve_token_budgets() {
 CURRENT_HOST="$(hostname)"
 if [[ "${CURRENT_HOST}" == login* ]]; then
     mkdir -p "${LOG_DIR}"
+    # A missing key fails here, not after the job waited in the queue.
+    compass_check_keys || exit 1
     echo "⚠  Login node detected. Apptainer is only on compute nodes."
     echo "   Auto-submitting this script as a Slurm job..."
     echo ""
@@ -405,7 +422,11 @@ echo "Pipeline parallel: ${LOCAL_PIPELINE_PARALLEL}"
 echo "Budget request: agent(in=${MAX_AGENT_INPUT}, out=${MAX_AGENT_OUTPUT}) tool(in=${MAX_TOOL_INPUT}, out=${MAX_TOOL_OUTPUT})"
 echo "Results Dir:    ${RESULTS_DIR}"
 echo "Run Analysis:   ${RUN_ANALYSIS}"
+compass_print_run_options
 echo ""
+compass_check_keys || exit 1
+ROUTING_FLAGS="$(compass_routing_flags)"
+ENV_LOADER="$(compass_env_loader)"
 
 # ─── Validate Targets File ─────────────────────────────────────────────────
 if [[ ! -f "${TARGETS_FILE}" ]]; then
@@ -685,6 +706,7 @@ while read -r PARTICIPANT_ID; do
     bash -lc "
         source '${VENV_DIR}/bin/activate'
         cd '${PROJECT_DIR}'
+        ${ENV_LOADER}
 
         # CUDA driver shim
         if [[ -f '/usr/local/cuda/compat/lib/libcuda.so.1' ]]; then
@@ -715,6 +737,36 @@ PY
         EXTRA_FLAGS=''
         if [[ '${LOCAL_ENFORCE_EAGER}' == '1' ]]; then EXTRA_FLAGS='--local_enforce_eager'; fi
         if [[ '${LOCAL_QUANT}' != 'None' ]]; then EXTRA_FLAGS=\"\${EXTRA_FLAGS} --local_quant ${LOCAL_QUANT}\"; fi
+
+        if [[ '${PREFLIGHT_CHECK}' == '1' ]]; then
+            echo '--- Configuration check and route (offline: no model call) ---'
+            python3 main.py \
+                '${PARTICIPANT_DIR}' \
+                --prediction_type '${PREDICTION_TYPE}' \
+                --target_label '${SPECIFIC_TARGET}' \
+                --control_label '${FIXED_CONTROL}' \
+                ${CLASS_LABELS:+--class_labels '${CLASS_LABELS}'} \
+                ${REGRESSION_OUTPUT:+--regression_output '${REGRESSION_OUTPUT}'} \
+                ${REGRESSION_OUTPUTS:+--regression_outputs '${REGRESSION_OUTPUTS}'} \
+                ${TASK_SPEC_FILE:+--task_spec_file '${TASK_SPEC_FILE}'} \
+                ${TASK_SPEC_JSON:+--task_spec_json '${TASK_SPEC_JSON}'} \
+                ${GLOBAL_INSTRUCTION:+--global_instruction '${GLOBAL_INSTRUCTION}'} \
+                ${PREDICTOR_INSTRUCTION:+--predictor_instruction '${PREDICTOR_INSTRUCTION}'} \
+                --backend local \
+                --model '${MODEL_NAME}' \
+                --max_tokens ${MAX_TOKENS} \
+                --local_max_model_len ${MAX_TOKENS} \
+                --max_agent_input ${MAX_AGENT_INPUT} \
+                --max_agent_output ${MAX_AGENT_OUTPUT} \
+                --max_tool_input ${MAX_TOOL_INPUT} \
+                --max_tool_output ${MAX_TOOL_OUTPUT} \
+                ${ROUTING_FLAGS} \
+                --check_config || {
+                    echo '✗ Configuration check failed for ${PARTICIPANT_ID}'
+                    exit 1
+                }
+            echo ''
+        fi
 
         if [[ '${PREFLIGHT_AUDIT}' == '1' ]]; then
             echo '--- Dataflow preflight audit ---'
@@ -752,6 +804,7 @@ PY
                 --max_tool_output ${MAX_TOOL_OUTPUT} \
                 --local_trust_remote_code \
                 \${EXTRA_FLAGS} \
+                ${ROUTING_FLAGS} \
                 --audit \
                 --quiet || {
                     echo '✗ Dataflow preflight audit failed for ${PARTICIPANT_ID}'
@@ -795,6 +848,7 @@ PY
             --max_tool_output ${MAX_TOOL_OUTPUT} \
             --local_trust_remote_code \
             \${EXTRA_FLAGS} \
+            ${ROUTING_FLAGS} \
             --detailed_log \
             --quiet
     "

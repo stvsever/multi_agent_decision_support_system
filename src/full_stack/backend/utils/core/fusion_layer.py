@@ -78,7 +78,7 @@ class FusionLayer:
                 self.encoder = None
             
         model_hint = getattr(self.settings.models, "predictor_model", None)
-        max_ctx = int(self.settings.effective_context_window(model_hint))
+        max_ctx = int(self.settings.effective_context_window(model_hint, role="predictor"))
         self.threshold = int(0.9 * max_ctx)
         logger.info(f"FusionLayer: Dynamic Threshold set to {self.threshold} (Context: {max_ctx} max)")
             

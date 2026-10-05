@@ -7,6 +7,7 @@
 import { Disclosure, Field, Segmented } from '@/components/ui/primitives'
 import { DEFAULT_ORCHESTRATION_MODE, ORCHESTRATION_CHOICES } from '@/lib/decision'
 import { duration, tokens } from '@/lib/format'
+import { useSettings } from '@/lib/hooks'
 import { Grid, Group, NumberControl, NumberSetting, SectionHead, SliderControl, SwitchRow } from '../controls'
 import { useSettingsController } from '../state'
 
@@ -20,6 +21,9 @@ export function EngineSection() {
   const isLocal = config.connection.backend === 'local'
   const orchestration = engine.orchestration_mode ?? DEFAULT_ORCHESTRATION_MODE
   const threshold = engine.orchestration_threshold_tokens ?? 0
+  // The engine's own budget for the saved configuration (null for a decision model).
+  const { data: saved } = useSettings()
+  const predictorBudget = (saved?.effective?.predictor_input_budget as number | null | undefined) ?? null
 
   return (
     <>
@@ -59,7 +63,9 @@ export function EngineSection() {
             hint={
               threshold > 0
                 ? `Records above ${tokens(threshold)} tokens are orchestrated, or above the Predictor input if that is smaller.`
-                : 'Zero uses the Predictor input budget: the model context less its output reserve.'
+                : predictorBudget
+                  ? `Zero uses the Predictor input budget, now ${tokens(predictorBudget)} tokens: the model context less its output reserve.`
+                  : 'Zero uses the Predictor input budget: the model context less its output reserve (for a decision model, its state limit).'
             }
           >
             <div className="row gap-2">

@@ -64,9 +64,9 @@ from src.full_stack.backend.data.models.prediction_task import (
 )
 from src.full_stack.backend.runtime.event_bus import get_ui
 from src.full_stack.backend.data.models.execution_plan import ExecutionPlan
-from src.full_stack.backend.decision import enforce_role_models, get_decision_model_spec, is_decision_model
-from src.full_stack.backend.decision.predictor import DecisionPredictor
-from src.full_stack.backend.decision.quality import route_can_help as decision_route_can_help
+from src.full_stack.backend.agents.decision import enforce_role_models, get_decision_model_spec, is_decision_model
+from src.full_stack.backend.agents.decision.predictor import DecisionPredictor
+from src.full_stack.backend.agents.decision.quality import route_can_help as decision_route_can_help
 from src.full_stack.backend.utils.core.input_routing import (
     build_direct_executor_output,
     decide_route,
@@ -121,7 +121,7 @@ def _clamp_role_token_limits(settings) -> None:
         max_attr = f"{role}_max_tokens"
         model_name = getattr(settings.models, model_attr, "")
         configured = int(getattr(settings.models, max_attr, 0) or 0)
-        safe_cap = int(settings.auto_output_token_limit(model_name=model_name))
+        safe_cap = int(settings.auto_output_token_limit(model_name=model_name, role=role))
         if configured <= 0:
             setattr(settings.models, max_attr, safe_cap)
         else:
@@ -986,6 +986,11 @@ def run_compass_pipeline(
     if interactive_ui: ui.set_status("Initializing Agents...", stage=0)
     print(f"\n[2/5] Initializing COMPASS agents...")
     enforce_role_models(settings)
+    windows = settings.role_context_windows()
+    print(
+        "[Init] Context windows: "
+        + ", ".join(f"{role} {window.tokens:,} ({window.source})" for role, window in windows.items())
+    )
     predictor_kind = "decision" if is_decision_model(settings.models.predictor_model) else "llm"
     orchestrator = Orchestrator(token_manager=token_manager)
     executor = Executor(token_manager=token_manager)
@@ -2098,7 +2103,7 @@ def _ask_companion_model(decision_model: str) -> str:
     return answer or DEFAULT_COMPANION_MODEL
 
 
-def _apply_predictor_choice(settings, args: argparse.Namespace) -> None:
+def _apply_predictor_choice(settings, args: argparse.Namespace, *, interactive: bool = True) -> None:
     """Resolve the Predictor model, the companion LLM and the routing options from the CLI."""
     predictor_model = str(getattr(args, "predictor_model", None) or "").strip()
     companion = str(getattr(args, "companion_model", None) or "").strip()
@@ -2106,7 +2111,7 @@ def _apply_predictor_choice(settings, args: argparse.Namespace) -> None:
     if settings.models.backend != LLMBackend.LOCAL and is_decision_model(public):
         predictor_model = predictor_model or public
         if not companion:
-            companion = _ask_companion_model(public)
+            companion = _ask_companion_model(public) if interactive else DEFAULT_COMPANION_MODEL
     if companion:
         if is_decision_model(companion):
             raise ValueError(f"--companion_model must be a conventional LLM, not the decision model {companion}.")
@@ -2131,10 +2136,322 @@ def _apply_predictor_choice(settings, args: argparse.Namespace) -> None:
         settings.decision.score_levels = max(2, min(10, int(args.decision_score_levels)))
     if getattr(args, "decision_refine", None) is not None:
         settings.decision.regression_refine = bool(args.decision_refine)
+    if getattr(args, "decision_compiler_model", None):
+        settings.decision.compiler_model = str(args.decision_compiler_model).strip()
+    if getattr(args, "decision_stability_threshold", None) is not None:
+        settings.decision.stability_threshold = float(args.decision_stability_threshold)
+    if getattr(args, "decision_regression_stability_threshold", None) is not None:
+        settings.decision.regression_stability_threshold = float(args.decision_regression_stability_threshold)
+    if getattr(args, "decision_sufficiency_threshold", None) is not None:
+        settings.decision.sufficiency_threshold = float(args.decision_sufficiency_threshold)
 
 
-def main():
-    """CLI entry point."""
+#: Accepted ranges of the numeric CLI options, (minimum, maximum); None is open.
+_CLI_RANGES = {
+    "iterations": (1, 20),
+    "orchestration_threshold": (0, None),
+    "public_max_context_tokens": (0, None),
+    "context_window": (1024, None),
+    "max_tokens": (1024, None),
+    "local_max_model_len": (0, None),
+    "local_tensor_parallel": (1, None),
+    "local_pipeline_parallel": (1, None),
+    "decision_choice_orders": (1, 6),
+    "decision_score_levels": (2, 10),
+    "decision_stability_threshold": (0.05, 0.6),
+    "decision_regression_stability_threshold": (0.1, 2.0),
+    "decision_sufficiency_threshold": (0.0, 0.9),
+    "total_budget": (1, None),
+    "max_agent_input": (1, None),
+    "max_agent_output": (1, None),
+    "max_tool_input": (1, None),
+    "max_tool_output": (1, None),
+}
+
+
+def _cli_role_context_windows(args: argparse.Namespace) -> Dict[str, int]:
+    """--context_window (every role) plus --role_context_window pairs, the latter winning per role."""
+    from src.full_stack.backend.config.settings import ALL_ROLES_KEY, parse_role_context_windows
+
+    windows: Dict[str, int] = {}
+    if getattr(args, "context_window", None):
+        windows[ALL_ROLES_KEY] = int(args.context_window)
+    windows.update(parse_role_context_windows(getattr(args, "role_context_window", None)))
+    return windows
+
+
+def validate_cli_args(parser: argparse.ArgumentParser, args: argparse.Namespace) -> None:
+    """Refuse an inconsistent command line with a message that names the flag (exit code 2)."""
+    for name, (low, high) in _CLI_RANGES.items():
+        value = getattr(args, name, None)
+        if value is None:
+            continue
+        if name == "public_max_context_tokens" and 0 < value < 1024:
+            parser.error(f"--{name} must be 0 (not configured) or at least 1024 tokens; got {value}.")
+        if (low is not None and value < low) or (high is not None and value > high):
+            bounds = f"between {low} and {high}" if high is not None else f"at least {low}"
+            parser.error(f"--{name} must be {bounds}; got {value}.")
+    if getattr(args, "local_max_model_len", 0) and 0 < args.local_max_model_len < 1024:
+        parser.error(f"--local_max_model_len must be 0 (use --max_tokens) or at least 1024; got {args.local_max_model_len}.")
+    try:
+        _cli_role_context_windows(args)
+    except ValueError as exc:
+        parser.error(f"--role_context_window: {exc}")
+
+    companion = str(getattr(args, "companion_model", None) or "").strip()
+    if companion and is_decision_model(companion):
+        parser.error(f"--companion_model must be a conventional LLM, not the decision model {companion}.")
+    compiler = str(getattr(args, "decision_compiler_model", None) or "").strip()
+    if compiler and is_decision_model(compiler):
+        parser.error(f"--decision_compiler_model must be a conventional LLM, not the decision model {compiler}.")
+    predictor = str(getattr(args, "predictor_model", None) or "").strip()
+    if getattr(args, "backend", "openrouter") == "local":
+        local_model = str(getattr(args, "model", "") or "").strip()
+        if is_decision_model(local_model):
+            parser.error(
+                f"--model {local_model} is a structured decision model; on --backend local --model is the "
+                "conventional LLM every role runs on. Put the decision model in --predictor_model."
+            )
+        if predictor and not is_decision_model(predictor) and predictor != local_model:
+            parser.error(
+                f"--predictor_model {predictor} cannot run on --backend local, which serves only --model "
+                f"{local_model} in process. Use a structured decision model (served remotely), or drop the flag."
+            )
+        if companion:
+            parser.error("--companion_model applies to hosted backends; on --backend local every LLM role uses --model.")
+    elif predictor and is_decision_model(str(getattr(args, "public_model", "") or "")) and is_decision_model(predictor):
+        public = str(args.public_model)
+        if public.lower().lstrip("~") != predictor.lower().lstrip("~"):
+            parser.error(f"--public_model {public} and --predictor_model {predictor} are two different decision models; name one.")
+
+
+def cli_notes(args: argparse.Namespace, settings) -> List[str]:
+    """Flags that are accepted but have no effect with this configuration."""
+    notes: List[str] = []
+    if int(settings.orchestration.threshold_tokens or 0) > 0 and settings.orchestration.mode != "auto":
+        notes.append(
+            f"--orchestration_threshold has no effect with --orchestration {settings.orchestration.mode} "
+            "(only auto mode routes on a threshold)."
+        )
+    decision_flags = [
+        f"--{name}"
+        for name in (
+            "decision_provider",
+            "decision_choice_orders",
+            "decision_score_levels",
+            "decision_refine",
+            "decision_compiler_model",
+            "decision_stability_threshold",
+            "decision_regression_stability_threshold",
+            "decision_sufficiency_threshold",
+        )
+        if getattr(args, name, None) is not None
+    ]
+    if decision_flags and not is_decision_model(settings.models.predictor_model):
+        notes.append(f"{', '.join(decision_flags)} only apply when the Predictor is a structured decision model.")
+    if getattr(args, "backend", "") == "local" and int(getattr(args, "public_max_context_tokens", 0) or 0):
+        notes.append("--public_max_context_tokens has no effect on --backend local (the served length is the window).")
+    elif int(getattr(args, "public_max_context_tokens", 0) or 0):
+        # Older versions applied it to the public model whatever its window; now
+        # it only covers a model neither the catalog nor the built-in table knows.
+        unused = all(
+            window.source != "configured" for window in settings.role_context_windows().values()
+        )
+        if unused:
+            notes.append(
+                f"--public_max_context_tokens {int(args.public_max_context_tokens):,} has no effect: every role's "
+                "model has a known window (catalog, built-in table or override); force one with --context_window "
+                "or --role_context_window."
+            )
+    if getattr(args, "backend", "") == "local":
+        served = int(getattr(args, "local_max_model_len", 0) or 0) or int(getattr(args, "max_tokens", 0) or 0)
+        forced = {role: tokens for role, tokens in (settings.models.role_context_windows or {}).items() if tokens > served > 0}
+        if forced:
+            listed = ", ".join(f"{role}={tokens:,}" for role, tokens in sorted(forced.items()))
+            notes.append(
+                f"Context window override above the served length {served:,} ({listed}): the local server rejects "
+                "longer prompts; lower the override or raise --local_max_model_len."
+            )
+    return notes
+
+
+def apply_cli_settings(settings, args: argparse.Namespace, *, interactive: bool = True, print_notes: bool = True):
+    """Stamp the engine settings with the command line, exactly as a run uses them."""
+    settings.detailed_tool_logging = bool(getattr(args, "detailed_log", False))
+    if getattr(args, "reasoning_effort", None) is not None:
+        settings.reasoning_effort = "" if args.reasoning_effort == "provider_default" else args.reasoning_effort
+
+    roles = ("orchestrator", "critic", "predictor", "integrator", "communicator", "tool")
+    if args.backend == "local":
+        settings.models.backend = LLMBackend.LOCAL
+        settings.models.local_model_name = args.model
+        settings.models.local_max_tokens = args.max_tokens
+        settings.models.local_backend_type = args.local_engine
+        settings.models.local_dtype = args.local_dtype
+        if args.local_quant is not None:
+            settings.models.local_quantization = args.local_quant
+        settings.models.local_kv_cache_dtype = args.local_kv_cache_dtype
+        settings.models.local_tensor_parallel_size = args.local_tensor_parallel
+        settings.models.local_pipeline_parallel_size = args.local_pipeline_parallel
+        settings.models.local_gpu_memory_utilization = args.local_gpu_mem_util
+        settings.models.local_max_model_len = args.local_max_model_len
+        if args.local_enforce_eager:
+            settings.models.local_enforce_eager = True
+        if args.local_trust_remote_code:
+            settings.models.local_trust_remote_code = True
+        settings.models.local_attn_implementation = args.local_attn
+        for role in roles:
+            setattr(settings.models, f"{role}_model", args.model)
+        if not getattr(args, "check_config", False):
+            print(f"[Init] Switching to LOCAL Backend with model: {args.model}")
+    else:
+        settings.models.backend = LLMBackend.OPENAI if args.backend == "openai" else LLMBackend.OPENROUTER
+        settings.models.public_model_name = args.public_model
+        settings.models.public_max_context_tokens = int(args.public_max_context_tokens or 0)
+        settings.models.embedding_model = args.embedding_model
+        for role in roles:
+            setattr(settings.models, f"{role}_model", args.public_model)
+    settings.models.role_context_windows = _cli_role_context_windows(args)
+
+    _apply_predictor_choice(settings, args, interactive=interactive)
+
+    # Token limits: derived from the resolved context window unless set explicitly.
+    _apply_token_budget_defaults(
+        settings,
+        {
+            "max_agent_input": getattr(args, "max_agent_input", None),
+            "max_agent_output": getattr(args, "max_agent_output", None),
+            "max_tool_input": getattr(args, "max_tool_input", None),
+            "max_tool_output": getattr(args, "max_tool_output", None),
+        },
+    )
+    if getattr(args, "total_budget", None):
+        settings.token_budget.total_budget = args.total_budget
+    _sync_component_token_budgets(settings)
+    _sync_role_token_limits_with_budgets(settings)
+    # Warnings go to stderr, so `--check_config --check_format json` keeps a clean stdout.
+    # The configuration check lists them in its own report instead.
+    if print_notes:
+        for note in cli_notes(args, settings):
+            print(f"[Init] Note: {note}", file=sys.stderr)
+    return settings
+
+
+def run_config_check(
+    settings,
+    *,
+    participant_dir: Optional[Path] = None,
+    prediction_task_spec: Optional[PredictionTaskSpec] = None,
+    agent_instructions: Optional[Dict[str, str]] = None,
+) -> Dict[str, Any]:
+    """
+    Everything a run with these settings would use, checked offline: no model
+    call, no network. With a participant directory, the record is measured the
+    way the pipeline measures it before its first attempt, and the route the
+    configured orchestration mode takes is reported.
+    """
+    from src.full_stack.backend.utils.core.route_preview import configuration_summary, measure_record
+
+    import contextlib
+
+    report = configuration_summary(settings)
+    report["record"] = None
+    if participant_dir:
+        try:
+            # The loaders narrate on stdout; keep stdout for the report itself.
+            with contextlib.redirect_stdout(sys.stderr):
+                report["record"] = measure_record(
+                    Path(participant_dir),
+                    settings=settings,
+                    prediction_task_spec=prediction_task_spec,
+                    agent_instructions=agent_instructions,
+                )
+        except Exception as exc:
+            report["problems"].append(f"The record at {participant_dir} could not be measured: {type(exc).__name__}: {exc}")
+    return report
+
+
+def format_config_check(report: Dict[str, Any]) -> str:
+    """The --check_config report as text."""
+    lines = ["COMPASS configuration check (offline: no model was called)", ""]
+    lines.append(f"Backend: {report['backend']}    endpoint: {report['endpoint']}")
+    if report.get("local"):
+        local = report["local"]
+        lines.append(
+            f"Local model: {local['model']} via {local['engine']}, served length "
+            f"{local['max_model_len'] or local['max_tokens']:,} tokens"
+        )
+    lines.append("")
+    lines.append(f"{'Role':<14}{'Model':<42}{'Context window':>16}  {'Source':<15}{'Max output':>11}")
+    for role, row in report["roles"].items():
+        lines.append(
+            f"{role:<14}{str(row['model'])[:41]:<42}{row['context_window']:>16,}  {row['context_source']:<15}"
+            f"{row['max_output_tokens']:>11,}"
+        )
+    lines.append("")
+    predictor = report["predictor"]
+    if predictor["kind"] == "decision":
+        lines.append(
+            f"Predictor: structured decision model {predictor['model']}: state limit "
+            f"{predictor['state_limit_provider_tokens']:,} provider tokens = {predictor['state_limit_tokens']:,} cl100k "
+            f"tokens at ratio {predictor['tokenizer_ratio']}"
+        )
+        decision = report.get("decision") or {}
+        lines.append(
+            f"  provider {decision.get('provider')}, choice orders {decision.get('choice_orders')}, score levels "
+            f"{decision.get('score_levels')}, refine {decision.get('regression_refine')}, question book by "
+            f"{decision.get('compiler_model')}"
+        )
+    else:
+        lines.append(
+            f"Predictor input budget: {predictor['budget_tokens']:,} tokens (window {predictor['context_window']:,} "
+            f"from {predictor['context_source']}, minus {predictor['output_reserve']:,} output reserve, capped by "
+            f"max_agent_input {predictor['max_agent_input_tokens']:,})"
+        )
+    orchestration = report["orchestration"]
+    threshold = orchestration["threshold_tokens"]
+    lines.append(
+        f"Orchestration: {orchestration['mode']}"
+        + (f", threshold {threshold:,} tokens" if threshold else ", threshold: the Predictor input budget")
+    )
+    keys = ", ".join(f"{k} {'present' if v else 'MISSING'}" for k, v in report["credentials"].items()) or "none needed"
+    lines.append(f"API keys: {keys}")
+    cache = report.get("catalog_cache") or {}
+    if cache.get("present"):
+        lines.append(f"Model catalog cache: {cache['models']} models, {cache['age_hours']} h old ({cache['path']})")
+    elif report["backend"] != "local":
+        lines.append(
+            "Model catalog cache: none, so windows come from the built-in table (refresh it with --refresh_catalog "
+            "or by opening the dashboard once)"
+        )
+    record = report.get("record")
+    if record:
+        lines.append("")
+        lines.append(
+            f"Record {record['participant_id']}: {record['input_tokens']:,} {record['unit']} against a budget of "
+            f"{record['budget_tokens']:,} -> {record['route'].upper()}"
+        )
+        lines.append(f"  {record['route_reason']}")
+        if record.get("predictor_kind") == "decision":
+            lines.append(
+                f"  {record['questions_round_one']} questions in {record['requests_round_one']} request(s) "
+                f"({', '.join(str(v) for v in record['question_tokens_per_request'])} question tokens); zoomed "
+                f"regression round: {'yes' if record['round_two_expected'] else 'no'}"
+            )
+    lines.append("")
+    if report.get("notes"):
+        lines.append("Notes (accepted, but without effect or risky):")
+        lines.extend(f"  - {note}" for note in report["notes"])
+    if report["problems"]:
+        lines.append("Problems (a run would fail to start):")
+        lines.extend(f"  - {problem}" for problem in report["problems"])
+    else:
+        lines.append("No problems found.")
+    return "\n".join(lines)
+
+
+def build_parser() -> argparse.ArgumentParser:
+    """The command line of main.py (kept separate so tests and tools can inspect it)."""
     parser = argparse.ArgumentParser(
         description="COMPASS Multi-Agent System for Deep Phenotype Prediction",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -2147,6 +2464,17 @@ Examples:
   python main.py /path/to/participant_001 --prediction_type regression_univariate --target_label total_iq --regression_output total_iq
   python main.py /path/to/participant_001 --prediction_type regression_multivariate --target_label personality_traits --regression_outputs openness,conscientiousness,extraversion,agreeableness,neuroticism
   python main.py /path/to/participant_001 --prediction_type hierarchical --task_spec_file /path/to/task_spec.json
+
+Check a configuration offline (no model call, no spend): per-role models and context windows,
+the Predictor input budget, missing API keys, and the route this record would take:
+  python main.py /path/to/participant_001 --predictor_model typesafe/jev-1.13 --companion_model deepseek/deepseek-v4-flash-0731 --check_config
+
+Context windows resolve per role: decision-model state limit, --role_context_window/--context_window,
+the served length on --backend local, the cached OpenRouter catalog, the built-in table,
+--public_max_context_tokens, then 128000.
+  python main.py /path/to/participant_001 --role_context_window predictor=128000,tool=32000
+  python main.py /path/to/participant_001 --backend local --model Qwen/Qwen3-14B-AWQ --local_max_model_len 32768
+  OPENROUTER_BASE_URL=http://node:8000/v1 python main.py /path/to/participant_001 --public_model Qwen/Qwen3-14B-AWQ --context_window 32768
         """
     )
     
@@ -2297,6 +2625,31 @@ Examples:
         help="Run offline dataflow audit without LLM calls"
     )
     parser.add_argument(
+        "--check_config",
+        action="store_true",
+        help=(
+            "Check the configuration offline and exit: per-role models, context windows and their source, "
+            "output ceilings, the Predictor input budget, missing API keys, and (with participant_dir) the "
+            "measured record and the route it takes. No model call, no network, no spend. Exit code 1 when "
+            "a run would fail to start."
+        ),
+    )
+    parser.add_argument(
+        "--refresh_catalog",
+        action="store_true",
+        help=(
+            "Download the OpenRouter model list (a free, unauthenticated GET) into the catalog cache the context "
+            "windows are read from (~/.compass/model_catalog.json, or $COMPASS_HOME) before anything else."
+        ),
+    )
+    parser.add_argument(
+        "--check_format",
+        type=str,
+        default="text",
+        choices=["text", "json"],
+        help="Output of --check_config: text (default) or json.",
+    )
+    parser.add_argument(
         "--generate_deep_phenotype",
         action="store_true",
         help="Generate deep phenotype report at pipeline completion (manual opt-in)"
@@ -2324,8 +2677,32 @@ Examples:
     parser.add_argument(
         "--public_max_context_tokens",
         type=int,
-        default=1048576,
-        help="Public API context window override used for thresholding (default: 1048576)"
+        default=0,
+        help=(
+            "Context window for a hosted model that neither the cached OpenRouter catalog nor the built-in "
+            "table knows (default 0: such a model gets 128000). It does not override a known model; use "
+            "--context_window or --role_context_window for that."
+        ),
+    )
+    parser.add_argument(
+        "--context_window",
+        type=int,
+        default=None,
+        help=(
+            "Force this context window (tokens) for every LLM role, whatever the catalog says; for example the "
+            "max model length of a self-hosted vLLM server. A structured decision model keeps its state limit."
+        ),
+    )
+    parser.add_argument(
+        "--role_context_window",
+        action="append",
+        default=None,
+        metavar="ROLE=TOKENS",
+        help=(
+            "Force the context window of one role (orchestrator, critic, predictor, integrator, communicator, "
+            "tool, or all). Comma-separated or repeated, for example predictor=128000,tool=32000. Wins over "
+            "--context_window for that role."
+        ),
     )
     parser.add_argument(
         "--embedding_model",
@@ -2338,14 +2715,20 @@ Examples:
         "--model", 
         type=str, 
         default="Qwen/Qwen2.5-0.5B-Instruct",
-        help="Name/Path of local model (default: Qwen/Qwen2.5-0.5B-Instruct). Only used if --backend local"
+        help=(
+            "Name/Path of local model (default: Qwen/Qwen2.5-0.5B-Instruct). Only used if --backend local; "
+            "for a model on a hosted or self-hosted OpenAI-compatible endpoint use --public_model."
+        )
     )
     
     parser.add_argument(
         "--max_tokens", 
         type=int, 
         default=32768,
-        help="Max context tokens for local model (default: 32768). Only used if --backend local"
+        help=(
+            "Context window of the local model (default: 32768). Only used if --backend local; "
+            "--local_max_model_len, when set, is the served length and wins."
+        )
     )
 
     parser.add_argument(
@@ -2395,7 +2778,10 @@ Examples:
         "--local_max_model_len",
         type=int,
         default=0,
-        help="Max model length override (0 = auto)"
+        help=(
+            "Max model length vLLM serves (0 = --max_tokens). It is also the context window every local "
+            "role works with."
+        )
     )
     parser.add_argument(
         "--local_enforce_eager",
@@ -2447,7 +2833,10 @@ Examples:
         "--orchestration_threshold",
         type=int,
         default=None,
-        help="Token count above which auto mode orchestrates (default and maximum: the Predictor input budget).",
+        help=(
+            "Token count above which auto mode orchestrates (default 0: the Predictor input budget, which is "
+            "also the maximum). Only used with --orchestration auto."
+        ),
     )
     parser.add_argument(
         "--decision_provider",
@@ -2476,6 +2865,30 @@ Examples:
         action=argparse.BooleanOptionalAction,
         default=None,
         help="Decision models: zoomed second Score pass for continuous outputs (default on).",
+    )
+    parser.add_argument(
+        "--decision_compiler_model",
+        type=str,
+        default=None,
+        help="Decision models: conventional LLM that compiles the question book once per task (default: the Orchestrator's model).",
+    )
+    parser.add_argument(
+        "--decision_stability_threshold",
+        type=float,
+        default=None,
+        help="Decision models: largest probability shift between presentation orders the critic accepts, 0.05 to 0.6 (default 0.25).",
+    )
+    parser.add_argument(
+        "--decision_regression_stability_threshold",
+        type=float,
+        default=None,
+        help="Decision models: largest ascending/descending gap in reference SDs the critic accepts, 0.1 to 2.0 (default 0.5).",
+    )
+    parser.add_argument(
+        "--decision_sufficiency_threshold",
+        type=float,
+        default=None,
+        help="Decision models: evidence sufficiency below which the critic rejects an attempt, 0 to 0.9 (default 0: report only).",
     )
 
     # --- TOKEN CONTROLS ---
@@ -2584,11 +2997,17 @@ Examples:
         help="Enable stricter explainability validation checks"
     )
     # ---------------------------
-    
+    return parser
+
+
+def main():
+    """CLI entry point."""
+    parser = build_parser()
     args = parser.parse_args()
+    validate_cli_args(parser, args)
     
     # Validate participant directory
-    if not args.ui and not args.participant_dir:
+    if not args.ui and not args.participant_dir and not args.check_config:
         print("Error: participant_dir is required when not using --ui mode.")
         parser.print_help()
         sys.exit(1)
@@ -2646,6 +3065,34 @@ Examples:
         }
     )
     
+    if getattr(args, "refresh_catalog", False):
+        try:
+            from src.full_stack.backend.api.catalog import fetch_catalog
+
+            catalog = fetch_catalog(force=True)
+            print(
+                f"[Init] Model catalog refreshed: {len(catalog.get('models') or [])} models"
+                + (" (stale: the provider could not be reached)" if catalog.get("stale") else ""),
+                file=sys.stderr,
+            )
+        except Exception as exc:
+            print(f"[Init] Could not refresh the model catalog ({exc}); using the cached one or the built-in table.", file=sys.stderr)
+
+    if args.check_config:
+        settings = apply_cli_settings(get_settings(), args, interactive=False, print_notes=False)
+        report = run_config_check(
+            settings,
+            participant_dir=args.participant_dir,
+            prediction_task_spec=cli_prediction_task_spec,
+            agent_instructions=cli_agent_instructions,
+        )
+        report["notes"] = cli_notes(args, settings)
+        if args.check_format == "json":
+            print(json.dumps(report, indent=2, default=str))
+        else:
+            print(format_config_check(report))
+        sys.exit(1 if report["problems"] else 0)
+
     # Run pipeline
     try:
         if args.audit:
@@ -2669,86 +3116,7 @@ Examples:
             )
             sys.exit(0)
         else:
-            # Update settings with detailed log flag
-            settings = get_settings()
-            settings.detailed_tool_logging = args.detailed_log
-            if args.reasoning_effort is not None:
-                settings.reasoning_effort = "" if args.reasoning_effort == "provider_default" else args.reasoning_effort
-
-            # Apply Backend Settings
-            from src.full_stack.backend.config.settings import LLMBackend
-            if args.backend == "local":
-                settings.models.backend = LLMBackend.LOCAL
-                settings.models.local_model_name = args.model
-                settings.models.local_max_tokens = args.max_tokens
-                settings.models.local_backend_type = args.local_engine
-                settings.models.local_dtype = args.local_dtype
-                if args.local_quant is not None:
-                    settings.models.local_quantization = args.local_quant
-                settings.models.local_kv_cache_dtype = args.local_kv_cache_dtype
-                settings.models.local_tensor_parallel_size = args.local_tensor_parallel
-                settings.models.local_pipeline_parallel_size = args.local_pipeline_parallel
-                settings.models.local_gpu_memory_utilization = args.local_gpu_mem_util
-                settings.models.local_max_model_len = args.local_max_model_len
-                if args.local_enforce_eager:
-                    settings.models.local_enforce_eager = True
-                if args.local_trust_remote_code:
-                    settings.models.local_trust_remote_code = True
-                settings.models.local_attn_implementation = args.local_attn
-                settings.models.orchestrator_model = args.model
-                settings.models.critic_model = args.model
-                settings.models.predictor_model = args.model
-                settings.models.integrator_model = args.model
-                settings.models.communicator_model = args.model
-                settings.models.tool_model = args.model
-                print(f"[Init] Switching to LOCAL Backend with model: {args.model}")
-            elif args.backend == "openai":
-                settings.models.backend = LLMBackend.OPENAI
-                settings.models.public_model_name = args.public_model
-                settings.models.public_max_context_tokens = args.public_max_context_tokens
-                settings.models.embedding_model = args.embedding_model
-                settings.models.orchestrator_model = args.public_model
-                settings.models.critic_model = args.public_model
-                settings.models.predictor_model = args.public_model
-                settings.models.integrator_model = args.public_model
-                settings.models.communicator_model = args.public_model
-                settings.models.tool_model = args.public_model
-            else:
-                settings.models.backend = LLMBackend.OPENROUTER
-                settings.models.public_model_name = args.public_model
-                settings.models.public_max_context_tokens = args.public_max_context_tokens
-                settings.models.embedding_model = args.embedding_model
-                settings.models.orchestrator_model = args.public_model
-                settings.models.critic_model = args.public_model
-                settings.models.predictor_model = args.public_model
-                settings.models.integrator_model = args.public_model
-                settings.models.communicator_model = args.public_model
-                settings.models.tool_model = args.public_model
-
-            _apply_predictor_choice(settings, args)
-
-            # Apply Token Limits (CLI)
-            _apply_token_budget_defaults(
-                settings,
-                {
-                    "max_agent_input": args.max_agent_input,
-                    "max_agent_output": args.max_agent_output,
-                    "max_tool_input": args.max_tool_input,
-                    "max_tool_output": args.max_tool_output,
-                },
-            )
-            if args.total_budget:
-                settings.token_budget.total_budget = args.total_budget
-            if args.max_agent_input:
-                settings.token_budget.max_agent_input_tokens = args.max_agent_input
-            if args.max_agent_output:
-                settings.token_budget.max_agent_output_tokens = args.max_agent_output
-            if args.max_tool_input:
-                settings.token_budget.max_tool_input_tokens = args.max_tool_input
-            if args.max_tool_output:
-                settings.token_budget.max_tool_output_tokens = args.max_tool_output
-            _sync_component_token_budgets(settings)
-            _sync_role_token_limits_with_budgets(settings)
+            settings = apply_cli_settings(get_settings(), args)
 
             _apply_explainability_overrides(settings, args)
 

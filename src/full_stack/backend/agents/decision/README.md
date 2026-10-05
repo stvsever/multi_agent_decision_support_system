@@ -2,7 +2,7 @@
 
 Technical reference for two engine features. The root README gives the essentials; this file explains the method, the settings, and the output fields in full.
 
-Code: `utils/core/input_routing.py` (route decision and the direct executor output), `utils/core/record_rendering.py` (compact record rendering) and this package, `decision/`:
+Code: `utils/core/input_routing.py` (route decision and the direct executor output), `utils/core/record_rendering.py` (compact record rendering) and this package, `agents/decision/`:
 
 | Module | Role |
 | --- | --- |
@@ -49,7 +49,7 @@ When the Critic rejects an attempt, the next one depends on the route and on the
 | Direct, LLM Predictor | Revises: the same complete record, with the critic's feedback appended to the Predictor prompt |
 | Direct, decision Predictor | Escalates to the orchestrated route with the feedback, because a decision model shown the same state gives the same answers; in `never` mode, or when the only problem is an output without a measurement scale, the loop stops instead |
 
-If the provider rejects a direct prompt as too long (its real context window is smaller than the configured one), the same attempt is rerun on the orchestrated route instead of failing, unless the mode is `never`. The Predictor's context window comes from the dashboard's cached provider catalog when available, then from a built-in table, then from the configured public window.
+If the provider rejects a direct prompt as too long (its real context window is smaller than the configured one), the same attempt is rerun on the orchestrated route instead of failing, unless the mode is `never`. The Predictor's context window comes from a per-role override (`--role_context_window predictor=N`, `--context_window`, dashboard Settings, Compute, Per role) when set, then from the dashboard's cached provider catalog, then from a built-in table, then from the configured public window (`--public_max_context_tokens`); on `--backend local` the served length is the window. A decision model always keeps its state limit. `main.py --check_config` prints each role's window and its source, measures the record and reports the route without calling a model, and the dashboard's cost estimate runs the same measurement (`utils/core/route_preview.py`).
 
 Attempt selection compares attempts across routes. Every attempt's route and the reason for it are recorded under `routing` (see Reference below).
 

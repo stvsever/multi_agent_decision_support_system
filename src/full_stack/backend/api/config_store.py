@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from ..config.settings import _resolve_secret_from_env_or_dotenv
-from ..decision import NON_PREDICTOR_ROLES, is_decision_model
+from ..agents.decision import NON_PREDICTOR_ROLES, is_decision_model
 from . import DEFAULT_MODEL
 from .paths import config_dir, config_file
 from .schemas import ConfigPatch, CredentialStatus, DashboardConfig

@@ -52,7 +52,7 @@ class Integrator(BaseAgent):
         is_local = str(backend_value).lower() == "local"
         if is_local:
             tool_model = getattr(self.settings.models, "tool_model", None)
-            ctx = int(self.settings.effective_context_window(model_name=tool_model))
+            ctx = int(self.settings.effective_context_window(model_name=tool_model, role="tool"))
             max_tool_out = int(getattr(self.settings.token_budget, "max_tool_output_tokens", 8000) or 8000)
             reserve = 2048
             hard_cap = max(10000, ctx - max_tool_out - reserve)
@@ -184,7 +184,7 @@ class Integrator(BaseAgent):
         threshold = payload_estimate.get("threshold") or getattr(self.fusion_layer, "threshold", None)
         if not isinstance(threshold, int) or threshold <= 0:
             predictor_model = self.settings.models.predictor_model or "gpt-5"
-            threshold = int(0.9 * self.settings.effective_context_window(predictor_model))
+            threshold = int(0.9 * self.settings.effective_context_window(predictor_model, role="predictor"))
 
         payload_tokens: Optional[int] = payload_estimate.get("final_tokens") if isinstance(payload_estimate.get("final_tokens"), int) else None
         payload_without_processed_tokens: Optional[int] = None

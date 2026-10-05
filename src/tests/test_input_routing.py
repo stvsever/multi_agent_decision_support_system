@@ -24,7 +24,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 import main as main_mod
-from src.full_stack.backend.decision.client import DecisionRequestError
+from src.full_stack.backend.agents.decision.client import DecisionRequestError
 from src.full_stack.backend.utils.core.predictor_input_assembler import PredictorInputAssembler
 from src.full_stack.backend.utils.llm_client import is_context_length_error
 from src.full_stack.backend.agents.executor import Executor
@@ -43,9 +43,9 @@ from src.full_stack.backend.data.models.prediction_task import (
     PredictionTaskSpec,
     build_binary_task_spec,
 )
-from src.full_stack.backend.decision.predictor import DecisionPredictor
-from src.full_stack.backend.decision.quality import evaluate_decision_prediction
-from src.full_stack.backend.decision.questions import deterministic_book
+from src.full_stack.backend.agents.decision.predictor import DecisionPredictor
+from src.full_stack.backend.agents.decision.quality import evaluate_decision_prediction
+from src.full_stack.backend.agents.decision.questions import deterministic_book
 from src.full_stack.backend.runtime import event_bus
 from src.full_stack.backend.runtime.event_bus import EventStore, RunEventEmitter
 from src.full_stack.backend.utils.core.data_loader import DataLoader

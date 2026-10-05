@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
-from ..decision import decision_role_conflicts, is_decision_model
+from ..agents.decision import decision_role_conflicts, is_decision_model
 from . import DEFAULT_MODEL
 
 
@@ -92,6 +92,28 @@ class RoleTokenMap(BaseModel):
     tool: int = 4_000
 
 
+class RoleWindowMap(BaseModel):
+    """
+    Per-role context window override in tokens. Zero means "resolve it": the
+    catalog, then the built-in table, then the configured window. A structured
+    decision model keeps its fixed state limit whatever is set here.
+    """
+
+    orchestrator: int = Field(0, ge=0, le=10_000_000)
+    integrator: int = Field(0, ge=0, le=10_000_000)
+    predictor: int = Field(0, ge=0, le=10_000_000)
+    critic: int = Field(0, ge=0, le=10_000_000)
+    communicator: int = Field(0, ge=0, le=10_000_000)
+    tool: int = Field(0, ge=0, le=10_000_000)
+
+    @model_validator(mode="after")
+    def _at_least_a_small_window(self) -> "RoleWindowMap":
+        small = [role for role, value in self.model_dump().items() if 0 < int(value) < 1024]
+        if small:
+            raise ValueError(f"A context window override must be 0 (resolve) or at least 1024 tokens: {', '.join(small)}.")
+        return self
+
+
 class RoleTemperatureMap(BaseModel):
     orchestrator: float = 0.3
     integrator: float = 0.3
@@ -117,10 +139,13 @@ class ModelConfig(BaseModel):
     # and three times cheaper, and stops reasoning tokens from consuming the
     # entire output budget. Raise it when a task needs deeper deliberation.
     reasoning_effort: Literal["provider_default", "off", "low", "medium", "high"] = "off"
-    context_window: int = Field(0, ge=0, description="0 resolves from the catalog")
+    # Window for a hosted model that neither the catalog nor the built-in table
+    # knows; 0 leaves the generic fallback. Per-role overrides force a window.
+    context_window: int = Field(0, ge=0, description="0: resolve from the catalog and the built-in table")
     embedding_model: str = "text-embedding-3-large"
     role_models: RoleModelMap = Field(default_factory=RoleModelMap)
     role_max_tokens: RoleTokenMap = Field(default_factory=RoleTokenMap)
+    role_context_windows: RoleWindowMap = Field(default_factory=RoleWindowMap)
     role_temperatures: RoleTemperatureMap = Field(default_factory=RoleTemperatureMap)
 
 

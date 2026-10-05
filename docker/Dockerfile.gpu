@@ -70,6 +70,19 @@ COPY docker/requirements.ui.txt /tmp/requirements.ui.txt
 RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     /opt/venv/bin/pip install -r /tmp/requirements.ui.txt
 
+# What the engine itself imports beyond the dashboard list, so main.py runs in
+# this image (in-process local backend, a structured decision model as
+# Predictor, figures, local embeddings). vLLM already pinned torch and
+# transformers; these only add what is missing. Kept in step with the same
+# block in src/full_stack/backend/hpc/apptainer.def.
+RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+    /opt/venv/bin/pip install \
+        "requests>=2.31" \
+        "matplotlib>=3.7.0" \
+        "accelerate>=0.26.0" \
+        "sentence-transformers>=2.2.0" && \
+    /opt/venv/bin/python3 -c "import importlib.util as u, fastapi, pydantic, requests, tiktoken, transformers, matplotlib, dotenv, tenacity, openai; assert u.find_spec('vllm') and u.find_spec('sentence_transformers'); print('image OK')"
+
 WORKDIR /workspace/multi_agent_decision_support_system
 
 COPY --chown=compass:compass . /workspace/multi_agent_decision_support_system

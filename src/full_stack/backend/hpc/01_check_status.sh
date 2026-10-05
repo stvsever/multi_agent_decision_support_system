@@ -193,13 +193,30 @@ echo "─── Project Source Files ──────────────�
 PROJECT="${HOME}/compass_pipeline/multi_agent_decision_support_system"
 if [ -d "${PROJECT}" ]; then
     check "Project directory exists" "pass"
-    for required in "main.py" "requirements.txt" "src/full_stack/backend/config/settings.py" "src/full_stack/backend/utils/batch_run.py" "src/full_stack/backend/utils/local_llm.py" "src/full_stack/backend/utils/llm_client.py"; do
+    for required in "main.py" "requirements.txt" "src/full_stack/backend/config/settings.py" "src/full_stack/backend/utils/local_llm.py" "src/full_stack/backend/utils/llm_client.py" "src/full_stack/backend/utils/core/route_preview.py" "src/full_stack/backend/agents/decision/client.py" "src/full_stack/backend/hpc/lib_compass_run.sh"; do
         if [ -f "${PROJECT}/${required}" ]; then
             check "${required}" "pass"
         else
             check "${required} MISSING" "fail"
         fi
     done
+    # API keys (names only, never values) for a structured decision model Predictor.
+    ENV_FILE="${COMPASS_ENV_FILE:-${PROJECT}/.env}"
+    if [ -f "${ENV_FILE}" ]; then
+        MODE="$(stat -c '%a' "${ENV_FILE}" 2>/dev/null || echo '?')"
+        if [ "${MODE}" = "600" ] || [ "${MODE}" = "400" ]; then
+            check "API key file ${ENV_FILE} (mode ${MODE})" "pass"
+        else
+            check "API key file ${ENV_FILE} has mode ${MODE}; run chmod 600" "warn"
+        fi
+        for key in OPENROUTER_API_KEY TYPESAFE_API_KEY; do
+            if grep -qE "^[[:space:]]*(export[[:space:]]+)?${key}=." "${ENV_FILE}"; then
+                check "${key} set in ${ENV_FILE}" "pass"
+            fi
+        done
+    else
+        check "No ${ENV_FILE}: fine for a local-only run; a Jev Predictor (PREDICTOR_MODEL) needs OPENROUTER_API_KEY or TYPESAFE_API_KEY" "warn"
+    fi
 else
     check "Project directory not found at ${PROJECT}" "fail"
     echo "       → Fix: Upload project via SCP first"
@@ -304,4 +321,8 @@ echo ""
 echo " Quick start:"
 echo "   sbatch src/full_stack/backend/hpc/04_submit_single.sh  # Test with 1 participant"
 echo "   sbatch src/full_stack/backend/hpc/05_submit_batch.sh   # Full batch"
+echo "   PREDICTOR_MODEL=typesafe/jev-1.13 bash src/full_stack/backend/hpc/04_submit_single.sh  # Jev Predictor, local companion"
+echo ""
+echo " Offline configuration check (no model call), inside the container:"
+echo "   python3 main.py <participant_dir> --backend local --model <model dir> --local_max_model_len 32768 --check_config"
 echo ""

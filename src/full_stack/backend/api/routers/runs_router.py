@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import time
 from pathlib import Path
 from typing import Any, AsyncIterator, Dict, List, Optional
 
@@ -12,9 +13,16 @@ from fastapi.responses import StreamingResponse
 from pydantic import ValidationError
 
 from ..config_store import load_config, resolve_predictor_kind, resolve_role
-from ..cost import estimate_run, expected_plan_steps, participant_domain_count, participant_input_tokens
+from ..cost import (
+    engine_settings,
+    estimate_run,
+    expected_plan_steps,
+    measure_participant,
+    participant_domain_count,
+    participant_input_tokens,
+)
 from ..datasets import inspect_participant
-from ..engine_bridge import ConfigurationProblem, merge_overrides
+from ..engine_bridge import ConfigurationProblem, build_task_spec, merge_overrides
 from ..run_manager import get_run_manager
 from ..safe_paths import to_path
 from ..schemas import AGENT_ROLES, AuditRequest, CostEstimateRequest, RunRequest
@@ -22,6 +30,10 @@ from ..schemas import AGENT_ROLES, AuditRequest, CostEstimateRequest, RunRequest
 router = APIRouter(prefix="/runs", tags=["runs"])
 
 HEARTBEAT_SECONDS = 15.0
+#: The engine measures each record offline (about 0.05 to 0.3 s). A large batch
+#: is measured up to these limits; the rest is projected from its overview size.
+MEASURE_MAX_PARTICIPANTS = 64
+MEASURE_MAX_SECONDS = 8.0
 TERMINAL = {"succeeded", "failed", "cancelled"}
 
 
@@ -47,10 +59,32 @@ def estimate(request: CostEstimateRequest) -> Dict[str, Any]:
     total_tokens = 0
     priced = True
     predictor_kind = resolve_predictor_kind(config)
+    # The engine's own settings and task for this configuration, so each record
+    # is measured and routed exactly as a run would measure and route it.
+    try:
+        task_spec = build_task_spec(request.task)
+    except Exception:
+        task_spec = None
+    try:
+        settings = engine_settings(config)
+    except Exception:
+        settings = None
+    started = time.monotonic()
+    measured_count = 0
 
     for raw in request.participant_dirs or []:
         directory = to_path(raw) or Path(str(raw))
         tokens = participant_input_tokens(directory) if directory.is_dir() else 0
+        measurement = None
+        if (
+            settings is not None
+            and task_spec is not None
+            and directory.is_dir()
+            and measured_count < MEASURE_MAX_PARTICIPANTS
+            and time.monotonic() - started < MEASURE_MAX_SECONDS
+        ):
+            measurement = measure_participant(config, directory, task_spec, settings=settings)
+            measured_count += 1
         # Each participant's own size decides whether its record goes to the
         # Predictor directly or through the orchestration workflow.
         line = estimate_run(
@@ -60,6 +94,7 @@ def estimate(request: CostEstimateRequest) -> Dict[str, Any]:
             include_deep_report=request.generate_deep_phenotype,
             route="auto",
             predictor_kind=predictor_kind,
+            measurement=measurement,
         )
         per_participant.append({"participant_dir": str(directory), "id": directory.name, **line})
         total_tokens += line["total_tokens"]

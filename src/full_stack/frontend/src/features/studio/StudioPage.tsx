@@ -297,6 +297,11 @@ export function StudioPage() {
   const totals = estimate?.totals
   const guards = estimate?.guards
   const assumedRoute = routeSummary(estimate)
+  const singleLine = estimate?.participants.length === 1 ? estimate.participants[0] : null
+  const measuredInput =
+    singleLine?.measured && singleLine.predictor_budget_tokens
+      ? { input: singleLine.predictor_input_tokens ?? 0, budget: singleLine.predictor_budget_tokens }
+      : null
   const offline = connectivity.data && (!connectivity.data.online || !connectivity.data.provider_reachable)
 
   return (
@@ -632,6 +637,13 @@ export function StudioPage() {
                       </Tooltip>
                     </span>
                   )}
+                  {measuredInput && (
+                    <Tooltip content="Measured offline by the engine with these settings, as a run measures it before its first attempt.">
+                      <span className="t-tiny muted tabular">
+                        Predictor input {tokens(measuredInput.input)} of {tokens(measuredInput.budget)} tokens
+                      </span>
+                    </Tooltip>
+                  )}
                 </div>
 
                 {estimate && estimate.participants.length > 0 && (
@@ -647,6 +659,10 @@ export function StudioPage() {
                         <p>
                           Plan size is genuinely variable, which is why a range is shown alongside the point
                           estimate.
+                        </p>
+                        <p>
+                          The route, the Predictor input and its budget are not modelled: the engine measures each
+                          record offline with these settings, the same way a run does before its first attempt.
                         </p>
                       </InfoDot>
                     </span>

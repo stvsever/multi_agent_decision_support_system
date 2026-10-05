@@ -27,6 +27,7 @@ from .config_store import load_config, worker_environment
 from .cost import (
     actual_cost_from_usage,
     estimate_run,
+    measure_participant,
     expected_plan_steps,
     participant_domain_count,
     participant_input_tokens,
@@ -700,6 +701,7 @@ class RunManager:
             input_tokens=participant_input_tokens(participant_dir),
             plan_steps=expected_plan_steps(participant_domain_count(participant_dir)),
             include_deep_report=request.generate_deep_phenotype and not audit,
+            measurement=None if audit else measure_participant(config, participant_dir, task_spec),
         )
 
         block_above = config.cost.block_above_usd

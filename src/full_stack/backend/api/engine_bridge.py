@@ -18,7 +18,7 @@ from ..data.models.prediction_task import (
     PredictionTaskSpec,
     build_task_spec_from_flat_args,
 )
-from ..decision import is_decision_model
+from ..agents.decision import is_decision_model
 from .config_store import get_credential, resolve_predictor_kind, resolve_role
 from .schemas import (
     AGENT_ROLES,
@@ -201,16 +201,19 @@ def _catalog_context_window(model_id: str) -> Optional[int]:
         return None
 
 
-def apply_config_to_settings(config: DashboardConfig) -> Any:
+def apply_config_to_settings(config: DashboardConfig, settings: Any = None, *, process_env: bool = True) -> Any:
     """
-    Stamp the engine's settings singleton with the run configuration.
+    Stamp the engine's settings with the run configuration.
 
-    Mirrors the token-budget derivation the CLI performs so a dashboard run and
-    an equivalent CLI run behave identically.
+    Without `settings` this stamps the process-wide singleton (a run worker);
+    with a fresh `Settings()` it builds an isolated copy (the cost estimate's
+    offline preview), and `process_env=False` keeps the process environment
+    untouched. Mirrors the token-budget derivation the CLI performs so a
+    dashboard run and an equivalent CLI run behave identically.
     """
     import main as compass_main  # imported lazily; pulls in the whole engine
 
-    settings = get_settings()
+    settings = settings if settings is not None else get_settings()
 
     backend_name = config.connection.backend
     settings.models.backend = LLMBackend.LOCAL if backend_name == "local" else LLMBackend.OPENROUTER
@@ -236,15 +239,18 @@ def apply_config_to_settings(config: DashboardConfig) -> Any:
     default_model = config.models.default_model
     settings.models.public_model_name = default_model
     settings.models.embedding_model = config.models.embedding_model
-    if config.models.context_window:
-        settings.models.public_max_context_tokens = int(config.models.context_window)
-    else:
-        # Every derived budget scales off the context window, so an unset
-        # override must resolve from the catalog rather than keep the default of
-        # a million tokens for a model that may only accept a fraction of that.
-        resolved = _catalog_context_window(default_model)
-        if resolved:
-            settings.models.public_max_context_tokens = resolved
+    # Context windows resolve per role in the engine (Settings.context_window_resolution):
+    # per-role override, served length (local), catalog cache, built-in table, then
+    # this configured window for a model nothing else knows, then a generic fallback.
+    settings.models.public_max_context_tokens = int(config.models.context_window or 0)
+    settings.models.role_context_windows = {
+        role: int(value)
+        for role, value in config.models.role_context_windows.model_dump().items()
+        if int(value or 0) > 0
+    }
+    if process_env and settings.models.backend != LLMBackend.LOCAL:
+        # A run worker refreshes the catalog cache the engine reads windows from.
+        _catalog_context_window(default_model)
 
     if settings.models.backend == LLMBackend.LOCAL:
         local = config.local
@@ -330,8 +336,16 @@ def apply_config_to_settings(config: DashboardConfig) -> Any:
     compass_main._sync_component_token_budgets(settings)
     compass_main._sync_role_token_limits_with_budgets(settings, role_max_tokens)
 
-    os.environ["COMPASS_EXECUTOR_MAX_WORKERS"] = str(config.engine.executor_max_workers)
+    if process_env:
+        os.environ["COMPASS_EXECUTOR_MAX_WORKERS"] = str(config.engine.executor_max_workers)
     return settings
+
+
+def build_engine_settings(config: DashboardConfig) -> Any:
+    """An isolated engine Settings object for this configuration (no process side effects)."""
+    from ..config.settings import Settings
+
+    return apply_config_to_settings(config, Settings(), process_env=False)
 
 
 def effective_settings_snapshot(config: DashboardConfig) -> Dict[str, Any]:
@@ -358,4 +372,22 @@ def effective_settings_snapshot(config: DashboardConfig) -> Dict[str, Any]:
             # Blank means the Orchestrator writes the question book.
             "compiler_model": config.decision.compiler_model.strip() or resolve_role(config, "orchestrator"),
         },
+        **_resolved_windows(config),
     }
+
+
+def _resolved_windows(config: DashboardConfig) -> Dict[str, Any]:
+    """
+    Each role's context window as the engine resolves it (and the source that
+    decided it), plus the Predictor's input budget. Empty when the engine
+    cannot be built here, so the settings screen never fails on it.
+    """
+    try:
+        from ..config.settings import llm_predictor_input_budget
+
+        settings = build_engine_settings(config)
+        windows = {role: window.as_dict() for role, window in settings.role_context_windows().items()}
+        budget = None if resolve_predictor_kind(config) == "decision" else llm_predictor_input_budget(settings)
+        return {"context_windows": windows, "predictor_input_budget": budget}
+    except Exception:
+        return {"context_windows": {}, "predictor_input_budget": None}

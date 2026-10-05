@@ -5,6 +5,11 @@
 # - Tries vLLM first (if LOCAL_ENGINE=auto), falls back to Transformers if vLLM init fails
 # - Prints vLLM traceback to STDOUT so it shows up in .out logs
 # - Uses DYNAMIC TARGET LOOKUP from file for strict blinding (same as batch logic)
+# - Predictor, evidence routing and decision-model options: lib_compass_run.sh
+#   (PREDICTOR_MODEL, ORCHESTRATION, ORCHESTRATION_THRESHOLD, DECISION_*,
+#   PREFLIGHT_CHECK, COMPASS_ENV_FILE). Example, Jev as Predictor with the local
+#   Qwen as companion for every other role:
+#     PREDICTOR_MODEL=typesafe/jev-1.13 bash src/full_stack/backend/hpc/04_submit_single.sh
 # =============================================================================
 
 #SBATCH --job-name=compass_single
@@ -89,6 +94,15 @@ PARTICIPANT_DIR="${DATA_DIR}/participant_ID${PARTICIPANT_ID}"
 : "${PREDICTOR_INSTRUCTION:=}"
 : "${CRITIC_INSTRUCTION:=}"
 : "${COMMUNICATOR_INSTRUCTION:=}"
+
+# Predictor, routing and decision-model options plus the API key check.
+COMPASS_RUN_LIB="${PROJECT_DIR}/src/full_stack/backend/hpc/lib_compass_run.sh"
+if [[ ! -f "${COMPASS_RUN_LIB}" ]]; then
+    echo "✗ ERROR: ${COMPASS_RUN_LIB} not found; sync the repository to PROJECT_DIR first."
+    exit 1
+fi
+# shellcheck source=lib_compass_run.sh
+source "${COMPASS_RUN_LIB}"
 
 is_int() {
     [[ "$1" =~ ^[0-9]+$ ]]
@@ -187,6 +201,8 @@ resolve_token_budgets() {
 CURRENT_HOST="$(hostname)"
 if [[ "${CURRENT_HOST}" == login* ]]; then
     mkdir -p "${LOG_DIR}"
+    # A missing key fails here, not after the job waited in the queue.
+    compass_check_keys || exit 1
     echo "⚠  Login node detected. Apptainer is only on compute nodes."
     echo "   Auto-submitting this script as a Slurm job..."
     echo ""
@@ -248,7 +264,11 @@ echo "Prediction type: ${PREDICTION_TYPE}"
 echo "Regression output: ${REGRESSION_OUTPUT:-<none>}"
 echo "Regression outputs: ${REGRESSION_OUTPUTS:-<none>}"
 echo "KV cache dtype request: ${LOCAL_KV_CACHE_DTYPE}"
+compass_print_run_options
 echo ""
+compass_check_keys || exit 1
+ROUTING_FLAGS="$(compass_routing_flags)"
+ENV_LOADER="$(compass_env_loader)"
 
 if command -v nvidia-smi >/dev/null 2>&1; then
     echo "GPU:"
@@ -428,6 +448,7 @@ apptainer exec \
         set -euo pipefail
         source '${VENV_DIR}/bin/activate'
         cd '${PROJECT_DIR}'
+        ${ENV_LOADER}
 
         # CUDA driver shim: some stacks require libcuda.so (not only libcuda.so.1).
         if [[ -f '/usr/local/cuda/compat/lib/libcuda.so.1' ]]; then
@@ -603,6 +624,36 @@ PY
 
         export CUDA_LAUNCH_BLOCKING=1
 
+        if [[ '${PREFLIGHT_CHECK}' == '1' ]]; then
+            echo '--- Configuration check (offline: no model call) ---'
+            python3 main.py \
+                '${PARTICIPANT_DIR}' \
+                --prediction_type '${PREDICTION_TYPE}' \
+                --target '${SPECIFIC_TARGET}' \
+                --control '${FIXED_CONTROL}' \
+                ${CLASS_LABELS:+--class_labels '${CLASS_LABELS}'} \
+                ${REGRESSION_OUTPUT:+--regression_output '${REGRESSION_OUTPUT}'} \
+                ${REGRESSION_OUTPUTS:+--regression_outputs '${REGRESSION_OUTPUTS}'} \
+                ${TASK_SPEC_FILE:+--task_spec_file '${TASK_SPEC_FILE}'} \
+                ${TASK_SPEC_JSON:+--task_spec_json '${TASK_SPEC_JSON}'} \
+                ${GLOBAL_INSTRUCTION:+--global_instruction '${GLOBAL_INSTRUCTION}'} \
+                ${PREDICTOR_INSTRUCTION:+--predictor_instruction '${PREDICTOR_INSTRUCTION}'} \
+                --backend local \
+                --model '${MODEL_NAME}' \
+                --max_tokens ${MAX_TOKENS} \
+                --local_max_model_len ${MAX_TOKENS} \
+                --max_agent_input ${MAX_AGENT_INPUT} \
+                --max_agent_output ${MAX_AGENT_OUTPUT} \
+                --max_tool_input ${MAX_TOOL_INPUT} \
+                --max_tool_output ${MAX_TOOL_OUTPUT} \
+                ${ROUTING_FLAGS} \
+                --check_config || {
+                    echo '✗ Configuration check failed (see Problems above); aborting before the run.'
+                    exit 1
+                }
+            echo ''
+        fi
+
         if [[ '${PREFLIGHT_AUDIT}' == '1' ]]; then
             echo '--- Dataflow preflight audit ---'
             python3 main.py \
@@ -638,6 +689,7 @@ PY
                 --max_tool_input ${MAX_TOOL_INPUT} \
                 --max_tool_output ${MAX_TOOL_OUTPUT} \
                 --local_trust_remote_code \
+                ${ROUTING_FLAGS} \
                 --audit \
                 --quiet || {
                     echo '✗ Dataflow preflight audit failed; aborting before full LLM run.'
@@ -680,6 +732,7 @@ PY
             --max_tool_input ${MAX_TOOL_INPUT} \
             --max_tool_output ${MAX_TOOL_OUTPUT} \
             --local_trust_remote_code \
+            ${ROUTING_FLAGS} \
             --detailed_log \
             \${LOCAL_EXTRA_FLAGS} \
             \${EXTRA_QUIET}

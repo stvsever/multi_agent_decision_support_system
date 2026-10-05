@@ -530,7 +530,7 @@ class Communicator(BaseAgent):
         )
 
     def _effective_context_limit(self) -> int:
-        return int(self.settings.effective_context_window(self.LLM_MODEL))
+        return int(self.settings.effective_context_window(self.LLM_MODEL, role="communicator"))
 
     def _communicator_input_threshold(self) -> int:
         return int(0.9 * self._effective_context_limit())

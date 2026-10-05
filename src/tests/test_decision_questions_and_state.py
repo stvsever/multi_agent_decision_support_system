@@ -26,10 +26,10 @@ from src.full_stack.backend.data.models.prediction_task import (
     PredictionTaskNode,
     PredictionTaskSpec,
 )
-from src.full_stack.backend.decision import questions as questions_module
-from src.full_stack.backend.decision import state as state_module
+from src.full_stack.backend.agents.decision import questions as questions_module
+from src.full_stack.backend.agents.decision import state as state_module
 from src.full_stack.backend.utils.core import record_rendering
-from src.full_stack.backend.decision.questions import (
+from src.full_stack.backend.agents.decision.questions import (
     COMPILER_SYSTEM_PROMPT,
     QuestionBook,
     QuestionSet,
@@ -42,7 +42,7 @@ from src.full_stack.backend.decision.questions import (
     round_one_questions,
     task_hash,
 )
-from src.full_stack.backend.decision.state import (
+from src.full_stack.backend.agents.decision.state import (
     PACKING_LADDER,
     PackedState,
     StateSection,
@@ -1621,3 +1621,10 @@ def test_pack_state_with_real_tokens_on_a_pseudo_participant(direct_output):
 def test_feature_coverage_without_features_is_complete():
     packed = PackedState(state={}, tokens=1, budget=10, sections=[], features_total=0, features_included=0, truncated=False)
     assert packed.feature_coverage == 1.0
+
+
+def test_question_book_cache_sits_at_the_repository_root(monkeypatch):
+    """The cache belongs next to main.py, never inside src/ (the package depth is fixed by this test)."""
+    monkeypatch.delenv("COMPASS_CACHE_DIR", raising=False)
+    repo_root = Path(__file__).resolve().parents[2]
+    assert questions_module.cache_dir() == repo_root / ".compass_cache" / "decision_question_books"

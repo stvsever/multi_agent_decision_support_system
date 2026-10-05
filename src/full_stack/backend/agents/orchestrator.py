@@ -203,7 +203,7 @@ class Orchestrator(BaseAgent):
         
         coverage_text = "\n".join(coverage_lines)
         
-        max_ctx = int(self.settings.effective_context_window(self.settings.models.predictor_model))
+        max_ctx = int(self.settings.effective_context_window(self.settings.models.predictor_model, role="predictor"))
         SMART_FUSION_THRESHOLD = int(0.9 * max_ctx)
         
         

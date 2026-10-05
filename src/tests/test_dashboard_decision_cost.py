@@ -1,5 +1,6 @@
 """The cost projection follows the evidence route and prices decision models input-only."""
 
+import json
 import sys
 from pathlib import Path
 
@@ -35,7 +36,7 @@ def isolated_home(tmp_path, monkeypatch):
 
 
 @pytest.fixture
-def prices(monkeypatch):
+def prices(monkeypatch, tmp_path):
     """The provider catalog without any decision model, as it may well be."""
     index = {
         DEFAULT: {
@@ -45,6 +46,10 @@ def prices(monkeypatch):
         }
     }
     monkeypatch.setattr(cost_module, "pricing_index", lambda cached_only=False: index)
+    # The engine reads context windows from the catalog cache the dashboard writes.
+    (tmp_path / "model_catalog.json").write_text(
+        json.dumps({"models": [{"id": DEFAULT, "context_length": 1_310_720}], "fetched_at": 0})
+    )
     return index
 
 
@@ -96,10 +101,14 @@ def test_the_llm_budget_is_the_context_minus_the_output_reserve_capped_by_the_in
     assert cost_module.predictor_input_budget(config, "llm", prices) == int(1_310_720 * 0.95)
     config.token_budget.max_agent_input_tokens = 50_000
     assert cost_module.predictor_input_budget(config, "llm", prices) == 50_000
-    config.models.context_window = 32_000
+    config.models.role_context_windows.predictor = 32_000
     config.token_budget.max_agent_input_tokens = 0
     # 32,000 minus the 8,192 reserve for a 12,000-token Predictor ceiling.
     assert cost_module.predictor_input_budget(config, "llm", prices) == 32_000 - 8_192
+    # The configured window only covers models the catalog and the table do not know.
+    config.models.role_context_windows.predictor = 0
+    config.models.context_window = 32_000
+    assert cost_module.predictor_input_budget(config, "llm", prices) == int(1_310_720 * 0.95)
 
 
 def test_a_record_larger_than_the_budget_is_projected_orchestrated(prices):

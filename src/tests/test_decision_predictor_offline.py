@@ -44,7 +44,7 @@ from src.full_stack.backend.data.models.prediction_task import (
     PredictionTaskNode,
     PredictionTaskSpec,
 )
-from src.full_stack.backend.decision.aggregate import (
+from src.full_stack.backend.agents.decision.aggregate import (
     aggregate_classification,
     answer_usable,
     noul_value,
@@ -55,16 +55,16 @@ from src.full_stack.backend.decision.aggregate import (
     refinement_window,
     score_distribution,
 )
-from src.full_stack.backend.decision.client import (
+from src.full_stack.backend.agents.decision.client import (
     DecisionClient,
     DecisionRequestError,
     DecisionResponse,
     DecisionUsage,
     _openrouter_decisions_url,
 )
-from src.full_stack.backend.decision.predictor import DecisionPredictor
-from src.full_stack.backend.decision.quality import evaluate_decision_prediction, route_can_help
-from src.full_stack.backend.decision.questions import (
+from src.full_stack.backend.agents.decision.predictor import DecisionPredictor
+from src.full_stack.backend.agents.decision.quality import evaluate_decision_prediction, route_can_help
+from src.full_stack.backend.agents.decision.questions import (
     QuestionSet,
     add_classification_questions,
     add_coarse_regression_questions,
@@ -74,7 +74,7 @@ from src.full_stack.backend.decision.questions import (
     round_one_questions,
     task_hash,
 )
-from src.full_stack.backend.decision.scales import OutputScale, combine_density, density_summary
+from src.full_stack.backend.agents.decision.scales import OutputScale, combine_density, density_summary
 from src.full_stack.backend.utils.core.data_loader import DataLoader
 from src.full_stack.backend.utils.core.input_routing import build_direct_executor_output
 from src.full_stack.backend.utils.token_packer import count_tokens

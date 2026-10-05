@@ -418,28 +418,40 @@ def test_a_zero_means_derive_not_override(monkeypatch):
     reload_settings()
 
 
-def test_the_context_window_resolves_from_the_catalog_when_not_overridden(monkeypatch):
+def test_the_context_window_resolves_from_the_catalog_when_not_overridden(monkeypatch, tmp_path):
     """Every derived budget scales off this, so a stale default distorts them all."""
     from src.full_stack.backend.api import engine_bridge
     from src.full_stack.backend.config.settings import reload_settings
 
+    monkeypatch.setenv("COMPASS_HOME", str(tmp_path))
+    (tmp_path / "model_catalog.json").write_text(
+        json.dumps({"models": [{"id": DashboardConfig().models.default_model, "context_length": 128_000}]})
+    )
     monkeypatch.setattr(engine_bridge, "_catalog_context_window", lambda model_id: 128_000)
     reload_settings()
     settings = engine_bridge.apply_config_to_settings(DashboardConfig())
-    assert settings.models.public_max_context_tokens == 128_000
+    # Nothing configured: the engine resolves the window per role from the catalog.
+    assert settings.models.public_max_context_tokens == 0
+    assert settings.effective_context_window(settings.models.predictor_model, role="predictor") == 128_000
+    assert settings.token_budget.max_agent_input_tokens == int(128_000 * 0.95)
     reload_settings()
 
 
-def test_an_explicit_context_window_wins_over_the_catalog(monkeypatch):
+def test_an_explicit_context_window_covers_unknown_models_and_role_overrides_force(monkeypatch):
     from src.full_stack.backend.api import engine_bridge
     from src.full_stack.backend.config.settings import reload_settings
 
     monkeypatch.setattr(engine_bridge, "_catalog_context_window", lambda model_id: 128_000)
     config = DashboardConfig()
     config.models.context_window = 32_000
+    config.models.role_models.critic = "acme/unlisted-model"
+    config.models.role_context_windows.predictor = 64_000
     reload_settings()
     settings = engine_bridge.apply_config_to_settings(config)
     assert settings.models.public_max_context_tokens == 32_000
+    assert settings.effective_context_window("acme/unlisted-model", role="critic") == 32_000
+    assert settings.effective_context_window(settings.models.predictor_model, role="predictor") == 64_000
+    assert settings.models.role_context_windows == {"predictor": 64_000}
     reload_settings()
 
 
