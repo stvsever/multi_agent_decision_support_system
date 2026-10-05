@@ -403,7 +403,15 @@ def extract_generalized_prediction(result_dir: Path) -> Optional[Dict[str, Any]]
     if not isinstance(flat, list):
         flat = []
     if root and not flat:
-        flat = [root]
+        # Reports written by main.py carry the tree in root_prediction.children
+        # (no flat list); walk it so child nodes are not lost.
+        stack = [root]
+        while stack:
+            node = stack.pop(0)
+            if not isinstance(node, dict):
+                continue
+            flat.append(node)
+            stack.extend(child for child in (node.get("children") or []) if isinstance(child, dict))
 
     root_mode = str(root.get("mode") or spec_root.get("mode") or "").strip() or None
 

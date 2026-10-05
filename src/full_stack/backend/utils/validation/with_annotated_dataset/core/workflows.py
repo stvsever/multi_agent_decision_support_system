@@ -396,7 +396,7 @@ def run_metrics_workflow(
                 d_metrics = compute_binary_metrics(d_rows)
                 safe = _safe_slug(disorder)
                 path = os.path.join(output_dir, f"{safe}_confusion_matrix.png")
-                plot_binary_confusion_matrix(d_metrics, f"Binary confusion matrix — {disorder}", path)
+                plot_binary_confusion_matrix(d_metrics, f"Binary confusion matrix: {disorder}", path)
                 json_path = os.path.join(output_dir, f"{safe}_binary_metrics.json")
                 write_json({"prediction_type": prediction_type, "group": disorder, "n_rows": len(d_rows), "metrics": d_metrics}, json_path)
                 summary["groups"][disorder] = {"n_rows": len(d_rows), "metrics": d_metrics, "outputs": [path, json_path]}
@@ -491,7 +491,7 @@ def run_metrics_workflow(
                 metrics=d_metrics,
                 output_dir=output_dir,
                 prefix=f"{safe}_",
-                title_suffix=f" — {disorder}",
+                title_suffix=f": {disorder}",
                 detailed=False,
             )
             summary["groups"][disorder] = {
@@ -569,7 +569,7 @@ def run_detailed_workflow(
                 d_metrics = compute_binary_metrics(d_rows)
                 safe = _safe_slug(disorder)
                 d_txt = os.path.join(output_dir, f"detailed_analysis_{safe}.txt")
-                write_binary_text_report(rows=d_rows, metrics=d_metrics, output_path=d_txt, title=f"Binary Detailed Analysis — {disorder}")
+                write_binary_text_report(rows=d_rows, metrics=d_metrics, output_path=d_txt, title=f"Binary Detailed Analysis: {disorder}")
                 d_json = os.path.join(output_dir, f"detailed_analysis_{safe}.json")
                 write_json({"prediction_type": prediction_type, "group": disorder, "n_rows": len(d_rows), "metrics": d_metrics}, d_json)
                 summary["groups"][disorder] = {"n_rows": len(d_rows), "metrics": d_metrics, "outputs": [d_txt, d_json]}
@@ -688,7 +688,7 @@ def run_detailed_workflow(
                 rows=d_rows,
                 metrics=d_metrics,
                 output_path=d_txt,
-                title=f"{PREDICTION_TYPE_LABELS.get(prediction_type, prediction_type)} — {disorder}",
+                title=f"{PREDICTION_TYPE_LABELS.get(prediction_type, prediction_type)}: {disorder}",
             )
             d_contract_json = os.path.join(output_dir, f"detailed_annotation_contract_{prediction_type}_{safe}.json")
             write_json(d_contract, d_contract_json)
@@ -709,7 +709,7 @@ def run_detailed_workflow(
                 metrics=d_metrics,
                 output_dir=output_dir,
                 prefix=f"detailed_{safe}_",
-                title_suffix=f" — {disorder}",
+                title_suffix=f": {disorder}",
                 detailed=True,
             )
             summary["groups"][disorder] = {

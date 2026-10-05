@@ -14,6 +14,18 @@ These templates define recommended annotation payload structures for validation.
   - Two or more numeric outputs per participant
 - `examples/hierarchical_annotations_example.json`
   - Node-wise mixed labels/values for hierarchical validation
+- `examples/multilabel_annotations_example.json`
+  - Label sets per participant (multi-label groups; an empty list means no label)
+- `examples/annotations_table_example.csv`
+  - The same information as a table: one row per participant, one column per
+    target, other columns (here `site`) become grouping covariates
+- `examples/predictions_tidy_example.csv`
+  - Predictions as a long table (one row per participant x output; an empty
+    value is a missing prediction)
+
+The legacy CLIs (`run_validation_metrics.py`, `detailed_analysis.py`) read the
+JSON templates. The evaluation library (`run_evaluation.py`, `evaluate()`)
+reads all of them; see the parent README.
 
 ## Notes
 
@@ -50,3 +62,12 @@ For non-binary modes, replace `label` with the appropriate payload:
 - multiclass: `label`
 - regression: `regression` (or `values`)
 - hierarchical: `nodes`
+- multi-label: `multilabel: {group: [labels]}`
+
+## Tables (evaluation library)
+
+CSV or TSV with a participant id column (`participant_id`, `eid`, `subject`,
+or `--id-column`). Map targets to columns with
+`--annotation-columns target=column`, for example
+`--annotation-columns root=diagnosis,total_score=total_score`; numeric
+targets are regression outputs, text targets are class labels.

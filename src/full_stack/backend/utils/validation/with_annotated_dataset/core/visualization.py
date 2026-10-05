@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import functools
+
 from typing import Any, Dict, List, Sequence, Tuple
 
 import numpy as np
@@ -37,10 +39,10 @@ except Exception:  # pragma: no cover
 
 
 
-# ── Global matplotlib theme (applied once at module load) ──────────────────
-# This ensures all figures – including multi-panel subplots – inherit a clean
-# white background suitable for journal / conference publication figures.
-plt.rcParams.update({
+# Matplotlib theme of these figures. It is applied only while a plot_* function runs
+# (see _themed at the end of the module), so importing the library never changes
+# the caller's own matplotlib settings.
+_THEME = {
     # Background
     "figure.facecolor": BG_COLOR,
     "axes.facecolor": BG_COLOR,
@@ -70,7 +72,7 @@ plt.rcParams.update({
     # Figure DPI
     "figure.dpi": 120,
     "savefig.dpi": 220,
-})
+}
 
 
 def _style_ax(ax, title: str = "") -> None:
@@ -418,8 +420,8 @@ def plot_multiclass_confidence_diagnostics(metrics: Dict[str, Any], title: str, 
         return
 
     fig, (ax_conf, ax_ent) = plt.subplots(1, 2, figsize=(12.0, 5.2))
-    _style_ax(ax_conf, f"{title} — Confidence")
-    _style_ax(ax_ent, f"{title} — Normalized entropy")
+    _style_ax(ax_conf, f"{title}: Confidence")
+    _style_ax(ax_ent, f"{title}: Normalized entropy")
 
     data_conf = [conf_correct, conf_incorrect]
     labels = ["Correct", "Incorrect"]
@@ -594,7 +596,7 @@ def plot_binary_iteration_improvement(
 
         first = float(comps[0])
         if first >= 1.0:
-            # Already satisfied on first go — exclude from "failed baseline" cohort
+            # Already satisfied on first go, exclude from "failed baseline" cohort
             continue
 
         last = float(comps[-1])
@@ -975,8 +977,8 @@ def plot_hierarchical_node_scores(metrics: Dict[str, Any], title: str, output_pa
     y = np.arange(len(nodes), dtype=float)
 
     fig, (ax_score, ax_support) = plt.subplots(1, 2, figsize=(12.0, max(5.2, 0.45 * len(nodes) + 2.3)), gridspec_kw={"width_ratios": [2.0, 1.2]})
-    _style_ax(ax_score, f"{title} — Node Score")
-    _style_ax(ax_support, f"{title} — Node Support")
+    _style_ax(ax_score, f"{title}: Node Score")
+    _style_ax(ax_support, f"{title}: Node Support")
 
     ax_score.barh(y, scores, color=colors, alpha=0.8)
     ax_score.set_yticks(y)
@@ -1095,3 +1097,16 @@ def plot_hierarchical_metric_heatmap(metrics: Dict[str, Any], title: str, output
     plt.setp(cbar.ax.get_yticklabels(), color=TEXT_SECONDARY)
 
     _save_fig(fig, output_path)
+
+
+def _themed(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        with plt.rc_context(_THEME):
+            return fn(*args, **kwargs)
+    return wrapper
+
+
+for _name, _obj in list(globals().items()):
+    if _name.startswith("plot_") and callable(_obj):
+        globals()[_name] = _themed(_obj)

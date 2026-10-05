@@ -21,7 +21,7 @@ def _header_lines(title: str) -> List[str]:
     sep = "=" * 92
     return [
         sep,
-        f"  COMPASS ENGINE — ANNOTATED DATASET VALIDATION",
+        f"  COMPASS ENGINE: ANNOTATED DATASET VALIDATION",
         f"  {title}",
         f"  Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         sep,

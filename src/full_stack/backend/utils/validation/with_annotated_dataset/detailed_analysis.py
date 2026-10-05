@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-COMPASS Annotated Validation — Detailed Performance Analysis.
+COMPASS Annotated Validation: Detailed Performance Analysis.
 
 Mode-aware detailed analysis entrypoint.
 
