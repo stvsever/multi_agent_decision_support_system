@@ -418,10 +418,12 @@ def test_classification_summary_reads_the_report_json(batch_run, stub_cohort, tm
     assert "TP: 1  FN: 1" in out and "FP: 0  TN: 1" in out
 
 
+_REAL_REPORT = REPO / "src/full_stack/backend/data/pseudo_data/outputs/participant_SUBJ_001_PSEUDO/report_SUBJ_001_PSEUDO.json"
+
+
+@pytest.mark.skipif(not _REAL_REPORT.is_file(), reason="needs a local engine run of SUBJ_001_PSEUDO (outputs are not tracked)")
 def test_binary_outcome_from_a_real_report():
-    report = json.loads(
-        (REPO / "src/full_stack/backend/data/pseudo_data/outputs/participant_SUBJ_001_PSEUDO/report_SUBJ_001_PSEUDO.json").read_text()
-    )
+    report = json.loads(_REAL_REPORT.read_text())
     batch = _load_batch_run()
     assert batch.binary_outcome_from_report(report) == "CASE"
     root = report["prediction"]["root_prediction"]["classification"]

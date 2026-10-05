@@ -55,6 +55,8 @@ def test_missing_participant_yields_zero_rather_than_raising(tmp_path):
     assert cost_module.participant_domain_count(tmp_path) == 0
 
 
+@pytest.mark.skipif(not any(PSEUDO_OUTPUTS.glob("*/performance_report_*.json")),
+                    reason="needs locally recorded engine runs of the pseudo participants (outputs are not tracked)")
 def test_projection_lands_within_the_stated_spread_of_recorded_runs(priced):
     """Every recorded run must fall inside the range the interface advertises."""
     checked = 0
