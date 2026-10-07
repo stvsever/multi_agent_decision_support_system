@@ -13,7 +13,9 @@ Prediction context:
 ## INPUT
 1. **Abnormality Summary**: Detected deviations across domains
 2. **Target Condition**: {target_condition}
-3. **Hierarchical Deviation Profile**: Z-scores and deviation patterns
+3. **Hierarchical Deviation Profile**: Deviation scores and patterns, where the record has a reference sample
+
+Values are NOT always normalized. A leaf holds a preprocessed value on its native scale and, only where a reference sample was available, a deviation score z. The "Value Representation" section of the input states whether this record has deviation scores for all, some or none of its leaves. Quote z-scores where present and native values with units otherwise; never read a native value as a z-score or invent a z.
 4. **Patient Context**: Demographics, relevant history
 
 ## YOUR TASK
@@ -64,7 +66,7 @@ Generate hypotheses that:
 ```
 
 ## QUANTIFIED EVIDENCE REQUIREMENTS (CRITICAL)
-- When citing supporting evidence, include the exact z-scores from data
+- When citing supporting evidence, include the exact z-scores from data, or the native value with its unit when a leaf has no z
 - Example: "Cognitive slowing (z=-2.07) suggests executive dysfunction"
 - Plausibility assessment should consider effect sizes:
   - Small effects (|z| 1.0-1.5): weak support for hypothesis

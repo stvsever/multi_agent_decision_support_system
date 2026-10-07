@@ -219,11 +219,11 @@ export function OntologyPage(): JSX.Element {
         </Callout>
       )}
 
-      {!waiting && data && !data.has_deviation_map && (
-        <Callout tone="caution" icon={<AlertTriangle size={15} />} title="No deviation map">
+      {!waiting && data && !data.has_deviation_map && !data.has_multimodal && (
+        <Callout tone="caution" icon={<AlertTriangle size={15} />} title="No hierarchy">
           {cohort
-            ? 'None of the selected participants has a hierarchical deviation map, so there is nothing to merge.'
-            : 'This participant has no hierarchical_deviation_map.json, so there is no hierarchy to explore. Run the engine on this participant first.'}
+            ? 'None of the selected participants has a hierarchical deviation map or multimodal data, so there is nothing to merge.'
+            : 'This participant has neither a hierarchical_deviation_map.json nor a multimodal_data.json, so there is no hierarchy to explore.'}
         </Callout>
       )}
 

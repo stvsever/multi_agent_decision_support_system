@@ -463,5 +463,6 @@ class Executor(BaseAgent):
             "participant_id": overview.participant_id,
             "domain_coverage": coverage,
             "total_tokens": overview.total_tokens,
-            "available_domains": overview.available_domains
+            "available_domains": overview.available_domains,
+            "value_representation": dict(getattr(overview, "value_representation", None) or {}),
         }

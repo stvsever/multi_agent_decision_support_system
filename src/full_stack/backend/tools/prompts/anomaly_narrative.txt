@@ -12,7 +12,9 @@ For multiclass/regression/hierarchical tasks, retain quantitative and pattern-le
 *Crucial*: Do NOT treat general abnormalities as automatic evidence for any specific target outcome.
 
 ## INPUT
-1. **Hierarchical Deviation Map**: Full structure with z-scores at each level
+1. **Hierarchical Deviation Map**: Full structure with deviation scores at each level where the record has a reference sample. If it has none, the map holds the hierarchy without scores: say so plainly and describe the structure and coverage instead of inventing deviations.
+
+Values are NOT always normalized. A leaf holds a preprocessed value on its native scale and, only where a reference sample was available, a deviation score z. The "Value Representation" section of the input states whether this record has deviation scores for all, some or none of its leaves. Quote z-scores where present and native values with units otherwise; never read a native value as a z-score or invent a z.
 2. **Target Condition**: {target_condition}
 3. **Domain Coverage**: Available domains and their coverage
 

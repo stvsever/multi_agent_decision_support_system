@@ -173,7 +173,7 @@ export function ParticipantPicker({ multiple = false }: { multiple?: boolean }) 
               'Clear the filter to see every folder the scan found.'
             ) : (
               <span className="stack gap-2">
-                <span>A participant folder is one that holds all four of these files:</span>
+                <span>A participant folder is one that holds these files:</span>
                 <span className="stack gap-1">
                   {REQUIRED_FILES.map((entry) => (
                     <span key={entry.file} className="t-tiny">

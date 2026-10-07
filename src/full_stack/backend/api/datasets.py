@@ -1,7 +1,9 @@
 """
 Participant discovery and input validation.
 
-A participant folder is defined by four files. Rather than failing at run time
+A participant folder is defined by four files, of which the hierarchical
+deviation map is optional (a record without a reference sample has no deviation
+scores, and the engine derives the hierarchy from the leaves). Rather than failing at run time
 with a stack trace, the dashboard validates a folder up front and reports
 exactly which file is missing, malformed, or empty.
 """
@@ -24,6 +26,10 @@ REQUIRED_FILES = {
     "non_numerical_data": "non_numerical_data.txt",
 }
 
+#: Files a record may omit; see the engine's ``optional_participant_files`` setting.
+OPTIONAL_FILES = {"hierarchical_deviation"}
+REQUIRED_FILE_NAMES = [name for key, name in REQUIRED_FILES.items() if key not in OPTIONAL_FILES]
+
 _SCAN_EXCLUDE = {".git", "node_modules", "__pycache__", ".venv", "dist", "build", ".idea"}
 MAX_SCAN_DEPTH = 4
 #: Enough near misses to see the pattern, few enough to stay a readable list.
@@ -35,6 +41,15 @@ MAX_BROWSE_ENTRIES = 500
 
 def _validate_file(path: Path, key: str) -> Dict[str, Any]:
     if not path.exists():
+        if key in OPTIONAL_FILES:
+            return {
+                "file": path.name,
+                "key": key,
+                "present": False,
+                "valid": True,
+                "optional": True,
+                "issue": "Optional: absent, so the hierarchy is derived from multimodal_data.json.",
+            }
         return {"file": path.name, "key": key, "present": False, "valid": False, "issue": "File is missing."}
     size = path.stat().st_size
     if size == 0:
@@ -85,7 +100,7 @@ def inspect_participant(directory: Path) -> Dict[str, Any]:
         "name": directory.name,
         "valid": valid,
         "files": files,
-        "missing": [f["file"] for f in files if not f["present"]],
+        "missing": [f["file"] for f in files if not f["present"] and not f.get("optional")],
         "input_tokens": participant_input_tokens(directory) if valid else 0,
         "domains": list(overview.get("available_domains") or coverage.keys()),
         "domain_coverage": coverage,
@@ -94,12 +109,12 @@ def inspect_participant(directory: Path) -> Dict[str, Any]:
 
 
 def is_participant_dir(directory: Path) -> bool:
-    return all((directory / name).exists() for name in REQUIRED_FILES.values())
+    return all((directory / name).exists() for name in REQUIRED_FILE_NAMES)
 
 
 def _present_and_missing(directory: Path) -> Tuple[List[str], List[str]]:
     present = [name for name in REQUIRED_FILES.values() if (directory / name).exists()]
-    missing = [name for name in REQUIRED_FILES.values() if name not in present]
+    missing = [name for name in REQUIRED_FILE_NAMES if name not in present]
     return present, missing
 
 
@@ -186,7 +201,7 @@ def discover(extra_roots: Optional[List[str]] = None) -> Dict[str, Any]:
         "participants": participants,
         "roots": scanned,
         "count": len(participants),
-        "required_files": list(REQUIRED_FILES.values()),
+        "required_files": list(REQUIRED_FILE_NAMES),
     }
 
 
@@ -285,7 +300,7 @@ def browse(directory: Optional[Path] = None) -> Dict[str, Any]:
         "present": present,
         "missing": missing,
         "roots": browse_roots(),
-        "required_files": list(REQUIRED_FILES.values()),
+        "required_files": list(REQUIRED_FILE_NAMES),
     }
 
 

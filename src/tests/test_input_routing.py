@@ -335,9 +335,11 @@ def test_direct_record_renders_leaves_groups_and_coverage(settings):
     assert record["deviation_profile"] == render_deviation_profile(
         participant.hierarchical_deviation, leaf_groups=measurement_groups(out["predictor_input"]["multimodal_unprocessed_raw"])
     )
-    # Coverage: "<domain>: <present>/<total> leaves present (<pct>%)".
+    # First how the values are expressed, then coverage: "<domain>: <present>/<total> leaves present (<pct>%)".
     overview = out["data_overview"]["domain_coverage"]
-    for line in record["data_overview"].splitlines():
+    lines = record["data_overview"].splitlines()
+    assert lines[0].startswith("Values: Every numeric leaf carries a deviation score")
+    for line in lines[1:]:
         name = line.split(":", 1)[0]
         cov = overview[name]
         assert line.startswith(f"{name}: {int(cov['present_leaves'])}/{int(cov['total_leaves'])} leaves present")

@@ -9,14 +9,18 @@
 
 import type { NearMiss, ParticipantsResponse, ScannedRoot } from '@/lib/types'
 
-export const REQUIRED_FILES: { file: string; why: string }[] = [
+export const REQUIRED_FILES: { file: string; why: string; optional?: boolean }[] = [
   { file: 'data_overview.json', why: 'the per-modality summary the plan is built from' },
-  { file: 'hierarchical_deviation_map.json', why: 'the evidence hierarchy with a deviation per feature' },
-  { file: 'multimodal_data.json', why: 'the measured values themselves' },
+  {
+    file: 'hierarchical_deviation_map.json',
+    why: 'optional: deviation scores per ontology group, when a reference sample exists',
+    optional: true,
+  },
+  { file: 'multimodal_data.json', why: 'the measured values themselves, preprocessed or as deviations' },
   { file: 'non_numerical_data.txt', why: 'the free-text record' },
 ]
 
-export const REQUIRED_FILE_NAMES = REQUIRED_FILES.map((entry) => entry.file)
+export const REQUIRED_FILE_NAMES = REQUIRED_FILES.filter((entry) => !entry.optional).map((entry) => entry.file)
 
 export interface AddOutcome {
   tone: 'positive' | 'caution' | 'info' | 'critical'

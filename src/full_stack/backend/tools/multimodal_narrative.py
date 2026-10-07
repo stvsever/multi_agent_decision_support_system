@@ -156,7 +156,7 @@ class MultimodalNarrativeCreator(BaseTool):
                             suffix += f", n={n_leaves}"
                         parts.append(f"- {domain}: {severity or 'UNKNOWN'} ({suffix})")
                     else:
-                        parts.append(f"- {domain}: {severity or 'UNKNOWN'}")
+                        parts.append(f"- {domain}: {severity or 'no deviation scores (values on their native scale)'}")
         
         return "\n".join(parts) if parts else "Deviation data structure not summarizable"
 

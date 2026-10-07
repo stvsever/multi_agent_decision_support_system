@@ -457,6 +457,9 @@ class Settings:
     multimodal_data_file: str = "multimodal_data.json"
     non_numerical_data_file: str = "non_numerical_data.txt"
     hierarchical_deviation_file: str = "hierarchical_deviation_map.json"
+    # A record may omit its deviation map: without a reference sample there are no
+    # deviation scores, and the loader then derives the hierarchy from the leaves.
+    optional_participant_files: tuple = ("hierarchical_deviation",)
 
     def _normalize_model_name(self, model_name: Optional[str]) -> str:
         return _table_key(model_name)
@@ -578,6 +581,14 @@ class Settings:
             "multimodal_data": participant_dir / self.multimodal_data_file,
             "non_numerical_data": participant_dir / self.non_numerical_data_file,
             "hierarchical_deviation": participant_dir / self.hierarchical_deviation_file,
+        }
+
+    def get_required_participant_files(self, participant_dir: Path) -> Dict[str, Path]:
+        """The participant files a record cannot do without."""
+        return {
+            key: path
+            for key, path in self.get_participant_files(participant_dir).items()
+            if key not in self.optional_participant_files
         }
 
 

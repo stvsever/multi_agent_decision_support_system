@@ -7,11 +7,17 @@ leaf itself. Rendered with the generic serializers this roughly doubles the
 token count of a record. The renderings here carry the same information once:
 
     measurements       every feature leaf as "label = value (z +1.23)", grouped
-                       under its ontology path
+                       under its ontology path; the z appears only when the
+                       record has a reference sample for that leaf
     deviation profile  every scored ontology group: a mean absolute deviation as
                        "mean |z|" (no direction), a signed score with its sign;
                        leaf scores already in the measurements are not repeated
-    data overview      leaf coverage per domain
+    data overview      how the values are expressed, and leaf coverage per domain
+
+Leaf values are preprocessed measurements on their native scale. A deviation
+score is optional: it exists only where a reference sample (healthy controls,
+a normative model, the rest of a cohort) was available, so a record can hold
+deviation scores for every leaf, for some, or for none.
 
 Both the direct route of the LLM Predictor and the state of a structured
 decision model use them.
@@ -89,13 +95,91 @@ def _leaf_group(feat: Dict[str, Any]) -> str:
     return " > ".join([p for p in [domain, *path] if p]) or "Measurements"
 
 
+_LEADING_NUMBER = re.compile(r"^\s*[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?")
+
+
+def _is_number(value: Any) -> bool:
+    """A numeric measurement: a number, or text that starts with one ("2.41 mm")."""
+    if isinstance(value, bool):
+        return False
+    if isinstance(value, (int, float)):
+        return value == value and value not in (float("inf"), float("-inf"))
+    return bool(_LEADING_NUMBER.match(str(value)))
+
+
+VALUE_MODES = ("deviation", "native", "mixed", "categorical", "empty")
+
+
+def value_representation(multimodal: Any) -> Dict[str, Any]:
+    """
+    How the leaves of a record express their values.
+
+    A leaf with a z carries a deviation from a reference sample; a numeric leaf
+    without one is a preprocessed value on its native scale; anything else is
+    categorical. The mode and the note tell every agent which of these it reads.
+    """
+    with_z = native = categorical = 0
+    for _key, feat in flatten_features(multimodal or {}):
+        if format_z(feat.get("z_score")) is not None:
+            with_z += 1
+        elif _is_number(feat.get("value")):
+            native += 1
+        elif feat.get("value") not in (None, ""):
+            categorical += 1
+    if with_z and native:
+        mode = "mixed"
+    elif with_z:
+        mode = "deviation"
+    elif native:
+        mode = "native"
+    elif categorical:
+        mode = "categorical"
+    else:
+        mode = "empty"
+    return {
+        "mode": mode,
+        "leaves_with_deviation": with_z,
+        "numeric_leaves_without_deviation": native,
+        "categorical_leaves": categorical,
+        "note": describe_value_representation(mode, with_z, native),
+    }
+
+
+def describe_value_representation(mode: str, with_z: int = 0, native: int = 0) -> str:
+    """One plain statement of how this record's values are expressed."""
+    if mode == "deviation":
+        return (
+            "Every numeric leaf carries a deviation score z against a reference sample "
+            "(for example healthy controls or a normative model); group scores in the "
+            "deviation profile aggregate these deviations."
+        )
+    if mode == "native":
+        return (
+            "No leaf carries a deviation score: the values are preprocessed measurements on "
+            "their native scale, without a reference sample, so there are no group scores. "
+            "Interpret each value from its label, unit and qualifiers (such as a reference "
+            "range), from the study context and from domain knowledge; never read a value "
+            "as a z-score."
+        )
+    if mode == "mixed":
+        return (
+            f"{with_z} of {with_z + native} numeric leaves carry a deviation score z against a "
+            f"reference sample; the other {native} are preprocessed measurements on their native "
+            "scale, without a reference. Group scores aggregate only the deviation-scored leaves; "
+            "never read a native value as a z-score."
+        )
+    if mode == "categorical":
+        return "The record holds categorical values only; there are no deviation scores."
+    return "The record holds no measured values."
+
+
 def measurement_groups(multimodal: Any) -> set:
     """Ontology paths that directly hold feature leaves."""
     return {_leaf_group(feat) for _key, feat in flatten_features(multimodal or {})}
 
 
 def render_measurements(rows: Sequence[MeasurementRow], *, min_abs_z: float = 0.0) -> Tuple[str, int]:
-    """Group leaves by ontology path. Leaves without a z (categorical) are always kept."""
+    """Group leaves by ontology path. Leaves without a z (native-scale or categorical) are always kept."""
     out: List[str] = []
     current = None
     kept = 0
@@ -155,8 +239,11 @@ def render_deviation_profile(deviation: Any, *, max_depth: int = 99, leaf_groups
 
 
 def render_data_overview(overview: Dict[str, Any]) -> str:
-    """One line per domain: leaves present out of total."""
+    """The value representation, then one line per domain: leaves present out of total."""
     lines: List[str] = []
+    note = str(((overview or {}).get("value_representation") or {}).get("note") or "").strip()
+    if note:
+        lines.append(f"Values: {note}")
     for name, cov in dict((overview or {}).get("domain_coverage") or {}).items():
         if not isinstance(cov, dict):
             continue
@@ -170,8 +257,9 @@ def render_data_overview(overview: Dict[str, Any]) -> str:
 
 DIRECT_RECORD_HEADER = (
     "Every feature leaf of the participant record, grouped by ontology path, as "
-    "'label = measured value (z deviation from the reference, two decimals) [qualifiers]'. "
-    "Leaves without a z are categorical. No leaf was summarised or left out."
+    "'label = preprocessed value unit (z deviation from the reference sample, two decimals) "
+    "[qualifiers]'. A z appears only where the record has a reference sample; a leaf without "
+    "one is a value on its native scale or a categorical value. No leaf was summarised or left out."
 )
 
 

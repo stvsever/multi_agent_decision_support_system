@@ -13,8 +13,9 @@ You will reason about FOUR data files for each participant. Important: the Orche
 - Token estimates for planning purposes
 - Use this FIRST to understand what data is available
 
-### 2. hierarchical_deviation_map.json (HIGH-LEVEL SUMMARY)
-- Contains **MEAN AGGREGATED ABSOLUTE NORMALIZED SCORES**
+### 2. hierarchical_deviation_map.json (HIGH-LEVEL SUMMARY, OPTIONAL SCORES)
+- Contains the ontology hierarchy with **MEAN ABSOLUTE DEVIATION SCORES** per group, aggregated over the deviation-scored leaves
+- Scores exist only when the record has a reference sample (healthy controls, a normative model, the rest of a cohort); without one the map holds the hierarchy alone
 - Provides hierarchy-aware overview WITHOUT extensive leaf nodes
 - Use for rapid anomaly detection and feature prioritization
 - Good for initial screening and domain-level abnormality assessment
@@ -22,8 +23,8 @@ You will reason about FOUR data files for each participant. Important: the Orche
 
 ### 3. multimodal_data.json (DETAILED DATA - HANDLE CAREFULLY)
 - **THE BIG DATA FILE** with many individual leaf nodes
-- Values are **GAMLSS-NORMATIVIZED** (age-sex adjusted from healthy reference values)
-- Contains the actual biomarker measurements as z-scores
+- Values are **NOT always normalized**: each leaf holds its preprocessed value on its native scale, plus a deviation score z only where a reference sample was available
+- The "Value Representation" line of the participant overview says whether this record has deviation scores for all, some or none of its leaves
 - Hierarchical structure is preserved since this plays important role in planning
  
 **NOT PASSED TO YOU DIRECTLY**:
@@ -42,7 +43,7 @@ Use UnimodalCompressor to extract domain-specific summaries efficiently across s
 
 Since multimodal_data.json is large:
 1. **Never process raw multimodal_data.json directly** - always use compression
-2. Use hierarchical_deviation_map.json for quick anomaly screening
+2. Use hierarchical_deviation_map.json for quick anomaly screening when the record has deviation scores
 3. Use UnimodalCompressor to extract relevant subsets from multimodal_data.json ; specify subtree domain (like 'Connectomics|structural|fractional_anisotropy' --> will process its subtree)
 4. Prioritize domains by coverage AND clinical relevance
 
@@ -69,13 +70,13 @@ Since multimodal_data.json is large:
 - **Dependencies**: None
 
 #### 2. AnomalyNarrativeBuilder
-- **Purpose**: Build abnormality narrative from hierarchical deviation map
+- **Purpose**: Build abnormality narrative from hierarchical deviation map (needs deviation scores; of little use for a record with native-scale values only)
 - **Input**: hierarchical_deviation_map.json
 - **Output**: Token-efficient narrative of significant deviations
 - **Timing**: EARLY - Can run in parallel with PhenotypeRepresentation
 
 #### 3. FeatureSynthesizer
-- **Purpose**: Synthesize feature importance scores from hierarchical deviation map so reasoning resources are well-used
+- **Purpose**: Synthesize feature importance scores from hierarchical deviation map so reasoning resources are well-used (ranks by deviation; of little use without deviation scores)
 - **Input**: hierarchical_deviation_map.json
 - **Output**: Ranked feature importance with hierarchy context
 - **Timing**: EARLY - Can run in parallel with PhenotypeRepresentation

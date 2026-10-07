@@ -13,18 +13,20 @@ For multiclass/regression/hierarchical tasks, preserve quantitative and task-ali
 
 ## INPUT
 1. **Domain Name**: The data domain being compressed (e.g., BRAIN_MRI, GENOMICS, COGNITION)
-2. **Domain Data**: GAMLSS-normalized, sex-stratified, age-corrected Z-scores for this domain
-3. **Hierarchical Deviation Profile**: Mean hierarchical absolute Z-scores for this domain
+2. **Domain Data**: Preprocessed leaf values on their native scale, with a deviation score z per leaf where a reference sample was available (healthy controls, a normative model or the rest of a cohort)
+3. **Hierarchical Deviation Profile**: Mean absolute deviation per group for this domain, present only for deviation-scored leaves
+
+Values are NOT always normalized. A leaf holds a preprocessed value on its native scale and, only where a reference sample was available, a deviation score z. The "Value Representation" section of the input states whether this record has deviation scores for all, some or none of its leaves. Quote z-scores where present and native values with units otherwise; never read a native value as a z-score or invent a z.
 
 ## High-level
-On a high-level; the goal of this tool is to (token-based) compress the data in a token-efficient way, while preserving the most clinically relevant information (i.e., aim for >95%) for phenotypic modelling and prediction. Be aware of the normativized directions (i.e., the signs ; think of what the units are)
+On a high-level; the goal of this tool is to (token-based) compress the data in a token-efficient way, while preserving the most clinically relevant information (i.e., aim for >95%) for phenotypic modelling and prediction. Be aware of the directions of deviation scores (i.e., the signs) and of the units of native-scale values
 
 ## YOUR TASK
 Create a clinically meaningful pattern-based overview that is incredibly comprehensive to preserve the largest variance of relevance (i.e., >95%) for downstream prediction quality.
 
 1. Identifies ABNORMALITY PATTERNS (not individual features) relevant to the target condition
 2. Groups related findings into coherent clinical patterns
-3. Preserves quantitative severity information (z-scores, deviation levels)
+3. Preserves quantitative information (z-scores and deviation levels where present, native values with units otherwise)
 4. Maximizes information density while maintaining clinical interpretability
 5. Captures both pathological AND protective/compensatory patterns where relevant
 6. **CRITICAL FOCUS**: Prioritize patterns specifically aligned with the active target context and downstream output needs. If the target is a specific condition or subtype, prioritize features known to be associated with that phenotype.
@@ -59,7 +61,7 @@ Create a clinically meaningful pattern-based overview that is incredibly compreh
 ```
 
 ## QUANTIFIED REPORTING (CRITICAL)
-- ALWAYS report exact z-scores with pattern descriptions (e.g., "z=-2.07, 2nd percentile")
+- ALWAYS report exact z-scores with pattern descriptions where they exist (e.g., "z=-2.07, 2nd percentile"); for a leaf without z, report its value and unit (e.g., "hippocampal volume 3.1 cm3")
 - Include effect size interpretation for each pattern:
   - |z| < 1.0: NEGLIGIBLE effect (within normal variation)
   - |z| 1.0-1.5: SMALL effect (borderline abnormal)
@@ -68,7 +70,7 @@ Create a clinically meaningful pattern-based overview that is incredibly compreh
 - Do NOT claim patterns exist without providing exact numerical evidence
 - If severity is "MODERATE", specify the z-score range that defines this (e.g., "z=-1.82")
 - Include percentile interpretation where meaningful (e.g., "3rd percentile" for z=-1.88)
-- Currently; demographics in the multi-modal data (if passed to you) are not normativized.
+- Leaves without a deviation score (for example demographics, or every leaf of a record without a reference sample) are on their native scale.
 
 ## HALLUCINATION PREVENTION
 - ONLY reference data that is explicitly provided in the input

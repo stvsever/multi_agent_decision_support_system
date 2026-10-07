@@ -1017,8 +1017,13 @@ Please fuse these outputs into a unified representation. PRESERVE all clinical n
         if not candidates:
             return filled_multimodal, report
 
-        # Pre-filter to reduce embedding calls.
-        candidates.sort(key=lambda c: c.get("abnormality_score", 0.0), reverse=True)
+        # Pre-filter to reduce embedding calls. A leaf without a deviation score
+        # (a preprocessed value with no reference sample) has no abnormality to
+        # rank by, so it enters at a neutral level rather than last.
+        candidates.sort(
+            key=lambda c: c.get("abnormality_score", 0.0) if c.get("z_score") is not None else 1.0 / 3.0,
+            reverse=True,
+        )
         if len(candidates) > max_prefilter:
             candidates = candidates[:max_prefilter]
 
@@ -1093,7 +1098,11 @@ Please fuse these outputs into a unified representation. PRESERVE all clinical n
                 semantic_score_norm = difflib.SequenceMatcher(None, phenotype_norm, norm_free_text(cand["text"])).ratio()
 
             abnormality_score = float(cand.get("abnormality_score", 0.0))
-            combined_score = 0.75 * semantic_score_norm + 0.25 * abnormality_score
+            if cand.get("z_score") is None:
+                # Relevance alone ranks a leaf that has no deviation score.
+                combined_score = semantic_score_norm
+            else:
+                combined_score = 0.75 * semantic_score_norm + 0.25 * abnormality_score
             scored.append((combined_score, semantic_score_norm, cand))
 
         scored.sort(key=lambda x: x[0], reverse=True)

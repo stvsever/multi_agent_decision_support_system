@@ -288,7 +288,7 @@ class DifferentialDiagnosis(BaseTool):
                             suffix += f", n={n_leaves}"
                         lines.append(f"- {domain}: {severity or 'UNKNOWN'} ({suffix})")
                     else:
-                        lines.append(f"- {domain}: {severity or 'UNKNOWN'}")
+                        lines.append(f"- {domain}: {severity or 'no deviation scores (values on their native scale)'}")
             return "\n".join(lines)
         
         return "Deviation data available but not summarized"

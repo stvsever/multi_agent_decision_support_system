@@ -21,7 +21,10 @@ def validate_participant_files(
 ) -> Tuple[bool, List[str], Dict[str, Path]]:
     """
     Validate that all required participant files exist.
-    
+
+    The hierarchical deviation map is optional: a record without deviation
+    scores (no reference sample) can omit it.
+
     Args:
         participant_dir: Path to participant directory
     
@@ -39,10 +42,12 @@ def validate_participant_files(
         return False, [f"Path is not a directory: {participant_dir}"], {}
     
     expected_files = settings.get_participant_files(participant_dir)
-    
+    optional = set(settings.optional_participant_files)
+
     for file_key, file_path in expected_files.items():
         if not file_path.exists():
-            errors.append(f"Missing required file: {file_path.name}")
+            if file_key not in optional:
+                errors.append(f"Missing required file: {file_path.name}")
         else:
             file_paths[file_key] = file_path
             

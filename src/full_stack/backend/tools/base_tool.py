@@ -121,6 +121,13 @@ class BaseTool(ABC):
             
             # Build user prompt
             user_prompt = self._build_prompt(input_data)
+            # Every tool learns whether this record's values are deviation scores,
+            # preprocessed values on their native scale, or a mix of both.
+            overview = input_data.get("data_overview")
+            representation = (overview or {}).get("value_representation") if isinstance(overview, dict) else None
+            value_note = str((representation or {}).get("note") or "").strip()
+            if value_note:
+                user_prompt = f"{user_prompt}\n\n## Value Representation\n{value_note}"
             runtime_instruction = str(
                 input_data.get("tool_runtime_instruction")
                 or input_data.get("executor_runtime_instruction")

@@ -2,10 +2,12 @@
 Ontology view over a participant's linguistified evidence.
 
 Two engine files describe the same taxonomy from different angles:
-``hierarchical_deviation_map.json`` carries the signed deviation at every node,
+``hierarchical_deviation_map.json`` carries the deviation at every node,
 ``multimodal_data.json`` carries the underlying feature leaves. This module
 merges them into one navigable tree with aggregate statistics at every level,
-which is what the explorer renders.
+which is what the explorer renders. The deviation map is optional: a record
+whose leaves hold preprocessed values without a reference sample has no
+deviation scores, and its tree then comes from the feature payload alone.
 """
 
 from __future__ import annotations
@@ -233,7 +235,9 @@ def _build(
     leaf_count = sum(int(c.get("leaf_count") or 0) for c in children) or len(features)
     present = sum(int(c.get("present_leaves") or 0) for c in children)
     if not children:
-        present = sum(1 for f in features if f["z_score"] is not None)
+        # A leaf is present when it holds a deviation or, without a reference
+        # sample, a preprocessed value.
+        present = sum(1 for f in features if f["z_score"] is not None or f["value"] not in (None, ""))
 
     if isinstance(stats, dict) and stats.get("mean_abs_score") is not None:
         try:
@@ -364,6 +368,7 @@ def build_ontology(participant_dir: Path) -> Dict[str, Any]:
         },
         "domain_coverage": overview.get("domain_coverage") or {},
         "has_deviation_map": bool(deviation),
+        "has_deviation_scores": bool(extremes),
         "has_multimodal": bool(multimodal),
     }
 

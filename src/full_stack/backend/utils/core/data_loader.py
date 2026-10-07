@@ -2,6 +2,12 @@
 COMPASS Data Loader
 
 Loads and parses participant data files.
+
+Leaf values are preprocessed measurements. A deviation score (z) per leaf is
+optional: it needs a reference sample such as healthy controls or a normative
+model, which many datasets lack. Without one, a record holds the preprocessed
+values alone, may omit hierarchical_deviation_map.json, and the loader derives
+the ontology hierarchy from the leaves of multimodal_data.json instead.
 """
 
 import json
@@ -20,7 +26,7 @@ from ...data.models.schemas import (
     NonNumericalData,
 )
 from ..validation import validate_participant_files
-from .record_rendering import label_states_value
+from .record_rendering import label_states_value, value_representation
 
 logger = logging.getLogger("compass.data_loader")
 
@@ -63,9 +69,9 @@ class DataLoader:
     
     Expected files in participant directory:
     - data_overview.json
-    - multi_modal_data.json
+    - multimodal_data.json
     - non_numerical_data.txt
-    - hierarchical_deviation_map.json
+    - hierarchical_deviation_map.json (optional; derived from the leaves when absent)
     """
     
     def __init__(self):
@@ -102,13 +108,24 @@ class DataLoader:
         data_overview = self._load_data_overview(file_paths["data_overview"])
         print(f"[DataLoader] Loaded data_overview.json - {len(data_overview.domain_coverage)} domains")
         
-        hierarchical_deviation = self._load_hierarchical_deviation(
-            file_paths["hierarchical_deviation"]
-        )
-        print(f"[DataLoader] Loaded hierarchical_deviation_map.json")
-        
         multimodal_data = self._load_multimodal_data(file_paths["multimodal_data"])
-        print(f"[DataLoader] Loaded multi_modal_data.json")
+        print(f"[DataLoader] Loaded multimodal_data.json")
+
+        if "hierarchical_deviation" in file_paths:
+            hierarchical_deviation = self._load_hierarchical_deviation(
+                file_paths["hierarchical_deviation"]
+            )
+            print(f"[DataLoader] Loaded hierarchical_deviation_map.json")
+        else:
+            hierarchical_deviation = derive_hierarchy_from_features(multimodal_data)
+            print("[DataLoader] No hierarchical_deviation_map.json: hierarchy derived from multimodal_data.json")
+
+        representation = value_representation(
+            {domain: [f.model_dump() for f in feats] for domain, feats in multimodal_data.features.items()}
+        )
+        data_overview.value_representation = representation
+        print(f"[DataLoader] Values: {representation['mode']} ({representation['leaves_with_deviation']} leaves with a deviation score, "
+              f"{representation['numeric_leaves_without_deviation']} on their native scale)")
         
         non_numerical_data = self._load_non_numerical_data(
             file_paths["non_numerical_data"],
@@ -430,6 +447,59 @@ class DataLoader:
             raw_text = f.read()
         
         return NonNumericalData.from_text(participant_id, raw_text)
+
+
+def derive_hierarchy_from_features(multimodal_data: MultimodalData) -> HierarchicalDeviation:
+    """
+    The ontology hierarchy of a record without a deviation map, built from the
+    leaves' domains and paths. A group's score is the mean absolute deviation of
+    the deviation-scored leaves below it; with no such leaves it has no score.
+    """
+
+    class _Group:
+        def __init__(self, name: str, level: int) -> None:
+            self.name = name
+            self.level = level
+            self.children: Dict[str, "_Group"] = {}
+            self.abs_z: List[float] = []
+
+    roots: Dict[str, _Group] = {}
+    for domain, features in multimodal_data.features.items():
+        domain_group = roots.setdefault(domain, _Group(domain, 1))
+        for feature in features:
+            z = feature.z_score
+            magnitude = abs(float(z)) if isinstance(z, (int, float)) and z == z else None
+            chain = [domain_group]
+            node = domain_group
+            for step in feature.path_in_hierarchy or []:
+                node = node.children.setdefault(str(step), _Group(str(step), node.level + 1))
+                chain.append(node)
+            if magnitude is not None:
+                for group in chain:
+                    group.abs_z.append(magnitude)
+
+    def to_node(group: _Group) -> DeviationNode:
+        score = round(sum(group.abs_z) / len(group.abs_z), 3) if group.abs_z else None
+        return DeviationNode(
+            node_id=f"{group.level}_{group.name}".replace(" ", "_").replace("/", "_"),
+            node_name=group.name,
+            level=group.level,
+            z_score=score,
+            children=[to_node(child) for child in group.children.values()],
+            is_leaf=False,
+            score_kind="mean_abs" if score is not None else None,
+        )
+
+    domains = [to_node(group) for group in roots.values()]
+    summaries = {
+        group.name: {
+            "mean_abs_score": round(sum(group.abs_z) / len(group.abs_z), 3) if group.abs_z else None,
+            "n_leaves": len(group.abs_z),
+        }
+        for group in roots.values()
+    }
+    root = DeviationNode(node_id="ROOT", node_name="ROOT", level=0, z_score=None, children=domains, is_leaf=False)
+    return HierarchicalDeviation(participant_id=multimodal_data.participant_id, root=root, domain_summaries=summaries)
 
 
 def load_participant_data(participant_dir: Path) -> ParticipantData:

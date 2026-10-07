@@ -82,6 +82,10 @@ class DataOverview(BaseModel):
     available_domains: List[str] = Field(default_factory=list)
     prediction_target: Optional[Union[TargetCondition, str]] = None
     token_budget: Optional[int] = None
+    # How the leaf values are expressed: deviation scores against a reference
+    # sample, preprocessed values on their native scale, or a mix. Computed by
+    # the loader from the leaves (see record_rendering.value_representation).
+    value_representation: Dict[str, Any] = Field(default_factory=dict)
     
     @validator('available_domains', pre=True, always=True)
     def set_available_domains(cls, v, values):
@@ -110,7 +114,10 @@ class DeviationNode(BaseModel):
     node_id: str
     node_name: str
     level: int = Field(..., description="Hierarchy level (0 = root)")
-    z_score: Optional[float] = Field(None, description="Age-sex normalized z-score")
+    z_score: Optional[float] = Field(
+        None,
+        description="Deviation score against a reference sample; absent when the record has no reference",
+    )
     raw_value: Optional[Union[float, int, str]] = None  # Can be numeric or categorical
     reference_mean: Optional[float] = None
     reference_std: Optional[float] = None
@@ -195,7 +202,13 @@ class HierarchicalDeviation(BaseModel):
 # ============================================================================
 
 class FeatureValue(BaseModel):
-    """Single feature value with metadata."""
+    """
+    Single feature value with metadata.
+
+    ``value`` is the preprocessed measurement on its native scale. ``z_score``
+    is its deviation from a reference sample (for example healthy controls or a
+    normative model) and is absent when no reference was available.
+    """
     feature_id: str
     field_name: str
     value: Union[float, int, str, None]

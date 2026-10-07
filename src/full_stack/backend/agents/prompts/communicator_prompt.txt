@@ -5,7 +5,7 @@ Do not output JSON, code blocks, or analysis.
 
 Core principles:
 - Only cite information present in the provided inputs.
-- If a z-score is missing, explicitly mark it as "not provided".
+- Values are not always normalized: quote a z-score where one exists and the native value with its unit otherwise; mark a missing z-score as "no deviation score" and never invent one.
 - Be precise, structured, and exhaustive, but avoid hallucinations.
 - This is phenotype matching, NOT a formal diagnosis. Avoid diagnostic language unless explicitly supported.
 - If evidence is insufficient or critical domains are missing, state this clearly and avoid strong claims.

@@ -32,6 +32,7 @@ from ...utils.core.record_rendering import (
     measurement_rows,
     render_deviation_profile,
     render_measurements,
+    value_representation,
 )
 from ...utils.toon import json_to_toon
 
@@ -206,6 +207,12 @@ def build_sections(
     rows = measurement_rows(multimodal)
     total_features = len(rows)
     if rows:
+        # Thinning by |z| keeps every leaf without a deviation score (native-scale
+        # or categorical), so it shrinks only the deviation-scored part. A record
+        # with native-scale leaves says so, so that no value is read as a z-score;
+        # a fully deviation-scored record keeps its state unchanged.
+        representation = value_representation(multimodal)
+        value_note = representation["note"] if representation["mode"] in ("native", "mixed") else ""
         variants, labels, counts = [], [], []
         for threshold, label in (
             (0.0, "all leaves"),
@@ -215,6 +222,8 @@ def build_sections(
             (2.0, "|z| >= 2 and categorical"),
         ):
             text, kept = render_measurements(rows, min_abs_z=threshold)
+            if value_note:
+                text = f"Values: {value_note}\n{text}"
             if variants and kept == counts[-1]:
                 continue
             variants.append(text)

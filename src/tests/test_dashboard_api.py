@@ -110,7 +110,21 @@ def test_an_incomplete_folder_reports_which_file_is_missing(client, tmp_path):
     body = client.get("/api/datasets/participant", params={"directory": str(folder)}).json()
     assert body["valid"] is False
     assert "multimodal_data.json" in body["missing"]
-    assert "hierarchical_deviation_map.json" in body["missing"]
+    # The deviation map is optional: a record without a reference sample has none.
+    assert "hierarchical_deviation_map.json" not in body["missing"]
+
+
+def test_a_folder_without_a_deviation_map_is_a_valid_participant(client, tmp_path):
+    folder = tmp_path / "native"
+    folder.mkdir()
+    (folder / "data_overview.json").write_text('{"participant_id": "native", "domain_coverage": {}}')
+    (folder / "multimodal_data.json").write_text('{"BRAIN": {"_leaves": [{"feature": "Hippocampal volume", "value": 3.1, "unit": "cm3"}]}}')
+    (folder / "non_numerical_data.txt").write_text("Native-scale values, no reference sample.")
+    body = client.get("/api/datasets/participant", params={"directory": str(folder)}).json()
+    assert body["valid"] is True
+    assert body["missing"] == []
+    deviation = next(f for f in body["files"] if f["file"] == "hierarchical_deviation_map.json")
+    assert deviation["present"] is False and deviation["optional"] is True
 
 
 def test_malformed_json_is_reported_as_such_not_as_missing(client, tmp_path):

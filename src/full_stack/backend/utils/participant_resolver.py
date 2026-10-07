@@ -12,7 +12,7 @@ from typing import List, Optional, Tuple, Iterable
 
 
 def _participant_files_match(candidate_dir: Path, settings) -> Tuple[int, int]:
-    expected = settings.get_participant_files(candidate_dir)
+    expected = settings.get_required_participant_files(candidate_dir)
     present = sum(1 for p in expected.values() if p.exists())
     return present, len(expected)
 

@@ -202,6 +202,14 @@ class Orchestrator(BaseAgent):
                 )
         
         coverage_text = "\n".join(coverage_lines)
+        representation = getattr(participant_data.data_overview, "value_representation", None) or {}
+        value_note = str(representation.get("note") or "").strip()
+        if representation.get("mode") in ("native", "categorical"):
+            value_note += (
+                " The deviation map therefore holds the ontology structure without scores: "
+                "AnomalyNarrativeBuilder and FeatureSynthesizer, which rank by deviation, add little; "
+                "prefer UnimodalCompressor and the narrative tools, which read the leaf values."
+            )
         
         max_ctx = int(self.settings.effective_context_window(self.settings.models.predictor_model, role="predictor"))
         SMART_FUSION_THRESHOLD = int(0.9 * max_ctx)
@@ -278,6 +286,7 @@ If a specific domain (e.g., BRAIN_MRI, GENOMICS) often has >5-15k tokens, DO NOT
             "## PARTICIPANT DATA OVERVIEW",
             f"Participant ID: {participant_data.participant_id}",
             f"\n### Domain Coverage:\n{coverage_text}",
+            f"\n### Value Representation:\n{value_note or 'Not stated.'}",
             f"\nTotal estimated tokens: {participant_data.data_overview.total_tokens}",
             f"Token budget: {token_budget}",
             volume_context,

@@ -8,7 +8,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-0db7ed.svg?style=flat-square&logo=docker&logoColor=white)](docker/)
 <br>
 
-**COMPASS** is a multi-agent decision support engine for deep phenotype prediction. It combines hierarchical multi-modal deviation maps, structured feature data, and non-tabular health information through an orchestrated actor-critic workflow, and supports binary classification, multiclass classification, univariate and multivariate regression, and hierarchical mixed task trees.
+**COMPASS** is a multi-agent decision support engine for deep phenotype prediction. It combines hierarchical multi-modal feature data (preprocessed values, optionally with deviation scores against a reference sample) and non-tabular health information through an orchestrated actor-critic workflow, and supports binary classification, multiclass classification, univariate and multivariate regression, and hierarchical mixed task trees.
 
 </div>
 
@@ -82,11 +82,13 @@ Set `COMPASS_DATA_DIR` to mount your participant folders at `/data`, and `COMPAS
 
 ## <a id="usage"></a>⚡ Usage
 
-Each participant folder holds four files:
+Each participant folder holds these files:
 
 ```text
-data_overview.json   hierarchical_deviation_map.json   multimodal_data.json   non_numerical_data.txt
+data_overview.json   multimodal_data.json   non_numerical_data.txt   hierarchical_deviation_map.json (optional)
 ```
+
+Leaves in `multimodal_data.json` hold preprocessed values on their native scale. A deviation score (`z_score`) per leaf is optional: add it where a reference sample exists (healthy controls, a normative model, the rest of a cohort), for every leaf, some or none. Without a reference sample, give the preprocessed values alone and leave out `hierarchical_deviation_map.json`; the hierarchy is then derived from the leaves, and every agent is told that the values are not deviation scores.
 
 Synthetic samples ship under `src/full_stack/backend/data/pseudo_data/inputs/` and are discovered automatically. Run outputs go to `results/`.
 

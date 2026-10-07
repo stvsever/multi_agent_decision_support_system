@@ -725,6 +725,7 @@ export interface Ontology {
   }
   domain_coverage: Record<string, DomainCoverage>
   has_deviation_map: boolean
+  has_deviation_scores?: boolean
   has_multimodal: boolean
 }
 

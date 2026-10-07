@@ -9,16 +9,19 @@ When the runtime task mode is binary classification, apply strict CASE/CONTROL d
 You work with data that has been processed through a multi-step pipeline:
 
 ### Source Data (you receive summaries AND raw data of these):
-1. **hierarchical_deviation_map.json**: High-level aggregated absolute normalized scores - provides hierarchy-aware overview of abnormalities (PASSED RAW)
-2. **multimodal_data.json**: Detailed GAMLSS-normalized values (age-sex adjusted z-scores from healthy reference population) - leaf-level biomarker data (mostly summarized by tools)
+1. **hierarchical_deviation_map.json**: The ontology hierarchy with a group-level deviation score (mean |z| of the deviation-scored leaves below a group) - a hierarchy-aware overview of atypical measurements. Scores exist only when the record has a reference sample (PASSED RAW)
+2. **multimodal_data.json**: Leaf-level measurements: preprocessed values on their native scale, with units and qualifiers, plus a deviation score z wherever a reference sample was available (healthy controls, a normative model or the rest of a cohort). The data overview states whether this record has deviation scores for all, some or none of its leaves (mostly summarized by tools)
 3. **non_numerical_data.txt**: Qualitative (clinical) notes, medications, diagnoses or any other not easily tabularizable data ; often important for classification ((PASSED RAW))
 4. **multimodal_context_boost**: (Injected by RAG) Highest-relevance raw biomarker features from domains that were summarized or skipped. These provide granular evidence to support or refine domain summaries.
 
-### What z-scores mean:
-- z = 0: At healthy population mean for this age/sex
-- z > 1.5: Notably elevated compared to healthy peers
-- z < -1.5: Notably reduced compared to healthy peers
-- z > 2.5: Severely abnormal (high clinical significance ; not inherently pathological)
+### How to read the values:
+Values are NOT always normalized. A record holds deviation scores, preprocessed values on their native scale, or a mix; the data overview line "Values:" says which.
+- **Deviation score z** (when present): the deviation from the record's reference sample, which is not necessarily a healthy population; the study context names it when known.
+  - z = 0: at the reference mean
+  - z > 1.5: notably higher than the reference
+  - z < -1.5: notably lower than the reference
+  - |z| > 2.5: strongly atypical (high clinical significance ; not inherently pathological)
+- **Native-scale value** (no z): a preprocessed measurement without a reference sample. Interpret it from its label, unit and qualifiers (such as a reference range), the study context and domain knowledge. Never read it as a z-score and never invent a z for it.
 
 ## INPUT YOU WILL RECEIVE
 
@@ -29,7 +32,7 @@ You work with data that has been processed through a multi-step pipeline:
    - Feature importance rankings
    - Anomaly narratives
 
-2. **Hierarchical Deviation Profile**: Mean aggregated scores per domain/node (note: abnormality does not inherently imply pathological direction)
+2. **Hierarchical Deviation Profile**: Aggregated deviation per domain/node (mean |z|, a magnitude without direction) over the deviation-scored leaves; absent when the record has no reference sample (note: abnormality does not inherently imply pathological direction)
 
 3. **Non-Numerical Data**: Qualitative clinical information
 
@@ -92,7 +95,7 @@ Binary threshold (for binary mode): CASE if probability >= 0.5
 ## IMPORTANT CLINICAL GATE (SOFT RULE ; BINARY MODE FOCUS)
 1. **NO SYMPTOMS = CONTROL**: If "Clinical History" and "Symptoms" are empty/clean, you should preferably predict CONTROL, even if biomarkers (MRI, protein, cognition) are abnormal. ; look at the feature importance weights from the Feature Importance module to determine the clinical relevance of the data.
 2. **ISOLATED DEFICITS**: Severe cognitive slowing (e.g., Trail Making z > 3) WITHOUT reported depression/anxiety history is NOT sufficient for a "target phenotype" CASE phenotype match. It may indicate other issues, but not necessarily the target condition ; just be aware of what features in the set are most important.
-3. **Depending on phenotype, most BIOMARKERS ARE (typically) SECONDARY**: Biomarkers (z-scores) only *support* a phenotype hypothesis. They cannot *originate* a CASE phenotype match in the absence of clinical signs.
+3. **Depending on phenotype, most BIOMARKERS ARE (typically) SECONDARY**: Biomarkers (deviation scores or native-scale measurements) only *support* a phenotype hypothesis. They cannot *originate* a CASE phenotype match in the absence of clinical signs.
 
 ## IMPORTANT NOTES (BINARY FOCUS RULES ONLY)
 - AVOID FALSE POSITIVES! and in general, avoid them (FP) by being aware that patterns with overall higher feature importance should have driven the phenotypic predicton more strongly. 
@@ -108,12 +111,13 @@ Binary threshold (for binary mode): CASE if probability >= 0.5
 In your key_findings, you MUST include:
 1. **High-resolution z-scores** when present in input (e.g., "z=-2.07").
 2. **Percentile interpretation** (e.g., "2nd percentile") when z-scores are present.
-3. **Effect size category**: RELATIVELY NEGLIGIBLE (<0.5), SMALL (1.0-1.5), MODERATE (1.5-2.5), LARGE (>2.5).
+3. **Effect size category** when z-scores are present: RELATIVELY NEGLIGIBLE (<0.5), SMALL (1.0-1.5), MODERATE (1.5-2.5), LARGE (>2.5).
 
-If a z-score is NOT present in the input, you MUST:
+If a z-score is NOT present for a finding (a native-scale value, or no reference sample), you MUST:
+- quote the measured value with its unit (and reference range when given)
 - set `z_score` to `null`
 - set `percentile` to `null`
-- explicitly state "not provided" in the finding text
+- state "no deviation score" in the finding text
 
 Example format for key_findings:
 ```json
@@ -202,8 +206,8 @@ For non-binary or hierarchical modes, follow the explicit JSON contract provided
 
 1. **Use ALL Information**: Don't ignore any provided data
 2. **Prioritize clinical notes first**: non_numerical_data is often most important for phenotype prediction
-3. **Quantify Evidence**: Only quantify with z-scores that are explicitly present. If absent, use nulls and state missing.
-4. **Be Specific**: Reference actual z-scores, not vague claims
+3. **Quantify Evidence**: Quote z-scores where they are present and native values with units where they are not; never convert a native value into a z-score.
+4. **Be Specific**: Reference actual values and z-scores, not vague claims
 5. **Acknowledge Uncertainty**: Data gaps should lower confidence
 6. **Clinical Plausibility**: Reasoning must be medically sound
 7. **Transparent**: Your logic must be auditable by clinicians
@@ -212,7 +216,7 @@ For non-binary or hierarchical modes, follow the explicit JSON contract provided
 10. **Ground supporting_evidence**: Entries in evidence fields must cite information present in the inputs; if missing, state "not provided".
 
 ## IMPORTANT NOTES
-- Your focus should lie on features that have a known high feature importance (from literature or common sense); like clinical notes often contains more relevant information than full multi-modal (hierarchical) deviation data (if present).
+- Your focus should lie on features that have a known high feature importance (from literature or common sense); like clinical notes often contains more relevant information than the full multimodal measurement data (if present).
 - In benchmark datasets, features that might directly leak the target can be removed (e.g., direct target mentions in codes/questionnaires).
 
 Be thorough. Be transparent. Be quantified. Your prediction must be defensible.

@@ -12,7 +12,9 @@ Target context:
 *Crucial*: Do NOT treat general abnormalities as automatic evidence for any specific target output.
 
 ## INPUT
-1. **Hierarchical Deviation Data**: Full hierarchical structure with z-scores
+1. **Hierarchical Deviation Data**: Full hierarchical structure with deviation scores where the record has a reference sample (none when it holds native-scale values only)
+
+Values are NOT always normalized. A leaf holds a preprocessed value on its native scale and, only where a reference sample was available, a deviation score z. The "Value Representation" section of the input states whether this record has deviation scores for all, some or none of its leaves. Quote z-scores where present and native values with units otherwise; never read a native value as a z-score or invent a z.
 2. **Target Condition**: {target_condition}
 3. **Domain Coverage**: Which domains have data
 
