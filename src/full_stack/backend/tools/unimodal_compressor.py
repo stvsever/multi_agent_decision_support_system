@@ -121,6 +121,18 @@ class UnimodalCompressor(BaseTool):
         domain_data_toon = truncate_text_by_tokens(domain_data_toon, domain_budget, model_hint="gpt-5")
         deviation_toon = truncate_text_by_tokens(deviation_toon, deviation_budget, model_hint="gpt-5")
 
+        # Report exactly which leaves reach the model. Only these count as
+        # processed in the coverage ledger; every other leaf of the step (a leaf
+        # cut by the token budget, or a leaf of a further listed domain, which
+        # this tool does not compress) is passed on verbatim instead.
+        from ..utils.core.multimodal_coverage import flatten_features
+        seen_keys = []
+        for key, feat in flatten_features({domain: serializable_domain_data}, domain_hint=domain):
+            name = str(feat.get("field_name") or feat.get("feature") or feat.get("feature_id") or "").strip()
+            if name and name in domain_data_toon:
+                seen_keys.append(key)
+        input_data["_seen_feature_keys"] = seen_keys
+
         prompt_parts = [
             f"## DOMAIN TO COMPRESS: {domain_label}",
             f"\n## TARGET CONDITION: {target}",

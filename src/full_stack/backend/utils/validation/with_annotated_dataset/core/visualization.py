@@ -75,6 +75,14 @@ _THEME = {
 }
 
 
+
+def _boxplot(ax, data, labels):
+    """Boxplot with category labels on any matplotlib >= 3.7 (the keyword was renamed in 3.9)."""
+    try:
+        return ax.boxplot(data, tick_labels=labels, patch_artist=True, showfliers=False)
+    except TypeError:
+        return ax.boxplot(data, labels=labels, patch_artist=True, showfliers=False)
+
 def _style_ax(ax, title: str = "") -> None:
     """Apply global white-background, research-grade styling to an Axes object."""
     ax.set_facecolor(BG_COLOR)
@@ -427,7 +435,7 @@ def plot_multiclass_confidence_diagnostics(metrics: Dict[str, Any], title: str, 
     labels = ["Correct", "Incorrect"]
     colors = [ACCENT_GREEN, ACCENT_RED]
 
-    bp = ax_conf.boxplot(data_conf, tick_labels=labels, patch_artist=True, showfliers=False)
+    bp = _boxplot(ax_conf, data_conf, labels)
     for box, color in zip(bp["boxes"], colors):
         box.set_facecolor(color)
         box.set_alpha(0.5)
@@ -440,7 +448,7 @@ def plot_multiclass_confidence_diagnostics(metrics: Dict[str, Any], title: str, 
 
     if len(ent_correct) + len(ent_incorrect) > 0:
         data_ent = [ent_correct if len(ent_correct) > 0 else np.array([0.0]), ent_incorrect if len(ent_incorrect) > 0 else np.array([0.0])]
-        bp2 = ax_ent.boxplot(data_ent, tick_labels=labels, patch_artist=True, showfliers=False)
+        bp2 = _boxplot(ax_ent, data_ent, labels)
         for box, color in zip(bp2["boxes"], colors):
             box.set_facecolor(color)
             box.set_alpha(0.5)

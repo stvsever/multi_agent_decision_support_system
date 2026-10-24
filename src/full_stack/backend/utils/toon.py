@@ -42,20 +42,17 @@ def json_to_toon(data: Any, indent_level: int = 0, indent_str: str = "  ") -> st
                 lines.append(f"{current_indent}{key}: {val_str}")
                 
             # Special case for COMPASS feature leaf objects
-            # - raw UKB leaves: {'feature': ..., 'z_score': ...}
-            # - DataLoader flattened: {'field_name': ..., 'z_score': ...}
-            elif isinstance(value, list) and all(
-                isinstance(x, dict) and ('feature' in x or 'field_name' in x) and 'z_score' in x
+            # - raw UKB leaves: {'feature': ..., 'value': ..., 'z_score': ...}
+            # - DataLoader flattened: {'field_name': ..., 'value': ..., 'z_score': ...}
+            # Each leaf keeps its value, unit, deviation (when present) and
+            # qualifiers: "Label = 3.12 cm3 (z -1.20) [ref range 3.0 to 4.2]".
+            elif value and isinstance(value, list) and all(
+                isinstance(x, dict) and ('feature' in x or 'field_name' in x)
+                and ('z_score' in x or 'value' in x)
                 for x in value
             ):
-                # Serialize feature list compactly:
-                # FeatureName: 1.23, FeatureTwo: -0.5
                 lines.append(f"{current_indent}{key}:")
-                item_strs = []
-                for item in value:
-                    feat_name = item.get("feature") or item.get("field_name") or "unknown"
-                    v_str = f"{feat_name}: {item.get('z_score')}"
-                    item_strs.append(v_str)
+                item_strs = [_leaf_text(item) for item in value]
                 
                 # Split into multi-line if too long
                 chunk_str = ", ".join(item_strs)
@@ -100,3 +97,38 @@ def json_to_toon(data: Any, indent_level: int = 0, indent_str: str = "  ") -> st
     # 3. Handle Primitives
     else:
         return f"{current_indent}{str(data)}"
+
+
+_LEAF_KEYS = {"feature", "field_name", "feature_id", "value", "unit", "z_score", "domain", "path_in_hierarchy", "qualifiers"}
+
+
+def _leaf_text(item: Dict[str, Any]) -> str:
+    """One feature leaf without loss: label, value and unit, deviation, qualifiers."""
+    name = str(item.get("field_name") or item.get("feature") or item.get("feature_id") or "unknown")
+    z = item.get("z_score")
+    try:
+        z_val = float(z) if z is not None else None
+        if z_val is not None and z_val != z_val:
+            z_val = None
+    except (TypeError, ValueError):
+        z_val = None
+    parts = [name]
+    raw = item.get("value")
+    show_value = raw is not None and str(raw).strip() != ""
+    if show_value and z_val is not None:
+        try:
+            show_value = abs(float(raw) - z_val) > 1e-9  # the z stood in for a missing value
+        except (TypeError, ValueError):
+            pass
+    if show_value:
+        unit = str(item.get("unit") or "").strip()
+        parts.append(f"= {raw}{(' ' + unit) if unit else ''}")
+    if z_val is not None:
+        parts.append(f"(z {z_val:+.2f})")
+    extras = {k: v for k, v in item.items() if k not in _LEAF_KEYS and not isinstance(v, (dict, list)) and v not in (None, "")}
+    qualifiers = item.get("qualifiers")
+    if isinstance(qualifiers, dict):
+        extras.update({k: v for k, v in qualifiers.items() if v not in (None, "")})
+    if extras:
+        parts.append("[" + "; ".join(f"{str(k).replace('_', ' ')} {v}" for k, v in extras.items()) + "]")
+    return " ".join(parts)

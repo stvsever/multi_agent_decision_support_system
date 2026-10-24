@@ -441,6 +441,9 @@ class Executor(BaseAgent):
             "node_name": node.node_name,
             "level": node.level,
             "z_score": node.z_score,
+            # "mean_abs" marks a group's mean absolute deviation (a magnitude);
+            # "signed" a signed score; None a node without a deviation score.
+            "score_kind": getattr(node, "score_kind", None),
             "raw_value": node.raw_value,
             "direction": node.direction.value if node.direction else None,
             "is_leaf": node.is_leaf,

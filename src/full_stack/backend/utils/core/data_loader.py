@@ -63,6 +63,16 @@ class ParticipantData:
         ]
 
 
+def _feature_id(feature_name: str) -> str:
+    """A readable, unique leaf id. Long names keep a hash of the full name, so two
+    leaves that share a long prefix never collapse into one coverage key."""
+    slug = str(feature_name).replace(" ", "_").replace("(", "").replace(")", "").lower()
+    if len(slug) <= 80:
+        return slug
+    import hashlib
+    return f"{slug[:70]}_{hashlib.sha1(slug.encode('utf-8')).hexdigest()[:8]}"
+
+
 class DataLoader:
     """
     Loads and parses all participant data files.
@@ -393,7 +403,7 @@ class DataLoader:
                     
                     # Create feature dict matching FeatureValue schema
                     # Generate a simple ID from feature name
-                    feature_id = feature_name.replace(" ", "_").replace("(", "").replace(")", "").lower()[:50]
+                    feature_id = _feature_id(feature_name)
 
                     # Keep the measured value when the leaf carries one. When the
                     # label already ends with it (inline values), or there is

@@ -509,6 +509,11 @@ class PlanExecutor:
             
             # Execute tool
             tool_output = tool.execute(tool_input)
+            # A tool that reports the leaves it actually showed the model (the
+            # compressor) is credited with those alone, so a leaf it never saw is
+            # passed on verbatim by the coverage ledger instead of being lost.
+            if "_seen_feature_keys" in tool_input:
+                consumed_feature_keys = set(tool_input.get("_seen_feature_keys") or [])
             
             execution_time = int((time.time() - start_time) * 1000)
             
