@@ -90,6 +90,12 @@
   width: 100%;
   height: auto;
 }
+/* Every act shares one frame, so the page never jumps between acts. */
+.film__frame { display: block; width: 100%; aspect-ratio: var(--film-aspect, 1200 / 810); }
+.film[data-narrow='true'] .film__stage { overflow-x: auto; }
+.film[data-narrow='true'] .film__frame { min-width: 560px; }
+/* The badge keeps one width whatever the stage name, so the header never reflows. */
+.film__badge { display: inline-flex; justify-content: flex-end; min-width: 236px; }
 
 .film__fallback {
   padding: var(--s-5);
@@ -99,25 +105,15 @@
   font-size: var(--t-small);
   line-height: 1.65;
   color: var(--text-secondary);
-  max-width: 78ch;
+  max-width: 92ch;
   margin: 0;
-  min-height: 2.6em;
+  /* A fixed height of two lines: the narration changes every act, the frame
+     below it must not move. */
+  height: 3.3em;
+  overflow: hidden;
 }
 
-.film__transport { display: flex; flex-direction: column; gap: 14px; padding-top: 5px; }
-.film__controls { display: flex; align-items: center; gap: 14px; }
 .film__buttons { display: flex; align-items: center; gap: 5px; flex: none; }
-.film__scrubber { min-width: 40px; width: 100%; flex: 1; height: 24px; margin: 0; cursor: pointer; accent-color: var(--accent); }
-.film__rail { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: 100%; }
-.film__rail-item { display: flex; flex-direction: column; gap: 9px; min-width: 0; padding: 10px 12px 8px; border: 1px solid var(--line); background: var(--bg-elevated); cursor: pointer; text-align: left; color: var(--text-secondary); border-radius: 9px; transition: background .16s, border-color .16s; }
-.film__rail-item:hover { background: var(--bg-hover); border-color: var(--line-strong); }
-.film__rail-item[data-current] { background: var(--accent-50); border-color: var(--accent-200); color: var(--accent); }
-.film__rail-item:disabled { opacity: .5; cursor: default; }
-.film__rail-track { display: block; height: 2px; border-radius: 3px; background: var(--line); overflow: hidden; }
-.film__rail-fill { display: block; height: 100%; width: 100%; transform-origin: left; background: var(--accent); }
-.film__rail-label { display: flex; align-items: center; gap: 8px; font-size: var(--t-tiny); font-weight: 550; min-width: 0; line-height: 1.4; }
-.film__rail-index { display: grid; place-items: center; font-variant-numeric: tabular-nums; color: var(--text-muted); width: 20px; height: 20px; border-radius: 5px; background: var(--bg-sunken); flex: none; font-size: 10px; }
-.film__rail-item[data-current] .film__rail-index { color: var(--accent-contrast); background: var(--accent); }
 .film__shape-copy { display: flex; flex-direction: column; gap: 9px; text-align: center; height: 100%; justify-content: center; }
 .film__shape-copy strong { font-size: 13px; line-height: 1.35; font-weight: 600; color: var(--text); }
 .film__shape-copy > span { font-size: 11px; line-height: 1.5; color: var(--text-secondary); }
@@ -125,21 +121,12 @@
 .film__step-copy strong { color: var(--text); font-size: 12px; font-weight: 600; line-height: 1.25; overflow-wrap: anywhere; }
 .film__step-copy > span { color: var(--text-secondary); font-size: 10px; line-height: 1.3; }
 .film__check-label { display: flex; align-items: center; height: 100%; font-size: 12px; line-height: 1.35; color: var(--text); }
-/* The radial evidence scene keeps its existing surface and geometry. */
-.film:not([data-act='evidence']) .film__stage { background: radial-gradient(ellipse at 50% 36%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 65%), var(--bg); border-radius: 16px; }
-.film:not([data-act='evidence']) .film__stage::before { background-image: radial-gradient(var(--line-strong) .7px, transparent .7px); background-size: 22px 22px; opacity: .4; }
 .film[data-reduced='true'] .film__traveler { display: none; }
-@media (min-width: 1550px) { .film__rail { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
 @media (max-width: 700px) {
   .film { padding: var(--s-4); }
-  .film__rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .film__prose { font-size: var(--t-body); min-height: 4.8em; }
-  .film__rail-item { padding: 10px; }
-}
+    .film__prose { font-size: var(--t-small); height: 6.6em; }
+  }
 
-/* Preserve the radial diagram at its original readable scale on small screens. */
-.film[data-scroll-diagram='true'] .film__stage { overflow-x: auto; }
-.film[data-scroll-diagram='true'] .film__svg { min-width: 960px; }
 .film__pan-hint { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: var(--t-tiny); }
 
 .film__unknown-label { display: flex; align-items: center; height: 100%; font-size: 10.5px; line-height: 1.15; color: var(--text-muted); }
@@ -149,3 +136,24 @@
 .film__agent-copy > span { font-size: 10.5px; line-height: 1.4; color: var(--text-secondary); }
 
 .film__report-caption { text-align: center; font-size: 11px; line-height: 1.5; color: var(--text-muted); }
+.film__loading { background: var(--bg-inset); border-radius: 10px; animation: film-pulse 1.4s ease-in-out infinite; }
+@keyframes film-pulse { 50% { opacity: .55; } }
+
+/* The transport: play controls either side of one segmented timeline. */
+.film__transport { display: flex; align-items: flex-end; gap: 14px; padding-top: 2px; }
+.film__buttons { display: flex; align-items: center; gap: 5px; flex: none; }
+.film__chapters { display: flex; gap: 4px; flex: 1; min-width: 0; }
+.film__chapter { flex-basis: 0; min-width: 0; display: flex; flex-direction: column; gap: 6px; padding: 4px 0 7px; border: 0; background: none; cursor: pointer; text-align: left; color: var(--text-muted); }
+.film__chapter:disabled { opacity: .5; cursor: default; }
+.film__chapter-label { font-size: 10.5px; line-height: 1.2; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .16s; }
+.film__chapter:hover .film__chapter-label { color: var(--text-secondary); }
+.film__chapter[data-current] .film__chapter-label { color: var(--accent); font-weight: 650; }
+.film__chapter-track { display: block; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; transition: height .16s; }
+.film__chapter:hover .film__chapter-track, .film__chapter[data-current] .film__chapter-track { height: 6px; }
+.film__chapter-fill { display: block; height: 100%; width: 100%; transform-origin: left; background: var(--accent); }
+.film__chapter[data-done] .film__chapter-fill { background: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+@media (max-width: 860px) {
+  .film__chapter:not([data-current]) .film__chapter-label { visibility: hidden; }
+  .film__chapter[data-current] { overflow: visible; }
+  .film__chapter[data-current] .film__chapter-label { overflow: visible; }
+}

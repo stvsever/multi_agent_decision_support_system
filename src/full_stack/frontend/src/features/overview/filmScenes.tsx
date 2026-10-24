@@ -9,6 +9,7 @@
 
 import type { JSX, ReactNode } from 'react'
 import {
+  ACTS,
   CHECKLIST,
   EVIDENCE,
   LANES,
@@ -179,6 +180,12 @@ function AgentPlate({
   )
 }
 
+/** "UnimodalCompressor" reads as "Unimodal compressor". */
+function humanTool(name: string): string {
+  const words = name.split(/(?<=[a-z])(?=[A-Z])/)
+  return words.map((word, index) => (index === 0 ? word : word.toLowerCase())).join(' ')
+}
+
 type StepState = 'pending' | 'queued' | 'running' | 'failed' | 'done'
 
 const STEP_STROKE: Record<StepState, string> = {
@@ -209,18 +216,26 @@ function StepNode({
   const dim = state === 'pending' ? 0.82 : state === 'queued' ? 0.9 : 1
   return (
     <g opacity={appear * dim} transform={`translate(0 ${(1 - appear) * 10})`}>
-      <Panel
-        box={box}
-        radius={9}
-        stroke={STEP_STROKE[state]}
-        strokeWidth={state === 'running' || state === 'failed' ? 1.5 : 1}
-        dashed={state === 'queued'}
-        fill={state === 'failed' ? 'var(--caution-soft)' : 'var(--bg-elevated)'}
+      {/* A soft chip rather than a boxed card: a tint of the tool family, and a
+          border only while the step is active or has failed. */}
+      <rect
+        x={box.x}
+        y={box.y}
+        width={Math.max(0, box.w)}
+        height={Math.max(0, box.h)}
+        rx={12}
+        fill={state === 'failed' ? 'var(--caution-soft)' : `color-mix(in srgb, ${fam} ${state === 'pending' ? 5 : 9}%, var(--bg-elevated))`}
+        stroke={state === 'running' || state === 'failed' ? STEP_STROKE[state] : 'none'}
+        strokeWidth={1.4}
+        strokeDasharray={state === 'queued' ? '4 3' : undefined}
       />
-      <rect x={box.x} y={box.y + 7} width={3} height={Math.max(4, box.h - 14)} rx={1.5} fill={fam} />
-      <foreignObject x={box.x + 12} y={box.y + 5} width={box.w - 34} height={box.h - 10}>
+      {state === 'queued' && (
+        <rect x={box.x} y={box.y} width={Math.max(0, box.w)} height={Math.max(0, box.h)} rx={12} fill="none" stroke="var(--line-strong)" strokeDasharray="4 3" />
+      )}
+      <circle cx={box.x + 15} cy={box.y + box.h / 2} r={4} fill={fam} />
+      <foreignObject x={box.x + 27} y={box.y + 5} width={box.w - 50} height={box.h - 10}>
         <div className="film__step-copy" data-compact={compact}>
-          <strong>{step.toolName.split(/(?=[A-Z][a-z])/).map((part, index) => <span key={index}>{index > 0 && <wbr />}{part}</span>)}</strong>
+          <strong>{humanTool(step.toolName)}</strong>
           <span>{step.subject}</span>
         </div>
       </foreignObject>
@@ -278,6 +293,27 @@ function Mark({ kind, x, y, size = 5 }: { kind: 'check' | 'warn' | 'cross'; x: n
         strokeWidth={1.7}
         strokeLinecap="round"
       />
+    </g>
+  )
+}
+
+/** Point at parameter t on a cubic Bézier, for placing a label on an edge. */
+function bezierAt(p0: { x: number; y: number }, c1: { x: number; y: number }, c2: { x: number; y: number }, p1: { x: number; y: number }, t: number) {
+  const f = (a: number, b: number, c: number, d: number) => (1 - t) ** 3 * a + 3 * (1 - t) ** 2 * t * b + 3 * (1 - t) * t * t * c + t ** 3 * d
+  return { x: f(p0.x, c1.x, c2.x, p1.x), y: f(p0.y, c1.y, c2.y, p1.y) }
+}
+
+/**
+ * A label that sits on its edge: centred on the curve, on an opaque pill, so
+ * the line visibly runs into and out of the words it carries.
+ */
+function EdgeLabel({ at, text, colour = 'var(--text-secondary)', opacity = 1 }: { at: { x: number; y: number }; text: string; colour?: string; opacity?: number }) {
+  if (opacity <= 0) return null
+  const w = Math.ceil(text.length * 6.3) + 22
+  return (
+    <g opacity={opacity}>
+      <rect x={at.x - w / 2} y={at.y - 11} width={w} height={22} rx={11} fill="var(--bg-elevated)" stroke={colour} strokeWidth={1} />
+      <Caption x={at.x} y={at.y + 0.5} text={text} size={10} weight={650} anchor="middle" fill={colour} />
     </g>
   )
 }
@@ -861,8 +897,6 @@ export function SceneIntegration({ p, L, v }: SceneProps): JSX.Element {
     {Array.from({ length: columns }, (_, column) => {
       const source: Box = { x: gridX + column * (nodeW + gap), y: gridY, w: nodeW, h: gridH }
       return <g key={column}>
-        <Panel box={{ x: source.x - 7, y: source.y - 8, w: source.w + 14, h: source.h + 16 }} radius={13}
-          fill="var(--bg-sunken)" stroke="var(--line-faint)" opacity={rise(p, 0.03, 0.15)} />
         <Edge id={`integrate-${column}`} from={{ ...source, h: source.h + 8 }}
           to={{ x: bundle.x + bundle.w * (column + 0.5) / columns - 1, y: bundle.y, w: 2, h: bundle.h }}
           draw={rise(p, 0.57 + column * 0.04, 0.76 + column * 0.04)} travel={p} compact />
@@ -906,6 +940,12 @@ export function ScenePrediction({ p, L, v }: SceneProps): JSX.Element {
     <path d={outgoing} fill="none" stroke="var(--accent)" strokeWidth={1.5} pathLength={1} strokeDasharray={1} strokeDashoffset={1 - rise(p, 0.28, 0.48)} opacity={0.55} />
     <path d={`M ${right.x + right.w / 2 - 4} ${right.y - 6} l 4 6 l 4 -6`} fill="none" stroke="var(--accent)" strokeWidth={1.5} opacity={rise(p, 0.4, 0.5)} />
     <AgentPlate x={agentX} y={agentY} label={v.agents.predictor.label} summary={v.agents.predictor.summary} appear={rise(p, 0, 0.14)} />
+    <EdgeLabel
+      at={bezierAt({ x: left.x + left.w / 2, y: left.y }, { x: left.x + left.w / 2, y: agentY + PLATE_H / 2 }, { x: agentX - 28, y: agentY + PLATE_H / 2 }, { x: agentX, y: agentY + PLATE_H / 2 }, 0.45)}
+      text="EVIDENCE IN" colour="var(--accent)" opacity={rise(p, 0.22, 0.32)} />
+    <EdgeLabel
+      at={bezierAt({ x: agentX + PLATE_W, y: agentY + PLATE_H / 2 }, { x: right.x + right.w / 2, y: agentY + PLATE_H / 2 }, { x: right.x + right.w / 2, y: right.y - 28 }, { x: right.x + right.w / 2, y: right.y }, 0.55)}
+      text="ANSWER OUT" colour="var(--accent)" opacity={rise(p, 0.4, 0.5)} />
     <g opacity={frame}>
       <Panel box={left} radius={16} lift="soft" />
       <Caption x={left.x + left.w / 2} y={left.y + 28} text="EVIDENCE CHAIN" size={10.5} weight={650} anchor="middle" />
@@ -983,8 +1023,11 @@ export function SceneEvaluation({ p, L, v }: SceneProps): JSX.Element {
         <path d={`M ${startX} ${listY + listH} C ${startX} ${routeY - 30}, ${x + PLATE_W / 2} ${routeY - 30}, ${x + PLATE_W / 2} ${routeY}`}
           fill="none" stroke={colour} strokeWidth={1.5} />
         <path d={`M ${x + PLATE_W / 2 - 4} ${routeY - 6} l 4 6 l 4 -6`} fill="none" stroke={colour} strokeWidth={1.5} />
-        <rect x={x + 38} y={routeY - 49} width={PLATE_W - 76} height={24} rx={12} fill="var(--bg-elevated)" stroke={colour} />
-        <Caption x={x + PLATE_W / 2} y={routeY - 37} text={positive ? 'SATISFACTORY' : 'UNSATISFACTORY'} size={10} weight={650} fill={colour} anchor="middle" />
+        <EdgeLabel
+          at={bezierAt({ x: startX, y: listY + listH }, { x: startX, y: routeY - 30 }, { x: x + PLATE_W / 2, y: routeY - 30 }, { x: x + PLATE_W / 2, y: routeY }, 0.5)}
+          text={positive ? 'SATISFACTORY: REPORT' : 'UNSATISFACTORY: REVISE'}
+          colour={colour}
+        />
         <AgentPlate x={x} y={routeY} label={positive ? v.agents.communicator.label : v.agents.orchestrator.label}
           summary={positive ? v.agents.communicator.summary : 'Revises the plan using the Critic’s feedback.'} appear={1} glow={positive ? accepted * 0.2 : 0} />
       </g>
@@ -1114,7 +1157,9 @@ export function SceneCommunication({ p, L, v }: SceneProps): JSX.Element {
 
 export function StageHud({ L, act, p, v }: { L: StageLayout; act: number; p: number; v: FilmVocabulary }): JSX.Element {
   const shape = v.shapes[v.chosenShape]
-  const targetIn = act > 0 ? 1 : rise(p, 0.7, 0.94)
+  // The subject appears once the question has been set, and stays from then on.
+  const question = ACTS.findIndex((row) => row.key === 'question')
+  const targetIn = act > question ? 1 : act === question ? rise(p, 0.7, 0.94) : 0
 
   // One thing only: what this run is being asked. The coverage dial and the
   // iteration badge that used to sit beside it were counters about the

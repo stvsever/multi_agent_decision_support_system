@@ -111,6 +111,8 @@ export const ACTS: ActDefinition[] = [
   },
 ]
 
+export const actIndexOf = (key: string): number => ACTS.findIndex((act) => act.key === key)
+
 export const ACT_STARTS: number[] = ACTS.reduce<number[]>((acc, _current, index) => {
   acc.push(index === 0 ? 0 : acc[index - 1] + ACTS[index - 1].seconds)
   return acc
@@ -557,40 +559,42 @@ export interface StageLayout {
  * The layout reflows instead of shrinking, which is what keeps the stage
  * legible from a narrow column up to the full content width.
  */
-export function layoutFor(width: number, act = 1): StageLayout {
+export function layoutFor(width: number, act: string = 'evidence'): StageLayout {
   const wide = width >= 900
   const pad = wide ? 22 : 14
-  // The evidence scene retains its original geometry. Other scenes receive
-  // enough vertical space for fully written labels rather than smaller type.
+  // Each scene receives enough vertical space for fully written labels rather
+  // than smaller type. The player centres a scene in one fixed frame, so these
+  // heights never resize the page.
   let height = wide ? 540 : 820
-  if (act === 0) {
+  if (act === 'question') {
     const columns = width - pad * 2 >= 1150 ? 5 : width - pad * 2 >= 600 ? 3 : width - pad * 2 >= 380 ? 2 : 1
     height = Math.max(390, Math.ceil(5 / columns) * 172 + 140)
   }
-  if (act === 2 || act === 3) {
+  if (act === 'orchestration' || act === 'execution') {
     const workW = width - pad * 2
     const beside = (workW - 270 - 108) / 4 >= 230
     const nodeW = Math.min(268, (workW - (beside ? 270 : 0) - 108) / 4)
     const nodeH = nodeW >= 224 ? 52 : 64
-    height = wide ? 76 + (beside ? 28 : 134) + 6 * nodeH + 5 * 18 + 24 + (act === 3 ? 146 : 0) : 1530
+    height = wide ? 76 + (beside ? 28 : 134) + 6 * nodeH + 5 * 18 + 24 + (act === 'execution' ? 146 : 0) : 1530
   }
-  if (act === 4) height = 810
-  if (act === 5) height = 640
-  if (act === 6) height = 700
-  if (act === 7) height = 780
+  if (act === 'integration') height = 810
+  if (act === 'prediction') height = 640
+  if (act === 'evaluation') height = 700
+  if (act === 'communication') height = 780
   const hud: Box = { x: pad, y: 14, w: width - pad * 2, h: 44 }
   const sceneY = hud.y + hud.h + (wide ? 18 : 14)
   const scene: Box = { x: pad, y: sceneY, w: width - pad * 2, h: height - sceneY - pad }
-  // The footer band carries a few figures, not a panel of them, so it gives
-  // height back to the diagram above it. It cannot give back everything: the
-  // execution act draws its worker pool down here and needs about 114px, while
-  // orchestration needs 314 above once the agent plate sits over the graph.
-  // This is the value that satisfies both without either one clipping.
-  const stripH = act === 2 ? 0 : act === 3 ? 124 : wide ? 104 : 96
+  // The execution act draws its worker pool in the bottom strip; orchestration
+  // needs the full height for the plate above the graph.
+  const stripH = act === 'orchestration' ? 0 : act === 'execution' ? 124 : wide ? 104 : 96
   const strip: Box = { x: scene.x, y: scene.y + scene.h - stripH, w: scene.w, h: stripH }
   const work: Box = { x: scene.x, y: scene.y, w: scene.w, h: scene.h - stripH - 14 }
   return { width, height, wide, hud, scene, work, strip }
 }
+
+/** The film is drawn on one fixed canvas and scaled to fit, like a video. */
+export const FILM_WIDTH = 1200
+export const FILM_HEIGHT = Math.max(...ACTS.map((act) => layoutFor(FILM_WIDTH, act.key).height))
 
 /** Rough text metrics, good enough to keep a label inside its own box. */
 export function fit(text: string, maxWidth: number, fontSize: number): string {
