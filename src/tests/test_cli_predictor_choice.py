@@ -31,7 +31,7 @@ from src.full_stack.backend.agents.decision import (
 REPO = Path(__file__).resolve().parents[2]
 SUBJ_001 = REPO / "src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO"
 JEV = "typesafe/jev-1.13"
-LLM = "deepseek/deepseek-v4-flash-0731"
+LLM = "deepseek/deepseek-v4.1-flash-1017"
 OTHER_LLM = "openai/gpt-5-mini"
 ROLES = ("orchestrator", "critic", "integrator", "communicator", "tool")
 

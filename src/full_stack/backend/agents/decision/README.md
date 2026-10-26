@@ -61,7 +61,7 @@ A structured decision model writes no text. It reads one JSON state, answers typ
 
 The Orchestrator, tools, Integrator, Critic, and Communicator write plans, syntheses, critiques, and reports, which a decision model cannot produce. A run with a decision model in any of those roles stops at start with an error naming the roles. They run on a conventional companion LLM:
 
-- **CLI**: `--predictor_model typesafe/jev-1.13` changes the Predictor only; every other role keeps `--public_model`. When `--public_model` is itself a decision model, it becomes the Predictor and COMPASS asks on the terminal for the companion LLM (default `deepseek/deepseek-v4-flash-0731`, used without asking when standard input is not a terminal). `--companion_model` answers in advance.
+- **CLI**: `--predictor_model typesafe/jev-1.13` changes the Predictor only; every other role keeps `--public_model`. When `--public_model` is itself a decision model, it becomes the Predictor and COMPASS asks on the terminal for the companion LLM (default `deepseek/deepseek-v4.1-flash-1017`, used without asking when standard input is not a terminal). `--companion_model` answers in advance.
 - **Dashboard**: in Settings, Models and compute, pick the decision model in the Predictor row. Picking it as the default model, or for another role, opens a companion step instead: on confirm the decision model serves the Predictor and the conventional LLM chosen there becomes the default the other agents fall back to. While the Predictor is a decision model, a Decision model group in the same section holds the provider and question settings listed under Reference below.
 
 When the Predictor is a decision model, the Orchestrator is told so and asked to plan steps that distil the record into compact evidence for every task output.
@@ -133,7 +133,7 @@ A decision model bills input tokens only: `typesafe/jev-1.13` is registered at 0
 | Flag | Default | Effect |
 | --- | --- | --- |
 | `--predictor_model ID` | `--public_model` | Model for the Predictor role only: a conventional LLM or a structured decision model |
-| `--companion_model ID` | `--public_model` | Conventional LLM for every role except the Predictor. When `--public_model` is a decision model and this flag is missing, COMPASS asks on a terminal and otherwise uses `deepseek/deepseek-v4-flash-0731` |
+| `--companion_model ID` | `--public_model` | Conventional LLM for every role except the Predictor. When `--public_model` is a decision model and this flag is missing, COMPASS asks on a terminal and otherwise uses `deepseek/deepseek-v4.1-flash-1017` |
 | `--orchestration MODE` | `auto`, or `COMPASS_ORCHESTRATION` | `auto`, `always`, or `never` (see Evidence routing above) |
 | `--orchestration_threshold N` | Predictor budget | Token count above which `auto` orchestrates; it cannot exceed the Predictor budget |
 | `--decision_provider NAME` | `openrouter`, or `COMPASS_DECISION_PROVIDER` | Transport for decision model calls: `openrouter` or `typesafe` |
@@ -151,7 +151,7 @@ python3 main.py src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO \
 python3 main.py src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO \
   --prediction_type binary --target_label target_phenotype \
   --control_label non_target_comparator \
-  --public_model typesafe/jev-1.13 --companion_model deepseek/deepseek-v4-flash-0731
+  --public_model typesafe/jev-1.13 --companion_model deepseek/deepseek-v4.1-flash-1017
 
 # Orchestrate every attempt, also when the record fits the Predictor input
 python3 main.py src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO \

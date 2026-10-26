@@ -15,7 +15,7 @@ export const DECISION_TOOLTIP =
   'Structured decision model: answers typed questions with calibrated probabilities. Predictor role only.'
 
 /** Offered as the companion LLM when the current default cannot serve as one. */
-export const COMPANION_FALLBACK_MODEL = 'deepseek/deepseek-v4-flash-0731'
+export const COMPANION_FALLBACK_MODEL = 'deepseek/deepseek-v4.1-flash-1017'
 
 /** The shipped values, used while a service that predates the section answers. */
 export const DECISION_DEFAULTS: DecisionConfig = {

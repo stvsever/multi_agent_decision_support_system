@@ -40,7 +40,7 @@ def offline_catalog(monkeypatch):
         catalog_module,
         "pricing_index",
         lambda: {
-            "deepseek/deepseek-v4-flash-0731": {
+            "deepseek/deepseek-v4.1-flash-1017": {
                 "prompt_usd_per_mtok": 0.065,
                 "completion_usd_per_mtok": 0.18,
             }
@@ -54,7 +54,7 @@ def offline_catalog(monkeypatch):
 def test_health_and_capabilities(client):
     assert client.get("/api/health").json()["status"] == "ok"
     caps = client.get("/api/capabilities").json()
-    assert caps["default_model"] == "deepseek/deepseek-v4-flash-0731"
+    assert caps["default_model"] == "deepseek/deepseek-v4.1-flash-1017"
     assert len(caps["stages"]) == 7
     assert {t["name"] for t in caps["tools"]}
     assert {p["value"] for p in caps["prediction_types"]} == {

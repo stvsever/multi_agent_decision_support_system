@@ -103,6 +103,8 @@ GENERIC_FALLBACK_CONTEXT_TOKENS = 128_000
 #: separately the smaller, safe value is used (gpt-5: 272K input of a 400K window).
 KNOWN_CONTEXT_WINDOWS: Dict[str, int] = {
     # DeepSeek (the default model)
+    "deepseek-v4.1-flash-1017": 1_048_576,
+    "deepseek-v4.1-flash": 1_048_576,
     "deepseek-v4-flash-0731": 1_048_576,
     "deepseek-v4-flash": 1_048_576,
     "deepseek-v4-pro": 1_048_576,
@@ -206,12 +208,12 @@ class ModelConfig:
     """
     Configuration for LLM models.
     
-    Public runs default to DeepSeek V4 Flash through OpenRouter.
+    Public runs default to DeepSeek V4.1 Flash (October 17, 2026 snapshot) through OpenRouter.
     Role-specific models can still be overridden from the CLI or the dashboard.
     """
     # Backend Selection
     backend: LLMBackend = LLMBackend.OPENROUTER
-    public_model_name: str = "deepseek/deepseek-v4-flash-0731"
+    public_model_name: str = "deepseek/deepseek-v4.1-flash-1017"
     # Context window for a hosted model that neither the catalog cache nor the
     # built-in table knows (0: not configured, the generic fallback applies).
     # See Settings.context_window_resolution for the full order.
@@ -237,12 +239,12 @@ class ModelConfig:
     local_attn_implementation: str = "auto"  
     
     # Cost-efficient public profile.
-    orchestrator_model: str = "deepseek/deepseek-v4-flash-0731"
-    critic_model: str = "deepseek/deepseek-v4-flash-0731"
-    predictor_model: str = "deepseek/deepseek-v4-flash-0731"
-    integrator_model: str = "deepseek/deepseek-v4-flash-0731"
-    communicator_model: str = "deepseek/deepseek-v4-flash-0731"
-    tool_model: str = "deepseek/deepseek-v4-flash-0731"
+    orchestrator_model: str = "deepseek/deepseek-v4.1-flash-1017"
+    critic_model: str = "deepseek/deepseek-v4.1-flash-1017"
+    predictor_model: str = "deepseek/deepseek-v4.1-flash-1017"
+    integrator_model: str = "deepseek/deepseek-v4.1-flash-1017"
+    communicator_model: str = "deepseek/deepseek-v4.1-flash-1017"
+    tool_model: str = "deepseek/deepseek-v4.1-flash-1017"
     
     orchestrator_max_tokens: int = 64000
     critic_max_tokens: int = 64000
@@ -319,7 +321,7 @@ class ExplainabilityConfig:
     internal_span_mode: str = "value"
 
     # Hybrid (LLM-select)
-    hybrid_model: str = "deepseek/deepseek-v4-flash-0731"
+    hybrid_model: str = "deepseek/deepseek-v4.1-flash-1017"
     hybrid_repeats: int = 1
     hybrid_temperature: float = 0.3
 

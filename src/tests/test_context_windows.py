@@ -26,7 +26,7 @@ from src.full_stack.backend.config.settings import (
     parse_role_context_windows,
 )
 
-DEEPSEEK = "deepseek/deepseek-v4-flash-0731"
+DEEPSEEK = "deepseek/deepseek-v4.1-flash-1017"
 CATALOG = [
     {"id": DEEPSEEK, "context_length": 1_310_720},
     {"id": "openai/gpt-4.1", "context_length": 1_047_576},
@@ -75,7 +75,7 @@ def catalog(tmp_path):
         ("qwen/qwen3-32b", 40_960),
         ("Qwen/Qwen2.5-0.5B-Instruct", 32_768),
         ("openai/gpt-4o:free", 128_000),
-        ("~deepseek/deepseek-v4-flash-0731", 1_048_576),
+        ("~deepseek/deepseek-v4.1-flash-1017", 1_048_576),
     ],
 )
 def test_common_models_resolve_from_the_table_without_a_catalog(settings, model, expected):

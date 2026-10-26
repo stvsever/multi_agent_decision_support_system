@@ -37,7 +37,7 @@ def test_long_feature_ids_stay_unique():
 class _Settings:
     class models:
         backend = "openrouter"
-        tool_model = "deepseek/deepseek-v4-flash-0731"
+        tool_model = "deepseek/deepseek-v4.1-flash-1017"
         tool_max_tokens = 4000
 
     @staticmethod

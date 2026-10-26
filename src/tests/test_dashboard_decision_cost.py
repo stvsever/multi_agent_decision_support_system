@@ -17,7 +17,7 @@ from src.full_stack.backend.api.schemas import DashboardConfig
 REPO = Path(__file__).resolve().parent.parent.parent
 SUBJ_001 = REPO / "src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO"
 
-DEFAULT = "deepseek/deepseek-v4-flash-0731"
+DEFAULT = "deepseek/deepseek-v4.1-flash-1017"
 JEV = "typesafe/jev-1.13"
 PRICE = 0.065
 COMPLETION_PRICE = 0.18

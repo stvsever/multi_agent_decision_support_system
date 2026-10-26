@@ -111,7 +111,7 @@ def test_jev_router_is_not_a_decision_model(model_id):
         None,
         "",
         "   ",
-        "deepseek/deepseek-v4-flash-0731",
+        "deepseek/deepseek-v4.1-flash-1017",
         "openai/gpt-5",
         "typesafe/other-model",
         "anthropic/jev-1.13",
@@ -186,11 +186,11 @@ def test_effective_context_window_unchanged_for_llms(settings):
     assert settings.models.public_max_context_tokens == 0
     before = {
         name: settings.effective_context_window(name)
-        for name in (None, "deepseek/deepseek-v4-flash-0731", "openai/gpt-5", "openai/gpt-4o-mini", "typesafe/jev-router")
+        for name in (None, "deepseek/deepseek-v4.1-flash-1017", "openai/gpt-5", "openai/gpt-4o-mini", "typesafe/jev-router")
     }
     # Without a catalog the built-in table decides.
     assert before[None] == 1_048_576
-    assert before["deepseek/deepseek-v4-flash-0731"] == 1_048_576
+    assert before["deepseek/deepseek-v4.1-flash-1017"] == 1_048_576
     assert before["openai/gpt-5"] == 272_000
     assert before["openai/gpt-4o-mini"] == 128_000
     # Not a decision model and not in the table or the catalog: the generic
@@ -229,7 +229,7 @@ def test_unknown_model_window_comes_from_the_dashboard_catalog(settings, tmp_pat
             {"id": "Acme/Mixed-Case", "context_length": 65_536},
             {"id": "acme/no-length"},
             {"id": "openai/gpt-5", "context_length": 999},
-            {"id": "deepseek/deepseek-v4-flash-0731", "context_length": 1_310_720},
+            {"id": "deepseek/deepseek-v4.1-flash-1017", "context_length": 1_310_720},
             {"id": "~acme/latest", "context_length": 77_000},
             "not a row",
         ],
@@ -255,11 +255,11 @@ def test_unknown_model_window_comes_from_the_dashboard_catalog(settings, tmp_pat
     assert settings.context_window_resolution(None).source == "catalog"
     # A configured public window does not override the catalog ...
     settings.models.public_max_context_tokens = 32_000
-    assert settings.effective_context_window("deepseek/deepseek-v4-flash-0731") == 1_310_720
+    assert settings.effective_context_window("deepseek/deepseek-v4.1-flash-1017") == 1_310_720
     # ... a role override does.
     settings.models.role_context_windows = {"predictor": 50_000}
-    assert settings.effective_context_window("deepseek/deepseek-v4-flash-0731", role="predictor") == 50_000
-    assert settings.effective_context_window("deepseek/deepseek-v4-flash-0731", role="critic") == 1_310_720
+    assert settings.effective_context_window("deepseek/deepseek-v4.1-flash-1017", role="predictor") == 50_000
+    assert settings.effective_context_window("deepseek/deepseek-v4.1-flash-1017", role="critic") == 1_310_720
 
 
 def test_the_catalog_does_not_describe_a_self_hosted_endpoint(settings, tmp_path):

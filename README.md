@@ -64,7 +64,7 @@ python3 -m pip install -r requirements.txt
 cp .env.example .env          # add OPENROUTER_API_KEY, or paste it in the dashboard
 ```
 
-OpenRouter is the default backend and `deepseek/deepseek-v4-flash-0731` the default model for every role. Reasoning is off by default: reasoning tokens are billed as output and count against the output ceiling, so they can consume the budget and truncate the answer. A failed model, schema, or connection stops the run; COMPASS never substitutes a deterministic result for a failed one.
+OpenRouter is the default backend and `deepseek/deepseek-v4.1-flash-1017` the default model for every role. Reasoning is off by default: reasoning tokens are billed as output and count against the output ceiling, so they can consume the budget and truncate the answer. A failed model, schema, or connection stops the run; COMPASS never substitutes a deterministic result for a failed one.
 
 ## <a id="containers"></a>🐳 Run in containers
 

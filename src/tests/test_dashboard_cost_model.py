@@ -26,7 +26,7 @@ def priced(monkeypatch):
         cost_module,
         "pricing_index",
         lambda cached_only=False: {
-            "deepseek/deepseek-v4-flash-0731": {
+            "deepseek/deepseek-v4.1-flash-1017": {
                 "prompt_usd_per_mtok": PRICE,
                 "completion_usd_per_mtok": COMPLETION_PRICE,
                 "context_length": 1_310_720,
@@ -138,7 +138,7 @@ def test_an_unpriced_model_reports_no_total_rather_than_zero(monkeypatch):
 
 def test_actual_cost_from_observed_usage(priced):
     actual = cost_module.actual_cost_from_usage(
-        {"deepseek/deepseek-v4-flash-0731": {"prompt": 1_000_000, "completion": 1_000_000}}
+        {"deepseek/deepseek-v4.1-flash-1017": {"prompt": 1_000_000, "completion": 1_000_000}}
     )
     assert actual["usd"] == pytest.approx(PRICE + COMPLETION_PRICE)
     assert actual["total_tokens"] == 2_000_000

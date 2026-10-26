@@ -45,7 +45,7 @@ from src.full_stack.backend.config.settings import reload_settings
 
 REPO = Path(__file__).resolve().parent.parent.parent
 PSEUDO = sorted((REPO / "src/full_stack/backend/data/pseudo_data/inputs").glob("SUBJ_*_PSEUDO"))
-DEFAULT = "deepseek/deepseek-v4-flash-0731"
+DEFAULT = "deepseek/deepseek-v4.1-flash-1017"
 JEV = "typesafe/jev-1.13"
 
 BINARY = TaskSpecInput(prediction_type="binary", target_label="CASE", control_label="CONTROL")

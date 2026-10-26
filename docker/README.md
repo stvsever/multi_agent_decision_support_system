@@ -74,7 +74,7 @@ docker compose -f docker/docker-compose.yml up --build
 ```
 
 Then open `http://localhost:5005`. The default public model is
-`deepseek/deepseek-v4-flash-0731` through OpenRouter. Settings, stored
+`deepseek/deepseek-v4.1-flash-1017` through OpenRouter. Settings, stored
 credentials, and run history live in the `compass-home` named volume, so they
 survive a rebuild.
 

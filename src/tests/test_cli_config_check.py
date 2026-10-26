@@ -22,7 +22,7 @@ from src.full_stack.backend.config.settings import reload_settings
 REPO = Path(__file__).resolve().parents[2]
 SUBJ_001 = REPO / "src/full_stack/backend/data/pseudo_data/inputs/SUBJ_001_PSEUDO"
 JEV = "typesafe/jev-1.13"
-LLM = "deepseek/deepseek-v4-flash-0731"
+LLM = "deepseek/deepseek-v4.1-flash-1017"
 
 
 @pytest.fixture(autouse=True)

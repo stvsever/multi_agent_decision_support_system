@@ -7,9 +7,9 @@ default. Any other main.py flag given here is passed through unchanged, for
 example ``--iterations 2`` or ``--global_instruction "..."``.
 
     python src/full_stack/backend/utils/batch_run.py --backend openrouter \\
-        --public_model deepseek/deepseek-v4-flash-0731 --predictor_model typesafe/jev-1.13 --check_config
+        --public_model deepseek/deepseek-v4.1-flash-1017 --predictor_model typesafe/jev-1.13 --check_config
     python src/full_stack/backend/utils/batch_run.py --backend openrouter \\
-        --public_model deepseek/deepseek-v4-flash-0731 --predictor_model typesafe/jev-1.13 --preflight_check
+        --public_model deepseek/deepseek-v4.1-flash-1017 --predictor_model typesafe/jev-1.13 --preflight_check
 
 ``--check_config`` checks every participant offline (models, context windows,
 Predictor input budget, API keys, and the route each record takes) and runs
@@ -587,7 +587,7 @@ def build_parser() -> argparse.ArgumentParser:
         epilog="""
 Examples:
   python src/full_stack/backend/utils/batch_run.py --backend openrouter --check_config
-  python src/full_stack/backend/utils/batch_run.py --backend openrouter --public_model deepseek/deepseek-v4-flash-0731 \\
+  python src/full_stack/backend/utils/batch_run.py --backend openrouter --public_model deepseek/deepseek-v4.1-flash-1017 \\
       --predictor_model typesafe/jev-1.13 --decision_provider typesafe --preflight_check
   python src/full_stack/backend/utils/batch_run.py --backend local --model Qwen/Qwen3-14B-AWQ --local_max_model_len 32768 \\
       --predictor_model typesafe/jev-1.13 --orchestration auto
@@ -612,7 +612,7 @@ Examples:
         "--public_model",
         type=str,
         default=None,
-        help="Model every LLM role runs on (main.py default: deepseek/deepseek-v4-flash-0731). "
+        help="Model every LLM role runs on (main.py default: deepseek/deepseek-v4.1-flash-1017). "
              "Without it, --model is used here on a hosted backend.",
     )
     hosted.add_argument("--public_max_context_tokens", type=int, default=None,

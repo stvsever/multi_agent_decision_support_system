@@ -21,7 +21,7 @@ import main as main_mod  # noqa: E402
 BATCH_RUN = REPO / "src" / "full_stack" / "backend" / "utils" / "batch_run.py"
 PSEUDO_INPUTS = REPO / "src" / "full_stack" / "backend" / "data" / "pseudo_data" / "inputs"
 JEV = "typesafe/jev-1.13"
-LLM = "deepseek/deepseek-v4-flash-0731"
+LLM = "deepseek/deepseek-v4.1-flash-1017"
 
 
 def _load_batch_run():
@@ -276,7 +276,7 @@ STUB_MAIN = textwrap.dedent(
             "endpoint": "https://example.invalid/v1",
             "predictor_kind": "decision",
             "roles": {"predictor": {"model": "typesafe/jev-1.13", "context_window": 26666},
-                      "orchestrator": {"model": "deepseek/deepseek-v4-flash-0731", "context_window": 1310720}},
+                      "orchestrator": {"model": "deepseek/deepseek-v4.1-flash-1017", "context_window": 1310720}},
             "orchestration": {"mode": "auto", "threshold_tokens": 0},
             "credentials": {"TYPESAFE_API_KEY": mode != "problem"},
             "problems": problems,

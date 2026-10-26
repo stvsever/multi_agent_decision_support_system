@@ -2083,7 +2083,7 @@ def _select_best_attempt(attempts: List[Dict[str, Any]]) -> Tuple[Optional[Dict[
     )
 
 
-DEFAULT_COMPANION_MODEL = "deepseek/deepseek-v4-flash-0731"
+DEFAULT_COMPANION_MODEL = "deepseek/deepseek-v4.1-flash-1017"
 
 
 def _ask_companion_model(decision_model: str) -> str:
@@ -2467,7 +2467,7 @@ Examples:
 
 Check a configuration offline (no model call, no spend): per-role models and context windows,
 the Predictor input budget, missing API keys, and the route this record would take:
-  python main.py /path/to/participant_001 --predictor_model typesafe/jev-1.13 --companion_model deepseek/deepseek-v4-flash-0731 --check_config
+  python main.py /path/to/participant_001 --predictor_model typesafe/jev-1.13 --companion_model deepseek/deepseek-v4.1-flash-1017 --check_config
 
 Context windows resolve per role: decision-model state limit, --role_context_window/--context_window,
 the served length on --backend local, the cached OpenRouter catalog, the built-in table,
@@ -2671,8 +2671,8 @@ the served length on --backend local, the cached OpenRouter catalog, the built-i
     parser.add_argument(
         "--public_model",
         type=str,
-        default="deepseek/deepseek-v4-flash-0731",
-        help="Model name for public API backend (default: deepseek/deepseek-v4-flash-0731)"
+        default="deepseek/deepseek-v4.1-flash-1017",
+        help="Model name for public API backend (default: deepseek/deepseek-v4.1-flash-1017)"
     )
     parser.add_argument(
         "--public_max_context_tokens",
@@ -2816,7 +2816,7 @@ the served length on --backend local, the cached OpenRouter catalog, the built-i
         default=None,
         help=(
             "Conventional LLM for every role except the Predictor. Needed when --public_model is a decision "
-            "model; asked for interactively when missing on a terminal, else defaults to deepseek/deepseek-v4-flash-0731."
+            "model; asked for interactively when missing on a terminal, else defaults to deepseek/deepseek-v4.1-flash-1017."
         ),
     )
     parser.add_argument(

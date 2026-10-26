@@ -63,8 +63,8 @@ def _install(monkeypatch, payload, recorder=None):
 SAMPLE = {
     "data": [
         {
-            "id": "deepseek/deepseek-v4-flash-0731",
-            "name": "DeepSeek V4 Flash",
+            "id": "deepseek/deepseek-v4.1-flash-1017",
+            "name": "DeepSeek V4.1 Flash",
             "context_length": 1310720,
             "pricing": {"prompt": "0.000000065", "completion": "0.00000018"},
             "architecture": {"modality": "text->text"},
@@ -88,7 +88,7 @@ def test_pricing_is_normalised_to_usd_per_million_tokens(client, monkeypatch):
     body = client.get("/api/catalog/models").json()
     rows = {row["id"]: row for row in body["models"]}
 
-    default = rows["deepseek/deepseek-v4-flash-0731"]
+    default = rows["deepseek/deepseek-v4.1-flash-1017"]
     assert default["prompt_usd_per_mtok"] == pytest.approx(0.065)
     assert default["completion_usd_per_mtok"] == pytest.approx(0.18)
     assert default["context_length"] == 1310720
@@ -109,7 +109,7 @@ def test_chat_filter_excludes_embedding_models(client, monkeypatch):
     body = client.get("/api/catalog/models", params={"embedding": False}).json()
     assert not any(row["is_embedding"] for row in body["models"])
     # Decision models are not embeddings, so the role pickers still offer them.
-    assert [row["id"] for row in body["models"] if row["kind"] == "llm"] == ["deepseek/deepseek-v4-flash-0731"]
+    assert [row["id"] for row in body["models"] if row["kind"] == "llm"] == ["deepseek/deepseek-v4.1-flash-1017"]
 
 
 def test_search_and_provider_filters(client, monkeypatch):
@@ -148,7 +148,7 @@ def test_every_row_says_what_kind_of_model_it_is_and_which_roles_it_serves(clien
     _install(monkeypatch, SAMPLE)
     rows = {row["id"]: row for row in client.get("/api/catalog/models").json()["models"]}
 
-    llm = rows["deepseek/deepseek-v4-flash-0731"]
+    llm = rows["deepseek/deepseek-v4.1-flash-1017"]
     assert llm["kind"] == "llm"
     assert set(llm["roles"]) == {"orchestrator", "integrator", "predictor", "critic", "communicator", "tool"}
 
@@ -203,10 +203,10 @@ def test_a_cache_written_before_decision_models_is_classified_on_read(client, mo
 
     catalog_module._memory["catalog"] = {
         "fetched_at": time.time(),
-        "models": [{"id": "deepseek/deepseek-v4-flash-0731", "provider": "deepseek", "is_embedding": False}],
+        "models": [{"id": "deepseek/deepseek-v4.1-flash-1017", "provider": "deepseek", "is_embedding": False}],
     }
     rows = {row["id"]: row for row in client.get("/api/catalog/models").json()["models"]}
-    assert rows["deepseek/deepseek-v4-flash-0731"]["kind"] == "llm"
+    assert rows["deepseek/deepseek-v4.1-flash-1017"]["kind"] == "llm"
     assert rows["typesafe/jev-1.13"]["kind"] == "decision"
 
 
